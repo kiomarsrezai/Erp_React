@@ -5,8 +5,11 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import useLayoutStore from "hooks/store/latout-store";
 
 function AdminHeader() {
+  const toggleNormlize = useLayoutStore((state) => state.toggleNormlize);
+
   return (
     <AppBar position="static">
       <Toolbar>
@@ -16,6 +19,7 @@ function AdminHeader() {
           color="inherit"
           aria-label="menu"
           sx={{ mr: 2 }}
+          onClick={toggleNormlize}
         >
           <MenuIcon />
         </IconButton>

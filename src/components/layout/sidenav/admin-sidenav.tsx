@@ -3,9 +3,12 @@ import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import AdminSidenavMenu from "./admin-sidenav-menu";
 import AdminSidenavProfile from "./admin-sidenav-profile";
+import useLayoutStore from "hooks/store/latout-store";
 
 function AdminSidenav() {
-  const drawerWidth = 300;
+  const normalize = useLayoutStore((state) => state.normlize);
+
+  const drawerWidth = normalize ? 70 : 300;
 
   return (
     <Drawer

@@ -8,6 +8,7 @@ import MoneyIcon from "@mui/icons-material/Money";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import MonitorHeartIcon from "@mui/icons-material/MonitorHeart";
 import ApartmentIcon from "@mui/icons-material/Apartment";
+import useLayoutStore from "hooks/store/latout-store";
 
 import { ReactNode } from "react";
 
@@ -18,7 +19,7 @@ interface SidenavShape {
 }
 
 function AdminSidenavMenu() {
-  const normalize = false;
+  const normalize = useLayoutStore((state) => state.normlize);
 
   const sidenavs: SidenavShape[] = [
     {

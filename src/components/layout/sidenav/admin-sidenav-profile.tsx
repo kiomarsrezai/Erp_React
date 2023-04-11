@@ -11,11 +11,12 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import LogoutIcon from "@mui/icons-material/Logout";
 import defaultProfileImg from "assets/images/default-profile.png";
+import useLayoutStore from "hooks/store/latout-store";
 
 import { useState } from "react";
 
 function AdminSidenavProfile() {
-  const normalize = false;
+  const normalize = useLayoutStore((state) => state.normlize);
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
