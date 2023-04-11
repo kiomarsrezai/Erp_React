@@ -4,10 +4,19 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Popover from "@mui/material/Popover";
 import Button from "@mui/material/Button";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import LogoutIcon from "@mui/icons-material/Logout";
 import defaultProfileImg from "assets/images/default-profile.png";
+
 import { useState } from "react";
 
 function AdminSidenavProfile() {
+  const normalize = false;
+
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -38,11 +47,13 @@ function AdminSidenavProfile() {
           sx={{ justifyContent: "start", alignItems: "center" }}
         >
           <Avatar alt="Alireza Kasirzare" src={defaultProfileImg} />
-          <Typography variant="body1" fontWeight="bold" color="GrayText">
-            علیرضا کثیرزارع
-          </Typography>
+          {!normalize && (
+            <Typography variant="body1" fontWeight="bold" color="GrayText">
+              علیرضا کثیرزارع
+            </Typography>
+          )}
         </Stack>
-        <KeyboardArrowDownIcon color="action" />
+        {!normalize && <KeyboardArrowDownIcon color="action" />}
       </Button>
 
       <Popover
@@ -55,11 +66,16 @@ function AdminSidenavProfile() {
           horizontal: "center",
         }}
       >
-        <Typography>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque
-          adipisci fugiat alias cum ex praesentium quasi rerum delectus
-          dignissimos, omnis,
-        </Typography>
+        <List sx={{ width: 250 }}>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <LogoutIcon />
+              </ListItemIcon>
+              <ListItemText primary="خروج" />
+            </ListItemButton>
+          </ListItem>
+        </List>
       </Popover>
     </>
   );

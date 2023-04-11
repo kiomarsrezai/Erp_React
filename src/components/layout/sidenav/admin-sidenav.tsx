@@ -5,13 +5,15 @@ import AdminSidenavMenu from "./admin-sidenav-menu";
 import AdminSidenavProfile from "./admin-sidenav-profile";
 
 function AdminSidenav() {
+  const drawerWidth = 300;
+
   return (
     <Drawer
       sx={{
-        width: 300,
+        width: drawerWidth,
         flexShrink: 0,
         "& .MuiDrawer-paper": {
-          width: 300,
+          width: drawerWidth,
           boxSizing: "border-box",
         },
       }}

@@ -3,13 +3,11 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/Inbox";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import MoneyIcon from "@mui/icons-material/Money";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import MonitorHeartIcon from "@mui/icons-material/MonitorHeart";
 import ApartmentIcon from "@mui/icons-material/Apartment";
-import { Link } from "react-router-dom";
 
 import { ReactNode } from "react";
 
@@ -20,6 +18,8 @@ interface SidenavShape {
 }
 
 function AdminSidenavMenu() {
+  const normalize = false;
+
   const sidenavs: SidenavShape[] = [
     {
       title: "گزارش",
@@ -54,7 +54,7 @@ function AdminSidenavMenu() {
         <ListItem disablePadding>
           <ListItemButton>
             <ListItemIcon>{sidenav.icon}</ListItemIcon>
-            <ListItemText primary={sidenav.title} />
+            {!normalize && <ListItemText primary={sidenav.title} />}
           </ListItemButton>
         </ListItem>
       ))}
