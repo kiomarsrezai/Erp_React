@@ -1,38 +1,28 @@
 import Drawer from "@mui/material/Drawer";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
-import defaultProfileImg from "assets/images/default-profile.png";
 import AdminSidenavMenu from "./admin-sidenav-menu";
+import AdminSidenavProfile from "./admin-sidenav-profile";
 
 function AdminSidenav() {
   return (
     <Drawer
-      variant="permanent"
       sx={{
-        display: { xs: "none", sm: "block" },
+        width: 300,
+        flexShrink: 0,
         "& .MuiDrawer-paper": {
-          boxSizing: "border-box",
           width: 300,
-          padding: 2,
+          boxSizing: "border-box",
         },
       }}
-      open
+      variant="permanent"
+      anchor="left"
     >
-      <Stack
-        direction="row"
-        spacing={1}
-        paddingBottom={1}
-        sx={{ justifyContent: "center", alignItems: "center" }}
-      >
-        <Avatar alt="Alireza Kasirzare" src={defaultProfileImg} />
-        <Typography variant="body1" fontWeight="bold" color="GrayText">
-          علیرضا کثیرزارع
-        </Typography>
-      </Stack>
-      <Divider />
-      <AdminSidenavMenu />
+      <Box padding={1}>
+        <AdminSidenavProfile />
+        <Divider />
+        <AdminSidenavMenu />
+      </Box>
     </Drawer>
   );
 }
