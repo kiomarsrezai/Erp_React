@@ -1,6 +1,7 @@
 import rtlPlugin from "stylis-plugin-rtl";
-import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
+
+import { CacheProvider } from "@emotion/react";
 import { prefixer } from "stylis";
 import { ReactNode } from "react";
 
@@ -14,7 +15,9 @@ interface RightToLeftProps {
   children: ReactNode;
 }
 function RightToLeft(props: RightToLeftProps) {
-  return <CacheProvider value={cacheRtl}>{props.children}</CacheProvider>;
+  const { children } = props;
+
+  return <CacheProvider value={cacheRtl}>{children}</CacheProvider>;
 }
 
 export default RightToLeft;

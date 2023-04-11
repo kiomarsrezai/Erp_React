@@ -8,6 +8,7 @@ import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import logoImg from "assets/images/logos/fava.svg";
@@ -15,9 +16,9 @@ import logoImg from "assets/images/logos/fava.svg";
 import { useState } from "react";
 
 function LoginForm() {
-  const [seePasword, setSeePassword] = useState(false);
+  const [showPasword, setShowPassword] = useState(false);
   const toggleSeePassword = () => {
-    setSeePassword((prevState) => !prevState);
+    setShowPassword((prevState) => !prevState);
   };
 
   return (
@@ -57,13 +58,13 @@ function LoginForm() {
               id="outlined-basic"
               label="رمز ورود"
               variant="outlined"
-              type={seePasword ? "text" : "password"}
+              type={showPasword ? "text" : "password"}
               fullWidth
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton onClick={toggleSeePassword}>
-                      {seePasword ? (
+                      {showPasword ? (
                         <RemoveRedEyeIcon />
                       ) : (
                         <VisibilityOffIcon />
@@ -77,7 +78,9 @@ function LoginForm() {
             <FormGroup>
               <FormControlLabel
                 control={<Checkbox defaultChecked />}
-                label="مرا به خاطر بسپار"
+                label={
+                  <Typography variant="body2">مرا به خاطر بسپار</Typography>
+                }
               />
             </FormGroup>
           </Stack>
