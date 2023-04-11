@@ -5,11 +5,11 @@ import LoginForm from "components/sections/login-form";
 
 function LoginPage() {
   return (
-    <Grid container spacing={0}>
-      <Grid xs={3} sx={{ bgcolor: "grey.100" }}>
+    <Grid container spacing={0} overflow="hidden">
+      <Grid xs={4} lg={3} sx={{ bgcolor: "grey.100" }}>
         <LoginForm />
       </Grid>
-      <Grid xs={9}>
+      <Grid xs={8} lg={9}>
         <Box
           component="img"
           boxShadow={2}
