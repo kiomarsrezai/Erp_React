@@ -130,7 +130,7 @@ const data = [
   },
 ];
 
-function ReportRevenvChartPage() {
+function ReportRevenueChartPage() {
   return (
     <AdminLayout>
       <Paper
@@ -166,4 +166,4 @@ function ReportRevenvChartPage() {
   );
 }
 
-export default ReportRevenvChartPage;
+export default ReportRevenueChartPage;

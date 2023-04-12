@@ -86,7 +86,12 @@ function LoginForm() {
           </Stack>
 
           <Stack spacing={1}>
-            <Button variant="contained" fullWidth size="large">
+            <Button
+              variant="contained"
+              fullWidth
+              size="large"
+              href="/report/chart/revenue"
+            >
               ورود
             </Button>
 

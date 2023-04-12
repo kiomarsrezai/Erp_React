@@ -25,27 +25,27 @@ function AdminSidenavMenu() {
   const sidenavs: SidenavShape[] = [
     {
       title: "گزارش",
-      path: "/report/chart/revenv-chart",
+      path: "/report/chart/revenue",
       icon: <AssessmentIcon />,
     },
     {
       title: "بودجه",
-      path: "/",
+      path: "/budget/proposal",
       icon: <MoneyIcon />,
     },
     {
       title: "بودجه تفکیکی",
-      path: "/",
+      path: "/budget/seprator",
       icon: <PointOfSaleIcon />,
     },
     {
       title: "متولی ها",
-      path: "/report/proctor/proctor-abstract",
+      path: "/report/proctor/abstract",
       icon: <MonitorHeartIcon />,
     },
     {
       title: "واسط سازمان ها",
-      path: "/",
+      path: "/transfer",
       icon: <ApartmentIcon />,
     },
   ];

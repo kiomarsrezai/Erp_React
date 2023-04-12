@@ -1,6 +1,9 @@
 import LoginPage from "pages/login-page";
-import ReportRevenvChartPage from "pages/report/chart/revenv-chart";
-import ReportProctorAbstructPage from "pages/report/proctor/proctor-abstract";
+import ReportRevenueChartPage from "pages/report/chart/revenue-page";
+import ReportProctorAbstructPage from "pages/report/proctor/abstract-page";
+import TransferPage from "pages/transfer";
+import BudgetSepratorPage from "pages/budget/seprator-page";
+import BudgetProposalPage from "pages/budget/proposal-page";
 
 import { createBrowserRouter } from "react-router-dom";
 
@@ -9,13 +12,28 @@ const router = createBrowserRouter([
     path: "/",
     element: <LoginPage />,
   },
+  // report
   {
-    path: "/report/chart/revenv-chart",
-    element: <ReportRevenvChartPage />,
+    path: "/report/chart/revenue",
+    element: <ReportRevenueChartPage />,
   },
   {
-    path: "/report/proctor/proctor-abstract",
+    path: "/report/proctor/abstract",
     element: <ReportProctorAbstructPage />,
+  },
+  // budget
+  {
+    path: "/budget/proposal",
+    element: <BudgetProposalPage />,
+  },
+  {
+    path: "/budget/seprator",
+    element: <BudgetSepratorPage />,
+  },
+  // transfer
+  {
+    path: "/transfer",
+    element: <TransferPage />,
   },
 ]);
 
