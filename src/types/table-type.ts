@@ -1,13 +1,13 @@
 // head
-export interface TableSingleHeadShape {
+export interface TableSingleHeadGroupShape {
   title: string;
   colspan?: number;
 }
 
-export type TableHeadShape = TableSingleHeadShape[];
+export type TableHeadGroupShape = TableSingleHeadGroupShape[];
 
-export interface TableSingleSubHeadShape {
+export interface TableSingleHeadShape {
   title: string;
 }
 
-export type TableSubHeadShape = TableSingleSubHeadShape[];
+export type TableHeadShape = TableSingleHeadShape[];

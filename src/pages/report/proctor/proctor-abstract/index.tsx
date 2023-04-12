@@ -1,10 +1,10 @@
 import AdminLayout from "components/layout/admin-layout";
 import DataTable from "components/data/data-table";
 
-import { TableHeadShape, TableSubHeadShape } from "types/table-type";
+import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 
 function ReportProctorAbstructPage() {
-  const tableHeads: TableHeadShape = [
+  const tableHeadGroups: TableHeadGroupShape = [
     {
       title: "salam 1",
       colspan: 2,
@@ -15,7 +15,7 @@ function ReportProctorAbstructPage() {
     },
   ];
 
-  const tableSubHeads: TableSubHeadShape = [
+  const tableHeads: TableHeadShape = [
     {
       title: "salam 3",
     },
@@ -35,7 +35,7 @@ function ReportProctorAbstructPage() {
 
   return (
     <AdminLayout>
-      <DataTable heads={tableHeads} subHeads={tableSubHeads} />
+      <DataTable heads={tableHeads} headGroups={tableHeadGroups} />
     </AdminLayout>
   );
 }

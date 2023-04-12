@@ -7,7 +7,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import grey from "@mui/material/colors/grey";
 
-import { TableHeadShape, TableSubHeadShape } from "types/table-type";
+import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 
 function createData(
   name: string,
@@ -20,12 +20,12 @@ function createData(
 }
 
 interface DataTableProps {
+  headGroups?: TableHeadGroupShape;
   heads: TableHeadShape;
-  subHeads?: TableSubHeadShape;
 }
 
 function DataTable(props: DataTableProps) {
-  const { heads, subHeads } = props;
+  const { heads, headGroups } = props;
   const rows = [
     createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
     createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
@@ -78,6 +78,24 @@ function DataTable(props: DataTableProps) {
 
   const tableHeadContent = (
     <>
+      {headGroups && (
+        <TableRow>
+          {headGroups?.map((headGroup) => (
+            <TableCell
+              key={headGroup.title}
+              sx={{
+                borderRight: 1,
+                borderColor: grey[borderColor],
+                bgcolor: grey[200],
+              }}
+              align="center"
+              colSpan={headGroup.colspan}
+            >
+              {headGroup.title}
+            </TableCell>
+          ))}
+        </TableRow>
+      )}
       <TableRow>
         {heads.map((head) => (
           <TableCell
@@ -86,27 +104,11 @@ function DataTable(props: DataTableProps) {
               borderRight: 1,
               borderColor: grey[borderColor],
               bgcolor: grey[200],
+              top: headGroups ? 57 : 0,
             }}
             align="center"
-            colSpan={head.colspan}
           >
             {head.title}
-          </TableCell>
-        ))}
-      </TableRow>
-      <TableRow>
-        {subHeads?.map((subHead) => (
-          <TableCell
-            key={subHead.title}
-            sx={{
-              borderRight: 1,
-              borderColor: grey[borderColor],
-              bgcolor: grey[200],
-              top: 57,
-            }}
-            align="center"
-          >
-            {subHead.title}
           </TableCell>
         ))}
       </TableRow>
