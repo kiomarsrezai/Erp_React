@@ -33,9 +33,72 @@ function ReportProctorAbstructPage() {
     },
   ];
 
+  const data: any = [
+    {
+      value: "afwe",
+    },
+    {
+      value: "afwe",
+    },
+    {
+      value: "afwe",
+    },
+    {
+      value: "afwe",
+    },
+    {
+      value: "afwe",
+    },
+    {
+      value: "afwe",
+    },
+    {
+      value: "afwe",
+    },
+    {
+      value: "afwe",
+    },
+    {
+      value: "afwe",
+    },
+    {
+      value: "afwe",
+    },
+    {
+      value: "afwe",
+    },
+    {
+      value: "afwe",
+    },
+    {
+      value: "afwe",
+    },
+    {
+      value: "afwe",
+    },
+    {
+      value: "afwe",
+    },
+    {
+      value: "afwe",
+    },
+    {
+      value: "afwe",
+    },
+    {
+      value: "afwe",
+    },
+    {
+      value: "afwe",
+    },
+    {
+      value: "afwe",
+    },
+  ];
+
   return (
     <AdminLayout>
-      <DataTable heads={tableHeads} headGroups={tableHeadGroups} />
+      <DataTable heads={tableHeads} headGroups={tableHeadGroups} data={data} />
     </AdminLayout>
   );
 }
