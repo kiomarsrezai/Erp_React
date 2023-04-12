@@ -48,14 +48,14 @@ function LoginForm() {
         <Stack spacing={3}>
           <Stack spacing={2}>
             <TextField
-              id="outlined-basic"
+              id="username-input"
               label="نام کاربری"
               variant="outlined"
               fullWidth
             />
 
             <TextField
-              id="outlined-basic"
+              id="password-input"
               label="رمز ورود"
               variant="outlined"
               type={showPasword ? "text" : "password"}

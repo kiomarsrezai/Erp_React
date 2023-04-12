@@ -9,6 +9,7 @@ import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import MonitorHeartIcon from "@mui/icons-material/MonitorHeart";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import useLayoutStore from "hooks/store/layout-store";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
 
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
@@ -47,6 +48,12 @@ function AdminSidenavMenu() {
       title: "واسط سازمان ها",
       path: "/transfer",
       icon: <ApartmentIcon />,
+    },
+    // credit
+    {
+      title: "درخواست اعتبار",
+      path: "/credit/request",
+      icon: <CreditCardIcon />,
     },
   ];
 

@@ -1,4 +1,4 @@
-import LoginPage from "pages/login-page";
+import LoginPage from "pages/auth/login-page";
 import ReportRevenueChartPage from "pages/report/chart/revenue-page";
 import ReportProctorAbstructPage from "pages/report/proctor/abstract-page";
 import TransferPage from "pages/transfer";
@@ -6,6 +6,7 @@ import BudgetSepratorPage from "pages/budget/seprator-page";
 import BudgetProposalPage from "pages/budget/proposal-page";
 
 import { createBrowserRouter } from "react-router-dom";
+import RequestCreditPage from "pages/credit/request-page";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,11 @@ const router = createBrowserRouter([
   {
     path: "/transfer",
     element: <TransferPage />,
+  },
+  // credit
+  {
+    path: "/credit/request",
+    element: <RequestCreditPage />,
   },
 ]);
 
