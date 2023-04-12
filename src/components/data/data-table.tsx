@@ -7,6 +7,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import grey from "@mui/material/colors/grey";
 
+import { TableHeadShape, TableSubHeadShape } from "types/table-type";
+
 function createData(
   name: string,
   calories: number,
@@ -17,7 +19,13 @@ function createData(
   return { name, calories, fat, carbs, protein };
 }
 
-function DataTable() {
+interface DataTableProps {
+  heads: TableHeadShape;
+  subHeads?: TableSubHeadShape;
+}
+
+function DataTable(props: DataTableProps) {
+  const { heads, subHeads } = props;
   const rows = [
     createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
     createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
@@ -68,88 +76,48 @@ function DataTable() {
 
   const borderColor = 400;
 
+  const tableHeadContent = (
+    <>
+      <TableRow>
+        {heads.map((head) => (
+          <TableCell
+            key={head.title}
+            sx={{
+              borderRight: 1,
+              borderColor: grey[borderColor],
+              bgcolor: grey[200],
+            }}
+            align="center"
+            colSpan={head.colspan}
+          >
+            {head.title}
+          </TableCell>
+        ))}
+      </TableRow>
+      <TableRow>
+        {subHeads?.map((subHead) => (
+          <TableCell
+            key={subHead.title}
+            sx={{
+              borderRight: 1,
+              borderColor: grey[borderColor],
+              bgcolor: grey[200],
+              top: 57,
+            }}
+            align="center"
+          >
+            {subHead.title}
+          </TableCell>
+        ))}
+      </TableRow>
+    </>
+  );
+
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer sx={{ maxHeight: "calc(100vh - 64px)" }}>
         <Table stickyHeader>
-          <TableHead sx={{ bgcolor: grey[200] }}>
-            <TableRow>
-              <TableCell
-                sx={{
-                  borderRight: 1,
-                  borderColor: grey[borderColor],
-                  bgcolor: grey[200],
-                }}
-                align="center"
-                colSpan={2}
-              >
-                Country
-              </TableCell>
-              <TableCell
-                align="center"
-                colSpan={3}
-                sx={{ borderColor: grey[borderColor], bgcolor: grey[200] }}
-              >
-                Details
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell
-                align="center"
-                sx={{
-                  borderRight: 1,
-                  borderColor: grey[borderColor],
-                  bgcolor: grey[200],
-                  top: 57,
-                }}
-              >
-                Dessert (100g serving)
-              </TableCell>
-              <TableCell
-                align="center"
-                sx={{
-                  borderRight: 1,
-                  borderColor: grey[borderColor],
-                  bgcolor: grey[200],
-                  top: 57,
-                }}
-              >
-                Calories
-              </TableCell>
-              <TableCell
-                align="center"
-                sx={{
-                  borderRight: 1,
-                  borderColor: grey[borderColor],
-                  bgcolor: grey[200],
-                  top: 57,
-                }}
-              >
-                Fat&nbsp;(g)
-              </TableCell>
-              <TableCell
-                align="center"
-                sx={{
-                  borderRight: 1,
-                  borderColor: grey[borderColor],
-                  bgcolor: grey[200],
-                  top: 57,
-                }}
-              >
-                Carbs&nbsp;(g)
-              </TableCell>
-              <TableCell
-                align="center"
-                sx={{
-                  borderColor: grey[borderColor],
-                  bgcolor: grey[200],
-                  top: 57,
-                }}
-              >
-                Protein&nbsp;(g)
-              </TableCell>
-            </TableRow>
-          </TableHead>
+          <TableHead sx={{ bgcolor: grey[200] }}>{tableHeadContent}</TableHead>
           <TableBody>
             {rows.map((row) => (
               <TableRow
