@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import useLayoutStore from "hooks/store/latout-store";
+import useLayoutStore from "hooks/store/layout-store";
 
 function AdminHeader() {
   const toggleNormlize = useLayoutStore((state) => state.toggleNormlize);

@@ -8,9 +8,10 @@ import MoneyIcon from "@mui/icons-material/Money";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import MonitorHeartIcon from "@mui/icons-material/MonitorHeart";
 import ApartmentIcon from "@mui/icons-material/Apartment";
-import useLayoutStore from "hooks/store/latout-store";
+import useLayoutStore from "hooks/store/layout-store";
 
 import { ReactNode } from "react";
+import { Link } from "react-router-dom";
 
 interface SidenavShape {
   title: string;
@@ -24,7 +25,7 @@ function AdminSidenavMenu() {
   const sidenavs: SidenavShape[] = [
     {
       title: "گزارش",
-      path: "/dashboard/report",
+      path: "/report/chart/revenv-chart",
       icon: <AssessmentIcon />,
     },
     {
@@ -39,7 +40,7 @@ function AdminSidenavMenu() {
     },
     {
       title: "متولی ها",
-      path: "/",
+      path: "/report/proctor/proctor-abstract",
       icon: <MonitorHeartIcon />,
     },
     {
@@ -52,10 +53,15 @@ function AdminSidenavMenu() {
   return (
     <List>
       {sidenavs.map((sidenav) => (
-        <ListItem disablePadding>
+        <ListItem disablePadding component={Link} to={sidenav.path}>
           <ListItemButton>
             <ListItemIcon>{sidenav.icon}</ListItemIcon>
-            {!normalize && <ListItemText primary={sidenav.title} />}
+            {!normalize && (
+              <ListItemText
+                sx={{ color: "GrayText" }}
+                primary={sidenav.title}
+              />
+            )}
           </ListItemButton>
         </ListItem>
       ))}

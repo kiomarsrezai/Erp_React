@@ -1,11 +1,11 @@
 import { create } from "zustand";
 
-interface BearState {
+interface LayoutState {
   normlize: boolean;
   toggleNormlize: () => void;
 }
 
-const useLayoutStore = create<BearState>((set) => ({
+const useLayoutStore = create<LayoutState>((set) => ({
   normlize: false,
   toggleNormlize: () => set((state) => ({ normlize: !state.normlize })),
 }));

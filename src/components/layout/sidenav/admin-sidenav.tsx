@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import AdminSidenavMenu from "./admin-sidenav-menu";
 import AdminSidenavProfile from "./admin-sidenav-profile";
-import useLayoutStore from "hooks/store/latout-store";
+import useLayoutStore from "hooks/store/layout-store";
 
 function AdminSidenav() {
   const normalize = useLayoutStore((state) => state.normlize);
