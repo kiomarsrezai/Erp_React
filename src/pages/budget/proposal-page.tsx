@@ -1,5 +1,5 @@
 import AdminLayout from "components/layout/admin-layout";
-import DataTable from "components/data/data-table";
+import DataTable from "components/data/table/fixed-table";
 
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 
