@@ -59,6 +59,14 @@ function DataTable(props: DataTableProps) {
     </>
   );
 
+  const getRenderDataCells = (row: any) => {
+    return Object.keys(row).map((cell: string, i: number) => (
+      <TableCell align="center" key={i}>
+        {row[cell]}
+      </TableCell>
+    ));
+  };
+
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer sx={{ maxHeight: "calc(100vh - 64px)" }}>
@@ -73,11 +81,7 @@ function DataTable(props: DataTableProps) {
                   "&:nth-child(even)": { bgcolor: grey[100] },
                 }}
               >
-                <TableCell align="center">{row.value}</TableCell>
-                <TableCell align="center">{row.value}</TableCell>
-                <TableCell align="center">{row.value}</TableCell>
-                <TableCell align="center">{row.value}</TableCell>
-                <TableCell align="center">{row.value}</TableCell>
+                {getRenderDataCells(row)}
               </TableRow>
             ))}
           </TableBody>

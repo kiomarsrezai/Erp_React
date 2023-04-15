@@ -6,12 +6,12 @@ import RevenueChartDataForm from "components/forms/revenue-chart/revenue-chart-d
 import { revenueChartApi } from "api/report/chart-api";
 import { useQuery } from "@tanstack/react-query";
 
-type ChartDataShape = {
+interface ChartDataShape {
   Mosavab: number;
   MosavabDaily: number;
   Expense: number;
   AreaName: string;
-};
+}
 
 type GetChartShape = [string[], number[], number[], number[]];
 
@@ -39,8 +39,6 @@ function ReportRevenueChartPage() {
   const chartData: ChartDataShape[] = revenueChart.data
     ? formatChatData(revenueChart.data.data)
     : [];
-
-  console.log("chartData", chartData);
 
   return (
     <AdminLayout>

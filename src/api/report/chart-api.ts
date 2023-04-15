@@ -1,23 +1,13 @@
 import clientAxios from "config/axios-config";
 
 import { revenueChartFormConfig } from "config/formdata/revenue-chart-config";
+import { BaseApi } from "api/base-api";
 
 interface BaseApiResponseShape<T> {
   data: T;
 }
 // revenue chart
 type GetChartShape = [string[], number[], number[], number[]];
-
-class BaseApi {
-  joinFilterData = (filterData: any) => {
-    let joinedFilterData = "?";
-    for (const key in filterData) {
-      const value = filterData[key];
-      joinedFilterData += key + "=" + value + "&";
-    }
-    return joinedFilterData;
-  };
-}
 
 export const revenueChartApi = new (class extends BaseApi {
   getChart = async (formdata: any) => {
