@@ -66,6 +66,13 @@ function BudgetSepratorPage() {
     },
   ];
 
+  const tableHeadGroup = [
+    {
+      title: <SepratoeBudgetForm />,
+      colspan: 8,
+    },
+  ];
+
   const tableData = sepratorQuery.data
     ? formatTableData(sepratorQuery.data?.data)
     : [];
@@ -76,8 +83,12 @@ function BudgetSepratorPage() {
         "loading"
       ) : (
         <>
-          <SepratoeBudgetForm />
-          <DataTable heads={tableHeads} data={tableData} />
+          {/* <SepratoeBudgetForm /> */}
+          <DataTable
+            heads={tableHeads}
+            data={tableData}
+            headGroups={tableHeadGroup}
+          />
         </>
       )}
     </AdminLayout>

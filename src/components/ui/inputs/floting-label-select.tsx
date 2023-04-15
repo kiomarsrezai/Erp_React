@@ -30,7 +30,7 @@ function FlotingLabelSelect(props: FlotingLabelTextfieldProps) {
     </MenuItem>
   ));
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth size="small">
       <InputLabel id={`${label}-floting-select-label`}>{label}</InputLabel>
       <Select
         labelId={`${name}-floting-select-label`}

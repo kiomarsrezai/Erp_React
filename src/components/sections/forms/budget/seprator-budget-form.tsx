@@ -1,7 +1,6 @@
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
 import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -90,52 +89,49 @@ function SepratoeBudgetForm() {
   });
 
   return (
-    <form
+    <Box
+      component="form"
       onSubmit={(e) => {
         e.preventDefault();
         submitMutation.mutate(formData);
       }}
     >
-      <Box padding={2}>
-        <Grid container spacing={2}>
-          <Grid lg={2}>
-            <FlotingLabelSelect
-              label="سال"
-              name={sepratorBudgetFormConfig.YEAR}
-              items={yearItems}
-              value={formData[sepratorBudgetFormConfig.YEAR]}
-              setter={setFormData}
-            />
-          </Grid>
-          <Grid lg={2}>
-            <FlotingLabelSelect
-              label="منطقه"
-              name={sepratorBudgetFormConfig.AREA}
-              items={areaItems}
-              value={formData[sepratorBudgetFormConfig.AREA]}
-              setter={setFormData}
-            />
-          </Grid>
-
-          <Grid lg={2}>
-            <FlotingLabelSelect
-              label="نوع بودجه"
-              name={sepratorBudgetFormConfig.BUDGET_METHOD}
-              items={budgetMethodItems}
-              value={formData[sepratorBudgetFormConfig.BUDGET_METHOD]}
-              setter={setFormData}
-            />
-          </Grid>
-          <Grid lg={4}>
-            <Stack direction="row" flexWrap="wrap" gap={1}>
-              <Button variant="contained" type="submit">
-                نمایش
-              </Button>
-            </Stack>
-          </Grid>
+      <Grid container spacing={2}>
+        <Grid lg={2}>
+          <FlotingLabelSelect
+            label="سال"
+            name={sepratorBudgetFormConfig.YEAR}
+            items={yearItems}
+            value={formData[sepratorBudgetFormConfig.YEAR]}
+            setter={setFormData}
+          />
         </Grid>
-      </Box>
-    </form>
+        <Grid lg={2}>
+          <FlotingLabelSelect
+            label="منطقه"
+            name={sepratorBudgetFormConfig.AREA}
+            items={areaItems}
+            value={formData[sepratorBudgetFormConfig.AREA]}
+            setter={setFormData}
+          />
+        </Grid>
+
+        <Grid lg={2}>
+          <FlotingLabelSelect
+            label="نوع بودجه"
+            name={sepratorBudgetFormConfig.BUDGET_METHOD}
+            items={budgetMethodItems}
+            value={formData[sepratorBudgetFormConfig.BUDGET_METHOD]}
+            setter={setFormData}
+          />
+        </Grid>
+        <Grid lg={4}>
+          <Button variant="contained" type="submit">
+            نمایش
+          </Button>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 

@@ -7,6 +7,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import grey from "@mui/material/colors/grey";
 
+import { useEffect, useRef, useState } from "react";
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 
 interface DataTableProps {
@@ -15,22 +16,30 @@ interface DataTableProps {
   data: any;
 }
 
+const borderColor = 400;
+
 function DataTable(props: DataTableProps) {
   const { heads, headGroups, data } = props;
 
-  const borderColor = 400;
+  // head
+  const [headGroupHright, setHeadGroupHright] = useState(0);
+  const HeadGroup = useRef<HTMLTableRowElement>(null);
+  useEffect(() => {
+    setHeadGroupHright(HeadGroup.current?.clientHeight || 0);
+  }, []);
 
   const tableHeadContent = (
     <>
       {headGroups && (
-        <TableRow>
-          {headGroups?.map((headGroup) => (
+        <TableRow ref={HeadGroup}>
+          {headGroups?.map((headGroup, i) => (
             <TableCell
-              key={headGroup.title}
+              key={i}
               sx={{
                 borderRight: 1,
                 borderColor: grey[borderColor],
                 bgcolor: grey[200],
+                textAlign: "left",
               }}
               align="center"
               colSpan={headGroup.colspan}
@@ -48,7 +57,7 @@ function DataTable(props: DataTableProps) {
               borderRight: 1,
               borderColor: grey[borderColor],
               bgcolor: grey[200],
-              top: headGroups ? 57 : 0,
+              top: headGroups ? headGroupHright : 0,
               whiteSpace: "nowrap",
             }}
             align="center"
