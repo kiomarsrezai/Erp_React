@@ -200,7 +200,7 @@ function BulletChart(props: BulletChartProps) {
           type="monotone"
           dataKey="Expense"
           stroke={blue[800]}
-          strokeWidth={2}
+          strokeWidth={4}
         />
       </ComposedChart>
     </ResponsiveContainer>

@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import LogoutIcon from "@mui/icons-material/Logout";
 import useLayoutStore from "hooks/store/layout-store";
 
 function AdminHeader() {
@@ -28,6 +29,9 @@ function AdminHeader() {
         </Typography>
         <IconButton color="inherit">
           <NotificationsIcon />
+        </IconButton>
+        <IconButton color="inherit">
+          <LogoutIcon />
         </IconButton>
       </Toolbar>
     </AppBar>

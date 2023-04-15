@@ -11,8 +11,9 @@ import ApartmentIcon from "@mui/icons-material/Apartment";
 import useLayoutStore from "hooks/store/layout-store";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 
+import { blue } from "@mui/material/colors";
 import { ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface SidenavShape {
   title: string;
@@ -57,11 +58,24 @@ function AdminSidenavMenu() {
     },
   ];
 
+  // active
+  const location = useLocation();
+
+  const isActive = (path: string) => {
+    return location.pathname === path;
+  };
+
   return (
     <List>
       {sidenavs.map((sidenav, i) => (
-        <ListItem disablePadding component={Link} to={sidenav.path} key={i}>
-          <ListItemButton>
+        <ListItem
+          disablePadding
+          component={Link}
+          to={sidenav.path}
+          key={i}
+          sx={isActive(sidenav.path) ? { bgcolor: blue[50] } : {}}
+        >
+          <ListItemButton disableRipple>
             <ListItemIcon>{sidenav.icon}</ListItemIcon>
             {!normalize && (
               <ListItemText

@@ -4,7 +4,7 @@ import DataTable from "components/data/table/fixed-table";
 import { TableHeadShape } from "types/table-type";
 import { useQuery } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
-import SepratoeBudgetForm from "components/forms/budget/seprator-budget-form";
+import SepratoeBudgetForm from "components/sections/forms/budget/seprator-budget-form";
 
 interface SepratorSingleItemDataShape {
   description: string;

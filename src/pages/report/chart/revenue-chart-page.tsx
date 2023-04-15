@@ -1,7 +1,7 @@
 import Paper from "@mui/material/Paper";
 import AdminLayout from "components/layout/admin-layout";
 import BulletChart from "components/data/chart/bullet-chart";
-import RevenueChartDataForm from "components/forms/revenue-chart/revenue-chart-data-form";
+import RevenueChartDataForm from "components/sections/forms/report/chart/revenue-chart-data-form";
 
 import { revenueChartApi } from "api/report/chart-api";
 import { useQuery } from "@tanstack/react-query";

@@ -1,7 +1,7 @@
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 import karroonImg from "assets/images/places/karoon.jpg";
-import LoginForm from "components/forms/login/login-form";
+import LoginForm from "components/sections/forms/login/login-form";
 
 function LoginPage() {
   return (
