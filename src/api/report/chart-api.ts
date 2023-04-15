@@ -1,4 +1,6 @@
-import clientAxios from "config/axios";
+import clientAxios from "config/axios-config";
+
+import { revenueChartFormConfig } from "config/formdata/revenue-chart-config";
 
 interface BaseApiResponseShape<T> {
   data: T;
@@ -6,10 +8,36 @@ interface BaseApiResponseShape<T> {
 // revenue chart
 type GetChartShape = [string[], number[], number[], number[]];
 
-export const revenueChartApi = new (class {
-  getChart = async () => {
+class BaseApi {
+  joinFilterData = (filterData: any) => {
+    let joinedFilterData = "?";
+    for (const key in filterData) {
+      const value = filterData[key];
+      joinedFilterData += key + "=" + value + "&";
+    }
+    return joinedFilterData;
+  };
+}
+
+export const revenueChartApi = new (class extends BaseApi {
+  getChart = async (formdata: any) => {
+    const url = "BudSepApi/ChartApi";
+    const filterData = {
+      [revenueChartFormConfig.YEAR]: formdata[revenueChartFormConfig.YEAR],
+      [revenueChartFormConfig.BUDGET_METHOD]:
+        formdata[revenueChartFormConfig.BUDGET_METHOD],
+      [revenueChartFormConfig.CENTER]: formdata[revenueChartFormConfig.CENTER],
+      [revenueChartFormConfig.ORGAN]: formdata[revenueChartFormConfig.ORGAN],
+      [revenueChartFormConfig.REVENUE]:
+        formdata[revenueChartFormConfig.REVENUE],
+      [revenueChartFormConfig.SALE]: formdata[revenueChartFormConfig.SALE],
+      [revenueChartFormConfig.LAON]: formdata[revenueChartFormConfig.LAON],
+      [revenueChartFormConfig.NIABATI]:
+        formdata[revenueChartFormConfig.NIABATI],
+    };
+
     const response = await clientAxios.get<BaseApiResponseShape<GetChartShape>>(
-      "BudSepApi/ChartApi?yearId=32&centerId=2&budgetProcessId=1&structureId=1&revenue=true&sale=true&loan=true&niabati=true"
+      url + this.joinFilterData(filterData)
     );
     return response.data;
   };

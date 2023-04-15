@@ -1,6 +1,7 @@
 import Paper from "@mui/material/Paper";
 import AdminLayout from "components/layout/admin-layout";
 import BulletChart from "components/data/chart/bullet-chart";
+import RevenueChartDataForm from "components/forms/revenue-chart/revenue-chart-data-form";
 
 import { revenueChartApi } from "api/report/chart-api";
 import { useQuery } from "@tanstack/react-query";
@@ -22,8 +23,8 @@ const formatChatData = (unFormatData: GetChartShape): ChartDataShape[] => {
     const dataItem: ChartDataShape = {
       AreaName: unFormatData[0][i],
       Mosavab: unFormatData[1][i],
-      MosavabDaily: unFormatData[2][i],
-      Expense: unFormatData[3][i],
+      MosavabDaily: unFormatData[3][i],
+      Expense: unFormatData[2][i],
     };
     formatedData.push(dataItem);
   }
@@ -31,7 +32,9 @@ const formatChatData = (unFormatData: GetChartShape): ChartDataShape[] => {
 };
 
 function ReportRevenueChartPage() {
-  const revenueChart = useQuery(["revenuse-chart"], revenueChartApi.getChart);
+  const revenueChart = useQuery(["revenuse-chart"], () =>
+    revenueChartApi.getChart({})
+  );
 
   const chartData: ChartDataShape[] = revenueChart.data
     ? formatChatData(revenueChart.data.data)
@@ -41,6 +44,7 @@ function ReportRevenueChartPage() {
 
   return (
     <AdminLayout>
+      <RevenueChartDataForm />
       <Paper
         sx={{
           width: "100%",

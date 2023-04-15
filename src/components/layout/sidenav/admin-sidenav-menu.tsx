@@ -59,8 +59,8 @@ function AdminSidenavMenu() {
 
   return (
     <List>
-      {sidenavs.map((sidenav) => (
-        <ListItem disablePadding component={Link} to={sidenav.path}>
+      {sidenavs.map((sidenav, i) => (
+        <ListItem disablePadding component={Link} to={sidenav.path} key={i}>
           <ListItemButton>
             <ListItemIcon>{sidenav.icon}</ListItemIcon>
             {!normalize && (
