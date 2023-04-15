@@ -23,8 +23,6 @@ function RevenueChartDataForm() {
     [revenueChartFormConfig.NIABATI]: true,
   });
 
-  console.log(formData);
-
   const yearItems: FlotingLabelTextfieldItemsShape = [
     {
       label: "1401",

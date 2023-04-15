@@ -1,6 +1,7 @@
 import clientAxios from "config/axios-config";
 
 import { BaseApi } from "api/base-api";
+import { sepratorBudgetFormConfig } from "config/formdata/budget/seprator";
 
 interface BaseApiResponseShape<T> {
   data: T;
@@ -17,24 +18,17 @@ interface GetSingleSepratorItemShape {
 
 export const sepratorBudgetApi = new (class extends BaseApi {
   getData = async (formdata: any) => {
-    const url = "BudSepApi?yearId=32&areaId=1&budgetprocessId=1";
-    // const filterData = {
-    //   [revenueChartFormConfig.YEAR]: formdata[revenueChartFormConfig.YEAR],
-    //   [revenueChartFormConfig.BUDGET_METHOD]:
-    //     formdata[revenueChartFormConfig.BUDGET_METHOD],
-    //   [revenueChartFormConfig.CENTER]: formdata[revenueChartFormConfig.CENTER],
-    //   [revenueChartFormConfig.ORGAN]: formdata[revenueChartFormConfig.ORGAN],
-    //   [revenueChartFormConfig.REVENUE]:
-    //     formdata[revenueChartFormConfig.REVENUE],
-    //   [revenueChartFormConfig.SALE]: formdata[revenueChartFormConfig.SALE],
-    //   [revenueChartFormConfig.LAON]: formdata[revenueChartFormConfig.LAON],
-    //   [revenueChartFormConfig.NIABATI]:
-    //     formdata[revenueChartFormConfig.NIABATI],
-    // };
+    const url = "BudSepApi/FetchSeprator";
+    const filterData = {
+      [sepratorBudgetFormConfig.YEAR]: formdata[sepratorBudgetFormConfig.YEAR],
+      [sepratorBudgetFormConfig.AREA]: formdata[sepratorBudgetFormConfig.AREA],
+      [sepratorBudgetFormConfig.BUDGET_METHOD]:
+        formdata[sepratorBudgetFormConfig.BUDGET_METHOD],
+    };
 
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleSepratorItemShape[]>
-    >(url);
+    >(url + this.joinFilterData(filterData));
     return response.data;
   };
 })();
