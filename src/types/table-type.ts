@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-// head
+// head group
 export interface TableSingleHeadGroupShape {
   title: ReactNode;
   colspan?: number;
@@ -8,6 +8,7 @@ export interface TableSingleHeadGroupShape {
 
 export type TableHeadGroupShape = TableSingleHeadGroupShape[];
 
+// table
 export interface TableSingleHeadShape {
   title: string;
 }

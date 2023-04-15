@@ -1,5 +1,7 @@
+import { generalFormConfig } from "../general-form";
+
 export const sepratorBudgetFormConfig = {
-  YEAR: "yearId",
-  AREA: "areaId",
-  BUDGET_METHOD: "budgetprocessId",
+  YEAR: generalFormConfig.YEAR,
+  AREA: generalFormConfig.AREA,
+  BUDGET_METHOD: generalFormConfig.BUDGET_METHOD,
 };

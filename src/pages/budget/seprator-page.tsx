@@ -83,7 +83,6 @@ function BudgetSepratorPage() {
         "loading"
       ) : (
         <>
-          {/* <SepratoeBudgetForm /> */}
           <DataTable
             heads={tableHeads}
             data={tableData}

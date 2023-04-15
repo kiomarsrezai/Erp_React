@@ -1,35 +1,38 @@
 import AdminLayout from "components/layout/admin-layout";
 import DataTable from "components/data/table/fixed-table";
+import TransferForm from "components/sections/forms/transfer-form";
 
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 
 function TransferPage() {
   const tableHeadGroups: TableHeadGroupShape = [
     {
-      title: "salam 1",
-      colspan: 2,
-    },
-    {
-      title: "salam 2",
-      colspan: 3,
+      title: <TransferForm />,
+      colspan: 7,
     },
   ];
 
   const tableHeads: TableHeadShape = [
     {
-      title: "salam 3",
+      title: "ردیف",
     },
     {
-      title: "salam 4",
+      title: "کد",
     },
     {
-      title: "salam 5",
+      title: "شرح",
     },
     {
-      title: "salam 6",
+      title: "مصوب",
     },
     {
-      title: "salam 7",
+      title: "کد حسابداری",
+    },
+    {
+      title: "شرح حسابداری",
+    },
+    {
+      title: "عملیات",
     },
   ];
 
