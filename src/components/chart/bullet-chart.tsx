@@ -155,7 +155,22 @@ const CustomBarWithTarget = (props: any) => {
   );
 };
 
-function BulletChart() {
+interface ChartDataShape {
+  AreaName: string;
+  Mosavab: number;
+  Expense: number;
+  MosavabDaily: number;
+}
+
+interface BulletChartProps {
+  data: ChartDataShape[];
+  lineLabel: string;
+  chartLabel: string;
+}
+
+function BulletChart(props: BulletChartProps) {
+  const { data } = props;
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <ComposedChart data={data}>
@@ -181,7 +196,12 @@ function BulletChart() {
           fill={grey[400]}
         />
 
-        <Line type="monotone" dataKey="Expense" stroke={blue[800]} />
+        <Line
+          type="monotone"
+          dataKey="Expense"
+          stroke={blue[800]}
+          strokeWidth={2}
+        />
       </ComposedChart>
     </ResponsiveContainer>
   );
