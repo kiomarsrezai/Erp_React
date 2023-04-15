@@ -1,8 +1,5 @@
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
@@ -12,6 +9,7 @@ import { useState } from "react";
 import { revenueChartFormConfig } from "config/formdata/revenue-chart-config";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { revenueChartApi } from "api/report/chart-api";
+import CheckboxLabeled from "components/ui/inputs/checkbox-labeled";
 
 function RevenueChartDataForm() {
   const [formData, setFormData] = useState({
@@ -140,29 +138,35 @@ function RevenueChartDataForm() {
           </Grid>
           <Grid lg={4}>
             <Stack direction="row" flexWrap="wrap" gap={1}>
-              <FormControlLabel
+              {/* <FormControlLabel
                 control={<Checkbox defaultChecked />}
                 label={
                   <Typography variant="body2">مرا به خاطر بسپار</Typography>
                 }
+              /> */}
+              <CheckboxLabeled
+                label="درامد"
+                name={revenueChartFormConfig.REVENUE}
+                value={formData[revenueChartFormConfig.REVENUE]}
+                setter={setFormData}
               />
-              <FormControlLabel
-                control={<Checkbox defaultChecked />}
-                label={
-                  <Typography variant="body2">مرا به خاطر بسپار</Typography>
-                }
+              <CheckboxLabeled
+                label="فروش اموال"
+                name={revenueChartFormConfig.SALE}
+                value={formData[revenueChartFormConfig.SALE]}
+                setter={setFormData}
               />
-              <FormControlLabel
-                control={<Checkbox defaultChecked />}
-                label={
-                  <Typography variant="body2">مرا به خاطر بسپار</Typography>
-                }
+              <CheckboxLabeled
+                label="وام و اوراق"
+                name={revenueChartFormConfig.LAON}
+                value={formData[revenueChartFormConfig.LAON]}
+                setter={setFormData}
               />
-              <FormControlLabel
-                control={<Checkbox defaultChecked />}
-                label={
-                  <Typography variant="body2">مرا به خاطر بسپار</Typography>
-                }
+              <CheckboxLabeled
+                label="نیابتی"
+                name={revenueChartFormConfig.NIABATI}
+                value={formData[revenueChartFormConfig.NIABATI]}
+                setter={setFormData}
               />
 
               <Button variant="contained" type="submit">
