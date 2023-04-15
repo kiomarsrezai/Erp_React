@@ -4,11 +4,13 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { sepratorBudgetFormConfig } from "config/formdata/budget/seprator";
 import { useState } from "react";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
+import { areaGeneralApi } from "api/general/area-general-api";
+import { yearGeneralApi } from "api/general/year-general-api";
 
 function SepratoeBudgetForm() {
   const [formData, setFormData] = useState({
@@ -16,17 +18,6 @@ function SepratoeBudgetForm() {
     [sepratorBudgetFormConfig.AREA]: 1,
     [sepratorBudgetFormConfig.BUDGET_METHOD]: 1,
   });
-
-  const yearItems: FlotingLabelTextfieldItemsShape = [
-    {
-      label: "1401",
-      value: 32,
-    },
-    {
-      label: "1402",
-      value: 33,
-    },
-  ];
 
   const budgetMethodItems: FlotingLabelTextfieldItemsShape = [
     {
@@ -51,17 +42,45 @@ function SepratoeBudgetForm() {
     },
   ];
 
-  const areaItems: FlotingLabelTextfieldItemsShape = [
-    {
-      label: "منطقه 01",
-      value: 1,
+  // year items
+  const yearQuery = useQuery(["general-year"], yearGeneralApi.getData, {
+    onSuccess: (data) => {
+      setFormData((prevState) => ({
+        ...prevState,
+        [sepratorBudgetFormConfig.AREA]: data.data[0].id,
+      }));
     },
-    {
-      label: "منطقه 02",
-      value: 2,
-    },
-  ];
+  });
 
+  const yearItems: FlotingLabelTextfieldItemsShape = yearQuery.data
+    ? yearQuery.data.data.map((item) => ({
+        label: item.yearName,
+        value: item.id,
+      }))
+    : [];
+
+  // area items
+  const areaQuery = useQuery(
+    ["general-area"],
+    () => areaGeneralApi.getData(2),
+    {
+      onSuccess: (data) => {
+        setFormData((prevState) => ({
+          ...prevState,
+          [sepratorBudgetFormConfig.AREA]: data.data[0].id,
+        }));
+      },
+    }
+  );
+
+  const areaItems: FlotingLabelTextfieldItemsShape = areaQuery.data
+    ? areaQuery.data.data.map((item) => ({
+        label: item.areaName,
+        value: item.id,
+      }))
+    : [];
+
+  // submit
   const queryClient = useQueryClient();
 
   const submitMutation = useMutation(sepratorBudgetApi.getData, {

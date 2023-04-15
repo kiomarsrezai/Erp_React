@@ -11,7 +11,13 @@ import "assets/styles/font.css";
 import "assets/styles/global.css";
 
 // react query client
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false, // default: true
+    },
+  },
+});
 
 // material ui theme
 const theme = createTheme({

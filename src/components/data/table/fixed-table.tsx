@@ -49,6 +49,7 @@ function DataTable(props: DataTableProps) {
               borderColor: grey[borderColor],
               bgcolor: grey[200],
               top: headGroups ? 57 : 0,
+              whiteSpace: "nowrap",
             }}
             align="center"
           >
