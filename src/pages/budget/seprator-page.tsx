@@ -6,31 +6,34 @@ import { TableHeadShape } from "types/table-type";
 import { useQuery } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
+import { sumFieldsInSingleItemData } from "helper/calculate-utils";
+import { ReactNode } from "react";
+import { GetSingleSepratorItemShape } from "types/data/budget/seprator-type";
 
-interface SepratorSingleItemDataShape {
-  description: string;
-  code: string;
-  mosavab: number;
-  creditAmount: number;
-  expense: number;
-  percentBud: number;
+interface TableDataItemShape {
+  id: ReactNode;
+  code: ReactNode;
+  description: ReactNode;
+  mosavab: ReactNode;
+  creditAmount: ReactNode;
+  expense: ReactNode;
+  percentBud: ReactNode;
+  actions: ReactNode;
 }
 
 const formatTableData = (
-  unFormatData: SepratorSingleItemDataShape[]
-): SepratorSingleItemDataShape[] => {
-  const formatedData: SepratorSingleItemDataShape[] = unFormatData.map(
-    (item, i) => ({
-      id: i + 1,
-      code: item.code,
-      description: item.description,
-      mosavab: item.mosavab,
-      creditAmount: item.creditAmount,
-      expense: item.expense,
-      percentBud: item.percentBud,
-      actions: "",
-    })
-  );
+  unFormatData: GetSingleSepratorItemShape[]
+): TableDataItemShape[] => {
+  const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
+    id: i + 1,
+    code: item.code,
+    description: item.description,
+    mosavab: item.mosavab,
+    creditAmount: item.creditAmount,
+    expense: item.expense,
+    percentBud: item.percentBud,
+    actions: "",
+  }));
 
   return formatedData;
 };
@@ -40,27 +43,43 @@ function BudgetSepratorPage() {
   const tableHeads: TableHeadShape = [
     {
       title: "ردیف",
+      name: "id",
     },
     {
       title: "کد",
+      name: "code",
     },
     {
       title: "شرح",
+      name: "description",
+      align: "left",
     },
     {
       title: "مصوب",
+      name: "mosavab",
+      split: true,
+      align: "left",
     },
     {
       title: "ت اعتبار",
+      name: "creditAmount",
+      split: true,
+      align: "left",
     },
     {
       title: "عملکرد",
+      name: "expense",
+      split: true,
+      align: "left",
     },
     {
       title: "% جذب",
+      name: "percentBud",
+      percent: true,
     },
     {
       title: "عملیات",
+      name: "actions",
     },
   ];
 
@@ -84,12 +103,28 @@ function BudgetSepratorPage() {
     ? formatTableData(sepratorQuery.data?.data)
     : [];
 
+  // footer
+  const tableFooter: TableDataItemShape = {
+    id: "ردیف",
+    code: "",
+    description: "",
+    mosavab: sumFieldsInSingleItemData(sepratorQuery.data?.data, "mosavab"),
+    creditAmount: sumFieldsInSingleItemData(
+      sepratorQuery.data?.data,
+      "creditAmount"
+    ),
+    expense: sumFieldsInSingleItemData(sepratorQuery.data?.data, "expense"),
+    percentBud: "",
+    actions: "",
+  };
+
   return (
     <AdminLayout>
       <FixedTable
         heads={tableHeads}
         data={tableData}
         headGroups={tableHeadGroup}
+        footer={tableFooter}
       />
     </AdminLayout>
   );

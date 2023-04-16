@@ -12,12 +12,9 @@ export type TableHeadGroupShape = TableSingleHeadGroupShape[];
 export interface TableSingleHeadShape {
   title: string;
   align?: "center" | "right" | "left";
+  name: string;
+  split?: boolean;
+  percent?: boolean;
 }
 
 export type TableHeadShape = TableSingleHeadShape[];
-
-// foot
-// export interface TableSingleFootShape {
-//   title: string;
-// }
-// export type TableFootShape = TableSingleFootShape[];

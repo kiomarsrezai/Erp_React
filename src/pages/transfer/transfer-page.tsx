@@ -48,27 +48,35 @@ function TransferPage() {
   const tableHeads: TableHeadShape = [
     {
       title: "ردیف",
+      name: "id",
     },
     {
       title: "کد",
+      name: "code",
     },
     {
       title: "شرح",
       align: "left",
+      name: "description",
     },
     {
       title: "مصوب",
       align: "left",
+      name: "mosavab",
+      split: true,
     },
     {
       title: "کد حسابداری",
+      name: "codeAcc",
     },
     {
       title: "شرح حسابداری",
       align: "left",
+      name: "titleAcc",
     },
     {
       title: "عملیات",
+      name: "actions",
     },
   ];
 
@@ -88,12 +96,12 @@ function TransferPage() {
   // footer
   const tableFooter: TableDataItemShape = {
     id: "ردیف",
-    code: "-",
-    description: "-",
+    code: "",
+    description: "",
     mosavab: sumFieldsInSingleItemData(transferQuery.data?.data, "mosavab"),
-    codeAcc: "-",
-    titleAcc: "-",
-    actions: "-",
+    codeAcc: "",
+    titleAcc: "",
+    actions: "",
   };
 
   return (

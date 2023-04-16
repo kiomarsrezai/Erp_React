@@ -10,6 +10,27 @@ import grey from "@mui/material/colors/grey";
 
 import { useEffect, useRef, useState } from "react";
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
+import { numberWithCommas } from "helper/calculate-utils";
+
+const borderColor = 400;
+
+const formatDataCell = (dataCell: number | string, headDataCell: any) => {
+  if (typeof dataCell === "number") {
+    if (headDataCell?.split) {
+      dataCell = numberWithCommas(dataCell);
+    }
+
+    if (headDataCell?.percent) {
+      dataCell = dataCell + "%";
+    }
+  }
+
+  if (typeof dataCell === "string") {
+    return dataCell || "-";
+  }
+
+  return dataCell;
+};
 
 interface FixedTableProps {
   headGroups?: TableHeadGroupShape;
@@ -17,8 +38,6 @@ interface FixedTableProps {
   data: any;
   footer?: any;
 }
-
-const borderColor = 400;
 
 function FixedTable(props: FixedTableProps) {
   const { heads, headGroups, data, footer } = props;
@@ -74,36 +93,47 @@ function FixedTable(props: FixedTableProps) {
 
   // data
   const getRenderDataCells = (row: any) => {
-    return Object.keys(row).map((cell: string, i: number) => (
-      <TableCell align="center" key={i}>
-        {row[cell] === "" ? "-" : row[cell]}
-      </TableCell>
-    ));
+    return heads.map((item, i) => {
+      const name = item.name;
+      return (
+        <TableCell
+          align={item.align || "center"}
+          key={i}
+          dir={typeof row[name] === "number" ? "ltr" : "rtl"}
+        >
+          {formatDataCell(row[name], item)}
+        </TableCell>
+      );
+    });
   };
 
   // footer
   const tableFooterContent = footer && !!data.length && (
-    <TableRow>
-      {Object.keys(footer).map((cell: any, i: number) => (
-        <TableCell
-          key={i}
-          sx={{
-            borderRight: 1,
-            borderTop: 1,
-            borderColor: grey[borderColor],
-            bgcolor: grey[200],
-            top: headGroups ? headGroupHright : 0,
-            whiteSpace: "nowrap",
-            "&:last-child": {
-              borderRight: 0,
-            },
-          }}
-          align="center"
-        >
-          {footer[cell]}
-        </TableCell>
-      ))}
-    </TableRow>
+    <>
+      {heads.map((item, i) => {
+        const name = item.name;
+        return (
+          <TableCell
+            align={item.align || "center"}
+            sx={{
+              borderRight: 1,
+              borderTop: 1,
+              borderColor: grey[borderColor],
+              bgcolor: grey[200],
+              top: headGroups ? headGroupHright : 0,
+              whiteSpace: "nowrap",
+              "&:last-child": {
+                borderRight: 0,
+              },
+            }}
+            dir={typeof footer[name] === "number" ? "ltr" : "rtl"}
+            key={i}
+          >
+            {formatDataCell(footer[name], item)}
+          </TableCell>
+        );
+      })}
+    </>
   );
 
   return (
