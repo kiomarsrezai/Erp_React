@@ -9,6 +9,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { useState, FormEvent } from "react";
 import { transferApi } from "api/transfer/transfer-api";
+import { reactQueryKeys } from "config/react-query-keys-config";
 
 function TransferForm() {
   const [formData, setFormData] = useState({
@@ -21,7 +22,7 @@ function TransferForm() {
   const queryClient = useQueryClient();
   const submitMutation = useMutation(transferApi.getData, {
     onSuccess: (data) => {
-      queryClient.setQueryData(["transfer"], data);
+      queryClient.setQueryData(reactQueryKeys.transfer.getData, data);
     },
   });
 

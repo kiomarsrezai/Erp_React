@@ -1,10 +1,11 @@
 import AdminLayout from "components/layout/admin-layout";
 import DataTable from "components/data/table/fixed-table";
+import SepratoeBudgetForm from "components/sections/forms/budget/seprator-budget-form";
 
 import { TableHeadShape } from "types/table-type";
 import { useQuery } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
-import SepratoeBudgetForm from "components/sections/forms/budget/seprator-budget-form";
+import { reactQueryKeys } from "config/react-query-keys-config";
 
 interface SepratorSingleItemDataShape {
   description: string;
@@ -71,7 +72,7 @@ function BudgetSepratorPage() {
   ];
 
   // data
-  const sepratorQuery = useQuery(["budget-seprator"], () =>
+  const sepratorQuery = useQuery(reactQueryKeys.budget.seprator.getData, () =>
     sepratorBudgetApi.getData({})
   );
 

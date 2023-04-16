@@ -9,6 +9,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { useState, FormEvent } from "react";
+import { reactQueryKeys } from "config/react-query-keys-config";
 
 function SepratoeBudgetForm() {
   const [formData, setFormData] = useState({
@@ -21,7 +22,7 @@ function SepratoeBudgetForm() {
   const queryClient = useQueryClient();
   const submitMutation = useMutation(sepratorBudgetApi.getData, {
     onSuccess: (data) => {
-      queryClient.setQueryData(["budget-seprator"], data);
+      queryClient.setQueryData(reactQueryKeys.budget.seprator.getData, data);
     },
   });
 

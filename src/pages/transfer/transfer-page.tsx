@@ -6,6 +6,7 @@ import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { useQuery } from "@tanstack/react-query";
 import { transferApi } from "api/transfer/transfer-api";
 import { GetSingleTransferItemShape } from "types/data/transfer/transfer-type";
+import { reactQueryKeys } from "config/react-query-keys-config";
 
 interface TableDataItemShape {
   id: number;
@@ -67,7 +68,9 @@ function TransferPage() {
   ];
 
   // data
-  const transferQuery = useQuery(["transfer"], () => transferApi.getData({}));
+  const transferQuery = useQuery(reactQueryKeys.transfer.getData, () =>
+    transferApi.getData({})
+  );
 
   const tableData = transferQuery.data
     ? formatTableData(transferQuery.data?.data)
