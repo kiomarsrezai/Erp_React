@@ -1,5 +1,5 @@
 import AdminLayout from "components/layout/admin-layout";
-import DataTable from "components/data/table/fixed-table";
+import FixedTable from "components/data/table/fixed-table";
 
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 
@@ -98,7 +98,7 @@ function ReportProctorAbstructPage() {
 
   return (
     <AdminLayout>
-      <DataTable heads={tableHeads} headGroups={tableHeadGroups} data={data} />
+      <FixedTable heads={tableHeads} headGroups={tableHeadGroups} data={data} />
     </AdminLayout>
   );
 }

@@ -8,9 +8,16 @@ export interface TableSingleHeadGroupShape {
 
 export type TableHeadGroupShape = TableSingleHeadGroupShape[];
 
-// table
+// head
 export interface TableSingleHeadShape {
   title: string;
+  align?: "center" | "right" | "left";
 }
 
 export type TableHeadShape = TableSingleHeadShape[];
+
+// foot
+// export interface TableSingleFootShape {
+//   title: string;
+// }
+// export type TableFootShape = TableSingleFootShape[];

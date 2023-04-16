@@ -1,5 +1,5 @@
 import AdminLayout from "components/layout/admin-layout";
-import DataTable from "components/data/table/fixed-table";
+import FixedTable from "components/data/table/fixed-table";
 import SepratoeBudgetForm from "components/sections/forms/budget/seprator-budget-form";
 
 import { TableHeadShape } from "types/table-type";
@@ -86,7 +86,7 @@ function BudgetSepratorPage() {
 
   return (
     <AdminLayout>
-      <DataTable
+      <FixedTable
         heads={tableHeads}
         data={tableData}
         headGroups={tableHeadGroup}

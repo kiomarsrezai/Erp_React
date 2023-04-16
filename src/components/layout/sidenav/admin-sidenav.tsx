@@ -8,7 +8,7 @@ import useLayoutStore from "hooks/store/layout-store";
 function AdminSidenav() {
   const normalize = useLayoutStore((state) => state.normlize);
 
-  const drawerWidth = normalize ? 70 : 300;
+  const drawerWidth = normalize ? 74 : 300;
 
   return (
     <Drawer
