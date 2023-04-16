@@ -8,10 +8,11 @@ interface CheckboxLabeledProps {
   label: string;
   name: string;
   value: any;
+  disabled: boolean;
   setter: (data: any) => void;
 }
 function CheckboxLabeled(props: CheckboxLabeledProps) {
-  const { label, name, value, setter } = props;
+  const { label, name, value, disabled, setter } = props;
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const name = event.target.name;
@@ -21,7 +22,14 @@ function CheckboxLabeled(props: CheckboxLabeledProps) {
   };
   return (
     <FormControlLabel
-      control={<Checkbox name={name} checked={value} onChange={handleChange} />}
+      control={
+        <Checkbox
+          name={name}
+          checked={value}
+          onChange={handleChange}
+          disabled={disabled}
+        />
+      }
       label={<Typography variant="body2">{label}</Typography>}
     />
   );

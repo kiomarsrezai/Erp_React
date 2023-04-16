@@ -1,8 +1,10 @@
+import { generalFieldsConfig } from "./general-fields-config";
+
 export const revenueChartFormConfig = {
-  YEAR: "yearId",
+  YEAR: generalFieldsConfig.YEAR,
   CENTER: "centerId",
   ORGAN: "structureId",
-  BUDGET_METHOD: "budgetprocessId",
+  BUDGET_METHOD: generalFieldsConfig.BUDGET_METHOD,
   REVENUE: "revenue",
   SALE: "sale",
   LAON: "loan",

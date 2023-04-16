@@ -67,7 +67,7 @@ function BulletChart(props: BulletChartProps) {
       <ComposedChart data={data}>
         <CartesianGrid stroke={grey[300]} strokeDasharray="3 3" />
         <XAxis dataKey="AreaName" />
-        <YAxis />
+        <YAxis width={110} />
         <Tooltip
           formatter={(value, name) => [
             value,
@@ -81,8 +81,7 @@ function BulletChart(props: BulletChartProps) {
         />
         <Bar
           dataKey="Mosavab"
-          stackId="a"
-          width={100}
+          barSize={40}
           shape={<CustomBarWithTarget />}
           fill={grey[400]}
         />

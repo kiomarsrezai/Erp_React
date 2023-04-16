@@ -1,10 +1,14 @@
 import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
 import AdminLayout from "components/layout/admin-layout";
 import BulletChart from "components/data/chart/bullet-chart";
-import RevenueChartDataForm from "components/sections/forms/report/chart/revenue-chart-data-form";
+import RevenueChartForm from "components/sections/forms/report/chart/revenue-chart-form";
 
 import { revenueChartApi } from "api/report/chart-api";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useRef, useState } from "react";
+import { reactQueryKeys } from "config/react-query-keys-config";
+import useLayoutStore from "hooks/store/layout-store";
 
 interface ChartDataShape {
   Mosavab: number;
@@ -32,7 +36,7 @@ const formatChatData = (unFormatData: GetChartShape): ChartDataShape[] => {
 };
 
 function ReportRevenueChartPage() {
-  const revenueChart = useQuery(["revenuse-chart"], () =>
+  const revenueChart = useQuery(reactQueryKeys.report.chart.revenue, () =>
     revenueChartApi.getChart({})
   );
 
@@ -40,21 +44,43 @@ function ReportRevenueChartPage() {
     ? formatChatData(revenueChart.data.data)
     : [];
 
+  // height
+  const normalize = useLayoutStore((state) => state.normlize);
+  const [formHeight, setFormHeight] = useState(0);
+  const boxElement = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    setFormHeight(boxElement.current?.clientHeight || 0);
+  }, [normalize]);
+
   return (
     <AdminLayout>
-      <RevenueChartDataForm />
       <Paper
         sx={{
           width: "100%",
-          // direction: "rtl",
           overflow: "hidden",
           height: "calc(100vh - 64px)",
         }}
       >
-        {revenueChart.isLoading && "loading"}
-        {revenueChart.data && (
-          <BulletChart lineLabel="عملکرد" chartLabel="مصوب" data={chartData} />
-        )}
+        <Box ref={boxElement}>
+          <RevenueChartForm />
+        </Box>
+        <Box
+          sx={{
+            height: `calc(100% - ${formHeight}px)`,
+            width: "calc(100% - 100px)",
+            direction: "rtl",
+            margin: "auto",
+          }}
+        >
+          {revenueChart.isLoading && "loading"}
+          {revenueChart.data && (
+            <BulletChart
+              lineLabel="عملکرد"
+              chartLabel="مصوب"
+              data={chartData}
+            />
+          )}
+        </Box>
       </Paper>
     </AdminLayout>
   );

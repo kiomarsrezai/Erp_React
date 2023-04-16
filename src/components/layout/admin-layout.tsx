@@ -13,7 +13,12 @@ function AdminLayout(props: AdminLayoutProps) {
   return (
     <Box sx={{ display: "flex" }}>
       <AdminSidenav />
-      <Box sx={{ width: 1 }}>
+      <Box
+        sx={{
+          width: "100%",
+          overflow: "hidden",
+        }}
+      >
         <MainHeader />
         {children}
       </Box>
