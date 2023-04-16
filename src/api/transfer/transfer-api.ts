@@ -4,6 +4,8 @@ import { BaseApi } from "api/base-api";
 import { GetSingleTransferItemShape } from "types/data/transfer/transfer-type";
 import { BaseApiResponseShape } from "types/base-type";
 import {
+  TRANSFER_DELETE_CODE_ACC_URL,
+  TRANSFER_INSERT_CODE_ACC_URL,
   TRANSFER_URL,
   transferConfig,
 } from "config/features/transfer/transfer-config";
@@ -21,6 +23,20 @@ export const transferApi = new (class extends BaseApi {
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleTransferItemShape[]>
     >(url);
+    return response.data;
+  };
+
+  insertCodeAcc = async (id: number) => {
+    const url = TRANSFER_INSERT_CODE_ACC_URL + "?" + id;
+
+    const response = await clientAxios.get<BaseApiResponseShape<boolean>>(url);
+    return response.data;
+  };
+
+  deleteCodeAcc = async (id: number) => {
+    const url = TRANSFER_DELETE_CODE_ACC_URL + "?" + id;
+
+    const response = await clientAxios.get<BaseApiResponseShape<boolean>>(url);
     return response.data;
   };
 })();
