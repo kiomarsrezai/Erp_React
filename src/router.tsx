@@ -1,7 +1,7 @@
 import LoginPage from "pages/auth/login-page";
 import ReportRevenueChartPage from "pages/report/chart/revenue-chart-page";
 import ReportProctorAbstructPage from "pages/report/proctor/abstract-page";
-import TransferPage from "pages/transfer";
+import TransferPage from "pages/transfer/transfer-page";
 import BudgetSepratorPage from "pages/budget/seprator-page";
 import BudgetProposalPage from "pages/budget/proposal-page";
 

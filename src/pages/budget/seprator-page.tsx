@@ -35,10 +35,7 @@ const formatTableData = (
 };
 
 function BudgetSepratorPage() {
-  const sepratorQuery = useQuery(["budget-seprator"], () =>
-    sepratorBudgetApi.getData({})
-  );
-
+  // heads
   const tableHeads: TableHeadShape = [
     {
       title: "ردیف",
@@ -72,6 +69,11 @@ function BudgetSepratorPage() {
       colspan: 8,
     },
   ];
+
+  // data
+  const sepratorQuery = useQuery(["budget-seprator"], () =>
+    sepratorBudgetApi.getData({})
+  );
 
   const tableData = sepratorQuery.data
     ? formatTableData(sepratorQuery.data?.data)

@@ -1,33 +1,27 @@
 import clientAxios from "config/axios-config";
 
 import { BaseApi } from "api/base-api";
-import { sepratorBudgetFormConfig } from "config/formdata/budget/seprator";
-
-interface BaseApiResponseShape<T> {
-  data: T;
-}
-
-interface GetSingleTransferItemShape {
-  description: string;
-  code: string;
-  mosavab: number;
-  codeAcc: number;
-  titleAcc: string;
-}
+import { GetSingleTransferItemShape } from "types/data/transfer/transfer-type";
+import { BaseApiResponseShape } from "types/base-type";
+import {
+  TRANSFER_URL,
+  transferFormConfig,
+} from "config/formdata/transfer/transfer";
 
 export const transferApi = new (class extends BaseApi {
   getData = async (formdata: any) => {
-    const url = "VasetApi/VasetGetAll";
     const filterData = {
-      [sepratorBudgetFormConfig.YEAR]: formdata[sepratorBudgetFormConfig.YEAR],
-      [sepratorBudgetFormConfig.AREA]: formdata[sepratorBudgetFormConfig.AREA],
-      [sepratorBudgetFormConfig.BUDGET_METHOD]:
-        formdata[sepratorBudgetFormConfig.BUDGET_METHOD],
+      [transferFormConfig.YEAR]: formdata[transferFormConfig.YEAR],
+      [transferFormConfig.AREA]: formdata[transferFormConfig.AREA],
+      [transferFormConfig.BUDGET_METHOD]:
+        formdata[transferFormConfig.BUDGET_METHOD],
     };
+
+    const url = TRANSFER_URL + this.joinFilterData(filterData);
 
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleTransferItemShape[]>
-    >(url + this.joinFilterData(filterData));
+    >(url);
     return response.data;
   };
 })();

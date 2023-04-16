@@ -1,9 +1,9 @@
 import { generalFormConfig } from "../general-form";
 
-export const sepratorBudgetFormConfig = {
+export const transferFormConfig = {
   YEAR: generalFormConfig.YEAR,
   AREA: generalFormConfig.AREA,
   BUDGET_METHOD: generalFormConfig.BUDGET_METHOD,
 };
 
-export const SEPRATOR_BUDGET_URL = "BudSepApi/FetchSeprator";
+export const TRANSFER_URL = "VasetApi/VasetGetAll";
