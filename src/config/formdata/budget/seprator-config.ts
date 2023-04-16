@@ -1,4 +1,4 @@
-import { generalFormConfig } from "../general-form";
+import { generalFormConfig } from "../general-form-config";
 
 export const sepratorBudgetFormConfig = {
   YEAR: generalFormConfig.YEAR,

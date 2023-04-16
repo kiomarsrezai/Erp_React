@@ -6,7 +6,7 @@ import { GetSingleSepratorItemShape } from "types/data/budget/seprator-type";
 import {
   SEPRATOR_BUDGET_URL,
   sepratorBudgetFormConfig,
-} from "config/formdata/budget/seprator";
+} from "config/formdata/budget/seprator-config";
 
 export const sepratorBudgetApi = new (class extends BaseApi {
   getData = async (formdata: any) => {

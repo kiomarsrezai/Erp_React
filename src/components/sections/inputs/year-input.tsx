@@ -3,7 +3,7 @@ import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
 import { useQuery } from "@tanstack/react-query";
 import { yearGeneralApi } from "api/general/year-general-api";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
-import { generalFormConfig } from "config/formdata/general-form";
+import { generalFormConfig } from "config/formdata/general-form-config";
 
 interface YearInputProps {
   setter: (prevData: any) => void;

@@ -5,29 +5,30 @@ import TransferForm from "components/sections/forms/transfer-form";
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { useQuery } from "@tanstack/react-query";
 import { transferApi } from "api/transfer/transfer-api";
+import { GetSingleTransferItemShape } from "types/data/transfer/transfer-type";
 
-interface GetSingleTransferItemShape {
-  description: string;
+interface TableDataItemShape {
+  id: number;
   code: string;
+  description: string;
   mosavab: number;
   codeAcc: number;
   titleAcc: string;
+  actions: string;
 }
 
 const formatTableData = (
   unFormatData: GetSingleTransferItemShape[]
-): GetSingleTransferItemShape[] => {
-  const formatedData: GetSingleTransferItemShape[] = unFormatData.map(
-    (item, i) => ({
-      id: i + 1,
-      code: item.code,
-      description: item.description,
-      mosavab: item.mosavab,
-      codeAcc: item.codeAcc,
-      titleAcc: item.titleAcc,
-      actions: "",
-    })
-  );
+): TableDataItemShape[] => {
+  const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
+    id: i + 1,
+    code: item.code,
+    description: item.description,
+    mosavab: item.mosavab,
+    codeAcc: item.codeAcc,
+    titleAcc: item.titleAcc,
+    actions: "",
+  }));
 
   return formatedData;
 };

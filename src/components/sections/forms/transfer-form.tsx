@@ -6,7 +6,7 @@ import AreaInput from "components/sections/inputs/area-input";
 import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { sepratorBudgetFormConfig } from "config/formdata/budget/seprator";
+import { sepratorBudgetFormConfig } from "config/formdata/budget/seprator-config";
 import { useState, FormEvent } from "react";
 import { transferApi } from "api/transfer/transfer-api";
 

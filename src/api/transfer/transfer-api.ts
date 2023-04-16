@@ -6,7 +6,7 @@ import { BaseApiResponseShape } from "types/base-type";
 import {
   TRANSFER_URL,
   transferFormConfig,
-} from "config/formdata/transfer/transfer";
+} from "config/formdata/transfer/transfer-config";
 
 export const transferApi = new (class extends BaseApi {
   getData = async (formdata: any) => {

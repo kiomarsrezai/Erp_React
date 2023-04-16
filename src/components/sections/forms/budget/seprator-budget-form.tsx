@@ -7,7 +7,7 @@ import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
-import { sepratorBudgetFormConfig } from "config/formdata/budget/seprator";
+import { sepratorBudgetFormConfig } from "config/formdata/budget/seprator-config";
 import { useState, FormEvent } from "react";
 
 function SepratoeBudgetForm() {

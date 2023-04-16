@@ -1,5 +1,5 @@
 import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
-import { generalFormConfig } from "config/formdata/general-form";
+import { generalFormConfig } from "config/formdata/general-form-config";
 
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 
