@@ -1,15 +1,14 @@
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import YearInput from "components/sections/inputs/year-input";
+import AreaInput from "components/sections/inputs/area-input";
+import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { sepratorBudgetFormConfig } from "config/formdata/budget/seprator";
 import { useState, FormEvent } from "react";
-
-import YearInput from "components/sections/inputs/year-input";
-import AreaInput from "components/sections/inputs/area-input";
-import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 
 function SepratoeBudgetForm() {
   const [formData, setFormData] = useState({
