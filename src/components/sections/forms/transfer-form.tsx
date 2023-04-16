@@ -7,7 +7,7 @@ import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import { transferApi } from "api/transfer/transfer-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 
@@ -30,6 +30,13 @@ function TransferForm() {
     event.preventDefault();
     submitMutation.mutate(formData);
   };
+
+  // change state
+  useEffect(() => {
+    queryClient?.setQueryData(reactQueryKeys.transfer.getData, {
+      data: [],
+    });
+  }, [formData, queryClient]);
 
   return (
     <Box component="form" onSubmit={handleFormSubmit}>

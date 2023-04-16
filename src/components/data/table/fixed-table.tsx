@@ -42,6 +42,8 @@ interface FixedTableProps {
 function FixedTable(props: FixedTableProps) {
   const { heads, headGroups, data, footer } = props;
 
+  const visibleHeads = heads.filter((item) => !item.hidden);
+
   // head
   const [headGroupHright, setHeadGroupHright] = useState(0);
   const HeadGroup = useRef<HTMLTableRowElement>(null);
@@ -69,31 +71,34 @@ function FixedTable(props: FixedTableProps) {
         </TableRow>
       )}
       <TableRow>
-        {heads.map((head) => (
-          <TableCell
-            key={head.title}
-            sx={{
-              borderRight: 1,
-              borderColor: grey[borderColor],
-              bgcolor: grey[200],
-              top: headGroups ? headGroupHright : 0,
-              whiteSpace: "nowrap",
-              "&:last-child": {
-                borderRight: 0,
-              },
-            }}
-            align={head.align || "center"}
-          >
-            {head.title}
-          </TableCell>
-        ))}
+        {visibleHeads.map(
+          (head) =>
+            !head.hidden && (
+              <TableCell
+                key={head.title}
+                sx={{
+                  borderRight: 1,
+                  borderColor: grey[borderColor],
+                  bgcolor: grey[200],
+                  top: headGroups ? headGroupHright : 0,
+                  whiteSpace: "nowrap",
+                  "&:last-child": {
+                    borderRight: 0,
+                  },
+                }}
+                align={head.align || "center"}
+              >
+                {head.title}
+              </TableCell>
+            )
+        )}
       </TableRow>
     </>
   );
 
   // data
   const getRenderDataCells = (row: any) => {
-    return heads.map((item, i) => {
+    return visibleHeads.map((item, i) => {
       const name = item.name;
       return (
         <TableCell
@@ -110,7 +115,7 @@ function FixedTable(props: FixedTableProps) {
   // footer
   const tableFooterContent = footer && !!data.length && (
     <>
-      {heads.map((item, i) => {
+      {visibleHeads.map((item, i) => {
         const name = item.name;
         return (
           <TableCell

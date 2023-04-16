@@ -1,6 +1,8 @@
 import AdminLayout from "components/layout/admin-layout";
 import FixedTable from "components/data/table/fixed-table";
 import SepratoeBudgetForm from "components/sections/forms/budget/seprator-budget-form";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
+import IconButton from "@mui/material/IconButton";
 
 import { TableHeadShape } from "types/table-type";
 import { useQuery } from "@tanstack/react-query";
@@ -9,6 +11,7 @@ import { reactQueryKeys } from "config/react-query-keys-config";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { ReactNode } from "react";
 import { GetSingleSepratorItemShape } from "types/data/budget/seprator-type";
+import useCommonFormFieldsSTore from "hooks/store/common-form-fields";
 
 interface TableDataItemShape {
   id: ReactNode;
@@ -21,25 +24,12 @@ interface TableDataItemShape {
   actions: ReactNode;
 }
 
-const formatTableData = (
-  unFormatData: GetSingleSepratorItemShape[]
-): TableDataItemShape[] => {
-  const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
-    id: i + 1,
-    code: item.code,
-    description: item.description,
-    mosavab: item.mosavab,
-    creditAmount: item.creditAmount,
-    expense: item.expense,
-    percentBud: item.percentBud,
-    actions: "",
-  }));
-
-  return formatedData;
-};
-
 function BudgetSepratorPage() {
   // heads
+  const methodTypeSpratorbudget = useCommonFormFieldsSTore(
+    (state) => state.methodTypeSpratorbudget
+  );
+
   const tableHeads: TableHeadShape = [
     {
       title: "ردیف",
@@ -65,6 +55,7 @@ function BudgetSepratorPage() {
       name: "creditAmount",
       split: true,
       align: "left",
+      hidden: methodTypeSpratorbudget === 1,
     },
     {
       title: "عملکرد",
@@ -91,6 +82,28 @@ function BudgetSepratorPage() {
   ];
 
   // data
+  const actionButtons = (
+    <IconButton color="primary" size="small">
+      <CreditCardIcon />
+    </IconButton>
+  );
+  const formatTableData = (
+    unFormatData: GetSingleSepratorItemShape[]
+  ): TableDataItemShape[] => {
+    const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
+      id: i + 1,
+      code: item.code,
+      description: item.description,
+      mosavab: item.mosavab,
+      creditAmount: item.creditAmount,
+      expense: item.expense,
+      percentBud: item.percentBud,
+      actions: actionButtons,
+    }));
+
+    return formatedData;
+  };
+
   const sepratorQuery = useQuery(
     reactQueryKeys.budget.seprator.getData,
     () => sepratorBudgetApi.getData({}),
@@ -105,7 +118,7 @@ function BudgetSepratorPage() {
 
   // footer
   const tableFooter: TableDataItemShape = {
-    id: "ردیف",
+    id: "جمع",
     code: "",
     description: "",
     mosavab: sumFieldsInSingleItemData(sepratorQuery.data?.data, "mosavab"),

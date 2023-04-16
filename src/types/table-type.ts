@@ -15,6 +15,7 @@ export interface TableSingleHeadShape {
   name: string;
   split?: boolean;
   percent?: boolean;
+  hidden?: boolean;
 }
 
 export type TableHeadShape = TableSingleHeadShape[];

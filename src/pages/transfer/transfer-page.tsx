@@ -1,6 +1,11 @@
 import AdminLayout from "components/layout/admin-layout";
 import FixedTable from "components/data/table/fixed-table";
 import TransferForm from "components/sections/forms/transfer-form";
+import IconButton from "@mui/material/IconButton";
+import Box from "@mui/material/Box";
+import BalanceIcon from "@mui/icons-material/Balance";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { useQuery } from "@tanstack/react-query";
@@ -19,22 +24,6 @@ interface TableDataItemShape {
   titleAcc: ReactNode;
   actions: ReactNode;
 }
-
-const formatTableData = (
-  unFormatData: GetSingleTransferItemShape[]
-): TableDataItemShape[] => {
-  const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
-    id: i + 1,
-    code: item.code,
-    description: item.description,
-    mosavab: item.mosavab,
-    codeAcc: item.codeAcc,
-    titleAcc: item.titleAcc,
-    actions: "",
-  }));
-
-  return formatedData;
-};
 
 function TransferPage() {
   // heads
@@ -81,6 +70,38 @@ function TransferPage() {
   ];
 
   // data
+  const actionButtons = (
+    <Box display="flex">
+      <IconButton color="primary" size="small">
+        <BalanceIcon />
+      </IconButton>
+
+      <IconButton color="success" size="small">
+        <AddIcon />
+      </IconButton>
+
+      <IconButton color="error" size="small">
+        <DeleteIcon />
+      </IconButton>
+    </Box>
+  );
+
+  const formatTableData = (
+    unFormatData: GetSingleTransferItemShape[]
+  ): TableDataItemShape[] => {
+    const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
+      id: i + 1,
+      code: item.code,
+      description: item.description,
+      mosavab: item.mosavab,
+      codeAcc: item.codeAcc,
+      titleAcc: item.titleAcc,
+      actions: actionButtons,
+    }));
+
+    return formatedData;
+  };
+
   const transferQuery = useQuery(
     reactQueryKeys.transfer.getData,
     () => transferApi.getData({}),
@@ -95,7 +116,7 @@ function TransferPage() {
 
   // footer
   const tableFooter: TableDataItemShape = {
-    id: "ردیف",
+    id: "جمع",
     code: "",
     description: "",
     mosavab: sumFieldsInSingleItemData(transferQuery.data?.data, "mosavab"),
