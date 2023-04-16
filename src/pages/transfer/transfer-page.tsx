@@ -68,8 +68,12 @@ function TransferPage() {
   ];
 
   // data
-  const transferQuery = useQuery(reactQueryKeys.transfer.getData, () =>
-    transferApi.getData({})
+  const transferQuery = useQuery(
+    reactQueryKeys.transfer.getData,
+    () => transferApi.getData({}),
+    {
+      enabled: false,
+    }
   );
 
   const tableData = transferQuery.data

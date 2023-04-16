@@ -72,8 +72,12 @@ function BudgetSepratorPage() {
   ];
 
   // data
-  const sepratorQuery = useQuery(reactQueryKeys.budget.seprator.getData, () =>
-    sepratorBudgetApi.getData({})
+  const sepratorQuery = useQuery(
+    reactQueryKeys.budget.seprator.getData,
+    () => sepratorBudgetApi.getData({}),
+    {
+      enabled: false,
+    }
   );
 
   const tableData = sepratorQuery.data
@@ -82,17 +86,11 @@ function BudgetSepratorPage() {
 
   return (
     <AdminLayout>
-      {sepratorQuery.isLoading ? (
-        "loading"
-      ) : (
-        <>
-          <DataTable
-            heads={tableHeads}
-            data={tableData}
-            headGroups={tableHeadGroup}
-          />
-        </>
-      )}
+      <DataTable
+        heads={tableHeads}
+        data={tableData}
+        headGroups={tableHeadGroup}
+      />
     </AdminLayout>
   );
 }
