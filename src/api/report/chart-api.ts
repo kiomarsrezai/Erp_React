@@ -1,6 +1,6 @@
 import clientAxios from "config/axios-config";
 
-import { revenueChartFormConfig } from "config/formdata/revenue-chart-config";
+import { revenueChartFormConfig } from "config/features/revenue-chart-config";
 import { BaseApi } from "api/base-api";
 
 interface BaseApiResponseShape<T> {

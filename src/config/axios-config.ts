@@ -1,9 +1,8 @@
 import axios from "axios";
+import { GLOBAL_CONFIG } from "./global-config";
 
 const clientAxios = axios.create({
-  baseURL: "https://info.ahvaz.ir/api/v1/",
-  //   timeout: 1000,
-  //   headers: { "X-Custom-Header": "foobar" },
+  baseURL: GLOBAL_CONFIG.BASE_API_URL,
 });
 
 export default clientAxios;

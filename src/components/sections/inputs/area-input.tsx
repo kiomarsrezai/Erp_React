@@ -3,7 +3,7 @@ import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
 import { useQuery } from "@tanstack/react-query";
 import { areaGeneralApi } from "api/general/area-general-api";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
-import { generalFormConfig } from "config/formdata/general-form-config";
+import { generalFieldsConfig } from "config/features/general-fields-config";
 
 interface AreaInputProps {
   setter: (prevData: any) => void;
@@ -20,7 +20,7 @@ function AreaInput(props: AreaInputProps) {
       onSuccess: (data) => {
         setter((prevState: any) => ({
           ...prevState,
-          [generalFormConfig.AREA]: data.data[0].id,
+          [generalFieldsConfig.AREA]: data.data[0].id,
         }));
       },
     }
@@ -36,7 +36,7 @@ function AreaInput(props: AreaInputProps) {
   return (
     <FlotingLabelSelect
       label="منطقه"
-      name={generalFormConfig.AREA}
+      name={generalFieldsConfig.AREA}
       items={areaItems}
       value={value}
       setter={setter}

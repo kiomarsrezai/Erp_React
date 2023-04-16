@@ -5,16 +5,16 @@ import { BaseApiResponseShape } from "types/base-type";
 import { GetSingleSepratorItemShape } from "types/data/budget/seprator-type";
 import {
   SEPRATOR_BUDGET_URL,
-  sepratorBudgetFormConfig,
-} from "config/formdata/budget/seprator-config";
+  sepratorBudgetConfig,
+} from "config/features/budget/seprator-config";
 
 export const sepratorBudgetApi = new (class extends BaseApi {
   getData = async (formdata: any) => {
     const filterData = {
-      [sepratorBudgetFormConfig.YEAR]: formdata[sepratorBudgetFormConfig.YEAR],
-      [sepratorBudgetFormConfig.AREA]: formdata[sepratorBudgetFormConfig.AREA],
-      [sepratorBudgetFormConfig.BUDGET_METHOD]:
-        formdata[sepratorBudgetFormConfig.BUDGET_METHOD],
+      [sepratorBudgetConfig.YEAR]: formdata[sepratorBudgetConfig.YEAR],
+      [sepratorBudgetConfig.AREA]: formdata[sepratorBudgetConfig.AREA],
+      [sepratorBudgetConfig.BUDGET_METHOD]:
+        formdata[sepratorBudgetConfig.BUDGET_METHOD],
     };
 
     const url = SEPRATOR_BUDGET_URL + this.joinFilterData(filterData);

@@ -1,5 +1,5 @@
 import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
-import { generalFormConfig } from "config/formdata/general-form-config";
+import { generalFieldsConfig } from "config/features/general-fields-config";
 
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 
@@ -37,7 +37,7 @@ function BudgetMethodInput(props: BudgetMethodInputProps) {
   return (
     <FlotingLabelSelect
       label="نوع بودجه"
-      name={generalFormConfig.BUDGET_METHOD}
+      name={generalFieldsConfig.BUDGET_METHOD}
       items={budgetMethodItems}
       value={value}
       setter={setter}

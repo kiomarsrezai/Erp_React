@@ -6,7 +6,7 @@ import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
 
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 import { useState } from "react";
-import { revenueChartFormConfig } from "config/formdata/revenue-chart-config";
+import { revenueChartFormConfig } from "config/features/revenue-chart-config";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { revenueChartApi } from "api/report/chart-api";
 import CheckboxLabeled from "components/ui/inputs/checkbox-labeled";
