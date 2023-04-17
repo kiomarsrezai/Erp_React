@@ -48,7 +48,7 @@ function FixedModal(props: FixedModalProps) {
           </IconButton>
         </Box>
         <Divider />
-        <Box sx={{ overflowY: "scroll" }} height={1}>
+        <Box sx={{ overflowY: "auto" }} height={1}>
           {children}
         </Box>
       </Box>

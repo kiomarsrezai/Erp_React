@@ -8,13 +8,21 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import grey from "@mui/material/colors/grey";
 
-import { useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { numberWithCommas } from "helper/calculate-utils";
 
 const borderColor = 400;
 
-const formatDataCell = (dataCell: number | string, headDataCell: any) => {
+const formatDataCell = (
+  nameCell: (
+    row: any
+  ) => (ReactNode | string | number) | ReactNode | string | number,
+  headDataCell: any,
+  row: any
+) => {
+  let dataCell: any = typeof nameCell === "function" ? nameCell(row) : nameCell;
+
   if (typeof dataCell === "number") {
     if (headDataCell?.split) {
       dataCell = numberWithCommas(dataCell);
@@ -106,7 +114,7 @@ function FixedTable(props: FixedTableProps) {
           key={i}
           dir={typeof row[name] === "number" ? "ltr" : "rtl"}
         >
-          {formatDataCell(row[name], item)}
+          {formatDataCell(row[name], item, row)}
         </TableCell>
       );
     });
@@ -134,7 +142,7 @@ function FixedTable(props: FixedTableProps) {
             dir={typeof footer[name] === "number" ? "ltr" : "rtl"}
             key={i}
           >
-            {formatDataCell(footer[name], item)}
+            {formatDataCell(footer[name], item, footer)}
           </TableCell>
         );
       })}

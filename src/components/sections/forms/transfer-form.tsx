@@ -7,16 +7,17 @@ import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
-import { useState, FormEvent, useEffect } from "react";
+import { FormEvent, useEffect } from "react";
 import { transferApi } from "api/transfer/transfer-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 
-function TransferForm() {
-  const [formData, setFormData] = useState({
-    [sepratorBudgetConfig.YEAR]: 32,
-    [sepratorBudgetConfig.AREA]: 1,
-    [sepratorBudgetConfig.BUDGET_METHOD]: 1,
-  });
+interface TransferFormProps {
+  formData: any;
+  setFormData: any;
+}
+
+function TransferForm(props: TransferFormProps) {
+  const { formData, setFormData } = props;
 
   // submit
   const queryClient = useQueryClient();

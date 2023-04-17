@@ -11,5 +11,6 @@ export const reactQueryKeys = {
   },
   transfer: {
     getData: ["transfer"],
+    getModalData: ["transfer-modal"],
   },
 };
