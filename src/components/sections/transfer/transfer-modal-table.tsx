@@ -28,6 +28,7 @@ function TransferModalTable(props: TransferModalTableProps) {
     {
       title: "عنوان مرکز هزینه",
       name: "markazHazine",
+      align: "left",
     },
     {
       title: "مرکز هزینه",
@@ -48,10 +49,12 @@ function TransferModalTable(props: TransferModalTableProps) {
     {
       title: "عملکرد",
       name: "expense",
+      split: true,
     },
     {
       title: "نام سرفصل",
       name: "name",
+      align: "left",
     },
     {
       title: "عملیات",
