@@ -3,6 +3,9 @@ export const reactQueryKeys = {
     seprator: {
       getData: ["budget-seprator"],
     },
+    proposal: {
+      getData: ["budget-propsal"],
+    },
   },
   report: {
     chart: {

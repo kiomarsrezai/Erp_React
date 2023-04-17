@@ -2,108 +2,65 @@ import AdminLayout from "components/layout/admin-layout";
 import FixedTable from "components/data/table/fixed-table";
 
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
+import ProposalBudgetForm from "components/sections/forms/budget/proposal-budget-form";
+import { useState } from "react";
+import { proposalConfig } from "config/features/budget/proposal-config";
 
 function BudgetProposalPage() {
+  const [formData, setFormData] = useState({
+    [proposalConfig.YEAR]: 32,
+    [proposalConfig.AREA]: 1,
+    [proposalConfig.BUDGET_METHOD]: 1,
+  });
+
+  // form heads
   const tableHeadGroups: TableHeadGroupShape = [
     {
-      title: "salam 1",
-      colspan: 2,
-    },
-    {
-      title: "salam 2",
-      colspan: 3,
+      title: (
+        <ProposalBudgetForm formData={formData} setFormData={setFormData} />
+      ),
+      colspan: 7,
     },
   ];
 
   const tableHeads: TableHeadShape = [
     {
-      title: "salam 3",
-      name: "value",
+      title: "ردیف",
+      name: "number",
     },
     {
-      title: "salam 4",
-      name: "value",
+      title: "کد",
+      name: "code",
     },
     {
-      title: "salam 5",
-      name: "value",
+      title: "شرح",
+      align: "left",
+      name: "description",
     },
     {
-      title: "salam 6",
-      name: "value",
+      title: "مصوب",
+      align: "left",
+      name: "mosavab",
+      split: true,
     },
     {
-      title: "salam 7",
-      name: "value",
-    },
-  ];
-
-  const data: any = [
-    {
-      value: "afwe",
+      title: "عملکرد",
+      name: "codeAcc",
     },
     {
-      value: "afwe",
+      title: "جذب %",
+      align: "left",
+      name: "titleAcc",
     },
     {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
+      title: "عملیات",
+      name: "actions",
     },
   ];
 
   return (
     <AdminLayout>
-      <FixedTable heads={tableHeads} headGroups={tableHeadGroups} data={data} />
+      <FixedTable heads={tableHeads} headGroups={tableHeadGroups} data={[]} />
     </AdminLayout>
   );
 }
