@@ -1,5 +1,6 @@
 import router from "router";
 import CssBaseline from "@mui/material/CssBaseline";
+import { SnackbarProvider } from "notistack";
 import ThemeProvider from "@mui/system/ThemeProvider";
 import RightToLeft from "components/layout/right-to-left";
 
@@ -29,8 +30,14 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <RightToLeft>
-          <CssBaseline />
-          <RouterProvider router={router} />
+          <SnackbarProvider
+            maxSnack={3}
+            anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
+            autoHideDuration={1000}
+          >
+            <CssBaseline />
+            <RouterProvider router={router} />
+          </SnackbarProvider>
         </RightToLeft>
       </ThemeProvider>
     </QueryClientProvider>

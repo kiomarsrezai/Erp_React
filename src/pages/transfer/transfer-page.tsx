@@ -7,16 +7,20 @@ import BalanceIcon from "@mui/icons-material/Balance";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FixedModal from "components/ui/modal/fixed-modal";
+import TransferModalTable from "components/sections/transfer/transfer-modal-table";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
+import { useSnackbar } from "notistack";
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { transferApi } from "api/transfer/transfer-api";
 import { GetSingleTransferItemShape } from "types/data/transfer/transfer-type";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { ReactNode, useState } from "react";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
-import TransferModalTable from "components/sections/transfer/transfer-modal-table";
+import { globalConfig } from "config/global-config";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -48,6 +52,7 @@ function TransferPage() {
   const [modalTitle, setModalTitle] = useState("");
 
   // table heads
+
   const tableHeadGroups: TableHeadGroupShape = [
     {
       title: <TransferForm formData={formData} setFormData={setFormData} />,
@@ -91,16 +96,41 @@ function TransferPage() {
   ];
 
   // table data
+
+  const { enqueueSnackbar } = useSnackbar();
+  const queryClient = useQueryClient();
+  const getDataMutation = useMutation(transferApi.getData, {
+    onSuccess: (data) => {
+      queryClient.setQueryData(reactQueryKeys.transfer.getData, data);
+    },
+  });
+
   const insertCodeAccMutation = useMutation(transferApi.insertCodeAcc, {
-    // onSuccess: (data) => {
-    //   queryClient.setQueryData(reactQueryKeys.transfer.getData, data);
-    // },
+    onSuccess: () => {
+      getDataMutation.mutate(formData);
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+    },
+    onError: () => {
+      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+        variant: "error",
+      });
+    },
   });
 
   const DeleteCodeAccMutation = useMutation(transferApi.deleteCodeAcc, {
-    // onSuccess: (data) => {
-    //   queryClient.setQueryData(reactQueryKeys.transfer.getData, data);
-    // },
+    onSuccess: () => {
+      getDataMutation.mutate(formData);
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+    },
+    onError: () => {
+      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+        variant: "error",
+      });
+    },
   });
 
   const dataTableMutation = useMutation(transferApi.getModalData);
@@ -203,6 +233,17 @@ function TransferPage() {
       >
         <TransferModalTable data={dataTableMutation.data?.data || []} />
       </FixedModal>
+
+      <Backdrop
+        open={
+          getDataMutation.isLoading ||
+          insertCodeAccMutation.isLoading ||
+          DeleteCodeAccMutation.isLoading
+        }
+        sx={{ zIndex: 100000 }}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </AdminLayout>
   );
 }

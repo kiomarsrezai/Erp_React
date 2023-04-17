@@ -19,6 +19,7 @@ interface SidenavShape {
   title: string;
   path: string;
   icon: ReactNode;
+  authName?: string;
 }
 
 function AdminSidenavMenu() {
@@ -49,6 +50,7 @@ function AdminSidenavMenu() {
       title: "واسط سازمان ها",
       path: "/transfer",
       icon: <ApartmentIcon />,
+      authName: "wseg",
     },
     // credit
     {

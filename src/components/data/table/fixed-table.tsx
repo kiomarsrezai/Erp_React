@@ -95,7 +95,7 @@ function FixedTable(props: FixedTableProps) {
                     borderRight: 0,
                   },
                 }}
-                align={head.align || "center"}
+                align="center"
               >
                 {head.title}
               </TableCell>
