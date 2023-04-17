@@ -1,4 +1,6 @@
 import FixedTable from "components/data/table/fixed-table";
+import IconButton from "@mui/material/IconButton";
+import InsertLinkIcon from "@mui/icons-material/InsertLink";
 
 import { TableHeadShape } from "types/table-type";
 import { ReactNode } from "react";
@@ -68,7 +70,13 @@ function TransferModalTable(props: TransferModalTableProps) {
       idMoein: item.idMoein,
       idKol: item.idKol,
       name: item.name,
-      actions: () => <></>,
+      actions: () => (
+        <>
+          <IconButton color="primary">
+            <InsertLinkIcon />
+          </IconButton>
+        </>
+      ),
     }));
 
     return formatedData;
@@ -76,7 +84,7 @@ function TransferModalTable(props: TransferModalTableProps) {
 
   const tableData = data ? formatTableData(data) : [];
 
-  return <FixedTable heads={tableHeads} data={tableData} />;
+  return <FixedTable heads={tableHeads} data={tableData} notFixed />;
 }
 
 export default TransferModalTable;

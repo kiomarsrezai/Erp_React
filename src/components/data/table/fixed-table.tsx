@@ -45,10 +45,11 @@ interface FixedTableProps {
   heads: TableHeadShape;
   data: any;
   footer?: any;
+  notFixed?: boolean;
 }
 
 function FixedTable(props: FixedTableProps) {
-  const { heads, headGroups, data, footer } = props;
+  const { heads, headGroups, data, footer, notFixed } = props;
 
   const visibleHeads = heads.filter((item) => !item.hidden);
 
@@ -150,8 +151,10 @@ function FixedTable(props: FixedTableProps) {
   );
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer sx={{ maxHeight: "calc(100vh - 64px)" }}>
+    <Paper sx={{ width: "100%", overflow: "hidden", height: 1 }}>
+      <TableContainer
+        sx={{ maxHeight: !notFixed ? "calc(100vh - 64px)" : "100%" }}
+      >
         <Table stickyHeader>
           <TableHead sx={{ bgcolor: grey[200] }}>{tableHeadContent}</TableHead>
           <TableBody>

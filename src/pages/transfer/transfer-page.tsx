@@ -45,10 +45,12 @@ function TransferPage() {
     setOpenModal(true);
   };
 
+  const [modalTitle, setModalTitle] = useState("");
+
   // table heads
   const tableHeadGroups: TableHeadGroupShape = [
     {
-      title: <TransferForm formData={formData} setFormData={formData} />,
+      title: <TransferForm formData={formData} setFormData={setFormData} />,
       colspan: 7,
     },
   ];
@@ -105,6 +107,10 @@ function TransferPage() {
 
   const handleClickBalanceIcon = (row: any) => {
     dataTableMutation.mutate({ ...row, ...formData });
+
+    const title = `${row.description} (${row.code})`;
+    setModalTitle(title);
+
     handleOpenModal();
   };
 
@@ -189,7 +195,12 @@ function TransferPage() {
         footer={tableFooter}
       />
 
-      <FixedModal open={openModal} handleClose={handleCloseModal}>
+      <FixedModal
+        open={openModal}
+        handleClose={handleCloseModal}
+        loading={dataTableMutation.isLoading}
+        title={modalTitle}
+      >
         <TransferModalTable data={dataTableMutation.data?.data || []} />
       </FixedModal>
     </AdminLayout>
