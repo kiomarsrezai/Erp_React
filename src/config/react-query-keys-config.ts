@@ -8,6 +8,9 @@ export const reactQueryKeys = {
     chart: {
       revenue: ["revenuse-chart"],
     },
+    proctor: {
+      abstract: ["abstract-proctor"],
+    },
   },
   transfer: {
     getData: ["transfer"],

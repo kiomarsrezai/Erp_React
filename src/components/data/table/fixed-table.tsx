@@ -41,6 +41,7 @@ const formatDataCell = (
 };
 
 interface FixedTableProps {
+  topHeadGroups?: TableHeadGroupShape;
   headGroups?: TableHeadGroupShape;
   heads: TableHeadShape;
   data: any;
@@ -49,19 +50,38 @@ interface FixedTableProps {
 }
 
 function FixedTable(props: FixedTableProps) {
-  const { heads, headGroups, data, footer, notFixed } = props;
+  const { heads, headGroups, data, footer, notFixed, topHeadGroups } = props;
 
   const visibleHeads = heads.filter((item) => !item.hidden);
 
   // head
   const [headGroupHright, setHeadGroupHright] = useState(0);
   const HeadGroup = useRef<HTMLTableRowElement>(null);
+  const topHeadGroup = useRef<HTMLTableRowElement>(null);
   useEffect(() => {
     setHeadGroupHright(HeadGroup.current?.clientHeight || 0);
   }, []);
 
   const tableHeadContent = (
     <>
+      {topHeadGroups && (
+        <TableRow ref={topHeadGroup}>
+          {topHeadGroups?.map((topHeadGroup, i) => (
+            <TableCell
+              key={i}
+              sx={{
+                borderColor: grey[borderColor],
+                bgcolor: grey[200],
+              }}
+              align="left"
+              colSpan={topHeadGroup.colspan}
+            >
+              {topHeadGroup.title}
+            </TableCell>
+          ))}
+        </TableRow>
+      )}
+
       {headGroups && (
         <TableRow ref={HeadGroup}>
           {headGroups?.map((headGroup, i) => (

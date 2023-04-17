@@ -1,109 +1,100 @@
 import AdminLayout from "components/layout/admin-layout";
 import FixedTable from "components/data/table/fixed-table";
+import AbstractProctorForm from "components/sections/forms/report/proctor/abstract-proctor-form";
 
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
+import { useState } from "react";
+import { abstructProctorConfig } from "config/features/report/proctor/abstruct-config";
 
 function ReportProctorAbstructPage() {
+  const [formData, setFormData] = useState({
+    [abstructProctorConfig.YEAR]: 32,
+    [abstructProctorConfig.AREA]: 1,
+  });
+
+  const tableTopHeadGroups: TableHeadGroupShape = [
+    {
+      title: (
+        <AbstractProctorForm formData={formData} setFormData={setFormData} />
+      ),
+      colspan: 9,
+    },
+  ];
+
   const tableHeadGroups: TableHeadGroupShape = [
     {
-      title: "salam 1",
-      colspan: 2,
+      title: "",
+      colspan: 1,
     },
     {
-      title: "salam 2",
+      title: "",
+      colspan: 1,
+    },
+    {
+      title: "هزینه ای",
       colspan: 3,
+    },
+    {
+      title: "سرمایه ای",
+      colspan: 3,
+    },
+    {
+      title: "",
+      colspan: 1,
     },
   ];
 
   const tableHeads: TableHeadShape = [
     {
-      title: "salam 3",
-      name: "value",
+      title: "ردیف",
+      name: "number",
     },
     {
-      title: "salam 4",
-      name: "value",
+      title: "عنوان",
+      name: "code",
     },
     {
-      title: "salam 5",
-      name: "value",
+      title: "مصوب",
+      align: "left",
+      name: "description",
     },
     {
-      title: "salam 6",
-      name: "value",
+      title: "عملکرد",
+      align: "left",
+      name: "mosavab",
+      split: true,
     },
     {
-      title: "salam 7",
-      name: "value",
-    },
-  ];
-
-  const data: any = [
-    {
-      value: "afwe",
+      title: "جذب %",
+      name: "codeAcc",
     },
     {
-      value: "afwe",
+      title: "مصوب",
+      align: "left",
+      name: "titleAcc",
     },
     {
-      value: "afwe",
+      title: "عملکرد",
+      name: "actions",
     },
     {
-      value: "afwe",
+      title: "عملکرد",
+      name: "جذب %",
     },
     {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
-    },
-    {
-      value: "afwe",
+      title: "جذب کل %",
+      name: "actions",
     },
   ];
 
   return (
     <AdminLayout>
-      <FixedTable heads={tableHeads} headGroups={tableHeadGroups} data={data} />
+      <FixedTable
+        heads={tableHeads}
+        headGroups={tableHeadGroups}
+        topHeadGroups={tableTopHeadGroups}
+        data={[]}
+      />
     </AdminLayout>
   );
 }
