@@ -1,9 +1,9 @@
 import router from "router";
 import CssBaseline from "@mui/material/CssBaseline";
-import { SnackbarProvider } from "notistack";
 import ThemeProvider from "@mui/system/ThemeProvider";
 import RightToLeft from "components/layout/right-to-left";
 
+import { SnackbarProvider } from "notistack";
 import { RouterProvider } from "react-router-dom";
 import { createTheme } from "@mui/material/styles";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";

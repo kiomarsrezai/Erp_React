@@ -52,7 +52,6 @@ function TransferPage() {
   const [modalTitle, setModalTitle] = useState("");
 
   // table heads
-
   const tableHeadGroups: TableHeadGroupShape = [
     {
       title: <TransferForm formData={formData} setFormData={setFormData} />,
@@ -95,8 +94,7 @@ function TransferPage() {
     },
   ];
 
-  // table data
-
+  // table action
   const { enqueueSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
   const getDataMutation = useMutation(transferApi.getData, {
@@ -159,7 +157,6 @@ function TransferPage() {
           color="success"
           size="small"
           onClick={() => insertCodeAccMutation.mutate(row.id)}
-          // disabled={insertCodeAccMutation.isLoading}
         >
           <AddIcon />
         </IconButton>
@@ -168,7 +165,6 @@ function TransferPage() {
           color="error"
           size="small"
           onClick={() => DeleteCodeAccMutation.mutate(row.id)}
-          // disabled={DeleteCodeAccMutation.isLoading && row.id === }
         >
           <DeleteIcon />
         </IconButton>
@@ -176,6 +172,7 @@ function TransferPage() {
     );
   };
 
+  // table data
   const formatTableData = (
     unFormatData: GetSingleTransferItemShape[]
   ): TableDataItemShape[] => {
