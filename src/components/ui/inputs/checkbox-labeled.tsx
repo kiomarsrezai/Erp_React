@@ -8,7 +8,7 @@ interface CheckboxLabeledProps {
   label: string;
   name: string;
   value: any;
-  disabled: boolean;
+  disabled?: boolean;
   setter: (data: any) => void;
 }
 function CheckboxLabeled(props: CheckboxLabeledProps) {
