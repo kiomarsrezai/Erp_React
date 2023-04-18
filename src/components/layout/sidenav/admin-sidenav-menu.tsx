@@ -10,6 +10,7 @@ import MonitorHeartIcon from "@mui/icons-material/MonitorHeart";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import useLayoutStore from "hooks/store/layout-store";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
+import KeyIcon from "@mui/icons-material/Key";
 
 import { blue } from "@mui/material/colors";
 import { ReactNode } from "react";
@@ -57,6 +58,12 @@ function AdminSidenavMenu() {
       title: "درخواست اعتبار",
       path: "/credit/request",
       icon: <CreditCardIcon />,
+    },
+    // credit
+    {
+      title: "دسترسی ها",
+      path: "/access",
+      icon: <KeyIcon />,
     },
   ];
 
