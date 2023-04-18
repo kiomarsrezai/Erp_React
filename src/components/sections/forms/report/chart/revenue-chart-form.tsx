@@ -110,7 +110,7 @@ function RevenueChartForm() {
             <Grid lg={4}>
               <Stack direction="row" flexWrap="wrap" gap={1}>
                 <CheckboxLabeled
-                  label="درامد"
+                  label="درآمد"
                   name={revenueChartFormConfig.REVENUE}
                   value={formData[revenueChartFormConfig.REVENUE]}
                   setter={setFormData}

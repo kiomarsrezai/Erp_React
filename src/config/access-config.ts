@@ -116,12 +116,7 @@ export const ACCESS_CONFIG: AccessItemShape[] = [
   },
   {
     label: "بودجه",
-    name: "reportChartRevenue",
-    value: [yearField, areaField, budgetMethodField],
-  },
-  {
-    label: "بودجه",
-    name: "reportChartRevenue",
+    name: "budgetProposal",
     value: [yearField, areaField, budgetMethodField],
   },
   {

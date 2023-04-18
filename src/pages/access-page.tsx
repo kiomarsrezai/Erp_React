@@ -10,26 +10,38 @@ import { ChangeEvent } from "react";
 import { grey } from "@mui/material/colors";
 import { ACCESS_CONFIG } from "config/access-config";
 import { useState } from "react";
+import { AccessItemShape } from "types/access-type";
+
+const formatConfigsNode = (
+  data: AccessItemShape,
+  name: string | number
+): any => {
+  let formated = {
+    [name]: false,
+  };
+  data.value?.forEach((item: any) => {
+    formated = {
+      ...formated,
+      ...formatConfigsNode(item, `${name}.${item.name}`),
+    };
+  });
+
+  return formated;
+};
 
 const formatConfigs = () => {
   let formated: any = {};
 
-  ACCESS_CONFIG.forEach((form: any) => {
-    formated[form.name] = false;
-
-    form?.value?.forEach((field: any) => {
-      formated[`${form.name}.${field.name}`] = false;
-
-      field?.value?.forEach((fieldItem: any) => {
-        formated[`${form.name}.${field.name}.${fieldItem.name}`] = false;
-      });
-    });
+  ACCESS_CONFIG.forEach((form: AccessItemShape) => {
+    formated = { ...formated, ...formatConfigsNode(form, form.name) };
   });
 
   return formated;
 };
 
 function AccessPage() {
+  console.log(formatConfigs());
+
   const [formData, setFormData] = useState(formatConfigs());
 
   const handleSubmit = () => {
@@ -48,6 +60,7 @@ function AccessPage() {
       let shouldTurnedItems: any = {};
 
       const splited: string[] = name.split(".");
+
       for (let i = 0; i < splited.length; i++) {
         const key = splited.slice(0, i + 1).join(".");
         shouldTurnedItems[key] = true;
@@ -73,7 +86,7 @@ function AccessPage() {
           label={<Typography variant="body2">{item.label}</Typography>}
         />
       </Box>
-      {item?.value?.map((subItem: any, i: number) => (
+      {item.value?.map((subItem: any, i: number) => (
         <Box px={4} borderLeft={1} borderColor={grey[300]} key={i}>
           {renderItem(subItem, `${name}.${subItem.name}`)}
         </Box>
@@ -83,8 +96,8 @@ function AccessPage() {
   return (
     <AdminLayout>
       <Stack p={3} spacing={2}>
-        {ACCESS_CONFIG.map((item: any, i: number) =>
-          renderItem(item, item.name)
+        {ACCESS_CONFIG.map((item: AccessItemShape, i: number) =>
+          renderItem(item, item.name as string)
         )}
       </Stack>
 
