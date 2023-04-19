@@ -26,12 +26,12 @@ interface TableDataItemShape {
 
 interface TransferModalTableProps {
   data: any[];
-  codeAcc: string;
+  areaId: number;
   onDoneTask: () => void;
 }
 
 function TransferModalTable(props: TransferModalTableProps) {
-  const { data, codeAcc, onDoneTask } = props;
+  const { data, areaId, onDoneTask } = props;
 
   // heads
   const tableHeads: TableHeadShape = [
@@ -87,17 +87,19 @@ function TransferModalTable(props: TransferModalTableProps) {
     },
   });
 
+  const handleLinkClick = (row: any) => {
+    const codeAcc = `${row.idKol}-${row.idMoein}-${row.idTafsily}${
+      areaId <= 9 ? "-" + row.idTafsily5 : ""
+    }`;
+    linkCodeAccMutation.mutate({
+      ...row,
+      [transferConfig.TITLE_ACC]: row.name,
+      [transferConfig.CODE_ACC]: codeAcc,
+    });
+  };
+
   const actionButtons = (row: any) => (
-    <IconButton
-      color="primary"
-      onClick={() =>
-        linkCodeAccMutation.mutate({
-          ...row,
-          [transferConfig.TITLE_ACC]: row.name,
-          [transferConfig.CODE_ACC]: codeAcc,
-        })
-      }
-    >
+    <IconButton color="primary" onClick={() => handleLinkClick(row)}>
       <InsertLinkIcon />
     </IconButton>
   );

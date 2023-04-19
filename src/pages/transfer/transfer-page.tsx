@@ -139,11 +139,7 @@ function TransferPage() {
 
   const dataTableMutation = useMutation(transferApi.getModalData);
 
-  const [activeItemCodeAcc, setActiveItemCodeAcc] = useState<any>("");
   const handleClickBalanceIcon = (row: TableDataItemShape) => {
-    // console.log(row);
-    setActiveItemCodeAcc(row.codeAcc);
-
     dataTableMutation.mutate({ ...row, ...formData });
 
     const title = `${row.description} (${row.code})`;
@@ -240,7 +236,7 @@ function TransferPage() {
       >
         <TransferModalTable
           data={dataTableMutation.data?.data || []}
-          codeAcc={activeItemCodeAcc}
+          areaId={formData[transferConfig.AREA]}
           onDoneTask={handleDoneModalTask}
         />
       </FixedModal>
