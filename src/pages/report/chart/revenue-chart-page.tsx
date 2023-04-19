@@ -3,12 +3,13 @@ import Box from "@mui/material/Box";
 import AdminLayout from "components/layout/admin-layout";
 import BulletChart from "components/data/chart/bullet-chart";
 import RevenueChartForm from "components/sections/forms/report/chart/revenue-chart-form";
+import useLayoutStore from "hooks/store/layout-store";
 
 import { revenueChartApi } from "api/report/chart-api";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
-import useLayoutStore from "hooks/store/layout-store";
+import { revenueChartFormConfig } from "config/features/revenue-chart-config";
 
 interface ChartDataShape {
   Mosavab: number;
@@ -36,6 +37,18 @@ const formatChatData = (unFormatData: GetChartShape): ChartDataShape[] => {
 };
 
 function ReportRevenueChartPage() {
+  const [formData, setFormData] = useState({
+    [revenueChartFormConfig.YEAR]: 32,
+    [revenueChartFormConfig.CENTER]: 2,
+    [revenueChartFormConfig.ORGAN]: 3,
+    [revenueChartFormConfig.BUDGET_METHOD]: 1,
+    [revenueChartFormConfig.REVENUE]: true,
+    [revenueChartFormConfig.SALE]: true,
+    [revenueChartFormConfig.LAON]: true,
+    [revenueChartFormConfig.NIABATI]: true,
+  });
+
+  // get data
   const revenueChart = useQuery(reactQueryKeys.report.chart.revenue, () =>
     revenueChartApi.getChart({})
   );
@@ -62,7 +75,7 @@ function ReportRevenueChartPage() {
         }}
       >
         <Box ref={boxElement}>
-          <RevenueChartForm />
+          <RevenueChartForm formData={formData} setFormData={setFormData} />
         </Box>
         <Box
           sx={{

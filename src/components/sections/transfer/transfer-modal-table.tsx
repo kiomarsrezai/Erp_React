@@ -1,7 +1,5 @@
 import FixedTable from "components/data/table/fixed-table";
 import IconButton from "@mui/material/IconButton";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
 import InsertLinkIcon from "@mui/icons-material/InsertLink";
 
 import { TableHeadShape } from "types/table-type";

@@ -7,10 +7,10 @@ export interface GetSingleTransferItemShape {
 }
 
 export interface GetSingleTransferModalDataItemShape {
-  markazHazine: string; // عنوان مرکز هزینه
-  idTafsily5: string; // مرکز هزینه
-  idMoein: string; // معین
-  idKol: string; // کل
-  name: string; // نام سرفصل
-  expense: number; // عملکرد
+  markazHazine: string;
+  idTafsily5: string;
+  idMoein: string;
+  idKol: string;
+  name: string;
+  expense: number;
 }

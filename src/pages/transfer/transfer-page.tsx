@@ -8,8 +8,6 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FixedModal from "components/ui/modal/fixed-modal";
 import TransferModalTable from "components/sections/transfer/transfer-modal-table";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
 
 import { useSnackbar } from "notistack";
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";

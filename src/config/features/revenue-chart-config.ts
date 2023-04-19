@@ -10,3 +10,6 @@ export const revenueChartFormConfig = {
   LAON: "loan",
   NIABATI: "niabati",
 };
+
+export const REVENUE_CHART_URL = "BudSepApi/ChartApi";
+export const DETAIL_REVENUE_CHART_URL = "BudSepApi/DetailChartApi";

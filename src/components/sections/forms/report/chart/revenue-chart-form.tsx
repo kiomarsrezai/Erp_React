@@ -7,25 +7,22 @@ import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
 import CheckboxLabeled from "components/ui/inputs/checkbox-labeled";
 import YearInput from "components/sections/inputs/year-input";
 import BudgetMethodInput from "components/sections/inputs/budget-method-input";
+import FixedModal from "components/ui/modal/fixed-modal";
+import RevenueChartDetailModalTable from "components/sections/report/chart/revenue-chart-detail-modal-table";
 
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
-import { useState, useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { revenueChartFormConfig } from "config/features/revenue-chart-config";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { revenueChartApi } from "api/report/chart-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 
-function RevenueChartForm() {
-  const [formData, setFormData] = useState({
-    [revenueChartFormConfig.YEAR]: 32,
-    [revenueChartFormConfig.CENTER]: 2,
-    [revenueChartFormConfig.ORGAN]: 3,
-    [revenueChartFormConfig.BUDGET_METHOD]: 1,
-    [revenueChartFormConfig.REVENUE]: true,
-    [revenueChartFormConfig.SALE]: true,
-    [revenueChartFormConfig.LAON]: true,
-    [revenueChartFormConfig.NIABATI]: true,
-  });
+interface RevenueChartFormProps {
+  formData: any;
+  setFormData: (prevState: any) => void;
+}
+function RevenueChartForm(props: RevenueChartFormProps) {
+  const { formData, setFormData } = props;
 
   // input items
   const centerItems: FlotingLabelTextfieldItemsShape = [
@@ -50,7 +47,7 @@ function RevenueChartForm() {
     },
   ];
 
-  // submit
+  // form
   const queryClient = useQueryClient();
 
   const submitMutation = useMutation(revenueChartApi.getChart, {
@@ -59,21 +56,37 @@ function RevenueChartForm() {
     },
   });
 
-  // change state
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    submitMutation.mutate(formData);
+  };
+
   useEffect(() => {
     queryClient?.setQueryData(reactQueryKeys.report.chart.revenue, {
       data: [[], [], [], []],
     });
   }, [formData, queryClient]);
 
+  // modal
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const handleCloseModal = () => {
+    setIsOpenModal(false);
+  };
+
+  const handleOpenModal = () => {
+    setIsOpenModal(true);
+  };
+
+  const dataTableMutation = useMutation(revenueChartApi.chartDetail);
+
+  const handleClickDetailValues = () => {
+    dataTableMutation.mutate(formData);
+    handleOpenModal();
+  };
+
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        submitMutation.mutate(formData);
-      }}
-    >
-      <Box padding={2}>
+    <>
+      <Box component="form" padding={2} onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid lg={2}>
             <FlotingLabelSelect
@@ -153,13 +166,25 @@ function RevenueChartForm() {
                 >
                   نمایش
                 </LoadingButton>
-                <Button variant="contained">ریز مقادیر</Button>
+                <Button variant="contained" onClick={handleClickDetailValues}>
+                  ریز مقادیر
+                </Button>
               </Stack>
             </Grid>
           }
         </Grid>
       </Box>
-    </form>
+
+      <FixedModal
+        open={isOpenModal}
+        handleClose={handleCloseModal}
+        loading={dataTableMutation.isLoading}
+      >
+        <RevenueChartDetailModalTable
+          data={dataTableMutation.data?.data || []}
+        />
+      </FixedModal>
+    </>
   );
 }
 
