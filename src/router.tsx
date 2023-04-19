@@ -8,6 +8,7 @@ import BudgetProposalPage from "pages/budget/proposal-page";
 import { createBrowserRouter } from "react-router-dom";
 import RequestCreditPage from "pages/credit/request-page";
 import AccessPage from "pages/access-page";
+import OrgProjectPage from "pages/project/org-page";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,11 @@ const router = createBrowserRouter([
   {
     path: "/access",
     element: <AccessPage />,
+  },
+  // project
+  {
+    path: "/project/org",
+    element: <OrgProjectPage />,
   },
 ]);
 

@@ -11,6 +11,7 @@ import ApartmentIcon from "@mui/icons-material/Apartment";
 import useLayoutStore from "hooks/store/layout-store";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import KeyIcon from "@mui/icons-material/Key";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
 
 import { blue } from "@mui/material/colors";
 import { ReactNode } from "react";
@@ -64,6 +65,12 @@ function AdminSidenavMenu() {
       title: "دسترسی ها",
       path: "/access",
       icon: <KeyIcon />,
+    },
+    // project
+    {
+      title: "پروژه ها",
+      path: "/project/org",
+      icon: <AccountTreeIcon />,
     },
   ];
 
