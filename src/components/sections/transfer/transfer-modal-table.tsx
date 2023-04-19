@@ -12,6 +12,7 @@ import { transferApi } from "api/transfer/transfer-api";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import { transferConfig } from "config/features/transfer/transfer-config";
+import WindowLoading from "components/ui/loading/window-loading";
 
 interface TableDataItemShape {
   markazHazine: ReactNode;
@@ -123,9 +124,7 @@ function TransferModalTable(props: TransferModalTableProps) {
   return (
     <>
       <FixedTable heads={tableHeads} data={tableData} notFixed />
-      <Backdrop open={linkCodeAccMutation.isLoading} sx={{ zIndex: 100000 }}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
+      <WindowLoading active={linkCodeAccMutation.isLoading} />
     </>
   );
 }

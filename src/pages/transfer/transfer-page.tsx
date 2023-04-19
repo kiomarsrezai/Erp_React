@@ -21,6 +21,7 @@ import { ReactNode, useState } from "react";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { globalConfig } from "config/global-config";
 import { transferConfig } from "config/features/transfer/transfer-config";
+import WindowLoading from "components/ui/loading/window-loading";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -244,16 +245,13 @@ function TransferPage() {
         />
       </FixedModal>
 
-      <Backdrop
-        open={
+      <WindowLoading
+        active={
           getDataMutation.isLoading ||
           insertCodeAccMutation.isLoading ||
           DeleteCodeAccMutation.isLoading
         }
-        sx={{ zIndex: 100000 }}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
+      />
     </AdminLayout>
   );
 }
