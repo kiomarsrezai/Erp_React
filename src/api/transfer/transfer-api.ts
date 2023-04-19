@@ -9,6 +9,7 @@ import { BaseApiResponseShape } from "types/base-type";
 import {
   TRANSFER_DELETE_CODE_ACC_URL,
   TRANSFER_INSERT_CODE_ACC_URL,
+  TRANSFER_LINK_CODE_ACC_URL,
   TRANSFER_MODAL_URL,
   TRANSFER_URL,
   transferConfig,
@@ -56,6 +57,20 @@ export const transferApi = new (class extends BaseApi {
 
   deleteCodeAcc = async (id: number) => {
     const url = TRANSFER_DELETE_CODE_ACC_URL + "?id=" + id;
+
+    const response = await clientAxios.get<BaseApiResponseShape<boolean>>(url);
+    return response.data;
+  };
+
+  linkCodeAcc = async (formdata: any) => {
+    const filterData = {
+      [transferConfig.ID]: formdata[transferConfig.ID],
+      [transferConfig.AREA]: formdata[transferConfig.AREA],
+      [transferConfig.CODE_ACC]: formdata[transferConfig.CODE_ACC],
+      [transferConfig.TITLE_ACC]: formdata[transferConfig.TITLE_ACC],
+    };
+
+    const url = TRANSFER_LINK_CODE_ACC_URL + this.joinFilterData(filterData);
 
     const response = await clientAxios.get<BaseApiResponseShape<boolean>>(url);
     return response.data;

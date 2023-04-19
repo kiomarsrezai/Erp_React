@@ -19,8 +19,8 @@ import { GetSingleTransferItemShape } from "types/data/transfer/transfer-type";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { ReactNode, useState } from "react";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
-import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { globalConfig } from "config/global-config";
+import { transferConfig } from "config/features/transfer/transfer-config";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -34,9 +34,9 @@ interface TableDataItemShape {
 
 function TransferPage() {
   const [formData, setFormData] = useState({
-    [sepratorBudgetConfig.YEAR]: 32,
-    [sepratorBudgetConfig.AREA]: 1,
-    [sepratorBudgetConfig.BUDGET_METHOD]: 1,
+    [transferConfig.YEAR]: 32,
+    [transferConfig.AREA]: 1,
+    [transferConfig.BUDGET_METHOD]: 1,
   });
 
   // modal
@@ -47,6 +47,11 @@ function TransferPage() {
 
   const handleOpenModal = () => {
     setOpenModal(true);
+  };
+
+  const handleDoneModalTask = () => {
+    handleCloseModal();
+    getDataMutation.mutate(formData);
   };
 
   const [modalTitle, setModalTitle] = useState("");
@@ -133,7 +138,11 @@ function TransferPage() {
 
   const dataTableMutation = useMutation(transferApi.getModalData);
 
-  const handleClickBalanceIcon = (row: any) => {
+  const [activeItemCodeAcc, setActiveItemCodeAcc] = useState<any>("");
+  const handleClickBalanceIcon = (row: TableDataItemShape) => {
+    // console.log(row);
+    setActiveItemCodeAcc(row.codeAcc);
+
     dataTableMutation.mutate({ ...row, ...formData });
 
     const title = `${row.description} (${row.code})`;
@@ -228,7 +237,11 @@ function TransferPage() {
         loading={dataTableMutation.isLoading}
         title={modalTitle}
       >
-        <TransferModalTable data={dataTableMutation.data?.data || []} />
+        <TransferModalTable
+          data={dataTableMutation.data?.data || []}
+          codeAcc={activeItemCodeAcc}
+          onDoneTask={handleDoneModalTask}
+        />
       </FixedModal>
 
       <Backdrop

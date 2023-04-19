@@ -7,9 +7,12 @@ export const transferConfig = {
   ID: "id",
   CODE: "code",
   DESCRIPTION: "description",
+  CODE_ACC: "codeAcc",
+  TITLE_ACC: "titleAcc",
 };
 
 export const TRANSFER_URL = "VasetApi/VasetGetAll";
 export const TRANSFER_INSERT_CODE_ACC_URL = "VasetApi/InsertCodeAcc";
 export const TRANSFER_DELETE_CODE_ACC_URL = "VasetApi/DeleteCodeAcc";
+export const TRANSFER_LINK_CODE_ACC_URL = "VasetApi/LinkCodeAcc";
 export const TRANSFER_MODAL_URL = "VasetApi/GetModalVaset";

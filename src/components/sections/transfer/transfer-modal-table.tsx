@@ -1,10 +1,17 @@
 import FixedTable from "components/data/table/fixed-table";
 import IconButton from "@mui/material/IconButton";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import InsertLinkIcon from "@mui/icons-material/InsertLink";
 
 import { TableHeadShape } from "types/table-type";
 import { ReactNode } from "react";
 import { GetSingleTransferModalDataItemShape } from "types/data/transfer/transfer-type";
+import { useMutation } from "@tanstack/react-query";
+import { transferApi } from "api/transfer/transfer-api";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
+import { transferConfig } from "config/features/transfer/transfer-config";
 
 interface TableDataItemShape {
   markazHazine: ReactNode;
@@ -18,12 +25,14 @@ interface TableDataItemShape {
 
 interface TransferModalTableProps {
   data: any[];
+  codeAcc: string;
+  onDoneTask: () => void;
 }
 
 function TransferModalTable(props: TransferModalTableProps) {
-  const { data } = props;
+  const { data, codeAcc, onDoneTask } = props;
 
-  //   heads
+  // heads
   const tableHeads: TableHeadShape = [
     {
       title: "عنوان مرکز هزینه",
@@ -62,6 +71,36 @@ function TransferModalTable(props: TransferModalTableProps) {
     },
   ];
 
+  // actions
+  const linkCodeAccMutation = useMutation(transferApi.linkCodeAcc, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+      onDoneTask();
+    },
+    onError: () => {
+      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+        variant: "error",
+      });
+    },
+  });
+
+  const actionButtons = (row: any) => (
+    <IconButton
+      color="primary"
+      onClick={() =>
+        linkCodeAccMutation.mutate({
+          ...row,
+          [transferConfig.TITLE_ACC]: row.name,
+          [transferConfig.CODE_ACC]: codeAcc,
+        })
+      }
+    >
+      <InsertLinkIcon />
+    </IconButton>
+  );
+
   // body
   const formatTableData = (
     unFormatData: GetSingleTransferModalDataItemShape[]
@@ -73,13 +112,7 @@ function TransferModalTable(props: TransferModalTableProps) {
       idMoein: item.idMoein,
       idKol: item.idKol,
       name: item.name,
-      actions: () => (
-        <>
-          <IconButton color="primary">
-            <InsertLinkIcon />
-          </IconButton>
-        </>
-      ),
+      actions: actionButtons,
     }));
 
     return formatedData;
@@ -87,7 +120,14 @@ function TransferModalTable(props: TransferModalTableProps) {
 
   const tableData = data ? formatTableData(data) : [];
 
-  return <FixedTable heads={tableHeads} data={tableData} notFixed />;
+  return (
+    <>
+      <FixedTable heads={tableHeads} data={tableData} notFixed />
+      <Backdrop open={linkCodeAccMutation.isLoading} sx={{ zIndex: 100000 }}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    </>
+  );
 }
 
 export default TransferModalTable;

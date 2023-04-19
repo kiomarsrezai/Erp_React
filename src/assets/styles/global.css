@@ -1,3 +1,7 @@
 * {
   font-family: "IRANSans" !important;
 }
+
+.notistack-SnackbarContainer.z-alert {
+  z-index: 110000;
+}

@@ -34,6 +34,7 @@ function App() {
             maxSnack={3}
             anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
             autoHideDuration={1000}
+            classes={{ containerRoot: "z-alert" }}
           >
             <CssBaseline />
             <RouterProvider router={router} />
