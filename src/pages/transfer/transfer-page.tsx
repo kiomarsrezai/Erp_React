@@ -150,11 +150,11 @@ function TransferPage() {
     return (
       <Box display="flex">
         <IconButton
-          color="primary"
+          color="error"
           size="small"
-          onClick={() => handleClickBalanceIcon(row)}
+          onClick={() => DeleteCodeAccMutation.mutate(row.id)}
         >
-          <BalanceIcon />
+          <DeleteIcon />
         </IconButton>
 
         <IconButton
@@ -166,11 +166,11 @@ function TransferPage() {
         </IconButton>
 
         <IconButton
-          color="error"
+          color="primary"
           size="small"
-          onClick={() => DeleteCodeAccMutation.mutate(row.id)}
+          onClick={() => handleClickBalanceIcon(row)}
         >
-          <DeleteIcon />
+          <BalanceIcon />
         </IconButton>
       </Box>
     );

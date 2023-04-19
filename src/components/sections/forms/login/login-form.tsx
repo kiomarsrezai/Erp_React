@@ -13,16 +13,29 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import logoImg from "assets/images/logos/fava.svg";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 function LoginForm() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  // password
   const [showPasword, setShowPassword] = useState(false);
   const toggleSeePassword = () => {
     setShowPassword((prevState) => !prevState);
   };
 
+  // submit
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+  };
+
   return (
     <Box
+      component="form"
+      onSubmit={handleSubmit}
       paddingLeft={5}
       paddingRight={5}
       textAlign="center"
@@ -51,6 +64,13 @@ function LoginForm() {
               id="username-input"
               label="نام کاربری"
               variant="outlined"
+              value={formData.email}
+              onChange={(e) => {
+                setFormData((prevState) => ({
+                  ...prevState,
+                  email: e.target.value,
+                }));
+              }}
               fullWidth
             />
 
@@ -58,8 +78,15 @@ function LoginForm() {
               id="password-input"
               label="رمز ورود"
               variant="outlined"
+              value={formData.password}
               type={showPasword ? "text" : "password"}
               fullWidth
+              onChange={(e) => {
+                setFormData((prevState) => ({
+                  ...prevState,
+                  password: e.target.value,
+                }));
+              }}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
