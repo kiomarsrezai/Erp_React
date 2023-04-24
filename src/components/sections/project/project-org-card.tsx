@@ -8,7 +8,7 @@ import Box from "@mui/material/Box";
 
 import { grey } from "@mui/material/colors";
 
-function ProjectOrgCard() {
+function ProjectOrgCard(props: any) {
   return (
     <Box display="flex" justifyContent="center">
       <Card

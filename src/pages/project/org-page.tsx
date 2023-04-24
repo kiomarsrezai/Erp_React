@@ -7,10 +7,6 @@ import { Tree, TreeNode } from "react-organizational-chart";
 import { useRef } from "react";
 import { globalConfig } from "config/global-config";
 
-const StyledNode = (props: any) => {
-  return <ProjectOrgCard></ProjectOrgCard>;
-};
-
 function OrgProjectPage() {
   const element = useRef<any>(null);
 
@@ -38,6 +34,48 @@ function OrgProjectPage() {
     };
   }
 
+  const shape = [
+    {
+      id: 1,
+      motherId: null,
+    },
+    {
+      id: 2,
+      motherId: 1,
+    },
+    {
+      id: 5,
+      motherId: 1,
+    },
+    {
+      id: 3,
+      motherId: 2,
+    },
+    {
+      id: 4,
+      motherId: 2,
+    },
+    {
+      id: 6,
+      motherId: 4,
+    },
+    {
+      id: 7,
+      motherId: 4,
+    },
+  ];
+
+  const rootItem = shape.find((item) => item.motherId === null);
+
+  const renderRoute = (itemId: number) =>
+    shape
+      .filter((item) => item.motherId === itemId)
+      .map((item) => (
+        <TreeNode label={<ProjectOrgCard />} key={item.id}>
+          {renderRoute(item.id)}
+        </TreeNode>
+      ));
+
   return (
     <AdminLayout>
       <Box
@@ -63,25 +101,16 @@ function OrgProjectPage() {
           onMouseDown={mouseDown}
           onDragStart={() => false}
         >
-          <Tree
-            lineWidth={"2px"}
-            lineColor={grey[400]}
-            lineBorderRadius={"3px"}
-            label={<StyledNode>Root</StyledNode>}
-          >
-            <TreeNode label={<StyledNode>Child 3</StyledNode>}>
-              <TreeNode label={<StyledNode>Grand Child 1</StyledNode>}>
-                <TreeNode label={<StyledNode>Grand Child 1</StyledNode>}>
-                  <TreeNode label={<StyledNode>Grand Child 1</StyledNode>}>
-                    <TreeNode
-                      label={<StyledNode>Grand Child 1</StyledNode>}
-                    ></TreeNode>
-                  </TreeNode>
-                </TreeNode>
-              </TreeNode>
-              <TreeNode label={<StyledNode>Grand Child 2</StyledNode>} />
-            </TreeNode>
-          </Tree>
+          {rootItem && (
+            <Tree
+              lineWidth={"2px"}
+              lineColor={grey[400]}
+              lineBorderRadius={"3px"}
+              label={<ProjectOrgCard data={rootItem} />}
+            >
+              {renderRoute(rootItem.id)}
+            </Tree>
+          )}
         </Box>
       </Box>
     </AdminLayout>
