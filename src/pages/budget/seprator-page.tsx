@@ -3,6 +3,7 @@ import FixedTable from "components/data/table/fixed-table";
 import SepratoeBudgetForm from "components/sections/forms/budget/seprator-budget-form";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import IconButton from "@mui/material/IconButton";
+import useCommonFormFieldsSTore from "hooks/store/common-form-fields";
 
 import { TableHeadShape } from "types/table-type";
 import { useQuery } from "@tanstack/react-query";
@@ -11,7 +12,6 @@ import { reactQueryKeys } from "config/react-query-keys-config";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { ReactNode } from "react";
 import { GetSingleSepratorItemShape } from "types/data/budget/seprator-type";
-import useCommonFormFieldsSTore from "hooks/store/common-form-fields";
 
 interface TableDataItemShape {
   id: ReactNode;
@@ -87,6 +87,28 @@ function BudgetSepratorPage() {
       <CreditCardIcon />
     </IconButton>
   );
+
+  const getBgColor = (id: number) => {
+    if (id === 1) {
+      return "rgb(248,203,173)";
+    }
+
+    if (id === 2) {
+      return "rgb(198,224,180)";
+    }
+
+    if (id === 3) {
+      return "rgb(189,215,238)";
+    }
+
+    if (id === 4) {
+      return "rgb(255,255,153)";
+    }
+
+    if (id === 5) {
+      return "#fff";
+    }
+  };
   const formatTableData = (
     unFormatData: GetSingleSepratorItemShape[]
   ): TableDataItemShape[] => {
@@ -99,6 +121,10 @@ function BudgetSepratorPage() {
       expense: item.expense,
       percentBud: item.percentBud,
       actions: actionButtons,
+      bgcolor: getBgColor(item.levelNumber),
+
+      "bgcolor-creditAmount": item.creditAmount > item.mosavab && "#d7a2a2",
+      "bgcolor-expense": item.expense > item.mosavab && "#d7a2a2",
     }));
 
     return formatedData;

@@ -134,11 +134,13 @@ function FixedTable(props: FixedTableProps) {
   const getRenderDataCells = (row: any) => {
     return visibleHeads.map((item, i) => {
       const name = item.name;
+
       return (
         <TableCell
           align={item.align || "center"}
           key={i}
           dir={typeof row[name] === "number" ? "ltr" : "rtl"}
+          sx={{ bgcolor: row[`bgcolor-${name}`] || "transparent" }}
         >
           {formatDataCell(row[name], item, row)}
         </TableCell>
@@ -192,7 +194,8 @@ function FixedTable(props: FixedTableProps) {
                 key={i}
                 sx={{
                   "&:last-child td, &:last-child th": { border: 0 },
-                  "&:nth-child(even)": { bgcolor: grey[100] },
+                  "&:nth-child(even)": { bgcolor: row.bgcolor || grey[100] },
+                  bgcolor: row.bgcolor,
                 }}
               >
                 {getRenderDataCells(row)}

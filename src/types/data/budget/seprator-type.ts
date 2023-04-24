@@ -5,4 +5,5 @@ export interface GetSingleSepratorItemShape {
   creditAmount: number;
   expense: number;
   percentBud: number;
+  levelNumber: number;
 }
