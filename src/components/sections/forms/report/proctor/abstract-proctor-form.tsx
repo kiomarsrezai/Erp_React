@@ -3,12 +3,13 @@ import Box from "@mui/material/Box";
 import LoadingButton from "@mui/lab/LoadingButton";
 import YearInput from "components/sections/inputs/year-input";
 import AreaInput from "components/sections/inputs/area-input";
+import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { FormEvent, useEffect } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { abstructProctorApi } from "api/report/abstruct-proctor-api";
+import { abstructProctorConfig } from "config/features/report/proctor/abstruct-config";
 
 interface AbstractProctorFormProps {
   formData: any;
@@ -44,13 +45,20 @@ function AbstractProctorForm(props: AbstractProctorFormProps) {
         <Grid lg={2}>
           <YearInput
             setter={setFormData}
-            value={formData[sepratorBudgetConfig.YEAR]}
+            value={formData[abstructProctorConfig.YEAR]}
           />
         </Grid>
         <Grid lg={2}>
           <AreaInput
             setter={setFormData}
-            value={formData[sepratorBudgetConfig.AREA]}
+            value={formData[abstructProctorConfig.AREA]}
+          />
+        </Grid>
+
+        <Grid lg={2}>
+          <BudgetMethodInput
+            setter={setFormData}
+            value={formData[abstructProctorConfig.BUDGETPROCESS]}
           />
         </Grid>
 

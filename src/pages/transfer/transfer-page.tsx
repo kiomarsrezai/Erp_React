@@ -8,6 +8,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FixedModal from "components/ui/modal/fixed-modal";
 import TransferModalTable from "components/sections/transfer/transfer-modal-table";
+import WindowLoading from "components/ui/loading/window-loading";
 
 import { useSnackbar } from "notistack";
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
@@ -19,7 +20,6 @@ import { ReactNode, useState } from "react";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { globalConfig } from "config/global-config";
 import { transferConfig } from "config/features/transfer/transfer-config";
-import WindowLoading from "components/ui/loading/window-loading";
 
 interface TableDataItemShape {
   number: ReactNode;

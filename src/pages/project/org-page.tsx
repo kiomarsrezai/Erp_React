@@ -61,8 +61,8 @@ function OrgProjectPage() {
           height="max-content"
           position="absolute"
           left="50%"
-          sx={{ userSelect: "none" }}
-          top={0}
+          sx={{ userSelect: "none", transform: "translateX(0%)" }}
+          top={30}
           ref={element}
           onMouseDown={mouseDown}
           onDragStart={() => false}

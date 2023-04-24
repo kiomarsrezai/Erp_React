@@ -1,15 +1,37 @@
 import AdminLayout from "components/layout/admin-layout";
 import FixedTable from "components/data/table/fixed-table";
 import AbstractProctorForm from "components/sections/forms/report/proctor/abstract-proctor-form";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import IconButton from "@mui/material/IconButton";
 
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { abstructProctorConfig } from "config/features/report/proctor/abstruct-config";
+import { GetSingleAbstructProctorItemShape } from "types/data/report/abstruct-proctor-type";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { reactQueryKeys } from "config/react-query-keys-config";
+import { abstructProctorApi } from "api/report/abstruct-proctor-api";
+import FixedModal from "components/ui/modal/fixed-modal";
+import AbstructModalTable from "components/sections/abstruct/abstruct-modal-table";
+
+interface TableDataItemShape {
+  number: ReactNode;
+  title: ReactNode;
+  mosavabHazine: ReactNode;
+  expenseHazine: ReactNode;
+  jazbHazine: ReactNode;
+  mosavabSarmaie: ReactNode;
+  expenseSarmaie: ReactNode;
+  jazbSarmaie: ReactNode;
+  jazbKol: ReactNode;
+  actions: (row: any) => ReactNode;
+}
 
 function ReportProctorAbstructPage() {
   const [formData, setFormData] = useState({
     [abstructProctorConfig.YEAR]: 32,
     [abstructProctorConfig.AREA]: 1,
+    [abstructProctorConfig.BUDGETPROCESS]: 1,
   });
 
   const tableTopHeadGroups: TableHeadGroupShape = [
@@ -17,7 +39,7 @@ function ReportProctorAbstructPage() {
       title: (
         <AbstractProctorForm formData={formData} setFormData={setFormData} />
       ),
-      colspan: 9,
+      colspan: 10,
     },
   ];
 
@@ -40,7 +62,7 @@ function ReportProctorAbstructPage() {
     },
     {
       title: "",
-      colspan: 1,
+      colspan: 2,
     },
   ];
 
@@ -51,41 +73,104 @@ function ReportProctorAbstructPage() {
     },
     {
       title: "عنوان",
-      name: "code",
+      name: "title",
+      align: "left",
     },
     {
       title: "مصوب",
-      align: "left",
-      name: "description",
+      name: "mosavabHazine",
     },
     {
       title: "عملکرد",
-      align: "left",
-      name: "mosavab",
-      split: true,
+      name: "expenseHazine",
     },
     {
       title: "جذب %",
-      name: "codeAcc",
+      name: "jazbHazine",
     },
     {
       title: "مصوب",
       align: "left",
-      name: "titleAcc",
+      name: "mosavabSarmaie",
     },
     {
       title: "عملکرد",
-      name: "actions",
+      name: "expenseSarmaie",
     },
     {
       title: "عملکرد",
-      name: "جذب %",
+      name: "jazbSarmaie",
     },
     {
       title: "جذب کل %",
+      name: "jazbKol",
+    },
+    {
+      title: "عملیات",
       name: "actions",
     },
   ];
+
+  // modal
+  const dataModalMutation = useMutation(abstructProctorApi.getModalData);
+
+  const [isOpenedModal, setIsOpenedModal] = useState(false);
+  const handleOpenModal = () => {
+    setIsOpenedModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsOpenedModal(false);
+  };
+
+  // table data
+  const handleListClicked = (row: any) => {
+    dataModalMutation.mutate(row.Id);
+
+    handleOpenModal();
+  };
+
+  const actionButtons = (row: TableDataItemShape) => (
+    <IconButton
+      size="small"
+      color="primary"
+      onClick={() => handleListClicked(row)}
+    >
+      <FormatListBulletedIcon />
+    </IconButton>
+  );
+
+  const formatTableData = (
+    unFormatData: GetSingleAbstructProctorItemShape[]
+  ): TableDataItemShape[] => {
+    const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
+      ...item,
+      number: i + 1,
+      title: item.متولی,
+      mosavabHazine: item.mosavabCurrent,
+      expenseHazine: item.expenseCurrent,
+      jazbHazine: item.percentCurrent,
+      mosavabSarmaie: item.mosavabCivil,
+      expenseSarmaie: item.expenseCivil,
+      jazbSarmaie: item.percentCivil,
+      jazbKol: item.percentTotal,
+      actions: actionButtons,
+    }));
+
+    return formatedData;
+  };
+
+  const abstractQuery = useQuery(
+    reactQueryKeys.report.proctor.abstract,
+    () => abstructProctorApi.getData({}),
+    {
+      enabled: false,
+    }
+  );
+
+  const tableData = abstractQuery.data
+    ? formatTableData(abstractQuery.data?.data)
+    : [];
 
   return (
     <AdminLayout>
@@ -93,8 +178,16 @@ function ReportProctorAbstructPage() {
         heads={tableHeads}
         headGroups={tableHeadGroups}
         topHeadGroups={tableTopHeadGroups}
-        data={[]}
+        data={tableData}
       />
+
+      <FixedModal
+        open={isOpenedModal}
+        handleClose={handleCloseModal}
+        loading={dataModalMutation.isLoading}
+      >
+        <AbstructModalTable />
+      </FixedModal>
     </AdminLayout>
   );
 }
