@@ -11,6 +11,7 @@ import grey from "@mui/material/colors/grey";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { numberWithCommas } from "helper/calculate-utils";
+import { globalConfig } from "config/global-config";
 
 const borderColor = 400;
 
@@ -177,7 +178,11 @@ function FixedTable(props: FixedTableProps) {
   return (
     <Paper sx={{ width: "100%", overflow: "hidden", height: 1 }}>
       <TableContainer
-        sx={{ maxHeight: !notFixed ? "calc(100vh - 64px)" : "100%" }}
+        sx={{
+          maxHeight: !notFixed
+            ? `calc(100vh - ${globalConfig.headerHeight}px)`
+            : "100%",
+        }}
       >
         <Table stickyHeader>
           <TableHead sx={{ bgcolor: grey[200] }}>{tableHeadContent}</TableHead>

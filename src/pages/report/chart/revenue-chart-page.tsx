@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { revenueChartFormConfig } from "config/features/revenue-chart-config";
+import { globalConfig } from "config/global-config";
 
 interface ChartDataShape {
   Mosavab: number;
@@ -71,7 +72,7 @@ function ReportRevenueChartPage() {
         sx={{
           width: "100%",
           overflow: "hidden",
-          height: "calc(100vh - 64px)",
+          height: `calc(100vh - ${globalConfig.headerHeight}px)`,
         }}
       >
         <Box ref={boxElement}>
