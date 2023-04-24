@@ -10,6 +10,7 @@ import { FormEvent, useEffect } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { abstructProctorApi } from "api/report/abstruct-proctor-api";
 import { abstructProctorConfig } from "config/features/report/proctor/abstruct-config";
+import ProctorInput from "components/sections/inputs/proctor-input";
 
 interface AbstractProctorFormProps {
   formData: any;
@@ -59,6 +60,13 @@ function AbstractProctorForm(props: AbstractProctorFormProps) {
           <BudgetMethodInput
             setter={setFormData}
             value={formData[abstructProctorConfig.BUDGETPROCESS]}
+          />
+        </Grid>
+
+        <Grid lg={2}>
+          <ProctorInput
+            setter={setFormData}
+            value={formData[abstructProctorConfig.PROCTOR]}
           />
         </Grid>
 

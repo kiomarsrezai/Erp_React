@@ -19,3 +19,8 @@ export interface GetSingleAbstructProctorModalDataItemShape {
   "% جذب سرمایه ای": number;
   "% جذب کل": number;
 }
+
+export interface GetSingleProctorListShape {
+  id: number;
+  proctorName: string;
+}

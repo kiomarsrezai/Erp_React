@@ -32,6 +32,7 @@ function ReportProctorAbstructPage() {
   const [formData, setFormData] = useState({
     [abstructProctorConfig.YEAR]: 32,
     [abstructProctorConfig.AREA]: 1,
+    [abstructProctorConfig.PROCTOR]: 1,
     [abstructProctorConfig.BUDGETPROCESS]: 1,
   });
 
