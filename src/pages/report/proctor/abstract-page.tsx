@@ -13,6 +13,7 @@ import { reactQueryKeys } from "config/react-query-keys-config";
 import { abstructProctorApi } from "api/report/abstruct-proctor-api";
 import FixedModal from "components/ui/modal/fixed-modal";
 import AbstructModalTable from "components/sections/abstruct/abstruct-modal-table";
+import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -55,10 +56,12 @@ function ReportProctorAbstructPage() {
     {
       title: "هزینه ای",
       colspan: 3,
+      align: "center",
     },
     {
       title: "سرمایه ای",
       colspan: 3,
+      align: "center",
     },
     {
       title: "",
@@ -180,12 +183,39 @@ function ReportProctorAbstructPage() {
     ? formatTableData(abstractQuery.data?.data)
     : [];
 
+  // table footer
+  const tableFooter: TableDataItemShape = {
+    number: "جمع",
+    title: "",
+    mosavabHazine: sumFieldsInSingleItemData(
+      abstractQuery.data?.data,
+      "mosavabCurrent"
+    ),
+    expenseHazine: sumFieldsInSingleItemData(
+      abstractQuery.data?.data,
+      "expenseCurrent"
+    ),
+    jazbHazine: "",
+    mosavabSarmaie: sumFieldsInSingleItemData(
+      abstractQuery.data?.data,
+      "mosavabCivil"
+    ),
+    expenseSarmaie: sumFieldsInSingleItemData(
+      abstractQuery.data?.data,
+      "expenseCivil"
+    ),
+    jazbSarmaie: "",
+    jazbKol: "",
+    actions: () => "",
+  };
+
   return (
     <AdminLayout>
       <FixedTable
         heads={tableHeads}
         headGroups={tableHeadGroups}
         topHeadGroups={tableTopHeadGroups}
+        footer={tableFooter}
         data={tableData}
       />
 

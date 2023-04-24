@@ -88,10 +88,14 @@ function FixedTable(props: FixedTableProps) {
             <TableCell
               key={i}
               sx={{
+                borderRight: 1,
                 borderColor: grey[borderColor],
                 bgcolor: grey[200],
+                "&:last-child": {
+                  borderRight: 0,
+                },
               }}
-              align="left"
+              align={headGroup.align || "left"}
               colSpan={headGroup.colspan}
             >
               {headGroup.title}

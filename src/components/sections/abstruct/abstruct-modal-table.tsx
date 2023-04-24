@@ -7,6 +7,7 @@ import CorporateFareIcon from "@mui/icons-material/CorporateFare";
 import { ReactNode } from "react";
 import { GetSingleAbstructProctorModalDataItemShape } from "types/data/report/abstruct-proctor-type";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
+import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -40,10 +41,12 @@ function AbstructModalTable(props: AbstructModalTableProps) {
     {
       title: "هزینه ای",
       colspan: 3,
+      align: "center",
     },
     {
       title: "سرمایه ای",
       colspan: 3,
+      align: "center",
     },
     {
       title: "",
@@ -103,6 +106,7 @@ function AbstructModalTable(props: AbstructModalTableProps) {
     },
   ];
 
+  // table data
   const actionButtons = () => (
     <Box display="flex">
       <IconButton color="primary" size="small">
@@ -136,11 +140,26 @@ function AbstructModalTable(props: AbstructModalTableProps) {
 
   const tableData = data ? formatTableData(data) : [];
 
+  // table footer
+  const tableFooter: TableDataItemShape = {
+    number: "جمع",
+    title: "",
+    mosavabHazine: sumFieldsInSingleItemData(data, "mosavabCurrent"),
+    expenseHazine: sumFieldsInSingleItemData(data, "expenseCurrent"),
+    jazbHazine: "",
+    mosavabSarmaie: sumFieldsInSingleItemData(data, "mosavabCivil"),
+    expenseSarmaie: sumFieldsInSingleItemData(data, "expenseCivil"),
+    jazbSarmaie: "",
+    jazbKol: "",
+    actions: () => "",
+  };
+
   return (
     <FixedTable
       heads={tableHeads}
       headGroups={tableHeadGroups}
       data={tableData}
+      footer={tableFooter}
       notFixed
     />
   );
