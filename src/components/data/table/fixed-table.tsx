@@ -140,7 +140,7 @@ function FixedTable(props: FixedTableProps) {
           align={item.align || "center"}
           key={i}
           dir={typeof row[name] === "number" ? "ltr" : "rtl"}
-          sx={{ bgcolor: row[`bgcolor-${name}`] || "transparent" }}
+          sx={{ bgcolor: row[`bgcolor-${name}`] || "transparent", p: 1 }}
         >
           {formatDataCell(row[name], item, row)}
         </TableCell>

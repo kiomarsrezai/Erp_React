@@ -1,4 +1,5 @@
 import FixedTable from "components/data/table/fixed-table";
+import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { ReactNode } from "react";
 import { GetSingleDetailRevenueChartShape } from "types/data/report/chart/revenue-chart-type";
 import { TableHeadShape } from "types/table-type";
@@ -76,7 +77,25 @@ function RevenueChartDetailModalTable(props: ChartDetailModalTableProps) {
 
   const tableData = data ? formatTableData(data) : [];
 
-  return <FixedTable heads={tableHeads} data={tableData} notFixed />;
+  // table footer
+  const tableFooter: TableDataItemShape = {
+    area: "جمع",
+    dailyJazb: "",
+    expense: sumFieldsInSingleItemData(data, "عملکرد"),
+    mosavab: sumFieldsInSingleItemData(data, "مصوب"),
+    mosavabDaily: sumFieldsInSingleItemData(data, "مصوب روزانه"),
+    mosavabJazb: "",
+    notDoneValue: sumFieldsInSingleItemData(data, "محقق نشده"),
+  };
+
+  return (
+    <FixedTable
+      heads={tableHeads}
+      data={tableData}
+      footer={tableFooter}
+      notFixed
+    />
+  );
 }
 
 export default RevenueChartDetailModalTable;

@@ -86,7 +86,6 @@ function ReportRevenueChartPage() {
             margin: "auto",
           }}
         >
-          {revenueChart.isLoading && "loading"}
           {revenueChart.data && (
             <BulletChart
               lineLabel="عملکرد"

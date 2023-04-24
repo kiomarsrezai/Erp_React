@@ -54,7 +54,6 @@ function BudgetSepratorPage() {
       title: "ت اعتبار",
       name: "creditAmount",
       split: true,
-      align: "left",
       hidden: methodTypeSpratorbudget === 1,
     },
     {
