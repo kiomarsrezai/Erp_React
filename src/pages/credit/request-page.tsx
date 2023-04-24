@@ -26,9 +26,13 @@ import Typography from "@mui/material/Typography";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import ApprovalIcon from "@mui/icons-material/Approval";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
 
 import { grey } from "@mui/material/colors";
 import { useState } from "react";
+import FixedModal from "components/ui/modal/fixed-modal";
+import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -55,17 +59,96 @@ function createData(
   calories: number,
   fat: number,
   carbs: number,
-  protein: number
+  protein: any
 ) {
   return { name, calories, fat, carbs, protein };
 }
 
 const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
+  createData(
+    "1",
+    159,
+    6.0,
+    24,
+    <>
+      <IconButton color="primary" sx={{ position: "relative" }}>
+        <ApprovalIcon />
+        <ClearIcon
+          color="error"
+          sx={{
+            position: "absolute",
+            left: "50%",
+            top: "50%",
+            transform: "translateX(-50%) translateY(-50%)",
+          }}
+        />
+      </IconButton>
+
+      <IconButton color="primary">
+        <ApprovalIcon />
+      </IconButton>
+    </>
+  ),
+  createData(
+    "2",
+    237,
+    9.0,
+    37,
+    <>
+      <IconButton color="error">
+        <ClearIcon />
+      </IconButton>
+
+      <IconButton color="primary">
+        <ApprovalIcon />
+      </IconButton>
+    </>
+  ),
+  createData(
+    "3",
+    262,
+    16.0,
+    24,
+    <>
+      <IconButton color="error">
+        <ClearIcon />
+      </IconButton>
+
+      <IconButton color="primary">
+        <ApprovalIcon />
+      </IconButton>
+    </>
+  ),
+  createData(
+    "4",
+    305,
+    3.7,
+    67,
+    <>
+      <IconButton color="error">
+        <ClearIcon />
+      </IconButton>
+
+      <IconButton color="primary">
+        <ApprovalIcon />
+      </IconButton>
+    </>
+  ),
+  createData(
+    "5",
+    356,
+    16.0,
+    49,
+    <>
+      <IconButton color="error">
+        <ClearIcon />
+      </IconButton>
+
+      <IconButton color="primary">
+        <ApprovalIcon />
+      </IconButton>
+    </>
+  ),
 ];
 
 const style = {
@@ -101,6 +184,14 @@ function RequestCreditPage() {
   };
   const handleCloseContractorModal = () => {
     setIsOpenContractorModal(false);
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   // tabs
@@ -151,6 +242,15 @@ function RequestCreditPage() {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
+            <TableCell colSpan={8}>
+              <Box>
+                <IconButton color="primary">
+                  <GroupAddIcon />
+                </IconButton>
+              </Box>
+            </TableCell>
+          </TableRow>
+          <TableRow>
             <TableCell>ردیف</TableCell>
             <TableCell align="center">نام</TableCell>
             <TableCell align="center">نام خانوادگی</TableCell>
@@ -173,9 +273,9 @@ function RequestCreditPage() {
               <TableCell align="center">{row.calories}</TableCell>
               <TableCell align="center">{row.fat}</TableCell>
               <TableCell align="center">{row.carbs}</TableCell>
-              <TableCell align="center">{row.protein}</TableCell>
-              <TableCell align="center">{row.protein}</TableCell>
-              <TableCell align="center">{row.protein}</TableCell>
+              <TableCell align="center">{row.carbs}</TableCell>
+              <TableCell align="center">{row.carbs}</TableCell>
+              <TableCell align="center">{row.carbs}</TableCell>
               <TableCell align="center">{row.protein}</TableCell>
             </TableRow>
           ))}
@@ -187,6 +287,13 @@ function RequestCreditPage() {
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
+          <TableCell colSpan={6}>
+            <Box>
+              <IconButton color="primary" onClick={handleOpenModal}>
+                <AddIcon />
+              </IconButton>
+            </Box>
+          </TableCell>
           <TableRow>
             <TableCell>ردیف</TableCell>
             <TableCell align="center">ردیف</TableCell>
@@ -208,8 +315,8 @@ function RequestCreditPage() {
               <TableCell align="center">{row.calories}</TableCell>
               <TableCell align="center">{row.fat}</TableCell>
               <TableCell align="center">{row.carbs}</TableCell>
-              <TableCell align="center">{row.protein}</TableCell>
-              <TableCell align="center">{row.protein}</TableCell>
+              <TableCell align="center">{row.carbs}</TableCell>
+              <TableCell align="center">{row.carbs}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -342,24 +449,6 @@ function RequestCreditPage() {
               </Button>
             </ButtonGroup>
           </Grid>
-          {/* <Grid xs={3} xl={2}>
-            <TextField
-              id="request-number-input"
-              label="شماره درخواست"
-              variant="outlined"
-              fullWidth
-              value="384756"
-            />
-          </Grid>
-          <Grid xs={3} xl={2}>
-            <TextField
-              id="request-number-input"
-              label="تاریخ"
-              variant="outlined"
-              fullWidth
-              value="1400/03/04 "
-            />
-          </Grid> */}
         </Grid>
         <Grid container rowSpacing={2} columnSpacing={1}>
           <Grid xs={6} xl={4}>
@@ -493,49 +582,52 @@ function RequestCreditPage() {
           </Box>
         </Modal>
 
-        {/* <Grid container rowSpacing={2} columnSpacing={1}>
-          <Grid xs={3} xl={2}>
-            <TextField
-              id="request-number-input"
-              label="براورد مبلغ"
-              variant="outlined"
-              fullWidth
-              value="235432"
-            />
-          </Grid>
-          <Grid xs={3} xl={2}>
-            <FormControl fullWidth>
-              <InputLabel id="request-type-label">شیوره انجام</InputLabel>
-              <Select
-                labelId="request-type-label"
-                id="request-type-input"
-                value={formData.doingMethod}
-                label="شیوره انجام"
-                onChange={handleChange}
-              >
-                <MenuItem value={"10"}>فاکتوری</MenuItem>
-                <MenuItem value={"20"}>استعلام</MenuItem>
-                <MenuItem value={"30"}>مناقصه محدود</MenuItem>
-                <MenuItem value={"40"}>مناقصه عمومی</MenuItem>
-                <MenuItem value={"50"}>ترک تشریفات</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
-        <Grid container rowSpacing={2} columnSpacing={1}>
-          {formData.doingMethod === "50" && (
-            <Grid xs={6} xl={4}>
-              <TextField
-                id="request-number-input"
-                label="دلیل ترک تشریفات"
-                variant="outlined"
-                value="235432"
-                fullWidth
-                multiline
-              />
-            </Grid>
-          )}
-        </Grid> */}
+        <FixedModal
+          open={isModalOpen}
+          handleClose={handleCloseModal}
+          title="ردیف های بودجه"
+        >
+          <BudgetMethodInput setter={() => {}} value={0} />
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>ردیف</TableCell>
+                  <TableCell align="center">کد بودجه</TableCell>
+                  <TableCell align="center">شرح ردیف</TableCell>
+                  <TableCell align="center">سال</TableCell>
+                  <TableCell align="center">مبلغ</TableCell>
+                  <TableCell align="center">تعدیلات</TableCell>
+                  <TableCell align="center">نهایی</TableCell>
+                  <TableCell align="center">عملیات</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <TableRow
+                    key={row.name}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="center">{row.calories}</TableCell>
+                    <TableCell align="center">{row.fat}</TableCell>
+                    <TableCell align="center">{row.carbs}</TableCell>
+                    <TableCell align="center">{row.carbs}</TableCell>
+                    <TableCell align="center">{row.carbs}</TableCell>
+                    <TableCell align="center">{row.carbs}</TableCell>
+                    <TableCell align="center">
+                      <IconButton color="primary">
+                        <CheckIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </FixedModal>
       </Box>
     </AdminLayout>
   );
