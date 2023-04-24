@@ -79,31 +79,37 @@ function ReportProctorAbstructPage() {
     {
       title: "مصوب",
       name: "mosavabHazine",
+      split: true,
     },
     {
       title: "عملکرد",
       name: "expenseHazine",
+      split: true,
     },
     {
       title: "جذب %",
       name: "jazbHazine",
+      percent: true,
     },
     {
       title: "مصوب",
-      align: "left",
       name: "mosavabSarmaie",
+      split: true,
     },
     {
       title: "عملکرد",
       name: "expenseSarmaie",
+      split: true,
     },
     {
-      title: "عملکرد",
+      title: "جذب %",
       name: "jazbSarmaie",
+      percent: true,
     },
     {
       title: "جذب کل %",
       name: "jazbKol",
+      percent: true,
     },
     {
       title: "عملیات",
@@ -115,6 +121,7 @@ function ReportProctorAbstructPage() {
   const dataModalMutation = useMutation(abstructProctorApi.getModalData);
 
   const [isOpenedModal, setIsOpenedModal] = useState(false);
+  const [titleModal, setTitleModal] = useState("");
   const handleOpenModal = () => {
     setIsOpenedModal(true);
   };
@@ -126,6 +133,7 @@ function ReportProctorAbstructPage() {
   // table data
   const handleListClicked = (row: any) => {
     dataModalMutation.mutate(row.Id);
+    setTitleModal(row["متولی"]);
 
     handleOpenModal();
   };
@@ -185,8 +193,9 @@ function ReportProctorAbstructPage() {
         open={isOpenedModal}
         handleClose={handleCloseModal}
         loading={dataModalMutation.isLoading}
+        title={titleModal}
       >
-        <AbstructModalTable />
+        <AbstructModalTable data={dataModalMutation.data?.data || []} />
       </FixedModal>
     </AdminLayout>
   );

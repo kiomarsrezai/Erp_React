@@ -1,6 +1,7 @@
 import FixedTable from "components/data/table/fixed-table";
 import IconButton from "@mui/material/IconButton";
 import InsertLinkIcon from "@mui/icons-material/InsertLink";
+import WindowLoading from "components/ui/loading/window-loading";
 
 import { TableHeadShape } from "types/table-type";
 import { ReactNode } from "react";
@@ -10,7 +11,6 @@ import { transferApi } from "api/transfer/transfer-api";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import { transferConfig } from "config/features/transfer/transfer-config";
-import WindowLoading from "components/ui/loading/window-loading";
 
 interface TableDataItemShape {
   markazHazine: ReactNode;
@@ -97,7 +97,11 @@ function TransferModalTable(props: TransferModalTableProps) {
   };
 
   const actionButtons = (row: any) => (
-    <IconButton color="primary" onClick={() => handleLinkClick(row)}>
+    <IconButton
+      color="primary"
+      size="small"
+      onClick={() => handleLinkClick(row)}
+    >
       <InsertLinkIcon />
     </IconButton>
   );

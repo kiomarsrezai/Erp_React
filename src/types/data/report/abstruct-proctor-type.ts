@@ -13,9 +13,9 @@ export interface GetSingleAbstructProctorModalDataItemShape {
   منطقه: string;
   mosavabCurrent: number;
   expenseCurrent: number;
-  percentCurrent: number;
+  " % جذب هزینه ای": number;
   mosavabCivil: number;
   expenseCivil: number;
-  percentCivil: number;
-  percentTotal: number;
+  "% جذب سرمایه ای": number;
+  "% جذب کل": number;
 }
