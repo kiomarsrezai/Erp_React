@@ -10,6 +10,7 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 import "assets/styles/font.css";
 import "assets/styles/global.css";
+import "react-medium-image-zoom/dist/styles.css";
 
 // react query client
 const queryClient = new QueryClient({
