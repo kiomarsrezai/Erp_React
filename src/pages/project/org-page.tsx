@@ -6,6 +6,10 @@ import { grey } from "@mui/material/colors";
 import { Tree, TreeNode } from "react-organizational-chart";
 import { useRef } from "react";
 import { globalConfig } from "config/global-config";
+import { orgProjectApi } from "api/project/org-project-api";
+import { orgProjectConfig } from "config/features/project/org-project-config";
+import { useQuery } from "@tanstack/react-query";
+import { reactQueryKeys } from "config/react-query-keys-config";
 
 function OrgProjectPage() {
   const element = useRef<any>(null);
@@ -34,44 +38,32 @@ function OrgProjectPage() {
     };
   }
 
-  const shape = [
+  const orgProjectQuery = useQuery(
+    reactQueryKeys.project.org.getProject,
+    () => orgProjectApi.getProject({ [orgProjectConfig.ID]: 1 }),
     {
-      id: 1,
-      motherId: null,
-    },
-    {
-      id: 2,
-      motherId: 1,
-    },
-    {
-      id: 5,
-      motherId: 1,
-    },
-    {
-      id: 3,
-      motherId: 2,
-    },
-    {
-      id: 4,
-      motherId: 2,
-    },
-    {
-      id: 6,
-      motherId: 4,
-    },
-    {
-      id: 7,
-      motherId: 4,
-    },
-  ];
+      // enabled: false,
+    }
+  );
 
-  const rootItem = shape.find((item) => item.motherId === null);
+  const rootItem = orgProjectQuery.data?.data.find(
+    (item) => item.motherId === null
+  );
 
   const renderRoute = (itemId: number) =>
-    shape
+    orgProjectQuery.data?.data
       .filter((item) => item.motherId === itemId)
       .map((item) => (
-        <TreeNode label={<ProjectOrgCard />} key={item.id}>
+        <TreeNode
+          label={
+            <ProjectOrgCard
+              title={item.projectName}
+              id={item.id}
+              rootId={rootItem?.id || 0}
+            />
+          }
+          key={item.id}
+        >
           {renderRoute(item.id)}
         </TreeNode>
       ));
@@ -106,7 +98,13 @@ function OrgProjectPage() {
               lineWidth={"2px"}
               lineColor={grey[400]}
               lineBorderRadius={"3px"}
-              label={<ProjectOrgCard data={rootItem} />}
+              label={
+                <ProjectOrgCard
+                  title={rootItem.projectName}
+                  rootId={rootItem.id}
+                  id={rootItem.id}
+                />
+              }
             >
               {renderRoute(rootItem.id)}
             </Tree>

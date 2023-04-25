@@ -19,4 +19,10 @@ export const reactQueryKeys = {
     getData: ["transfer"],
     getModalData: ["transfer-modal"],
   },
+  project: {
+    org: {
+      getProject: ["project-org-item"],
+      insertProject: ["project-org-item-add"],
+    },
+  },
 };
