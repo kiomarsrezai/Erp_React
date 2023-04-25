@@ -50,7 +50,11 @@ function AbstructModalTable(props: AbstructModalTableProps) {
     },
     {
       title: "",
-      colspan: 2,
+      colspan: 1,
+    },
+    {
+      title: "",
+      colspan: 1,
     },
   ];
 

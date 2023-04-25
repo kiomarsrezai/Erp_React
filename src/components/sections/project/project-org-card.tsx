@@ -13,6 +13,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import FixedModal from "components/ui/modal/fixed-modal";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import PermMediaIcon from "@mui/icons-material/PermMedia";
+import HandshakeIcon from "@mui/icons-material/Handshake";
 
 import { grey } from "@mui/material/colors";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -27,14 +28,17 @@ interface ProjectOrgCardProps {
   title: string;
   id: number;
   rootId: number;
+  parentId: number;
   code: string;
+  item: any;
   drag: {
     id: number | null;
-    changeId: (prevState: any) => void;
+    changeItem: (prevState: any) => void;
+    item: any;
   };
 }
 function ProjectOrgCard(props: ProjectOrgCardProps) {
-  const { title, id, rootId, code, drag } = props;
+  const { title, id, rootId, code, drag, parentId, item: itemData } = props;
 
   const queryClient = useQueryClient();
   const getDataMutation = useMutation(orgProjectApi.getProject, {
@@ -81,21 +85,27 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
   };
   const updateMutation = useMutation(orgProjectApi.updateProject, {
     onSuccess: () => {
-      getDataMutation.mutate({ [orgProjectConfig.ID]: rootId });
+      getDataMutation.mutate({
+        [orgProjectConfig.ID]: rootId,
+      });
       handleCloseUpdateModal();
     },
   });
 
   const handleModalSubmit = (e: FormEvent) => {
     e.preventDefault();
-    updateMutation.mutate({ [orgProjectConfig.ID]: id, ...dataUpdateFormData });
+    updateMutation.mutate({
+      [orgProjectConfig.ID]: id,
+      ...dataUpdateFormData,
+      [orgProjectConfig.parent_ID]: parentId,
+    });
   };
 
   // drag
   const [dragEntered, setDragEntered] = useState(false);
 
   const handleDragStart = (e: any) => {
-    drag.changeId(id);
+    drag.changeItem(itemData);
   };
 
   const handleDragEnter = (e: any) => {
@@ -111,10 +121,14 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
   };
 
   const handleDrop = (e: any) => {
-    if (drag.id === id) return;
-    console.log(id, " - ", drag.id);
     setDragEntered(false);
-    drag.changeId(null);
+    drag.changeItem(itemData);
+    if (drag.id === id) return;
+    updateMutation.mutate({
+      [orgProjectConfig.title]: drag.item[orgProjectConfig.title],
+      [orgProjectConfig.ID]: drag.id,
+      [orgProjectConfig.parent_ID]: id,
+    });
   };
 
   return (
@@ -125,8 +139,12 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
           variant="outlined"
           sx={{
             width: 300,
-            borderColor: grey[300],
-            bgcolor: dragEntered && drag.id !== id ? grey[300] : grey[100],
+            borderColor: grey[400],
+            borderWidth: 1,
+            bgcolor: dragEntered && drag.id !== id ? grey[400] : grey[200],
+            "&:hover": {
+              borderColor: grey[600],
+            },
           }}
           onDragStart={handleDragStart}
           onDragOver={handleDragEnter}
@@ -154,12 +172,21 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
               <FmdGoodIcon />
             </IconButton>
             <IconButton size="small" color="primary">
+              <HandshakeIcon />
+            </IconButton>
+            <IconButton size="small" color="primary">
               <PermMediaIcon />
             </IconButton>
 
-            <IconButton size="small" color="error" onClick={handleDeleteClick}>
-              <DeleteIcon />
-            </IconButton>
+            {rootId !== id && (
+              <IconButton
+                size="small"
+                color="error"
+                onClick={handleDeleteClick}
+              >
+                <DeleteIcon />
+              </IconButton>
+            )}
           </CardActions>
         </Card>
       </Box>

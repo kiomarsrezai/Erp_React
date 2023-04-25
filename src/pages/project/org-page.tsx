@@ -34,9 +34,15 @@ function OrgProjectPage() {
             <ProjectOrgCard
               title={item.projectName}
               id={item.id}
+              parentId={item.motherId}
               code={item.projectCode}
               rootId={rootItem?.id || 0}
-              drag={{ id: draggedId, changeId: setDraggedId }}
+              drag={{
+                id: draggedItemData?.id,
+                changeItem: setDraggedItemData,
+                item: draggedItemData,
+              }}
+              item={item}
             />
           }
           key={item.id}
@@ -45,7 +51,7 @@ function OrgProjectPage() {
         </TreeNode>
       ));
 
-  const [draggedId, setDraggedId] = useState<number | null>(null);
+  const [draggedItemData, setDraggedItemData] = useState<any | null>(null);
   return (
     <AdminLayout>
       <Box
@@ -83,9 +89,15 @@ function OrgProjectPage() {
                   <ProjectOrgCard
                     title={rootItem.projectName}
                     rootId={rootItem.id}
+                    parentId={rootItem.motherId}
                     code={rootItem.projectCode}
                     id={rootItem.id}
-                    drag={{ id: draggedId, changeId: setDraggedId }}
+                    drag={{
+                      id: draggedItemData?.id,
+                      changeItem: setDraggedItemData,
+                      item: draggedItemData,
+                    }}
+                    item={rootItem}
                   />
                 }
               >

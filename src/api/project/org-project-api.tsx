@@ -39,6 +39,7 @@ export const orgProjectApi = new (class extends BaseApi {
       [orgProjectConfig.ID]: formdata[orgProjectConfig.ID],
       [orgProjectConfig.title]: formdata[orgProjectConfig.title],
       [orgProjectConfig.code]: formdata[orgProjectConfig.code],
+      [orgProjectConfig.parent_ID]: formdata[orgProjectConfig.parent_ID],
     };
 
     const url = UPDATE_ORG_PROJECT_URL + this.joinFilterData(filterData);
