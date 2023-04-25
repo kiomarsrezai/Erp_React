@@ -66,7 +66,11 @@ function ReportProctorAbstructPage() {
     },
     {
       title: "",
-      colspan: 2,
+      colspan: 1,
+    },
+    {
+      title: "",
+      colspan: 1,
     },
   ];
 
@@ -174,7 +178,7 @@ function ReportProctorAbstructPage() {
 
   const abstractQuery = useQuery(
     reactQueryKeys.report.proctor.abstract,
-    () => abstructProctorApi.getData({}),
+    () => abstructProctorApi.getData(false),
     {
       enabled: false,
     }

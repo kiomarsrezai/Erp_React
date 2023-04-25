@@ -2,6 +2,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
+import Tooltip from "@mui/material/Tooltip";
 import ListItemText from "@mui/material/ListItemText";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import MoneyIcon from "@mui/icons-material/Money";
@@ -84,23 +85,25 @@ function AdminSidenavMenu() {
   return (
     <List>
       {sidenavs.map((sidenav, i) => (
-        <ListItem
-          disablePadding
-          component={Link}
-          to={sidenav.path}
-          key={i}
-          sx={isActive(sidenav.path) ? { bgcolor: blue[50] } : {}}
-        >
-          <ListItemButton disableRipple>
-            <ListItemIcon>{sidenav.icon}</ListItemIcon>
-            {!normalize && (
-              <ListItemText
-                sx={{ color: "GrayText" }}
-                primary={sidenav.title}
-              />
-            )}
-          </ListItemButton>
-        </ListItem>
+        <Tooltip title={normalize ? sidenav.title : ""} placement="right">
+          <ListItem
+            disablePadding
+            component={Link}
+            to={sidenav.path}
+            key={i}
+            sx={isActive(sidenav.path) ? { bgcolor: blue[50] } : {}}
+          >
+            <ListItemButton disableRipple>
+              <ListItemIcon>{sidenav.icon}</ListItemIcon>
+              {!normalize && (
+                <ListItemText
+                  sx={{ color: "GrayText" }}
+                  primary={sidenav.title}
+                />
+              )}
+            </ListItemButton>
+          </ListItem>
+        </Tooltip>
       ))}
     </List>
   );

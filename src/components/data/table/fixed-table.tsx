@@ -106,7 +106,7 @@ function FixedTable(props: FixedTableProps) {
       )}
       <TableRow>
         {visibleHeads.map(
-          (head) =>
+          (head, i) =>
             !head.hidden && (
               <TableCell
                 key={head.title}
