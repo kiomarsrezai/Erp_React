@@ -23,6 +23,7 @@ import { orgProjectConfig } from "config/features/project/org-project-config";
 import { useState, FormEvent } from "react";
 import { createPortal } from "react-dom";
 import { TextField } from "@mui/material";
+import ProjectOrgMediaModal from "./project-org-media-modal";
 
 interface ProjectOrgCardProps {
   title: string;
@@ -136,6 +137,16 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
     }
   };
 
+  // media
+  const [mediaModal, setMediaModal] = useState(false);
+  const handleCloseMediaModal = () => {
+    setMediaModal(false);
+  };
+
+  const handleOpenMediaModal = () => {
+    setMediaModal(true);
+  };
+
   return (
     <>
       <Box display="flex" justifyContent="center">
@@ -177,7 +188,11 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
             <IconButton size="small" color="primary">
               <HandshakeIcon />
             </IconButton>
-            <IconButton size="small" color="primary">
+            <IconButton
+              size="small"
+              color="primary"
+              onClick={handleOpenMediaModal}
+            >
               <PermMediaIcon />
             </IconButton>
 
@@ -194,6 +209,7 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
         </Card>
       </Box>
 
+      {/* update data */}
       <FixedModal
         handleClose={handleCloseUpdateModal}
         open={updateModal}
@@ -241,6 +257,16 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
         </Box>
       </FixedModal>
 
+      {/* media */}
+      <FixedModal
+        handleClose={handleCloseMediaModal}
+        open={mediaModal}
+        title="رسانه های پروژه"
+      >
+        <ProjectOrgMediaModal />
+      </FixedModal>
+
+      {/* loading */}
       {createPortal(
         <WindowLoading
           active={
