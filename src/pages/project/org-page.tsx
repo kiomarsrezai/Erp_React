@@ -59,6 +59,7 @@ function OrgProjectPage() {
             <ProjectOrgCard
               title={item.projectName}
               id={item.id}
+              code={item.projectCode}
               rootId={rootItem?.id || 0}
             />
           }
@@ -102,6 +103,7 @@ function OrgProjectPage() {
                 <ProjectOrgCard
                   title={rootItem.projectName}
                   rootId={rootItem.id}
+                  code={rootItem.projectCode}
                   id={rootItem.id}
                 />
               }

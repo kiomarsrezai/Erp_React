@@ -7,6 +7,7 @@ import {
   DELETE_ORG_PROJECT_URL,
   INSERT_ORG_PROJECT_URL,
   ORG_PROJECT_URL,
+  UPDATE_ORG_PROJECT_URL,
   orgProjectConfig,
 } from "config/features/project/org-project-config";
 
@@ -29,6 +30,18 @@ export const orgProjectApi = new (class extends BaseApi {
     };
 
     const url = INSERT_ORG_PROJECT_URL + this.joinFilterData(filterData);
+    const response = await clientAxios.get<BaseApiResponseShape<boolean>>(url);
+    return response.data;
+  };
+
+  updateProject = async (formdata: any) => {
+    const filterData = {
+      [orgProjectConfig.ID]: formdata[orgProjectConfig.ID],
+      [orgProjectConfig.title]: formdata[orgProjectConfig.title],
+      [orgProjectConfig.code]: formdata[orgProjectConfig.code],
+    };
+
+    const url = UPDATE_ORG_PROJECT_URL + this.joinFilterData(filterData);
     const response = await clientAxios.get<BaseApiResponseShape<boolean>>(url);
     return response.data;
   };
