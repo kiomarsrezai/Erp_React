@@ -41,6 +41,7 @@ function OrgProjectPage() {
                 id: draggedItemData?.id,
                 changeItem: setDraggedItemData,
                 item: draggedItemData,
+                canDrag,
               }}
               item={item}
             />
@@ -51,7 +52,22 @@ function OrgProjectPage() {
         </TreeNode>
       ));
 
+  // drag
   const [draggedItemData, setDraggedItemData] = useState<any | null>(null);
+
+  const canDrag = (id: number, toId: number) => {
+    let checker: number | null = toId;
+    while (checker) {
+      if (checker === id) return false;
+
+      const item = orgProjectQuery.data?.data.find(
+        (item) => item.id === checker
+      );
+
+      checker = item?.motherId || null;
+    }
+    return true;
+  };
   return (
     <AdminLayout>
       <Box
@@ -96,6 +112,7 @@ function OrgProjectPage() {
                       id: draggedItemData?.id,
                       changeItem: setDraggedItemData,
                       item: draggedItemData,
+                      canDrag,
                     }}
                     item={rootItem}
                   />

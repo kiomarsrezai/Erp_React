@@ -35,6 +35,7 @@ interface ProjectOrgCardProps {
     id: number | null;
     changeItem: (prevState: any) => void;
     item: any;
+    canDrag: (id: number, toId: number) => boolean;
   };
 }
 function ProjectOrgCard(props: ProjectOrgCardProps) {
@@ -111,7 +112,9 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
   const handleDragEnter = (e: any) => {
     e.preventDefault();
     e.stopPropagation();
-    setDragEntered(true);
+    if (drag.canDrag(drag.id || 0, id)) {
+      setDragEntered(true);
+    }
   };
 
   const handleDragLeave = (e: any) => {
@@ -123,12 +126,14 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
   const handleDrop = (e: any) => {
     setDragEntered(false);
     drag.changeItem(itemData);
-    if (drag.id === id) return;
-    updateMutation.mutate({
-      [orgProjectConfig.title]: drag.item[orgProjectConfig.title],
-      [orgProjectConfig.ID]: drag.id,
-      [orgProjectConfig.parent_ID]: id,
-    });
+
+    if (drag.canDrag(drag.id || 0, id)) {
+      updateMutation.mutate({
+        [orgProjectConfig.title]: drag.item[orgProjectConfig.title],
+        [orgProjectConfig.ID]: drag.id,
+        [orgProjectConfig.parent_ID]: id,
+      });
+    }
   };
 
   return (
@@ -152,9 +157,7 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
           onDrop={handleDrop}
         >
           <CardContent onDragEnter={(e) => e.stopPropagation()}>
-            <Typography variant="body1">
-              {title} - {id}
-            </Typography>
+            <Typography variant="body1">{title}</Typography>
           </CardContent>
           <CardActions>
             <IconButton size="small" color="primary" onClick={handleAddClick}>

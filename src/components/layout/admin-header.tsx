@@ -24,7 +24,10 @@ function AdminHeader() {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          سازمان فاوا
+          سامانه ERP
+          <Typography variant="caption" sx={{ ml: 1 }}>
+            ( سازمان فاوا اهواز )
+          </Typography>
         </Typography>
         <IconButton color="inherit">
           <NotificationsIcon />
