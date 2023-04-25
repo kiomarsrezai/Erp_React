@@ -11,6 +11,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import WindowLoading from "components/ui/loading/window-loading";
 import EditIcon from "@mui/icons-material/Edit";
 import FixedModal from "components/ui/modal/fixed-modal";
+import FmdGoodIcon from "@mui/icons-material/FmdGood";
+import PermMediaIcon from "@mui/icons-material/PermMedia";
 
 import { grey } from "@mui/material/colors";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -26,9 +28,13 @@ interface ProjectOrgCardProps {
   id: number;
   rootId: number;
   code: string;
+  drag: {
+    id: number | null;
+    changeId: (prevState: any) => void;
+  };
 }
 function ProjectOrgCard(props: ProjectOrgCardProps) {
-  const { title, id, rootId, code } = props;
+  const { title, id, rootId, code, drag } = props;
 
   const queryClient = useQueryClient();
   const getDataMutation = useMutation(orgProjectApi.getProject, {
@@ -85,29 +91,74 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
     updateMutation.mutate({ [orgProjectConfig.ID]: id, ...dataUpdateFormData });
   };
 
+  // drag
+  const [dragEntered, setDragEntered] = useState(false);
+
+  const handleDragStart = (e: any) => {
+    drag.changeId(id);
+  };
+
+  const handleDragEnter = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragEntered(true);
+  };
+
+  const handleDragLeave = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragEntered(false);
+  };
+
+  const handleDrop = (e: any) => {
+    if (drag.id === id) return;
+    console.log(id, " - ", drag.id);
+    setDragEntered(false);
+    drag.changeId(null);
+  };
+
   return (
     <>
       <Box display="flex" justifyContent="center">
         <Card
+          draggable={true}
           variant="outlined"
-          sx={{ width: 300, borderColor: grey[300], bgcolor: grey[100] }}
+          sx={{
+            width: 300,
+            borderColor: grey[300],
+            bgcolor: dragEntered && drag.id !== id ? grey[300] : grey[100],
+          }}
+          onDragStart={handleDragStart}
+          onDragOver={handleDragEnter}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
         >
-          <CardContent>
-            <Typography variant="body1">{title}</Typography>
+          <CardContent onDragEnter={(e) => e.stopPropagation()}>
+            <Typography variant="body1">
+              {title} - {id}
+            </Typography>
           </CardContent>
           <CardActions>
             <IconButton size="small" color="primary" onClick={handleAddClick}>
               <AddIcon />
             </IconButton>
-            <IconButton size="small" color="error" onClick={handleDeleteClick}>
-              <DeleteIcon />
-            </IconButton>
+
             <IconButton
               size="small"
-              color="secondary"
+              color="primary"
               onClick={handleOpenUpdateModal}
             >
               <EditIcon />
+            </IconButton>
+            <IconButton size="small" color="primary">
+              <FmdGoodIcon />
+            </IconButton>
+            <IconButton size="small" color="primary">
+              <PermMediaIcon />
+            </IconButton>
+
+            <IconButton size="small" color="error" onClick={handleDeleteClick}>
+              <DeleteIcon />
             </IconButton>
           </CardActions>
         </Card>

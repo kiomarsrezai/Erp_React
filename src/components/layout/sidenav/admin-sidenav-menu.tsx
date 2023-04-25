@@ -85,12 +85,15 @@ function AdminSidenavMenu() {
   return (
     <List>
       {sidenavs.map((sidenav, i) => (
-        <Tooltip title={normalize ? sidenav.title : ""} placement="right">
+        <Tooltip
+          title={normalize ? sidenav.title : ""}
+          placement="right"
+          key={i}
+        >
           <ListItem
             disablePadding
             component={Link}
             to={sidenav.path}
-            key={i}
             sx={isActive(sidenav.path) ? { bgcolor: blue[50] } : {}}
           >
             <ListItemButton disableRipple>
