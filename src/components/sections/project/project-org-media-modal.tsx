@@ -1,14 +1,22 @@
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import Zoom from "react-medium-image-zoom";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 
-import { useRef } from "react";
+import { useState } from "react";
+import UploadFileDrop from "components/ui/inputs/upload-file-drop";
 
 function ProjectOrgMediaModal() {
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  //   tabs
+  const [tabValue, setTabValue] = useState(0);
 
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTabValue(newValue);
+  };
+
+  // data
   const itemData = [
     {
       img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
@@ -158,25 +166,38 @@ function ProjectOrgMediaModal() {
 
   return (
     <Box p={2}>
-      <input type="file" hidden ref={fileInputRef} />
-      <Button variant="contained" onClick={() => fileInputRef.current?.click()}>
-        آپلود رسانه
-      </Button>
-      <ImageList cols={6}>
-        {itemData.map((item) => (
-          <ImageListItem key={item.img}>
-            <Zoom>
-              <img
-                src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                alt={item.title}
-                loading="lazy"
-                style={{ width: "100%", height: "100%" }}
-              />
-            </Zoom>
-          </ImageListItem>
-        ))}
-      </ImageList>
+      <Tabs value={tabValue} onChange={handleTabChange}>
+        <Tab label="فایل ها" />
+        <Tab label="آپلود" />
+      </Tabs>
+      <Box
+        display={tabValue === 0 ? "block" : "none"}
+        p={2}
+        sx={{ height: "max-content !important" }}
+      >
+        <ImageList cols={6}>
+          {itemData.map((item, i) => (
+            <ImageListItem key={i}>
+              <Zoom>
+                <img
+                  src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+                  srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                  alt={item.title}
+                  loading="lazy"
+                  style={{ width: "100%", height: "100%", borderRadius: 2 }}
+                />
+              </Zoom>
+            </ImageListItem>
+          ))}
+        </ImageList>
+      </Box>
+      <Box
+        display={tabValue === 1 ? "block" : "none"}
+        p={2}
+        sx={{ height: "max-content !important" }}
+      >
+        <UploadFileDrop />
+      </Box>
     </Box>
   );
 }
