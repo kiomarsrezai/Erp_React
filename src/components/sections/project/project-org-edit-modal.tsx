@@ -1,8 +1,10 @@
 import Grid from "@mui/material/Unstable_Grid2";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
 
-import { FormEvent, useState } from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { orgProjectConfig } from "config/features/project/org-project-config";
 import { orgProjectApi } from "api/project/org-project-api";
 import { useMutation } from "@tanstack/react-query";
@@ -16,8 +18,6 @@ interface ProjectOrgEditModalProps {
 }
 function ProjectOrgEditModal(props: ProjectOrgEditModalProps) {
   const { itemData, onDoneTask } = props;
-
-  const [dataUpdateFormData, setDataUpdateFormData] = useState(itemData);
 
   const updateMutation = useMutation(orgProjectApi.updateProject, {
     onSuccess: () => {
@@ -33,28 +33,40 @@ function ProjectOrgEditModal(props: ProjectOrgEditModalProps) {
     },
   });
 
-  const handleModalSubmit = (e: FormEvent) => {
-    e.preventDefault();
+  // form manage
+  const editFormSchema = yup.object({
+    [orgProjectConfig.title]: yup.string().required(),
+    [orgProjectConfig.code]: yup.number().required(),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(editFormSchema),
+  });
+
+  const onSubmitHandler = (values: any) => {
+    console.log(values);
     updateMutation.mutate({
-      ...dataUpdateFormData,
+      ...itemData,
+      ...values,
     });
   };
 
   return (
-    <Box p={2} component="form" onSubmit={handleModalSubmit}>
+    <Box p={2} component="form" onSubmit={handleSubmit(onSubmitHandler)}>
       <Grid container spacing={1}>
         <Grid lg={3}>
           <TextField
             id="title-input"
             label="عنوان"
             variant="outlined"
-            value={dataUpdateFormData[orgProjectConfig.title]}
-            onChange={(e) => {
-              setDataUpdateFormData((prevState: any) => ({
-                ...prevState,
-                [orgProjectConfig.title]: e.target.value,
-              }));
-            }}
+            {...register(orgProjectConfig.title)}
+            error={!!errors[orgProjectConfig.title]}
+            helperText={(errors[orgProjectConfig.title]?.message || "") as any}
+            defaultValue={itemData[orgProjectConfig.title]}
             fullWidth
           />
         </Grid>
@@ -63,13 +75,10 @@ function ProjectOrgEditModal(props: ProjectOrgEditModalProps) {
             id="code-input"
             label="کد"
             variant="outlined"
-            value={dataUpdateFormData[orgProjectConfig.code]}
-            onChange={(e) => {
-              setDataUpdateFormData((prevState: any) => ({
-                ...prevState,
-                [orgProjectConfig.code]: e.target.value,
-              }));
-            }}
+            {...register(orgProjectConfig.code)}
+            error={!!errors[orgProjectConfig.code]}
+            helperText={(errors[orgProjectConfig.code]?.message || "") as any}
+            defaultValue={itemData[orgProjectConfig.code]}
             fullWidth
           />
         </Grid>
