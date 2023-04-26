@@ -6,6 +6,6 @@ export const orgProjectConfig = {
 };
 
 export const ORG_PROJECT_URL = "ProjectApi/GetProject";
-export const INSERT_ORG_PROJECT_URL = "ProjectApi/InsertProject";
+export const INSERT_ORG_PROJECT_URL = "ProjectApi/ProjectInsert";
 export const UPDATE_ORG_PROJECT_URL = "ProjectApi/ProjectUpdate";
-export const DELETE_ORG_PROJECT_URL = "ProjectApi/DeleteProject";
+export const DELETE_ORG_PROJECT_URL = "ProjectApi/ProjectDelete";

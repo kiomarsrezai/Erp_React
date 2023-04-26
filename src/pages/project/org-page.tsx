@@ -11,6 +11,7 @@ import { orgProjectConfig } from "config/features/project/org-project-config";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
+import ProjectOrgTools from "components/sections/project/project-org-tools";
 
 function OrgProjectPage() {
   const orgProjectQuery = useQuery(
@@ -76,6 +77,8 @@ function OrgProjectPage() {
     );
     return !haveChild;
   };
+
+  const [zoomValue, setZoomValue] = useState(1);
   return (
     <AdminLayout>
       <Box
@@ -84,53 +87,56 @@ function OrgProjectPage() {
         position="relative"
         overflow="hidden"
       >
-        <Draggable
-          positionOffset={{ x: "50%", y: "0" }}
-          cancel=".MuiPaper-root"
-          axis="both"
-          defaultPosition={{ x: 0, y: 0 }}
-          scale={1}
-        >
-          <Box
-            width="max-content"
-            height="max-content"
-            position="absolute"
-            left="50%"
-            p="30px"
-            sx={{
-              userSelect: "none",
-              bgcolor: grey[50],
-              borderRadius: 3,
-            }}
-            top={30}
+        <ProjectOrgTools handleChangeZoom={setZoomValue} zoom={zoomValue} />
+        <Box style={{ transform: `scale(${zoomValue})` }}>
+          <Draggable
+            positionOffset={{ x: "50%", y: "0" }}
+            cancel=".MuiPaper-root"
+            axis="both"
+            defaultPosition={{ x: 0, y: 0 }}
+            scale={1 * zoomValue}
           >
-            {rootItem && (
-              <Tree
-                lineWidth={"2px"}
-                lineColor={grey[400]}
-                lineBorderRadius={"3px"}
-                label={
-                  <ProjectOrgCard
-                    title={rootItem.projectName}
-                    rootId={rootItem.id}
-                    parentId={rootItem.motherId}
-                    id={rootItem.id}
-                    drag={{
-                      id: draggedItemData?.id,
-                      changeItem: setDraggedItemData,
-                      item: draggedItemData,
-                      canDrag,
-                    }}
-                    isLastChild={false}
-                    item={rootItem}
-                  />
-                }
-              >
-                {renderRoute(rootItem.id)}
-              </Tree>
-            )}
-          </Box>
-        </Draggable>
+            <Box
+              width="max-content"
+              height="max-content"
+              position="absolute"
+              left="50%"
+              p="30px"
+              sx={{
+                userSelect: "none",
+                bgcolor: grey[50],
+                borderRadius: 3,
+              }}
+              top={30}
+            >
+              {rootItem && (
+                <Tree
+                  lineWidth={"2px"}
+                  lineColor={grey[400]}
+                  lineBorderRadius={"3px"}
+                  label={
+                    <ProjectOrgCard
+                      title={rootItem.projectName}
+                      rootId={rootItem.id}
+                      parentId={rootItem.motherId}
+                      id={rootItem.id}
+                      drag={{
+                        id: draggedItemData?.id,
+                        changeItem: setDraggedItemData,
+                        item: draggedItemData,
+                        canDrag,
+                      }}
+                      isLastChild={false}
+                      item={rootItem}
+                    />
+                  }
+                >
+                  {renderRoute(rootItem.id)}
+                </Tree>
+              )}
+            </Box>
+          </Draggable>
+        </Box>
       </Box>
     </AdminLayout>
   );

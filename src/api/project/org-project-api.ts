@@ -30,7 +30,7 @@ export const orgProjectApi = new (class extends BaseApi {
     };
 
     const url = INSERT_ORG_PROJECT_URL + this.joinFilterData(filterData);
-    const response = await clientAxios.get<BaseApiResponseShape<boolean>>(url);
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(url);
     return response.data;
   };
 
@@ -43,7 +43,7 @@ export const orgProjectApi = new (class extends BaseApi {
     };
 
     const url = UPDATE_ORG_PROJECT_URL + this.joinFilterData(filterData);
-    const response = await clientAxios.get<BaseApiResponseShape<boolean>>(url);
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(url);
     return response.data;
   };
 
@@ -53,7 +53,7 @@ export const orgProjectApi = new (class extends BaseApi {
     };
 
     const url = DELETE_ORG_PROJECT_URL + this.joinFilterData(filterData);
-    const response = await clientAxios.get<BaseApiResponseShape<boolean>>(url);
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(url);
     return response.data;
   };
 })();
