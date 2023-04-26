@@ -9,7 +9,7 @@ import { useState } from "react";
 import UploadFileDrop from "components/ui/inputs/upload-file-drop";
 
 function ProjectOrgMediaModal() {
-  //   tabs
+  // tabs
   const [tabValue, setTabValue] = useState(0);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {

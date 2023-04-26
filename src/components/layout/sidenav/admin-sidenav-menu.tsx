@@ -13,6 +13,7 @@ import useLayoutStore from "hooks/store/layout-store";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import KeyIcon from "@mui/icons-material/Key";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import GroupsIcon from "@mui/icons-material/Groups";
 
 import { blue } from "@mui/material/colors";
 import { ReactNode } from "react";
@@ -72,6 +73,11 @@ function AdminSidenavMenu() {
       title: "پروژه ها",
       path: "/project/org",
       icon: <AccountTreeIcon />,
+    },
+    {
+      title: "جلسات",
+      path: "/project/meetings",
+      icon: <GroupsIcon />,
     },
   ];
 

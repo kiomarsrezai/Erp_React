@@ -9,6 +9,7 @@ import { createBrowserRouter } from "react-router-dom";
 import RequestCreditPage from "pages/credit/request-page";
 import AccessPage from "pages/access-page";
 import OrgProjectPage from "pages/project/org-page";
+import MeetingsProjectPage from "pages/project/meetings-page";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
   {
     path: "/project/org",
     element: <OrgProjectPage />,
+  },
+  {
+    path: "/project/meetings",
+    element: <MeetingsProjectPage />,
   },
 ]);
 
