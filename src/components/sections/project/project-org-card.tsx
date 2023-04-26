@@ -33,8 +33,8 @@ interface ProjectOrgCardProps {
   id: number;
   rootId: number;
   parentId: number;
-  code: string;
   item: any;
+  isLastChild: boolean;
   drag: {
     id: number | null;
     changeItem: (prevState: any) => void;
@@ -43,7 +43,7 @@ interface ProjectOrgCardProps {
   };
 }
 function ProjectOrgCard(props: ProjectOrgCardProps) {
-  const { title, id, rootId, code, drag, parentId, item: itemData } = props;
+  const { title, id, rootId, drag, item: itemData, isLastChild } = props;
 
   const queryClient = useQueryClient();
   const getDataMutation = useMutation(orgProjectApi.getProject, {
@@ -195,7 +195,7 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
               <PermMediaIcon />
             </IconButton>
 
-            {rootId !== id && (
+            {rootId !== id && isLastChild && (
               <IconButton
                 size="small"
                 color="error"

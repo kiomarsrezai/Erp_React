@@ -35,7 +35,6 @@ function OrgProjectPage() {
               title={item.projectName}
               id={item.id}
               parentId={item.motherId}
-              code={item.projectCode}
               rootId={rootItem?.id || 0}
               drag={{
                 id: draggedItemData?.id,
@@ -44,6 +43,7 @@ function OrgProjectPage() {
                 canDrag,
               }}
               item={item}
+              isLastChild={itsLastChild(item.id)}
             />
           }
           key={item.id}
@@ -67,6 +67,14 @@ function OrgProjectPage() {
       checker = item?.motherId || null;
     }
     return true;
+  };
+
+  // utils
+  const itsLastChild = (id: number) => {
+    const haveChild = !!orgProjectQuery.data?.data.find(
+      (item) => item.motherId === id
+    );
+    return !haveChild;
   };
   return (
     <AdminLayout>
@@ -106,7 +114,6 @@ function OrgProjectPage() {
                     title={rootItem.projectName}
                     rootId={rootItem.id}
                     parentId={rootItem.motherId}
-                    code={rootItem.projectCode}
                     id={rootItem.id}
                     drag={{
                       id: draggedItemData?.id,
@@ -114,6 +121,7 @@ function OrgProjectPage() {
                       item: draggedItemData,
                       canDrag,
                     }}
+                    isLastChild={false}
                     item={rootItem}
                   />
                 }
