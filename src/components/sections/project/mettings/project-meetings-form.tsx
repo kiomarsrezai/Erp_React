@@ -16,6 +16,7 @@ import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { FormEvent, useState } from "react";
 import { transferApi } from "api/transfer/transfer-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
+import { mettingsProjectApi } from "api/project/meetings-project-api";
 
 interface ProjectMeetingsFormProps {
   formData: any;
@@ -26,16 +27,19 @@ function ProjectMeetingsForm(props: ProjectMeetingsFormProps) {
   const { formData, setFormData } = props;
 
   // submit
-  const queryClient = useQueryClient();
-  const submitMutation = useMutation(transferApi.getData, {
-    onSuccess: (data) => {
-      queryClient.setQueryData(reactQueryKeys.transfer.getData, data);
-    },
-  });
+  // const queryClient = useQueryClient();
+  // const submitMutation = useMutation(mettingsProjectApi.getCommiteModal, {
+  //   onSuccess: (data) => {
+  //     queryClient.setQueryData(
+  //       reactQueryKeys.project.mettings.getCommitesModal,
+  //       data
+  //     );
+  //   },
+  // });
 
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
-    submitMutation.mutate(formData);
+    // submitMutation.mutate(formData);
   };
 
   // modal
@@ -45,6 +49,15 @@ function ProjectMeetingsForm(props: ProjectMeetingsFormProps) {
   };
   const handleOpenMeetingsModal = () => {
     setOpenMeetingsModal(true);
+  };
+
+  const handleSelectItem = ({ date, code, commite }: any) => {
+    setFormData({
+      date,
+      code,
+      commite,
+    });
+    handleCloseMeetingsModal();
   };
 
   return (
@@ -59,6 +72,7 @@ function ProjectMeetingsForm(props: ProjectMeetingsFormProps) {
               size="small"
               disabled
               fullWidth
+              value={formData.commite}
             />
           </Grid>
           <Grid lg={2}>
@@ -69,6 +83,7 @@ function ProjectMeetingsForm(props: ProjectMeetingsFormProps) {
               size="small"
               disabled
               fullWidth
+              value={formData.code}
             />
           </Grid>
 
@@ -80,6 +95,7 @@ function ProjectMeetingsForm(props: ProjectMeetingsFormProps) {
               size="small"
               disabled
               fullWidth
+              value={formData.date}
             />
           </Grid>
           <Grid lg={4}>
@@ -97,9 +113,9 @@ function ProjectMeetingsForm(props: ProjectMeetingsFormProps) {
       <FixedModal
         open={openMeetingsModal}
         handleClose={handleCloseMeetingsModal}
-        title="جستجوی صورت جلسه"
+        title="انتخاب صورت جلسه"
       >
-        <ProjectMettingsModa />
+        <ProjectMettingsModa onSelectItem={handleSelectItem} />
       </FixedModal>
     </>
   );

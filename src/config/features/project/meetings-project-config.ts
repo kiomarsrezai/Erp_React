@@ -8,3 +8,6 @@ export const mettingsProjectConfig = {
 
 export const COMMITE_METTINGS_COMBO_PROJECT_URL =
   "ProjectApi/ProjectCommiteKindCombo";
+
+export const COMMITE_MEETINGS_MODAL_PROJECT_URL =
+  "ProjectApi/ProjectCommitModal";

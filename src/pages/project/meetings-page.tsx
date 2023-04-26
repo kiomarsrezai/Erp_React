@@ -6,7 +6,9 @@ import { useState } from "react";
 function MeetingsProjectPage() {
   // forms
   const [formData, setFormData] = useState({
-    //
+    date: "",
+    code: "",
+    commite: "",
   });
 
   return (

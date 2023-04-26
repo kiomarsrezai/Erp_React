@@ -24,5 +24,8 @@ export const reactQueryKeys = {
       getProject: ["project-org-item"],
       insertProject: ["project-org-item-add"],
     },
+    mettings: {
+      getCommitesModal: ["project-mettings-modals"],
+    },
   },
 };
