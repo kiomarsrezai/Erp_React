@@ -14,6 +14,7 @@ import FixedModal from "components/ui/modal/fixed-modal";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import PermMediaIcon from "@mui/icons-material/PermMedia";
 import HandshakeIcon from "@mui/icons-material/Handshake";
+import ProjectOrgMediaModal from "./project-org-media-modal";
 
 import { grey } from "@mui/material/colors";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -23,7 +24,9 @@ import { orgProjectConfig } from "config/features/project/org-project-config";
 import { useState, FormEvent } from "react";
 import { createPortal } from "react-dom";
 import { TextField } from "@mui/material";
-import ProjectOrgMediaModal from "./project-org-media-modal";
+import ProjectOrgEditModal from "./project-org-edit-modal";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
 
 interface ProjectOrgCardProps {
   title: string;
@@ -71,12 +74,7 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
     deleteMutation.mutate({ [orgProjectConfig.ID]: id });
   };
 
-  // update item
-  const [dataUpdateFormData, setDataUpdateFormData] = useState({
-    [orgProjectConfig.title]: title,
-    [orgProjectConfig.code]: code,
-  });
-
+  // edit modal - update item
   const [updateModal, setUpdateModal] = useState(false);
   const handleOpenUpdateModal = () => {
     setUpdateModal(true);
@@ -85,23 +83,24 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
   const handleCloseUpdateModal = () => {
     setUpdateModal(false);
   };
+
+  const handleDoneTaskEditModal = () => {
+    getDataMutation.mutate({
+      [orgProjectConfig.ID]: rootId,
+    });
+    handleCloseUpdateModal();
+  };
+
   const updateMutation = useMutation(orgProjectApi.updateProject, {
     onSuccess: () => {
-      getDataMutation.mutate({
-        [orgProjectConfig.ID]: rootId,
+      handleDoneTaskEditModal();
+    },
+    onError: () => {
+      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+        variant: "error",
       });
-      handleCloseUpdateModal();
     },
   });
-
-  const handleModalSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    updateMutation.mutate({
-      [orgProjectConfig.ID]: id,
-      ...dataUpdateFormData,
-      [orgProjectConfig.parent_ID]: parentId,
-    });
-  };
 
   // drag
   const [dragEntered, setDragEntered] = useState(false);
@@ -130,7 +129,7 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
 
     if (drag.canDrag(drag.id || 0, id)) {
       updateMutation.mutate({
-        [orgProjectConfig.title]: drag.item[orgProjectConfig.title],
+        ...drag.item,
         [orgProjectConfig.ID]: drag.id,
         [orgProjectConfig.parent_ID]: id,
       });
@@ -215,46 +214,10 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
         open={updateModal}
         title="ویرایش پروژه"
       >
-        <Box p={2} component="form" onSubmit={handleModalSubmit}>
-          <Grid container spacing={1}>
-            <Grid lg={3}>
-              <TextField
-                id="title-input"
-                label="عنوان"
-                variant="outlined"
-                value={dataUpdateFormData[orgProjectConfig.title]}
-                onChange={(e) => {
-                  setDataUpdateFormData((prevState) => ({
-                    ...prevState,
-                    [orgProjectConfig.title]: e.target.value,
-                  }));
-                }}
-                fullWidth
-              />
-            </Grid>
-            <Grid lg={3}>
-              <TextField
-                id="code-input"
-                label="کد"
-                variant="outlined"
-                value={dataUpdateFormData[orgProjectConfig.code]}
-                onChange={(e) => {
-                  setDataUpdateFormData((prevState) => ({
-                    ...prevState,
-                    [orgProjectConfig.code]: e.target.value,
-                  }));
-                }}
-                fullWidth
-              />
-            </Grid>
-
-            <Grid lg={12}>
-              <Button variant="contained" type="submit">
-                به روز رسانی
-              </Button>
-            </Grid>
-          </Grid>
-        </Box>
+        <ProjectOrgEditModal
+          onDoneTask={handleDoneTaskEditModal}
+          itemData={itemData}
+        />
       </FixedModal>
 
       {/* media */}
