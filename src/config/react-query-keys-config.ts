@@ -26,6 +26,7 @@ export const reactQueryKeys = {
     },
     mettings: {
       getCommitesModal: ["project-mettings-modals"],
+      getCommitesDetailModal: ["project-mettings-detail-modals"],
     },
   },
 };

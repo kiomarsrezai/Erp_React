@@ -62,9 +62,14 @@ function ProjectMettingsModal(props: ProjectMettingsModalProps) {
 
   // table data
   const handleClickCheckIcon = (row: any) => {
-    console.log(row);
-    onSelectItem({ date: row.dates, code: row.code, commite: "test" });
+    onSelectItem({
+      date: row.dates,
+      code: row.code,
+      commite: "test",
+      id: row.id,
+    });
   };
+
   const actionButtons = (row: TableDataItemShape) => (
     <IconButton
       color="primary"

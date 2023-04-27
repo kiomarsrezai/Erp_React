@@ -11,3 +11,6 @@ export const COMMITE_METTINGS_COMBO_PROJECT_URL =
 
 export const COMMITE_MEETINGS_MODAL_PROJECT_URL =
   "ProjectApi/ProjectCommitModal";
+
+export const COMMITE_MEETINGS_MODAL_DETAIL_PROJECT_URL =
+  "ProjectApi/ProjectGetCommiteDetail";

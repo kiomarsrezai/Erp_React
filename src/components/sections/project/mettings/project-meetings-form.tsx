@@ -6,10 +6,10 @@ import AreaInput from "components/sections/inputs/area-input";
 import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import ProjectMettingsModa from "components/sections/project/mettings/project-meetings-modal";
 import FixedModal from "components/ui/modal/fixed-modal";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
+import ProjectMettingsModal from "components/sections/project/mettings/project-meetings-modal";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
@@ -17,6 +17,7 @@ import { FormEvent, useState } from "react";
 import { transferApi } from "api/transfer/transfer-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { mettingsProjectApi } from "api/project/meetings-project-api";
+import WindowLoading from "components/ui/loading/window-loading";
 
 interface ProjectMeetingsFormProps {
   formData: any;
@@ -27,19 +28,21 @@ function ProjectMeetingsForm(props: ProjectMeetingsFormProps) {
   const { formData, setFormData } = props;
 
   // submit
-  // const queryClient = useQueryClient();
-  // const submitMutation = useMutation(mettingsProjectApi.getCommiteModal, {
-  //   onSuccess: (data) => {
-  //     queryClient.setQueryData(
-  //       reactQueryKeys.project.mettings.getCommitesModal,
-  //       data
-  //     );
-  //   },
-  // });
+  const queryClient = useQueryClient();
+  const commiteDetailModalMutation = useMutation(
+    mettingsProjectApi.getCommiteDetail,
+    {
+      onSuccess: (data) => {
+        queryClient.setQueryData(
+          reactQueryKeys.project.mettings.getCommitesDetailModal,
+          data
+        );
+      },
+    }
+  );
 
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
-    // submitMutation.mutate(formData);
   };
 
   // modal
@@ -51,13 +54,14 @@ function ProjectMeetingsForm(props: ProjectMeetingsFormProps) {
     setOpenMeetingsModal(true);
   };
 
-  const handleSelectItem = ({ date, code, commite }: any) => {
+  const handleSelectItem = ({ date, code, commite, id }: any) => {
     setFormData({
       date,
       code,
       commite,
     });
     handleCloseMeetingsModal();
+    commiteDetailModalMutation.mutate(id);
   };
 
   return (
@@ -110,13 +114,17 @@ function ProjectMeetingsForm(props: ProjectMeetingsFormProps) {
         </Grid>
       </Box>
 
+      {/* modal */}
       <FixedModal
         open={openMeetingsModal}
         handleClose={handleCloseMeetingsModal}
         title="انتخاب صورت جلسه"
       >
-        <ProjectMettingsModa onSelectItem={handleSelectItem} />
+        <ProjectMettingsModal onSelectItem={handleSelectItem} />
       </FixedModal>
+
+      {/* lodaing */}
+      <WindowLoading active={commiteDetailModalMutation.isLoading} />
     </>
   );
 }
