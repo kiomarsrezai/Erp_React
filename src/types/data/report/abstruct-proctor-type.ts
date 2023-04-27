@@ -24,3 +24,16 @@ export interface GetSingleProctorListShape {
   id: number;
   proctorName: string;
 }
+
+export interface GetSingleAbstructProctorModalRowDataItemShape {
+  "کد بودجه": string;
+  "شرح ردیف": string;
+  مصوب: number;
+  عملکرد: number;
+  "% جذب": number;
+}
+
+export interface GetSingleProctorListShape {
+  id: number;
+  proctorName: string;
+}

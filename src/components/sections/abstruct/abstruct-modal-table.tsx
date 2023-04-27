@@ -4,10 +4,15 @@ import Box from "@mui/material/Box";
 import CreateIcon from "@mui/icons-material/Create";
 import CorporateFareIcon from "@mui/icons-material/CorporateFare";
 
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { GetSingleAbstructProctorModalDataItemShape } from "types/data/report/abstruct-proctor-type";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
+import FixedModal from "components/ui/modal/fixed-modal";
+import AbstructRowModalTable from "./abstruct-row-modal-table";
+import { abstructProctorApi } from "api/report/abstruct-proctor-api";
+import { useMutation } from "@tanstack/react-query";
+import { abstructProctorConfig } from "config/features/report/proctor/abstruct-config";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -24,11 +29,15 @@ interface TableDataItemShape {
 
 interface AbstructModalTableProps {
   data: any[];
+  title: string;
+  formdata: any;
+  recordId: number;
 }
 
 function AbstructModalTable(props: AbstructModalTableProps) {
-  const { data } = props;
+  const { data, title, formdata, recordId } = props;
 
+  // table heads
   const tableHeadGroups: TableHeadGroupShape = [
     {
       title: "",
@@ -111,13 +120,42 @@ function AbstructModalTable(props: AbstructModalTableProps) {
   ];
 
   // table data
-  const actionButtons = () => (
+  const handleClickCreateIcon = (row: any) => {
+    dataModalRowMutation.mutate({
+      ...formdata,
+      [abstructProctorConfig.BUDGETPROCESS]: 2,
+      [abstructProctorConfig.PROCTOR]: recordId,
+      [abstructProctorConfig.AREA]: row.Id,
+    });
+    setAreaName(`${row.منطقه} - اعتبارات هزینه ای`);
+    handleOpenBudgetRowModal();
+  };
+
+  const handleClickFareIcon = (row: any) => {
+    dataModalRowMutation.mutate({
+      ...formdata,
+      [abstructProctorConfig.BUDGETPROCESS]: 3,
+      [abstructProctorConfig.PROCTOR]: recordId,
+      [abstructProctorConfig.AREA]: row.Id,
+    });
+    setAreaName(`${row.منطقه} - تملک دارایی های سرمایه ای`);
+    handleOpenBudgetRowModal();
+  };
+  const actionButtons = (row: any) => (
     <Box display="flex">
-      <IconButton color="primary" size="small">
+      <IconButton
+        color="primary"
+        size="small"
+        onClick={() => handleClickCreateIcon(row)}
+      >
         <CreateIcon />
       </IconButton>
 
-      <IconButton color="primary" size="small">
+      <IconButton
+        color="primary"
+        size="small"
+        onClick={() => handleClickFareIcon(row)}
+      >
         <CorporateFareIcon />
       </IconButton>
     </Box>
@@ -158,14 +196,38 @@ function AbstructModalTable(props: AbstructModalTableProps) {
     actions: () => "",
   };
 
+  // modals
+  const [budgetRowModal, setBudgetRowModal] = useState(false);
+  const [areaName, setAreaName] = useState("");
+  const handleCloseBudgetRowModal = () => {
+    setBudgetRowModal(false);
+  };
+
+  const handleOpenBudgetRowModal = () => {
+    setBudgetRowModal(true);
+  };
+
+  const dataModalRowMutation = useMutation(abstructProctorApi.getModalRowData);
+
   return (
-    <FixedTable
-      heads={tableHeads}
-      headGroups={tableHeadGroups}
-      data={tableData}
-      footer={tableFooter}
-      notFixed
-    />
+    <>
+      <FixedTable
+        heads={tableHeads}
+        headGroups={tableHeadGroups}
+        data={tableData}
+        footer={tableFooter}
+        notFixed
+      />
+
+      <FixedModal
+        open={budgetRowModal}
+        handleClose={handleCloseBudgetRowModal}
+        title={`${title} - ${areaName}`}
+        loading={dataModalRowMutation.isLoading}
+      >
+        <AbstructRowModalTable data={dataModalRowMutation.data?.data || []} />
+      </FixedModal>
+    </>
   );
 }
 

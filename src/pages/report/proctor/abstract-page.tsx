@@ -31,9 +31,9 @@ interface TableDataItemShape {
 function ReportProctorAbstructPage() {
   const [formData, setFormData] = useState({
     [abstructProctorConfig.YEAR]: 32,
-    [abstructProctorConfig.AREA]: 1,
-    [abstructProctorConfig.PROCTOR]: 1,
-    [abstructProctorConfig.BUDGETPROCESS]: 1,
+    [abstructProctorConfig.AREA]: 0,
+    [abstructProctorConfig.PROCTOR]: 0,
+    [abstructProctorConfig.BUDGETPROCESS]: 0,
   });
 
   const tableTopHeadGroups: TableHeadGroupShape = [
@@ -139,7 +139,9 @@ function ReportProctorAbstructPage() {
   };
 
   // table data
+  const [recordId, setRecordId] = useState(0);
   const handleListClicked = (row: any) => {
+    setRecordId(row.Id);
     dataModalMutation.mutate(row.Id);
     setTitleModal(row["متولی"]);
 
@@ -230,7 +232,12 @@ function ReportProctorAbstructPage() {
         loading={dataModalMutation.isLoading}
         title={titleModal}
       >
-        <AbstructModalTable data={dataModalMutation.data?.data || []} />
+        <AbstructModalTable
+          data={dataModalMutation.data?.data || []}
+          title={titleModal}
+          formdata={formData}
+          recordId={recordId}
+        />
       </FixedModal>
     </AdminLayout>
   );

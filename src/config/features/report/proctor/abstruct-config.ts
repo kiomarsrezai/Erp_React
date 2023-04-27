@@ -10,4 +10,6 @@ export const abstructProctorConfig = {
 
 export const ABSTRUCT_PROCTOR_URL = "DeputyApi/GetAllDeputy";
 export const ABSTRACT_PROCTOR_MODAL_URL = "DeputyApi/ProctorAreaBudget";
+export const ABSTRACT_PROCTOR_MODAL_ROW_URL =
+  "DeputyApi/ProctorAreaBudgetDetail";
 export const ABSTRACT_PROCTOR_LIST_URL = "DeputyApi/ProctorList";

@@ -35,7 +35,7 @@ function AbstractProctorForm(props: AbstractProctorFormProps) {
 
   // change state
   useEffect(() => {
-    queryClient?.setQueryData(reactQueryKeys.transfer.getData, {
+    queryClient?.setQueryData(reactQueryKeys.report.proctor.abstract, {
       data: [],
     });
   }, [formData, queryClient]);
@@ -49,7 +49,7 @@ function AbstractProctorForm(props: AbstractProctorFormProps) {
             value={formData[abstructProctorConfig.YEAR]}
           />
         </Grid>
-        <Grid lg={2}>
+        {/* <Grid lg={2}>
           <AreaInput
             setter={setFormData}
             value={formData[abstructProctorConfig.AREA]}
@@ -68,7 +68,7 @@ function AbstractProctorForm(props: AbstractProctorFormProps) {
             setter={setFormData}
             value={formData[abstructProctorConfig.PROCTOR]}
           />
-        </Grid>
+        </Grid> */}
 
         <Grid>
           <LoadingButton
