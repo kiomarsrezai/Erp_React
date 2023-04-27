@@ -3,10 +3,9 @@ import FixedTable from "components/data/table/fixed-table";
 import SepratoeBudgetForm from "components/sections/forms/budget/seprator-budget-form";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import IconButton from "@mui/material/IconButton";
-import useCommonFormFieldsSTore from "hooks/store/common-form-fields";
 
 import { TableHeadShape } from "types/table-type";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
@@ -14,6 +13,7 @@ import { ReactNode, useState } from "react";
 import { GetSingleSepratorItemShape } from "types/data/budget/seprator-type";
 import FixedModal from "components/ui/modal/fixed-modal";
 import SepratorDetailModal from "components/sections/forms/budget/seprator-detail-modal";
+import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 
 interface TableDataItemShape {
   id: ReactNode;
@@ -27,11 +27,14 @@ interface TableDataItemShape {
 }
 
 function BudgetSepratorPage() {
-  // heads
-  const methodTypeSpratorbudget = useCommonFormFieldsSTore(
-    (state) => state.methodTypeSpratorbudget
-  );
+  // forms
+  const [formData, setFormData] = useState({
+    [sepratorBudgetConfig.YEAR]: 32,
+    [sepratorBudgetConfig.AREA]: 1,
+    [sepratorBudgetConfig.BUDGET_METHOD]: 1,
+  });
 
+  // heads
   const tableHeads: TableHeadShape = [
     {
       title: "ردیف",
@@ -56,7 +59,7 @@ function BudgetSepratorPage() {
       title: "ت اعتبار",
       name: "creditAmount",
       split: true,
-      hidden: methodTypeSpratorbudget === 1,
+      hidden: formData[sepratorBudgetConfig.BUDGET_METHOD] === 1,
     },
     {
       title: "عملکرد",
@@ -77,7 +80,9 @@ function BudgetSepratorPage() {
 
   const tableHeadGroup = [
     {
-      title: <SepratoeBudgetForm />,
+      title: (
+        <SepratoeBudgetForm formData={formData} setFormData={setFormData} />
+      ),
       colspan: 8,
     },
   ];
@@ -192,7 +197,7 @@ function BudgetSepratorPage() {
         handleClose={handleCloseDetailModal}
         title={detailModalTitle}
       >
-        <SepratorDetailModal />
+        <SepratorDetailModal title={detailModalTitle} formdata={formData} />
       </FixedModal>
     </AdminLayout>
   );

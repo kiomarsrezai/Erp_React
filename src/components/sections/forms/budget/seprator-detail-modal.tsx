@@ -2,8 +2,19 @@ import FixedTable from "components/data/table/fixed-table";
 import Button from "@mui/material/Button";
 
 import { TableHeadShape } from "types/table-type";
+import SepratorTaminModal from "./seprator-tamin-modal";
+import { useState } from "react";
+import FixedModal from "components/ui/modal/fixed-modal";
+import { useMutation } from "@tanstack/react-query";
+import { sepratorBudgetApi } from "api/budget/seprator-api";
 
-function SepratorDetailModal() {
+interface SepratorDetailModalProps {
+  title: string;
+  formdata: any;
+}
+function SepratorDetailModal(props: SepratorDetailModalProps) {
+  const { title, formdata } = props;
+
   const tableHeads: TableHeadShape = [
     {
       title: "ردیف",
@@ -33,9 +44,26 @@ function SepratorDetailModal() {
     },
   ];
 
-  //   head group
+  // tamin modal
+  const taminEtbarMutation = useMutation(sepratorBudgetApi.getTaminData);
+
+  const [taminModal, setTaminModal] = useState(false);
+  const handleOpenTaminModal = () => {
+    setTaminModal(true);
+  };
+
+  const handleCloseTaminModal = () => {
+    setTaminModal(false);
+  };
+
+  const handleTaminEtbarClick = () => {
+    handleOpenTaminModal();
+    taminEtbarMutation.mutate(formdata);
+  };
+
+  // head group
   const headGroupBtn = (
-    <Button variant="contained" color="primary">
+    <Button variant="contained" color="primary" onClick={handleTaminEtbarClick}>
       تامین اعتبار
     </Button>
   );
@@ -47,7 +75,18 @@ function SepratorDetailModal() {
   ];
 
   return (
-    <FixedTable heads={tableHeads} headGroups={tableHeadGroup} data={[]} />
+    <>
+      <FixedTable heads={tableHeads} headGroups={tableHeadGroup} data={[]} />
+
+      <FixedModal
+        open={taminModal}
+        handleClose={handleCloseTaminModal}
+        title={title}
+        loading={taminEtbarMutation.isLoading}
+      >
+        <SepratorTaminModal data={taminEtbarMutation.data?.data || []} />
+      </FixedModal>
+    </>
   );
 }
 

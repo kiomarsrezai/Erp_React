@@ -7,3 +7,11 @@ export interface GetSingleSepratorItemShape {
   percentBud: number;
   levelNumber: number;
 }
+export interface GetSingleSepratorTaminItemShape {
+  bodgetId: string;
+  bodgetDesc: string;
+  requestDate: string;
+  reqDesc: string;
+  requestRefStr: string;
+  requestPrice: number;
+}

@@ -8,29 +8,20 @@ import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
-import { useState, FormEvent, useEffect } from "react";
+import { FormEvent, useEffect } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
-import useCommonFormFieldsSTore from "hooks/store/common-form-fields";
 
-function SepratoeBudgetForm() {
-  const [formData, setFormData] = useState({
-    [sepratorBudgetConfig.YEAR]: 32,
-    [sepratorBudgetConfig.AREA]: 1,
-    [sepratorBudgetConfig.BUDGET_METHOD]: 1,
-  });
+interface SepratoeBudgetFormProps {
+  formData: any;
+  setFormData: any;
+}
+function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
+  const { formData, setFormData } = props;
 
   // submit
-  const changeCommonFields = useCommonFormFieldsSTore(
-    (state) => state.changeCommonFields
-  );
-
   const queryClient = useQueryClient();
   const submitMutation = useMutation(sepratorBudgetApi.getData, {
     onSuccess: (data) => {
-      changeCommonFields(
-        "methodTypeSpratorbudget",
-        formData[sepratorBudgetConfig.BUDGET_METHOD]
-      );
       queryClient.setQueryData(reactQueryKeys.budget.seprator.getData, data);
     },
   });

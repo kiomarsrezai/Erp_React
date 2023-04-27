@@ -7,3 +7,4 @@ export const sepratorBudgetConfig = {
 };
 
 export const SEPRATOR_BUDGET_URL = "BudSepApi/FetchSeprator";
+export const SEPRATOR_BUDGET_TAMIN_URL = "BudSepApi/Taminetebarat";
