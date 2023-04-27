@@ -10,8 +10,10 @@ import { useQuery } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { GetSingleSepratorItemShape } from "types/data/budget/seprator-type";
+import FixedModal from "components/ui/modal/fixed-modal";
+import SepratorDetailModal from "components/sections/forms/budget/seprator-detail-modal";
 
 interface TableDataItemShape {
   id: ReactNode;
@@ -21,7 +23,7 @@ interface TableDataItemShape {
   creditAmount: ReactNode;
   expense: ReactNode;
   percentBud: ReactNode;
-  actions: ReactNode;
+  actions: (row: TableDataItemShape) => ReactNode;
 }
 
 function BudgetSepratorPage() {
@@ -81,8 +83,17 @@ function BudgetSepratorPage() {
   ];
 
   // data
-  const actionButtons = (
-    <IconButton color="primary" size="small">
+  const handleClickDetailIcon = (row: TableDataItemShape) => {
+    setDetailModalTitle(`${row.code} - ${row.description}`);
+    handleOpenDetailModal();
+  };
+
+  const actionButtons = (row: TableDataItemShape) => (
+    <IconButton
+      color="primary"
+      size="small"
+      onClick={() => handleClickDetailIcon(row)}
+    >
       <CreditCardIcon />
     </IconButton>
   );
@@ -153,7 +164,18 @@ function BudgetSepratorPage() {
     ),
     expense: sumFieldsInSingleItemData(sepratorQuery.data?.data, "expense"),
     percentBud: "",
-    actions: "",
+    actions: () => "",
+  };
+
+  // modal
+  const [detailModal, setDetailModal] = useState(false);
+  const [detailModalTitle, setDetailModalTitle] = useState("");
+  const handleOpenDetailModal = () => {
+    setDetailModal(true);
+  };
+
+  const handleCloseDetailModal = () => {
+    setDetailModal(false);
   };
 
   return (
@@ -164,6 +186,14 @@ function BudgetSepratorPage() {
         headGroups={tableHeadGroup}
         footer={tableFooter}
       />
+
+      <FixedModal
+        open={detailModal}
+        handleClose={handleCloseDetailModal}
+        title={detailModalTitle}
+      >
+        <SepratorDetailModal />
+      </FixedModal>
     </AdminLayout>
   );
 }
