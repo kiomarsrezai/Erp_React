@@ -15,4 +15,5 @@ export interface GetSingleCommiteDetailModalShape {
   projectName: string;
   commiteName: string;
   commiteKindId: number;
+  description: string;
 }

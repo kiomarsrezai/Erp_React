@@ -5,3 +5,7 @@
 .notistack-SnackbarContainer.z-alert {
   z-index: 110000;
 }
+
+.ck-editor__editable {
+  min-height: 400px;
+}
