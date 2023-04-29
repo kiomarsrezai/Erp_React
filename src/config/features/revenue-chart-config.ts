@@ -9,6 +9,8 @@ export const revenueChartFormConfig = {
   SALE: "sale",
   LAON: "loan",
   NIABATI: "niabati",
+  PAGE_NAME: "reportChartRevenue",
+  TAMIN_ATBAR: "tamin-atbar",
 };
 
 export const REVENUE_CHART_URL = "BudSepApi/ChartApi";

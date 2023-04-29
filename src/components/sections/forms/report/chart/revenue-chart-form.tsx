@@ -10,12 +10,12 @@ import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 import FixedModal from "components/ui/modal/fixed-modal";
 import RevenueChartDetailModalTable from "components/sections/report/chart/revenue-chart-detail-modal-table";
 
-import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 import { FormEvent, useEffect, useState } from "react";
 import { revenueChartFormConfig } from "config/features/revenue-chart-config";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { revenueChartApi } from "api/report/chart-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
+import { centerItems, organItems } from "config/features/general-fields-config";
 
 interface RevenueChartFormProps {
   formData: any;
@@ -23,29 +23,6 @@ interface RevenueChartFormProps {
 }
 function RevenueChartForm(props: RevenueChartFormProps) {
   const { formData, setFormData } = props;
-
-  // input items
-  const centerItems: FlotingLabelTextfieldItemsShape = [
-    {
-      label: "با مرکز",
-      value: 1,
-    },
-    {
-      label: "بدون مرکز",
-      value: 2,
-    },
-  ];
-
-  const organItems: FlotingLabelTextfieldItemsShape = [
-    {
-      label: "شهرداری",
-      value: 3,
-    },
-    {
-      label: "سازمانها",
-      value: 4,
-    },
-  ];
 
   // form
   const queryClient = useQueryClient();

@@ -5,6 +5,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
+import { createPortal } from "react-dom";
 
 import { ReactNode } from "react";
 import { styled } from "@mui/material/styles";
@@ -44,7 +45,7 @@ function FixedModal(props: FixedModalProps) {
     </Box>
   );
 
-  return (
+  return createPortal(
     <BootstrapDialog open={open} onClose={handleClose} maxWidth="lg" fullWidth>
       <DialogTitle
         display="flex"
@@ -59,7 +60,8 @@ function FixedModal(props: FixedModalProps) {
       <DialogContent dividers>
         <Box maxHeight={1}>{loading ? renderLoading : children}</Box>
       </DialogContent>
-    </BootstrapDialog>
+    </BootstrapDialog>,
+    document.body
   );
 }
 

@@ -1,14 +1,19 @@
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
 import AdminLayout from "components/layout/admin-layout";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Typography from "@mui/material/Typography";
+import grey from "@mui/material/colors/grey";
+import usePermissions from "hooks/permissions-hook";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import { ChangeEvent } from "react";
-import { grey } from "@mui/material/colors";
-import { ACCESS_CONFIG } from "config/access-config";
 import { useState } from "react";
 import { AccessItemShape } from "types/access-type";
 
@@ -29,10 +34,10 @@ const formatConfigsNode = (
   return formated;
 };
 
-const formatConfigs = () => {
+const formatConfigs = (data: any) => {
   let formated: any = {};
 
-  ACCESS_CONFIG.forEach((form: AccessItemShape) => {
+  data.forEach((form: AccessItemShape) => {
     formated = { ...formated, ...formatConfigsNode(form, form.name) };
   });
 
@@ -40,9 +45,9 @@ const formatConfigs = () => {
 };
 
 function AccessPage() {
-  console.log(formatConfigs());
+  const { loading, data } = usePermissions();
 
-  const [formData, setFormData] = useState(formatConfigs());
+  const [formData, setFormData] = useState(formatConfigs(data));
 
   const handleSubmit = () => {
     const isOnedItems = Object.keys(formData).filter(
@@ -93,19 +98,47 @@ function AccessPage() {
       ))}
     </Stack>
   );
+
   return (
     <AdminLayout>
-      <Stack p={3} spacing={2}>
-        {ACCESS_CONFIG.map((item: AccessItemShape, i: number) =>
-          renderItem(item, item.name as string)
-        )}
-      </Stack>
+      {loading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "200px",
+            bgcolor: grey[200],
+            m: 2,
+            borderRadius: 2,
+          }}
+        >
+          <CircularProgress color="inherit" />
+        </Box>
+      ) : (
+        <>
+          <Box p={3}>
+            {data.map((item: AccessItemShape, i: number) => (
+              <Accordion key={i} sx={{ bgcolor: grey[50] }}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography>فرم {item.label}</Typography>
+                </AccordionSummary>
+                <AccordionDetails
+                  sx={{ m: 2, bgcolor: grey[200], borderRadius: 2 }}
+                >
+                  {renderItem(item, item.name as string)}
+                </AccordionDetails>
+              </Accordion>
+            ))}
+          </Box>
 
-      <Box p={2}>
-        <Button onClick={handleSubmit} variant="contained">
-          تایید
-        </Button>
-      </Box>
+          <Box px={3}>
+            <Button onClick={handleSubmit} variant="contained">
+              تایید
+            </Button>
+          </Box>
+        </>
+      )}
     </AdminLayout>
   );
 }

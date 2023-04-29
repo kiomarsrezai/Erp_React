@@ -1,15 +1,15 @@
 import FixedTable from "components/data/table/fixed-table";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
-import CreateIcon from "@mui/icons-material/Create";
-import CorporateFareIcon from "@mui/icons-material/CorporateFare";
+import ColorizeIcon from "@mui/icons-material/Colorize";
+import FixedModal from "components/ui/modal/fixed-modal";
+import AbstructRowModalTable from "./abstruct-row-modal-table";
+import CastleIcon from "@mui/icons-material/Castle";
 
 import { ReactNode, useState } from "react";
 import { GetSingleAbstructProctorModalDataItemShape } from "types/data/report/abstruct-proctor-type";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
-import FixedModal from "components/ui/modal/fixed-modal";
-import AbstructRowModalTable from "./abstruct-row-modal-table";
 import { abstructProctorApi } from "api/report/abstruct-proctor-api";
 import { useMutation } from "@tanstack/react-query";
 import { abstructProctorConfig } from "config/features/report/proctor/abstruct-config";
@@ -81,11 +81,13 @@ function AbstructModalTable(props: AbstructModalTableProps) {
       title: "مصوب",
       name: "mosavabHazine",
       split: true,
+      align: "left",
     },
     {
       title: "عملکرد",
       name: "expenseHazine",
       split: true,
+      align: "left",
     },
     {
       title: "جذب %",
@@ -148,7 +150,7 @@ function AbstructModalTable(props: AbstructModalTableProps) {
         size="small"
         onClick={() => handleClickCreateIcon(row)}
       >
-        <CreateIcon />
+        <ColorizeIcon />
       </IconButton>
 
       <IconButton
@@ -156,7 +158,7 @@ function AbstructModalTable(props: AbstructModalTableProps) {
         size="small"
         onClick={() => handleClickFareIcon(row)}
       >
-        <CorporateFareIcon />
+        <CastleIcon />
       </IconButton>
     </Box>
   );

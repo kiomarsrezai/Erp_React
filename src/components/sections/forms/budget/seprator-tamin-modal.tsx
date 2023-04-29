@@ -96,7 +96,7 @@ function SepratorTaminModal(props: SepratorTaminModalProps) {
 
   const tableData = data ? formatTableData(data) : [];
 
-  return <FixedTable heads={tableHeads} data={tableData} />;
+  return <FixedTable heads={tableHeads} data={tableData} notFixed />;
 }
 
 export default SepratorTaminModal;

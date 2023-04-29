@@ -9,6 +9,7 @@ export const transferConfig = {
   DESCRIPTION: "description",
   CODE_ACC: "codeAcc",
   TITLE_ACC: "titleAcc",
+  PAGE_NAME: "transfer",
 };
 
 export const TRANSFER_URL = "VasetApi/VasetGetAll";

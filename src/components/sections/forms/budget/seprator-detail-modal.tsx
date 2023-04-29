@@ -76,7 +76,12 @@ function SepratorDetailModal(props: SepratorDetailModalProps) {
 
   return (
     <>
-      <FixedTable heads={tableHeads} headGroups={tableHeadGroup} data={[]} />
+      <FixedTable
+        heads={tableHeads}
+        headGroups={tableHeadGroup}
+        data={[]}
+        notFixed
+      />
 
       <FixedModal
         open={taminModal}

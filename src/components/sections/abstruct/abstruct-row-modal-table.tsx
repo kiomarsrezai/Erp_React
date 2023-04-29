@@ -39,11 +39,13 @@ function AbstructRowModalTable(props: AbstructRowModalTableProps) {
       title: "مصوب",
       name: "mosavab",
       split: true,
+      align: "left",
     },
     {
       title: "هزینه",
       name: "hazine",
       split: true,
+      align: "left",
     },
     {
       title: "جذب %",
@@ -83,7 +85,12 @@ function AbstructRowModalTable(props: AbstructRowModalTableProps) {
   };
 
   return (
-    <FixedTable heads={tableHeads} data={tableData} footer={tableFooters} />
+    <FixedTable
+      heads={tableHeads}
+      data={tableData}
+      footer={tableFooters}
+      notFixed
+    />
   );
 }
 

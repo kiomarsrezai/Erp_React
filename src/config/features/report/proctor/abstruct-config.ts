@@ -6,6 +6,7 @@ export const abstructProctorConfig = {
   AREA: generalFieldsConfig.AREA,
   PROCTOR: "proctorId",
   BUDGETPROCESS: generalFieldsConfig.BUDGET_METHOD,
+  PAGE_NAME: "reportProctorAbstruct",
 };
 
 export const ABSTRUCT_PROCTOR_URL = "DeputyApi/GetAllDeputy";
