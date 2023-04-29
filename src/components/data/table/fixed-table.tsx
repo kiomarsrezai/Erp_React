@@ -140,7 +140,11 @@ function FixedTable(props: FixedTableProps) {
           align={item.align || "center"}
           key={i}
           dir={typeof row[name] === "number" ? "ltr" : "rtl"}
-          sx={{ bgcolor: row[`bgcolor-${name}`] || "transparent", p: 1 }}
+          sx={{
+            bgcolor: row[`bgcolor-${name}`] || "transparent",
+            p: 1,
+            color: "#000",
+          }}
         >
           {formatDataCell(row[name], item, row)}
         </TableCell>
@@ -162,7 +166,9 @@ function FixedTable(props: FixedTableProps) {
               borderColor: grey[borderColor],
               bgcolor: grey[200],
               top: headGroups ? headGroupHright : 0,
+              fontWeight: 500,
               whiteSpace: "nowrap",
+              color: "#000",
               "&:last-child": {
                 borderRight: 0,
               },

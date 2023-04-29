@@ -15,10 +15,14 @@ import logoImg from "assets/images/logos/fava.svg";
 import * as yup from "yup";
 
 import { useState } from "react";
-import { loginConfig } from "config/features/auth/login-config";
+import { loginConfig } from "config/features/auth/auth-config";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { AuthApi } from "api/auth/auth-api";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
 
 function LoginForm() {
   const loginFormSchema = yup.object({
@@ -29,6 +33,7 @@ function LoginForm() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(loginFormSchema),
@@ -39,13 +44,28 @@ function LoginForm() {
   const toggleSeePassword = () => {
     setShowPassword((prevState) => !prevState);
   };
-
+  // setError(loginConfig.username, {tpye: "custom"});
   // submit
   const navigate = useNavigate();
   const [rememberMe, setRememberMe] = useState(true);
+
+  const loginMutation = useMutation(AuthApi.login, {
+    onSuccess: (data) => {
+      if (data.data) {
+        navigate("/report/chart/revenue");
+      } else {
+        alert("error");
+      }
+    },
+    onError: () => {
+      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+        variant: "error",
+      });
+    },
+  });
+
   const onSubmitHandler = (values: any) => {
-    console.log(values);
-    navigate("/report/chart/revenue");
+    loginMutation.mutate(values);
   };
 
   return (

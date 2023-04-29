@@ -165,13 +165,17 @@ function BudgetSepratorPage() {
     mosavab: sumFieldsInSingleItemData(
       sepratorQuery.data?.data,
       "mosavab",
-      (item: GetSingleSepratorItemShape) => item.levelNumber === 2
+      (item: GetSingleSepratorItemShape) => item.levelNumber === 1
     ),
     creditAmount: sumFieldsInSingleItemData(
       sepratorQuery.data?.data,
       "creditAmount"
     ),
-    expense: sumFieldsInSingleItemData(sepratorQuery.data?.data, "expense"),
+    expense: sumFieldsInSingleItemData(
+      sepratorQuery.data?.data,
+      "expense",
+      (item: GetSingleSepratorItemShape) => item.levelNumber === 1
+    ),
     percentBud: "",
     actions: () => "",
   };

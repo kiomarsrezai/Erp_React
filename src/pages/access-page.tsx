@@ -119,13 +119,14 @@ function AccessPage() {
         <>
           <Box p={3}>
             {data.map((item: AccessItemShape, i: number) => (
-              <Accordion key={i} sx={{ bgcolor: grey[50] }}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Accordion sx={{ bgcolor: grey[50] }} key={i}>
+                <AccordionSummary
+                  sx={{ bgcolor: grey[200] }}
+                  expandIcon={<ExpandMoreIcon />}
+                >
                   <Typography>فرم {item.label}</Typography>
                 </AccordionSummary>
-                <AccordionDetails
-                  sx={{ m: 2, bgcolor: grey[200], borderRadius: 2 }}
-                >
+                <AccordionDetails sx={{ m: 2 }}>
                   {renderItem(item, item.name as string)}
                 </AccordionDetails>
               </Accordion>

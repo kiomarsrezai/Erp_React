@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { areaGeneralApi } from "api/general/area-general-api";
 import { yearGeneralApi } from "api/general/year-general-api";
+import { proposalConfig } from "config/features/budget/proposal-config";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import {
   budgetMethodItems,
@@ -94,7 +95,7 @@ function usePermissions() {
     },
     {
       label: "بودجه",
-      name: "budgetProposal",
+      name: proposalConfig.PAGE_NAME,
       value: [yearField, areaNumber2Field, budgetMethodField],
     },
 
@@ -114,12 +115,28 @@ function usePermissions() {
     {
       label: "متولی ها",
       name: abstructProctorConfig.PAGE_NAME,
-      value: [yearField, areaNumber2Field],
+      value: [yearField],
     },
     {
       label: "واسط سازمان ها",
       name: transferConfig.PAGE_NAME,
       value: [yearField, areaNumber2Field, budgetMethodField],
+    },
+    {
+      label: "درخواست اعتبار",
+      name: "credit",
+    },
+    {
+      label: "دسترسی ها",
+      name: "permissions",
+    },
+    {
+      label: "پروژه ها",
+      name: "project",
+    },
+    {
+      label: "جلسات",
+      name: "meetings",
     },
   ];
 
