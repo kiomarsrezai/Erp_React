@@ -3,16 +3,16 @@ import FixedTable from "components/data/table/fixed-table";
 import SepratoeBudgetForm from "components/sections/forms/budget/seprator-budget-form";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import IconButton from "@mui/material/IconButton";
+import FixedModal from "components/ui/modal/fixed-modal";
+import SepratorDetailModal from "components/sections/forms/budget/seprator-detail-modal";
 
 import { TableHeadShape } from "types/table-type";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { ReactNode, useState } from "react";
 import { GetSingleSepratorItemShape } from "types/data/budget/seprator-type";
-import FixedModal from "components/ui/modal/fixed-modal";
-import SepratorDetailModal from "components/sections/forms/budget/seprator-detail-modal";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 
 interface TableDataItemShape {
@@ -23,7 +23,7 @@ interface TableDataItemShape {
   creditAmount: ReactNode;
   expense: ReactNode;
   percentBud: ReactNode;
-  actions: (row: TableDataItemShape) => ReactNode;
+  actions: ((row: TableDataItemShape) => ReactNode) | ReactNode;
 }
 
 function BudgetSepratorPage() {
@@ -162,7 +162,11 @@ function BudgetSepratorPage() {
     id: "جمع",
     code: "",
     description: "",
-    mosavab: sumFieldsInSingleItemData(sepratorQuery.data?.data, "mosavab"),
+    mosavab: sumFieldsInSingleItemData(
+      sepratorQuery.data?.data,
+      "mosavab",
+      (item: GetSingleSepratorItemShape) => item.levelNumber === 2
+    ),
     creditAmount: sumFieldsInSingleItemData(
       sepratorQuery.data?.data,
       "creditAmount"

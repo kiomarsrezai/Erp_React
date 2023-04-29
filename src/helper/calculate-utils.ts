@@ -1,6 +1,13 @@
-export const sumFieldsInSingleItemData = (data: any, key: string) => {
+export const sumFieldsInSingleItemData = (
+  data: any,
+  key: string,
+  condition?: (item: any) => boolean
+) => {
   const reduceCallback = (previousValue: any, currentValue: any) => {
-    return +previousValue + +currentValue[key];
+    return (
+      +previousValue +
+      (condition?.(currentValue) !== false ? +currentValue[key] : 0)
+    );
   };
 
   return data ? data.reduce(reduceCallback, 0) : 0;
