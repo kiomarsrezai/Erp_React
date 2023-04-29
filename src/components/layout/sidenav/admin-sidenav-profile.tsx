@@ -4,9 +4,12 @@ import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import defaultProfileImg from "assets/images/default-profile.png";
 import useLayoutStore from "hooks/store/layout-store";
+import userStore from "hooks/store/user-store";
 
 function AdminSidenavProfile() {
   const normalize = useLayoutStore((state) => state.normlize);
+
+  const { firstName, lastName } = userStore((state) => state);
 
   return (
     <>
@@ -28,7 +31,7 @@ function AdminSidenavProfile() {
           {!normalize && (
             <Stack alignItems="flex-start">
               <Typography variant="body1" fontWeight="bold" color="GrayText">
-                علیرضا کثیرزارع
+                {firstName} {lastName}
               </Typography>
 
               <Typography variant="caption" color="GrayText" textAlign="left">

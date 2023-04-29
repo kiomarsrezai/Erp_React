@@ -23,6 +23,7 @@ import { useMutation } from "@tanstack/react-query";
 import { AuthApi } from "api/auth/auth-api";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
+import userStore from "hooks/store/user-store";
 
 function LoginForm() {
   const loginFormSchema = yup.object({
@@ -44,17 +45,24 @@ function LoginForm() {
   const toggleSeePassword = () => {
     setShowPassword((prevState) => !prevState);
   };
-  // setError(loginConfig.username, {tpye: "custom"});
   // submit
   const navigate = useNavigate();
+  const chnageUserData = userStore((state) => state.chnageUserData);
   const [rememberMe, setRememberMe] = useState(true);
 
   const loginMutation = useMutation(AuthApi.login, {
     onSuccess: (data) => {
       if (data.data) {
+        chnageUserData({
+          firstName: data.data.firstName,
+          userName: data.data.userName,
+          lastName: data.data.lastName,
+        });
         navigate("/report/chart/revenue");
       } else {
-        alert("error");
+        const message = "نام کاربری یا رمز ورود اشتباه است";
+        setError(loginConfig.username, { message });
+        setError(loginConfig.password, { message });
       }
     },
     onError: () => {

@@ -117,7 +117,7 @@ function AccessPage() {
         </Box>
       ) : (
         <>
-          <Box p={3}>
+          <Box p={3} maxHeight="100vh">
             {data.map((item: AccessItemShape, i: number) => (
               <Accordion sx={{ bgcolor: grey[50] }} key={i}>
                 <AccordionSummary
