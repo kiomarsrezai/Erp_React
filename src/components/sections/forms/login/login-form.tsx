@@ -12,13 +12,26 @@ import Typography from "@mui/material/Typography";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import logoImg from "assets/images/logos/fava.svg";
+import * as yup from "yup";
 
-import { FormEvent, useState } from "react";
+import { useState } from "react";
+import { loginConfig } from "config/features/auth/login-config";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+  const loginFormSchema = yup.object({
+    [loginConfig.username]: yup.string().required(),
+    [loginConfig.password]: yup.string().required().min(6),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(loginFormSchema),
   });
 
   // password
@@ -28,14 +41,17 @@ function LoginForm() {
   };
 
   // submit
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
+  const navigate = useNavigate();
+  const [rememberMe, setRememberMe] = useState(true);
+  const onSubmitHandler = (values: any) => {
+    console.log(values);
+    navigate("/report/chart/revenue");
   };
 
   return (
     <Box
       component="form"
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(onSubmitHandler)}
       paddingLeft={5}
       paddingRight={5}
       textAlign="center"
@@ -64,13 +80,9 @@ function LoginForm() {
               id="username-input"
               label="نام کاربری"
               variant="outlined"
-              value={formData.email}
-              onChange={(e) => {
-                setFormData((prevState) => ({
-                  ...prevState,
-                  email: e.target.value,
-                }));
-              }}
+              {...register(loginConfig.username)}
+              error={!!errors[loginConfig.username]}
+              helperText={(errors[loginConfig.username]?.message || "") as any}
               fullWidth
             />
 
@@ -78,15 +90,11 @@ function LoginForm() {
               id="password-input"
               label="رمز ورود"
               variant="outlined"
-              value={formData.password}
-              type={showPasword ? "text" : "password"}
+              {...register(loginConfig.password)}
+              error={!!errors[loginConfig.password]}
+              helperText={(errors[loginConfig.password]?.message || "") as any}
               fullWidth
-              onChange={(e) => {
-                setFormData((prevState) => ({
-                  ...prevState,
-                  password: e.target.value,
-                }));
-              }}
+              type={showPasword ? "text" : "password"}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -104,7 +112,12 @@ function LoginForm() {
 
             <FormGroup>
               <FormControlLabel
-                control={<Checkbox defaultChecked />}
+                control={
+                  <Checkbox
+                    checked={rememberMe}
+                    onChange={() => setRememberMe((state) => !state)}
+                  />
+                }
                 label={
                   <Typography variant="body2">مرا به خاطر بسپار</Typography>
                 }
@@ -113,12 +126,7 @@ function LoginForm() {
           </Stack>
 
           <Stack spacing={1}>
-            <Button
-              variant="contained"
-              fullWidth
-              size="large"
-              href="/report/chart/revenue"
-            >
+            <Button variant="contained" fullWidth size="large" type="submit">
               ورود
             </Button>
 
