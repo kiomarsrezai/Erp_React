@@ -12,6 +12,7 @@ import Typography from "@mui/material/Typography";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import logoImg from "assets/images/logos/fava.svg";
+import userStore from "hooks/store/user-store";
 import * as yup from "yup";
 
 import { useState } from "react";
@@ -23,7 +24,6 @@ import { useMutation } from "@tanstack/react-query";
 import { AuthApi } from "api/auth/auth-api";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
-import userStore from "hooks/store/user-store";
 
 function LoginForm() {
   const loginFormSchema = yup.object({
@@ -45,6 +45,7 @@ function LoginForm() {
   const toggleSeePassword = () => {
     setShowPassword((prevState) => !prevState);
   };
+
   // submit
   const navigate = useNavigate();
   const chnageUserData = userStore((state) => state.chnageUserData);

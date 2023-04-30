@@ -1,7 +1,7 @@
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 import karroonImg from "assets/images/places/karoon.jpg";
-import LoginForm from "components/sections/forms/login/login-form";
+import LoginForm from "components/auth/login-form";
 
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
