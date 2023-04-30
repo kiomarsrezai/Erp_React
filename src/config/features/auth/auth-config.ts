@@ -10,4 +10,5 @@ export const changePasswordConfig = {
 
 export const AUTH_URLS = {
   login: "UsersApi/SignIn",
+  userByTocken: "UsersApi/GetUserByTocken",
 };

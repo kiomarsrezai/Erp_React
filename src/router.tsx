@@ -11,12 +11,19 @@ import MeetingsProjectPage from "pages/project/meetings-page";
 
 import { createBrowserRouter } from "react-router-dom";
 import PageGuard from "components/auth/page-guard.";
+import WellcomePage from "pages/wellcome-page";
 
 const router = createBrowserRouter([
+  // globla
   {
     path: "/",
     element: <LoginPage />,
   },
+  {
+    path: "/wellcome",
+    element: <WellcomePage />,
+  },
+
   // report
   {
     path: "/report/chart/revenue",

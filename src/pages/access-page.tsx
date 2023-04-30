@@ -117,40 +117,41 @@ function AccessPage() {
           <CircularProgress color="inherit" />
         </Box>
       ) : (
-        <Box p={2} height={`calc(100vh - ${globalConfig.headerHeight}px)`}>
-          <Box height="100%" overflow="auto">
-            {data.map((item: AccessItemShape, i: number) => (
-              <Accordion
-                sx={{
-                  bgcolor: grey[50],
-                  borderBottom: 1,
-                  borderColor: grey[100],
-                }}
-                key={i}
-                disableGutters
-              >
-                <AccordionSummary
-                  sx={{
-                    bgcolor: grey[200],
-                    position: "sticky",
-                    top: 0,
-                    zIndex: 10,
-                  }}
-                  expandIcon={<ExpandMoreIcon />}
-                >
-                  <Typography>فرم {item.label}</Typography>
-                </AccordionSummary>
-                <AccordionDetails sx={{ m: 2 }}>
-                  {renderItem(item, item.name as string)}
-                </AccordionDetails>
-              </Accordion>
-            ))}
+        <></>
+        // <Box p={2} height={`calc(100vh - ${globalConfig.headerHeight}px)`}>
+        //   <Box height="100%" overflow="auto">
+        //     {data.map((item: AccessItemShape, i: number) => (
+        //       <Accordion
+        //         sx={{
+        //           bgcolor: grey[50],
+        //           borderBottom: 1,
+        //           borderColor: grey[100],
+        //         }}
+        //         key={i}
+        //         disableGutters
+        //       >
+        //         <AccordionSummary
+        //           sx={{
+        //             bgcolor: grey[200],
+        //             position: "sticky",
+        //             top: 0,
+        //             zIndex: 10,
+        //           }}
+        //           expandIcon={<ExpandMoreIcon />}
+        //         >
+        //           <Typography>فرم {item.label}</Typography>
+        //         </AccordionSummary>
+        //         <AccordionDetails sx={{ m: 2 }}>
+        //           {renderItem(item, item.name as string)}
+        //         </AccordionDetails>
+        //       </Accordion>
+        //     ))}
 
-            <Button onClick={handleSubmit} variant="contained" sx={{ mt: 2 }}>
-              تایید
-            </Button>
-          </Box>
-        </Box>
+        //     <Button onClick={handleSubmit} variant="contained" sx={{ mt: 2 }}>
+        //       تایید
+        //     </Button>
+        //   </Box>
+        // </Box>
       )}
     </AdminLayout>
   );

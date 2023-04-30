@@ -9,11 +9,16 @@ export const AuthApi = new (class extends BaseApi {
   login = async (formdata: any) => {
     const response = await clientAxios.post<
       BaseApiResponseShape<LoginItemShape>
-    >(AUTH_URLS.login, formdata, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    >(AUTH_URLS.login, formdata);
+    return response.data;
+  };
+
+  userByToken = async (token: string) => {
+    const url = `${AUTH_URLS.userByTocken}?tocken=${token}`;
+
+    const response = await clientAxios.get<
+      BaseApiResponseShape<LoginItemShape>
+    >(url);
     return response.data;
   };
 })();

@@ -58,11 +58,12 @@ function LoginForm() {
           firstName: data.data.firstName,
           userName: data.data.userName,
           lastName: data.data.lastName,
+          bio: data.data.bio,
         });
         if (rememberMe) {
           localStorage.setItem("token-auth", data.data.token);
         }
-        navigate("/report/chart/revenue");
+        navigate("/wellcome");
       } else {
         const message = "نام کاربری یا رمز ورود اشتباه است";
         setError(loginConfig.username, { message });

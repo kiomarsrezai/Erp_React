@@ -13,6 +13,7 @@ import ChnagePasswordForm from "pages/auth/chnage-password-form";
 import { useState } from "react";
 import ConfrimProccesModal from "components/ui/modal/confrim-procces-modal";
 import userStore from "hooks/store/user-store";
+import { useNavigate } from "react-router-dom";
 
 function AdminHeader() {
   const toggleNormlize = useLayoutStore((state) => state.toggleNormlize);
@@ -20,9 +21,11 @@ function AdminHeader() {
   // sign out
   const [confrimSignoutModal, setConfrimSignoutModal] = useState(false);
   const removeUserData = userStore((state) => state.removeUserData);
+  const navigate = useNavigate();
   const handleSignOut = () => {
     localStorage.removeItem("token-auth");
     removeUserData();
+    navigate("/");
   };
 
   const handleConfrimSignOut = () => {

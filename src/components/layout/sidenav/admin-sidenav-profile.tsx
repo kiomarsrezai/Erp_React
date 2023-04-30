@@ -9,7 +9,7 @@ import userStore from "hooks/store/user-store";
 function AdminSidenavProfile() {
   const normalize = useLayoutStore((state) => state.normlize);
 
-  const { firstName, lastName } = userStore((state) => state);
+  const { firstName, lastName, bio } = userStore((state) => state);
 
   return (
     <>
@@ -35,7 +35,7 @@ function AdminSidenavProfile() {
               </Typography>
 
               <Typography variant="caption" color="GrayText" textAlign="left">
-                برنامه نویس فاوا
+                {bio}
               </Typography>
             </Stack>
           )}
