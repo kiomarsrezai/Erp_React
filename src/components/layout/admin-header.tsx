@@ -10,19 +10,19 @@ import PasswordIcon from "@mui/icons-material/Password";
 import FixedModal from "components/ui/modal/fixed-modal";
 import ChnagePasswordForm from "pages/auth/chnage-password-form";
 
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ConfrimProccesModal from "components/ui/modal/confrim-procces-modal";
+import userStore from "hooks/store/user-store";
 
 function AdminHeader() {
   const toggleNormlize = useLayoutStore((state) => state.toggleNormlize);
 
   // sign out
   const [confrimSignoutModal, setConfrimSignoutModal] = useState(false);
-  const navigate = useNavigate();
+  const removeUserData = userStore((state) => state.removeUserData);
   const handleSignOut = () => {
     localStorage.removeItem("token-auth");
-    navigate("/");
+    removeUserData();
   };
 
   const handleConfrimSignOut = () => {
