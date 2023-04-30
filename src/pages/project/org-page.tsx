@@ -2,6 +2,7 @@ import AdminLayout from "components/layout/admin-layout";
 import Box from "@mui/material/Box";
 import ProjectOrgCard from "components/sections/project/project-org-card";
 import Draggable from "react-draggable";
+import ProjectOrgTools from "components/sections/project/project-org-tools";
 
 import { grey } from "@mui/material/colors";
 import { Tree, TreeNode } from "react-organizational-chart";
@@ -11,7 +12,6 @@ import { orgProjectConfig } from "config/features/project/org-project-config";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
-import ProjectOrgTools from "components/sections/project/project-org-tools";
 
 function OrgProjectPage() {
   const orgProjectQuery = useQuery(

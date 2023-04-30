@@ -16,6 +16,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { ChangeEvent } from "react";
 import { useState } from "react";
 import { AccessItemShape } from "types/access-type";
+import { globalConfig } from "config/global-config";
 
 const formatConfigsNode = (
   data: AccessItemShape,
@@ -116,12 +117,25 @@ function AccessPage() {
           <CircularProgress color="inherit" />
         </Box>
       ) : (
-        <>
-          <Box p={3} maxHeight="100vh">
+        <Box p={2} height={`calc(100vh - ${globalConfig.headerHeight}px)`}>
+          <Box height="100%" overflow="auto">
             {data.map((item: AccessItemShape, i: number) => (
-              <Accordion sx={{ bgcolor: grey[50] }} key={i}>
+              <Accordion
+                sx={{
+                  bgcolor: grey[50],
+                  borderBottom: 1,
+                  borderColor: grey[100],
+                }}
+                key={i}
+                disableGutters
+              >
                 <AccordionSummary
-                  sx={{ bgcolor: grey[200] }}
+                  sx={{
+                    bgcolor: grey[200],
+                    position: "sticky",
+                    top: 0,
+                    zIndex: 10,
+                  }}
                   expandIcon={<ExpandMoreIcon />}
                 >
                   <Typography>فرم {item.label}</Typography>
@@ -131,14 +145,12 @@ function AccessPage() {
                 </AccordionDetails>
               </Accordion>
             ))}
-          </Box>
 
-          <Box px={3}>
-            <Button onClick={handleSubmit} variant="contained">
+            <Button onClick={handleSubmit} variant="contained" sx={{ mt: 2 }}>
               تایید
             </Button>
           </Box>
-        </>
+        </Box>
       )}
     </AdminLayout>
   );
