@@ -14,6 +14,14 @@ export const AuthApi = new (class extends BaseApi {
     return response.data;
   };
 
+  setLicense = async (formdata: any) => {
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      AUTH_URLS.setLicense,
+      formdata
+    );
+    return response.data;
+  };
+
   userByToken = async (token: string) => {
     const url = `${AUTH_URLS.userByTocken}?tocken=${token}`;
 

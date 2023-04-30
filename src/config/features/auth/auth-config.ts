@@ -8,8 +8,14 @@ export const changePasswordConfig = {
   new_password: "new_password",
 };
 
+export const saveLicenseConfig = {
+  id: "id",
+  lisence: "lisence",
+};
+
 export const AUTH_URLS = {
   login: "UsersApi/SignIn",
+  setLicense: "UsersApi/Savelicense",
   userByTocken: "UsersApi/GetUserByTocken",
   allUsers: "UsersApi",
 };

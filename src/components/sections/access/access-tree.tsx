@@ -21,6 +21,12 @@ import { AccessItemShape } from "types/access-type";
 import { ChangeEvent } from "react";
 import { useState } from "react";
 import { UserItemShape } from "types/data/auth/users-type";
+import { useMutation } from "@tanstack/react-query";
+import { AuthApi } from "api/auth/auth-api";
+import { saveLicenseConfig } from "config/features/auth/auth-config";
+import WindowLoading from "components/ui/loading/window-loading";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
 
 const formatConfigsNode = (
   data: AccessItemShape,
@@ -61,14 +67,6 @@ function AccessTree(props: AccessTreeProps) {
 
   const [formData, setFormData] = useState(formatConfigs(data));
 
-  const handleSubmit = () => {
-    const isOnedItems = Object.keys(formData).filter(
-      (item: string) => formData[item]
-    );
-
-    console.log(isOnedItems.join("/"));
-  };
-
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const name = event.target.name;
     const value = event.target.checked;
@@ -88,6 +86,8 @@ function AccessTree(props: AccessTreeProps) {
       setFormData((prevSatte: any) => ({ ...prevSatte, [name]: value }));
     }
   };
+
+  //   render
 
   const renderItem = (item: any, name: string) => (
     <Stack spacing={1} direction="column" key={name}>
@@ -112,6 +112,31 @@ function AccessTree(props: AccessTreeProps) {
   );
 
   //   user card
+  const saveLicenseMutation = useMutation(AuthApi.setLicense, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+      onCancel();
+    },
+    onError: () => {
+      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+        variant: "error",
+      });
+    },
+  });
+
+  const handleSubmit = () => {
+    const isOnedItems = Object.keys(formData).filter(
+      (item: string) => formData[item]
+    );
+
+    saveLicenseMutation.mutate({
+      [saveLicenseConfig.id]: user?.Id || 0,
+      [saveLicenseConfig.lisence]: isOnedItems.join("/"),
+    });
+  };
+
   const renderUserCard = (
     <Card sx={{ bgcolor: grey[200], position: "sticky", top: 0 }}>
       <CardContent>
@@ -174,41 +199,45 @@ function AccessTree(props: AccessTreeProps) {
   }
 
   return (
-    <Grid container columnSpacing={3} height="100%" sx={{ overflow: "auto" }}>
-      <Grid lg={4}>
-        <Box height="100%">{renderUserCard}</Box>
-      </Grid>
-      <Grid lg={8}>
-        <Box height="100%">
-          {data.map((item: AccessItemShape, i: number) => (
-            <Accordion
-              sx={{
-                bgcolor: grey[50],
-                borderBottom: 1,
-                borderColor: grey[100],
-              }}
-              key={i}
-              disableGutters
-            >
-              <AccordionSummary
+    <>
+      <Grid container columnSpacing={3} height="100%" sx={{ overflow: "auto" }}>
+        <Grid lg={4}>
+          <Box height="100%">{renderUserCard}</Box>
+        </Grid>
+        <Grid lg={8}>
+          <Box height="100%">
+            {data.map((item: AccessItemShape, i: number) => (
+              <Accordion
                 sx={{
-                  bgcolor: grey[200],
-                  position: "sticky",
-                  top: 0,
-                  zIndex: 10,
+                  bgcolor: grey[50],
+                  borderBottom: 1,
+                  borderColor: grey[100],
                 }}
-                expandIcon={<ExpandMoreIcon />}
+                key={i}
+                disableGutters
               >
-                <Typography>فرم {item.label}</Typography>
-              </AccordionSummary>
-              <AccordionDetails sx={{ m: 2 }}>
-                {renderItem(item, item.name as string)}
-              </AccordionDetails>
-            </Accordion>
-          ))}
-        </Box>
+                <AccordionSummary
+                  sx={{
+                    bgcolor: grey[200],
+                    position: "sticky",
+                    top: 0,
+                    zIndex: 10,
+                  }}
+                  expandIcon={<ExpandMoreIcon />}
+                >
+                  <Typography>فرم {item.label}</Typography>
+                </AccordionSummary>
+                <AccordionDetails sx={{ m: 2 }}>
+                  {renderItem(item, item.name as string)}
+                </AccordionDetails>
+              </Accordion>
+            ))}
+          </Box>
+        </Grid>
       </Grid>
-    </Grid>
+
+      <WindowLoading active={saveLicenseMutation.isLoading} />
+    </>
   );
 }
 
