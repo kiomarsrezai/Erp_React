@@ -52,9 +52,9 @@ function PageGuard(props: PageGuardProps) {
   return (
     <>
       {render}
-      <WindowLoading
+      {/* <WindowLoading
         active={userMutation.isLoading || !userMutation.data?.data}
-      />{" "}
+      />{" "} */}
     </>
   );
 }

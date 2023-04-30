@@ -4,6 +4,7 @@ import { BaseApi } from "api/base-api";
 import { BaseApiResponseShape } from "types/base-type";
 import { AUTH_URLS } from "config/features/auth/auth-config";
 import { LoginItemShape } from "types/data/auth/login-type";
+import { UserItemShape } from "types/data/auth/users-type";
 
 export const AuthApi = new (class extends BaseApi {
   login = async (formdata: any) => {
@@ -18,6 +19,21 @@ export const AuthApi = new (class extends BaseApi {
 
     const response = await clientAxios.get<
       BaseApiResponseShape<LoginItemShape>
+    >(url);
+    return response.data;
+  };
+
+  userList = async () => {
+    const formData = {
+      offset: 1,
+      limit: 20,
+      order: 1,
+      search: "",
+    };
+
+    const url = AUTH_URLS.allUsers + this.joinFilterData(formData);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<UserItemShape[]>
     >(url);
     return response.data;
   };
