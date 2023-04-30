@@ -6,9 +6,16 @@ import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import LogoutIcon from "@mui/icons-material/Logout";
 import useLayoutStore from "hooks/store/layout-store";
+import { useNavigate } from "react-router-dom";
 
 function AdminHeader() {
   const toggleNormlize = useLayoutStore((state) => state.toggleNormlize);
+
+  const navigate = useNavigate();
+  const handleSignOut = () => {
+    localStorage.removeItem("token-auth");
+    navigate("/");
+  };
 
   return (
     <AppBar position="static">
@@ -32,7 +39,7 @@ function AdminHeader() {
         <IconButton color="inherit">
           <NotificationsIcon />
         </IconButton>
-        <IconButton color="inherit">
+        <IconButton color="inherit" onClick={handleSignOut}>
           <LogoutIcon />
         </IconButton>
       </Toolbar>

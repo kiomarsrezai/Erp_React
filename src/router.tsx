@@ -4,12 +4,13 @@ import ReportProctorAbstructPage from "pages/report/proctor/abstract-page";
 import TransferPage from "pages/transfer/transfer-page";
 import BudgetSepratorPage from "pages/budget/seprator-page";
 import BudgetProposalPage from "pages/budget/proposal-page";
-
-import { createBrowserRouter } from "react-router-dom";
 import RequestCreditPage from "pages/credit/request-page";
 import AccessPage from "pages/access-page";
 import OrgProjectPage from "pages/project/org-page";
 import MeetingsProjectPage from "pages/project/meetings-page";
+
+import { createBrowserRouter } from "react-router-dom";
+import PageGuard from "components/auth/page-guard.";
 
 const router = createBrowserRouter([
   {
@@ -19,44 +20,44 @@ const router = createBrowserRouter([
   // report
   {
     path: "/report/chart/revenue",
-    element: <ReportRevenueChartPage />,
+    element: <PageGuard render={<ReportRevenueChartPage />} />,
   },
   {
     path: "/report/proctor/abstract",
-    element: <ReportProctorAbstructPage />,
+    element: <PageGuard render={<ReportProctorAbstructPage />} />,
   },
   // budget
   {
     path: "/budget/proposal",
-    element: <BudgetProposalPage />,
+    element: <PageGuard render={<BudgetProposalPage />} />,
   },
   {
     path: "/budget/seprator",
-    element: <BudgetSepratorPage />,
+    element: <PageGuard render={<BudgetSepratorPage />} />,
   },
   // transfer
   {
     path: "/transfer",
-    element: <TransferPage />,
+    element: <PageGuard render={<TransferPage />} />,
   },
   // credit
   {
     path: "/credit/request",
-    element: <RequestCreditPage />,
+    element: <PageGuard render={<RequestCreditPage />} />,
   },
   // access
   {
     path: "/access",
-    element: <AccessPage />,
+    element: <PageGuard render={<AccessPage />} />,
   },
   // project
   {
     path: "/project/org",
-    element: <OrgProjectPage />,
+    element: <PageGuard render={<OrgProjectPage />} />,
   },
   {
     path: "/project/meetings",
-    element: <MeetingsProjectPage />,
+    element: <PageGuard render={<MeetingsProjectPage />} />,
   },
 ]);
 

@@ -58,6 +58,9 @@ function LoginForm() {
           userName: data.data.userName,
           lastName: data.data.lastName,
         });
+        if (rememberMe) {
+          localStorage.setItem("token-auth", data.data.token);
+        }
         navigate("/report/chart/revenue");
       } else {
         const message = "نام کاربری یا رمز ورود اشتباه است";

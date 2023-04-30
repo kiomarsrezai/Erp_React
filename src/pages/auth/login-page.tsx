@@ -3,7 +3,18 @@ import Box from "@mui/material/Box";
 import karroonImg from "assets/images/places/karoon.jpg";
 import LoginForm from "components/sections/forms/login/login-form";
 
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 function LoginPage() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("token-auth");
+    if (token) {
+      navigate("/report/chart/revenue");
+    }
+  }, [navigate]);
+
   return (
     <Grid container spacing={0} overflow="hidden">
       <Grid xs={4} lg={3} sx={{ bgcolor: "grey.100" }}>
