@@ -109,7 +109,7 @@ function FixedTable(props: FixedTableProps) {
           (head, i) =>
             !head.hidden && (
               <TableCell
-                key={head.title}
+                key={i}
                 sx={{
                   borderRight: 1,
                   borderColor: grey[borderColor],
@@ -154,7 +154,7 @@ function FixedTable(props: FixedTableProps) {
 
   // footer
   const tableFooterContent = footer && !!data.length && (
-    <>
+    <TableRow>
       {visibleHeads.map((item, i) => {
         const name = item.name;
         return (
@@ -180,7 +180,7 @@ function FixedTable(props: FixedTableProps) {
           </TableCell>
         );
       })}
-    </>
+    </TableRow>
   );
 
   return (
@@ -200,7 +200,7 @@ function FixedTable(props: FixedTableProps) {
                 key={i}
                 sx={{
                   "&:last-child td, &:last-child th": { border: 0 },
-                  "&:nth-child(even)": { bgcolor: row.bgcolor || grey[100] },
+                  "&:nth-of-type(even)": { bgcolor: row.bgcolor || grey[100] },
                   bgcolor: row.bgcolor,
                 }}
               >

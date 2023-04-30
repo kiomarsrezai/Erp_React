@@ -177,6 +177,17 @@ function TransferPage() {
   };
 
   // table data
+  let prevRowColor = "#fff";
+  let nextRowColor = "#f5f5f5";
+  const getBgColor = (
+    item: GetSingleTransferItemShape,
+    previtem: GetSingleTransferItemShape | undefined
+  ) => {
+    if (item.code !== previtem?.code) {
+      [prevRowColor, nextRowColor] = [nextRowColor, prevRowColor];
+    }
+    return prevRowColor;
+  };
   const formatTableData = (
     unFormatData: GetSingleTransferItemShape[]
   ): TableDataItemShape[] => {
@@ -189,6 +200,7 @@ function TransferPage() {
       codeAcc: item.codeAcc,
       titleAcc: item.titleAcc,
       actions: actionButtons,
+      bgcolor: getBgColor(item, unFormatData[i - 1]),
     }));
 
     return formatedData;
