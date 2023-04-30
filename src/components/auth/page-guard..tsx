@@ -21,13 +21,16 @@ function PageGuard(props: PageGuardProps) {
           firstName: data.data.firstName,
           lastName: data.data.lastName,
           userName: data.data.userName,
+          bio: data.data.bio,
         });
       } else {
         navigate("/");
+        localStorage.removeItem("token-auth");
       }
     },
     onError: () => {
       navigate("/");
+      localStorage.removeItem("token-auth");
     },
   });
 

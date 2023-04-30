@@ -88,7 +88,6 @@ function AccessTree(props: AccessTreeProps) {
   };
 
   //   render
-
   const renderItem = (item: any, name: string) => (
     <Stack spacing={1} direction="column" key={name}>
       <Box>

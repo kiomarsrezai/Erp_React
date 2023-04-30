@@ -21,7 +21,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/wellcome",
-    element: <WellcomePage />,
+    element: <PageGuard render={<WellcomePage />} />,
   },
 
   // report

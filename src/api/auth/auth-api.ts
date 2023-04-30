@@ -23,17 +23,15 @@ export const AuthApi = new (class extends BaseApi {
   };
 
   userByToken = async (token: string) => {
-    const url = `${AUTH_URLS.userByTocken}?tocken=${token}`;
-
-    const response = await clientAxios.get<
+    const response = await clientAxios.post<
       BaseApiResponseShape<LoginItemShape>
-    >(url);
+    >(AUTH_URLS.userByTocken, { tocken: token });
     return response.data;
   };
 
   userList = async () => {
     const formData = {
-      offset: 1,
+      offset: 0,
       limit: 20,
       order: 1,
       search: "",
