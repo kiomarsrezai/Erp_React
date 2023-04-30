@@ -103,24 +103,141 @@ function BudgetSepratorPage() {
     </IconButton>
   );
 
-  const getBgColor = (id: number) => {
-    if (id === 1) {
+  const getBgColor = (levelNumber: number) => {
+    // budget method 1
+    if (
+      levelNumber === 1 &&
+      formData[sepratorBudgetConfig.BUDGET_METHOD] === 1
+    ) {
       return "rgb(248,203,173)";
     }
 
-    if (id === 2) {
+    if (
+      levelNumber === 2 &&
+      formData[sepratorBudgetConfig.BUDGET_METHOD] === 1
+    ) {
       return "rgb(198,224,180)";
     }
 
-    if (id === 3) {
+    if (
+      levelNumber === 3 &&
+      formData[sepratorBudgetConfig.BUDGET_METHOD] === 1
+    ) {
       return "rgb(189,215,238)";
     }
 
-    if (id === 4) {
+    if (
+      levelNumber === 4 &&
+      formData[sepratorBudgetConfig.BUDGET_METHOD] === 1
+    ) {
       return "rgb(255,255,153)";
     }
 
-    if (id === 5) {
+    if (
+      levelNumber === 5 &&
+      formData[sepratorBudgetConfig.BUDGET_METHOD] === 1
+    ) {
+      return "#fff";
+    }
+
+    // budget method 2
+    if (
+      formData[sepratorBudgetConfig.BUDGET_METHOD] === 2 &&
+      levelNumber === 1
+    ) {
+      return "rgb(198,224,180)";
+    }
+
+    if (
+      formData[sepratorBudgetConfig.BUDGET_METHOD] === 2 &&
+      levelNumber === 2
+    ) {
+      return "rgb(248,203,173)";
+    }
+
+    if (
+      formData[sepratorBudgetConfig.BUDGET_METHOD] === 2 &&
+      levelNumber === 3
+    ) {
+      return "rgb(255,255,153)";
+    }
+
+    if (
+      formData[sepratorBudgetConfig.BUDGET_METHOD] === 2 &&
+      levelNumber === 4
+    ) {
+      return "#fff";
+    }
+
+    // budget method 3
+    if (
+      levelNumber === 1 &&
+      formData[sepratorBudgetConfig.BUDGET_METHOD] === 3
+    ) {
+      return "rgb(248,203,173)";
+    }
+
+    if (
+      levelNumber === 2 &&
+      formData[sepratorBudgetConfig.BUDGET_METHOD] === 3
+    ) {
+      return "rgb(198,224,180)";
+    }
+
+    if (
+      levelNumber === 3 &&
+      formData[sepratorBudgetConfig.BUDGET_METHOD] === 3
+    ) {
+      return "rgb(189,215,238)";
+    }
+
+    if (
+      levelNumber === 4 &&
+      formData[sepratorBudgetConfig.BUDGET_METHOD] === 3
+    ) {
+      return "rgb(255,255,153)";
+    }
+
+    if (
+      levelNumber === 5 &&
+      formData[sepratorBudgetConfig.BUDGET_METHOD] === 3
+    ) {
+      return "#fff";
+    }
+
+    if (
+      levelNumber === 6 &&
+      formData[sepratorBudgetConfig.BUDGET_METHOD] === 3
+    ) {
+      return "rgb(243 243 202)";
+    }
+
+    // budget method 4
+    if (
+      levelNumber === 1 &&
+      formData[sepratorBudgetConfig.BUDGET_METHOD] === 4
+    ) {
+      return "rgb(248,203,173)";
+    }
+
+    if (
+      levelNumber === 2 &&
+      formData[sepratorBudgetConfig.BUDGET_METHOD] === 4
+    ) {
+      return "rgb(198,224,180)";
+    }
+
+    if (
+      levelNumber === 3 &&
+      formData[sepratorBudgetConfig.BUDGET_METHOD] === 4
+    ) {
+      return "rgb(189,215,238)";
+    }
+
+    if (
+      levelNumber === 4 &&
+      formData[sepratorBudgetConfig.BUDGET_METHOD] === 4
+    ) {
       return "#fff";
     }
   };
