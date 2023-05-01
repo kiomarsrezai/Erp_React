@@ -4,14 +4,20 @@ import { useQuery } from "@tanstack/react-query";
 import { areaGeneralApi } from "api/general/area-general-api";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 import { generalFieldsConfig } from "config/features/general-fields-config";
+import userStore from "hooks/store/user-store";
+import { filedItemsGuard, joinPermissions } from "helper/auth-utils";
+import { accessNamesConfig } from "config/access-names-config";
 
 interface AreaInputProps {
   setter: (prevData: any) => void;
   value: number;
+  permissionForm?: string;
 }
 
 function AreaInput(props: AreaInputProps) {
-  const { setter, value } = props;
+  const { setter, value, permissionForm } = props;
+
+  const userLicenses = userStore((state) => state.permissions);
 
   const areaQuery = useQuery(
     ["general-area"],
@@ -37,7 +43,11 @@ function AreaInput(props: AreaInputProps) {
     <FlotingLabelSelect
       label="منطقه"
       name={generalFieldsConfig.AREA}
-      items={areaItems}
+      items={filedItemsGuard(
+        areaItems,
+        userLicenses,
+        joinPermissions([permissionForm || "", accessNamesConfig.FIELD_AREA])
+      )}
       value={value}
       setter={setter}
     />

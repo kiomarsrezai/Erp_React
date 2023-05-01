@@ -7,6 +7,9 @@ import { useState } from "react";
 import FixedModal from "components/ui/modal/fixed-modal";
 import { useMutation } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
+import SectionGuard from "components/auth/section-guard";
+import { joinPermissions } from "helper/auth-utils";
+import { accessNamesConfig } from "config/access-names-config";
 
 interface SepratorDetailModalProps {
   title: string;
@@ -63,9 +66,20 @@ function SepratorDetailModal(props: SepratorDetailModalProps) {
 
   // head group
   const headGroupBtn = (
-    <Button variant="contained" color="primary" onClick={handleTaminEtbarClick}>
-      تامین اعتبار
-    </Button>
+    <SectionGuard
+      permission={joinPermissions([
+        accessNamesConfig.SEPRATOR_BUDGET_PAGE,
+        accessNamesConfig.SEPRATOR_BUDGET_PAGE__TAMIN_BTN,
+      ])}
+    >
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleTaminEtbarClick}
+      >
+        تامین اعتبار
+      </Button>
+    </SectionGuard>
   );
   const tableHeadGroup = [
     {

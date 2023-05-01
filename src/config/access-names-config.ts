@@ -7,9 +7,14 @@ export const accessNamesConfig = {
   REVENUE_CHART_PAGE__NIABATI: "niabati",
   REVENUE_CHART_PAGE__REVENUE: "revenue",
 
-  ABSTRUCT_PROCTOR_PAGE: "abstruct-proctor",
+  // proposal form
   BUDGET_PROPOSAL_PAGE: "budget-proposal",
+
+  // seprator
   SEPRATOR_BUDGET_PAGE: "seprator-budget",
+  SEPRATOR_BUDGET_PAGE__TAMIN_BTN: "tamin-btn",
+
+  ABSTRUCT_PROCTOR_PAGE: "abstruct-proctor",
   CREDIT_REQUEST_PAGE: "credit-request",
   ACCESS_PAGE: "access",
   PROJECT_ORG_PAGE: "project-org",
@@ -20,4 +25,5 @@ export const accessNamesConfig = {
   FIELD_YEAR: "year",
   FIELD_BUDGET_METHOD: "budget-method",
   FIELD_ORGAN: "organ",
+  FIELD_AREA: "area",
 };

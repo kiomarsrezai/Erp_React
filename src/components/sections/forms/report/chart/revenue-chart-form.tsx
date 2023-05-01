@@ -18,7 +18,8 @@ import { reactQueryKeys } from "config/react-query-keys-config";
 import { centerItems, organItems } from "config/features/general-fields-config";
 import SectionGuard from "components/auth/section-guard";
 import { accessNamesConfig } from "config/access-names-config";
-import { joinPermissions } from "helper/auth-utils";
+import { filedItemsGuard, joinPermissions } from "helper/auth-utils";
+import userStore from "hooks/store/user-store";
 
 interface RevenueChartFormProps {
   formData: any;
@@ -26,6 +27,7 @@ interface RevenueChartFormProps {
 }
 function RevenueChartForm(props: RevenueChartFormProps) {
   const { formData, setFormData } = props;
+  const userLicenses = userStore((state) => state.permissions);
 
   // form
   const queryClient = useQueryClient();
@@ -78,7 +80,14 @@ function RevenueChartForm(props: RevenueChartFormProps) {
               <FlotingLabelSelect
                 label="سازمان"
                 name={revenueChartFormConfig.ORGAN}
-                items={organItems}
+                items={filedItemsGuard(
+                  organItems,
+                  userLicenses,
+                  joinPermissions([
+                    accessNamesConfig.REVENUE_CHART_PAGE,
+                    accessNamesConfig.FIELD_ORGAN,
+                  ])
+                )}
                 value={formData[revenueChartFormConfig.ORGAN]}
                 setter={setFormData}
               />
@@ -94,6 +103,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
               <YearInput
                 setter={setFormData}
                 value={formData[revenueChartFormConfig.YEAR] as number}
+                permissionForm={accessNamesConfig.REVENUE_CHART_PAGE}
               />
             </Grid>
           </SectionGuard>
@@ -107,7 +117,14 @@ function RevenueChartForm(props: RevenueChartFormProps) {
               <FlotingLabelSelect
                 label="مرکز"
                 name={revenueChartFormConfig.CENTER}
-                items={centerItems}
+                items={filedItemsGuard(
+                  centerItems,
+                  userLicenses,
+                  joinPermissions([
+                    accessNamesConfig.REVENUE_CHART_PAGE,
+                    accessNamesConfig.REVENUE_CHART_PAGE__CENTER,
+                  ])
+                )}
                 value={formData[revenueChartFormConfig.CENTER]}
                 setter={setFormData}
               />
@@ -124,6 +141,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
               <BudgetMethodInput
                 setter={setFormData}
                 value={formData[revenueChartFormConfig.BUDGET_METHOD] as number}
+                permissionForm={accessNamesConfig.REVENUE_CHART_PAGE}
               />
             </Grid>
           </SectionGuard>

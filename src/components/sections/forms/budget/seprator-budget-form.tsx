@@ -10,6 +10,9 @@ import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { FormEvent, useEffect } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
+import SectionGuard from "components/auth/section-guard";
+import { accessNamesConfig } from "config/access-names-config";
+import { joinPermissions } from "helper/auth-utils";
 
 interface SepratoeBudgetFormProps {
   formData: any;
@@ -41,25 +44,49 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
   return (
     <Box component="form" onSubmit={handleFormSubmit}>
       <Grid container spacing={2}>
-        <Grid lg={2}>
-          <YearInput
-            setter={setFormData}
-            value={formData[sepratorBudgetConfig.YEAR]}
-          />
-        </Grid>
-        <Grid lg={2}>
-          <AreaInput
-            setter={setFormData}
-            value={formData[sepratorBudgetConfig.AREA]}
-          />
-        </Grid>
+        <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.SEPRATOR_BUDGET_PAGE,
+            accessNamesConfig.FIELD_YEAR,
+          ])}
+        >
+          <Grid lg={2}>
+            <YearInput
+              setter={setFormData}
+              value={formData[sepratorBudgetConfig.YEAR]}
+              permissionForm={accessNamesConfig.SEPRATOR_BUDGET_PAGE}
+            />
+          </Grid>
+        </SectionGuard>
+        <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.SEPRATOR_BUDGET_PAGE,
+            accessNamesConfig.FIELD_AREA,
+          ])}
+        >
+          <Grid lg={2}>
+            <AreaInput
+              setter={setFormData}
+              value={formData[sepratorBudgetConfig.AREA]}
+              permissionForm={accessNamesConfig.SEPRATOR_BUDGET_PAGE}
+            />
+          </Grid>
+        </SectionGuard>
 
-        <Grid lg={2}>
-          <BudgetMethodInput
-            setter={setFormData}
-            value={formData[sepratorBudgetConfig.BUDGET_METHOD]}
-          />
-        </Grid>
+        <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.SEPRATOR_BUDGET_PAGE,
+            accessNamesConfig.FIELD_BUDGET_METHOD,
+          ])}
+        >
+          <Grid lg={2}>
+            <BudgetMethodInput
+              setter={setFormData}
+              value={formData[sepratorBudgetConfig.BUDGET_METHOD]}
+              permissionForm={accessNamesConfig.SEPRATOR_BUDGET_PAGE}
+            />
+          </Grid>
+        </SectionGuard>
         <Grid lg={4}>
           <LoadingButton
             variant="contained"

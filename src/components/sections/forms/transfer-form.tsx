@@ -10,6 +10,9 @@ import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { FormEvent, useEffect } from "react";
 import { transferApi } from "api/transfer/transfer-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
+import SectionGuard from "components/auth/section-guard";
+import { accessNamesConfig } from "config/access-names-config";
+import { joinPermissions } from "helper/auth-utils";
 
 interface TransferFormProps {
   formData: any;
@@ -42,25 +45,48 @@ function TransferForm(props: TransferFormProps) {
   return (
     <Box component="form" onSubmit={handleFormSubmit}>
       <Grid container spacing={2}>
-        <Grid lg={2}>
-          <YearInput
-            setter={setFormData}
-            value={formData[sepratorBudgetConfig.YEAR]}
-          />
-        </Grid>
-        <Grid lg={2}>
-          <AreaInput
-            setter={setFormData}
-            value={formData[sepratorBudgetConfig.AREA]}
-          />
-        </Grid>
-
-        <Grid lg={2}>
-          <BudgetMethodInput
-            setter={setFormData}
-            value={formData[sepratorBudgetConfig.BUDGET_METHOD]}
-          />
-        </Grid>
+        <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.TRANSFER_PAGE,
+            accessNamesConfig.FIELD_YEAR,
+          ])}
+        >
+          <Grid lg={2}>
+            <YearInput
+              setter={setFormData}
+              value={formData[sepratorBudgetConfig.YEAR]}
+              permissionForm={accessNamesConfig.TRANSFER_PAGE}
+            />
+          </Grid>
+        </SectionGuard>
+        <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.TRANSFER_PAGE,
+            accessNamesConfig.FIELD_AREA,
+          ])}
+        >
+          <Grid lg={2}>
+            <AreaInput
+              setter={setFormData}
+              value={formData[sepratorBudgetConfig.AREA]}
+              permissionForm={accessNamesConfig.TRANSFER_PAGE}
+            />
+          </Grid>
+        </SectionGuard>
+        <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.TRANSFER_PAGE,
+            accessNamesConfig.FIELD_BUDGET_METHOD,
+          ])}
+        >
+          <Grid lg={2}>
+            <BudgetMethodInput
+              setter={setFormData}
+              value={formData[sepratorBudgetConfig.BUDGET_METHOD]}
+              permissionForm={accessNamesConfig.TRANSFER_PAGE}
+            />
+          </Grid>
+        </SectionGuard>
         <Grid lg={4}>
           <LoadingButton
             variant="contained"

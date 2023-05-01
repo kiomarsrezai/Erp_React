@@ -11,6 +11,9 @@ import { reactQueryKeys } from "config/react-query-keys-config";
 import { abstructProctorApi } from "api/report/abstruct-proctor-api";
 import { abstructProctorConfig } from "config/features/report/proctor/abstruct-config";
 import ProctorInput from "components/sections/inputs/proctor-input";
+import { accessNamesConfig } from "config/access-names-config";
+import SectionGuard from "components/auth/section-guard";
+import { joinPermissions } from "helper/auth-utils";
 
 interface AbstractProctorFormProps {
   formData: any;
@@ -43,12 +46,20 @@ function AbstractProctorForm(props: AbstractProctorFormProps) {
   return (
     <Box component="form" onSubmit={handleFormSubmit}>
       <Grid container spacing={2}>
-        <Grid lg={2}>
-          <YearInput
-            setter={setFormData}
-            value={formData[abstructProctorConfig.YEAR]}
-          />
-        </Grid>
+        <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.ABSTRUCT_PROCTOR_PAGE,
+            accessNamesConfig.FIELD_YEAR,
+          ])}
+        >
+          <Grid lg={2}>
+            <YearInput
+              setter={setFormData}
+              value={formData[abstructProctorConfig.YEAR]}
+              permissionForm={accessNamesConfig.ABSTRUCT_PROCTOR_PAGE}
+            />
+          </Grid>
+        </SectionGuard>
         {/* <Grid lg={2}>
           <AreaInput
             setter={setFormData}

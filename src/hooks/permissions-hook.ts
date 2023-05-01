@@ -74,7 +74,7 @@ function usePermissions() {
 
   const areaNumber2Field: AccessItemShape = formatApiFields(
     "منطقه",
-    generalFieldsConfig.AREA,
+    accessNamesConfig.FIELD_AREA,
     "areaName",
     areaNumber2Query.data?.data || []
   );
@@ -113,7 +113,7 @@ function usePermissions() {
         budgetMethodField,
         {
           label: "دکمه تامین اعتبار",
-          name: revenueChartFormConfig.TAMIN_ATBAR,
+          name: accessNamesConfig.SEPRATOR_BUDGET_PAGE__TAMIN_BTN,
         },
       ],
     },
@@ -123,7 +123,7 @@ function usePermissions() {
       value: [yearField],
     },
     {
-      label: "واسط سازمان ها",
+      label: "واسط کدینگ",
       name: accessNamesConfig.TRANSFER_PAGE,
       value: [yearField, areaNumber2Field, budgetMethodField],
     },
