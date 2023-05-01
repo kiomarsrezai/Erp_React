@@ -28,33 +28,6 @@ import WindowLoading from "components/ui/loading/window-loading";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 
-const formatConfigsNode = (
-  data: AccessItemShape,
-  name: string | number
-): any => {
-  let formated = {
-    [name]: false,
-  };
-  data.value?.forEach((item: any) => {
-    formated = {
-      ...formated,
-      ...formatConfigsNode(item, `${name}.${item.name}`),
-    };
-  });
-
-  return formated;
-};
-
-const formatConfigs = (data: any) => {
-  let formated: any = {};
-
-  data.forEach((form: AccessItemShape) => {
-    formated = { ...formated, ...formatConfigsNode(form, form.name) };
-  });
-
-  return formated;
-};
-
 interface AccessTreeProps {
   user?: UserItemShape;
   onCancel: () => void;
@@ -63,9 +36,36 @@ interface AccessTreeProps {
 function AccessTree(props: AccessTreeProps) {
   const { user, onCancel } = props;
 
-  const { loading, data } = usePermissions();
+  const { loading, data: permissionsListdata } = usePermissions();
 
-  const [formData, setFormData] = useState(formatConfigs(data));
+  const formatConfigsNode = (
+    data: AccessItemShape,
+    name: string | number
+  ): any => {
+    let formated = {
+      [name]: user?.لایسنس.split("/").includes(name.toString()),
+    };
+    data.value?.forEach((item: any) => {
+      formated = {
+        ...formated,
+        ...formatConfigsNode(item, `${name}.${item.name}`),
+      };
+    });
+
+    return formated;
+  };
+
+  const formatConfigs = (data: any) => {
+    let formated: any = {};
+
+    data.forEach((form: AccessItemShape) => {
+      formated = { ...formated, ...formatConfigsNode(form, form.name) };
+    });
+
+    return formated;
+  };
+
+  const [formData, setFormData] = useState(formatConfigs(permissionsListdata));
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const name = event.target.name;
@@ -205,7 +205,7 @@ function AccessTree(props: AccessTreeProps) {
         </Grid>
         <Grid lg={8}>
           <Box height="100%">
-            {data.map((item: AccessItemShape, i: number) => (
+            {permissionsListdata.map((item: AccessItemShape, i: number) => (
               <Accordion
                 sx={{
                   bgcolor: grey[50],

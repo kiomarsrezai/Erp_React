@@ -59,6 +59,7 @@ function LoginForm() {
           userName: data.data.userName,
           lastName: data.data.lastName,
           bio: data.data.bio,
+          permissions: data.data.lisence,
         });
         if (rememberMe) {
           localStorage.setItem("token-auth", data.data.token);

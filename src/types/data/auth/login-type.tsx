@@ -6,6 +6,7 @@ interface SuccessLoginItemShape {
   lastName: string;
   sectionId: string;
   bio: string;
+  lisence: string;
 }
 
 export type LoginItemShape = SuccessLoginItemShape | null;

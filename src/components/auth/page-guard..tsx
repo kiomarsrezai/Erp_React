@@ -12,6 +12,7 @@ interface PageGuardProps {
 
 function PageGuard(props: PageGuardProps) {
   const { render, permission } = props;
+
   const userState = userStore();
 
   const userMutation = useMutation(AuthApi.userByToken, {
@@ -22,6 +23,7 @@ function PageGuard(props: PageGuardProps) {
           lastName: data.data.lastName,
           userName: data.data.userName,
           bio: data.data.bio,
+          permissions: data.data.lisence,
         });
       } else {
         navigate("/");
@@ -48,7 +50,7 @@ function PageGuard(props: PageGuardProps) {
   }, [userState]);
 
   // not have access to this page
-  if (false) {
+  if (permission && !userState.permissions.split("/").includes(permission)) {
     return <div>404</div>;
   }
 
