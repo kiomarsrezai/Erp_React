@@ -100,8 +100,8 @@ function LoginForm() {
         <Box
           component="img"
           sx={{
-            height: 150,
-            width: 150,
+            width: "100%",
+            mb: "40px !important",
           }}
           alt="fava-ahvaz"
           src={logoImg}
@@ -165,14 +165,23 @@ function LoginForm() {
             </Button>
 
             <Box>
-              <Link
-                href="#"
-                underline="hover"
-                variant="caption"
-                sx={{ color: "grey.600" }}
-              >
+              <Link href="#" variant="overline" sx={{ color: "grey.700" }}>
                 فراموشی رمز ورود
               </Link>
+            </Box>
+            <Box sx={{ mt: "80px !important" }}>
+              <Typography variant="caption" fontWeight="bold" color="grey.600">
+                کلیه حقوق مادی و معنوی این سامانه برای سازمان فن آوری اطلاعات و
+                ارتباطات{" "}
+                <Typography
+                  variant="caption"
+                  fontWeight="bold"
+                  color="grey.800"
+                >
+                  شهرداری اهواز
+                </Typography>{" "}
+                محفوض میباشد
+              </Typography>
             </Box>
           </Stack>
         </Stack>
