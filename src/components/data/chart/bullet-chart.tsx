@@ -1,4 +1,4 @@
-import { grey, blue } from "@mui/material/colors";
+import { grey, blue, green } from "@mui/material/colors";
 import {
   ComposedChart,
   Line,
@@ -40,7 +40,7 @@ const CustomBarWithTarget = (props: any) => {
         width={customWidth}
         height={customHeight}
         stroke="none"
-        fill={fill}
+        fill={blue[200]}
       />
     </svg>
   );
@@ -89,8 +89,9 @@ function BulletChart(props: BulletChartProps) {
         <Line
           type="monotone"
           dataKey="Expense"
-          stroke={blue[800]}
+          stroke={green[700]}
           strokeWidth={4}
+          isAnimationActive={false}
         />
       </ComposedChart>
     </ResponsiveContainer>

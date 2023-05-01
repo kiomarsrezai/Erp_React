@@ -142,8 +142,8 @@ function FixedTable(props: FixedTableProps) {
           dir={typeof row[name] === "number" ? "ltr" : "rtl"}
           sx={{
             bgcolor: row[`bgcolor-${name}`] || "transparent",
+            color: row[`textcolor-${name}`] || "#000",
             p: 1,
-            color: "#000",
           }}
         >
           {formatDataCell(row[name], item, row)}

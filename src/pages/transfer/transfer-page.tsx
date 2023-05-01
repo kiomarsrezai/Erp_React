@@ -3,6 +3,7 @@ import FixedTable from "components/data/table/fixed-table";
 import TransferForm from "components/sections/forms/transfer-form";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
+import grey from "@mui/material/colors/grey";
 import BalanceIcon from "@mui/icons-material/Balance";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -178,7 +179,7 @@ function TransferPage() {
 
   // table data
   let prevRowColor = "#fff";
-  let nextRowColor = "#f5f5f5";
+  let nextRowColor = `${grey[300]}`;
   const getBgColor = (
     item: GetSingleTransferItemShape,
     previtem: GetSingleTransferItemShape | undefined

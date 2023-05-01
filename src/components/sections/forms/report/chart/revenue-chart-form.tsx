@@ -107,29 +107,31 @@ function RevenueChartForm(props: RevenueChartFormProps) {
               />
             </Grid>
           </SectionGuard>
-          <SectionGuard
-            permission={joinPermissions([
-              accessNamesConfig.REVENUE_CHART_PAGE,
-              accessNamesConfig.REVENUE_CHART_PAGE__CENTER,
-            ])}
-          >
-            <Grid lg={2}>
-              <FlotingLabelSelect
-                label="مرکز"
-                name={revenueChartFormConfig.CENTER}
-                items={filedItemsGuard(
-                  centerItems,
-                  userLicenses,
-                  joinPermissions([
-                    accessNamesConfig.REVENUE_CHART_PAGE,
-                    accessNamesConfig.REVENUE_CHART_PAGE__CENTER,
-                  ])
-                )}
-                value={formData[revenueChartFormConfig.CENTER]}
-                setter={setFormData}
-              />
-            </Grid>
-          </SectionGuard>
+          {!(formData[revenueChartFormConfig.ORGAN] === 4) && (
+            <SectionGuard
+              permission={joinPermissions([
+                accessNamesConfig.REVENUE_CHART_PAGE,
+                accessNamesConfig.REVENUE_CHART_PAGE__CENTER,
+              ])}
+            >
+              <Grid lg={2}>
+                <FlotingLabelSelect
+                  label="مرکز"
+                  name={revenueChartFormConfig.CENTER}
+                  items={filedItemsGuard(
+                    centerItems,
+                    userLicenses,
+                    joinPermissions([
+                      accessNamesConfig.REVENUE_CHART_PAGE,
+                      accessNamesConfig.REVENUE_CHART_PAGE__CENTER,
+                    ])
+                  )}
+                  value={formData[revenueChartFormConfig.CENTER]}
+                  setter={setFormData}
+                />
+              </Grid>
+            </SectionGuard>
+          )}
 
           <SectionGuard
             permission={joinPermissions([

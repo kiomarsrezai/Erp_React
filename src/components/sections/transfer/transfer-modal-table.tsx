@@ -55,13 +55,14 @@ function TransferModalTable(props: TransferModalTableProps) {
       name: "idKol",
     },
     {
+      title: "نام سرفصل",
+      name: "name",
+      align: "left",
+    },
+    {
       title: "عملکرد",
       name: "expense",
       split: true,
-    },
-    {
-      title: "نام سرفصل",
-      name: "name",
       align: "left",
     },
     {

@@ -11,7 +11,7 @@ function LoginPage() {
   useEffect(() => {
     const token = localStorage.getItem("token-auth");
     if (token) {
-      navigate("/report/chart/revenue");
+      navigate("/wellcome");
     }
   }, [navigate]);
 

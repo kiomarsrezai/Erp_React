@@ -1,4 +1,6 @@
 import FixedTable from "components/data/table/fixed-table";
+
+import green from "@mui/material/colors/green";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { ReactNode } from "react";
 import { GetSingleDetailRevenueChartShape } from "types/data/report/chart/revenue-chart-type";
@@ -59,6 +61,12 @@ function RevenueChartDetailModalTable(props: ChartDetailModalTableProps) {
   ];
 
   // body
+  const getNotDoneColor = (item: GetSingleDetailRevenueChartShape) => {
+    if (item["محقق نشده"] < 0) {
+      return green[800];
+    }
+  };
+
   const formatTableData = (
     unFormatData: GetSingleDetailRevenueChartShape[]
   ): TableDataItemShape[] => {
@@ -70,6 +78,7 @@ function RevenueChartDetailModalTable(props: ChartDetailModalTableProps) {
       mosavabDaily: item["مصوب روزانه"],
       mosavabJazb: item["% جذب مصوب"],
       notDoneValue: item["محقق نشده"],
+      "textcolor-notDoneValue": () => getNotDoneColor(item),
     }));
 
     return formatedData;
@@ -80,11 +89,19 @@ function RevenueChartDetailModalTable(props: ChartDetailModalTableProps) {
   // table footer
   const tableFooter: TableDataItemShape = {
     area: "جمع",
-    dailyJazb: "",
+    dailyJazb: Math.round(
+      (sumFieldsInSingleItemData(data, "عملکرد") /
+        sumFieldsInSingleItemData(data, "مصوب روزانه")) *
+        100
+    ),
     expense: sumFieldsInSingleItemData(data, "عملکرد"),
     mosavab: sumFieldsInSingleItemData(data, "مصوب"),
     mosavabDaily: sumFieldsInSingleItemData(data, "مصوب روزانه"),
-    mosavabJazb: "",
+    mosavabJazb: Math.round(
+      (sumFieldsInSingleItemData(data, "عملکرد") /
+        sumFieldsInSingleItemData(data, "مصوب")) *
+        100
+    ),
     notDoneValue: sumFieldsInSingleItemData(data, "محقق نشده"),
   };
 
