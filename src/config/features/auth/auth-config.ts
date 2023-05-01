@@ -13,6 +13,10 @@ export const saveLicenseConfig = {
   lisence: "lisence",
 };
 
+export const forgetPasswordConfig = {
+  phone: "phone",
+};
+
 export const AUTH_URLS = {
   login: "UsersApi/SignIn",
   setLicense: "UsersApi/Savelicense",

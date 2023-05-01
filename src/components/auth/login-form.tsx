@@ -24,6 +24,8 @@ import { useMutation } from "@tanstack/react-query";
 import { AuthApi } from "api/auth/auth-api";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
+import FixedModal from "components/ui/modal/fixed-modal";
+import ForgetPasswordModal from "pages/auth/forget-password-modal";
 
 function LoginForm() {
   const loginFormSchema = yup.object({
@@ -82,111 +84,138 @@ function LoginForm() {
     loginMutation.mutate(values);
   };
 
+  // forget password modal
+  const [isOpenForgetPasswordModal, setIsOpenForgetPasswordModal] =
+    useState(false);
+
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit(onSubmitHandler)}
-      paddingLeft={5}
-      paddingRight={5}
-      textAlign="center"
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        height: "100vh",
-      }}
-    >
-      <Box>
-        <Box
-          component="img"
-          sx={{
-            width: "100%",
-            mb: "40px !important",
-          }}
-          alt="fava-ahvaz"
-          src={logoImg}
-        />
-      </Box>
-      <Box>
-        <Stack spacing={3}>
-          <Stack spacing={2}>
-            <TextField
-              id="username-input"
-              label="نام کاربری"
-              variant="outlined"
-              {...register(loginConfig.username)}
-              error={!!errors[loginConfig.username]}
-              helperText={(errors[loginConfig.username]?.message || "") as any}
-              fullWidth
-            />
-
-            <TextField
-              id="password-input"
-              label="رمز ورود"
-              variant="outlined"
-              {...register(loginConfig.password)}
-              error={!!errors[loginConfig.password]}
-              helperText={(errors[loginConfig.password]?.message || "") as any}
-              fullWidth
-              type={showPasword ? "text" : "password"}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={toggleSeePassword}>
-                      {showPasword ? (
-                        <RemoveRedEyeIcon />
-                      ) : (
-                        <VisibilityOffIcon />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={rememberMe}
-                    onChange={() => setRememberMe((state) => !state)}
-                  />
+    <>
+      <Box
+        component="form"
+        onSubmit={handleSubmit(onSubmitHandler)}
+        paddingLeft={5}
+        paddingRight={5}
+        textAlign="center"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          height: "100vh",
+        }}
+      >
+        <Box>
+          <Box
+            component="img"
+            sx={{
+              width: "100%",
+              mb: "40px !important",
+            }}
+            alt="fava-ahvaz"
+            src={logoImg}
+          />
+        </Box>
+        <Box>
+          <Stack spacing={3}>
+            <Stack spacing={2}>
+              <TextField
+                id="username-input"
+                label="نام کاربری"
+                variant="outlined"
+                {...register(loginConfig.username)}
+                error={!!errors[loginConfig.username]}
+                helperText={
+                  (errors[loginConfig.username]?.message || "") as any
                 }
-                label={
-                  <Typography variant="body2">مرا به خاطر بسپار</Typography>
-                }
+                fullWidth
               />
-            </FormGroup>
-          </Stack>
 
-          <Stack spacing={1}>
-            <Button variant="contained" fullWidth size="large" type="submit">
-              ورود
-            </Button>
+              <TextField
+                id="password-input"
+                label="رمز ورود"
+                variant="outlined"
+                {...register(loginConfig.password)}
+                error={!!errors[loginConfig.password]}
+                helperText={
+                  (errors[loginConfig.password]?.message || "") as any
+                }
+                fullWidth
+                type={showPasword ? "text" : "password"}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={toggleSeePassword}>
+                        {showPasword ? (
+                          <RemoveRedEyeIcon />
+                        ) : (
+                          <VisibilityOffIcon />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
 
-            <Box>
-              <Link href="#" variant="overline" sx={{ color: "grey.700" }}>
-                فراموشی رمز ورود
-              </Link>
-            </Box>
-            <Box sx={{ mt: "80px !important" }}>
-              <Typography variant="caption" fontWeight="bold" color="grey.600">
-                کلیه حقوق مادی و معنوی این سامانه برای سازمان فن آوری اطلاعات و
-                ارتباطات{" "}
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={rememberMe}
+                      onChange={() => setRememberMe((state) => !state)}
+                    />
+                  }
+                  label={
+                    <Typography variant="body2">مرا به خاطر بسپار</Typography>
+                  }
+                />
+              </FormGroup>
+            </Stack>
+
+            <Stack spacing={1}>
+              <Button variant="contained" fullWidth size="large" type="submit">
+                ورود
+              </Button>
+
+              <Box>
+                <Button
+                  variant="text"
+                  sx={{ color: "grey.700", fontSize: 12 }}
+                  size="small"
+                  onClick={() => setIsOpenForgetPasswordModal(true)}
+                >
+                  فراموشی رمز ورود
+                </Button>
+              </Box>
+              <Box sx={{ mt: "80px !important" }}>
                 <Typography
                   variant="caption"
                   fontWeight="bold"
-                  color="grey.800"
+                  color="grey.600"
                 >
-                  شهرداری اهواز
-                </Typography>{" "}
-                محفوض میباشد
-              </Typography>
-            </Box>
+                  کلیه حقوق مادی و معنوی این سامانه برای سازمان فن آوری اطلاعات
+                  و ارتباطات{" "}
+                  <Typography
+                    variant="caption"
+                    fontWeight="bold"
+                    color="grey.800"
+                  >
+                    شهرداری اهواز
+                  </Typography>{" "}
+                  محفوض میباشد
+                </Typography>
+              </Box>
+            </Stack>
           </Stack>
-        </Stack>
+        </Box>
       </Box>
-    </Box>
+
+      <FixedModal
+        open={isOpenForgetPasswordModal}
+        handleClose={() => setIsOpenForgetPasswordModal(false)}
+        title="فراموشی رمز ورود"
+      >
+        <ForgetPasswordModal />
+      </FixedModal>
+    </>
   );
 }
 
