@@ -32,21 +32,25 @@ function RevenueChartDetailModalTable(props: ChartDetailModalTableProps) {
       title: "مصوب",
       name: "mosavab",
       split: true,
+      align: "left",
     },
     {
       title: "مصوب روزانه",
       name: "mosavabDaily",
       split: true,
+      align: "left",
     },
     {
       title: "عملکرد",
       name: "expense",
       split: true,
+      align: "left",
     },
     {
       title: "محقق نشده",
       name: "notDoneValue",
       split: true,
+      align: "left",
     },
     {
       title: "جذب روزانه %",
@@ -62,7 +66,7 @@ function RevenueChartDetailModalTable(props: ChartDetailModalTableProps) {
 
   // body
   const getNotDoneColor = (item: GetSingleDetailRevenueChartShape) => {
-    if (item["محقق نشده"] < 0) {
+    if (item.notGet < 0) {
       return green[800];
     }
   };
@@ -71,13 +75,13 @@ function RevenueChartDetailModalTable(props: ChartDetailModalTableProps) {
     unFormatData: GetSingleDetailRevenueChartShape[]
   ): TableDataItemShape[] => {
     const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
-      area: item.مناطق,
-      dailyJazb: item["% جذب روزانه"],
-      expense: item.عملکرد,
-      mosavab: item.مصوب,
-      mosavabDaily: item["مصوب روزانه"],
-      mosavabJazb: item["% جذب مصوب"],
-      notDoneValue: item["محقق نشده"],
+      area: item.areaName,
+      dailyJazb: item.percentMosavabDaily,
+      expense: item.expense,
+      mosavab: item.mosavab,
+      mosavabDaily: item.mosavabDaily,
+      mosavabJazb: item.percentMosavab,
+      notDoneValue: item.notGet,
       "textcolor-notDoneValue": () => getNotDoneColor(item),
     }));
 
@@ -90,19 +94,19 @@ function RevenueChartDetailModalTable(props: ChartDetailModalTableProps) {
   const tableFooter: TableDataItemShape = {
     area: "جمع",
     dailyJazb: Math.round(
-      (sumFieldsInSingleItemData(data, "عملکرد") /
-        sumFieldsInSingleItemData(data, "مصوب روزانه")) *
+      (sumFieldsInSingleItemData(data, "expense") /
+        sumFieldsInSingleItemData(data, "mosavabDaily")) *
         100
     ),
-    expense: sumFieldsInSingleItemData(data, "عملکرد"),
-    mosavab: sumFieldsInSingleItemData(data, "مصوب"),
-    mosavabDaily: sumFieldsInSingleItemData(data, "مصوب روزانه"),
+    expense: sumFieldsInSingleItemData(data, "expense"),
+    mosavab: sumFieldsInSingleItemData(data, "mosavab"),
+    mosavabDaily: sumFieldsInSingleItemData(data, "mosavabDaily"),
     mosavabJazb: Math.round(
-      (sumFieldsInSingleItemData(data, "عملکرد") /
-        sumFieldsInSingleItemData(data, "مصوب")) *
+      (sumFieldsInSingleItemData(data, "expense") /
+        sumFieldsInSingleItemData(data, "mosavab")) *
         100
     ),
-    notDoneValue: sumFieldsInSingleItemData(data, "محقق نشده"),
+    notDoneValue: sumFieldsInSingleItemData(data, "notGet"),
   };
 
   return (

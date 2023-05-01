@@ -8,7 +8,6 @@ interface SectionGuardProps {
 
 function SectionGuard(props: SectionGuardProps) {
   const { permission, children } = props;
-  console.log(permission);
 
   const userState = userStore();
 

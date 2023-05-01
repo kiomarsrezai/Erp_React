@@ -48,7 +48,6 @@ function ProjectOrgEditModal(props: ProjectOrgEditModalProps) {
   });
 
   const onSubmitHandler = (values: any) => {
-    console.log(values);
     updateMutation.mutate({
       ...itemData,
       ...values,

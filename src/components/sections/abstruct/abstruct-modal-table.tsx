@@ -127,9 +127,9 @@ function AbstructModalTable(props: AbstructModalTableProps) {
       ...formdata,
       [abstructProctorConfig.BUDGETPROCESS]: 2,
       [abstructProctorConfig.PROCTOR]: recordId,
-      [abstructProctorConfig.AREA]: row.Id,
+      [abstructProctorConfig.AREA]: row.id,
     });
-    setAreaName(`${row.منطقه} - اعتبارات هزینه ای`);
+    setAreaName(`${row.areaName} - اعتبارات هزینه ای`);
     handleOpenBudgetRowModal();
   };
 
@@ -138,9 +138,9 @@ function AbstructModalTable(props: AbstructModalTableProps) {
       ...formdata,
       [abstructProctorConfig.BUDGETPROCESS]: 3,
       [abstructProctorConfig.PROCTOR]: recordId,
-      [abstructProctorConfig.AREA]: row.Id,
+      [abstructProctorConfig.AREA]: row.id,
     });
-    setAreaName(`${row.منطقه} - تملک دارایی های سرمایه ای`);
+    setAreaName(`${row.areaName} - تملک دارایی های سرمایه ای`);
     handleOpenBudgetRowModal();
   };
   const actionButtons = (row: any) => (
@@ -168,14 +168,14 @@ function AbstructModalTable(props: AbstructModalTableProps) {
     const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
       ...item,
       number: i + 1,
-      title: item.منطقه,
+      title: item.areaName,
       mosavabHazine: item.mosavabCurrent,
       expenseHazine: item.expenseCurrent,
-      jazbHazine: item[" % جذب هزینه ای"],
+      jazbHazine: item.percentCurrent,
       mosavabSarmaie: item.mosavabCivil,
       expenseSarmaie: item.expenseCivil,
-      jazbSarmaie: item["% جذب سرمایه ای"],
-      jazbKol: item["% جذب کل"],
+      jazbSarmaie: item.expenseCivil,
+      jazbKol: item.percentTotal,
       actions: actionButtons,
     }));
 

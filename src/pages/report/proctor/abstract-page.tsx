@@ -141,9 +141,9 @@ function ReportProctorAbstructPage() {
   // table data
   const [recordId, setRecordId] = useState(0);
   const handleListClicked = (row: any) => {
-    setRecordId(row.Id);
-    dataModalMutation.mutate(row.Id);
-    setTitleModal(row["متولی"]);
+    setRecordId(row.id);
+    dataModalMutation.mutate(row.id);
+    setTitleModal(row["proctorName"]);
 
     handleOpenModal();
   };
@@ -164,7 +164,7 @@ function ReportProctorAbstructPage() {
     const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
       ...item,
       number: i + 1,
-      title: item.متولی,
+      title: item.proctorName,
       mosavabHazine: item.mosavabCurrent,
       expenseHazine: item.expenseCurrent,
       jazbHazine: item.percentCurrent,

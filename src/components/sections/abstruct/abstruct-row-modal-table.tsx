@@ -61,11 +61,11 @@ function AbstructRowModalTable(props: AbstructRowModalTableProps) {
     const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
       ...item,
       number: i + 1,
-      title: item["شرح ردیف"],
-      code: item["کد بودجه"],
-      hazine: item.عملکرد,
-      jazb: item["% جذب"],
-      mosavab: item.مصوب,
+      title: item.description,
+      code: item.code,
+      hazine: item.expense,
+      jazb: item.percent,
+      mosavab: item.mosavab,
       actions: () => "",
     }));
 
@@ -79,9 +79,9 @@ function AbstructRowModalTable(props: AbstructRowModalTableProps) {
     number: "جمع",
     title: "",
     code: "",
-    mosavab: sumFieldsInSingleItemData(data, "مصوب"),
+    mosavab: sumFieldsInSingleItemData(data, "mosavab"),
     jazb: "",
-    hazine: sumFieldsInSingleItemData(data, "عملکرد"),
+    hazine: sumFieldsInSingleItemData(data, "expense"),
   };
 
   return (

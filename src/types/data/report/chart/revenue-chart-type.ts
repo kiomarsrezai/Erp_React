@@ -1,11 +1,11 @@
 export type GetRevenueChartShape = [string[], number[], number[], number[]];
 
 export interface GetSingleDetailRevenueChartShape {
-  "% جذب روزانه": number;
-  "% جذب مصوب": number;
-  عملکرد: number;
-  "محقق نشده": number;
-  مصوب: number;
-  "مصوب روزانه": number;
-  مناطق: number;
+  percentMosavabDaily: number;
+  percentMosavab: number;
+  expense: number;
+  notGet: number;
+  mosavab: number;
+  mosavabDaily: number;
+  areaName: number;
 }

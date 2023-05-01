@@ -89,13 +89,6 @@ function SepratorTaminModal(props: SepratorTaminModalProps) {
   });
 
   const handleIconClick = (row: any) => {
-    console.log({
-      [sepratorBudgetConfig.CODING]: coding,
-      [sepratorBudgetConfig.REQUEST_DATE]: row.requestDate,
-      [sepratorBudgetConfig.REQUEST_PRICE]: row.requestPrice,
-      [sepratorBudgetConfig.REQUEST_REF_STR]: row.requestRefStr,
-      [sepratorBudgetConfig.REQUEST_DESC]: row.reqDesc,
-    });
     linkMutation.mutate({
       ...formData,
       [sepratorBudgetConfig.CODING]: coding,

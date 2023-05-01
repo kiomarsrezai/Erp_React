@@ -1,5 +1,5 @@
 export interface GetSingleAbstructProctorItemShape {
-  متولی: string;
+  proctorName: string;
   mosavabCurrent: number;
   expenseCurrent: number;
   mosavabCivil: number;
@@ -10,14 +10,13 @@ export interface GetSingleAbstructProctorItemShape {
 }
 
 export interface GetSingleAbstructProctorModalDataItemShape {
-  منطقه: string;
+  areaName: string;
   mosavabCurrent: number;
   expenseCurrent: number;
-  " % جذب هزینه ای": number;
+  percentCurrent: number;
   mosavabCivil: number;
   expenseCivil: number;
-  "% جذب سرمایه ای": number;
-  "% جذب کل": number;
+  percentTotal: number;
 }
 
 export interface GetSingleProctorListShape {
@@ -26,11 +25,11 @@ export interface GetSingleProctorListShape {
 }
 
 export interface GetSingleAbstructProctorModalRowDataItemShape {
-  "کد بودجه": string;
-  "شرح ردیف": string;
-  مصوب: number;
-  عملکرد: number;
-  "% جذب": number;
+  code: string;
+  description: string;
+  mosavab: number;
+  expense: number;
+  percent: number;
 }
 
 export interface GetSingleProctorListShape {
