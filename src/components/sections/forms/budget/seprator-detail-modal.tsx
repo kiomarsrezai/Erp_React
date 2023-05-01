@@ -69,6 +69,15 @@ function SepratorDetailModal(props: SepratorDetailModalProps) {
   const queryClient = useQueryClient();
   const taminEtbarMutation = useMutation(sepratorBudgetApi.getTaminData, {});
 
+  const removeMutation = useMutation(sepratorBudgetApi.removeTamin, {
+    onSuccess() {
+      sepratorDetailMutation.mutate({
+        ...formdata,
+        [sepratorBudgetConfig.CODING]: coding,
+      });
+    },
+  });
+
   const sepratorDetailMutation = useMutation(sepratorBudgetApi.getDetail, {
     onSuccess: (data) => {
       queryClient.setQueryData(
@@ -125,9 +134,10 @@ function SepratorDetailModal(props: SepratorDetailModalProps) {
   ];
 
   // data
-  const removeMutation = useMutation(sepratorBudgetApi.removeTamin);
 
-  const handleIconClick = (row: TableDataItemShape) => {};
+  const handleIconClick = (row: any) => {
+    removeMutation.mutate(row.id);
+  };
 
   const actionButton = (row: TableDataItemShape) => (
     <IconButton size="small" color="error" onClick={() => handleIconClick(row)}>
@@ -176,7 +186,9 @@ function SepratorDetailModal(props: SepratorDetailModalProps) {
         />
       </FixedModal>
 
-      <WindowLoading active={sepratorDetailMutation.isLoading} />
+      <WindowLoading
+        active={sepratorDetailMutation.isLoading || removeMutation.isLoading}
+      />
     </>
   );
 }
