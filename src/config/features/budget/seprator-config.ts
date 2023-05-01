@@ -5,9 +5,14 @@ export const sepratorBudgetConfig = {
   AREA: generalFieldsConfig.AREA,
   BUDGET_METHOD: generalFieldsConfig.BUDGET_METHOD,
   CODING: "codingId",
-  PAGE_NAME: "budgetSeprator",
+  REQUEST_REF_STR: "requestRefStr",
+  REQUEST_DATE: "requestDate",
+  REQUEST_PRICE: "requestPrice",
+  REQUEST_DESC: "reqDesc",
 };
 
 export const SEPRATOR_BUDGET_URL = "BudSepApi/FetchSeprator";
 export const SEPRATOR_BUDGET_TAMIN_URL = "BudSepApi/Taminetebarat";
 export const SEPRATOR_BUDGET_DETAIL_URL = "BudSepApi/Details";
+export const SEPRATOR_BUDGET_TAMIN_INSERT_URL = "BudSepApi/TaminInsert";
+export const SEPRATOR_BUDGET_TAMIN_DELETE_URL = "BudSepApi/DeleteTamin";

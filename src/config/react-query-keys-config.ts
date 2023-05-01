@@ -13,6 +13,7 @@ export const reactQueryKeys = {
     },
     proctor: {
       abstract: ["abstract-proctor"],
+      getDetailData: ["abstract-proctor-detail"],
     },
   },
   transfer: {

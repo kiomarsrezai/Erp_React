@@ -7,15 +7,15 @@ import { TableHeadShape } from "types/table-type";
 import SepratorTaminModal from "./seprator-tamin-modal";
 import { ReactNode, useState } from "react";
 import FixedModal from "components/ui/modal/fixed-modal";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import SectionGuard from "components/auth/section-guard";
 import { joinPermissions } from "helper/auth-utils";
 import { accessNamesConfig } from "config/access-names-config";
-import {
-  GetSingleDetailSepratorItemShape,
-  GetSingleSepratorTaminItemShape,
-} from "types/data/budget/seprator-type";
+import { GetSingleDetailSepratorItemShape } from "types/data/budget/seprator-type";
+import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
+import { reactQueryKeys } from "config/react-query-keys-config";
+import WindowLoading from "components/ui/loading/window-loading";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -30,9 +30,10 @@ interface SepratorDetailModalProps {
   title: string;
   formdata: any;
   data: any[];
+  coding: number;
 }
 function SepratorDetailModal(props: SepratorDetailModalProps) {
-  const { title, formdata, data } = props;
+  const { title, formdata, data, coding } = props;
 
   const tableHeads: TableHeadShape = [
     {
@@ -65,7 +66,25 @@ function SepratorDetailModal(props: SepratorDetailModalProps) {
   ];
 
   // tamin modal
-  const taminEtbarMutation = useMutation(sepratorBudgetApi.getTaminData);
+  const queryClient = useQueryClient();
+  const taminEtbarMutation = useMutation(sepratorBudgetApi.getTaminData, {});
+
+  const sepratorDetailMutation = useMutation(sepratorBudgetApi.getDetail, {
+    onSuccess: (data) => {
+      queryClient.setQueryData(
+        reactQueryKeys.report.proctor.getDetailData,
+        data
+      );
+    },
+  });
+
+  const onDoneTask = () => {
+    handleCloseTaminModal();
+    sepratorDetailMutation.mutate({
+      ...formdata,
+      [sepratorBudgetConfig.CODING]: coding,
+    });
+  };
 
   const [taminModal, setTaminModal] = useState(false);
   const handleOpenTaminModal = () => {
@@ -106,6 +125,8 @@ function SepratorDetailModal(props: SepratorDetailModalProps) {
   ];
 
   // data
+  const removeMutation = useMutation(sepratorBudgetApi.removeTamin);
+
   const handleIconClick = (row: TableDataItemShape) => {};
 
   const actionButton = (row: TableDataItemShape) => (
@@ -147,8 +168,15 @@ function SepratorDetailModal(props: SepratorDetailModalProps) {
         title={title}
         loading={taminEtbarMutation.isLoading}
       >
-        <SepratorTaminModal data={taminEtbarMutation.data?.data || []} />
+        <SepratorTaminModal
+          data={taminEtbarMutation.data?.data || []}
+          formData={formdata}
+          coding={coding}
+          onDoneTask={onDoneTask}
+        />
       </FixedModal>
+
+      <WindowLoading active={sepratorDetailMutation.isLoading} />
     </>
   );
 }

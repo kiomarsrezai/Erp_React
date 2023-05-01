@@ -7,7 +7,7 @@ import FixedModal from "components/ui/modal/fixed-modal";
 import SepratorDetailModal from "components/sections/forms/budget/seprator-detail-modal";
 
 import { TableHeadShape } from "types/table-type";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
@@ -33,6 +33,8 @@ function BudgetSepratorPage() {
     [sepratorBudgetConfig.AREA]: 1,
     [sepratorBudgetConfig.BUDGET_METHOD]: 1,
   });
+
+  const [codingId, setCodingId] = useState(0);
 
   // heads
   const tableHeads: TableHeadShape = [
@@ -88,17 +90,31 @@ function BudgetSepratorPage() {
   ];
 
   // data
-  const sepratorDetailMutation = useMutation(sepratorBudgetApi.getDetail);
+  const sepratorDetailDataQuery = useQuery(
+    reactQueryKeys.report.proctor.getDetailData,
+    () => sepratorBudgetApi.getDetail({}),
+    {
+      enabled: false,
+    }
+  );
+
+  const queryClient = useQueryClient();
+
+  const sepratorDetailMutation = useMutation(sepratorBudgetApi.getDetail, {
+    onSuccess: (data) => {
+      queryClient.setQueryData(
+        reactQueryKeys.report.proctor.getDetailData,
+        data
+      );
+    },
+  });
 
   const handleClickDetailIcon = (row: any) => {
     sepratorDetailMutation.mutate({
       ...formData,
       [sepratorBudgetConfig.CODING]: row[sepratorBudgetConfig.CODING],
     });
-    // setFormData((state) => ({
-    //   ...state,
-    //   [sepratorBudgetConfig.CODING]: row[sepratorBudgetConfig.CODING],
-    // }));
+    setCodingId(row[sepratorBudgetConfig.CODING]);
 
     setDetailModalTitle(`${row.code} - ${row.description}`);
     handleOpenDetailModal();
@@ -342,7 +358,8 @@ function BudgetSepratorPage() {
         <SepratorDetailModal
           title={detailModalTitle}
           formdata={formData}
-          data={sepratorDetailMutation.data?.data || []}
+          coding={codingId}
+          data={sepratorDetailDataQuery.data?.data || []}
         />
       </FixedModal>
     </AdminLayout>
