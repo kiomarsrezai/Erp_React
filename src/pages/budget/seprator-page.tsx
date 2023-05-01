@@ -7,7 +7,7 @@ import FixedModal from "components/ui/modal/fixed-modal";
 import SepratorDetailModal from "components/sections/forms/budget/seprator-detail-modal";
 
 import { TableHeadShape } from "types/table-type";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
@@ -88,7 +88,18 @@ function BudgetSepratorPage() {
   ];
 
   // data
-  const handleClickDetailIcon = (row: TableDataItemShape) => {
+  const sepratorDetailMutation = useMutation(sepratorBudgetApi.getDetail);
+
+  const handleClickDetailIcon = (row: any) => {
+    sepratorDetailMutation.mutate({
+      ...formData,
+      [sepratorBudgetConfig.CODING]: row[sepratorBudgetConfig.CODING],
+    });
+    // setFormData((state) => ({
+    //   ...state,
+    //   [sepratorBudgetConfig.CODING]: row[sepratorBudgetConfig.CODING],
+    // }));
+
     setDetailModalTitle(`${row.code} - ${row.description}`);
     handleOpenDetailModal();
   };
@@ -249,6 +260,7 @@ function BudgetSepratorPage() {
     unFormatData: GetSingleSepratorItemShape[]
   ): TableDataItemShape[] => {
     const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
+      ...item,
       id: i + 1,
       code: item.code,
       description: item.description,
@@ -325,8 +337,13 @@ function BudgetSepratorPage() {
         open={detailModal}
         handleClose={handleCloseDetailModal}
         title={detailModalTitle}
+        loading={sepratorDetailMutation.isLoading}
       >
-        <SepratorDetailModal title={detailModalTitle} formdata={formData} />
+        <SepratorDetailModal
+          title={detailModalTitle}
+          formdata={formData}
+          data={sepratorDetailMutation.data?.data || []}
+        />
       </FixedModal>
     </AdminLayout>
   );

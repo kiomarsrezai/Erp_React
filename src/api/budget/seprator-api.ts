@@ -3,10 +3,12 @@ import clientAxios from "config/axios-config";
 import { BaseApi } from "api/base-api";
 import { BaseApiResponseShape } from "types/base-type";
 import {
+  GetSingleDetailSepratorItemShape,
   GetSingleSepratorItemShape,
   GetSingleSepratorTaminItemShape,
 } from "types/data/budget/seprator-type";
 import {
+  SEPRATOR_BUDGET_DETAIL_URL,
   SEPRATOR_BUDGET_TAMIN_URL,
   SEPRATOR_BUDGET_URL,
   sepratorBudgetConfig,
@@ -39,6 +41,22 @@ export const sepratorBudgetApi = new (class extends BaseApi {
     const url = SEPRATOR_BUDGET_TAMIN_URL + this.joinFilterData(filterData);
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleSepratorTaminItemShape[]>
+    >(url);
+    return response.data;
+  };
+
+  getDetail = async (formdata: any) => {
+    const filterData = {
+      [sepratorBudgetConfig.YEAR]: formdata[sepratorBudgetConfig.YEAR],
+      [sepratorBudgetConfig.AREA]: formdata[sepratorBudgetConfig.AREA],
+      [sepratorBudgetConfig.CODING]: formdata[sepratorBudgetConfig.CODING],
+      [sepratorBudgetConfig.BUDGET_METHOD]:
+        formdata[sepratorBudgetConfig.BUDGET_METHOD],
+    };
+
+    const url = SEPRATOR_BUDGET_DETAIL_URL + this.joinFilterData(filterData);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleDetailSepratorItemShape[]>
     >(url);
     return response.data;
   };

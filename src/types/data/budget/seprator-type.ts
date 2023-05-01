@@ -6,6 +6,7 @@ export interface GetSingleSepratorItemShape {
   expense: number;
   percentBud: number;
   levelNumber: number;
+  codingId: number;
 }
 export interface GetSingleSepratorTaminItemShape {
   bodgetId: string;
@@ -14,4 +15,12 @@ export interface GetSingleSepratorTaminItemShape {
   reqDesc: string;
   requestRefStr: string;
   requestPrice: number;
+}
+
+export interface GetSingleDetailSepratorItemShape {
+  number: string;
+  description: string;
+  date: string;
+  estimateAmount: number;
+  id: number;
 }

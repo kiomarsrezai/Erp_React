@@ -24,6 +24,7 @@ interface TableDataItemShape {
 
 function SepratorTaminModal(props: SepratorTaminModalProps) {
   const { data } = props;
+
   // heads
   const tableHeads: TableHeadShape = [
     {
