@@ -17,6 +17,7 @@ import { abstructProctorConfig } from "config/features/report/proctor/abstruct-c
 import { proposalConfig } from "config/features/budget/proposal-config";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { transferConfig } from "config/features/transfer/transfer-config";
+import { accessNamesConfig } from "config/access-names-config";
 
 const router = createBrowserRouter([
   // globla
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
     element: (
       <PageGuard
         render={<ReportRevenueChartPage />}
-        permission={revenueChartFormConfig.PAGE_NAME}
+        permission={accessNamesConfig.REVENUE_CHART_PAGE}
       />
     ),
   },
@@ -44,7 +45,7 @@ const router = createBrowserRouter([
     element: (
       <PageGuard
         render={<ReportProctorAbstructPage />}
-        permission={abstructProctorConfig.PAGE_NAME}
+        permission={accessNamesConfig.ABSTRUCT_PROCTOR_PAGE}
       />
     ),
   },
@@ -54,7 +55,7 @@ const router = createBrowserRouter([
     element: (
       <PageGuard
         render={<BudgetProposalPage />}
-        permission={proposalConfig.PAGE_NAME}
+        permission={accessNamesConfig.BUDGET_PROPOSAL_PAGE}
       />
     ),
   },
@@ -63,7 +64,7 @@ const router = createBrowserRouter([
     element: (
       <PageGuard
         render={<BudgetSepratorPage />}
-        permission={sepratorBudgetConfig.PAGE_NAME}
+        permission={accessNamesConfig.SEPRATOR_BUDGET_PAGE}
       />
     ),
   },
@@ -73,29 +74,47 @@ const router = createBrowserRouter([
     element: (
       <PageGuard
         render={<TransferPage />}
-        permission={transferConfig.PAGE_NAME}
+        permission={accessNamesConfig.TRANSFER_PAGE}
       />
     ),
   },
   // credit
   {
     path: "/credit/request",
-    element: <PageGuard render={<RequestCreditPage />} />,
+    element: (
+      <PageGuard
+        render={<RequestCreditPage />}
+        permission={accessNamesConfig.CREDIT_REQUEST_PAGE}
+      />
+    ),
   },
   // access
   {
     path: "/access",
-    element: <PageGuard render={<AccessPage />} permission="permissions" />,
+    element: (
+      <PageGuard
+        render={<AccessPage />}
+        permission={accessNamesConfig.ACCESS_PAGE}
+      />
+    ),
   },
   // project
   {
     path: "/project/org",
-    element: <PageGuard render={<OrgProjectPage />} permission="project" />,
+    element: (
+      <PageGuard
+        render={<OrgProjectPage />}
+        permission={accessNamesConfig.PROJECT_ORG_PAGE}
+      />
+    ),
   },
   {
     path: "/project/meetings",
     element: (
-      <PageGuard render={<MeetingsProjectPage />} permission="meetings" />
+      <PageGuard
+        render={<MeetingsProjectPage />}
+        permission={accessNamesConfig.PROJECT_MEETINGS_PAGE}
+      />
     ),
   },
 ]);

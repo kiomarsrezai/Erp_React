@@ -16,6 +16,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { revenueChartApi } from "api/report/chart-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { centerItems, organItems } from "config/features/general-fields-config";
+import SectionGuard from "components/auth/section-guard";
+import { accessNamesConfig } from "config/access-names-config";
+import { joinPermissions } from "helper/auth-utils";
 
 interface RevenueChartFormProps {
   formData: any;
@@ -65,40 +68,73 @@ function RevenueChartForm(props: RevenueChartFormProps) {
     <>
       <Box component="form" padding={2} onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-          <Grid lg={2}>
-            <FlotingLabelSelect
-              label="سازمان"
-              name={revenueChartFormConfig.ORGAN}
-              items={organItems}
-              value={formData[revenueChartFormConfig.ORGAN]}
-              setter={setFormData}
-            />
-          </Grid>
-          <Grid lg={2}>
-            <YearInput
-              setter={setFormData}
-              value={formData[revenueChartFormConfig.YEAR] as number}
-            />
-          </Grid>
-          <Grid lg={2}>
-            <FlotingLabelSelect
-              label="مرکز"
-              name={revenueChartFormConfig.CENTER}
-              items={centerItems}
-              value={formData[revenueChartFormConfig.CENTER]}
-              setter={setFormData}
-            />
-          </Grid>
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.REVENUE_CHART_PAGE,
+              accessNamesConfig.FIELD_ORGAN,
+            ])}
+          >
+            <Grid lg={2}>
+              <FlotingLabelSelect
+                label="سازمان"
+                name={revenueChartFormConfig.ORGAN}
+                items={organItems}
+                value={formData[revenueChartFormConfig.ORGAN]}
+                setter={setFormData}
+              />
+            </Grid>
+          </SectionGuard>
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.REVENUE_CHART_PAGE,
+              accessNamesConfig.FIELD_YEAR,
+            ])}
+          >
+            <Grid lg={2}>
+              <YearInput
+                setter={setFormData}
+                value={formData[revenueChartFormConfig.YEAR] as number}
+              />
+            </Grid>
+          </SectionGuard>
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.REVENUE_CHART_PAGE,
+              accessNamesConfig.REVENUE_CHART_PAGE__CENTER,
+            ])}
+          >
+            <Grid lg={2}>
+              <FlotingLabelSelect
+                label="مرکز"
+                name={revenueChartFormConfig.CENTER}
+                items={centerItems}
+                value={formData[revenueChartFormConfig.CENTER]}
+                setter={setFormData}
+              />
+            </Grid>
+          </SectionGuard>
 
-          <Grid lg={2}>
-            <BudgetMethodInput
-              setter={setFormData}
-              value={formData[revenueChartFormConfig.BUDGET_METHOD] as number}
-            />
-          </Grid>
-          {
-            <Grid lg={4}>
-              <Stack direction="row" flexWrap="wrap" gap={1}>
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.REVENUE_CHART_PAGE,
+              accessNamesConfig.FIELD_BUDGET_METHOD,
+            ])}
+          >
+            <Grid lg={2}>
+              <BudgetMethodInput
+                setter={setFormData}
+                value={formData[revenueChartFormConfig.BUDGET_METHOD] as number}
+              />
+            </Grid>
+          </SectionGuard>
+          <Grid lg={4}>
+            <Stack direction="row" flexWrap="wrap" gap={1}>
+              <SectionGuard
+                permission={joinPermissions([
+                  accessNamesConfig.REVENUE_CHART_PAGE,
+                  accessNamesConfig.REVENUE_CHART_PAGE__REVENUE,
+                ])}
+              >
                 <CheckboxLabeled
                   label="درآمد"
                   name={revenueChartFormConfig.REVENUE}
@@ -108,6 +144,13 @@ function RevenueChartForm(props: RevenueChartFormProps) {
                     formData[revenueChartFormConfig.BUDGET_METHOD] !== 1
                   }
                 />
+              </SectionGuard>
+              <SectionGuard
+                permission={joinPermissions([
+                  accessNamesConfig.REVENUE_CHART_PAGE,
+                  accessNamesConfig.REVENUE_CHART_PAGE__SALE,
+                ])}
+              >
                 <CheckboxLabeled
                   label="فروش اموال"
                   name={revenueChartFormConfig.SALE}
@@ -117,6 +160,14 @@ function RevenueChartForm(props: RevenueChartFormProps) {
                     formData[revenueChartFormConfig.BUDGET_METHOD] !== 1
                   }
                 />
+              </SectionGuard>
+
+              <SectionGuard
+                permission={joinPermissions([
+                  accessNamesConfig.REVENUE_CHART_PAGE,
+                  accessNamesConfig.REVENUE_CHART_PAGE__LOAN,
+                ])}
+              >
                 <CheckboxLabeled
                   label="وام و اوراق"
                   name={revenueChartFormConfig.LAON}
@@ -126,6 +177,14 @@ function RevenueChartForm(props: RevenueChartFormProps) {
                     formData[revenueChartFormConfig.BUDGET_METHOD] !== 1
                   }
                 />
+              </SectionGuard>
+
+              <SectionGuard
+                permission={joinPermissions([
+                  accessNamesConfig.REVENUE_CHART_PAGE,
+                  accessNamesConfig.REVENUE_CHART_PAGE__NIABATI,
+                ])}
+              >
                 <CheckboxLabeled
                   label="نیابتی"
                   name={revenueChartFormConfig.NIABATI}
@@ -135,20 +194,20 @@ function RevenueChartForm(props: RevenueChartFormProps) {
                     formData[revenueChartFormConfig.BUDGET_METHOD] !== 1
                   }
                 />
+              </SectionGuard>
 
-                <LoadingButton
-                  variant="contained"
-                  type="submit"
-                  loading={submitMutation.isLoading}
-                >
-                  نمایش
-                </LoadingButton>
-                <Button variant="contained" onClick={handleClickDetailValues}>
-                  ریز مقادیر
-                </Button>
-              </Stack>
-            </Grid>
-          }
+              <LoadingButton
+                variant="contained"
+                type="submit"
+                loading={submitMutation.isLoading}
+              >
+                نمایش
+              </LoadingButton>
+              <Button variant="contained" onClick={handleClickDetailValues}>
+                ریز مقادیر
+              </Button>
+            </Stack>
+          </Grid>
         </Grid>
       </Box>
 

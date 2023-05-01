@@ -43,7 +43,7 @@ function AccessTree(props: AccessTreeProps) {
     name: string | number
   ): any => {
     let formated = {
-      [name]: user?.لایسنس.split("/").includes(name.toString()),
+      [name]: user?.لایسنس?.split("/").includes(name.toString()),
     };
     data.value?.forEach((item: any) => {
       formated = {

@@ -5,7 +5,7 @@ interface UserState {
   firstName: string;
   lastName: string;
   bio: string;
-  permissions: string;
+  permissions: string | null;
   fetched: boolean;
   chnageUserData: (data: any) => void;
   removeUserData: () => void;

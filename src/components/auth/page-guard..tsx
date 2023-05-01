@@ -1,7 +1,8 @@
-import { useMutation } from "@tanstack/react-query";
-import { AuthApi } from "api/auth/auth-api";
 import WindowLoading from "components/ui/loading/window-loading";
 import userStore from "hooks/store/user-store";
+
+import { useMutation } from "@tanstack/react-query";
+import { AuthApi } from "api/auth/auth-api";
 import { ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -50,16 +51,14 @@ function PageGuard(props: PageGuardProps) {
   }, [userState]);
 
   // not have access to this page
-  if (permission && !userState.permissions.split("/").includes(permission)) {
+  if (permission && !userState.permissions?.split("/").includes(permission)) {
     return <div>404</div>;
   }
 
   return (
     <>
       {render}
-      {/* <WindowLoading
-        active={userMutation.isLoading || !userMutation.data?.data}
-      />{" "} */}
+      <WindowLoading active={userMutation.isLoading} />
     </>
   );
 }

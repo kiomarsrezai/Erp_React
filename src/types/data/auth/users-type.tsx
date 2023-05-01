@@ -4,5 +4,5 @@ export interface UserItemShape {
   نام: string;
   "نام خانوادگی": string;
   معرفی: string;
-  لایسنس: string;
+  لایسنس: string | null;
 }

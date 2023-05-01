@@ -94,13 +94,17 @@ function BudgetSepratorPage() {
   };
 
   const actionButtons = (row: TableDataItemShape) => (
-    <IconButton
-      color="primary"
-      size="small"
-      onClick={() => handleClickDetailIcon(row)}
-    >
-      <CreditCardIcon />
-    </IconButton>
+    <>
+      {formData[sepratorBudgetConfig.BUDGET_METHOD] === 3 && (
+        <IconButton
+          color="primary"
+          size="small"
+          onClick={() => handleClickDetailIcon(row)}
+        >
+          <CreditCardIcon />
+        </IconButton>
+      )}
+    </>
   );
 
   const getBgColor = (levelNumber: number) => {

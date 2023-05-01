@@ -18,12 +18,14 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import { blue } from "@mui/material/colors";
 import { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { accessNamesConfig } from "config/access-names-config";
+import SectionGuard from "components/auth/section-guard";
 
 interface SidenavShape {
   title: string;
   path: string;
   icon: ReactNode;
-  authName?: string;
+  licenseName: string;
 }
 
 function AdminSidenavMenu() {
@@ -34,50 +36,58 @@ function AdminSidenavMenu() {
       title: "گزارش",
       path: "/report/chart/revenue",
       icon: <AssessmentIcon />,
+      licenseName: accessNamesConfig.REVENUE_CHART_PAGE,
     },
     {
       title: "بودجه",
       path: "/budget/proposal",
       icon: <MoneyIcon />,
+      licenseName: accessNamesConfig.BUDGET_PROPOSAL_PAGE,
     },
     {
       title: "بودجه تفکیکی",
       path: "/budget/seprator",
       icon: <PointOfSaleIcon />,
+      licenseName: accessNamesConfig.SEPRATOR_BUDGET_PAGE,
     },
     {
       title: "متولی ها",
       path: "/report/proctor/abstract",
       icon: <MonitorHeartIcon />,
+      licenseName: accessNamesConfig.ABSTRUCT_PROCTOR_PAGE,
     },
     {
-      title: "واسط سازمان ها",
+      title: "واسط کدینگ",
       path: "/transfer",
       icon: <ApartmentIcon />,
-      authName: "wseg",
+      licenseName: accessNamesConfig.TRANSFER_PAGE,
     },
     // credit
     {
       title: "درخواست اعتبار",
       path: "/credit/request",
       icon: <CreditCardIcon />,
+      licenseName: accessNamesConfig.CREDIT_REQUEST_PAGE,
     },
     // credit
     {
       title: "دسترسی ها",
       path: "/access",
       icon: <KeyIcon />,
+      licenseName: accessNamesConfig.ACCESS_PAGE,
     },
     // project
     {
       title: "پروژه ها",
       path: "/project/org",
       icon: <AccountTreeIcon />,
+      licenseName: accessNamesConfig.PROJECT_ORG_PAGE,
     },
     {
       title: "جلسات",
       path: "/project/meetings",
       icon: <GroupsIcon />,
+      licenseName: accessNamesConfig.PROJECT_MEETINGS_PAGE,
     },
   ];
 
@@ -91,28 +101,26 @@ function AdminSidenavMenu() {
   return (
     <List>
       {sidenavs.map((sidenav, i) => (
-        <Tooltip
-          title={normalize ? sidenav.title : ""}
-          placement="right"
-          key={i}
-        >
-          <ListItem
-            disablePadding
-            component={Link}
-            to={sidenav.path}
-            sx={isActive(sidenav.path) ? { bgcolor: blue[50] } : {}}
-          >
-            <ListItemButton disableRipple>
-              <ListItemIcon>{sidenav.icon}</ListItemIcon>
-              {!normalize && (
-                <ListItemText
-                  sx={{ color: "GrayText" }}
-                  primary={sidenav.title}
-                />
-              )}
-            </ListItemButton>
-          </ListItem>
-        </Tooltip>
+        <SectionGuard key={i} permission={sidenav.licenseName}>
+          <Tooltip title={normalize ? sidenav.title : ""} placement="right">
+            <ListItem
+              disablePadding
+              component={Link}
+              to={sidenav.path}
+              sx={isActive(sidenav.path) ? { bgcolor: blue[50] } : {}}
+            >
+              <ListItemButton disableRipple>
+                <ListItemIcon>{sidenav.icon}</ListItemIcon>
+                {!normalize && (
+                  <ListItemText
+                    sx={{ color: "GrayText" }}
+                    primary={sidenav.title}
+                  />
+                )}
+              </ListItemButton>
+            </ListItem>
+          </Tooltip>
+        </SectionGuard>
       ))}
     </List>
   );

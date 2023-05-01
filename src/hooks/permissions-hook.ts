@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { areaGeneralApi } from "api/general/area-general-api";
 import { yearGeneralApi } from "api/general/year-general-api";
+import { accessNamesConfig } from "config/access-names-config";
 import { proposalConfig } from "config/features/budget/proposal-config";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import {
@@ -47,22 +48,22 @@ function usePermissions() {
 
   const yearField: AccessItemShape = formatApiFields(
     "سال",
-    generalFieldsConfig.YEAR,
+    accessNamesConfig.FIELD_YEAR,
     "yearName",
     yearQuery.data?.data || []
   );
 
-  //   organ
+  // organ
   const organField = formatLocalFields(
     "سازمان",
-    revenueChartFormConfig.ORGAN,
+    accessNamesConfig.FIELD_ORGAN,
     organItems
   );
 
   //   budget method
   const budgetMethodField = formatLocalFields(
     "نوع بودجه",
-    generalFieldsConfig.BUDGET_METHOD,
+    accessNamesConfig.FIELD_BUDGET_METHOD,
     budgetMethodItems
   );
 
@@ -81,11 +82,15 @@ function usePermissions() {
   const ACCESS_CONFIG: AccessItemShape[] = [
     {
       label: "گزارش",
-      name: revenueChartFormConfig.PAGE_NAME,
+      name: accessNamesConfig.REVENUE_CHART_PAGE,
       value: [
         yearField,
         organField,
-        formatLocalFields("مرکز", generalFieldsConfig.CENTER, centerItems),
+        formatLocalFields(
+          "مرکز",
+          accessNamesConfig.REVENUE_CHART_PAGE__CENTER,
+          centerItems
+        ),
         budgetMethodField,
         { label: "درآمد", name: revenueChartFormConfig.REVENUE },
         { label: "فروش اموال", name: revenueChartFormConfig.SALE },
@@ -95,13 +100,13 @@ function usePermissions() {
     },
     {
       label: "بودجه",
-      name: proposalConfig.PAGE_NAME,
+      name: accessNamesConfig.BUDGET_PROPOSAL_PAGE,
       value: [yearField, areaNumber2Field, budgetMethodField],
     },
 
     {
       label: "بودجه تفکیکی",
-      name: sepratorBudgetConfig.PAGE_NAME,
+      name: accessNamesConfig.SEPRATOR_BUDGET_PAGE,
       value: [
         yearField,
         areaNumber2Field,
@@ -114,29 +119,29 @@ function usePermissions() {
     },
     {
       label: "متولی ها",
-      name: abstructProctorConfig.PAGE_NAME,
+      name: accessNamesConfig.ABSTRUCT_PROCTOR_PAGE,
       value: [yearField],
     },
     {
       label: "واسط سازمان ها",
-      name: transferConfig.PAGE_NAME,
+      name: accessNamesConfig.TRANSFER_PAGE,
       value: [yearField, areaNumber2Field, budgetMethodField],
     },
     {
       label: "درخواست اعتبار",
-      name: "credit",
+      name: accessNamesConfig.CREDIT_REQUEST_PAGE,
     },
     {
       label: "دسترسی ها",
-      name: "permissions",
+      name: accessNamesConfig.ACCESS_PAGE,
     },
     {
       label: "پروژه ها",
-      name: "project",
+      name: accessNamesConfig.PROJECT_ORG_PAGE,
     },
     {
       label: "جلسات",
-      name: "meetings",
+      name: accessNamesConfig.PROJECT_MEETINGS_PAGE,
     },
   ];
 
