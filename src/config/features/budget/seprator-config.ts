@@ -14,5 +14,6 @@ export const sepratorBudgetConfig = {
 export const SEPRATOR_BUDGET_URL = "BudSepApi/FetchSeprator";
 export const SEPRATOR_BUDGET_TAMIN_URL = "BudSepApi/Taminetebarat";
 export const SEPRATOR_BUDGET_DETAIL_URL = "BudSepApi/Details";
+export const SEPRATOR_BUDGET_REFRESH_FORM_URL = "BudSepApi/RefreshSeperator";
 export const SEPRATOR_BUDGET_TAMIN_INSERT_URL = "BudSepApi/TaminInsert";
 export const SEPRATOR_BUDGET_TAMIN_DELETE_URL = "BudSepApi/DeleteTamin";

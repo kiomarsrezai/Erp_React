@@ -9,6 +9,7 @@ import {
 } from "types/data/budget/seprator-type";
 import {
   SEPRATOR_BUDGET_DETAIL_URL,
+  SEPRATOR_BUDGET_REFRESH_FORM_URL,
   SEPRATOR_BUDGET_TAMIN_DELETE_URL,
   SEPRATOR_BUDGET_TAMIN_INSERT_URL,
   SEPRATOR_BUDGET_TAMIN_URL,
@@ -60,6 +61,18 @@ export const sepratorBudgetApi = new (class extends BaseApi {
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleDetailSepratorItemShape[]>
     >(url);
+    return response.data;
+  };
+
+  refeshForm = async (formdata: any) => {
+    const filterData = {
+      [sepratorBudgetConfig.YEAR]: formdata[sepratorBudgetConfig.YEAR],
+      [sepratorBudgetConfig.AREA]: formdata[sepratorBudgetConfig.AREA],
+    };
+
+    const url =
+      SEPRATOR_BUDGET_REFRESH_FORM_URL + this.joinFilterData(filterData);
+    const response = await clientAxios.get<BaseApiResponseShape<boolean>>(url);
     return response.data;
   };
 
