@@ -44,7 +44,7 @@ function WellcomePage() {
               <Typography variant="caption" fontWeight="bold" color="grey.800">
                 شهرداری اهواز
               </Typography>{" "}
-              محفوض میباشد
+              محفوظ میباشد
             </Typography>
           </CardContent>
         </Card>

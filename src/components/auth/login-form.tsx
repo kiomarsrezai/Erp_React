@@ -202,7 +202,7 @@ function LoginForm() {
                   >
                     شهرداری اهواز
                   </Typography>{" "}
-                  محفوض میباشد
+                  محفوظ میباشد
                 </Typography>
               </Box>
             </Stack>
