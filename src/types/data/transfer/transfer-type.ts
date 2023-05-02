@@ -1,4 +1,5 @@
 export interface GetSingleTransferItemShape {
+  id: number;
   description: string;
   code: string;
   mosavab: number;

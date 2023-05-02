@@ -9,6 +9,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FixedModal from "components/ui/modal/fixed-modal";
 import TransferModalTable from "components/sections/transfer/transfer-modal-table";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import WindowLoading from "components/ui/loading/window-loading";
 
 import { useSnackbar } from "notistack";
@@ -147,16 +148,38 @@ function TransferPage() {
     handleOpenModal();
   };
 
-  const actionButtons = (row: any) => {
+  const [removeItemId, setRemoveItemId] = useState<null | number>(null);
+  const [confrimRemoveText, setConfrimRemoveText] = useState<string>("");
+
+  const onConfrimDeleteModal = () => {
+    DeleteCodeAccMutation.mutate(removeItemId as number);
+    onCancelDeleteModal();
+  };
+  const onCancelDeleteModal = () => {
+    setRemoveItemId(null);
+  };
+  const handleIconClick = (
+    row: GetSingleTransferItemShape & TableDataItemShape
+  ) => {
+    const text = `آیا مایل به حذف کردن ردیف ${row.description} هستید ؟`;
+    setConfrimRemoveText(text);
+    setRemoveItemId(row.id);
+  };
+
+  const actionButtons = (
+    row: GetSingleTransferItemShape & TableDataItemShape
+  ) => {
     return (
-      <Box display="flex">
-        <IconButton
-          color="error"
-          size="small"
-          onClick={() => DeleteCodeAccMutation.mutate(row.id)}
-        >
-          <DeleteIcon />
-        </IconButton>
+      <Box display="flex" justifyContent="end">
+        {(!!row.titleAcc || !!row.codeAcc) && (
+          <IconButton
+            color="error"
+            size="small"
+            onClick={() => handleIconClick(row)}
+          >
+            <DeleteIcon />
+          </IconButton>
+        )}
 
         <IconButton
           color="success"
@@ -251,6 +274,16 @@ function TransferPage() {
           onDoneTask={handleDoneModalTask}
         />
       </FixedModal>
+
+      {/* remove detail item modal*/}
+      <ConfrimProcessModal
+        open={removeItemId !== null}
+        onCancel={onCancelDeleteModal}
+        onConfrim={onConfrimDeleteModal}
+        text={confrimRemoveText}
+      />
+
+      {/* lodaing */}
 
       <WindowLoading
         active={

@@ -37,6 +37,7 @@ function FlotingLabelSelect(props: FlotingLabelTextfieldProps) {
         value={value.toString()}
         label={label}
         onChange={handleChange}
+        MenuProps={{ PaperProps: { sx: { maxHeight: 350 } } }}
       >
         {renderItems}
       </Select>
