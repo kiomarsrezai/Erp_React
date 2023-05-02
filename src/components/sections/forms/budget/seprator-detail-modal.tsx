@@ -2,20 +2,24 @@ import FixedTable from "components/data/table/fixed-table";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import WindowLoading from "components/ui/loading/window-loading";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+import FixedModal from "components/ui/modal/fixed-modal";
+import SepratorTaminModal from "./seprator-tamin-modal";
+import SectionGuard from "components/auth/section-guard";
 
 import { TableHeadShape } from "types/table-type";
-import SepratorTaminModal from "./seprator-tamin-modal";
 import { ReactNode, useState } from "react";
-import FixedModal from "components/ui/modal/fixed-modal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
-import SectionGuard from "components/auth/section-guard";
 import { joinPermissions } from "helper/auth-utils";
 import { accessNamesConfig } from "config/access-names-config";
 import { GetSingleDetailSepratorItemShape } from "types/data/budget/seprator-type";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { reactQueryKeys } from "config/react-query-keys-config";
-import WindowLoading from "components/ui/loading/window-loading";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
+import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -71,9 +75,18 @@ function SepratorDetailModal(props: SepratorDetailModalProps) {
 
   const removeMutation = useMutation(sepratorBudgetApi.removeTamin, {
     onSuccess() {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+
       sepratorDetailMutation.mutate({
         ...formdata,
         [sepratorBudgetConfig.CODING]: coding,
+      });
+    },
+    onError: () => {
+      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+        variant: "error",
       });
     },
   });
@@ -134,9 +147,20 @@ function SepratorDetailModal(props: SepratorDetailModalProps) {
   ];
 
   // data
+  const [removeItemId, setRemoveItemId] = useState<null | number>(null);
+  const [confrimRemoveText, setConfrimRemoveText] = useState<string>("");
 
+  const onConfrimDeleteModal = () => {
+    removeMutation.mutate(removeItemId as number);
+    onCancelDeleteModal();
+  };
+  const onCancelDeleteModal = () => {
+    setRemoveItemId(null);
+  };
   const handleIconClick = (row: any) => {
-    removeMutation.mutate(row.id);
+    const text = `آیا مایل به حذف کردن ردیف ${row.description} هستید ؟`;
+    setConfrimRemoveText(text);
+    setRemoveItemId(row.id);
   };
 
   const actionButton = (row: TableDataItemShape) => (
@@ -163,15 +187,27 @@ function SepratorDetailModal(props: SepratorDetailModalProps) {
 
   const tableData = data ? formatTableData(data) : [];
 
+  // footer
+  const tableFooter: TableDataItemShape = {
+    number: "",
+    amount: sumFieldsInSingleItemData(data, "estimateAmount"),
+    code: "",
+    date: "",
+    description: "",
+    actions: "" as any,
+  };
+
   return (
     <>
       <FixedTable
         heads={tableHeads}
         headGroups={tableHeadGroup}
         data={tableData}
+        footer={tableFooter}
         notFixed
       />
 
+      {/* tamin modal */}
       <FixedModal
         open={taminModal}
         handleClose={handleCloseTaminModal}
@@ -186,6 +222,15 @@ function SepratorDetailModal(props: SepratorDetailModalProps) {
         />
       </FixedModal>
 
+      {/* remove detail item modal*/}
+      <ConfrimProcessModal
+        open={removeItemId !== null}
+        onCancel={onCancelDeleteModal}
+        onConfrim={onConfrimDeleteModal}
+        text={confrimRemoveText}
+      />
+
+      {/* lodaing */}
       <WindowLoading
         active={sepratorDetailMutation.isLoading || removeMutation.isLoading}
       />

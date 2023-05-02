@@ -7,7 +7,6 @@ import DialogContent from "@mui/material/DialogContent";
 import Typography from "@mui/material/Typography";
 
 import { createPortal } from "react-dom";
-import { ReactNode } from "react";
 import { styled } from "@mui/material/styles";
 import { Button, Stack } from "@mui/material";
 
@@ -30,12 +29,13 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 interface FixedModalProps {
   open: boolean;
   title?: string;
+  text?: string;
   onCancel: () => void;
   onConfrim: () => void;
 }
 
-function ConfrimProccesModal(props: FixedModalProps) {
-  const { open, onCancel, onConfrim, title } = props;
+function ConfrimProcessModal(props: FixedModalProps) {
+  const { open, onCancel, onConfrim, title, text } = props;
 
   return createPortal(
     <BootstrapDialog open={open} onClose={onCancel} maxWidth="sm" fullWidth>
@@ -57,7 +57,7 @@ function ConfrimProccesModal(props: FixedModalProps) {
             textAlign="center"
             fontWeight={500}
           >
-            آیا مایل به ادامه دادن هستید ؟
+            {text || "آیا مایل به ادامه دادن هستید ؟"}
           </Typography>
 
           <Stack justifyContent="center" direction="row" spacing={1}>
@@ -75,4 +75,4 @@ function ConfrimProccesModal(props: FixedModalProps) {
   );
 }
 
-export default ConfrimProccesModal;
+export default ConfrimProcessModal;

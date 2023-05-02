@@ -9,11 +9,11 @@ import useLayoutStore from "hooks/store/layout-store";
 import FixedModal from "components/ui/modal/fixed-modal";
 import ChnagePasswordForm from "components/auth/chnage-password-form";
 import KeyIcon from "@mui/icons-material/Key";
-import ConfrimProccesModal from "components/ui/modal/confrim-procces-modal";
 import userStore from "hooks/store/user-store";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 function AdminHeader() {
   const toggleNormlize = useLayoutStore((state) => state.toggleNormlize);
@@ -79,7 +79,7 @@ function AdminHeader() {
       </AppBar>
 
       {/* sign out modal */}
-      <ConfrimProccesModal
+      <ConfrimProcessModal
         open={confrimSignoutModal}
         onCancel={() => setConfrimSignoutModal(false)}
         onConfrim={handleConfrimSignOut}

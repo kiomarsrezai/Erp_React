@@ -12,6 +12,7 @@ import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import WindowLoading from "components/ui/loading/window-loading";
+import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 
 interface SepratorTaminModalProps {
   data: any[];
@@ -129,9 +130,26 @@ function SepratorTaminModal(props: SepratorTaminModalProps) {
 
   const tableData = data ? formatTableData(data) : [];
 
+  // footer
+  const tableFooter: TableDataItemShape = {
+    number: "",
+    amount: sumFieldsInSingleItemData(data, "requestPrice"),
+    code: "",
+    budgetCode: "",
+    date: "",
+    requestDescription: "",
+    description: "",
+    actions: "" as any,
+  };
+
   return (
     <>
-      <FixedTable heads={tableHeads} data={tableData} notFixed />
+      <FixedTable
+        heads={tableHeads}
+        data={tableData}
+        footer={tableFooter}
+        notFixed
+      />
       <WindowLoading active={linkMutation.isLoading} />
     </>
   );
