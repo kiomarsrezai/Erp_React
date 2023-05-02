@@ -23,6 +23,7 @@ import { orgProjectConfig } from "config/features/project/org-project-config";
 import { useState } from "react";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 interface ProjectOrgCardProps {
   title: string;
@@ -59,15 +60,34 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
     insertMutation.mutate({ [orgProjectConfig.ID]: id });
   };
 
+  // confrim modal
+  const [isOpenConfrimRemoveModal, setIsOpenConfrimRemoveModal] =
+    useState(false);
+  const onConfrimDeleteModal = () => {
+    deleteMutation.mutate({ [orgProjectConfig.ID]: id });
+    onCancelDeleteModal();
+  };
+  const onCancelDeleteModal = () => {
+    setIsOpenConfrimRemoveModal(false);
+  };
+
   // delete item
   const deleteMutation = useMutation(orgProjectApi.deleteProject, {
     onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
       getDataMutation.mutate({ [orgProjectConfig.ID]: rootId });
+    },
+    onError: () => {
+      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+        variant: "error",
+      });
     },
   });
 
   const handleDeleteClick = () => {
-    deleteMutation.mutate({ [orgProjectConfig.ID]: id });
+    setIsOpenConfrimRemoveModal(true);
   };
 
   // edit modal - update item
@@ -90,6 +110,9 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
   const updateMutation = useMutation(orgProjectApi.updateProject, {
     onSuccess: () => {
       handleDoneTaskEditModal();
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
     },
     onError: () => {
       enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
@@ -215,6 +238,13 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
           itemData={itemData}
         />
       </FixedModal>
+      {/* confrim modal */}
+      <ConfrimProcessModal
+        text={`آیا مایل به حذف کردن پروژه ${title} هستید ؟`}
+        open={isOpenConfrimRemoveModal}
+        onCancel={onCancelDeleteModal}
+        onConfrim={onConfrimDeleteModal}
+      />
 
       {/* media */}
       <FixedModal

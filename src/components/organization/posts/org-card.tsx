@@ -15,6 +15,9 @@ import { orgProjectApi } from "api/project/org-project-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { orgProjectConfig } from "config/features/project/org-project-config";
 import { useState } from "react";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
 
 interface OrganizationPostsOrgCardProps {
   title: string;
@@ -40,15 +43,34 @@ function OrganizationPostsOrgCard(props: OrganizationPostsOrgCardProps) {
     },
   });
 
+  // confrim modal
+  const [isOpenConfrimRemoveModal, setIsOpenConfrimRemoveModal] =
+    useState(false);
+  const onConfrimDeleteModal = () => {
+    // deleteMutation.mutate({ [orgProjectConfig.ID]: id });
+    onCancelDeleteModal();
+  };
+  const onCancelDeleteModal = () => {
+    setIsOpenConfrimRemoveModal(false);
+  };
+
   // delete item
   const deleteMutation = useMutation(orgProjectApi.deleteProject, {
     onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
       getDataMutation.mutate({ [orgProjectConfig.ID]: rootId });
+    },
+    onError: () => {
+      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+        variant: "error",
+      });
     },
   });
 
   const handleDeleteClick = () => {
-    deleteMutation.mutate({ [orgProjectConfig.ID]: id });
+    setIsOpenConfrimRemoveModal(true);
   };
 
   // drag
@@ -128,6 +150,15 @@ function OrganizationPostsOrgCard(props: OrganizationPostsOrgCardProps) {
         </Card>
       </Box>
 
+      {/* confrim modal */}
+      <ConfrimProcessModal
+        text={`آیا مایل به حذف کردن پروژه ${title} هستید ؟`}
+        open={isOpenConfrimRemoveModal}
+        onCancel={onCancelDeleteModal}
+        onConfrim={onConfrimDeleteModal}
+      />
+
+      {/* persons */}
       <FixedModal
         open={isOpenUserListModal}
         handleClose={() => setIsOpenUserListModal(false)}
