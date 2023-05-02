@@ -7,7 +7,7 @@ import { grey } from "@mui/material/colors";
 import { Tree, TreeNode } from "react-organizational-chart";
 import { globalConfig } from "config/global-config";
 import { useState } from "react";
-import OrganizationPostsOrgCard from "components/organization/posts/org-card";
+import OrganizationPostsOrgCard from "components/sections/organization/posts/org-card";
 
 function PostsOrganzationPage() {
   const data = [

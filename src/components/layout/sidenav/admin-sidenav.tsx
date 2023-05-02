@@ -39,6 +39,7 @@ function AdminSidenav() {
           <Divider />
           <AdminSidenavMenu />
         </Box>
+
         <Card sx={{ textAlign: "center" }}>
           <CardContent>
             <Typography
@@ -51,7 +52,7 @@ function AdminSidenav() {
               color="grey.600"
             >
               <CopyrightIcon sx={{ fontSize: 14 }} />
-              فاوا اهواز
+              {!normalize && "فاوا اهواز"}
             </Typography>
           </CardContent>
         </Card>
