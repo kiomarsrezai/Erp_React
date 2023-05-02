@@ -13,18 +13,18 @@ import InputAdornment from "@mui/material/InputAdornment";
 import ClearIcon from "@mui/icons-material/Clear";
 import AddIcon from "@mui/icons-material/Add";
 import CheckIcon from "@mui/icons-material/Check";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-
-import { grey } from "@mui/material/colors";
+import Select from "@mui/material/Select";
 import CreidtRequestFormTableTpye from "./crdit-request-form-table-type";
 import YearInput from "components/sections/inputs/year-input";
 import AreaInput from "components/sections/inputs/area-input";
 import FixedModal from "components/ui/modal/fixed-modal";
 import SelectUser from "components/sections/select-user";
-import { useState } from "react";
 import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
-import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 import ProjectMettingsModal from "./credit-search-request-modal";
+
+import { grey } from "@mui/material/colors";
+import { useState } from "react";
+import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 
 interface CreditRequestFormProps {
   formData: any;
@@ -33,13 +33,6 @@ interface CreditRequestFormProps {
 
 function CreditRequestForm(props: CreditRequestFormProps) {
   const { formData, setFormData } = props;
-
-  const handleChange = (event: SelectChangeEvent) => {
-    const name = event.target.name;
-    const value = event.target.value;
-
-    setFormData((prevState: any) => ({ ...prevState, [name]: value }));
-  };
 
   const requestTypeItems: FlotingLabelTextfieldItemsShape = [
     {
@@ -82,31 +75,66 @@ function CreditRequestForm(props: CreditRequestFormProps) {
   const [isOpenSelectRequestModal, setIsOpenSelectRequestModal] =
     useState(false);
 
+  const controlButtons = (
+    <Grid xs={3} xl={2}>
+      <ButtonGroup fullWidth sx={{ height: 1 }}>
+        <Button
+          sx={{
+            borderColor: grey[400],
+            color: grey[700],
+            "&:hover": { borderColor: grey[400] },
+          }}
+        >
+          <AddIcon />
+        </Button>
+        <Button
+          sx={{
+            borderColor: grey[400],
+            color: grey[700],
+            "&:hover": { borderColor: grey[400] },
+          }}
+        >
+          <CheckIcon />
+        </Button>
+
+        <Button
+          sx={{
+            borderColor: grey[400],
+            color: grey[700],
+            "&:hover": { borderColor: grey[400] },
+          }}
+        >
+          <ClearIcon />
+        </Button>
+        <Button
+          sx={{
+            borderColor: grey[400],
+            color: grey[700],
+            "&:hover": { borderColor: grey[400] },
+          }}
+          onClick={() => setIsOpenSelectRequestModal(true)}
+        >
+          <SearchIcon />
+        </Button>
+        <Button
+          sx={{
+            borderColor: grey[400],
+            color: grey[700],
+            "&:hover": { borderColor: grey[400] },
+          }}
+        >
+          <SendIcon />
+        </Button>
+      </ButtonGroup>
+    </Grid>
+  );
+
   return (
     <>
       <Box>
         <Grid container rowSpacing={2} columnSpacing={1}>
-          <Grid xs={3} xl={2}>
-            <YearInput setter={() => {}} value={32} />
-          </Grid>
-          <Grid xs={3} xl={2}>
-            <AreaInput setter={() => {}} value={1} />
-          </Grid>
-          <Grid xs={3} xl={2}>
-            <FormControl fullWidth>
-              <InputLabel id="witch-organ-label">واحد درخواست کننده</InputLabel>
-              <Select
-                labelId="witch-organ-label"
-                id="witch-organ-input"
-                value={20}
-                size="small"
-                label="واحد درخواست کننده"
-              >
-                <MenuItem value={10}>واحد فلان</MenuItem>
-                <MenuItem value={20}>واحد بهمان</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
+          {controlButtons}
+          <Grid xs={3} xl={2}></Grid>
 
           <Grid xs={3} xl={2}>
             <FlotingLabelSelect
@@ -117,73 +145,44 @@ function CreditRequestForm(props: CreditRequestFormProps) {
               setter={setFormData}
             />
           </Grid>
-
-          <Grid xs={3} xl={2}>
-            <TextField
-              id="user-input"
-              label="کاربر"
-              variant="outlined"
-              fullWidth
-              size="small"
-              value="پت و مت"
-            />
-          </Grid>
-
-          <Grid xs={3} xl={2}>
-            <ButtonGroup fullWidth sx={{ height: 1 }}>
-              <Button
-                sx={{
-                  borderColor: grey[400],
-                  color: grey[700],
-                  "&:hover": { borderColor: grey[400] },
-                }}
-              >
-                <AddIcon />
-              </Button>
-              <Button
-                sx={{
-                  borderColor: grey[400],
-                  color: grey[700],
-                  "&:hover": { borderColor: grey[400] },
-                }}
-              >
-                <CheckIcon />
-              </Button>
-
-              <Button
-                sx={{
-                  borderColor: grey[400],
-                  color: grey[700],
-                  "&:hover": { borderColor: grey[400] },
-                }}
-              >
-                <ClearIcon />
-              </Button>
-              <Button
-                sx={{
-                  borderColor: grey[400],
-                  color: grey[700],
-                  "&:hover": { borderColor: grey[400] },
-                }}
-                onClick={() => setIsOpenSelectRequestModal(true)}
-              >
-                <SearchIcon />
-              </Button>
-              <Button
-                sx={{
-                  borderColor: grey[400],
-                  color: grey[700],
-                  "&:hover": { borderColor: grey[400] },
-                }}
-              >
-                <SendIcon />
-              </Button>
-            </ButtonGroup>
-          </Grid>
         </Grid>
         <Grid container rowSpacing={2} columnSpacing={1}>
-          <Grid xs={12} xl={4}>
+          <Grid xs={6} xl={4}>
             <Grid container rowSpacing={2} columnSpacing={1}>
+              <Grid xs={12} xl={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="witch-organ-label">
+                    واحد درخواست کننده
+                  </InputLabel>
+                  <Select
+                    labelId="witch-organ-label"
+                    id="witch-organ-input"
+                    value={20}
+                    size="small"
+                    label="واحد درخواست کننده"
+                  >
+                    <MenuItem value={10}>واحد فلان</MenuItem>
+                    <MenuItem value={20}>واحد بهمان</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              <Grid xs={12} xl={6}>
+                <TextField
+                  id="user-input"
+                  label="کاربر"
+                  variant="outlined"
+                  fullWidth
+                  size="small"
+                  value="پت و مت"
+                />
+              </Grid>
+              <Grid xs={12} xl={6}>
+                <YearInput setter={() => {}} value={32} />
+              </Grid>
+              <Grid xs={12} xl={6}>
+                <AreaInput setter={() => {}} value={1} />
+              </Grid>
               <Grid xs={12} xl={6}>
                 <TextField
                   id="request-number-input"
@@ -261,7 +260,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
               )}
             </Grid>
           </Grid>
-          <Grid xs={12} xl={8}>
+          <Grid xs={6} xl={8}>
             <Grid container rowSpacing={2} columnSpacing={1}>
               {formData.requestType === 1 && (
                 <Grid xs={12}>

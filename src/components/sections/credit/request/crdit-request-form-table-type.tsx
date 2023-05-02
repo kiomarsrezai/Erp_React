@@ -85,20 +85,6 @@ function CreidtRequestFormTableTpye() {
       price: 12462314,
       rate: 12462314,
     },
-    {
-      description: "تست",
-      number: "3",
-      organ: "تست",
-      price: 12462314,
-      rate: 12462314,
-    },
-    {
-      description: "تست",
-      number: "4",
-      organ: "تست",
-      price: 12462314,
-      rate: 12462314,
-    },
   ];
   //   footer
   const tableFooter: TableDataItemShape = {

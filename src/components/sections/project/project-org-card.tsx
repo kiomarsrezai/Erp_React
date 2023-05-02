@@ -21,7 +21,6 @@ import { orgProjectApi } from "api/project/org-project-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { orgProjectConfig } from "config/features/project/org-project-config";
 import { useState } from "react";
-import { createPortal } from "react-dom";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 
@@ -227,17 +226,14 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
       </FixedModal>
 
       {/* loading */}
-      {createPortal(
-        <WindowLoading
-          active={
-            insertMutation.isLoading ||
-            deleteMutation.isLoading ||
-            updateMutation.isLoading ||
-            getDataMutation.isLoading
-          }
-        />,
-        document.body
-      )}
+      <WindowLoading
+        active={
+          insertMutation.isLoading ||
+          deleteMutation.isLoading ||
+          updateMutation.isLoading ||
+          getDataMutation.isLoading
+        }
+      />
     </>
   );
 }
