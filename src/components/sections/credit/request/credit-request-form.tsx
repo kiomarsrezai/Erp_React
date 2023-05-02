@@ -24,6 +24,7 @@ import SelectUser from "components/sections/select-user";
 import { useState } from "react";
 import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
+import ProjectMettingsModal from "./credit-search-request-modal";
 
 interface CreditRequestFormProps {
   formData: any;
@@ -76,6 +77,10 @@ function CreditRequestForm(props: CreditRequestFormProps) {
 
   //   select user modal
   const [isOpenSelectUserModal, setIsOpenSelectUserModal] = useState(false);
+
+  //   select request modal
+  const [isOpenSelectRequestModal, setIsOpenSelectRequestModal] =
+    useState(false);
 
   return (
     <>
@@ -160,6 +165,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   color: grey[700],
                   "&:hover": { borderColor: grey[400] },
                 }}
+                onClick={() => setIsOpenSelectRequestModal(true)}
               >
                 <SearchIcon />
               </Button>
@@ -279,6 +285,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
           </Grid>
         </Grid>
 
+        {/* select user modal */}
         <FixedModal
           open={isOpenSelectUserModal}
           handleClose={() => setIsOpenSelectUserModal(false)}
@@ -287,6 +294,15 @@ function CreditRequestForm(props: CreditRequestFormProps) {
           <Box p={3}>
             <SelectUser onSelectUser={() => {}} />
           </Box>
+        </FixedModal>
+
+        {/* select request modal */}
+        <FixedModal
+          open={isOpenSelectRequestModal}
+          handleClose={() => setIsOpenSelectRequestModal(false)}
+          title="انتخاب درخواست"
+        >
+          <ProjectMettingsModal />
         </FixedModal>
       </Box>
     </>
