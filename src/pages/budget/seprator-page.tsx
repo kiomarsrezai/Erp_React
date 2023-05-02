@@ -20,6 +20,7 @@ interface TableDataItemShape {
   code: ReactNode;
   description: ReactNode;
   mosavab: ReactNode;
+  edit: ReactNode;
   creditAmount: ReactNode;
   expense: ReactNode;
   percentBud: ReactNode;
@@ -58,6 +59,12 @@ function BudgetSepratorPage() {
       align: "left",
     },
     {
+      title: "اصلاح بودجه",
+      name: "edit",
+      split: true,
+      align: "left",
+    },
+    {
       title: "ت اعتبار",
       name: "creditAmount",
       split: true,
@@ -85,7 +92,7 @@ function BudgetSepratorPage() {
       title: (
         <SepratoeBudgetForm formData={formData} setFormData={setFormData} />
       ),
-      colspan: 8,
+      colspan: tableHeads.filter((item) => !item.hidden).length,
     },
   ];
 
@@ -120,9 +127,9 @@ function BudgetSepratorPage() {
     handleOpenDetailModal();
   };
 
-  const actionButtons = (row: TableDataItemShape) => (
+  const actionButtons = (row: TableDataItemShape | any) => (
     <>
-      {formData[sepratorBudgetConfig.BUDGET_METHOD] === 3 && (
+      {formData[sepratorBudgetConfig.BUDGET_METHOD] === 3 && row.crud && (
         <IconButton
           color="primary"
           size="small"
@@ -275,21 +282,24 @@ function BudgetSepratorPage() {
   const formatTableData = (
     unFormatData: GetSingleSepratorItemShape[]
   ): TableDataItemShape[] => {
-    const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
-      ...item,
-      id: i + 1,
-      code: item.code,
-      description: item.description,
-      mosavab: item.mosavab,
-      creditAmount: item.creditAmount,
-      expense: item.expense,
-      percentBud: item.percentBud,
-      actions: actionButtons,
-      bgcolor: getBgColor(item.levelNumber),
+    const formatedData: TableDataItemShape[] | any = unFormatData.map(
+      (item, i) => ({
+        ...item,
+        id: i + 1,
+        code: item.code,
+        description: item.description,
+        mosavab: item.mosavab,
+        edit: item.edit,
+        creditAmount: item.creditAmount,
+        expense: item.expense,
+        percentBud: item.percentBud,
+        actions: actionButtons,
+        bgcolor: getBgColor(item.levelNumber),
 
-      "bgcolor-creditAmount": item.creditAmount > item.mosavab && "#d7a2a2",
-      "bgcolor-expense": item.expense > item.mosavab && "#d7a2a2",
-    }));
+        "bgcolor-creditAmount": item.creditAmount > item.mosavab && "#d7a2a2",
+        "bgcolor-expense": item.expense > item.mosavab && "#d7a2a2",
+      })
+    );
 
     return formatedData;
   };
@@ -316,9 +326,15 @@ function BudgetSepratorPage() {
       "mosavab",
       (item: GetSingleSepratorItemShape) => item.levelNumber === 1
     ),
+    edit: sumFieldsInSingleItemData(
+      sepratorQuery.data?.data,
+      "edit",
+      (item: GetSingleSepratorItemShape) => item.levelNumber === 1
+    ),
     creditAmount: sumFieldsInSingleItemData(
       sepratorQuery.data?.data,
-      "creditAmount"
+      "creditAmount",
+      (item: GetSingleSepratorItemShape) => item.levelNumber === 1
     ),
     expense: sumFieldsInSingleItemData(
       sepratorQuery.data?.data,

@@ -7,6 +7,8 @@ export interface GetSingleSepratorItemShape {
   percentBud: number;
   levelNumber: number;
   codingId: number;
+  edit: number;
+  crud: boolean;
 }
 export interface GetSingleSepratorTaminItemShape {
   bodgetId: string;
