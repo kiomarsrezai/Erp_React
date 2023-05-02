@@ -1,8 +1,8 @@
 export interface UserItemShape {
-  Id: number;
-  "نام کاربری": string;
-  نام: string;
-  "نام خانوادگی": string;
-  معرفی: string;
-  لایسنس: string | null;
+  id: number;
+  userName: string;
+  firstName: string;
+  lastName: string;
+  bio: string;
+  lisence: string | null;
 }

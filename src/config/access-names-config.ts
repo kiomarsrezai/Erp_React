@@ -14,6 +14,9 @@ export const accessNamesConfig = {
   SEPRATOR_BUDGET_PAGE: "seprator-budget",
   SEPRATOR_BUDGET_PAGE__TAMIN_BTN: "tamin-btn",
 
+  // organization
+  ORGANIZATION_POSTS_PAGE: "organiztion-posts",
+
   ABSTRUCT_PROCTOR_PAGE: "abstruct-proctor",
   CREDIT_REQUEST_PAGE: "credit-request",
   ACCESS_PAGE: "access",

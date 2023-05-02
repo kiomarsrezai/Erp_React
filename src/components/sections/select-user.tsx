@@ -5,7 +5,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 import grey from "@mui/material/colors/grey";
 import CheckIcon from "@mui/icons-material/Check";
 import defaultProfileImg from "assets/images/default-profile.png";
@@ -15,11 +15,11 @@ import { AuthApi } from "api/auth/auth-api";
 import { useEffect, useState } from "react";
 import { UserItemShape } from "types/data/auth/users-type";
 
-interface AccessUserListProps {
+interface SelectUserProps {
   onSelectUser: (user: UserItemShape) => void;
 }
 
-function AccessUserList(props: AccessUserListProps) {
+function SelectUser(props: SelectUserProps) {
   const { onSelectUser } = props;
 
   const [searchText, setSearchText] = useState("");
@@ -39,6 +39,7 @@ function AccessUserList(props: AccessUserListProps) {
         variant="filled"
         size="small"
         onChange={(e) => setSearchText(e.target.value)}
+        autoComplete="off"
         fullWidth
       />
       <Stack spacing={1} mt={3}>
@@ -56,20 +57,19 @@ function AccessUserList(props: AccessUserListProps) {
                   <Stack direction="row" alignItems="center" spacing={1}>
                     <Avatar src={defaultProfileImg}>H</Avatar>
                     <Typography variant="body1">
-                      {user?.نام} {user?.["نام خانوادگی"]}
+                      {user.firstName} {user?.lastName}
                     </Typography>
                     <Typography variant="caption" color="GrayText">
-                      ( {user?.معرفی} )
+                      ( {user?.bio} )
                     </Typography>
                   </Stack>
-                  <Button
+                  <IconButton
                     color="primary"
-                    variant="contained"
                     size="small"
                     onClick={() => onSelectUser(user)}
                   >
                     <CheckIcon />
-                  </Button>
+                  </IconButton>
                 </Box>
               </CardContent>
             </Card>
@@ -79,4 +79,4 @@ function AccessUserList(props: AccessUserListProps) {
   );
 }
 
-export default AccessUserList;
+export default SelectUser;

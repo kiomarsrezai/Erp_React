@@ -13,6 +13,8 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import logoImg from "assets/images/logos/fava.svg";
 import userStore from "hooks/store/user-store";
+import FixedModal from "components/ui/modal/fixed-modal";
+import ForgetPasswordModal from "components/auth/forget-password-modal";
 import * as yup from "yup";
 
 import { useState } from "react";
@@ -24,8 +26,6 @@ import { useMutation } from "@tanstack/react-query";
 import { AuthApi } from "api/auth/auth-api";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
-import FixedModal from "components/ui/modal/fixed-modal";
-import ForgetPasswordModal from "pages/auth/forget-password-modal";
 
 function LoginForm() {
   const loginFormSchema = yup.object({
@@ -127,6 +127,7 @@ function LoginForm() {
                   (errors[loginConfig.username]?.message || "") as any
                 }
                 fullWidth
+                autoComplete="off"
               />
 
               <TextField
@@ -153,6 +154,7 @@ function LoginForm() {
                     </InputAdornment>
                   ),
                 }}
+                autoComplete="off"
               />
 
               <FormGroup>

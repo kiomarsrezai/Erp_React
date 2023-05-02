@@ -7,12 +7,12 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import LogoutIcon from "@mui/icons-material/Logout";
 import useLayoutStore from "hooks/store/layout-store";
 import FixedModal from "components/ui/modal/fixed-modal";
-import ChnagePasswordForm from "pages/auth/chnage-password-form";
+import ChnagePasswordForm from "components/auth/chnage-password-form";
 import KeyIcon from "@mui/icons-material/Key";
-
-import { useState } from "react";
 import ConfrimProccesModal from "components/ui/modal/confrim-procces-modal";
 import userStore from "hooks/store/user-store";
+
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function AdminHeader() {

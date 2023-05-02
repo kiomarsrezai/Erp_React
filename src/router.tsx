@@ -18,6 +18,7 @@ import { proposalConfig } from "config/features/budget/proposal-config";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { transferConfig } from "config/features/transfer/transfer-config";
 import { accessNamesConfig } from "config/access-names-config";
+import PostsOrganzationPage from "pages/organization/posts-page";
 
 const router = createBrowserRouter([
   // globla
@@ -114,6 +115,17 @@ const router = createBrowserRouter([
       <PageGuard
         render={<MeetingsProjectPage />}
         permission={accessNamesConfig.PROJECT_MEETINGS_PAGE}
+      />
+    ),
+  },
+
+  // organization
+  {
+    path: "/organization/posts",
+    element: (
+      <PageGuard
+        render={<PostsOrganzationPage />}
+        permission={accessNamesConfig.ORGANIZATION_POSTS_PAGE}
       />
     ),
   },

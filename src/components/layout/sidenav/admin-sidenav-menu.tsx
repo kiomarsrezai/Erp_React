@@ -14,12 +14,13 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import KeyIcon from "@mui/icons-material/Key";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import GroupsIcon from "@mui/icons-material/Groups";
+import SectionGuard from "components/auth/section-guard";
+import SortSharpIcon from "@mui/icons-material/SortSharp";
 
 import { blue } from "@mui/material/colors";
 import { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { accessNamesConfig } from "config/access-names-config";
-import SectionGuard from "components/auth/section-guard";
 
 interface SidenavShape {
   title: string;
@@ -88,6 +89,13 @@ function AdminSidenavMenu() {
       path: "/project/meetings",
       icon: <GroupsIcon />,
       licenseName: accessNamesConfig.PROJECT_MEETINGS_PAGE,
+    },
+    // organization
+    {
+      title: "ساختار",
+      path: "/organization/posts",
+      icon: <SortSharpIcon />,
+      licenseName: accessNamesConfig.ORGANIZATION_POSTS_PAGE,
     },
   ];
 

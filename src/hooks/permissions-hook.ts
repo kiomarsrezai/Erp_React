@@ -143,6 +143,10 @@ function usePermissions() {
       label: "جلسات",
       name: accessNamesConfig.PROJECT_MEETINGS_PAGE,
     },
+    {
+      label: "ساختار",
+      name: accessNamesConfig.ORGANIZATION_POSTS_PAGE,
+    },
   ];
 
   return {

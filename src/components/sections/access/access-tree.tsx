@@ -43,7 +43,7 @@ function AccessTree(props: AccessTreeProps) {
     name: string | number
   ): any => {
     let formated = {
-      [name]: user?.لایسنس?.split("/").includes(name.toString()),
+      [name]: user?.lisence?.split("/").includes(name.toString()),
     };
     data.value?.forEach((item: any) => {
       formated = {
@@ -131,7 +131,7 @@ function AccessTree(props: AccessTreeProps) {
     );
 
     saveLicenseMutation.mutate({
-      [saveLicenseConfig.id]: user?.Id || 0,
+      [saveLicenseConfig.id]: user?.id || 0,
       [saveLicenseConfig.lisence]: isOnedItems.join("/"),
     });
   };
@@ -154,10 +154,10 @@ function AccessTree(props: AccessTreeProps) {
           mt={3}
         >
           <Typography variant="h6">
-            {user?.نام} {user?.["نام خانوادگی"]}
+            {user?.firstName} {user?.lastName}
           </Typography>
           <Typography variant="caption" color="GrayText">
-            ( {user?.معرفی} )
+            ( {user?.bio} )
           </Typography>
         </Box>
         <Box

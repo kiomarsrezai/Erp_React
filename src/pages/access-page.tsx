@@ -1,11 +1,11 @@
 import Box from "@mui/material/Box";
 import AdminLayout from "components/layout/admin-layout";
 import AccessTree from "components/sections/access/access-tree";
+import SelectUser from "components/sections/select-user";
 
 import { useState } from "react";
 import { globalConfig } from "config/global-config";
 import { UserItemShape } from "types/data/auth/users-type";
-import AccessUserList from "components/sections/access/access-user-list";
 
 function AccessPage() {
   const [selectedUser, setSelectUser] = useState<UserItemShape | null>(null);
@@ -19,7 +19,7 @@ function AccessPage() {
         {selectedUser ? (
           <AccessTree user={selectedUser} onCancel={cancelProccess} />
         ) : (
-          <AccessUserList onSelectUser={setSelectUser} />
+          <SelectUser onSelectUser={setSelectUser} />
         )}
       </Box>
     </AdminLayout>
