@@ -17,18 +17,22 @@ function BudgetMethodInput(props: BudgetMethodInputProps) {
   const { setter, value, permissionForm } = props;
   const userLicenses = userStore((state) => state.permissions);
 
-  return (
-    <FlotingLabelSelect
-      label="نوع بودجه"
-      name={generalFieldsConfig.BUDGET_METHOD}
-      items={filedItemsGuard(
+  const inputItems = permissionForm
+    ? filedItemsGuard(
         budgetMethodItems,
         userLicenses,
         joinPermissions([
           permissionForm || "",
           accessNamesConfig.FIELD_BUDGET_METHOD,
         ])
-      )}
+      )
+    : budgetMethodItems;
+
+  return (
+    <FlotingLabelSelect
+      label="نوع بودجه"
+      name={generalFieldsConfig.BUDGET_METHOD}
+      items={inputItems}
       value={value}
       setter={setter}
     />

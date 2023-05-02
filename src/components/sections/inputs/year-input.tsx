@@ -35,15 +35,18 @@ function YearInput(props: YearInputProps) {
       }))
     : [];
 
+  const inputItems = permissionForm
+    ? filedItemsGuard(
+        yearItems,
+        userLicenses,
+        joinPermissions([permissionForm, accessNamesConfig.FIELD_YEAR])
+      )
+    : yearItems;
   return (
     <FlotingLabelSelect
       label="سال"
       name={generalFieldsConfig.YEAR}
-      items={filedItemsGuard(
-        yearItems,
-        userLicenses,
-        joinPermissions([permissionForm || "", accessNamesConfig.FIELD_YEAR])
-      )}
+      items={inputItems}
       value={value}
       setter={setter}
     />

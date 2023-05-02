@@ -17,7 +17,6 @@ function FlotingLabelSelect(props: FlotingLabelTextfieldProps) {
   const { label, name, items, value, setter } = props;
 
   const handleChange = (event: SelectChangeEvent) => {
-    const name = event.target.name;
     const value = event.target.value;
 
     setter((prevState: any) => ({ ...prevState, [name]: value }));
@@ -31,13 +30,12 @@ function FlotingLabelSelect(props: FlotingLabelTextfieldProps) {
   ));
   return (
     <FormControl fullWidth size="small">
-      <InputLabel id={`${label}-floting-select-label`}>{label}</InputLabel>
+      <InputLabel id={`${name}-floting-select-label`}>{label}</InputLabel>
       <Select
         labelId={`${name}-floting-select-label`}
         id={`${name}-floting-select-input`}
         value={value.toString()}
         label={label}
-        name={name}
         onChange={handleChange}
       >
         {renderItems}

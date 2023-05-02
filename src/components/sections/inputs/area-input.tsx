@@ -39,15 +39,19 @@ function AreaInput(props: AreaInputProps) {
       }))
     : [];
 
+  const inputItems = permissionForm
+    ? filedItemsGuard(
+        areaItems,
+        userLicenses,
+        joinPermissions([permissionForm, accessNamesConfig.FIELD_AREA])
+      )
+    : areaItems;
+
   return (
     <FlotingLabelSelect
       label="منطقه"
       name={generalFieldsConfig.AREA}
-      items={filedItemsGuard(
-        areaItems,
-        userLicenses,
-        joinPermissions([permissionForm || "", accessNamesConfig.FIELD_AREA])
-      )}
+      items={inputItems}
       value={value}
       setter={setter}
     />
