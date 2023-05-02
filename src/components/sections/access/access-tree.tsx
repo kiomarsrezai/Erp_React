@@ -27,6 +27,7 @@ import { saveLicenseConfig } from "config/features/auth/auth-config";
 import WindowLoading from "components/ui/loading/window-loading";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
+import BoxLoading from "components/ui/loading/box-loading";
 
 interface AccessTreeProps {
   user?: UserItemShape;
@@ -180,21 +181,7 @@ function AccessTree(props: AccessTreeProps) {
 
   //   loading
   if (loading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "200px",
-          bgcolor: grey[200],
-          m: 2,
-          borderRadius: 2,
-        }}
-      >
-        <CircularProgress color="inherit" />
-      </Box>
-    );
+    return <BoxLoading />;
   }
 
   return (

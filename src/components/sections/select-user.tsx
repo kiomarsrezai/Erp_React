@@ -14,6 +14,7 @@ import { useMutation } from "@tanstack/react-query";
 import { AuthApi } from "api/auth/auth-api";
 import { useEffect, useState } from "react";
 import { UserItemShape } from "types/data/auth/users-type";
+import BoxLoading from "components/ui/loading/box-loading";
 
 interface SelectUserProps {
   onSelectUser: (user: UserItemShape) => void;
@@ -42,39 +43,43 @@ function SelectUser(props: SelectUserProps) {
         autoComplete="off"
         fullWidth
       />
-      <Stack spacing={1} mt={3}>
-        {!!searchText &&
-          usersMutation.data?.data.map((user, i) => (
-            <Card
-              sx={{ bgcolor: grey[200], "&:hover": { bgcolor: grey[300] } }}
-            >
-              <CardContent sx={{ padding: "16px !important" }}>
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="space-between"
-                >
-                  <Stack direction="row" alignItems="center" spacing={1}>
-                    <Avatar src={defaultProfileImg}>H</Avatar>
-                    <Typography variant="body1">
-                      {user.firstName} {user?.lastName}
-                    </Typography>
-                    <Typography variant="caption" color="GrayText">
-                      ( {user?.bio} )
-                    </Typography>
-                  </Stack>
-                  <IconButton
-                    color="primary"
-                    size="small"
-                    onClick={() => onSelectUser(user)}
+      {usersMutation.isLoading ? (
+        <BoxLoading />
+      ) : (
+        <Stack spacing={1} mt={3}>
+          {!!searchText &&
+            usersMutation.data?.data.map((user, i) => (
+              <Card
+                sx={{ bgcolor: grey[200], "&:hover": { bgcolor: grey[300] } }}
+              >
+                <CardContent sx={{ padding: "16px !important" }}>
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="space-between"
                   >
-                    <CheckIcon />
-                  </IconButton>
-                </Box>
-              </CardContent>
-            </Card>
-          ))}
-      </Stack>
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <Avatar src={defaultProfileImg}>H</Avatar>
+                      <Typography variant="body1">
+                        {user.firstName} {user?.lastName}
+                      </Typography>
+                      <Typography variant="caption" color="GrayText">
+                        ( {user?.bio} )
+                      </Typography>
+                    </Stack>
+                    <IconButton
+                      color="primary"
+                      size="small"
+                      onClick={() => onSelectUser(user)}
+                    >
+                      <CheckIcon />
+                    </IconButton>
+                  </Box>
+                </CardContent>
+              </Card>
+            ))}
+        </Stack>
+      )}
     </Box>
   );
 }
