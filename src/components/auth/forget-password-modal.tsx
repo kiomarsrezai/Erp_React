@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { forgetPasswordConfig } from "config/features/auth/auth-config";
 
 function ForgetPasswordModal() {
-  //   form
+  // form
   const loginFormSchema = yup.object({
     [forgetPasswordConfig.phone]: yup.string().required().min(6),
   });

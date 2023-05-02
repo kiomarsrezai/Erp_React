@@ -4,8 +4,10 @@ export const loginConfig = {
 };
 
 export const changePasswordConfig = {
-  password: "password",
-  new_password: "new_password",
+  userId: "id",
+  password: "oldPassword",
+  new_password: "newPassword",
+  new_password_again: "confirmPassword",
 };
 
 export const saveLicenseConfig = {
@@ -22,4 +24,5 @@ export const AUTH_URLS = {
   setLicense: "UsersApi/Savelicense",
   userByTocken: "UsersApi/GetUserByTocken",
   allUsers: "UsersApi",
+  changePassword: "UsersApi/UserChangePassword",
 };

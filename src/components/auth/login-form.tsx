@@ -57,6 +57,7 @@ function LoginForm() {
     onSuccess: (data) => {
       if (data.data) {
         chnageUserData({
+          id: data.data.id,
           firstName: data.data.firstName,
           userName: data.data.userName,
           lastName: data.data.lastName,

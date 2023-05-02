@@ -20,6 +20,7 @@ function PageGuard(props: PageGuardProps) {
     onSuccess(data) {
       if (data.data) {
         userState.chnageUserData({
+          id: data.data.id,
           firstName: data.data.firstName,
           lastName: data.data.lastName,
           userName: data.data.userName,

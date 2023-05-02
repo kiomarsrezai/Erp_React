@@ -22,6 +22,14 @@ export const AuthApi = new (class extends BaseApi {
     return response.data;
   };
 
+  changePassword = async (formdata: any) => {
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      AUTH_URLS.changePassword,
+      formdata
+    );
+    return response.data;
+  };
+
   userByToken = async (token: string) => {
     const response = await clientAxios.post<
       BaseApiResponseShape<LoginItemShape>

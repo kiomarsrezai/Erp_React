@@ -12,6 +12,11 @@ import { useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { changePasswordConfig } from "config/features/auth/auth-config";
+import { useMutation } from "@tanstack/react-query";
+import { AuthApi } from "api/auth/auth-api";
+import userStore from "hooks/store/user-store";
+import { globalConfig } from "config/global-config";
+import { enqueueSnackbar } from "notistack";
 
 function ChnagePasswordForm() {
   const [showPasswordMain, setShowPasswordMain] = useState(false);
@@ -21,7 +26,7 @@ function ChnagePasswordForm() {
   const loginFormSchema = yup.object({
     [changePasswordConfig.password]: yup.string().required().min(6),
     [changePasswordConfig.new_password]: yup.string().required().min(6),
-    passwordConfirmation: yup
+    [changePasswordConfig.new_password_again]: yup
       .string()
       .required()
       .min(6)
@@ -39,8 +44,31 @@ function ChnagePasswordForm() {
     resolver: yupResolver(loginFormSchema),
   });
 
+  // submit
+  const changePassword = useMutation(AuthApi.changePassword, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+    },
+    onError: () => {
+      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+        variant: "error",
+      });
+    },
+  });
+
+  const userId = userStore((state) => state.id);
+
   const submitHandler = (values: any) => {
-    console.log(values);
+    changePassword.mutate({
+      [changePasswordConfig.userId]: userId,
+      [changePasswordConfig.password]: values[changePasswordConfig.password],
+      [changePasswordConfig.new_password]:
+        values[changePasswordConfig.new_password],
+      [changePasswordConfig.new_password_again]:
+        values[changePasswordConfig.new_password_again],
+    });
   };
 
   return (
@@ -93,9 +121,12 @@ function ChnagePasswordForm() {
             id="repeat-password-input"
             label="تکرار رمز جدید"
             variant="outlined"
-            {...register("passwordConfirmation")}
-            error={!!errors["passwordConfirmation"]}
-            helperText={(errors["passwordConfirmation"]?.message || "") as any}
+            {...register(changePasswordConfig.new_password_again)}
+            error={!!errors[changePasswordConfig.new_password_again]}
+            helperText={
+              (errors[changePasswordConfig.new_password_again]?.message ||
+                "") as any
+            }
             type={showPasswordRepeat ? "text" : "password"}
             fullWidth
             InputProps={{

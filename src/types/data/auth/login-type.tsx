@@ -1,4 +1,5 @@
 interface SuccessLoginItemShape {
+  id: number;
   name: string | number;
   token: string;
   userName: string;

@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 interface UserState {
+  id: number | null;
   userName: string;
   firstName: string;
   lastName: string;
@@ -12,6 +13,7 @@ interface UserState {
 }
 
 const userStore = create<UserState>((set) => ({
+  id: null,
   userName: "",
   firstName: "",
   lastName: "",
@@ -21,6 +23,7 @@ const userStore = create<UserState>((set) => ({
   chnageUserData: (data: any) => set({ ...data, fetched: true }),
   removeUserData: () =>
     set({
+      id: null,
       userName: "",
       firstName: "",
       lastName: "",
