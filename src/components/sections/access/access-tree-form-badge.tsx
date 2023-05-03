@@ -10,6 +10,7 @@ interface AccessTreeFormBadgeProps {
 
 function AccessTreeFormBadge(props: AccessTreeFormBadgeProps) {
   const { name, items, formData } = props;
+
   // render
   const checkIsOkaySubItems = (
     subName: string,

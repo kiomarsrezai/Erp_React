@@ -317,10 +317,11 @@ function BudgetSepratorPage() {
     : [];
 
   // footer
-  const tableFooter: TableDataItemShape = {
+  const tableFooter: TableDataItemShape | any = {
     id: "جمع",
-    code: "",
-    description: "",
+    "colspan-id": 3,
+    code: null,
+    description: null,
     mosavab: sumFieldsInSingleItemData(
       sepratorQuery.data?.data,
       "mosavab",

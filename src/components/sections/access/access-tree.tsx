@@ -6,7 +6,6 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import grey from "@mui/material/colors/grey";
 import Box from "@mui/material/Box";
-import Chip from "@mui/material/Chip";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Stack from "@mui/material/Stack";
@@ -17,6 +16,7 @@ import CardMedia from "@mui/material/CardMedia";
 import defaultProfileImg from "assets/images/default-profile.png";
 import WindowLoading from "components/ui/loading/window-loading";
 import AccessTreeControlCheckboxes from "./access-tree-control-checkboxes";
+import AccessTreeFormBadge from "./access-tree-form-badge";
 
 import { AccessItemShape } from "types/access-type";
 import { ChangeEvent } from "react";
@@ -27,7 +27,6 @@ import { AuthApi } from "api/auth/auth-api";
 import { saveLicenseConfig } from "config/features/auth/auth-config";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
-import AccessTreeFormBadge from "./access-tree-form-badge";
 
 interface AccessTreeProps {
   user?: UserItemShape;
@@ -88,7 +87,6 @@ function AccessTree(props: AccessTreeProps) {
   };
 
   // render
-
   const renderItem = (item: AccessItemShape, name: string) => (
     <Stack spacing={1} direction="column" key={name}>
       <Box display="flex" gap={1} alignItems="center">
@@ -210,6 +208,11 @@ function AccessTree(props: AccessTreeProps) {
                     position: "sticky",
                     top: 0,
                     zIndex: 10,
+                    borderLeft: 2,
+                    borderColor: "transparent",
+                    "&:hover": {
+                      borderColor: grey[400],
+                    },
                   }}
                   expandIcon={<ExpandMoreIcon />}
                 >

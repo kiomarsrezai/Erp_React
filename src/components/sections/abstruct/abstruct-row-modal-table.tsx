@@ -75,10 +75,11 @@ function AbstructRowModalTable(props: AbstructRowModalTableProps) {
   const tableData = data ? formatTableData(data) : [];
 
   // table footer
-  const tableFooters: TableDataItemShape = {
+  const tableFooters: TableDataItemShape | any = {
     number: "جمع",
-    title: "",
-    code: "",
+    "colspan-number": 3,
+    title: null,
+    code: null,
     mosavab: sumFieldsInSingleItemData(data, "mosavab"),
     jazb: "",
     hazine: sumFieldsInSingleItemData(data, "expense"),

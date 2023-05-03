@@ -188,12 +188,13 @@ function SepratorDetailModal(props: SepratorDetailModalProps) {
   const tableData = data ? formatTableData(data) : [];
 
   // footer
-  const tableFooter: TableDataItemShape = {
-    number: "",
+  const tableFooter: TableDataItemShape | any = {
+    number: "جمع",
+    "colspan-number": 4,
     amount: sumFieldsInSingleItemData(data, "estimateAmount"),
-    code: "",
-    date: "",
-    description: "",
+    code: null,
+    date: null,
+    description: null,
     actions: "" as any,
   };
 

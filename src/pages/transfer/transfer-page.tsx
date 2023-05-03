@@ -161,7 +161,7 @@ function TransferPage() {
   const handleIconClick = (
     row: GetSingleTransferItemShape & TableDataItemShape
   ) => {
-    const text = `آیا مایل به حذف کردن ردیف ${row.description} هستید ؟`;
+    const text = `آیا مایل به حذف کردن ردیف ${row.titleAcc} هستید ؟`;
     setConfrimRemoveText(text);
     setRemoveItemId(row.id);
   };

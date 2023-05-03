@@ -121,9 +121,7 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
         </Grid>
       </Box>
 
-      <WindowLoading
-        active={refeshFormMutation.isLoading || submitMutation.isLoading}
-      />
+      <WindowLoading active={refeshFormMutation.isLoading} />
     </>
   );
 }

@@ -3,6 +3,8 @@ import FixedTable from "components/data/table/fixed-table";
 import AbstractProctorForm from "components/sections/forms/report/proctor/abstract-proctor-form";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import IconButton from "@mui/material/IconButton";
+import FixedModal from "components/ui/modal/fixed-modal";
+import AbstructModalTable from "components/sections/abstruct/abstruct-modal-table";
 
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { ReactNode, useState } from "react";
@@ -11,8 +13,6 @@ import { GetSingleAbstructProctorItemShape } from "types/data/report/abstruct-pr
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { abstructProctorApi } from "api/report/abstruct-proctor-api";
-import FixedModal from "components/ui/modal/fixed-modal";
-import AbstructModalTable from "components/sections/abstruct/abstruct-modal-table";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 
 interface TableDataItemShape {
@@ -88,11 +88,13 @@ function ReportProctorAbstructPage() {
       title: "مصوب",
       name: "mosavabHazine",
       split: true,
+      align: "left",
     },
     {
       title: "عملکرد",
       name: "expenseHazine",
       split: true,
+      align: "left",
     },
     {
       title: "جذب %",
@@ -103,11 +105,13 @@ function ReportProctorAbstructPage() {
       title: "مصوب",
       name: "mosavabSarmaie",
       split: true,
+      align: "left",
     },
     {
       title: "عملکرد",
       name: "expenseSarmaie",
       split: true,
+      align: "left",
     },
     {
       title: "جذب %",
@@ -191,9 +195,10 @@ function ReportProctorAbstructPage() {
     : [];
 
   // table footer
-  const tableFooter: TableDataItemShape = {
+  const tableFooter: TableDataItemShape & any = {
     number: "جمع",
-    title: "",
+    "colspan-number": 2,
+    title: null,
     mosavabHazine: sumFieldsInSingleItemData(
       abstractQuery.data?.data,
       "mosavabCurrent"

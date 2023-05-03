@@ -90,30 +90,6 @@ function usePermissions() {
         {
           label: "درآمد",
           name: revenueChartFormConfig.REVENUE,
-          value: [
-            {
-              label: "درآمد",
-              name: revenueChartFormConfig.REVENUE + "1",
-              value: [
-                {
-                  label: "درآمد",
-                  name: revenueChartFormConfig.REVENUE + "2",
-                  value: [
-                    {
-                      label: "درآمد",
-                      name: revenueChartFormConfig.REVENUE + "3",
-                      value: [
-                        {
-                          label: "درآمد",
-                          name: revenueChartFormConfig.REVENUE + "4",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
         },
         { label: "فروش اموال", name: revenueChartFormConfig.SALE },
         { label: "وام و اوراق", name: revenueChartFormConfig.LAON },

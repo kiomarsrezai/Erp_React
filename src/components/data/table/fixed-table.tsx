@@ -159,29 +159,34 @@ function FixedTable(props: FixedTableProps) {
     <TableRow>
       {visibleHeads.map((item, i) => {
         const name = item.name;
-        return (
-          <TableCell
-            align={item.align || "center"}
-            sx={{
-              borderRight: 1,
-              borderTop: 1,
-              borderColor: grey[borderColor],
-              bgcolor: grey[200],
-              top: headGroups ? headGroupHright : 0,
-              fontWeight: 500,
-              whiteSpace: "nowrap",
-              p: 1,
-              color: "#000",
-              "&:last-child": {
-                borderRight: 0,
-              },
-            }}
-            dir={typeof footer[name] === "number" ? "ltr" : "rtl"}
-            key={i}
-          >
-            {formatDataCell(footer[name], item, footer)}
-          </TableCell>
-        );
+        if (footer[name] === null) {
+          return <></>;
+        } else {
+          return (
+            <TableCell
+              align={item.align || "center"}
+              sx={{
+                borderRight: 1,
+                borderTop: 1,
+                borderColor: grey[borderColor],
+                bgcolor: grey[200],
+                top: headGroups ? headGroupHright : 0,
+                fontWeight: 500,
+                whiteSpace: "nowrap",
+                p: 1,
+                color: "#000",
+                "&:last-child": {
+                  borderRight: 0,
+                },
+              }}
+              dir={typeof footer[name] === "number" ? "ltr" : "rtl"}
+              key={i}
+              colSpan={footer[`colspan-${name}`] || 1}
+            >
+              {formatDataCell(footer[name], item, footer)}
+            </TableCell>
+          );
+        }
       })}
     </TableRow>
   );

@@ -67,6 +67,7 @@ function SepratorTaminModal(props: SepratorTaminModalProps) {
       title: "مبلغ",
       name: "amount",
       split: true,
+      align: "left",
     },
     {
       title: "عملیات",
@@ -131,14 +132,15 @@ function SepratorTaminModal(props: SepratorTaminModalProps) {
   const tableData = data ? formatTableData(data) : [];
 
   // footer
-  const tableFooter: TableDataItemShape = {
-    number: "",
+  const tableFooter: TableDataItemShape | any = {
+    number: "جمع",
+    "colspan-number": 6,
     amount: sumFieldsInSingleItemData(data, "requestPrice"),
-    code: "",
-    budgetCode: "",
-    date: "",
-    requestDescription: "",
-    description: "",
+    code: null,
+    budgetCode: null,
+    date: null,
+    requestDescription: null,
+    description: null,
     actions: "" as any,
   };
 
