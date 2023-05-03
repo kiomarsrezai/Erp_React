@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import grey from "@mui/material/colors/grey";
 import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Stack from "@mui/material/Stack";
@@ -26,6 +27,7 @@ import { AuthApi } from "api/auth/auth-api";
 import { saveLicenseConfig } from "config/features/auth/auth-config";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
+import AccessTreeFormBadge from "./access-tree-form-badge";
 
 interface AccessTreeProps {
   user?: UserItemShape;
@@ -211,15 +213,29 @@ function AccessTree(props: AccessTreeProps) {
                   }}
                   expandIcon={<ExpandMoreIcon />}
                 >
-                  <Box display="flex" alignItems="center" gap={2}>
-                    <AccessTreeControlCheckboxes
-                      items={item.value}
-                      name={item.name}
-                      setFormData={setFormData}
-                      color="grey.300"
-                    />
+                  <Box
+                    display="flex"
+                    justifyContent="space-between"
+                    width={1}
+                    mr={2}
+                    alignItems="center"
+                  >
+                    <Box display="flex" alignItems="center" gap={2}>
+                      <AccessTreeControlCheckboxes
+                        items={item.value}
+                        name={item.name}
+                        setFormData={setFormData}
+                        color="grey.300"
+                      />
 
-                    <Typography>فرم {item.label}</Typography>
+                      <Typography>فرم {item.label}</Typography>
+                    </Box>
+
+                    <AccessTreeFormBadge
+                      formData={formData}
+                      name={item.name}
+                      items={item.value}
+                    />
                   </Box>
                 </AccordionSummary>
                 <AccordionDetails sx={{ m: 2 }}>

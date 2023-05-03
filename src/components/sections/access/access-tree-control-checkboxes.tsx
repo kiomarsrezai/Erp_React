@@ -24,6 +24,16 @@ function AccessTreeControlCheckboxes(props: AccessTreeControlCheckboxesProps) {
 
     subItems.forEach((item: any) => {
       changed[`${subName}.${item.name}`] = check;
+      if (item.value) {
+        changed = {
+          ...changed,
+          ...changeFieldsCheckedItems(
+            `${subName}.${item.name}`,
+            item.value,
+            check
+          ),
+        };
+      }
     });
 
     return changed;

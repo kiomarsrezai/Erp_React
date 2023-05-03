@@ -141,6 +141,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                     value={formData[creditRequestConfig.execute_departman_id]}
                     size="small"
                     label="واحد درخواست کننده"
+                    disabled={firstStepCrossed}
                   >
                     <MenuItem value={1}>واحد فلان</MenuItem>
                     <MenuItem value={2}>واحد بهمان</MenuItem>
