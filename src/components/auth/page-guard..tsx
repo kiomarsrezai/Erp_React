@@ -49,19 +49,33 @@ function PageGuard(props: PageGuardProps) {
     if (!token && !userState.fetched) {
       navigate("/");
     }
-  }, [userState]);
+  }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token-auth");
+
+    const interval = setInterval(() => {
+      if (token) {
+        userMutation.mutate(token);
+      } else {
+        navigate("/");
+      }
+    }, 15000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // loading
+  if (!userState.fetched) {
+    return <WindowLoading active={true} />;
+  }
 
   // not have access to this page
   if (permission && !userState.permissions?.split("/").includes(permission)) {
     return <div>404</div>;
   }
 
-  return (
-    <>
-      {render}
-      <WindowLoading active={userMutation.isLoading} />
-    </>
-  );
+  return <>{render}</>;
 }
 
 export default PageGuard;
