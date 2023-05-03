@@ -2,7 +2,9 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import grey from "@mui/material/colors/grey";
 import usePermissions from "hooks/permissions-hook";
@@ -10,15 +12,15 @@ import Box from "@mui/material/Box";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Stack from "@mui/material/Stack";
-import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Unstable_Grid2";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import defaultProfileImg from "assets/images/default-profile.png";
+import PlaylistRemoveIcon from "@mui/icons-material/PlaylistRemove";
 
 import { AccessItemShape } from "types/access-type";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useEffect } from "react";
 import { useState } from "react";
 import { UserItemShape } from "types/data/auth/users-type";
 import { useMutation } from "@tanstack/react-query";
@@ -67,6 +69,10 @@ function AccessTree(props: AccessTreeProps) {
   };
 
   const [formData, setFormData] = useState(formatConfigs(permissionsListdata));
+  useEffect(() => {
+    // setFormData(formatConfigs(permissionsListdata));
+    console.log("changed");
+  }, [permissionsListdata]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const name = event.target.name;
@@ -89,9 +95,22 @@ function AccessTree(props: AccessTreeProps) {
   };
 
   //   render
+  const changeFieldsChecked = (name: string, items: any[], check: boolean) => {
+    let changed: any = {};
+
+    items.forEach((item: any) => {
+      changed[`${name}.${item.name}`] = check;
+    });
+    console.log(changed);
+
+    setFormData((state: any) => ({
+      ...state,
+      ...changed,
+    }));
+  };
   const renderItem = (item: any, name: string) => (
     <Stack spacing={1} direction="column" key={name}>
-      <Box>
+      <Box display="flex" gap={1} alignItems="center">
         <FormControlLabel
           control={
             <Checkbox
@@ -102,6 +121,27 @@ function AccessTree(props: AccessTreeProps) {
           }
           label={<Typography variant="body2">{item.label}</Typography>}
         />
+        {item.isField && (
+          <Box
+            display="flex"
+            gap={1}
+            alignItems="center"
+            sx={{ bgcolor: "grey.200", borderRadius: 2 }}
+          >
+            <IconButton
+              size="small"
+              onClick={() => changeFieldsChecked(name, item.value, true)}
+            >
+              <PlaylistAddCheckIcon />
+            </IconButton>
+            <IconButton
+              size="small"
+              onClick={() => changeFieldsChecked(name, item.value, false)}
+            >
+              <PlaylistRemoveIcon />
+            </IconButton>
+          </Box>
+        )}
       </Box>
       {item.value?.map((subItem: any, i: number) => (
         <Box px={4} borderLeft={1} borderColor={grey[300]} key={i}>

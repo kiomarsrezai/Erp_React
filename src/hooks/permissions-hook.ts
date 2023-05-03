@@ -2,17 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import { areaGeneralApi } from "api/general/area-general-api";
 import { yearGeneralApi } from "api/general/year-general-api";
 import { accessNamesConfig } from "config/access-names-config";
-import { proposalConfig } from "config/features/budget/proposal-config";
-import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import {
   budgetMethodItems,
   centerItems,
-  generalFieldsConfig,
   organItems,
 } from "config/features/general-fields-config";
-import { abstructProctorConfig } from "config/features/report/proctor/abstruct-config";
 import { revenueChartFormConfig } from "config/features/revenue-chart-config";
-import { transferConfig } from "config/features/transfer/transfer-config";
 import { AccessItemShape } from "types/access-type";
 
 function usePermissions() {
@@ -25,6 +20,7 @@ function usePermissions() {
     return {
       label,
       name,
+      isField: true,
       value: values.map((item) => ({
         label: item[labelFieldName],
         name: item.id,
@@ -36,6 +32,7 @@ function usePermissions() {
     return {
       label,
       name,
+      isField: true,
       value: values.map((item) => ({
         label: item.label,
         name: item.value,
