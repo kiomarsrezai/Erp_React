@@ -47,12 +47,16 @@ function ReportProctorAbstructPage() {
 
   const tableHeadGroups: TableHeadGroupShape = [
     {
-      title: "",
+      title: "ردیف",
       colspan: 1,
+      rowspan: 2,
+      align: "center",
     },
     {
-      title: "",
+      title: "عنوان",
       colspan: 1,
+      rowspan: 2,
+      align: "center",
     },
     {
       title: "هزینه ای",
@@ -65,12 +69,16 @@ function ReportProctorAbstructPage() {
       align: "center",
     },
     {
-      title: "",
+      title: "جذب کل %",
       colspan: 1,
+      rowspan: 2,
+      align: "center",
     },
     {
-      title: "",
+      title: "عملیات",
       colspan: 1,
+      rowspan: 2,
+      align: "center",
     },
   ];
 
@@ -78,11 +86,13 @@ function ReportProctorAbstructPage() {
     {
       title: "ردیف",
       name: "number",
+      hiddenSelf: true,
     },
     {
       title: "عنوان",
       name: "title",
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "مصوب",
@@ -117,15 +127,18 @@ function ReportProctorAbstructPage() {
       title: "جذب %",
       name: "jazbSarmaie",
       percent: true,
+      forceHaveBorder: true,
     },
     {
       title: "جذب کل %",
       name: "jazbKol",
       percent: true,
+      hiddenSelf: true,
     },
     {
       title: "عملیات",
       name: "actions",
+      hiddenSelf: true,
     },
   ];
 

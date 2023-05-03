@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 export interface TableSingleHeadGroupShape {
   title: ReactNode;
   colspan?: number;
+  rowspan?: number;
   align?: "center" | "right" | "left";
 }
 
@@ -17,6 +18,8 @@ export interface TableSingleHeadShape {
   split?: boolean;
   percent?: boolean;
   hidden?: boolean;
+  hiddenSelf?: boolean;
+  forceHaveBorder?: boolean;
 }
 
 export type TableHeadShape = TableSingleHeadShape[];

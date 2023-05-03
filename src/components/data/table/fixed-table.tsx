@@ -88,6 +88,7 @@ function FixedTable(props: FixedTableProps) {
           {headGroups?.map((headGroup, i) => (
             <TableCell
               key={i}
+              rowSpan={headGroup.rowspan || 1}
               sx={{
                 borderRight: 1,
                 borderColor: grey[borderColor],
@@ -108,7 +109,7 @@ function FixedTable(props: FixedTableProps) {
       <TableRow>
         {visibleHeads.map(
           (head, i) =>
-            !head.hidden && (
+            !head.hiddenSelf && (
               <TableCell
                 key={i}
                 sx={{
@@ -118,7 +119,8 @@ function FixedTable(props: FixedTableProps) {
                   top: headGroups ? headGroupHright : 0,
                   whiteSpace: "nowrap",
                   "&:last-child": {
-                    borderRight: 0,
+                    borderRight: head.forceHaveBorder ? 1 : 0,
+                    borderColor: grey[borderColor],
                   },
                   p: 1,
                 }}

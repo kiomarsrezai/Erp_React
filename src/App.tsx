@@ -12,7 +12,6 @@ import "config/yup-config.ts";
 import "assets/styles/font.css";
 import "assets/styles/global.css";
 import "react-medium-image-zoom/dist/styles.css";
-import AhadisProvider from "components/layout/ahadis-provider";
 
 // react query client
 const queryClient = new QueryClient({
@@ -40,9 +39,7 @@ function App() {
             classes={{ containerRoot: "z-alert" }}
           >
             <CssBaseline />
-            <AhadisProvider>
-              <RouterProvider router={router} />
-            </AhadisProvider>
+            <RouterProvider router={router} />
           </SnackbarProvider>
         </RightToLeft>
       </ThemeProvider>

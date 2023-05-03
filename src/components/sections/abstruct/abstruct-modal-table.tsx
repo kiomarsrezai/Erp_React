@@ -40,12 +40,16 @@ function AbstructModalTable(props: AbstructModalTableProps) {
   // table heads
   const tableHeadGroups: TableHeadGroupShape = [
     {
-      title: "",
+      title: "ردیف",
       colspan: 1,
+      rowspan: 2,
+      align: "center",
     },
     {
-      title: "",
+      title: "عنوان",
       colspan: 1,
+      rowspan: 2,
+      align: "center",
     },
     {
       title: "هزینه ای",
@@ -58,12 +62,16 @@ function AbstructModalTable(props: AbstructModalTableProps) {
       align: "center",
     },
     {
-      title: "",
+      title: "جذب کل %",
       colspan: 1,
+      rowspan: 2,
+      align: "center",
     },
     {
-      title: "",
+      title: "عملیات",
       colspan: 1,
+      rowspan: 2,
+      align: "center",
     },
   ];
 
@@ -71,11 +79,13 @@ function AbstructModalTable(props: AbstructModalTableProps) {
     {
       title: "ردیف",
       name: "number",
+      hiddenSelf: true,
     },
     {
       title: "عنوان",
       name: "title",
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "مصوب",
@@ -108,16 +118,19 @@ function AbstructModalTable(props: AbstructModalTableProps) {
     {
       title: "جذب %",
       name: "jazbSarmaie",
+      forceHaveBorder: true,
       percent: true,
     },
     {
       title: "جذب کل %",
       name: "jazbKol",
       percent: true,
+      hiddenSelf: true,
     },
     {
       title: "عملیات",
       name: "actions",
+      hiddenSelf: true,
     },
   ];
 
