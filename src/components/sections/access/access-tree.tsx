@@ -7,7 +7,6 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import grey from "@mui/material/colors/grey";
-import usePermissions from "hooks/permissions-hook";
 import Box from "@mui/material/Box";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -17,29 +16,27 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import defaultProfileImg from "assets/images/default-profile.png";
+import WindowLoading from "components/ui/loading/window-loading";
 import PlaylistRemoveIcon from "@mui/icons-material/PlaylistRemove";
 
 import { AccessItemShape } from "types/access-type";
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent } from "react";
 import { useState } from "react";
 import { UserItemShape } from "types/data/auth/users-type";
 import { useMutation } from "@tanstack/react-query";
 import { AuthApi } from "api/auth/auth-api";
 import { saveLicenseConfig } from "config/features/auth/auth-config";
-import WindowLoading from "components/ui/loading/window-loading";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
-import BoxLoading from "components/ui/loading/box-loading";
 
 interface AccessTreeProps {
   user?: UserItemShape;
   onCancel: () => void;
+  permissionsListdata: any;
 }
 
 function AccessTree(props: AccessTreeProps) {
-  const { user, onCancel } = props;
-
-  const { loading, data: permissionsListdata } = usePermissions();
+  const { user, onCancel, permissionsListdata } = props;
 
   const formatConfigsNode = (
     data: AccessItemShape,
@@ -69,10 +66,6 @@ function AccessTree(props: AccessTreeProps) {
   };
 
   const [formData, setFormData] = useState(formatConfigs(permissionsListdata));
-  useEffect(() => {
-    // setFormData(formatConfigs(permissionsListdata));
-    console.log("changed");
-  }, [permissionsListdata]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const name = event.target.name;
@@ -101,7 +94,6 @@ function AccessTree(props: AccessTreeProps) {
     items.forEach((item: any) => {
       changed[`${name}.${item.name}`] = check;
     });
-    console.log(changed);
 
     setFormData((state: any) => ({
       ...state,
@@ -218,11 +210,6 @@ function AccessTree(props: AccessTreeProps) {
       </CardContent>
     </Card>
   );
-
-  //   loading
-  if (loading) {
-    return <BoxLoading />;
-  }
 
   return (
     <>

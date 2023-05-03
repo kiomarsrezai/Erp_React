@@ -9,12 +9,12 @@ import IconButton from "@mui/material/IconButton";
 import grey from "@mui/material/colors/grey";
 import CheckIcon from "@mui/icons-material/Check";
 import defaultProfileImg from "assets/images/default-profile.png";
+import BoxLoading from "components/ui/loading/box-loading";
 
 import { useMutation } from "@tanstack/react-query";
 import { AuthApi } from "api/auth/auth-api";
 import { useEffect, useState } from "react";
 import { UserItemShape } from "types/data/auth/users-type";
-import BoxLoading from "components/ui/loading/box-loading";
 
 interface SelectUserProps {
   onSelectUser: (user: UserItemShape) => void;
@@ -51,6 +51,7 @@ function SelectUser(props: SelectUserProps) {
             usersMutation.data?.data.map((user, i) => (
               <Card
                 sx={{ bgcolor: grey[200], "&:hover": { bgcolor: grey[300] } }}
+                key={i}
               >
                 <CardContent sx={{ padding: "16px !important" }}>
                   <Box
