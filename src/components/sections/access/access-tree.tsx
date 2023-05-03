@@ -2,9 +2,7 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import grey from "@mui/material/colors/grey";
 import Box from "@mui/material/Box";
@@ -17,7 +15,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import defaultProfileImg from "assets/images/default-profile.png";
 import WindowLoading from "components/ui/loading/window-loading";
-import PlaylistRemoveIcon from "@mui/icons-material/PlaylistRemove";
+import AccessTreeControlCheckboxes from "./access-tree-control-checkboxes";
 
 import { AccessItemShape } from "types/access-type";
 import { ChangeEvent } from "react";
@@ -87,20 +85,9 @@ function AccessTree(props: AccessTreeProps) {
     }
   };
 
-  //   render
-  const changeFieldsChecked = (name: string, items: any[], check: boolean) => {
-    let changed: any = {};
+  // render
 
-    items.forEach((item: any) => {
-      changed[`${name}.${item.name}`] = check;
-    });
-
-    setFormData((state: any) => ({
-      ...state,
-      ...changed,
-    }));
-  };
-  const renderItem = (item: any, name: string) => (
+  const renderItem = (item: AccessItemShape, name: string) => (
     <Stack spacing={1} direction="column" key={name}>
       <Box display="flex" gap={1} alignItems="center">
         <FormControlLabel
@@ -113,26 +100,12 @@ function AccessTree(props: AccessTreeProps) {
           }
           label={<Typography variant="body2">{item.label}</Typography>}
         />
-        {item.isField && (
-          <Box
-            display="flex"
-            gap={1}
-            alignItems="center"
-            sx={{ bgcolor: "grey.200", borderRadius: 2 }}
-          >
-            <IconButton
-              size="small"
-              onClick={() => changeFieldsChecked(name, item.value, true)}
-            >
-              <PlaylistAddCheckIcon />
-            </IconButton>
-            <IconButton
-              size="small"
-              onClick={() => changeFieldsChecked(name, item.value, false)}
-            >
-              <PlaylistRemoveIcon />
-            </IconButton>
-          </Box>
+        {item.value && name.split(".").length > 1 && (
+          <AccessTreeControlCheckboxes
+            items={item.value}
+            name={name}
+            setFormData={setFormData}
+          />
         )}
       </Box>
       {item.value?.map((subItem: any, i: number) => (
@@ -238,7 +211,16 @@ function AccessTree(props: AccessTreeProps) {
                   }}
                   expandIcon={<ExpandMoreIcon />}
                 >
-                  <Typography>فرم {item.label}</Typography>
+                  <Box display="flex" alignItems="center" gap={2}>
+                    <AccessTreeControlCheckboxes
+                      items={item.value}
+                      name={item.name}
+                      setFormData={setFormData}
+                      color="grey.300"
+                    />
+
+                    <Typography>فرم {item.label}</Typography>
+                  </Box>
                 </AccordionSummary>
                 <AccordionDetails sx={{ m: 2 }}>
                   {renderItem(item, item.name as string)}

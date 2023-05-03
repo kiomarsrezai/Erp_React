@@ -20,7 +20,6 @@ function usePermissions() {
     return {
       label,
       name,
-      isField: true,
       value: values.map((item) => ({
         label: item[labelFieldName],
         name: item.id,
@@ -32,7 +31,6 @@ function usePermissions() {
     return {
       label,
       name,
-      isField: true,
       value: values.map((item) => ({
         label: item.label,
         name: item.value,
