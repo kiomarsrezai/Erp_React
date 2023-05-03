@@ -29,7 +29,9 @@ function AccessTreeFormBadge(props: AccessTreeFormBadgeProps) {
           `${subName}.${item.name}`,
           item.value,
           checker
-        );
+        )
+          ? itsOkay
+          : false;
       }
     });
 
@@ -49,7 +51,9 @@ function AccessTreeFormBadge(props: AccessTreeFormBadgeProps) {
           `${name}.${item.name}`,
           item.value,
           checker
-        );
+        )
+          ? itsOkay
+          : false;
       }
     });
 

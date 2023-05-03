@@ -66,7 +66,30 @@ function AccessTree(props: AccessTreeProps) {
 
   const [formData, setFormData] = useState(formatConfigs(permissionsListdata));
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const changeChildrenFieldsToUnChecked = (
+    name: string | number,
+    items: AccessItemShape[]
+  ) => {
+    let changed: any = {};
+
+    items.forEach((item) => {
+      changed[`${name}.${item.name}`] = false;
+      if (item.value) {
+        const sonChanged = changeChildrenFieldsToUnChecked(
+          `${name}.${item.name}`,
+          item.value
+        );
+        changed = { ...changed, ...sonChanged };
+      }
+    });
+
+    return changed;
+  };
+
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement>,
+    items: AccessItemShape[]
+  ) => {
     const name = event.target.name;
     const value = event.target.checked;
 
@@ -82,7 +105,12 @@ function AccessTree(props: AccessTreeProps) {
 
       setFormData((prevSatte: any) => ({ ...prevSatte, ...shouldTurnedItems }));
     } else {
-      setFormData((prevSatte: any) => ({ ...prevSatte, [name]: value }));
+      const changed = changeChildrenFieldsToUnChecked(name, items);
+      setFormData((prevSatte: any) => ({
+        ...prevSatte,
+        ...changed,
+        [name]: value,
+      }));
     }
   };
 
@@ -95,7 +123,7 @@ function AccessTree(props: AccessTreeProps) {
             <Checkbox
               name={name}
               checked={formData[name]}
-              onChange={handleChange}
+              onChange={(e) => handleChange(e, item.value || [])}
             />
           }
           label={<Typography variant="body2">{item.label}</Typography>}
