@@ -12,10 +12,11 @@ interface AreaInputProps {
   setter: (prevData: any) => void;
   value: number;
   permissionForm?: string;
+  disabled?: boolean;
 }
 
 function AreaInput(props: AreaInputProps) {
-  const { setter, value, permissionForm } = props;
+  const { setter, value, permissionForm, disabled } = props;
 
   const userLicenses = userStore((state) => state.permissions);
 
@@ -54,6 +55,7 @@ function AreaInput(props: AreaInputProps) {
       items={inputItems}
       value={value}
       setter={setter}
+      disabled={disabled}
     />
   );
 }

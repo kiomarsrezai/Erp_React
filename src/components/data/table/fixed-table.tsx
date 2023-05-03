@@ -95,6 +95,7 @@ function FixedTable(props: FixedTableProps) {
                 "&:last-child": {
                   borderRight: 0,
                 },
+                p: 1,
               }}
               align={headGroup.align || "left"}
               colSpan={headGroup.colspan}
@@ -119,6 +120,7 @@ function FixedTable(props: FixedTableProps) {
                   "&:last-child": {
                     borderRight: 0,
                   },
+                  p: 1,
                 }}
                 align="center"
               >
@@ -168,6 +170,7 @@ function FixedTable(props: FixedTableProps) {
               top: headGroups ? headGroupHright : 0,
               fontWeight: 500,
               whiteSpace: "nowrap",
+              p: 1,
               color: "#000",
               "&:last-child": {
                 borderRight: 0,

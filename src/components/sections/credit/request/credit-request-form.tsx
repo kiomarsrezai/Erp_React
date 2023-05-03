@@ -3,35 +3,25 @@ import Grid from "@mui/material/Unstable_Grid2";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import Button from "@mui/material/Button";
-import ButtonGroup from "@mui/material/ButtonGroup";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
-import SendIcon from "@mui/icons-material/Send";
 import InputAdornment from "@mui/material/InputAdornment";
-import ClearIcon from "@mui/icons-material/Clear";
-import AddIcon from "@mui/icons-material/Add";
-import CheckIcon from "@mui/icons-material/Check";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import CreidtRequestFormTableTpye from "./crdit-request-form-table-type";
 import YearInput from "components/sections/inputs/year-input";
 import AreaInput from "components/sections/inputs/area-input";
 import FixedModal from "components/ui/modal/fixed-modal";
 import SelectUser from "components/sections/select-user";
 import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
-import ProjectMettingsModal from "./credit-search-request-modal";
-
-import { grey } from "@mui/material/colors";
-import { ChangeEvent, useState } from "react";
-import { FlotingLabelTextfieldItemsShape } from "types/input-type";
-import { creditRequestApi } from "api/credit/credit-request-api";
-import { useMutation } from "@tanstack/react-query";
-import { creditRequestConfig } from "config/features/credit/credit-request-config";
+import Paper from "@mui/material/Paper";
 import userStore from "hooks/store/user-store";
-import { enqueueSnackbar } from "notistack";
-import { globalConfig } from "config/global-config";
-import WindowLoading from "components/ui/loading/window-loading";
+
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { FlotingLabelTextfieldItemsShape } from "types/input-type";
+
+import { creditRequestConfig } from "config/features/credit/credit-request-config";
+import CreditRequestFormControlsButtons from "./credit-request-form-controls-buttons";
 
 interface CreditRequestFormProps {
   formData: any;
@@ -89,6 +79,8 @@ function CreditRequestForm(props: CreditRequestFormProps) {
     }));
   };
 
+  const userState = userStore();
+
   // const handleSelectChange = (e: SelectChangeEvent) => {
   //   const name = e.target.name;
   //   const value = e.target.value;
@@ -102,117 +94,42 @@ function CreditRequestForm(props: CreditRequestFormProps) {
   //   select user modal
   const [isOpenSelectUserModal, setIsOpenSelectUserModal] = useState(false);
 
-  //   select request modal
-  const [isOpenSelectRequestModal, setIsOpenSelectRequestModal] =
-    useState(false);
-
-  // create request
-  const createRequestMutation = useMutation(creditRequestApi.createRequest, {
-    onSuccess(data) {
-      setFormData((state: any) => ({
-        ...state,
-        [creditRequestConfig.request_date]: data.data.dateS,
-        [creditRequestConfig.request_number]: data.data.number,
-      }));
-
-      setFirstStepCrossed(true);
-
-      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
-        variant: "success",
-      });
-    },
-    onError() {
-      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
-        variant: "error",
-      });
-    },
-  });
-
-  const userState = userStore();
-
-  const handleCreateRequest = () => {
-    createRequestMutation.mutate({
-      ...formData,
-      [creditRequestConfig.user_id]: userState.id,
-    });
-  };
-
-  // control buttons
-  const controlButtons = (
-    <Grid xs={3} xl={2}>
-      <ButtonGroup fullWidth sx={{ height: 1 }}>
-        <Button
-          sx={{
-            borderColor: grey[400],
-            color: grey[700],
-            "&:hover": { borderColor: grey[400] },
-          }}
-          onClick={handleCreateRequest}
-        >
-          <AddIcon />
-        </Button>
-        <Button
-          sx={{
-            borderColor: grey[400],
-            color: grey[700],
-            "&:hover": { borderColor: grey[400] },
-          }}
-        >
-          <CheckIcon />
-        </Button>
-
-        <Button
-          sx={{
-            borderColor: grey[400],
-            color: grey[700],
-            "&:hover": { borderColor: grey[400] },
-          }}
-        >
-          <ClearIcon />
-        </Button>
-        <Button
-          sx={{
-            borderColor: grey[400],
-            color: grey[700],
-            "&:hover": { borderColor: grey[400] },
-          }}
-          onClick={() => setIsOpenSelectRequestModal(true)}
-        >
-          <SearchIcon />
-        </Button>
-        <Button
-          sx={{
-            borderColor: grey[400],
-            color: grey[700],
-            "&:hover": { borderColor: grey[400] },
-          }}
-        >
-          <SendIcon />
-        </Button>
-      </ButtonGroup>
-    </Grid>
-  );
+  // ui
+  const controlFormRef = useRef<HTMLDivElement>(null);
+  const [paperHeight, setPaperHeight] = useState("0px");
+  useEffect(() => {
+    setPaperHeight(`${(controlFormRef.current?.clientHeight || 0) - 16}px`);
+  }, [controlFormRef, formData[creditRequestConfig.doing_method]]);
 
   return (
     <>
       <Box>
-        <Grid container rowSpacing={2} columnSpacing={1}>
-          {controlButtons}
-          <Grid xs={3} xl={2}></Grid>
-
-          <Grid xs={3} xl={2}>
-            <FlotingLabelSelect
-              items={requestTypeItems}
-              label="نوع درخواست"
-              name={creditRequestConfig.request_type}
-              value={formData[creditRequestConfig.request_type]}
-              setter={setFormData}
-            />
-          </Grid>
-        </Grid>
-        <Grid container rowSpacing={2} columnSpacing={1}>
-          <Grid xs={6} xl={4}>
+        <Grid container rowSpacing={2} columnSpacing={1} alignItems="start">
+          <Grid xs={6} xl={4} ref={controlFormRef}>
             <Grid container rowSpacing={2} columnSpacing={1}>
+              <Grid xs={12} xl={6}>
+                <CreditRequestFormControlsButtons
+                  formData={formData}
+                  setFormData={setFormData}
+                  firstStepCrossed={firstStepCrossed}
+                  setFirstStepCrossed={setFirstStepCrossed}
+                />
+              </Grid>
+
+              <Grid xs={12} xl={6}>
+                <FlotingLabelSelect
+                  items={requestTypeItems}
+                  label="نوع درخواست"
+                  name={creditRequestConfig.request_type}
+                  value={
+                    firstStepCrossed &&
+                    formData[creditRequestConfig.request_type]
+                  }
+                  disabled={!firstStepCrossed}
+                  setter={setFormData}
+                />
+              </Grid>
+
               <Grid xs={12} xl={6}>
                 <FormControl fullWidth>
                   <InputLabel id="witch-organ-label">
@@ -246,12 +163,14 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                 <YearInput
                   setter={setFormData}
                   value={formData[creditRequestConfig.year]}
+                  disabled={firstStepCrossed}
                 />
               </Grid>
               <Grid xs={12} xl={6}>
                 <AreaInput
                   setter={setFormData}
                   value={formData[creditRequestConfig.area]}
+                  disabled={firstStepCrossed}
                 />
               </Grid>
               <Grid xs={12} xl={6}>
@@ -342,26 +261,36 @@ function CreditRequestForm(props: CreditRequestFormProps) {
             </Grid>
           </Grid>
           <Grid xs={6} xl={8}>
-            <Grid container rowSpacing={2} columnSpacing={1}>
-              {formData[creditRequestConfig.request_type] === 1 && (
-                <Grid xs={12}>
-                  <TextField
-                    id="description-request-input"
-                    label="شرح درخواست"
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    value=""
-                  />
-                </Grid>
-              )}
+            <Paper
+              sx={{
+                width: "100%",
+                height: paperHeight,
+                overflow: "auto",
+                bgcolor: "grey.50",
+              }}
+              elevation={0}
+            >
+              {formData[creditRequestConfig.request_type] === 1 &&
+                firstStepCrossed && (
+                  <Grid xs={12}>
+                    <TextField
+                      id="description-request-input"
+                      label="شرح درخواست"
+                      variant="outlined"
+                      size="small"
+                      fullWidth
+                      value=""
+                    />
+                  </Grid>
+                )}
 
-              {formData[creditRequestConfig.request_type] === 2 && (
-                <Grid xs={12}>
-                  <CreidtRequestFormTableTpye />
-                </Grid>
-              )}
-            </Grid>
+              {formData[creditRequestConfig.request_type] === 2 &&
+                firstStepCrossed && (
+                  <Grid xs={12}>
+                    <CreidtRequestFormTableTpye />
+                  </Grid>
+                )}
+            </Paper>
           </Grid>
         </Grid>
 
@@ -375,19 +304,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
             <SelectUser onSelectUser={() => {}} />
           </Box>
         </FixedModal>
-
-        {/* select request modal */}
-        <FixedModal
-          open={isOpenSelectRequestModal}
-          handleClose={() => setIsOpenSelectRequestModal(false)}
-          title="انتخاب درخواست"
-        >
-          <ProjectMettingsModal />
-        </FixedModal>
       </Box>
-
-      {/* loading */}
-      <WindowLoading active={createRequestMutation.isLoading} />
     </>
   );
 }
