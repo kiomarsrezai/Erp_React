@@ -8,6 +8,7 @@ import CreditRequestForm from "components/sections/credit/request/credit-request
 import { useState } from "react";
 import CreditRequestConfrimUsersTable from "components/sections/credit/request/credit-request-confrim-users-table";
 import CreditRequestBudgetRowTable from "components/sections/credit/request/credit-request-budget-row-table";
+import { creditRequestConfig } from "config/features/credit/credit-request-config";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -32,9 +33,17 @@ function TabPanel(props: TabPanelProps) {
 function RequestCreditPage() {
   // forms
   const [formData, setFormData] = useState({
-    doingMethod: 1,
-    requestType: 1,
+    [creditRequestConfig.doing_method]: 1,
+    [creditRequestConfig.request_type]: 1,
+    [creditRequestConfig.request_date]: "",
+    [creditRequestConfig.request_number]: "",
+    [creditRequestConfig.year]: 32,
+    [creditRequestConfig.area]: 1,
+    [creditRequestConfig.execute_departman_id]: 1,
+    [creditRequestConfig.approximate_price]: "",
   });
+
+  const [firstStepCrossed, setFirstStepCrossed] = useState(false);
 
   // tabs
   const [tabValue, setTabValue] = useState(0);
@@ -46,7 +55,12 @@ function RequestCreditPage() {
   return (
     <AdminLayout>
       <Box padding={4}>
-        <CreditRequestForm formData={formData} setFormData={setFormData} />
+        <CreditRequestForm
+          formData={formData}
+          setFormData={setFormData}
+          firstStepCrossed={firstStepCrossed}
+          setFirstStepCrossed={setFirstStepCrossed}
+        />
 
         {/* tabs */}
         <Box sx={{ borderBottom: 1, borderColor: "divider", mt: 3 }}>
@@ -55,12 +69,16 @@ function RequestCreditPage() {
             <Tab label="ردیف های بودجه" />
           </Tabs>
         </Box>
-        <TabPanel value={tabValue} index={0}>
-          <CreditRequestConfrimUsersTable />
-        </TabPanel>
-        <TabPanel value={tabValue} index={1}>
-          <CreditRequestBudgetRowTable />
-        </TabPanel>
+        {firstStepCrossed && (
+          <>
+            <TabPanel value={tabValue} index={0}>
+              <CreditRequestConfrimUsersTable />
+            </TabPanel>
+            <TabPanel value={tabValue} index={1}>
+              <CreditRequestBudgetRowTable />
+            </TabPanel>
+          </>
+        )}
       </Box>
     </AdminLayout>
   );

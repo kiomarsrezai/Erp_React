@@ -11,10 +11,11 @@ interface FlotingLabelTextfieldProps {
   items: FlotingLabelTextfieldItemsShape;
   value: string | number | boolean;
   setter: (data: any) => void;
+  disabled?: boolean;
 }
 
 function FlotingLabelSelect(props: FlotingLabelTextfieldProps) {
-  const { label, name, items, value, setter } = props;
+  const { label, name, items, value, setter, disabled } = props;
 
   const handleChange = (event: SelectChangeEvent) => {
     const value = event.target.value;
@@ -34,10 +35,11 @@ function FlotingLabelSelect(props: FlotingLabelTextfieldProps) {
       <Select
         labelId={`${name}-floting-select-label`}
         id={`${name}-floting-select-input`}
-        value={value.toString()}
+        value={value?.toString()}
         label={label}
         onChange={handleChange}
         MenuProps={{ PaperProps: { sx: { maxHeight: 350 } } }}
+        disabled={!!disabled}
       >
         {renderItems}
       </Select>

@@ -13,7 +13,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import ClearIcon from "@mui/icons-material/Clear";
 import AddIcon from "@mui/icons-material/Add";
 import CheckIcon from "@mui/icons-material/Check";
-import Select from "@mui/material/Select";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import CreidtRequestFormTableTpye from "./crdit-request-form-table-type";
 import YearInput from "components/sections/inputs/year-input";
 import AreaInput from "components/sections/inputs/area-input";
@@ -23,17 +23,28 @@ import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
 import ProjectMettingsModal from "./credit-search-request-modal";
 
 import { grey } from "@mui/material/colors";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
+import { creditRequestApi } from "api/credit/credit-request-api";
+import { useMutation } from "@tanstack/react-query";
+import { creditRequestConfig } from "config/features/credit/credit-request-config";
+import userStore from "hooks/store/user-store";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
+import WindowLoading from "components/ui/loading/window-loading";
 
 interface CreditRequestFormProps {
   formData: any;
   setFormData: (state: any) => void;
+  firstStepCrossed: boolean;
+  setFirstStepCrossed: (state: boolean) => void;
 }
 
 function CreditRequestForm(props: CreditRequestFormProps) {
-  const { formData, setFormData } = props;
+  const { formData, setFormData, firstStepCrossed, setFirstStepCrossed } =
+    props;
 
+  // form
   const requestTypeItems: FlotingLabelTextfieldItemsShape = [
     {
       label: "ساده",
@@ -68,6 +79,26 @@ function CreditRequestForm(props: CreditRequestFormProps) {
     },
   ];
 
+  const handleChangeTextFields = (e: ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    setFormData((state: any) => ({
+      ...state,
+      [name]: value,
+    }));
+  };
+
+  // const handleSelectChange = (e: SelectChangeEvent) => {
+  //   const name = e.target.name;
+  //   const value = e.target.value;
+
+  //   setFormData((state: any) => ({
+  //     ...state,
+  //     [name]: value,
+  //   }));
+  // };
+
   //   select user modal
   const [isOpenSelectUserModal, setIsOpenSelectUserModal] = useState(false);
 
@@ -75,6 +106,38 @@ function CreditRequestForm(props: CreditRequestFormProps) {
   const [isOpenSelectRequestModal, setIsOpenSelectRequestModal] =
     useState(false);
 
+  // create request
+  const createRequestMutation = useMutation(creditRequestApi.createRequest, {
+    onSuccess(data) {
+      setFormData((state: any) => ({
+        ...state,
+        [creditRequestConfig.request_date]: data.data.dateS,
+        [creditRequestConfig.request_number]: data.data.number,
+      }));
+
+      setFirstStepCrossed(true);
+
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+    },
+    onError() {
+      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+        variant: "error",
+      });
+    },
+  });
+
+  const userState = userStore();
+
+  const handleCreateRequest = () => {
+    createRequestMutation.mutate({
+      ...formData,
+      [creditRequestConfig.user_id]: userState.id,
+    });
+  };
+
+  // control buttons
   const controlButtons = (
     <Grid xs={3} xl={2}>
       <ButtonGroup fullWidth sx={{ height: 1 }}>
@@ -84,6 +147,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
             color: grey[700],
             "&:hover": { borderColor: grey[400] },
           }}
+          onClick={handleCreateRequest}
         >
           <AddIcon />
         </Button>
@@ -140,8 +204,8 @@ function CreditRequestForm(props: CreditRequestFormProps) {
             <FlotingLabelSelect
               items={requestTypeItems}
               label="نوع درخواست"
-              name="requestType"
-              value={formData.requestType}
+              name={creditRequestConfig.request_type}
+              value={formData[creditRequestConfig.request_type]}
               setter={setFormData}
             />
           </Grid>
@@ -157,12 +221,12 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   <Select
                     labelId="witch-organ-label"
                     id="witch-organ-input"
-                    value={20}
+                    value={formData[creditRequestConfig.execute_departman_id]}
                     size="small"
                     label="واحد درخواست کننده"
                   >
-                    <MenuItem value={10}>واحد فلان</MenuItem>
-                    <MenuItem value={20}>واحد بهمان</MenuItem>
+                    <MenuItem value={1}>واحد فلان</MenuItem>
+                    <MenuItem value={2}>واحد بهمان</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
@@ -174,22 +238,30 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   variant="outlined"
                   fullWidth
                   size="small"
-                  value="پت و مت"
+                  value={`${userState.firstName} ${userState.lastName}`}
+                  disabled
                 />
               </Grid>
               <Grid xs={12} xl={6}>
-                <YearInput setter={() => {}} value={32} />
+                <YearInput
+                  setter={setFormData}
+                  value={formData[creditRequestConfig.year]}
+                />
               </Grid>
               <Grid xs={12} xl={6}>
-                <AreaInput setter={() => {}} value={1} />
+                <AreaInput
+                  setter={setFormData}
+                  value={formData[creditRequestConfig.area]}
+                />
               </Grid>
               <Grid xs={12} xl={6}>
                 <TextField
                   id="request-number-input"
                   label="شماره درخواست"
                   variant="outlined"
-                  value="384756"
+                  value={formData[creditRequestConfig.request_number]}
                   size="small"
+                  disabled
                   fullWidth
                 />
               </Grid>
@@ -199,7 +271,8 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   label="تاریخ"
                   variant="outlined"
                   size="small"
-                  value="1400/03/04"
+                  value={formData[creditRequestConfig.request_date]}
+                  disabled
                   fullWidth
                 />
               </Grid>
@@ -209,17 +282,24 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   label="براورد مبلغ"
                   variant="outlined"
                   size="small"
+                  value={formData[creditRequestConfig.approximate_price]}
+                  name={creditRequestConfig.approximate_price}
+                  onChange={handleChangeTextFields}
+                  disabled={!firstStepCrossed}
                   fullWidth
-                  value="235432"
                 />
               </Grid>
               <Grid xs={12} xl={6}>
                 <FlotingLabelSelect
                   items={doingMethodItems}
-                  label="شیوره انجام"
-                  name="doingMethod"
-                  value={formData.doingMethod}
+                  label="شیوه انجام"
+                  name={creditRequestConfig.doing_method}
+                  value={
+                    firstStepCrossed &&
+                    formData[creditRequestConfig.doing_method]
+                  }
                   setter={setFormData}
+                  disabled={!firstStepCrossed}
                 />
               </Grid>
               {formData.doingMethod === 5 && (
@@ -229,8 +309,9 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                       id="person-tark-tashrifat-input"
                       label="پیمانکار"
                       variant="outlined"
-                      value="235432"
+                      value=""
                       size="small"
+                      disabled
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
@@ -251,7 +332,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                       id="why-tark-tashrifat-input"
                       label="دلیل ترک تشریفات"
                       variant="outlined"
-                      value="235432"
+                      value=""
                       size="small"
                       fullWidth
                     />
@@ -262,7 +343,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
           </Grid>
           <Grid xs={6} xl={8}>
             <Grid container rowSpacing={2} columnSpacing={1}>
-              {formData.requestType === 1 && (
+              {formData[creditRequestConfig.request_type] === 1 && (
                 <Grid xs={12}>
                   <TextField
                     id="description-request-input"
@@ -270,12 +351,12 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                     variant="outlined"
                     size="small"
                     fullWidth
-                    value="235432"
+                    value=""
                   />
                 </Grid>
               )}
 
-              {formData.requestType === 2 && (
+              {formData[creditRequestConfig.request_type] === 2 && (
                 <Grid xs={12}>
                   <CreidtRequestFormTableTpye />
                 </Grid>
@@ -304,6 +385,9 @@ function CreditRequestForm(props: CreditRequestFormProps) {
           <ProjectMettingsModal />
         </FixedModal>
       </Box>
+
+      {/* loading */}
+      <WindowLoading active={createRequestMutation.isLoading} />
     </>
   );
 }
