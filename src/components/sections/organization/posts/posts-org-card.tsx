@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
 import GroupSharpIcon from "@mui/icons-material/GroupSharp";
 import FixedModal from "components/ui/modal/fixed-modal";
 import OrganizationPostsOrgUserListModal from "./org-users-list-modal";
@@ -19,6 +20,9 @@ import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import { orgPostsApi } from "api/organizition/posts-otg-api";
 import { orgPostsConfig } from "config/features/orginization/posts-config";
+import WindowLoading from "components/ui/loading/window-loading";
+import ProjectOrgEditModal from "components/sections/project/project-org-edit-modal";
+import PostsOrgEditModal from "./posts-org-edit-modal";
 
 interface OrganizationPostsOrgCardProps {
   title: string;
@@ -118,8 +122,34 @@ function OrganizationPostsOrgCard(props: OrganizationPostsOrgCardProps) {
     drag.changeItem(itemData);
 
     if (drag.canDrag(drag.id || 0, id)) {
+      updateMutation.mutate({
+        ...drag.item,
+        [orgPostsConfig.ID]: drag.id,
+        [orgPostsConfig.parent_ID]: id,
+      });
     }
   };
+
+  // update modal
+  const [isOpenUpdateModal, setIsOpenUpdateModal] = useState(false);
+  const handleDoneTaskEditModal = () => {
+    getDataMutation.mutate(area);
+    setIsOpenUpdateModal(false);
+  };
+
+  const updateMutation = useMutation(orgPostsApi.updateProject, {
+    onSuccess: () => {
+      handleDoneTaskEditModal();
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+    },
+    onError: () => {
+      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+        variant: "error",
+      });
+    },
+  });
 
   // user list modal
   const [isOpenUserListModal, setIsOpenUserListModal] = useState(false);
@@ -150,6 +180,14 @@ function OrganizationPostsOrgCard(props: OrganizationPostsOrgCardProps) {
           <CardActions>
             <IconButton size="small" color="primary" onClick={handleAddClick}>
               <AddIcon />
+            </IconButton>
+
+            <IconButton
+              size="small"
+              color="primary"
+              onClick={() => setIsOpenUpdateModal(true)}
+            >
+              <EditIcon />
             </IconButton>
 
             <IconButton
@@ -189,6 +227,27 @@ function OrganizationPostsOrgCard(props: OrganizationPostsOrgCardProps) {
       >
         <OrganizationPostsOrgUserListModal title={title} />
       </FixedModal>
+
+      {/* update data */}
+      <FixedModal
+        handleClose={() => setIsOpenUpdateModal(false)}
+        open={isOpenUpdateModal}
+        title="ویرایش سمت"
+      >
+        <PostsOrgEditModal
+          onDoneTask={handleDoneTaskEditModal}
+          itemData={itemData}
+        />
+      </FixedModal>
+
+      {/* loading */}
+      <WindowLoading
+        active={
+          insertMutation.isLoading ||
+          deleteMutation.isLoading ||
+          getDataMutation.isLoading
+        }
+      />
     </>
   );
 }

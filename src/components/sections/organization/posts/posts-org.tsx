@@ -1,14 +1,15 @@
 import FixedOrg from "components/data/org/fixed-org";
-import OrganizationPostsOrgCard from "./org-card";
+import OrganizationPostsOrgCard from "./posts-org-card";
 import { GetSingleOrgPostItemShape } from "types/orginization/posts-org-type";
 
 interface OrganizationPostsProps {
   data: GetSingleOrgPostItemShape[];
   area: number;
+  onBack: () => void;
 }
 
 function OrganizationPosts(props: OrganizationPostsProps) {
-  const { data, area } = props;
+  const { data, area, onBack } = props;
 
   const orgRender = (item: any, otherProps: any) => (
     <OrganizationPostsOrgCard
@@ -21,7 +22,7 @@ function OrganizationPosts(props: OrganizationPostsProps) {
     />
   );
 
-  return <FixedOrg data={data} render={orgRender} />;
+  return <FixedOrg data={data} render={orgRender} onBack={onBack} />;
 }
 
 export default OrganizationPosts;

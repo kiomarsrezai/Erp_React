@@ -3,18 +3,20 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import OrganizationPosts from "components/sections/organization/posts/posts-org";
 import AreaInput from "components/sections/inputs/area-input";
+import BoxLoading from "components/ui/loading/box-loading";
 
 import { useState } from "react";
 import { orgPostsConfig } from "config/features/orginization/posts-config";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { orgPostsApi } from "api/organizition/posts-otg-api";
-import BoxLoading from "components/ui/loading/box-loading";
 import { reactQueryKeys } from "config/react-query-keys-config";
 
 function PostsOrganzationPage() {
   const [formdata, setFormdata] = useState({
     [orgPostsConfig.area]: 0,
   });
+
+  const [isOpenSelectArea, setIsOpenSelectArea] = useState(true);
 
   const orgPostsQuery = useQuery(
     reactQueryKeys.orginization.posts.getPosts,
@@ -24,10 +26,24 @@ function PostsOrganzationPage() {
     }
   );
 
+  // add item
+  const insertMutation = useMutation(orgPostsApi.insertPost, {
+    onSuccess: () => {
+      handleDoneClick();
+    },
+  });
+
   const queryClient = useQueryClient();
 
   const getPostsMutation = useMutation(orgPostsApi.getPosts, {
     onSuccess: (data) => {
+      if (!data.data.length) {
+        insertMutation.mutate({
+          [orgPostsConfig.parent_ID]: null,
+          [orgPostsConfig.area]: formdata[orgPostsConfig.area],
+        });
+      }
+      setIsOpenSelectArea(false);
       queryClient.setQueryData(
         reactQueryKeys.orginization.posts.getPosts,
         data
@@ -40,7 +56,7 @@ function PostsOrganzationPage() {
   };
 
   const renderSelectArea = () => {
-    if (getPostsMutation.isLoading) {
+    if (getPostsMutation.isLoading && insertMutation.isLoading) {
       return <BoxLoading />;
     }
 
@@ -56,10 +72,13 @@ function PostsOrganzationPage() {
 
   return (
     <AdminLayout>
-      {getPostsMutation.data && orgPostsQuery.data?.data ? (
+      {getPostsMutation.data &&
+      orgPostsQuery.data?.data &&
+      !isOpenSelectArea ? (
         <OrganizationPosts
           data={orgPostsQuery.data.data}
           area={formdata[orgPostsConfig.area]}
+          onBack={() => setIsOpenSelectArea(true)}
         />
       ) : (
         <>{renderSelectArea()}</>

@@ -25,18 +25,13 @@ export const orgPostsApi = new (class extends BaseApi {
     return response.data;
   };
 
-  //   updateProject = async (formdata: any) => {
-  //     const filterData = {
-  //       [orgProjectConfig.ID]: formdata[orgProjectConfig.ID],
-  //       [orgProjectConfig.title]: formdata[orgProjectConfig.title],
-  //       [orgProjectConfig.code]: formdata[orgProjectConfig.code],
-  //       [orgProjectConfig.parent_ID]: formdata[orgProjectConfig.parent_ID],
-  //     };
-
-  //     const url = UPDATE_ORG_PROJECT_URL + this.joinFilterData(filterData);
-  //     const response = await clientAxios.post<BaseApiResponseShape<boolean>>(url);
-  //     return response.data;
-  //   };
+  updateProject = async (formdata: any) => {
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      orgPostsURLS.updateItem,
+      formdata
+    );
+    return response.data;
+  };
 
   deletePost = async (id: number) => {
     const response = await clientAxios.post<BaseApiResponseShape<boolean>>(

@@ -1,6 +1,7 @@
 import Slider from "@mui/material/Slider";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import ZoomInIcon from "@mui/icons-material/ZoomIn";
 import ZoomOutIcon from "@mui/icons-material/ZoomOut";
@@ -10,9 +11,10 @@ import { blue } from "@mui/material/colors";
 interface ProjectOrgToolsProps {
   handleChangeZoom: (prevState: any) => void;
   zoom: number;
+  onBack?: () => void;
 }
 function ProjectOrgTools(props: ProjectOrgToolsProps) {
-  const { zoom, handleChangeZoom } = props;
+  const { zoom, handleChangeZoom, onBack } = props;
 
   const handleChangeZoomSlider = (
     event: Event,
@@ -45,22 +47,29 @@ function ProjectOrgTools(props: ProjectOrgToolsProps) {
         p: 1,
       }}
     >
-      <Stack spacing={0} direction="row" alignItems="center">
-        <IconButton size="small" color="primary" onClick={handleZoomClick}>
-          <ZoomInIcon />
-        </IconButton>
-        <Slider
-          size="small"
-          value={zoom}
-          onChange={handleChangeZoomSlider}
-          min={0.5}
-          max={1.5}
-          step={0.05}
-        />
+      <Stack spacing={1}>
+        <Stack spacing={0} direction="row" alignItems="center">
+          <IconButton size="small" color="primary" onClick={handleZoomClick}>
+            <ZoomInIcon />
+          </IconButton>
+          <Slider
+            size="small"
+            value={zoom}
+            onChange={handleChangeZoomSlider}
+            min={0.5}
+            max={1.5}
+            step={0.05}
+          />
 
-        <IconButton size="small" color="primary" onClick={handleZoomOutClick}>
-          <ZoomOutIcon />
-        </IconButton>
+          <IconButton size="small" color="primary" onClick={handleZoomOutClick}>
+            <ZoomOutIcon />
+          </IconButton>
+        </Stack>
+        {onBack && (
+          <Button variant="contained" fullWidth size="small" onClick={onBack}>
+            بازگشت
+          </Button>
+        )}
       </Stack>
     </Paper>
   );

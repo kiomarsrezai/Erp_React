@@ -12,4 +12,5 @@ export const orgPostsURLS = {
   getList: "OrganizationApi/GetOrganizationList",
   insertItem: "OrganizationApi/OrganizationInsert",
   removeItem: "OrganizationApi/OrganizationDelete",
+  updateItem: "OrganizationApi/OrganizationUpdate",
 };

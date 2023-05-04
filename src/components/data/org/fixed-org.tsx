@@ -10,10 +10,11 @@ import { ReactNode, useState } from "react";
 interface FixedOrgProps {
   data: any[];
   render: (item: any, props: any) => ReactNode;
+  onBack?: () => void;
 }
 
 function FixedOrg(props: FixedOrgProps) {
-  const { data, render } = props;
+  const { data, render, onBack } = props;
 
   const rootItem = data.find((item) => item.motherId === null);
 
@@ -68,7 +69,11 @@ function FixedOrg(props: FixedOrgProps) {
       position="relative"
       overflow="hidden"
     >
-      <ProjectOrgTools handleChangeZoom={setZoomValue} zoom={zoomValue} />
+      <ProjectOrgTools
+        handleChangeZoom={setZoomValue}
+        zoom={zoomValue}
+        onBack={onBack}
+      />
       <Box style={{ transform: `scale(${zoomValue})` }}>
         <Draggable
           positionOffset={{ x: "50%", y: "0" }}
