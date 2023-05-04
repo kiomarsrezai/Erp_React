@@ -9,6 +9,7 @@ import WindowLoading from "components/ui/loading/window-loading";
 import userStore from "hooks/store/user-store";
 import FixedModal from "components/ui/modal/fixed-modal";
 import ProjectMettingsModal from "./credit-search-request-modal";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import { grey } from "@mui/material/colors";
 import { creditRequestApi } from "api/credit/credit-request-api";
@@ -59,11 +60,15 @@ function CreditRequestFormControlsButtons(
     },
   });
 
-  const handleCreateRequest = () => {
-    createRequestMutation.mutate({
-      ...formData,
-      [creditRequestConfig.user_id]: userId,
-    });
+  const handleCheckClick = () => {
+    if (!formData[creditRequestConfig.request_number]) {
+      createRequestMutation.mutate({
+        ...formData,
+        [creditRequestConfig.user_id]: userId,
+      });
+    } else {
+      // save
+    }
   };
 
   return (
@@ -75,16 +80,7 @@ function CreditRequestFormControlsButtons(
             color: grey[700],
             "&:hover": { borderColor: grey[400] },
           }}
-          onClick={handleCreateRequest}
-        >
-          <AddIcon />
-        </Button>
-        <Button
-          sx={{
-            borderColor: grey[400],
-            color: grey[700],
-            "&:hover": { borderColor: grey[400] },
-          }}
+          onClick={handleCheckClick}
         >
           <CheckIcon />
         </Button>
@@ -95,8 +91,19 @@ function CreditRequestFormControlsButtons(
             color: grey[700],
             "&:hover": { borderColor: grey[400] },
           }}
+          onClick={() => setIsOpenSelectRequestModal(true)}
         >
-          <ClearIcon />
+          <SearchIcon />
+        </Button>
+
+        <Button
+          sx={{
+            borderColor: grey[400],
+            color: grey[700],
+            "&:hover": { borderColor: grey[400] },
+          }}
+        >
+          <DeleteIcon />
         </Button>
         <Button
           sx={{
@@ -104,10 +111,10 @@ function CreditRequestFormControlsButtons(
             color: grey[700],
             "&:hover": { borderColor: grey[400] },
           }}
-          onClick={() => setIsOpenSelectRequestModal(true)}
         >
-          <SearchIcon />
+          <ClearIcon />
         </Button>
+
         <Button
           sx={{
             borderColor: grey[400],

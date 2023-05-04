@@ -73,6 +73,7 @@ function FixedTable(props: FixedTableProps) {
               sx={{
                 borderColor: grey[borderColor],
                 bgcolor: grey[200],
+                p: 1,
               }}
               align="left"
               colSpan={topHeadGroup.colspan}

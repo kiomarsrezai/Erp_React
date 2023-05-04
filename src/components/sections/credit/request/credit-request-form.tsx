@@ -121,12 +121,20 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   items={requestTypeItems}
                   label="نوع درخواست"
                   name={creditRequestConfig.request_type}
-                  value={
-                    firstStepCrossed &&
-                    formData[creditRequestConfig.request_type]
-                  }
-                  disabled={!firstStepCrossed}
+                  value={formData[creditRequestConfig.request_type]}
                   setter={setFormData}
+                />
+              </Grid>
+
+              <Grid xs={12} xl={6}>
+                <TextField
+                  id="user-input"
+                  label="کاربر"
+                  variant="outlined"
+                  fullWidth
+                  size="small"
+                  value={`${userState.firstName} ${userState.lastName}`}
+                  disabled
                 />
               </Grid>
 
@@ -148,32 +156,6 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   </Select>
                 </FormControl>
               </Grid>
-
-              <Grid xs={12} xl={6}>
-                <TextField
-                  id="user-input"
-                  label="کاربر"
-                  variant="outlined"
-                  fullWidth
-                  size="small"
-                  value={`${userState.firstName} ${userState.lastName}`}
-                  disabled
-                />
-              </Grid>
-              <Grid xs={12} xl={6}>
-                <YearInput
-                  setter={setFormData}
-                  value={formData[creditRequestConfig.year]}
-                  disabled={firstStepCrossed}
-                />
-              </Grid>
-              <Grid xs={12} xl={6}>
-                <AreaInput
-                  setter={setFormData}
-                  value={formData[creditRequestConfig.area]}
-                  disabled={firstStepCrossed}
-                />
-              </Grid>
               <Grid xs={12} xl={6}>
                 <TextField
                   id="request-number-input"
@@ -183,6 +165,13 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   size="small"
                   disabled
                   fullWidth
+                />
+              </Grid>
+              <Grid xs={12} xl={6}>
+                <AreaInput
+                  setter={setFormData}
+                  value={formData[creditRequestConfig.area]}
+                  disabled={firstStepCrossed}
                 />
               </Grid>
               <Grid xs={12} xl={6}>
@@ -197,6 +186,22 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                 />
               </Grid>
               <Grid xs={12} xl={6}>
+                <YearInput
+                  setter={setFormData}
+                  value={formData[creditRequestConfig.year]}
+                  disabled={firstStepCrossed}
+                />
+              </Grid>
+              <Grid xs={12} xl={6}>
+                <FlotingLabelSelect
+                  items={doingMethodItems}
+                  label="شیوه انجام"
+                  name={creditRequestConfig.doing_method}
+                  value={formData[creditRequestConfig.doing_method]}
+                  setter={setFormData}
+                />
+              </Grid>
+              <Grid xs={12} xl={6}>
                 <TextField
                   id="price-request-input"
                   label="براورد مبلغ"
@@ -205,21 +210,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   value={formData[creditRequestConfig.approximate_price]}
                   name={creditRequestConfig.approximate_price}
                   onChange={handleChangeTextFields}
-                  disabled={!firstStepCrossed}
                   fullWidth
-                />
-              </Grid>
-              <Grid xs={12} xl={6}>
-                <FlotingLabelSelect
-                  items={doingMethodItems}
-                  label="شیوه انجام"
-                  name={creditRequestConfig.doing_method}
-                  value={
-                    firstStepCrossed &&
-                    formData[creditRequestConfig.doing_method]
-                  }
-                  setter={setFormData}
-                  disabled={!firstStepCrossed}
                 />
               </Grid>
               {formData.doingMethod === 5 && (
@@ -271,26 +262,24 @@ function CreditRequestForm(props: CreditRequestFormProps) {
               }}
               elevation={0}
             >
-              {formData[creditRequestConfig.request_type] === 1 &&
-                firstStepCrossed && (
-                  <Grid xs={12}>
-                    <TextField
-                      id="description-request-input"
-                      label="شرح درخواست"
-                      variant="outlined"
-                      size="small"
-                      fullWidth
-                      value=""
-                    />
-                  </Grid>
-                )}
+              {formData[creditRequestConfig.request_type] === 1 && (
+                <Grid xs={12}>
+                  <TextField
+                    id="description-request-input"
+                    label="شرح درخواست"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    value=""
+                  />
+                </Grid>
+              )}
 
-              {formData[creditRequestConfig.request_type] === 2 &&
-                firstStepCrossed && (
-                  <Grid xs={12}>
-                    <CreidtRequestFormTableTpye />
-                  </Grid>
-                )}
+              {formData[creditRequestConfig.request_type] === 2 && (
+                <Grid xs={12}>
+                  <CreidtRequestFormTableTpye />
+                </Grid>
+              )}
             </Paper>
           </Grid>
         </Grid>
