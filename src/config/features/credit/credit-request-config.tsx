@@ -10,6 +10,8 @@ export const creditRequestConfig = {
   approximate_price: "approximatePrice",
   doing_method: "doingMethod",
   request_type: "requestType",
+  contractor: "contractor",
+  why_leave_ceremonies: "whyTarkTashrifat",
 };
 
 export const creditRequestConfigURLS = {

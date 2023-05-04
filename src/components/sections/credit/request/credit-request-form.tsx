@@ -22,6 +22,7 @@ import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 
 import { creditRequestConfig } from "config/features/credit/credit-request-config";
 import CreditRequestFormControlsButtons from "./credit-request-form-controls-buttons";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 interface CreditRequestFormProps {
   formData: any;
@@ -91,15 +92,49 @@ function CreditRequestForm(props: CreditRequestFormProps) {
   //   }));
   // };
 
-  //   select user modal
-  const [isOpenSelectUserModal, setIsOpenSelectUserModal] = useState(false);
-
   // ui
   const controlFormRef = useRef<HTMLDivElement>(null);
   const [paperHeight, setPaperHeight] = useState("0px");
   useEffect(() => {
     setPaperHeight(`${(controlFormRef.current?.clientHeight || 0) - 16}px`);
   }, [controlFormRef, formData[creditRequestConfig.doing_method]]);
+
+  // doing method
+  const doingMethodIdRef = useRef<number>(
+    formData[creditRequestConfig.doing_method]
+  );
+
+  const [textConfrimChangeDoingMethod, setTextConfrimChangeDoingMethod] =
+    useState<null | string>(null);
+
+  const onConfrimChangeDoingMethod = () => {
+    setFormData((state: any) => ({
+      ...state,
+      [creditRequestConfig.why_leave_ceremonies]: "",
+      [creditRequestConfig.contractor]: null,
+    }));
+    setTextConfrimChangeDoingMethod(null);
+  };
+
+  const onCancelChangeDoingMethod = () => {
+    setFormData((state: any) => ({
+      ...state,
+      [creditRequestConfig.doing_method]: 5,
+    }));
+    setTextConfrimChangeDoingMethod(null);
+  };
+
+  useEffect(() => {
+    if (doingMethodIdRef.current === 5) {
+      setTextConfrimChangeDoingMethod(
+        "درصورت تغییر شیوه انجام فیلد های پیمانکار و دلیل ترک تشریفات از بین میرود"
+      );
+    }
+
+    doingMethodIdRef.current = formData[creditRequestConfig.doing_method];
+  }, [formData[creditRequestConfig.doing_method]]);
+
+  const [isOpenSelectUserModal, setIsOpenSelectUserModal] = useState(false);
 
   return (
     <>
@@ -204,7 +239,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
               <Grid xs={12} xl={6}>
                 <TextField
                   id="price-request-input"
-                  label="براورد مبلغ"
+                  label="برآورد مبلغ"
                   variant="outlined"
                   size="small"
                   value={formData[creditRequestConfig.approximate_price]}
@@ -220,7 +255,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                       id="person-tark-tashrifat-input"
                       label="پیمانکار"
                       variant="outlined"
-                      value=""
+                      value={formData[creditRequestConfig.contractor]}
                       size="small"
                       disabled
                       InputProps={{
@@ -243,7 +278,9 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                       id="why-tark-tashrifat-input"
                       label="دلیل ترک تشریفات"
                       variant="outlined"
-                      value=""
+                      name={creditRequestConfig.why_leave_ceremonies}
+                      value={formData[creditRequestConfig.why_leave_ceremonies]}
+                      onChange={handleChangeTextFields}
                       size="small"
                       fullWidth
                     />
@@ -283,6 +320,14 @@ function CreditRequestForm(props: CreditRequestFormProps) {
             </Paper>
           </Grid>
         </Grid>
+
+        {/* confrim change doing method input */}
+        <ConfrimProcessModal
+          onCancel={onCancelChangeDoingMethod}
+          onConfrim={onConfrimChangeDoingMethod}
+          open={textConfrimChangeDoingMethod !== null}
+          text={textConfrimChangeDoingMethod as string}
+        />
 
         {/* select user modal */}
         <FixedModal
