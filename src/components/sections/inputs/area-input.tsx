@@ -1,10 +1,10 @@
 import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
+import userStore from "hooks/store/user-store";
 
 import { useQuery } from "@tanstack/react-query";
 import { areaGeneralApi } from "api/general/area-general-api";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 import { generalFieldsConfig } from "config/features/general-fields-config";
-import userStore from "hooks/store/user-store";
 import { filedItemsGuard, joinPermissions } from "helper/auth-utils";
 import { accessNamesConfig } from "config/access-names-config";
 

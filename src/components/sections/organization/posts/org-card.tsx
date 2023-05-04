@@ -5,19 +5,20 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
 import GroupSharpIcon from "@mui/icons-material/GroupSharp";
 import FixedModal from "components/ui/modal/fixed-modal";
 import OrganizationPostsOrgUserListModal from "./org-users-list-modal";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 import { grey } from "@mui/material/colors";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { orgProjectApi } from "api/project/org-project-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
-import { orgProjectConfig } from "config/features/project/org-project-config";
 import { useState } from "react";
-import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
+import { orgPostsApi } from "api/organizition/posts-otg-api";
+import { orgPostsConfig } from "config/features/orginization/posts-config";
 
 interface OrganizationPostsOrgCardProps {
   title: string;
@@ -26,6 +27,7 @@ interface OrganizationPostsOrgCardProps {
   parentId: number;
   item: any;
   isLastChild: boolean;
+  area: number;
   drag: {
     id: number | null;
     changeItem: (prevState: any) => void;
@@ -34,12 +36,15 @@ interface OrganizationPostsOrgCardProps {
   };
 }
 function OrganizationPostsOrgCard(props: OrganizationPostsOrgCardProps) {
-  const { title, id, rootId, drag, item: itemData, isLastChild } = props;
+  const { title, id, rootId, drag, item: itemData, isLastChild, area } = props;
 
   const queryClient = useQueryClient();
-  const getDataMutation = useMutation(orgProjectApi.getProject, {
+  const getDataMutation = useMutation(orgPostsApi.getPosts, {
     onSuccess: (data) => {
-      queryClient.setQueryData(reactQueryKeys.project.org.getProject, data);
+      queryClient.setQueryData(
+        reactQueryKeys.orginization.posts.getPosts,
+        data
+      );
     },
   });
 
@@ -47,7 +52,7 @@ function OrganizationPostsOrgCard(props: OrganizationPostsOrgCardProps) {
   const [isOpenConfrimRemoveModal, setIsOpenConfrimRemoveModal] =
     useState(false);
   const onConfrimDeleteModal = () => {
-    // deleteMutation.mutate({ [orgProjectConfig.ID]: id });
+    deleteMutation.mutate(id);
     onCancelDeleteModal();
   };
   const onCancelDeleteModal = () => {
@@ -55,12 +60,12 @@ function OrganizationPostsOrgCard(props: OrganizationPostsOrgCardProps) {
   };
 
   // delete item
-  const deleteMutation = useMutation(orgProjectApi.deleteProject, {
+  const deleteMutation = useMutation(orgPostsApi.deletePost, {
     onSuccess: () => {
       enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
         variant: "success",
       });
-      getDataMutation.mutate({ [orgProjectConfig.ID]: rootId });
+      getDataMutation.mutate(area);
     },
     onError: () => {
       enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
@@ -71,6 +76,20 @@ function OrganizationPostsOrgCard(props: OrganizationPostsOrgCardProps) {
 
   const handleDeleteClick = () => {
     setIsOpenConfrimRemoveModal(true);
+  };
+
+  // add item
+  const insertMutation = useMutation(orgPostsApi.insertPost, {
+    onSuccess: () => {
+      getDataMutation.mutate(area);
+    },
+  });
+
+  const handleAddClick = () => {
+    insertMutation.mutate({
+      [orgPostsConfig.parent_ID]: id,
+      [orgPostsConfig.area]: area,
+    });
   };
 
   // drag
@@ -129,6 +148,10 @@ function OrganizationPostsOrgCard(props: OrganizationPostsOrgCardProps) {
             <Typography variant="body1">{title}</Typography>
           </CardContent>
           <CardActions>
+            <IconButton size="small" color="primary" onClick={handleAddClick}>
+              <AddIcon />
+            </IconButton>
+
             <IconButton
               size="small"
               color="primary"
@@ -152,7 +175,7 @@ function OrganizationPostsOrgCard(props: OrganizationPostsOrgCardProps) {
 
       {/* confrim modal */}
       <ConfrimProcessModal
-        text={`آیا مایل به حذف کردن پروژه ${title} هستید ؟`}
+        text={`آیا مایل به حذف کردن  ${title} هستید ؟`}
         open={isOpenConfrimRemoveModal}
         onCancel={onCancelDeleteModal}
         onConfrim={onConfrimDeleteModal}

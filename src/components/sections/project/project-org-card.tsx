@@ -14,6 +14,7 @@ import PermMediaIcon from "@mui/icons-material/PermMedia";
 import HandshakeIcon from "@mui/icons-material/Handshake";
 import ProjectOrgMediaModal from "./project-org-media-modal";
 import ProjectOrgEditModal from "./project-org-edit-modal";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 import { grey } from "@mui/material/colors";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -23,7 +24,6 @@ import { orgProjectConfig } from "config/features/project/org-project-config";
 import { useState } from "react";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
-import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 interface ProjectOrgCardProps {
   title: string;
