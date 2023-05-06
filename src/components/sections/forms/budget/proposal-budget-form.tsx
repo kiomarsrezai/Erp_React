@@ -4,6 +4,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import YearInput from "components/sections/inputs/year-input";
 import AreaInput from "components/sections/inputs/area-input";
 import BudgetMethodInput from "components/sections/inputs/budget-method-input";
+import SectionGuard from "components/auth/section-guard";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
@@ -11,7 +12,6 @@ import { FormEvent, useEffect } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { proposalBudgetApi } from "api/budget/proposal-api";
 import { accessNamesConfig } from "config/access-names-config";
-import SectionGuard from "components/auth/section-guard";
 import { joinPermissions } from "helper/auth-utils";
 
 interface ProposalBudgetFormProps {

@@ -7,7 +7,6 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
-import Select from "@mui/material/Select";
 import CreidtRequestFormTableTpye from "./crdit-request-form-table-type";
 import YearInput from "components/sections/inputs/year-input";
 import AreaInput from "components/sections/inputs/area-input";
@@ -16,13 +15,13 @@ import SelectUser from "components/sections/select-user";
 import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
 import Paper from "@mui/material/Paper";
 import userStore from "hooks/store/user-store";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import CreditRequestFormControlsButtons from "./credit-request-form-controls-buttons";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
-
 import { creditRequestConfig } from "config/features/credit/credit-request-config";
-import CreditRequestFormControlsButtons from "./credit-request-form-controls-buttons";
-import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 interface CreditRequestFormProps {
   formData: any;
@@ -100,6 +99,11 @@ function CreditRequestForm(props: CreditRequestFormProps) {
   }, [controlFormRef, formData[creditRequestConfig.doing_method]]);
 
   // doing method
+
+  const handleChangeDoingMethod = (event: SelectChangeEvent) => {
+    const value = event.target.value;
+    console.log(value);
+  };
   const doingMethodIdRef = useRef<number>(
     formData[creditRequestConfig.doing_method]
   );
@@ -127,7 +131,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
   useEffect(() => {
     if (doingMethodIdRef.current === 5) {
       setTextConfrimChangeDoingMethod(
-        "درصورت تغییر شیوه انجام فیلد های پیمانکار و دلیل ترک تشریفات از بین میرود"
+        "درصورت تغییر شیوه انجام اطلاعات پیمانکار و دلیل ترک تشریفات از بین میرود"
       );
     }
 
@@ -228,13 +232,32 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                 />
               </Grid>
               <Grid xs={12} xl={6}>
-                <FlotingLabelSelect
+                {/* <FlotingLabelSelect
                   items={doingMethodItems}
                   label="شیوه انجام"
                   name={creditRequestConfig.doing_method}
                   value={formData[creditRequestConfig.doing_method]}
                   setter={setFormData}
-                />
+                /> */}
+                <FormControl fullWidth size="small">
+                  <InputLabel id="doing-method-floting-select-label">
+                    شیوه انجام
+                  </InputLabel>
+                  <Select
+                    labelId="doing-method-floting-select-label"
+                    id={"doing-method-floting-select-input"}
+                    value={formData[creditRequestConfig.doing_method]}
+                    label="شیوه انجام"
+                    onChange={handleChangeDoingMethod}
+                    MenuProps={{ PaperProps: { sx: { maxHeight: 350 } } }}
+                  >
+                    {doingMethodItems.map((item) => (
+                      <MenuItem value={item.value} key={item.value}>
+                        {item.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </Grid>
               <Grid xs={12} xl={6}>
                 <TextField

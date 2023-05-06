@@ -56,7 +56,7 @@ function PostsOrganzationPage() {
   };
 
   const renderSelectArea = () => {
-    if (getPostsMutation.isLoading && insertMutation.isLoading) {
+    if (getPostsMutation.isLoading || insertMutation.isLoading) {
       return <BoxLoading />;
     }
 
@@ -72,7 +72,7 @@ function PostsOrganzationPage() {
 
   return (
     <AdminLayout>
-      {getPostsMutation.data &&
+      {getPostsMutation.data?.data &&
       orgPostsQuery.data?.data &&
       !isOpenSelectArea ? (
         <OrganizationPosts

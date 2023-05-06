@@ -7,4 +7,6 @@ export const proposalConfig = {
   PAGE_NAME: "budgetProposal",
 };
 
-export const PROPOSAL_BUDGET_URL = "";
+export const propsalBudgetUrls = {
+  getData: "Fetch/FetchIndex",
+};
