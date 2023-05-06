@@ -13,6 +13,7 @@ import { reactQueryKeys } from "config/react-query-keys-config";
 import { proposalBudgetApi } from "api/budget/proposal-api";
 import FixedModal from "components/ui/modal/fixed-modal";
 import ProposalDetailModal from "components/sections/forms/budget/proposal/proposal-detail-modal";
+import { getBgColorBudget } from "helper/get-color-utils";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -126,6 +127,10 @@ function BudgetProposalPage() {
         edit: item.edit,
         percent: item.percentBud,
         expense: item.expense,
+        bgcolor: getBgColorBudget(
+          item.levelNumber,
+          formData[proposalConfig.BUDGET_METHOD]
+        ),
         actions: actionButtons,
       })
     );

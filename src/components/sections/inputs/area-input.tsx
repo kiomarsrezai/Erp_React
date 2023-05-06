@@ -13,16 +13,17 @@ interface AreaInputProps {
   value: number;
   permissionForm?: string;
   disabled?: boolean;
+  level?: number;
 }
 
 function AreaInput(props: AreaInputProps) {
-  const { setter, value, permissionForm, disabled } = props;
+  const { setter, value, permissionForm, disabled, level } = props;
 
   const userLicenses = userStore((state) => state.permissions);
 
   const areaQuery = useQuery(
     ["general-area"],
-    () => areaGeneralApi.getData(2),
+    () => areaGeneralApi.getData(level || 2),
     {
       onSuccess: (data) => {
         setter((prevState: any) => ({

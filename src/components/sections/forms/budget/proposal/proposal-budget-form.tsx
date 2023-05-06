@@ -70,6 +70,7 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
               setter={setFormData}
               value={formData[sepratorBudgetConfig.AREA]}
               permissionForm={accessNamesConfig.BUDGET_PROPOSAL_PAGE}
+              level={1}
             />
           </Grid>
         </SectionGuard>

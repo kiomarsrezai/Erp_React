@@ -3,7 +3,7 @@ import Stack from "@mui/material/Stack";
 import CheckboxLabeled from "components/ui/inputs/checkbox-labeled";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-import { ReactNode, useMemo, useState } from "react";
+import { ReactNode, useEffect, useMemo, useState } from "react";
 import { TableHeadShape } from "types/table-type";
 import { revenueChartFormConfig } from "config/features/revenue-chart-config";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -37,6 +37,12 @@ function RevenueChartMoreDetailModalContent(
     [revenueChartFormConfig.SALE]: formData[revenueChartFormConfig.SALE],
     [revenueChartFormConfig.REVENUE]: formData[revenueChartFormConfig.REVENUE],
   });
+
+  useEffect(() => {
+    queryClient.setQueryData(reactQueryKeys.report.chart.revenueMoreDetail, {
+      data: [[], [], [], []],
+    });
+  }, [tableFormData]);
 
   const queryClient = useQueryClient();
   const submitMutation = useMutation(revenueChartApi.getChart, {

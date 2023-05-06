@@ -67,6 +67,17 @@ function usePermissions() {
     areaGeneralApi.getData(2)
   );
 
+  const areaNumber1Query = useQuery(["general-area", 1], () =>
+    areaGeneralApi.getData(1)
+  );
+
+  const areaNumber1Field: AccessItemShape = formatApiFields(
+    "منطقه",
+    accessNamesConfig.FIELD_AREA,
+    "areaName",
+    areaNumber1Query.data?.data || []
+  );
+
   const areaNumber2Field: AccessItemShape = formatApiFields(
     "منطقه",
     accessNamesConfig.FIELD_AREA,
@@ -99,7 +110,7 @@ function usePermissions() {
     {
       label: "بودجه",
       name: accessNamesConfig.BUDGET_PROPOSAL_PAGE,
-      value: [yearField, areaNumber2Field, budgetMethodField],
+      value: [yearField, areaNumber1Field, budgetMethodField],
     },
 
     {
