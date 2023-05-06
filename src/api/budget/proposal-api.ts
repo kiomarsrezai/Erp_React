@@ -23,4 +23,18 @@ export const proposalBudgetApi = new (class extends BaseApi {
     >(url);
     return response.data;
   };
+
+  getDetailData = async (formdata: any) => {
+    const filterData = {
+      [proposalConfig.YEAR]: formdata[proposalConfig.YEAR],
+      [proposalConfig.AREA]: 10, // formdata[proposalConfig.AREA],
+      [proposalConfig.coding]: formdata[proposalConfig.coding],
+    };
+
+    const url = propsalBudgetUrls.getDetail + this.joinFilterData(filterData);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleProposalItemShape[]>
+    >(url);
+    return response.data;
+  };
 })();

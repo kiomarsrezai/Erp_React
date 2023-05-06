@@ -1,14 +1,9 @@
 import FixedTable from "components/data/table/fixed-table";
-import IconButton from "@mui/material/IconButton";
-import green from "@mui/material/colors/green";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import Stack from "@mui/material/Stack";
 import CheckboxLabeled from "components/ui/inputs/checkbox-labeled";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-import { sumFieldsInSingleItemData } from "helper/calculate-utils";
-import { ReactNode, useState } from "react";
-import { GetSingleDetailRevenueChartShape } from "types/data/report/chart/revenue-chart-type";
+import { ReactNode, useMemo, useState } from "react";
 import { TableHeadShape } from "types/table-type";
 import { revenueChartFormConfig } from "config/features/revenue-chart-config";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -163,14 +158,17 @@ function RevenueChartMoreDetailModalContent(
       TotalExpense += unFormatData[4][i];
       TotalMosavab += unFormatData[3][i];
     }
-    // setTotalFooter({
-    //   expense: TotalExpense,
-    //   mosavab: TotalMosavab,
-    // });
+    setTotalFooter({
+      expense: TotalExpense,
+      mosavab: TotalMosavab,
+    });
     return formatedData;
   };
 
-  const tableData = data ? formatTableData(data as GetChartShape) : [];
+  const tableData = useMemo(
+    () => (data ? formatTableData(data as GetChartShape) : []),
+    [data]
+  );
 
   // table footer
   const tableFooter: TableDataItemShape | any = {

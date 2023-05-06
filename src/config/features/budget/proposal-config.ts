@@ -4,9 +4,10 @@ export const proposalConfig = {
   YEAR: generalFieldsConfig.YEAR,
   AREA: generalFieldsConfig.AREA,
   BUDGET_METHOD: generalFieldsConfig.BUDGET_METHOD,
-  PAGE_NAME: "budgetProposal",
+  coding: "codingId",
 };
 
 export const propsalBudgetUrls = {
   getData: "Fetch/FetchIndex",
+  getDetail: "Fetch/FetchDetails",
 };

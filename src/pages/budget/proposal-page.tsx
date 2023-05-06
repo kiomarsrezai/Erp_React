@@ -1,6 +1,6 @@
 import AdminLayout from "components/layout/admin-layout";
 import FixedTable from "components/data/table/fixed-table";
-import ProposalBudgetForm from "components/sections/forms/budget/proposal-budget-form";
+import ProposalBudgetForm from "components/sections/forms/budget/proposal/proposal-budget-form";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import IconButton from "@mui/material/IconButton";
 
@@ -8,9 +8,11 @@ import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { ReactNode, useState } from "react";
 import { proposalConfig } from "config/features/budget/proposal-config";
 import { GetSingleProposalItemShape } from "types/data/budget/proposal-type";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { proposalBudgetApi } from "api/budget/proposal-api";
+import FixedModal from "components/ui/modal/fixed-modal";
+import ProposalDetailModal from "components/sections/forms/budget/proposal/proposal-detail-modal";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -37,7 +39,7 @@ function BudgetProposalPage() {
       title: (
         <ProposalBudgetForm formData={formData} setFormData={setFormData} />
       ),
-      colspan: 7,
+      colspan: 8,
     },
   ];
 
@@ -62,6 +64,12 @@ function BudgetProposalPage() {
       split: true,
     },
     {
+      title: "اصلاح",
+      align: "left",
+      name: "edit",
+      split: true,
+    },
+    {
       title: "عملکرد",
       name: "expense",
       align: "left",
@@ -78,9 +86,29 @@ function BudgetProposalPage() {
     },
   ];
 
+  // detail modal
+  const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
+  const getDetailMutation = useMutation(proposalBudgetApi.getDetailData);
+  const handleOpenDetailModal = (
+    row: TableDataItemShape & GetSingleProposalItemShape
+  ) => {
+    getDetailMutation.mutate({
+      ...formData,
+      [proposalConfig.coding]: row.codingId,
+    });
+
+    setIsOpenDetailModal(true);
+  };
+
   // data
-  const actionButtons = () => (
-    <IconButton size="small" color="primary">
+  const actionButtons = (
+    row: TableDataItemShape & GetSingleProposalItemShape
+  ) => (
+    <IconButton
+      size="small"
+      color="primary"
+      onClick={() => handleOpenDetailModal(row)}
+    >
       <FormatListBulletedIcon />
     </IconButton>
   );
@@ -118,13 +146,22 @@ function BudgetProposalPage() {
     : [];
 
   return (
-    <AdminLayout>
-      <FixedTable
-        heads={tableHeads}
-        headGroups={tableHeadGroups}
-        data={tableData}
-      />
-    </AdminLayout>
+    <>
+      <AdminLayout>
+        <FixedTable
+          heads={tableHeads}
+          headGroups={tableHeadGroups}
+          data={tableData}
+        />
+      </AdminLayout>
+
+      <FixedModal
+        open={isOpenDetailModal}
+        handleClose={() => setIsOpenDetailModal(false)}
+      >
+        <ProposalDetailModal data={getDetailMutation.data?.data || []} />
+      </FixedModal>
+    </>
   );
 }
 
