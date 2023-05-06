@@ -2,16 +2,17 @@ import AdminLayout from "components/layout/admin-layout";
 import FixedTable from "components/data/table/fixed-table";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import IconButton from "@mui/material/IconButton";
+import TrazForm from "components/sections/traz/traz-form";
 
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { ReactNode, useState } from "react";
-import { GetSingleProposalItemShape } from "types/data/budget/proposal-type";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { TrazItemShape } from "types/data/traz/traz-type";
 import { trazApi } from "api/traz/traz-api";
 import { trazConfig } from "config/features/traz/traz-config";
-import TrazForm from "components/sections/traz/traz-form";
+import FixedModal from "components/ui/modal/fixed-modal";
+import TrazDetailModal from "components/sections/traz/traz-detail-modal";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -85,11 +86,25 @@ function TrazPage() {
     },
   ];
 
-  // data
-  const actionButtons = (
-    row: TableDataItemShape & GetSingleProposalItemShape
-  ) => (
-    <IconButton size="small" color="primary">
+  // modal
+  const trazDetailMutation = useMutation(trazApi.getData);
+
+  const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
+  const handleOpenDetailModal = (row: TableDataItemShape) => {
+    trazDetailMutation.mutate({
+      ...formData,
+      [trazConfig.MOEIN]: +(row.code || 1),
+    });
+    setIsOpenDetailModal(true);
+  };
+
+  // table data
+  const actionButtons = (row: TableDataItemShape) => (
+    <IconButton
+      size="small"
+      color="primary"
+      onClick={() => handleOpenDetailModal(row)}
+    >
       <FormatListBulletedIcon />
     </IconButton>
   );
@@ -127,13 +142,23 @@ function TrazPage() {
     : [];
 
   return (
-    <AdminLayout>
-      <FixedTable
-        heads={tableHeads}
-        headGroups={tableHeadGroups}
-        data={tableData}
-      />
-    </AdminLayout>
+    <>
+      <AdminLayout>
+        <FixedTable
+          heads={tableHeads}
+          headGroups={tableHeadGroups}
+          data={tableData}
+        />
+      </AdminLayout>
+
+      <FixedModal
+        open={isOpenDetailModal}
+        handleClose={() => setIsOpenDetailModal(false)}
+        loading={trazDetailMutation.isLoading}
+      >
+        <TrazDetailModal data={trazDetailMutation.data?.data || []} />
+      </FixedModal>
+    </>
   );
 }
 

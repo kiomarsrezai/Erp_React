@@ -11,10 +11,10 @@ import MeetingsProjectPage from "pages/project/meetings-page";
 import PageGuard from "components/auth/page-guard.";
 import WellcomePage from "pages/wellcome-page";
 import PostsOrganzationPage from "pages/organization/posts-page";
+import TrazPage from "pages/traz/traz-page";
 
 import { createBrowserRouter } from "react-router-dom";
 import { accessNamesConfig } from "config/access-names-config";
-import TrazPage from "pages/traz/reaz-page";
 
 const router = createBrowserRouter([
   // globla
