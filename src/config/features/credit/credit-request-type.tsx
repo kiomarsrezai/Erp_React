@@ -8,3 +8,11 @@ export interface CreateCreditRequestShape {
   number: string;
   dateS: string;
 }
+
+export interface SearchCreditRequestShape {
+  id: number;
+  rate: number;
+  description: string;
+  unit: string;
+  price: number;
+}

@@ -33,9 +33,22 @@ function CreditRequestFormControlsButtons(
 
   const userId = userStore((state) => state.id);
 
-  //   select request modal
+  // select request modal
   const [isOpenSelectRequestModal, setIsOpenSelectRequestModal] =
     useState(false);
+
+  const searchRequestMutation = useMutation(creditRequestApi.searchRequest);
+
+  const openSearchRequestModal = () => {
+    searchRequestMutation.mutate({
+      [creditRequestConfig.area]: formData[creditRequestConfig.area],
+      [creditRequestConfig.execute_departman_id]:
+        formData[creditRequestConfig.execute_departman_id],
+      [creditRequestConfig.year]: formData[creditRequestConfig.year],
+    });
+
+    setIsOpenSelectRequestModal(true);
+  };
 
   // create request
   const createRequestMutation = useMutation(creditRequestApi.createRequest, {
@@ -90,7 +103,7 @@ function CreditRequestFormControlsButtons(
             color: grey[700],
             "&:hover": { borderColor: grey[400] },
           }}
-          onClick={() => setIsOpenSelectRequestModal(true)}
+          onClick={openSearchRequestModal}
         >
           <SearchIcon />
         </Button>
@@ -130,8 +143,9 @@ function CreditRequestFormControlsButtons(
         open={isOpenSelectRequestModal}
         handleClose={() => setIsOpenSelectRequestModal(false)}
         title="انتخاب درخواست"
+        loading={searchRequestMutation.isLoading}
       >
-        <ProjectMettingsModal />
+        <ProjectMettingsModal data={searchRequestMutation.data?.data || []} />
       </FixedModal>
 
       {/* loading */}

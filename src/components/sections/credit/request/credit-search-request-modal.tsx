@@ -1,17 +1,28 @@
 import FixedTable from "components/data/table/fixed-table";
-import ProjectMettingsModalForm from "./credit-search-request-modal-form";
+import IconButton from "@mui/material/IconButton";
+import CheckIcon from "@mui/icons-material/Check";
 
-import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
+import { SearchCreditRequestShape } from "config/features/credit/credit-request-type";
+import { ReactNode } from "react";
+import { TableHeadShape } from "types/table-type";
 
-function ProjectMettingsModal() {
-  // table
-  const tableHeadGroups: TableHeadGroupShape = [
-    {
-      title: <ProjectMettingsModalForm />,
-      colspan: 5,
-    },
-  ];
+interface TableDataItemShape {
+  number: ReactNode;
+  description: ReactNode;
+  unit: ReactNode;
+  rate: ReactNode;
+  price: ReactNode;
+  actions: (row: any) => ReactNode;
+}
 
+interface ProjectMettingsModalProps {
+  data: any[];
+}
+
+function ProjectMettingsModal(props: ProjectMettingsModalProps) {
+  const { data } = props;
+
+  // table head
   const tableHeads: TableHeadShape = [
     {
       title: "ردیف",
@@ -42,73 +53,32 @@ function ProjectMettingsModal() {
   ];
 
   // table data
-  const data = [
-    {
-      description: "تست",
-      number: "1",
-      organ: "تست",
-      price: 12462314,
-      rate: 12462314,
-    },
-    {
-      description: "تست",
-      number: "2",
-      organ: "تست",
-      price: 12462314,
-      rate: 12462314,
-    },
-    {
-      description: "تست",
-      number: "3",
-      organ: "تست",
-      price: 12462314,
-      rate: 12462314,
-    },
-    {
-      description: "تست",
-      number: "4",
-      organ: "تست",
-      price: 12462314,
-      rate: 12462314,
-    },
-    {
-      description: "تست",
-      number: "1",
-      organ: "تست",
-      price: 12462314,
-      rate: 12462314,
-    },
-    {
-      description: "تست",
-      number: "2",
-      organ: "تست",
-      price: 12462314,
-      rate: 12462314,
-    },
-    {
-      description: "تست",
-      number: "3",
-      organ: "تست",
-      price: 12462314,
-      rate: 12462314,
-    },
-    {
-      description: "تست",
-      number: "4",
-      organ: "تست",
-      price: 12462314,
-      rate: 12462314,
-    },
-  ];
+  const handleClickCheckBtn = () => {};
 
-  return (
-    <FixedTable
-      heads={tableHeads}
-      headGroups={tableHeadGroups}
-      data={data}
-      notFixed
-    />
+  const actionButtons = () => (
+    <IconButton color="primary" size="small" onClick={handleClickCheckBtn}>
+      <CheckIcon />
+    </IconButton>
   );
+  const formatTableData = (
+    unFormatData: SearchCreditRequestShape[]
+  ): TableDataItemShape[] => {
+    const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
+      ...item,
+      number: i + 1,
+      rate: "", //item.rate,
+      description: "", //item.rate,
+      price: "", //item.rate,
+      unit: "", //item.rate,
+      actions: actionButtons,
+    }));
+
+    return formatedData;
+  };
+
+  const tableData = data ? formatTableData(data) : [];
+
+  return <FixedTable heads={tableHeads} data={tableData} notFixed />;
 }
 
 export default ProjectMettingsModal;
