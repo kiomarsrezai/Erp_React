@@ -7,6 +7,9 @@ export const reactQueryKeys = {
       getData: ["budget-propsal"],
     },
   },
+  traz: {
+    getData: ["data-traz"],
+  },
   report: {
     chart: {
       revenue: ["revenuse-chart"],

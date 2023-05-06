@@ -16,6 +16,7 @@ import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import GroupsIcon from "@mui/icons-material/Groups";
 import SectionGuard from "components/auth/section-guard";
 import SortSharpIcon from "@mui/icons-material/SortSharp";
+import DesignServicesIcon from "@mui/icons-material/DesignServices";
 
 import { blue } from "@mui/material/colors";
 import { ReactNode } from "react";
@@ -96,6 +97,13 @@ function AdminSidenavMenu() {
       path: "/organization/posts",
       icon: <SortSharpIcon />,
       licenseName: accessNamesConfig.ORGANIZATION_POSTS_PAGE,
+    },
+    // traz
+    {
+      title: "تراز",
+      path: "/traz",
+      icon: <DesignServicesIcon />,
+      licenseName: accessNamesConfig.TRAZ_PAGE,
     },
   ];
 

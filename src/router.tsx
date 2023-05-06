@@ -8,17 +8,13 @@ import RequestCreditPage from "pages/credit/request-page";
 import AccessPage from "pages/access-page";
 import OrgProjectPage from "pages/project/org-page";
 import MeetingsProjectPage from "pages/project/meetings-page";
-
-import { createBrowserRouter } from "react-router-dom";
 import PageGuard from "components/auth/page-guard.";
 import WellcomePage from "pages/wellcome-page";
-import { revenueChartFormConfig } from "config/features/revenue-chart-config";
-import { abstructProctorConfig } from "config/features/report/proctor/abstruct-config";
-import { proposalConfig } from "config/features/budget/proposal-config";
-import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
-import { transferConfig } from "config/features/transfer/transfer-config";
-import { accessNamesConfig } from "config/access-names-config";
 import PostsOrganzationPage from "pages/organization/posts-page";
+
+import { createBrowserRouter } from "react-router-dom";
+import { accessNamesConfig } from "config/access-names-config";
+import TrazPage from "pages/traz/reaz-page";
 
 const router = createBrowserRouter([
   // globla
@@ -126,6 +122,16 @@ const router = createBrowserRouter([
       <PageGuard
         render={<PostsOrganzationPage />}
         permission={accessNamesConfig.ORGANIZATION_POSTS_PAGE}
+      />
+    ),
+  },
+  // traz
+  {
+    path: "/traz",
+    element: (
+      <PageGuard
+        render={<TrazPage />}
+        permission={accessNamesConfig.TRAZ_PAGE}
       />
     ),
   },

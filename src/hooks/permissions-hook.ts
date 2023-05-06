@@ -145,6 +145,10 @@ function usePermissions() {
       label: "ساختار",
       name: accessNamesConfig.ORGANIZATION_POSTS_PAGE,
     },
+    {
+      label: "تراز",
+      name: accessNamesConfig.TRAZ_PAGE,
+    },
   ];
 
   return {

@@ -17,6 +17,10 @@ export const accessNamesConfig = {
   // organization
   ORGANIZATION_POSTS_PAGE: "organiztion-posts",
 
+  // traz form
+  TRAZ_PAGE: "traz",
+
+  //
   ABSTRUCT_PROCTOR_PAGE: "abstruct-proctor",
   CREDIT_REQUEST_PAGE: "credit-request",
   ACCESS_PAGE: "access",
