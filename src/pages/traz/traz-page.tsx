@@ -13,6 +13,7 @@ import { trazApi } from "api/traz/traz-api";
 import { trazConfig } from "config/features/traz/traz-config";
 import FixedModal from "components/ui/modal/fixed-modal";
 import TrazDetailModal from "components/sections/traz/traz-detail-modal";
+import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -88,10 +89,15 @@ function TrazPage() {
 
   // modal
   const [moeinId, setMoeinId] = useState(0);
+  const [modalTitle, setModalTitle] = useState("");
+
   const trazDetailMutation = useMutation(trazApi.getData);
 
   const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
   const handleOpenDetailModal = (row: TableDataItemShape) => {
+    const title = `${row.description} (${row.code})`;
+    setModalTitle(title);
+
     setMoeinId(+(row.code as string));
     trazDetailMutation.mutate({
       ...formData,
@@ -101,15 +107,29 @@ function TrazPage() {
   };
 
   // table data
-  const actionButtons = (row: TableDataItemShape) => (
-    <IconButton
-      size="small"
-      color="primary"
-      onClick={() => handleOpenDetailModal(row)}
-    >
-      <FormatListBulletedIcon />
-    </IconButton>
-  );
+  const getBgColorTraz = (levels: number) => {
+    if (levels === 1) {
+      return "#BBDEFB";
+    }
+
+    return "#fff";
+  };
+
+  const actionButtons = (row: TableDataItemShape & TrazItemShape) => {
+    if (row.levels === 1) {
+      return null;
+    }
+
+    return (
+      <IconButton
+        size="small"
+        color="primary"
+        onClick={() => handleOpenDetailModal(row)}
+      >
+        <FormatListBulletedIcon />
+      </IconButton>
+    );
+  };
 
   const formatTableData = (
     unFormatData: TrazItemShape[]
@@ -125,6 +145,7 @@ function TrazPage() {
         balanceBedehkar: item.balanceBedehkar,
         balanceBestankar: item.balanceBestankar,
         actions: actionButtons,
+        bgcolor: getBgColorTraz(item?.levels),
       })
     );
 
@@ -143,6 +164,26 @@ function TrazPage() {
     ? formatTableData(proposalQuery.data?.data)
     : [];
 
+  // footer
+  const tableFooter: TableDataItemShape | any = {
+    number: "جمع",
+    "colspan-number": 3,
+    code: null,
+    description: null,
+    balanceBedehkar: sumFieldsInSingleItemData(
+      proposalQuery.data?.data,
+      "balanceBedehkar"
+    ),
+    bedehkar: sumFieldsInSingleItemData(proposalQuery.data?.data, "bedehkar"),
+    balanceBestankar: sumFieldsInSingleItemData(
+      proposalQuery.data?.data,
+      "balanceBestankar"
+    ),
+    bestankar: sumFieldsInSingleItemData(proposalQuery.data?.data, "bestankar"),
+
+    actions: "",
+  };
+
   return (
     <>
       <AdminLayout>
@@ -150,6 +191,7 @@ function TrazPage() {
           heads={tableHeads}
           headGroups={tableHeadGroups}
           data={tableData}
+          footer={tableFooter}
         />
       </AdminLayout>
 
@@ -157,6 +199,7 @@ function TrazPage() {
         open={isOpenDetailModal}
         handleClose={() => setIsOpenDetailModal(false)}
         loading={trazDetailMutation.isLoading}
+        title={modalTitle}
       >
         <TrazDetailModal
           formData={formData}

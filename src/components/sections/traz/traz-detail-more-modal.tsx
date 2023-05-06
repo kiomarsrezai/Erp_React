@@ -3,6 +3,7 @@ import FixedTable from "components/data/table/fixed-table";
 import { ReactNode } from "react";
 import { TableHeadShape } from "types/table-type";
 import { TrazItemShape } from "types/data/traz/traz-type";
+import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -29,11 +30,11 @@ function TrazDetailMoreModal(props: TrazDetailMoreModalProps) {
       name: "number",
     },
     {
-      title: "شماره",
+      title: "شماره سند",
       name: "id",
     },
     {
-      title: "تاریخ",
+      title: "تاریخ سند",
       name: "date",
     },
     {
@@ -42,13 +43,13 @@ function TrazDetailMoreModal(props: TrazDetailMoreModalProps) {
       name: "description",
     },
     {
-      title: "گردش بدهکار",
+      title: " بدهکار",
       name: "bedehkar",
       align: "left",
       split: true,
     },
     {
-      title: "گردش بستانکار",
+      title: " بستانکار",
       name: "bestankar",
       align: "left",
       split: true,
@@ -88,9 +89,30 @@ function TrazDetailMoreModal(props: TrazDetailMoreModalProps) {
     return formatedData;
   };
 
+  // footer
+  const tableFooter: TableDataItemShape | any = {
+    number: "جمع",
+    "colspan-number": 4,
+    date: null,
+    id: null,
+    description: null,
+    balanceBedehkar: sumFieldsInSingleItemData(data, "balanceBedehkar"),
+    bedehkar: sumFieldsInSingleItemData(data, "bedehkar"),
+    balanceBestankar: sumFieldsInSingleItemData(data, "balanceBestankar"),
+    bestankar: sumFieldsInSingleItemData(data, "bestankar"),
+    actions: "",
+  };
+
   const tableData = data ? formatTableData(data) : [];
 
-  return <FixedTable heads={tableHeads} data={tableData} notFixed />;
+  return (
+    <FixedTable
+      heads={tableHeads}
+      data={tableData}
+      footer={tableFooter}
+      notFixed
+    />
+  );
 }
 
 export default TrazDetailMoreModal;

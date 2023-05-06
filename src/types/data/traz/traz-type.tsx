@@ -6,5 +6,6 @@ export interface TrazItemShape {
   bedehkar: number;
   bestankar: number;
   balanceBedehkar: number;
+  levels: number;
   balanceBestankar: number;
 }
