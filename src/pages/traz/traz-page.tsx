@@ -87,13 +87,15 @@ function TrazPage() {
   ];
 
   // modal
+  const [moeinId, setMoeinId] = useState(0);
   const trazDetailMutation = useMutation(trazApi.getData);
 
   const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
   const handleOpenDetailModal = (row: TableDataItemShape) => {
+    setMoeinId(+(row.code as string));
     trazDetailMutation.mutate({
       ...formData,
-      [trazConfig.MOEIN]: +(row.code || 1),
+      [trazConfig.MOEIN]: +(row.code as string),
     });
     setIsOpenDetailModal(true);
   };
@@ -156,7 +158,11 @@ function TrazPage() {
         handleClose={() => setIsOpenDetailModal(false)}
         loading={trazDetailMutation.isLoading}
       >
-        <TrazDetailModal data={trazDetailMutation.data?.data || []} />
+        <TrazDetailModal
+          formData={formData}
+          data={trazDetailMutation.data?.data || []}
+          moein={moeinId}
+        />
       </FixedModal>
     </>
   );

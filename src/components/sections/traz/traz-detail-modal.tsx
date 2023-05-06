@@ -2,9 +2,14 @@ import FixedTable from "components/data/table/fixed-table";
 import IconButton from "@mui/material/IconButton";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { TableHeadShape } from "types/table-type";
 import { TrazItemShape } from "types/data/traz/traz-type";
+import TrazDetailMoreModal from "./traz-detail-more-modal";
+import FixedModal from "components/ui/modal/fixed-modal";
+import { useMutation } from "@tanstack/react-query";
+import { trazApi } from "api/traz/traz-api";
+import { trazConfig } from "config/features/traz/traz-config";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -19,10 +24,12 @@ interface TableDataItemShape {
 
 interface TrazDetailModalProps {
   data: any[];
+  formData: any;
+  moein: number;
 }
 
 function TrazDetailModal(props: TrazDetailModalProps) {
-  const { data } = props;
+  const { data, formData, moein } = props;
 
   //   table heads
   const tableHeads: TableHeadShape = [
@@ -69,9 +76,26 @@ function TrazDetailModal(props: TrazDetailModalProps) {
     },
   ];
 
+  // modal
+  const trazMoreDetailMutation = useMutation(trazApi.getData);
+
+  const [isOpenMoreDetailModal, setIsOpenMoreDetailModal] = useState(false);
+  const handleOpenDetailModal = (row: TableDataItemShape) => {
+    trazMoreDetailMutation.mutate({
+      ...formData,
+      [trazConfig.MOEIN]: moein,
+      [trazConfig.tafsily]: +(row.code as string),
+    });
+    setIsOpenMoreDetailModal(true);
+  };
+
   //   table data
   const actionButtons = (row: TableDataItemShape) => (
-    <IconButton size="small" color="primary">
+    <IconButton
+      size="small"
+      color="primary"
+      onClick={() => handleOpenDetailModal(row)}
+    >
       <FormatListBulletedIcon />
     </IconButton>
   );
@@ -98,7 +122,18 @@ function TrazDetailModal(props: TrazDetailModalProps) {
 
   const tableData = data ? formatTableData(data) : [];
 
-  return <FixedTable heads={tableHeads} data={tableData} notFixed />;
+  return (
+    <>
+      <FixedTable heads={tableHeads} data={tableData} notFixed />
+      <FixedModal
+        open={isOpenMoreDetailModal}
+        handleClose={() => setIsOpenMoreDetailModal(false)}
+        loading={trazMoreDetailMutation.isLoading}
+      >
+        <TrazDetailMoreModal data={trazMoreDetailMutation.data?.data || []} />
+      </FixedModal>
+    </>
+  );
 }
 
 export default TrazDetailModal;

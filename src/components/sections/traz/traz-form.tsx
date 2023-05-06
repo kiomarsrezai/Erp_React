@@ -34,7 +34,7 @@ function TrazForm(props: TrazFormProps) {
 
   // change state
   useEffect(() => {
-    queryClient?.setQueryData(reactQueryKeys.transfer.getData, {
+    queryClient?.setQueryData(reactQueryKeys.traz.getData, {
       data: [],
     });
   }, [formData, queryClient]);
