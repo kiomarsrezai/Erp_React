@@ -5,15 +5,15 @@ import CloseIcon from "@mui/icons-material/Close";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
-import { createPortal } from "react-dom";
 
+import { createPortal } from "react-dom";
 import { ReactNode } from "react";
 import { styled } from "@mui/material/styles";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: 0,
-    height: 500,
+    // height: 500,
   },
 
   "& .MuiDialogTitle-root": {
@@ -33,10 +33,11 @@ interface FixedModalProps {
   children?: ReactNode;
   loading?: boolean;
   title?: string;
+  isNested?: boolean;
 }
 
 function FixedModal(props: FixedModalProps) {
-  const { open, handleClose, children, loading, title } = props;
+  const { open, handleClose, children, loading, title, isNested } = props;
 
   // loading
   const renderLoading = (
@@ -46,7 +47,18 @@ function FixedModal(props: FixedModalProps) {
   );
 
   return createPortal(
-    <BootstrapDialog open={open} onClose={handleClose} maxWidth="lg" fullWidth>
+    <BootstrapDialog
+      open={open}
+      onClose={handleClose}
+      sx={{
+        "& .MuiDialogContent-root": {},
+        "& .MuiDialog-container>.MuiPaper-root": {
+          height: isNested ? "550px" : "500px",
+          width: "100%",
+          maxWidth: isNested ? "900px" : "1200px",
+        },
+      }}
+    >
       <DialogTitle
         display="flex"
         justifyContent="space-between"

@@ -149,6 +149,7 @@ function FixedTable(props: FixedTableProps) {
             bgcolor: row[`bgcolor-${name}`] || "transparent",
             color: row[`textcolor-${name}`] || "#000",
             p: 1,
+            textAlign: row[`textAlign-${name}`] || item.align,
           }}
         >
           {formatDataCell(row[name], item, row)}

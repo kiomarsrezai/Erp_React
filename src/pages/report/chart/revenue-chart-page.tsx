@@ -29,8 +29,8 @@ const formatChatData = (unFormatData: GetChartShape): ChartDataShape[] => {
     const dataItem: ChartDataShape = {
       AreaName: unFormatData[0][i],
       Mosavab: unFormatData[1][i],
-      MosavabDaily: unFormatData[3][i],
-      Expense: unFormatData[2][i],
+      MosavabDaily: unFormatData[2][i],
+      Expense: unFormatData[3][i],
     };
     formatedData.push(dataItem);
   }

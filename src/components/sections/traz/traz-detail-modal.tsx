@@ -83,7 +83,8 @@ function TrazDetailModal(props: TrazDetailModalProps) {
 
   const [isOpenMoreDetailModal, setIsOpenMoreDetailModal] = useState(false);
   const handleOpenDetailModal = (row: TableDataItemShape) => {
-    const title = `${row.description} (${row.code})`;
+    const title = `${row.code} - ${row.description}`;
+
     setModalTitle(title);
 
     trazMoreDetailMutation.mutate({
@@ -153,6 +154,7 @@ function TrazDetailModal(props: TrazDetailModalProps) {
         handleClose={() => setIsOpenMoreDetailModal(false)}
         loading={trazMoreDetailMutation.isLoading}
         title={modalTitle}
+        isNested
       >
         <TrazDetailMoreModal data={trazMoreDetailMutation.data?.data || []} />
       </FixedModal>

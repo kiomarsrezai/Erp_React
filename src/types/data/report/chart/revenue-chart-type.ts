@@ -7,5 +7,5 @@ export interface GetSingleDetailRevenueChartShape {
   notGet: number;
   mosavab: number;
   mosavabDaily: number;
-  areaName: number;
+  areaName: string;
 }

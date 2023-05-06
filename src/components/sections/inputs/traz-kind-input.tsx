@@ -22,12 +22,8 @@ function TrazKindInput(props: TrazKindInputProps) {
       value: 2,
     },
     {
-      label: "درآمد و هزینه",
-      value: 3,
-    },
-    {
       label: "حساب های دائمی",
-      value: 4,
+      value: 3,
     },
   ];
 

@@ -3,14 +3,21 @@ import Stack from "@mui/material/Stack";
 import CheckboxLabeled from "components/ui/inputs/checkbox-labeled";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-import { ReactNode, useEffect, useMemo, useState } from "react";
+import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { TableHeadShape } from "types/table-type";
 import { revenueChartFormConfig } from "config/features/revenue-chart-config";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { revenueChartApi } from "api/report/chart-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 
-type GetChartShape = [number[], string[], string[], number[], number[]];
+type GetChartShape = [
+  number[],
+  string[],
+  string[],
+  number[],
+  number[],
+  number[]
+];
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -18,6 +25,7 @@ interface TableDataItemShape {
   code: ReactNode;
   mosavab: ReactNode;
   expense: ReactNode;
+  percent: ReactNode;
 }
 
 interface RevenueChartMoreDetailModalProps {
@@ -38,10 +46,19 @@ function RevenueChartMoreDetailModalContent(
     [revenueChartFormConfig.REVENUE]: formData[revenueChartFormConfig.REVENUE],
   });
 
+  const MountChecker = useRef(false);
   useEffect(() => {
-    queryClient.setQueryData(reactQueryKeys.report.chart.revenueMoreDetail, {
-      data: [[], [], [], []],
-    });
+    if (MountChecker.current) {
+      queryClient.setQueryData(reactQueryKeys.report.chart.revenueMoreDetail, {
+        data: [[], [], [], [], []],
+      });
+    }
+
+    const timeout = setTimeout(() => {
+      MountChecker.current = true;
+    }, 1000);
+
+    return () => clearTimeout(timeout);
   }, [tableFormData]);
 
   const queryClient = useQueryClient();
@@ -104,7 +121,7 @@ function RevenueChartMoreDetailModalContent(
           </LoadingButton>
         </Stack>
       ),
-      colspan: 5,
+      colspan: 6,
     },
   ];
 
@@ -135,6 +152,11 @@ function RevenueChartMoreDetailModalContent(
       split: true,
       align: "left",
     },
+    {
+      title: "%  جذب",
+      name: "percent",
+      percent: true,
+    },
   ];
 
   // body
@@ -153,12 +175,14 @@ function RevenueChartMoreDetailModalContent(
     let TotalMosavab = 0;
 
     for (let i = 0; i < length; i++) {
-      const dataItem: TableDataItemShape = {
+      const dataItem: TableDataItemShape | any = {
         number: i + 1,
         code: unFormatData[1][i],
         description: unFormatData[2][i],
         mosavab: unFormatData[3][i],
         expense: unFormatData[4][i],
+        percent: unFormatData[5][i],
+        "bgcolor-expense": unFormatData[4][i] < 0 ? "#d7a2a2" : "",
       };
       formatedData.push(dataItem);
       TotalExpense += unFormatData[4][i];
@@ -184,6 +208,7 @@ function RevenueChartMoreDetailModalContent(
     description: null,
     expense: totalFooter.expense,
     mosavab: totalFooter.mosavab,
+    percent: Math.round((totalFooter.expense / totalFooter.mosavab) * 100),
   };
 
   return (

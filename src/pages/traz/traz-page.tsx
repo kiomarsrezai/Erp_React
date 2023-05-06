@@ -95,7 +95,7 @@ function TrazPage() {
 
   const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
   const handleOpenDetailModal = (row: TableDataItemShape) => {
-    const title = `${row.description} (${row.code})`;
+    const title = `${row.code} - ${row.description}`;
     setModalTitle(title);
 
     setMoeinId(+(row.code as string));

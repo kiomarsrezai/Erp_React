@@ -79,6 +79,8 @@ function TrazDetailMoreModal(props: TrazDetailMoreModalProps) {
         id: item.sanadNumber,
         date: item.sanadDate,
         description: item.description,
+        "textAlign-description":
+          item.bedehkar >= item.bestankar ? "left" : "right",
         bedehkar: item.bedehkar,
         bestankar: item.bestankar,
         balanceBedehkar: item.balanceBedehkar,

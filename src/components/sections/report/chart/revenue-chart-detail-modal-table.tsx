@@ -84,7 +84,9 @@ function RevenueChartDetailModalTable(props: ChartDetailModalTableProps) {
   ];
 
   // body
-  const actionButtons = (row: TableDataItemShape) => (
+  const actionButtons = (
+    row: TableDataItemShape & GetSingleDetailRevenueChartShape
+  ) => (
     <IconButton
       size="small"
       color="primary"
@@ -103,18 +105,21 @@ function RevenueChartDetailModalTable(props: ChartDetailModalTableProps) {
   const formatTableData = (
     unFormatData: GetSingleDetailRevenueChartShape[]
   ): TableDataItemShape[] => {
-    const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
-      number: i + 1,
-      area: item.areaName,
-      dailyJazb: item.percentMosavabDaily,
-      expense: item.expense,
-      mosavab: item.mosavab,
-      mosavabDaily: item.mosavabDaily,
-      mosavabJazb: item.percentMosavab,
-      notDoneValue: item.notGet,
-      actions: actionButtons,
-      "textcolor-notDoneValue": () => getNotDoneColor(item),
-    }));
+    const formatedData: TableDataItemShape[] | any = unFormatData.map(
+      (item, i) => ({
+        ...item,
+        number: i + 1,
+        area: item.areaName,
+        dailyJazb: item.percentMosavabDaily,
+        expense: item.expense,
+        mosavab: item.mosavab,
+        mosavabDaily: item.mosavabDaily,
+        mosavabJazb: item.percentMosavab,
+        notDoneValue: item.notGet,
+        actions: actionButtons,
+        "textcolor-notDoneValue": () => getNotDoneColor(item),
+      })
+    );
 
     return formatedData;
   };
@@ -145,6 +150,7 @@ function RevenueChartDetailModalTable(props: ChartDetailModalTableProps) {
 
   // modal
   const [isOpenMoreDetailModal, setIsOpenMoreDetailModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
   const dataTableMutation = useMutation(revenueChartApi.getChart);
 
   const queryClient = useQueryClient();
@@ -163,7 +169,11 @@ function RevenueChartDetailModalTable(props: ChartDetailModalTableProps) {
     }
   );
 
-  const handleClickDetailValues = (row: TableDataItemShape) => {
+  const handleClickDetailValues = (
+    row: GetSingleDetailRevenueChartShape & TableDataItemShape
+  ) => {
+    setModalTitle(row.areaName as string);
+
     queryClient.setQueryData(reactQueryKeys.report.chart.revenueMoreDetail, []);
 
     setAreaId(row.area as number);
@@ -187,6 +197,8 @@ function RevenueChartDetailModalTable(props: ChartDetailModalTableProps) {
         open={isOpenMoreDetailModal}
         handleClose={handleCloseMoreContentModal}
         loading={dataTableMutation.isLoading}
+        title={modalTitle}
+        isNested
       >
         <RevenueChartMoreDetailModalContent
           data={revenueChart.data?.data || dataTableMutation.data?.data || []}
