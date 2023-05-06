@@ -84,6 +84,7 @@ function BudgetProposalPage() {
       <FormatListBulletedIcon />
     </IconButton>
   );
+
   const formatTableData = (
     unFormatData: GetSingleProposalItemShape[]
   ): TableDataItemShape[] => {

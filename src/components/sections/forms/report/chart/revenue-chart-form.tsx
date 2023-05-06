@@ -9,6 +9,8 @@ import YearInput from "components/sections/inputs/year-input";
 import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 import FixedModal from "components/ui/modal/fixed-modal";
 import RevenueChartDetailModalTable from "components/sections/report/chart/revenue-chart-detail-modal-table";
+import SectionGuard from "components/auth/section-guard";
+import userStore from "hooks/store/user-store";
 
 import { FormEvent, useEffect, useState } from "react";
 import { revenueChartFormConfig } from "config/features/revenue-chart-config";
@@ -16,10 +18,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { revenueChartApi } from "api/report/chart-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { centerItems, organItems } from "config/features/general-fields-config";
-import SectionGuard from "components/auth/section-guard";
 import { accessNamesConfig } from "config/access-names-config";
 import { filedItemsGuard, joinPermissions } from "helper/auth-utils";
-import userStore from "hooks/store/user-store";
 
 interface RevenueChartFormProps {
   formData: any;
@@ -237,6 +237,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
         loading={dataTableMutation.isLoading}
       >
         <RevenueChartDetailModalTable
+          formData={formData}
           data={dataTableMutation.data?.data || []}
         />
       </FixedModal>

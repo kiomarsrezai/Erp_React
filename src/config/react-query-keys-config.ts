@@ -10,6 +10,7 @@ export const reactQueryKeys = {
   report: {
     chart: {
       revenue: ["revenuse-chart"],
+      revenueMoreDetail: ["revenuse-chart-more-detail"],
     },
     proctor: {
       abstract: ["abstract-proctor"],

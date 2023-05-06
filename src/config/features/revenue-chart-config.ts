@@ -11,6 +11,7 @@ export const revenueChartFormConfig = {
   NIABATI: "niabati",
   PAGE_NAME: "reportChartRevenue",
   TAMIN_ATBAR: "tamin-atbar",
+  area: generalFieldsConfig.AREA,
 };
 
 export const REVENUE_CHART_URL = "BudSepApi/ChartApi";

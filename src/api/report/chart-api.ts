@@ -26,6 +26,9 @@ export const revenueChartApi = new (class extends BaseApi {
       [revenueChartFormConfig.LAON]: formdata[revenueChartFormConfig.LAON],
       [revenueChartFormConfig.NIABATI]:
         formdata[revenueChartFormConfig.NIABATI],
+      ...(formdata[revenueChartFormConfig.area] && {
+        [revenueChartFormConfig.area]: formdata[revenueChartFormConfig.area],
+      }),
     };
 
     return filterData;
