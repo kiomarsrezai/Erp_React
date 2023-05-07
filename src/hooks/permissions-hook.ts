@@ -59,7 +59,7 @@ function usePermissions() {
     "سال",
     accessNamesConfig.FIELD_YEAR,
     "yearName",
-    yearLevel1Query.data?.data || []
+    yearLevel2Query.data?.data || []
   );
 
   // organ

@@ -23,6 +23,6 @@ export const AUTH_URLS = {
   login: "UsersApi/SignIn",
   setLicense: "UsersApi/Savelicense",
   userByTocken: "UsersApi/GetUserByTocken",
-  allUsers: "UsersApi",
+  allUsers: "UsersApi/UserListPagination",
   changePassword: "UsersApi/UserChangePassword",
 };

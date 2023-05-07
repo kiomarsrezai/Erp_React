@@ -28,7 +28,7 @@ function SelectUser(props: SelectUserProps) {
 
   useEffect(() => {
     if (searchText) {
-      usersMutation.mutate();
+      usersMutation.mutate(searchText);
     }
   }, [searchText]);
 

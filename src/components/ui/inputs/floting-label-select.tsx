@@ -4,6 +4,7 @@ import InputLabel from "@mui/material/InputLabel";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
+import { useEffect } from "react";
 
 interface FlotingLabelTextfieldProps {
   label: string;
@@ -22,6 +23,14 @@ function FlotingLabelSelect(props: FlotingLabelTextfieldProps) {
 
     setter((prevState: any) => ({ ...prevState, [name]: value }));
   };
+
+  // default select
+  useEffect(() => {
+    setter((prevState: any) => ({
+      ...prevState,
+      ...(items?.[0]?.value && { [name]: items[0].value }),
+    }));
+  }, [items]);
 
   // select items
   const renderItems = items.map((item) => (

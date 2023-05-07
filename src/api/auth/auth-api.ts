@@ -37,12 +37,11 @@ export const AuthApi = new (class extends BaseApi {
     return response.data;
   };
 
-  userList = async () => {
+  userList = async (text: string) => {
     const formData = {
       offset: 0,
       limit: 20,
-      order: 1,
-      search: "",
+      searchText: text || "",
     };
 
     const url = AUTH_URLS.allUsers + this.joinFilterData(formData);
