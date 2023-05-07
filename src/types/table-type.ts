@@ -20,6 +20,7 @@ export interface TableSingleHeadShape {
   hidden?: boolean;
   hiddenSelf?: boolean;
   forceHaveBorder?: boolean;
+  canSort?: true;
 }
 
 export type TableHeadShape = TableSingleHeadShape[];

@@ -6,7 +6,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
 import grey from "@mui/material/colors/grey";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import TableSortLabel from "@mui/material/TableSortLabel";
 
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
@@ -54,6 +57,36 @@ function FixedTable(props: FixedTableProps) {
   const { heads, headGroups, data, footer, notFixed, topHeadGroups } = props;
 
   const visibleHeads = heads.filter((item) => !item.hidden);
+
+  // sort
+  const [orderBy, setOrderBy] = useState("");
+  const [ordered, setOrdered] = useState<false | "asc" | "desc">(false);
+
+  const sortedData = orderBy
+    ? [...data].sort((a: any, b: any) => {
+        if (ordered === "asc") {
+          return b[orderBy] - a[orderBy];
+        } else {
+          return a[orderBy] - b[orderBy];
+        }
+      })
+    : data;
+
+  const handleSortClick = (name: string) => {
+    if (ordered === "desc") {
+      setOrderBy("");
+      setOrdered(false);
+      return;
+    }
+
+    if (orderBy === name) {
+      setOrdered((state) => (state === "asc" ? "desc" : "asc"));
+      return;
+    }
+
+    setOrdered("asc");
+    setOrderBy(name);
+  };
 
   // head
   const [headGroupHright, setHeadGroupHright] = useState(0);
@@ -124,10 +157,21 @@ function FixedTable(props: FixedTableProps) {
                     borderColor: grey[borderColor],
                   },
                   p: 1,
+                  ...(head.canSort && { cursor: "pointer" }),
                 }}
                 align="center"
               >
-                {head.title}
+                {head.canSort ? (
+                  <TableSortLabel
+                    active={head.name === orderBy}
+                    direction={ordered || "asc"}
+                    onClick={() => handleSortClick(head.name)}
+                  >
+                    {head.title}
+                  </TableSortLabel>
+                ) : (
+                  head.title
+                )}
               </TableCell>
             )
         )}
@@ -207,7 +251,7 @@ function FixedTable(props: FixedTableProps) {
         <Table stickyHeader>
           <TableHead sx={{ bgcolor: grey[200] }}>{tableHeadContent}</TableHead>
           <TableBody>
-            {data.map((row: any, i: number) => (
+            {sortedData.map((row: any, i: number) => (
               <TableRow
                 key={i}
                 sx={{

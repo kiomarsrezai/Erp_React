@@ -156,6 +156,7 @@ function RevenueChartMoreDetailModalContent(
       title: "%  جذب",
       name: "percent",
       percent: true,
+      canSort: true,
     },
   ];
 
