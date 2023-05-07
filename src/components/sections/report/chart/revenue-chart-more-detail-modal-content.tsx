@@ -145,12 +145,14 @@ function RevenueChartMoreDetailModalContent(
       name: "mosavab",
       split: true,
       align: "left",
+      canSort: true,
     },
     {
       title: "عملکرد",
       name: "expense",
-      split: true,
       align: "left",
+      split: true,
+      canSort: true,
     },
     {
       title: "%  جذب",

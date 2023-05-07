@@ -6,9 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
 import grey from "@mui/material/colors/grey";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import TableSortLabel from "@mui/material/TableSortLabel";
 
 import { ReactNode, useEffect, useRef, useState } from "react";
@@ -73,13 +71,13 @@ function FixedTable(props: FixedTableProps) {
     : data;
 
   const handleSortClick = (name: string) => {
-    if (ordered === "desc") {
-      setOrderBy("");
-      setOrdered(false);
-      return;
-    }
-
     if (orderBy === name) {
+      if (ordered === "desc") {
+        setOrderBy("");
+        setOrdered(false);
+        return;
+      }
+
       setOrdered((state) => (state === "asc" ? "desc" : "asc"));
       return;
     }
@@ -164,8 +162,13 @@ function FixedTable(props: FixedTableProps) {
                 {head.canSort ? (
                   <TableSortLabel
                     active={head.name === orderBy}
-                    direction={ordered || "asc"}
+                    direction={head.name === orderBy ? (ordered as any) : "asc"}
                     onClick={() => handleSortClick(head.name)}
+                    sx={{
+                      "& .MuiSvgIcon-root": {
+                        opacity: 0.3,
+                      },
+                    }}
                   >
                     {head.title}
                   </TableSortLabel>
