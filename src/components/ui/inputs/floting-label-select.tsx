@@ -30,7 +30,7 @@ function FlotingLabelSelect(props: FlotingLabelTextfieldProps) {
       ...prevState,
       ...(items?.[0]?.value && { [name]: items[0].value }),
     }));
-  }, [items]);
+  }, []);
 
   // select items
   const renderItems = items.map((item) => (
