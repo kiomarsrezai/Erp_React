@@ -57,23 +57,6 @@ function FixedModal(props: FixedModalProps) {
     </Box>
   );
 
-  // heaigt
-  // const getHeight : string = () => {
-  //   if (isBig) {
-  //     if (isNested) {
-  //       return;
-  //     } else {
-  //       return;
-  //     }
-  //   } else {
-  //     if (isNested) {
-  //       return;
-  //     } else {
-  //       return;
-  //     }
-  //   }
-  // };
-
   return createPortal(
     <BootstrapDialog
       open={open}
@@ -99,7 +82,7 @@ function FixedModal(props: FixedModalProps) {
         </IconButton>
       </DialogTitle>
       <DialogContent dividers>
-        <Box maxHeight={1}>{loading ? renderLoading : children}</Box>
+        {loading ? renderLoading : children}
       </DialogContent>
     </BootstrapDialog>,
     document.body

@@ -6,7 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import grey from "@mui/material/colors/grey";
+import { grey, blue } from "@mui/material/colors";
 import TableSortLabel from "@mui/material/TableSortLabel";
 
 import { ReactNode, useEffect, useRef, useState } from "react";
@@ -65,8 +65,22 @@ function FixedTable(props: FixedTableProps) {
   const sortedData = orderBy
     ? [...data].sort((a: any, b: any) => {
         if (ordered === "asc") {
+          if (isNaN(+a[orderBy])) {
+            return a[orderBy] > b[orderBy]
+              ? 1
+              : b[orderBy] > a[orderBy]
+              ? -1
+              : 0;
+          }
           return b[orderBy] - a[orderBy];
         } else {
+          if (isNaN(+a[orderBy])) {
+            return a[orderBy] < b[orderBy]
+              ? 1
+              : b[orderBy] < a[orderBy]
+              ? -1
+              : 0;
+          }
           return a[orderBy] - b[orderBy];
         }
       })
@@ -169,6 +183,10 @@ function FixedTable(props: FixedTableProps) {
                     sx={{
                       "& .MuiSvgIcon-root": {
                         opacity: 0.3,
+                        color:
+                          head.name === orderBy
+                            ? `${blue[600]} !important`
+                            : "",
                       },
                     }}
                   >

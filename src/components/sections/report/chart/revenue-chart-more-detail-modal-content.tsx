@@ -134,6 +134,7 @@ function RevenueChartMoreDetailModalContent(
     {
       title: "کد",
       name: "code",
+      canSort: true,
     },
     {
       title: "شرح",

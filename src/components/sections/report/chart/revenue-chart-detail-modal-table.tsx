@@ -42,40 +42,47 @@ function RevenueChartDetailModalTable(props: ChartDetailModalTableProps) {
     {
       title: "منطقه",
       name: "area",
+      canSort: true,
     },
     {
       title: "مصوب",
       name: "mosavab",
       split: true,
       align: "left",
+      canSort: true,
     },
     {
       title: "مصوب روزانه",
       name: "mosavabDaily",
       split: true,
       align: "left",
+      canSort: true,
     },
     {
       title: "عملکرد",
       name: "expense",
       split: true,
       align: "left",
+      canSort: true,
     },
     {
       title: "محقق نشده",
       name: "notDoneValue",
       split: true,
       align: "left",
+      canSort: true,
     },
     {
       title: "جذب روزانه %",
       name: "dailyJazb",
       percent: true,
+      canSort: true,
     },
     {
       title: "جذب به مصوب %",
       name: "mosavabJazb",
       percent: true,
+      canSort: true,
     },
     {
       title: "عملیات",
@@ -175,11 +182,12 @@ function RevenueChartDetailModalTable(props: ChartDetailModalTableProps) {
     setModalTitle(row.areaName as string);
 
     queryClient.setQueryData(reactQueryKeys.report.chart.revenueMoreDetail, []);
+    console.log(row.areaId);
 
-    setAreaId(row.area as number);
+    setAreaId(row.areaId as number);
     dataTableMutation.mutate({
       ...formData,
-      [revenueChartFormConfig.area]: row.area,
+      [revenueChartFormConfig.area]: row.areaId,
     });
     setIsOpenMoreDetailModal(true);
   };
@@ -199,6 +207,7 @@ function RevenueChartDetailModalTable(props: ChartDetailModalTableProps) {
         loading={dataTableMutation.isLoading}
         title={modalTitle}
         isNested
+        isBiger
       >
         <RevenueChartMoreDetailModalContent
           data={revenueChart.data?.data || dataTableMutation.data?.data || []}
