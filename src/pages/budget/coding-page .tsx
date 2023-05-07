@@ -6,16 +6,12 @@ import CodingBudgetForm from "components/sections/forms/budget/coding/coding-bud
 
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { ReactNode, useState } from "react";
-import { proposalConfig } from "config/features/budget/proposal-config";
-import { GetSingleProposalItemShape } from "types/data/budget/proposal-type";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
-import { getBgColorBudget } from "helper/get-color-utils";
 import { codingBudgetApi } from "api/budget/coding-api";
 import FixedModal from "components/ui/modal/fixed-modal";
 import CodingBudgetModal from "components/sections/forms/budget/coding/coding-budget-modal";
 import { GetSingleCodingItemShape } from "types/data/budget/coding-type";
-import CheckboxLabeled from "components/ui/inputs/checkbox-labeled";
 import { Checkbox } from "@mui/material";
 import { codingBudgetConfig } from "config/features/budget/coding-config";
 
@@ -90,24 +86,34 @@ function BudgetCodingPage() {
   ) => {
     detailCodingMutation.mutate({
       ...formData,
-      [codingBudgetConfig.mother_id]: row.motherId,
+      [codingBudgetConfig.mother_id]: row.id,
     });
     setIsOpenModal(true);
   };
 
   // data
-  const actionButtons = (
-    row: TableDataItemShape & GetSingleCodingItemShape
-  ) => (
-    <IconButton
-      size="small"
-      color="primary"
-      onClick={() => openDeatilModal(row)}
-    >
-      <FormatListBulletedIcon />
-    </IconButton>
-  );
+  const actionButtons = (row: TableDataItemShape & GetSingleCodingItemShape) =>
+    row.levelNumber === 3 ? (
+      <IconButton
+        size="small"
+        color="primary"
+        onClick={() => openDeatilModal(row)}
+      >
+        <FormatListBulletedIcon />
+      </IconButton>
+    ) : (
+      ""
+    );
 
+  const getBgColor = (levelNumber: number) => {
+    if (levelNumber === 1) {
+      return "rgb(248,203,173)";
+    } else if (levelNumber === 2) {
+      return "rgb(198,224,180)";
+    } else if (levelNumber === 3) {
+      return "#fff";
+    }
+  };
   const formatTableData = (
     unFormatData: GetSingleCodingItemShape[]
   ): TableDataItemShape[] => {
@@ -121,6 +127,7 @@ function BudgetCodingPage() {
         level: item.levelNumber,
         revenueType: item.codingRevenueKind,
         show: <Checkbox defaultChecked={item.show} />,
+        bgcolor: getBgColor(item.levelNumber),
         actions: actionButtons,
       })
     );
@@ -157,7 +164,10 @@ function BudgetCodingPage() {
         maxHeight="90%"
         loading={detailCodingMutation.isLoading}
       >
-        <CodingBudgetModal data={detailCodingMutation.data?.data || []} />
+        <CodingBudgetModal
+          formData={formData}
+          data={detailCodingMutation.data?.data || []}
+        />
       </FixedModal>
     </>
   );

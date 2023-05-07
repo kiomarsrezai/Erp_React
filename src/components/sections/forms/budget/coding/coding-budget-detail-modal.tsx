@@ -1,16 +1,13 @@
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import FixedTable from "components/data/table/fixed-table";
-import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import CircularProgress from "@mui/material/CircularProgress";
+import Checkbox from "@mui/material/Checkbox";
 
 import { TableHeadShape } from "types/table-type";
 import { ReactNode } from "react";
 import { GetSingleCodingItemShape } from "types/data/budget/coding-type";
-import { Checkbox } from "@mui/material";
-import { codingBudgetApi } from "api/budget/coding-api";
-import { useMutation } from "@tanstack/react-query";
-import { codingBudgetConfig } from "config/features/budget/coding-config";
-import CodingBudgetDetailModal from "./coding-budget-detail-modal";
 
 interface TableDataItemShape {
   rowNumber: ReactNode;
@@ -23,12 +20,12 @@ interface TableDataItemShape {
   actions: ((row: TableDataItemShape) => ReactNode) | ReactNode;
 }
 
-interface CodingBudgetModalProps {
+interface CodingBudgetDetailModalProps {
   data: any[];
-  formData: any;
+  loading: boolean;
 }
-function CodingBudgetModal(props: CodingBudgetModalProps) {
-  const { data, formData } = props;
+function CodingBudgetDetailModal(props: CodingBudgetDetailModalProps) {
+  const { data, loading } = props;
 
   // heads
   const tableHeads: TableHeadShape = [
@@ -67,28 +64,12 @@ function CodingBudgetModal(props: CodingBudgetModalProps) {
     },
   ];
 
-  // more detail
-  const detailCodingMutation = useMutation(codingBudgetApi.getData);
-
-  const openMoreDetail = (
-    row: TableDataItemShape & GetSingleCodingItemShape
-  ) => {
-    detailCodingMutation.mutate({
-      ...formData,
-      [codingBudgetConfig.mother_id]: row.id,
-    });
-  };
-
   // data
   const actionButtons = (
     row: TableDataItemShape & GetSingleCodingItemShape
   ) => (
-    <IconButton
-      size="small"
-      color="primary"
-      onClick={() => openMoreDetail(row)}
-    >
-      <ArrowCircleLeftIcon />
+    <IconButton size="small" color="primary">
+      <FormatListBulletedIcon />
     </IconButton>
   );
 
@@ -114,19 +95,15 @@ function CodingBudgetModal(props: CodingBudgetModalProps) {
 
   const tableData = data ? formatTableData(data) : [];
 
-  return (
-    <Box display={"flex"}>
-      <Box sx={{ width: "50%", borderRight: 1, borderColor: "grey.400" }}>
-        <FixedTable data={tableData} heads={tableHeads} />
+  if (loading) {
+    return (
+      <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
+        <CircularProgress color="inherit" />
       </Box>
-      <Box sx={{ width: "50%" }}>
-        <CodingBudgetDetailModal
-          data={detailCodingMutation.data?.data || []}
-          loading={detailCodingMutation.isLoading}
-        />
-      </Box>
-    </Box>
-  );
+    );
+  }
+
+  return <FixedTable data={tableData} heads={tableHeads} />;
 }
 
-export default CodingBudgetModal;
+export default CodingBudgetDetailModal;
