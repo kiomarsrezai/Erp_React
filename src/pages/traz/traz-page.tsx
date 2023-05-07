@@ -3,6 +3,8 @@ import FixedTable from "components/data/table/fixed-table";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import IconButton from "@mui/material/IconButton";
 import TrazForm from "components/sections/traz/traz-form";
+import FixedModal from "components/ui/modal/fixed-modal";
+import TrazDetailModal from "components/sections/traz/traz-detail-modal";
 
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { ReactNode, useState } from "react";
@@ -11,8 +13,6 @@ import { reactQueryKeys } from "config/react-query-keys-config";
 import { TrazItemShape } from "types/data/traz/traz-type";
 import { trazApi } from "api/traz/traz-api";
 import { trazConfig } from "config/features/traz/traz-config";
-import FixedModal from "components/ui/modal/fixed-modal";
-import TrazDetailModal from "components/sections/traz/traz-detail-modal";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 
 interface TableDataItemShape {

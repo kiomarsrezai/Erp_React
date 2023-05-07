@@ -12,8 +12,8 @@ interface SingleYearGeneralShape {
 }
 
 export const yearGeneralApi = new (class extends BaseApi {
-  getData = async () => {
-    const url = "GeneralApi/YearFetch";
+  getData = async (level: number) => {
+    const url = `GeneralApi/YearFetch?kindId=${level}`;
 
     const response = await clientAxios.get<
       BaseApiResponseShape<SingleYearGeneralShape[]>

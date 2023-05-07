@@ -6,6 +6,7 @@ import {
   budgetMethodItems,
   centerItems,
   organItems,
+  trazKindItems,
 } from "config/features/general-fields-config";
 import { revenueChartFormConfig } from "config/features/revenue-chart-config";
 import { AccessItemShape } from "types/access-type";
@@ -39,13 +40,26 @@ function usePermissions() {
   };
 
   //   year
-  const yearQuery = useQuery(["general-year"], yearGeneralApi.getData);
+  const yearLevel1Query = useQuery(["general-year", 1], () =>
+    yearGeneralApi.getData(1)
+  );
 
-  const yearField: AccessItemShape = formatApiFields(
+  const yearLevel2Query = useQuery(["general-year", 2], () =>
+    yearGeneralApi.getData(2)
+  );
+
+  const yearLevel1Field: AccessItemShape = formatApiFields(
     "سال",
     accessNamesConfig.FIELD_YEAR,
     "yearName",
-    yearQuery.data?.data || []
+    yearLevel1Query.data?.data || []
+  );
+
+  const yearLevel2Field: AccessItemShape = formatApiFields(
+    "سال",
+    accessNamesConfig.FIELD_YEAR,
+    "yearName",
+    yearLevel1Query.data?.data || []
   );
 
   // organ
@@ -60,6 +74,13 @@ function usePermissions() {
     "نوع بودجه",
     accessNamesConfig.FIELD_BUDGET_METHOD,
     budgetMethodItems
+  );
+
+  // traz type
+  const trazKindField = formatLocalFields(
+    "نوع تراز",
+    accessNamesConfig.TRAZ_PAGE__KIND,
+    trazKindItems
   );
 
   //   area
@@ -90,7 +111,7 @@ function usePermissions() {
       label: "گزارش",
       name: accessNamesConfig.REVENUE_CHART_PAGE,
       value: [
-        yearField,
+        yearLevel1Field,
         organField,
         formatLocalFields(
           "مرکز",
@@ -110,14 +131,14 @@ function usePermissions() {
     {
       label: "بودجه",
       name: accessNamesConfig.BUDGET_PROPOSAL_PAGE,
-      value: [yearField, areaNumber1Field, budgetMethodField],
+      value: [yearLevel1Field, areaNumber1Field, budgetMethodField],
     },
 
     {
       label: "بودجه تفکیکی",
       name: accessNamesConfig.SEPRATOR_BUDGET_PAGE,
       value: [
-        yearField,
+        yearLevel1Field,
         areaNumber2Field,
         budgetMethodField,
         {
@@ -129,12 +150,12 @@ function usePermissions() {
     {
       label: "متولی ها",
       name: accessNamesConfig.ABSTRUCT_PROCTOR_PAGE,
-      value: [yearField],
+      value: [yearLevel1Field],
     },
     {
       label: "واسط کدینگ",
       name: accessNamesConfig.TRANSFER_PAGE,
-      value: [yearField, areaNumber2Field, budgetMethodField],
+      value: [yearLevel1Field, areaNumber2Field, budgetMethodField],
     },
     {
       label: "درخواست اعتبار",
@@ -155,15 +176,17 @@ function usePermissions() {
     {
       label: "ساختار",
       name: accessNamesConfig.ORGANIZATION_POSTS_PAGE,
+      value: [areaNumber2Field],
     },
     {
       label: "تراز",
       name: accessNamesConfig.TRAZ_PAGE,
+      value: [yearLevel2Field, areaNumber2Field, trazKindField],
     },
   ];
 
   return {
-    loading: yearQuery.isLoading || areaNumber2Query.isLoading,
+    loading: yearLevel1Query.isLoading || areaNumber2Query.isLoading,
     data: ACCESS_CONFIG,
   };
 }

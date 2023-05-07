@@ -22,7 +22,7 @@ function AreaInput(props: AreaInputProps) {
   const userLicenses = userStore((state) => state.permissions);
 
   const areaQuery = useQuery(
-    ["general-area"],
+    ["general-area", level || 2],
     () => areaGeneralApi.getData(level || 2),
     {
       onSuccess: (data) => {

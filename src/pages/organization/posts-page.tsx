@@ -10,6 +10,9 @@ import { orgPostsConfig } from "config/features/orginization/posts-config";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { orgPostsApi } from "api/organizition/posts-otg-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
+import { accessNamesConfig } from "config/access-names-config";
+import SectionGuard from "components/auth/section-guard";
+import { joinPermissions } from "helper/auth-utils";
 
 function PostsOrganzationPage() {
   const [formdata, setFormdata] = useState({
@@ -62,7 +65,18 @@ function PostsOrganzationPage() {
 
     return (
       <Box component="form" sx={{ width: 700, mx: "auto", p: 3 }}>
-        <AreaInput value={formdata[orgPostsConfig.area]} setter={setFormdata} />
+        <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.ORGANIZATION_POSTS_PAGE,
+            accessNamesConfig.FIELD_AREA,
+          ])}
+        >
+          <AreaInput
+            value={formdata[orgPostsConfig.area]}
+            setter={setFormdata}
+            permissionForm={accessNamesConfig.ORGANIZATION_POSTS_PAGE}
+          />
+        </SectionGuard>
         <Button variant="contained" sx={{ mt: 1 }} onClick={handleDoneClick}>
           انتخاب
         </Button>

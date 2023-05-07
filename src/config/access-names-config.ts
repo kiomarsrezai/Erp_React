@@ -19,6 +19,7 @@ export const accessNamesConfig = {
 
   // traz form
   TRAZ_PAGE: "traz",
+  TRAZ_PAGE__KIND: "kind",
 
   //
   ABSTRUCT_PROCTOR_PAGE: "abstruct-proctor",

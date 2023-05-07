@@ -51,3 +51,18 @@ export const budgetMethodItems: FlotingLabelTextfieldItemsShape = [
     value: 5,
   },
 ];
+
+export const trazKindItems: FlotingLabelTextfieldItemsShape = [
+  {
+    label: "درآمد",
+    value: 1,
+  },
+  {
+    label: "هزینه",
+    value: 2,
+  },
+  {
+    label: "حساب های دائمی",
+    value: 3,
+  },
+];

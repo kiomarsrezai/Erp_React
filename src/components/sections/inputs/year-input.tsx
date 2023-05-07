@@ -14,20 +14,25 @@ interface YearInputProps {
   value: number;
   permissionForm?: string;
   disabled?: boolean;
+  level?: number;
 }
 
 function YearInput(props: YearInputProps) {
-  const { setter, value, permissionForm, disabled } = props;
+  const { setter, value, permissionForm, disabled, level } = props;
   const userLicenses = userStore((state) => state.permissions);
 
-  const yearQuery = useQuery(["general-year"], yearGeneralApi.getData, {
-    onSuccess: (data) => {
-      setter((prevState: any) => ({
-        ...prevState,
-        [generalFieldsConfig.YEAR]: data.data[0].id,
-      }));
-    },
-  });
+  const yearQuery = useQuery(
+    ["general-year", level || 1],
+    () => yearGeneralApi.getData(level || 1),
+    {
+      onSuccess: (data) => {
+        setter((prevState: any) => ({
+          ...prevState,
+          [generalFieldsConfig.YEAR]: data.data[0].id,
+        }));
+      },
+    }
+  );
 
   const yearItems: FlotingLabelTextfieldItemsShape = yearQuery.data
     ? yearQuery.data.data.map((item) => ({
