@@ -1,6 +1,7 @@
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -173,9 +174,15 @@ function LoginForm() {
             </Stack>
 
             <Stack spacing={1}>
-              <Button variant="contained" fullWidth size="large" type="submit">
+              <LoadingButton
+                variant="contained"
+                size="large"
+                type="submit"
+                loading={loginMutation.isLoading}
+                fullWidth
+              >
                 ورود
-              </Button>
+              </LoadingButton>
 
               <Box>
                 <Button

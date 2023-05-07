@@ -235,6 +235,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
         open={isOpenModal}
         handleClose={handleCloseModal}
         loading={dataTableMutation.isLoading}
+        isBig
       >
         <RevenueChartDetailModalTable
           formData={formData}

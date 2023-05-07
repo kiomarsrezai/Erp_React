@@ -34,10 +34,21 @@ interface FixedModalProps {
   loading?: boolean;
   title?: string;
   isNested?: boolean;
+  isBig?: boolean;
+  isBiger?: boolean;
 }
 
 function FixedModal(props: FixedModalProps) {
-  const { open, handleClose, children, loading, title, isNested } = props;
+  const {
+    open,
+    handleClose,
+    children,
+    loading,
+    title,
+    isNested,
+    isBig,
+    isBiger,
+  } = props;
 
   // loading
   const renderLoading = (
@@ -46,6 +57,23 @@ function FixedModal(props: FixedModalProps) {
     </Box>
   );
 
+  // heaigt
+  // const getHeight : string = () => {
+  //   if (isBig) {
+  //     if (isNested) {
+  //       return;
+  //     } else {
+  //       return;
+  //     }
+  //   } else {
+  //     if (isNested) {
+  //       return;
+  //     } else {
+  //       return;
+  //     }
+  //   }
+  // };
+
   return createPortal(
     <BootstrapDialog
       open={open}
@@ -53,7 +81,8 @@ function FixedModal(props: FixedModalProps) {
       sx={{
         "& .MuiDialogContent-root": {},
         "& .MuiDialog-container>.MuiPaper-root": {
-          height: isNested ? "550px" : "500px",
+          height: isBiger ? "90%" : isBig ? "80%" : isNested ? "70%" : "60%",
+          minHeight: "500px",
           width: "100%",
           maxWidth: isNested ? "900px" : "1200px",
         },
