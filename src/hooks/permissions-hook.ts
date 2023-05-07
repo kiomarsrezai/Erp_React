@@ -133,7 +133,6 @@ function usePermissions() {
       name: accessNamesConfig.BUDGET_PROPOSAL_PAGE,
       value: [yearLevel1Field, areaNumber1Field, budgetMethodField],
     },
-
     {
       label: "بودجه تفکیکی",
       name: accessNamesConfig.SEPRATOR_BUDGET_PAGE,
@@ -146,6 +145,11 @@ function usePermissions() {
           name: accessNamesConfig.SEPRATOR_BUDGET_PAGE__TAMIN_BTN,
         },
       ],
+    },
+    {
+      label: "کدینگ بودجه",
+      name: accessNamesConfig.BUDGET_CODING_PAGE,
+      value: [budgetMethodField],
     },
     {
       label: "متولی ها",

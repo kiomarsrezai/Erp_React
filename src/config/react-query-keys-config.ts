@@ -6,6 +6,9 @@ export const reactQueryKeys = {
     proposal: {
       getData: ["budget-propsal"],
     },
+    coding: {
+      getData: ["budget-coding"],
+    },
   },
   traz: {
     getData: ["data-traz"],

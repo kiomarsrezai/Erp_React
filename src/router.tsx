@@ -15,6 +15,7 @@ import TrazPage from "pages/traz/traz-page";
 
 import { createBrowserRouter } from "react-router-dom";
 import { accessNamesConfig } from "config/access-names-config";
+import BudgetCodingPage from "pages/budget/coding-page ";
 
 const router = createBrowserRouter([
   // globla
@@ -62,6 +63,15 @@ const router = createBrowserRouter([
       <PageGuard
         render={<BudgetSepratorPage />}
         permission={accessNamesConfig.SEPRATOR_BUDGET_PAGE}
+      />
+    ),
+  },
+  {
+    path: "/budget/coding",
+    element: (
+      <PageGuard
+        render={<BudgetCodingPage />}
+        permission={accessNamesConfig.BUDGET_CODING_PAGE}
       />
     ),
   },

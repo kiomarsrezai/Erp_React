@@ -21,6 +21,9 @@ export const accessNamesConfig = {
   TRAZ_PAGE: "traz",
   TRAZ_PAGE__KIND: "kind",
 
+  // coding
+  BUDGET_CODING_PAGE: "budget-coding-page",
+
   //
   ABSTRUCT_PROCTOR_PAGE: "abstruct-proctor",
   CREDIT_REQUEST_PAGE: "credit-request",

@@ -199,6 +199,7 @@ function RevenueChartDetailModalTable(props: ChartDetailModalTableProps) {
         data={tableData}
         footer={tableFooter}
         notFixed
+        canSort
       />
 
       <FixedModal

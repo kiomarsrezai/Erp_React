@@ -17,6 +17,7 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import SectionGuard from "components/auth/section-guard";
 import SortSharpIcon from "@mui/icons-material/SortSharp";
 import DesignServicesIcon from "@mui/icons-material/DesignServices";
+import CodeIcon from "@mui/icons-material/Code";
 
 import { blue } from "@mui/material/colors";
 import { ReactNode } from "react";
@@ -51,6 +52,12 @@ function AdminSidenavMenu() {
       path: "/budget/seprator",
       icon: <PointOfSaleIcon />,
       licenseName: accessNamesConfig.SEPRATOR_BUDGET_PAGE,
+    },
+    {
+      title: "کدینگ بودجه",
+      path: "/budget/coding",
+      icon: <CodeIcon />,
+      licenseName: accessNamesConfig.BUDGET_CODING_PAGE,
     },
     {
       title: "متولی ها",

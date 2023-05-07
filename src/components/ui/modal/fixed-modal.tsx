@@ -33,6 +33,8 @@ interface FixedModalProps {
   children?: ReactNode;
   loading?: boolean;
   title?: string;
+  maxWidth?: string;
+  maxHeight?: string;
   isNested?: boolean;
   isBig?: boolean;
   isBiger?: boolean;
@@ -48,6 +50,8 @@ function FixedModal(props: FixedModalProps) {
     isNested,
     isBig,
     isBiger,
+    maxWidth,
+    maxHeight,
   } = props;
 
   // loading
@@ -64,10 +68,12 @@ function FixedModal(props: FixedModalProps) {
       sx={{
         "& .MuiDialogContent-root": {},
         "& .MuiDialog-container>.MuiPaper-root": {
-          height: isBiger ? "90%" : isBig ? "80%" : isNested ? "70%" : "60%",
+          height:
+            maxHeight ||
+            (isBiger ? "90%" : isBig ? "80%" : isNested ? "70%" : "60%"),
           minHeight: "500px",
           width: "100%",
-          maxWidth: isNested ? "900px" : "1200px",
+          maxWidth: maxWidth || (isNested ? "md" : "lg"),
         },
       }}
     >

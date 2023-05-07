@@ -13,7 +13,7 @@ export const proposalBudgetApi = new (class extends BaseApi {
   getData = async (formdata: any) => {
     const filterData = {
       [proposalConfig.YEAR]: formdata[proposalConfig.YEAR],
-      [proposalConfig.AREA]: 10, // formdata[proposalConfig.AREA],
+      [proposalConfig.AREA]: formdata[proposalConfig.AREA],
       [proposalConfig.BUDGET_METHOD]: formdata[proposalConfig.BUDGET_METHOD],
     };
 
