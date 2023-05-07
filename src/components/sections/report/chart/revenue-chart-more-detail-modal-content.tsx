@@ -220,6 +220,7 @@ function RevenueChartMoreDetailModalContent(
       data={tableData}
       headGroups={tableHeadGroup}
       footer={tableFooter}
+      canSort
       notFixed
     />
   );

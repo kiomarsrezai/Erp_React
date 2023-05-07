@@ -49,10 +49,12 @@ interface FixedTableProps {
   data: any;
   footer?: any;
   notFixed?: boolean;
+  canSort?: boolean;
 }
 
 function FixedTable(props: FixedTableProps) {
-  const { heads, headGroups, data, footer, notFixed, topHeadGroups } = props;
+  const { heads, headGroups, data, footer, notFixed, topHeadGroups, canSort } =
+    props;
 
   const visibleHeads = heads.filter((item) => !item.hidden);
 
@@ -183,9 +185,27 @@ function FixedTable(props: FixedTableProps) {
   );
 
   // data
-  const getRenderDataCells = (row: any) => {
+  const getRenderDataCells = (row: any, rowNumber: number) => {
     return visibleHeads.map((item, i) => {
       const name = item.name;
+
+      if (i === 0 && canSort) {
+        return (
+          <TableCell
+            align={item.align || "center"}
+            key={i}
+            dir={typeof row[name] === "number" ? "ltr" : "rtl"}
+            sx={{
+              bgcolor: row[`bgcolor-${name}`] || "transparent",
+              color: row[`textcolor-${name}`] || "#000",
+              p: 1,
+              textAlign: row[`textAlign-${name}`] || item.align,
+            }}
+          >
+            {rowNumber}
+          </TableCell>
+        );
+      }
 
       return (
         <TableCell
@@ -263,7 +283,7 @@ function FixedTable(props: FixedTableProps) {
                   bgcolor: row.bgcolor,
                 }}
               >
-                {getRenderDataCells(row)}
+                {getRenderDataCells(row, i + 1)}
               </TableRow>
             ))}
           </TableBody>
