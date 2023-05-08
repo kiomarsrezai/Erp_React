@@ -6,38 +6,16 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { TableVirtuoso, TableComponents } from "react-virtuoso";
-
 import TableFooter from "@mui/material/TableFooter";
 import TableSortLabel from "@mui/material/TableSortLabel";
 
+import { TableVirtuoso, TableComponents } from "react-virtuoso";
+
 import { grey, blue } from "@mui/material/colors";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useState } from "react";
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { numberWithCommas } from "helper/calculate-utils";
 import { globalConfig } from "config/global-config";
-
-const VirtuosoTableComponents: TableComponents = {
-  Scroller: React.forwardRef<HTMLDivElement>((props, ref) => (
-    <TableContainer component={Paper} {...props} ref={ref} />
-  )),
-  Table: (props) => (
-    <Table
-      {...props}
-      sx={{ borderCollapse: "separate", tableLayout: "fixed" }}
-    />
-  ),
-  TableHead,
-  TableFoot: (props: any) => (
-    <TableFooter sx={{ bgcolor: grey[200], position: "sticky", bottom: 0 }}>
-      {props.children}
-    </TableFooter>
-  ),
-  TableRow: ({ item: _item, ...props }) => <TableRow {...props} />,
-  TableBody: React.forwardRef<HTMLTableSectionElement>((props, ref) => (
-    <TableBody {...props} ref={ref} />
-  )),
-};
 
 const formatDataCell = (
   nameCell: (
@@ -65,17 +43,114 @@ const formatDataCell = (
   return dataCell;
 };
 
-export default function ReactVirtualizedTable(props: any) {
-  const visibleHeads = props.heads.filter((item: any) => !item.hidden);
+const VirtuosoTableComponents: TableComponents = {
+  Scroller: React.forwardRef<HTMLDivElement>((props, ref) => (
+    <TableContainer component={Paper} {...props} ref={ref} />
+  )),
+  Table: (props) => (
+    <Table
+      {...props}
+      sx={{ borderCollapse: "separate", tableLayout: "fixed" }}
+    />
+  ),
+  TableHead,
+  TableFoot: (props: any) => (
+    <TableFooter sx={{ bgcolor: grey[200], position: "sticky", bottom: 0 }}>
+      {props.children}
+    </TableFooter>
+  ),
+  TableRow: ({ item: _item, ...props }: any) => (
+    <TableRow
+      sx={{
+        "&:last-child td, &:last-child th": { border: 0 },
+        "&:nth-of-type(even)": {
+          bgcolor: _item.bgcolor || grey[100],
+        },
+        bgcolor: _item.bgcolor,
+      }}
+      {...props}
+    />
+  ),
+  TableBody: React.forwardRef<HTMLTableSectionElement>((props, ref) => (
+    <TableBody {...props} ref={ref} />
+  )),
+};
+
+interface FixedTableProps {
+  topHeadGroups?: TableHeadGroupShape;
+  headGroups?: TableHeadGroupShape;
+  heads: TableHeadShape;
+  data: any;
+  footer?: any;
+  notFixed?: boolean;
+  canSort?: boolean;
+  enableVirtual?: boolean;
+}
+function FixedTable(props: FixedTableProps) {
+  const {
+    heads,
+    headGroups,
+    data,
+    footer,
+    notFixed,
+    topHeadGroups,
+    canSort,
+    enableVirtual,
+  } = props;
+
+  const visibleHeads = heads.filter((item: any) => !item.hidden);
   const borderColor = 400;
+
+  const [orderBy, setOrderBy] = useState("");
+  const [ordered, setOrdered] = useState<false | "asc" | "desc">(false);
+
+  const sortedData = orderBy
+    ? [...data].sort((a: any, b: any) => {
+        if (ordered === "asc") {
+          if (isNaN(+a[orderBy])) {
+            return a[orderBy] > b[orderBy]
+              ? 1
+              : b[orderBy] > a[orderBy]
+              ? -1
+              : 0;
+          }
+          return b[orderBy] - a[orderBy];
+        } else {
+          if (isNaN(+a[orderBy])) {
+            return a[orderBy] < b[orderBy]
+              ? 1
+              : b[orderBy] < a[orderBy]
+              ? -1
+              : 0;
+          }
+          return a[orderBy] - b[orderBy];
+        }
+      })
+    : data;
+
+  const handleSortClick = (name: string) => {
+    if (orderBy === name) {
+      if (ordered === "desc") {
+        setOrderBy("");
+        setOrdered(false);
+        return;
+      }
+
+      setOrdered((state) => (state === "asc" ? "desc" : "asc"));
+      return;
+    }
+
+    setOrdered("asc");
+    setOrderBy(name);
+  };
 
   // head
   function fixedHeaderContent() {
     return (
       <>
-        {props.topHeadGroups && (
+        {topHeadGroups && (
           <TableRow>
-            {props.topHeadGroups?.map((topHeadGroup: any, i: number) => (
+            {topHeadGroups?.map((topHeadGroup: any, i: number) => (
               <TableCell
                 key={i}
                 sx={{
@@ -92,9 +167,9 @@ export default function ReactVirtualizedTable(props: any) {
           </TableRow>
         )}
 
-        {props.headGroups && (
+        {headGroups && (
           <TableRow>
-            {props.headGroups?.map((headGroup: any, i: any) => (
+            {headGroups?.map((headGroup: any, i: any) => (
               <TableCell
                 key={i}
                 variant="head"
@@ -119,7 +194,7 @@ export default function ReactVirtualizedTable(props: any) {
 
         <TableRow>
           {visibleHeads.map(
-            (head: any, i: string) =>
+            (head: any, i: number) =>
               !head.hiddenSelf && (
                 <TableCell
                   key={i}
@@ -139,25 +214,28 @@ export default function ReactVirtualizedTable(props: any) {
                   }}
                   align="center"
                 >
-                  {head.canSort
-                    ? //   <TableSortLabel
-                      //     active={head.name === orderBy}
-                      //     direction={head.name === orderBy ? (ordered as any) : "asc"}
-                      //     onClick={() => handleSortClick(head.name)}
-                      //     sx={{
-                      //       "& .MuiSvgIcon-root": {
-                      //         opacity: 0.3,
-                      //         color:
-                      //           head.name === orderBy
-                      //             ? `${blue[600]} !important`
-                      //             : "",
-                      //       },
-                      //     }}
-                      //   >
-                      // {head.title}
-                      head.title
-                    : //   </TableSortLabel>
-                      head.title}
+                  {head.canSort ? (
+                    <TableSortLabel
+                      active={head.name === orderBy}
+                      direction={
+                        head.name === orderBy ? (ordered as any) : "asc"
+                      }
+                      onClick={() => handleSortClick(head.name)}
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          opacity: 0.3,
+                          color:
+                            head.name === orderBy
+                              ? `${blue[600]} !important`
+                              : "",
+                        },
+                      }}
+                    >
+                      {head.title}
+                    </TableSortLabel>
+                  ) : (
+                    head.title
+                  )}
                 </TableCell>
               )
           )}
@@ -171,7 +249,7 @@ export default function ReactVirtualizedTable(props: any) {
     return visibleHeads.map((item: any, i: any) => {
       const name = item.name;
 
-      if (i === 0 && props.canSort) {
+      if (i === 0 && canSort) {
         return (
           <TableCell
             align={item.align || "center"}
@@ -208,11 +286,11 @@ export default function ReactVirtualizedTable(props: any) {
   }
 
   // footer
-  const tableFooterContent = props.footer && !!props.data.length && (
+  const tableFooterContent = footer && !!sortedData.length && (
     <TableRow>
       {visibleHeads.map((item: any, i: any) => {
         const name = item.name;
-        if (props.footer[name] === null) {
+        if (footer[name] === null) {
           return <></>;
         } else {
           return (
@@ -231,11 +309,11 @@ export default function ReactVirtualizedTable(props: any) {
                   borderRight: 0,
                 },
               }}
-              dir={typeof props.footer[name] === "number" ? "ltr" : "rtl"}
+              dir={typeof footer[name] === "number" ? "ltr" : "rtl"}
               key={i}
-              colSpan={props.footer[`colspan-${name}`] || 1}
+              colSpan={footer[`colspan-${name}`] || 1}
             >
-              {formatDataCell(props.footer[name], item, props.footer)}
+              {formatDataCell(footer[name], item, footer)}
             </TableCell>
           );
         }
@@ -247,15 +325,15 @@ export default function ReactVirtualizedTable(props: any) {
     <Paper
       style={{
         width: "100%",
-        height: !props.notFixed
+        height: !notFixed
           ? `calc(100vh - ${globalConfig.headerHeight}px)`
           : "100%",
       }}
     >
-      {props.enableVirtual ? (
+      {enableVirtual ? (
         <TableVirtuoso
           height={"100%"}
-          data={props.data}
+          data={sortedData}
           components={VirtuosoTableComponents}
           itemContent={rowContent}
           fixedHeaderContent={fixedHeaderContent}
@@ -264,7 +342,7 @@ export default function ReactVirtualizedTable(props: any) {
       ) : (
         <TableContainer
           sx={{
-            maxHeight: !props.notFixed
+            maxHeight: !notFixed
               ? `calc(100vh - ${globalConfig.headerHeight}px)`
               : "100%",
           }}
@@ -274,8 +352,19 @@ export default function ReactVirtualizedTable(props: any) {
               {fixedHeaderContent()}
             </TableHead>
             <TableBody>
-              {props.data.map((row: any, i: number) => (
-                <TableRow key={i}>{rowContent(i, row)}</TableRow>
+              {sortedData.map((row: any, i: number) => (
+                <TableRow
+                  sx={{
+                    "&:last-child td, &:last-child th": { border: 0 },
+                    "&:nth-of-type(even)": {
+                      bgcolor: row.bgcolor || grey[100],
+                    },
+                    bgcolor: row.bgcolor,
+                  }}
+                  key={i}
+                >
+                  {rowContent(i, row)}
+                </TableRow>
               ))}
             </TableBody>
             <TableFooter
@@ -289,3 +378,5 @@ export default function ReactVirtualizedTable(props: any) {
     </Paper>
   );
 }
+
+export default FixedTable;
