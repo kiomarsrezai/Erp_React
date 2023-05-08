@@ -33,6 +33,7 @@ function TrazPage() {
     [trazConfig.kind]: 1,
     [trazConfig.MOEIN]: null,
     [trazConfig.tafsily]: null,
+    [trazConfig.markaz_hazine]: null,
   });
 
   // form heads
@@ -200,6 +201,7 @@ function TrazPage() {
         handleClose={() => setIsOpenDetailModal(false)}
         loading={trazDetailMutation.isLoading}
         title={modalTitle}
+        maxHeight="80%"
       >
         <TrazDetailModal
           formData={formData}

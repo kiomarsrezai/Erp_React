@@ -8,4 +8,6 @@ export interface TrazItemShape {
   balanceBedehkar: number;
   levels: number;
   balanceBestankar: number;
+  markazHazine: number;
+  markazHazineName: number;
 }

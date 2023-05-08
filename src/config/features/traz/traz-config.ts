@@ -6,6 +6,7 @@ export const trazConfig = {
   MOEIN: "moienId",
   tafsily: "tafsilyId",
   kind: "kindId",
+  markaz_hazine: "markazHazine",
 };
 
 export const trazUrls = {

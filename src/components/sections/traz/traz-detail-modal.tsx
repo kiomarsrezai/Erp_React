@@ -20,6 +20,8 @@ interface TableDataItemShape {
   bestankar: ReactNode;
   balanceBedehkar: ReactNode;
   balanceBestankar: ReactNode;
+  revenueCenter: ReactNode;
+  descriptionCenter: ReactNode;
   actions: ((row: TableDataItemShape) => ReactNode) | ReactNode;
 }
 
@@ -39,11 +41,20 @@ function TrazDetailModal(props: TrazDetailModalProps) {
       name: "number",
     },
     {
-      title: "کد",
+      title: "شرح مرکز هزینه",
+      name: "descriptionCenter",
+      align: "left",
+    },
+    {
+      title: "مرکز هزینه",
+      name: "revenueCenter",
+    },
+    {
+      title: "کد تفضیل",
       name: "code",
     },
     {
-      title: "شرح",
+      title: "شرح تفضیل",
       align: "left",
       name: "description",
     },
@@ -79,11 +90,18 @@ function TrazDetailModal(props: TrazDetailModalProps) {
 
   // modal
   const trazMoreDetailMutation = useMutation(trazApi.getData);
-  const [modalTitle, setModalTitle] = useState("");
+  const [modalTitle, setModalTitle] = useState<string | ReactNode>("");
 
   const [isOpenMoreDetailModal, setIsOpenMoreDetailModal] = useState(false);
-  const handleOpenDetailModal = (row: TableDataItemShape) => {
-    const title = `${row.code} - ${row.description}`;
+  const handleOpenDetailModal = (row: TableDataItemShape & TrazItemShape) => {
+    const title = (
+      <div>
+        {row.code} - {row.description}
+        <div>
+          {row.markazHazine} - {row.markazHazineName}
+        </div>
+      </div>
+    );
 
     setModalTitle(title);
 
@@ -100,7 +118,7 @@ function TrazDetailModal(props: TrazDetailModalProps) {
     <IconButton
       size="small"
       color="primary"
-      onClick={() => handleOpenDetailModal(row)}
+      onClick={() => handleOpenDetailModal(row as any)}
     >
       <FormatListBulletedIcon />
     </IconButton>
@@ -119,6 +137,8 @@ function TrazDetailModal(props: TrazDetailModalProps) {
         bestankar: item.bestankar,
         balanceBedehkar: item.balanceBedehkar,
         balanceBestankar: item.balanceBestankar,
+        revenueCenter: item.markazHazine,
+        descriptionCenter: item.markazHazineName,
         actions: actionButtons,
       })
     );
@@ -154,6 +174,7 @@ function TrazDetailModal(props: TrazDetailModalProps) {
         handleClose={() => setIsOpenMoreDetailModal(false)}
         loading={trazMoreDetailMutation.isLoading}
         title={modalTitle}
+        maxWidth="lg"
         isNested
       >
         <TrazDetailMoreModal data={trazMoreDetailMutation.data?.data || []} />

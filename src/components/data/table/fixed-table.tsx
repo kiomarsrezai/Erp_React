@@ -6,9 +6,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { grey, blue } from "@mui/material/colors";
 import TableSortLabel from "@mui/material/TableSortLabel";
+import { FixedSizeList, ListChildComponentProps } from "react-window";
 
+import { grey, blue } from "@mui/material/colors";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { numberWithCommas } from "helper/calculate-utils";
@@ -292,18 +293,28 @@ function FixedTable(props: FixedTableProps) {
         <Table stickyHeader>
           <TableHead sx={{ bgcolor: grey[200] }}>{tableHeadContent}</TableHead>
           <TableBody>
+            {/* <FixedSizeList
+              height={400}
+              width={360}
+              itemSize={46}
+              itemCount={sortedData.count}
+              overscanCount={5}
+            > */}
             {sortedData.map((row: any, i: number) => (
               <TableRow
                 key={i}
                 sx={{
                   "&:last-child td, &:last-child th": { border: 0 },
-                  "&:nth-of-type(even)": { bgcolor: row.bgcolor || grey[100] },
+                  "&:nth-of-type(even)": {
+                    bgcolor: row.bgcolor || grey[100],
+                  },
                   bgcolor: row.bgcolor,
                 }}
               >
                 {getRenderDataCells(row, i + 1)}
               </TableRow>
             ))}
+            {/* </FixedSizeList> */}
           </TableBody>
           <TableFooter
             sx={{ bgcolor: grey[200], position: "sticky", bottom: 0 }}

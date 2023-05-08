@@ -32,7 +32,7 @@ interface FixedModalProps {
   handleClose: () => void;
   children?: ReactNode;
   loading?: boolean;
-  title?: string;
+  title?: string | ReactNode;
   maxWidth?: string;
   maxHeight?: string;
   isNested?: boolean;
