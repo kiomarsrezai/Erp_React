@@ -17,81 +17,7 @@ import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { numberWithCommas } from "helper/calculate-utils";
 import { globalConfig } from "config/global-config";
 
-interface Data {
-  calories: number;
-  carbs: number;
-  dessert: string;
-  fat: number;
-  id: number;
-  protein: number;
-}
-
-interface ColumnData {
-  dataKey: keyof Data;
-  label: string;
-  numeric?: boolean;
-  width: number;
-}
-
-type Sample = [string, number, number, number, number];
-
-const sample: readonly Sample[] = [
-  ["Frozen yoghurt", 159, 6.0, 24, 4.0],
-  ["Ice cream sandwich", 237, 9.0, 37, 4.3],
-  ["Eclair", 262, 16.0, 24, 6.0],
-  ["Cupcake", 305, 3.7, 67, 4.3],
-  ["Gingerbread", 356, 16.0, 49, 3.9],
-];
-
-function createData(
-  id: number,
-  dessert: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number
-): Data {
-  return { id, dessert, calories, fat, carbs, protein };
-}
-
-const columns: ColumnData[] = [
-  {
-    width: 200,
-    label: "Dessert",
-    dataKey: "dessert",
-  },
-  {
-    width: 120,
-    label: "Calories\u00A0(g)",
-    dataKey: "calories",
-    numeric: true,
-  },
-  {
-    width: 120,
-    label: "Fat\u00A0(g)",
-    dataKey: "fat",
-    numeric: true,
-  },
-  {
-    width: 120,
-    label: "Carbs\u00A0(g)",
-    dataKey: "carbs",
-    numeric: true,
-  },
-  {
-    width: 120,
-    label: "Protein\u00A0(g)",
-    dataKey: "protein",
-    numeric: true,
-  },
-];
-
-const rows: Data[] = Array.from({ length: 200 }, (_, index) => {
-  const randomSelection = sample[Math.floor(Math.random() * sample.length)];
-  return createData(index, ...randomSelection);
-});
-
-const VirtuosoTableComponents: TableComponents<Data> = {
+const VirtuosoTableComponents: TableComponents = {
   Scroller: React.forwardRef<HTMLDivElement>((props, ref) => (
     <TableContainer component={Paper} {...props} ref={ref} />
   )),
@@ -216,21 +142,8 @@ export default function ReactVirtualizedTable(props: any) {
     );
   }
 
-  //   data
+  // data
   function rowContent(_index: number, row: any) {
-    // return (
-    //   <React.Fragment>
-    //     {columns.map((column) => (
-    //       <TableCell
-    //         key={column.dataKey}
-    //         align={column.numeric || false ? "right" : "left"}
-    //       >
-    //         {row[column.dataKey]}
-    //       </TableCell>
-    //     ))}
-    //   </React.Fragment>
-    // );
-
     return visibleHeads.map((item: any, i: any) => {
       const name = item.name;
 
@@ -278,12 +191,34 @@ export default function ReactVirtualizedTable(props: any) {
           : "100%",
       }}
     >
-      <TableVirtuoso
-        data={props.data}
-        components={VirtuosoTableComponents}
-        fixedHeaderContent={fixedHeaderContent}
-        itemContent={rowContent}
-      />
+      {props.enableVirtual ? (
+        <TableVirtuoso
+          height={"100%"}
+          data={props.data}
+          components={VirtuosoTableComponents}
+          fixedHeaderContent={fixedHeaderContent}
+          itemContent={rowContent}
+        />
+      ) : (
+        <TableContainer
+          sx={{
+            maxHeight: !props.notFixed
+              ? `calc(100vh - ${globalConfig.headerHeight}px)`
+              : "100%",
+          }}
+        >
+          <Table sx={{ borderCollapse: "separate", tableLayout: "auto" }}>
+            <TableHead sx={{ position: "sticky", top: "0px", zIndex: 1 }}>
+              {fixedHeaderContent()}
+            </TableHead>
+            <TableBody>
+              {props.data.map((row: any, i: number) => (
+                <TableRow key={i}>{rowContent(i, row)}</TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </Paper>
   );
 }
