@@ -5,9 +5,12 @@ export const proposalConfig = {
   AREA: generalFieldsConfig.AREA,
   BUDGET_METHOD: generalFieldsConfig.BUDGET_METHOD,
   coding: "codingId",
+  ID: "id",
 };
 
 export const propsalBudgetUrls = {
-  getData: "Fetch/FetchIndex",
-  getDetail: "Fetch/FetchDetails",
+  getData: "Budget/FetchIndex",
+  getDetail: "Budget/BudgetModal1Coding",
+  getMoreDetail: "Budget/BudgetModal2Project",
+  getLevel5Detail: "Budget/BudgetModal3Area",
 };

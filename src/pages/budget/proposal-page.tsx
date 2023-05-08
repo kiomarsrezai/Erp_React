@@ -3,6 +3,8 @@ import FixedTable from "components/data/table/fixed-table";
 import ProposalBudgetForm from "components/sections/forms/budget/proposal/proposal-budget-form";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import IconButton from "@mui/material/IconButton";
+import FixedModal from "components/ui/modal/fixed-modal";
+import ProposalDetailModal from "components/sections/forms/budget/proposal/proposal-detail-modal";
 
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { ReactNode, useState } from "react";
@@ -11,9 +13,8 @@ import { GetSingleProposalItemShape } from "types/data/budget/proposal-type";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { proposalBudgetApi } from "api/budget/proposal-api";
-import FixedModal from "components/ui/modal/fixed-modal";
-import ProposalDetailModal from "components/sections/forms/budget/proposal/proposal-detail-modal";
 import { getBgColorBudget } from "helper/get-color-utils";
+import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -89,10 +90,16 @@ function BudgetProposalPage() {
 
   // detail modal
   const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+
   const getDetailMutation = useMutation(proposalBudgetApi.getDetailData);
+
   const handleOpenDetailModal = (
     row: TableDataItemShape & GetSingleProposalItemShape
   ) => {
+    const title = `${row.code} - ${row.description}`;
+    setModalTitle(title);
+
     getDetailMutation.mutate({
       ...formData,
       [proposalConfig.coding]: row.codingId,
@@ -150,6 +157,19 @@ function BudgetProposalPage() {
     ? formatTableData(proposalQuery.data?.data)
     : [];
 
+  // footer
+  // const tableFooter: TableDataItemShape | any = {
+  //   number: "جمع",
+  //   "colspan-number": 3,
+  //   code: null,
+  //   description: null,
+  //   mosavab: sumFieldsInSingleItemData(proposalQuery.data?.data, "mosavab"),
+  //   edit: sumFieldsInSingleItemData(proposalQuery.data?.data, "edit"),
+  //   expense: sumFieldsInSingleItemData(proposalQuery.data?.data, "expense"),
+  //   percent: "",
+  //   actions: "",
+  // };
+
   return (
     <>
       <AdminLayout>
@@ -157,14 +177,20 @@ function BudgetProposalPage() {
           heads={tableHeads}
           headGroups={tableHeadGroups}
           data={tableData}
+          // footer={tableFooter}
         />
       </AdminLayout>
 
       <FixedModal
         open={isOpenDetailModal}
         handleClose={() => setIsOpenDetailModal(false)}
+        loading={getDetailMutation.isLoading}
+        title={modalTitle}
       >
-        <ProposalDetailModal data={getDetailMutation.data?.data || []} />
+        <ProposalDetailModal
+          data={getDetailMutation.data?.data || []}
+          formData={formData}
+        />
       </FixedModal>
     </>
   );

@@ -168,6 +168,7 @@ function TrazDetailModal(props: TrazDetailModalProps) {
         heads={tableHeads}
         data={tableData}
         footer={tableFooter}
+        enableVirtual
         notFixed
       />
       <FixedModal

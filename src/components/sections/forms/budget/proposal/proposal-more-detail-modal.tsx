@@ -1,51 +1,45 @@
 import FixedTable from "components/data/table/fixed-table";
-import ProposalMoreDetailModal from "./proposal-more-detail-modal";
-import FixedModal from "components/ui/modal/fixed-modal";
 import IconButton from "@mui/material/IconButton";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 
-import { useMutation } from "@tanstack/react-query";
-import { proposalBudgetApi } from "api/budget/proposal-api";
-import { proposalConfig } from "config/features/budget/proposal-config";
-import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { TableHeadShape } from "types/table-type";
 import { ReactNode, useState } from "react";
-import {
-  GetSingleDetailProposalItemShape,
-  GetSingleProposalItemShape,
-} from "types/data/budget/proposal-type";
+import { GetSingleMoreDetailProposalItemShape } from "types/data/budget/proposal-type";
+import { sumFieldsInSingleItemData } from "helper/calculate-utils";
+import FixedModal from "components/ui/modal/fixed-modal";
+import { proposalBudgetApi } from "api/budget/proposal-api";
+import { proposalConfig } from "config/features/budget/proposal-config";
+import { useMutation } from "@tanstack/react-query";
+import ProposalLevel5DetailModal from "./proposal-level5-detail-modal";
 
 interface TableDataItemShape {
   number: ReactNode;
   code: ReactNode;
-  description: ReactNode;
+  project_name: ReactNode;
   mosavab: ReactNode;
   expense: ReactNode;
   edit: ReactNode;
   percent: ReactNode;
-  actions: ((row: any) => ReactNode) | ReactNode;
 }
 
-interface ProposalDetailModalProps {
+interface ProposalMoreDetailModalProps {
   data: any[];
-  formData: any;
 }
-function ProposalDetailModal(props: ProposalDetailModalProps) {
-  const { data, formData } = props;
+function ProposalMoreDetailModal(props: ProposalMoreDetailModalProps) {
+  const { data } = props;
 
   const tableHeads: TableHeadShape = [
     {
       title: "ردیف",
       name: "number",
     },
-
     {
-      title: "کد",
+      title: "کد پروژه",
       name: "code",
     },
     {
-      title: "شرح",
-      name: "description",
+      title: "نام پروژه",
+      name: "project_name",
       align: "left",
     },
     {
@@ -77,9 +71,27 @@ function ProposalDetailModal(props: ProposalDetailModalProps) {
     },
   ];
 
+  // modal
+  const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+
+  const getDetailMutation = useMutation(proposalBudgetApi.getLevel5DetailData);
+  const handleOpenDetailModal = (
+    row: TableDataItemShape & GetSingleMoreDetailProposalItemShape
+  ) => {
+    const title = `${row.projectCode} - ${row.projectName}`;
+    setModalTitle(title);
+
+    getDetailMutation.mutate({
+      [proposalConfig.ID]: row.id,
+    });
+
+    setIsOpenDetailModal(true);
+  };
+
   // data
   const actionButtons = (
-    row: TableDataItemShape & GetSingleProposalItemShape
+    row: TableDataItemShape & GetSingleMoreDetailProposalItemShape
   ) => (
     <IconButton
       size="small"
@@ -91,13 +103,13 @@ function ProposalDetailModal(props: ProposalDetailModalProps) {
   );
 
   const formatTableData = (
-    unFormatData: GetSingleDetailProposalItemShape[]
+    unFormatData: GetSingleMoreDetailProposalItemShape[]
   ): TableDataItemShape[] => {
     const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
       ...item,
       number: i + 1,
-      code: item.code,
-      description: item.description,
+      code: item.projectCode,
+      project_name: item.projectName,
       mosavab: item.mosavab,
       expense: item.expense,
       percent: item.percentBud,
@@ -115,32 +127,12 @@ function ProposalDetailModal(props: ProposalDetailModalProps) {
     number: "جمع",
     "colspan-number": 3,
     code: null,
-    description: null,
+    project_name: null,
     mosavab: sumFieldsInSingleItemData(data, "mosavab"),
     edit: sumFieldsInSingleItemData(data, "edit"),
     percent: "",
-    actions: "",
     expense: sumFieldsInSingleItemData(data, "expense"),
-  };
-
-  // modal
-  const [isOpenMoreDetailModal, setIsOpenMoreDetailModal] = useState(false);
-  const [modalTitle, setModalTitle] = useState("");
-
-  const getMoreDetailMutation = useMutation(
-    proposalBudgetApi.getMoreDetailData
-  );
-  const handleOpenDetailModal = (
-    row: TableDataItemShape & GetSingleProposalItemShape
-  ) => {
-    const title = `${row.code} - ${row.description}`;
-    setModalTitle(title);
-
-    getMoreDetailMutation.mutate({
-      [proposalConfig.ID]: row.id,
-    });
-
-    setIsOpenMoreDetailModal(true);
+    actions: "",
   };
 
   return (
@@ -153,17 +145,15 @@ function ProposalDetailModal(props: ProposalDetailModalProps) {
       />
 
       <FixedModal
-        open={isOpenMoreDetailModal}
-        handleClose={() => setIsOpenMoreDetailModal(false)}
-        loading={getMoreDetailMutation.isLoading}
+        open={isOpenDetailModal}
+        handleClose={() => setIsOpenDetailModal(false)}
         title={modalTitle}
+        loading={getDetailMutation.isLoading}
       >
-        <ProposalMoreDetailModal
-          data={getMoreDetailMutation.data?.data || []}
-        />
+        <ProposalLevel5DetailModal data={getDetailMutation.data?.data || []} />
       </FixedModal>
     </>
   );
 }
 
-export default ProposalDetailModal;
+export default ProposalMoreDetailModal;
