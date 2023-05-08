@@ -4,7 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import { yearGeneralApi } from "api/general/year-general-api";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 import { generalFieldsConfig } from "config/features/general-fields-config";
-import { filedItemsGuard, joinPermissions } from "helper/auth-utils";
+import {
+  filedItemsGuard,
+  gitFirstGoodItem,
+  joinPermissions,
+} from "helper/auth-utils";
 import { accessNamesConfig } from "config/access-names-config";
 
 import userStore from "hooks/store/user-store";
@@ -26,10 +30,17 @@ function YearInput(props: YearInputProps) {
     () => yearGeneralApi.getData(level || 1),
     {
       onSuccess: (data) => {
-        setter((prevState: any) => ({
-          ...prevState,
-          [generalFieldsConfig.YEAR]: data.data[0].id,
-        }));
+        // if (permissionForm) {
+        //   const item = gitFirstGoodItem(
+        //     data.data,
+        //     userLicenses,
+        //     joinPermissions([permissionForm, accessNamesConfig.FIELD_YEAR])
+        //   );
+        //   setter((prevState: any) => ({
+        //     ...prevState,
+        //     [generalFieldsConfig.YEAR]: item.id,
+        //   }));
+        // }
       },
     }
   );

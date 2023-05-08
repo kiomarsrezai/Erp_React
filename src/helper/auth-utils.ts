@@ -13,3 +13,13 @@ export const filedItemsGuard = (
     licenses?.split("/").includes(`${permissonBase}.${item.value}`)
   );
 };
+
+export const gitFirstGoodItem = (
+  items: any[],
+  licenses: string | null,
+  permissonBase: string
+): any => {
+  return items.filter((item) =>
+    licenses?.split("/").includes(`${permissonBase}.${item.id}`)
+  )?.[0];
+};
