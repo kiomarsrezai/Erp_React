@@ -109,6 +109,7 @@ function TrazDetailModal(props: TrazDetailModalProps) {
       ...formData,
       [trazConfig.MOEIN]: moein,
       [trazConfig.tafsily]: +(row.code as string),
+      [trazConfig.markaz_hazine]: row.markazHazine,
     });
     setIsOpenMoreDetailModal(true);
   };
