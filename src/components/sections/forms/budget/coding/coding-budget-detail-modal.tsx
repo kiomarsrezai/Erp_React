@@ -103,7 +103,7 @@ function CodingBudgetDetailModal(props: CodingBudgetDetailModalProps) {
     );
   }
 
-  return <FixedTable data={tableData} heads={tableHeads} />;
+  return <FixedTable data={tableData} heads={tableHeads} notFixed />;
 }
 
 export default CodingBudgetDetailModal;

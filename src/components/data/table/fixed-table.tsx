@@ -28,6 +28,11 @@ const VirtuosoTableComponents: TableComponents = {
     />
   ),
   TableHead,
+  TableFoot: (props: any) => (
+    <TableFooter sx={{ bgcolor: grey[200], position: "sticky", bottom: 0 }}>
+      {props.children}
+    </TableFooter>
+  ),
   TableRow: ({ item: _item, ...props }) => <TableRow {...props} />,
   TableBody: React.forwardRef<HTMLTableSectionElement>((props, ref) => (
     <TableBody {...props} ref={ref} />
@@ -68,6 +73,25 @@ export default function ReactVirtualizedTable(props: any) {
   function fixedHeaderContent() {
     return (
       <>
+        {props.topHeadGroups && (
+          <TableRow>
+            {props.topHeadGroups?.map((topHeadGroup: any, i: number) => (
+              <TableCell
+                key={i}
+                sx={{
+                  borderColor: grey[borderColor],
+                  bgcolor: grey[200],
+                  p: 1,
+                }}
+                align="left"
+                colSpan={topHeadGroup.colspan}
+              >
+                {topHeadGroup.title}
+              </TableCell>
+            ))}
+          </TableRow>
+        )}
+
         {props.headGroups && (
           <TableRow>
             {props.headGroups?.map((headGroup: any, i: any) => (
@@ -182,6 +206,43 @@ export default function ReactVirtualizedTable(props: any) {
       );
     });
   }
+
+  // footer
+  const tableFooterContent = props.footer && !!props.data.length && (
+    <TableRow>
+      {visibleHeads.map((item: any, i: any) => {
+        const name = item.name;
+        if (props.footer[name] === null) {
+          return <></>;
+        } else {
+          return (
+            <TableCell
+              align={item.align || "center"}
+              sx={{
+                borderRight: 1,
+                borderTop: 1,
+                borderColor: grey[borderColor],
+                bgcolor: grey[200],
+                fontWeight: 500,
+                whiteSpace: "nowrap",
+                p: 1,
+                color: "#000",
+                "&:last-child": {
+                  borderRight: 0,
+                },
+              }}
+              dir={typeof props.footer[name] === "number" ? "ltr" : "rtl"}
+              key={i}
+              colSpan={props.footer[`colspan-${name}`] || 1}
+            >
+              {formatDataCell(props.footer[name], item, props.footer)}
+            </TableCell>
+          );
+        }
+      })}
+    </TableRow>
+  );
+
   return (
     <Paper
       style={{
@@ -196,8 +257,9 @@ export default function ReactVirtualizedTable(props: any) {
           height={"100%"}
           data={props.data}
           components={VirtuosoTableComponents}
-          fixedHeaderContent={fixedHeaderContent}
           itemContent={rowContent}
+          fixedHeaderContent={fixedHeaderContent}
+          fixedFooterContent={() => tableFooterContent}
         />
       ) : (
         <TableContainer
@@ -216,6 +278,11 @@ export default function ReactVirtualizedTable(props: any) {
                 <TableRow key={i}>{rowContent(i, row)}</TableRow>
               ))}
             </TableBody>
+            <TableFooter
+              sx={{ bgcolor: grey[200], position: "sticky", bottom: 0 }}
+            >
+              {tableFooterContent}
+            </TableFooter>
           </Table>
         </TableContainer>
       )}

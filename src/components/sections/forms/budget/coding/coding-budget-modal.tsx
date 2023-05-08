@@ -117,7 +117,7 @@ function CodingBudgetModal(props: CodingBudgetModalProps) {
   return (
     <Box display={"flex"}>
       <Box sx={{ width: "50%", borderRight: 1, borderColor: "grey.400" }}>
-        <FixedTable data={tableData} heads={tableHeads} />
+        <FixedTable data={tableData} heads={tableHeads} notFixed />
       </Box>
       <Box sx={{ width: "50%" }}>
         <CodingBudgetDetailModal

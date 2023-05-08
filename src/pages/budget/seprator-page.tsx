@@ -230,6 +230,7 @@ function BudgetSepratorPage() {
         data={tableData}
         headGroups={tableHeadGroup}
         footer={tableFooter}
+        enableVirtual
       />
 
       <FixedModal
