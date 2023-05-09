@@ -1,6 +1,7 @@
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
+import FormHelperText from "@mui/material/FormHelperText";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
@@ -12,10 +13,11 @@ interface FlotingLabelTextfieldProps {
   value: string | number | boolean;
   setter: (data: any) => void;
   disabled?: boolean;
+  showError?: boolean;
 }
 
 function FlotingLabelSelect(props: FlotingLabelTextfieldProps) {
-  const { label, name, items, value, setter, disabled } = props;
+  const { label, name, items, value, setter, disabled, showError } = props;
 
   const handleChange = (event: SelectChangeEvent) => {
     const value = event.target.value;
@@ -29,7 +31,7 @@ function FlotingLabelSelect(props: FlotingLabelTextfieldProps) {
     </MenuItem>
   ));
   return (
-    <FormControl fullWidth size="small">
+    <FormControl fullWidth size="small" error={!value && showError}>
       <InputLabel id={`${name}-floting-select-label`}>{label}</InputLabel>
       <Select
         labelId={`${name}-floting-select-label`}
@@ -42,6 +44,9 @@ function FlotingLabelSelect(props: FlotingLabelTextfieldProps) {
       >
         {renderItems}
       </Select>
+      {!value && showError && (
+        <FormHelperText>این فیلد نباید خالی باشد</FormHelperText>
+      )}
     </FormControl>
   );
 }

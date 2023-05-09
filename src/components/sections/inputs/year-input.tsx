@@ -4,11 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { yearGeneralApi } from "api/general/year-general-api";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 import { generalFieldsConfig } from "config/features/general-fields-config";
-import {
-  filedItemsGuard,
-  gitFirstGoodItem,
-  joinPermissions,
-} from "helper/auth-utils";
+import { filedItemsGuard, joinPermissions } from "helper/auth-utils";
 import { accessNamesConfig } from "config/access-names-config";
 
 import userStore from "hooks/store/user-store";
@@ -19,10 +15,11 @@ interface YearInputProps {
   permissionForm?: string;
   disabled?: boolean;
   level?: number;
+  showError?: boolean;
 }
 
 function YearInput(props: YearInputProps) {
-  const { setter, value, permissionForm, disabled, level } = props;
+  const { setter, value, permissionForm, disabled, level, showError } = props;
   const userLicenses = userStore((state) => state.permissions);
 
   const yearQuery = useQuery(
@@ -67,6 +64,7 @@ function YearInput(props: YearInputProps) {
       value={value}
       setter={setter}
       disabled={disabled}
+      showError={showError}
     />
   );
 }

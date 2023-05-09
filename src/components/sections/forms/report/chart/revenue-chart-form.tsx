@@ -19,7 +19,14 @@ import { revenueChartApi } from "api/report/chart-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { centerItems, organItems } from "config/features/general-fields-config";
 import { accessNamesConfig } from "config/access-names-config";
-import { filedItemsGuard, joinPermissions } from "helper/auth-utils";
+import {
+  checkHavePermission,
+  filedItemsGuard,
+  joinPermissions,
+} from "helper/auth-utils";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
+import { checkHaveValue } from "helper/form-utils";
 
 interface RevenueChartFormProps {
   formData: any;
@@ -38,9 +45,40 @@ function RevenueChartForm(props: RevenueChartFormProps) {
     },
   });
 
+  const [haveSubmitedForm, setHaveSubmitedForm] = useState(false);
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    submitMutation.mutate(formData);
+
+    // permission
+    const havePermission = checkHavePermission(
+      userLicenses,
+      [accessNamesConfig.FIELD_YEAR],
+      accessNamesConfig.REVENUE_CHART_PAGE
+    );
+
+    if (!havePermission) {
+      return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
+        variant: "error",
+      });
+    }
+
+    setHaveSubmitedForm(true);
+
+    if (
+      checkHaveValue(formData, [
+        revenueChartFormConfig.YEAR,
+        revenueChartFormConfig.BUDGET_METHOD,
+        revenueChartFormConfig.ORGAN,
+      ])
+    ) {
+      if (
+        !(formData[revenueChartFormConfig.ORGAN] === 4) &&
+        !formData[revenueChartFormConfig.CENTER]
+      ) {
+        return;
+      }
+      submitMutation.mutate(formData);
+    }
   };
 
   useEffect(() => {
@@ -76,7 +114,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
               accessNamesConfig.FIELD_ORGAN,
             ])}
           >
-            <Grid lg={2}>
+            <Grid xs={2}>
               <FlotingLabelSelect
                 label="سازمان"
                 name={revenueChartFormConfig.ORGAN}
@@ -90,6 +128,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
                 )}
                 value={formData[revenueChartFormConfig.ORGAN]}
                 setter={setFormData}
+                showError={haveSubmitedForm}
               />
             </Grid>
           </SectionGuard>
@@ -99,11 +138,12 @@ function RevenueChartForm(props: RevenueChartFormProps) {
               accessNamesConfig.FIELD_YEAR,
             ])}
           >
-            <Grid lg={2}>
+            <Grid xs={2}>
               <YearInput
                 setter={setFormData}
                 value={formData[revenueChartFormConfig.YEAR] as number}
                 permissionForm={accessNamesConfig.REVENUE_CHART_PAGE}
+                showError={haveSubmitedForm}
               />
             </Grid>
           </SectionGuard>
@@ -114,7 +154,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
                 accessNamesConfig.REVENUE_CHART_PAGE__CENTER,
               ])}
             >
-              <Grid lg={2}>
+              <Grid xs={2}>
                 <FlotingLabelSelect
                   label="مرکز"
                   name={revenueChartFormConfig.CENTER}
@@ -128,6 +168,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
                   )}
                   value={formData[revenueChartFormConfig.CENTER]}
                   setter={setFormData}
+                  showError={haveSubmitedForm}
                 />
               </Grid>
             </SectionGuard>
@@ -139,15 +180,16 @@ function RevenueChartForm(props: RevenueChartFormProps) {
               accessNamesConfig.FIELD_BUDGET_METHOD,
             ])}
           >
-            <Grid lg={2}>
+            <Grid xs={2}>
               <BudgetMethodInput
                 setter={setFormData}
                 value={formData[revenueChartFormConfig.BUDGET_METHOD] as number}
                 permissionForm={accessNamesConfig.REVENUE_CHART_PAGE}
+                showError={haveSubmitedForm}
               />
             </Grid>
           </SectionGuard>
-          <Grid lg={4}>
+          <Grid xs>
             <Stack direction="row" flexWrap="wrap" gap={1}>
               <SectionGuard
                 permission={joinPermissions([

@@ -23,3 +23,15 @@ export const gitFirstGoodItem = (
     licenses?.split("/").includes(`${permissonBase}.${item.id}`)
   )?.[0];
 };
+
+export const checkHavePermission = (
+  licenses: string | null,
+  permissionNames: string[],
+  permissonBase: string
+) => {
+  const havePermissions = permissionNames.filter((name) =>
+    licenses?.split("/").includes(`${permissonBase}.${name}`)
+  );
+
+  return havePermissions.length === permissionNames.length;
+};

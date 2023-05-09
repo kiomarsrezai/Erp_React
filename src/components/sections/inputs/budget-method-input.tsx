@@ -11,10 +11,11 @@ interface BudgetMethodInputProps {
   setter: (prevData: any) => void;
   value: number;
   permissionForm?: string;
+  showError?: boolean;
 }
 
 function BudgetMethodInput(props: BudgetMethodInputProps) {
-  const { setter, value, permissionForm } = props;
+  const { setter, value, permissionForm, showError } = props;
   const userLicenses = userStore((state) => state.permissions);
 
   const inputItems = permissionForm
@@ -35,6 +36,7 @@ function BudgetMethodInput(props: BudgetMethodInputProps) {
       items={inputItems}
       value={value}
       setter={setter}
+      showError={showError}
     />
   );
 }

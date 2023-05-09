@@ -39,10 +39,10 @@ const formatChatData = (unFormatData: GetChartShape): ChartDataShape[] => {
 
 function ReportRevenueChartPage() {
   const [formData, setFormData] = useState({
-    [revenueChartFormConfig.YEAR]: 32,
-    [revenueChartFormConfig.CENTER]: 2,
-    [revenueChartFormConfig.ORGAN]: 3,
-    [revenueChartFormConfig.BUDGET_METHOD]: 1,
+    [revenueChartFormConfig.YEAR]: undefined,
+    [revenueChartFormConfig.CENTER]: undefined,
+    [revenueChartFormConfig.ORGAN]: undefined,
+    [revenueChartFormConfig.BUDGET_METHOD]: undefined,
     [revenueChartFormConfig.REVENUE]: true,
     [revenueChartFormConfig.SALE]: true,
     [revenueChartFormConfig.LAON]: true,
