@@ -191,72 +191,37 @@ function RevenueChartForm(props: RevenueChartFormProps) {
           </SectionGuard>
           <Grid xs>
             <Stack direction="row" flexWrap="wrap" gap={1}>
-              <SectionGuard
-                permission={joinPermissions([
-                  accessNamesConfig.REVENUE_CHART_PAGE,
-                  accessNamesConfig.REVENUE_CHART_PAGE__REVENUE,
-                ])}
-              >
-                <CheckboxLabeled
-                  label="درآمد"
-                  name={revenueChartFormConfig.REVENUE}
-                  value={formData[revenueChartFormConfig.REVENUE]}
-                  setter={setFormData}
-                  disabled={
-                    formData[revenueChartFormConfig.BUDGET_METHOD] !== 1
-                  }
-                />
-              </SectionGuard>
-              <SectionGuard
-                permission={joinPermissions([
-                  accessNamesConfig.REVENUE_CHART_PAGE,
-                  accessNamesConfig.REVENUE_CHART_PAGE__SALE,
-                ])}
-              >
-                <CheckboxLabeled
-                  label="فروش اموال"
-                  name={revenueChartFormConfig.SALE}
-                  value={formData[revenueChartFormConfig.SALE]}
-                  setter={setFormData}
-                  disabled={
-                    formData[revenueChartFormConfig.BUDGET_METHOD] !== 1
-                  }
-                />
-              </SectionGuard>
+              <CheckboxLabeled
+                label="درآمد"
+                name={revenueChartFormConfig.REVENUE}
+                value={formData[revenueChartFormConfig.REVENUE]}
+                setter={setFormData}
+                disabled={formData[revenueChartFormConfig.BUDGET_METHOD] !== 1}
+              />
 
-              <SectionGuard
-                permission={joinPermissions([
-                  accessNamesConfig.REVENUE_CHART_PAGE,
-                  accessNamesConfig.REVENUE_CHART_PAGE__LOAN,
-                ])}
-              >
-                <CheckboxLabeled
-                  label="وام و اوراق"
-                  name={revenueChartFormConfig.LAON}
-                  value={formData[revenueChartFormConfig.LAON]}
-                  setter={setFormData}
-                  disabled={
-                    formData[revenueChartFormConfig.BUDGET_METHOD] !== 1
-                  }
-                />
-              </SectionGuard>
+              <CheckboxLabeled
+                label="فروش اموال"
+                name={revenueChartFormConfig.SALE}
+                value={formData[revenueChartFormConfig.SALE]}
+                setter={setFormData}
+                disabled={formData[revenueChartFormConfig.BUDGET_METHOD] !== 1}
+              />
 
-              <SectionGuard
-                permission={joinPermissions([
-                  accessNamesConfig.REVENUE_CHART_PAGE,
-                  accessNamesConfig.REVENUE_CHART_PAGE__NIABATI,
-                ])}
-              >
-                <CheckboxLabeled
-                  label="نیابتی"
-                  name={revenueChartFormConfig.NIABATI}
-                  value={formData[revenueChartFormConfig.NIABATI]}
-                  setter={setFormData}
-                  disabled={
-                    formData[revenueChartFormConfig.BUDGET_METHOD] !== 1
-                  }
-                />
-              </SectionGuard>
+              <CheckboxLabeled
+                label="وام و اوراق"
+                name={revenueChartFormConfig.LAON}
+                value={formData[revenueChartFormConfig.LAON]}
+                setter={setFormData}
+                disabled={formData[revenueChartFormConfig.BUDGET_METHOD] !== 1}
+              />
+
+              <CheckboxLabeled
+                label="نیابتی"
+                name={revenueChartFormConfig.NIABATI}
+                value={formData[revenueChartFormConfig.NIABATI]}
+                setter={setFormData}
+                disabled={formData[revenueChartFormConfig.BUDGET_METHOD] !== 1}
+              />
 
               <LoadingButton
                 variant="contained"

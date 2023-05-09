@@ -88,8 +88,12 @@ function ReportRevenueChartPage() {
         >
           {revenueChart.data && (
             <BulletChart
+              lineName="Expense"
+              barName="Mosavab"
+              innerBarName="MosavabDaily"
               lineLabel="عملکرد"
-              chartLabel="مصوب"
+              barLabel="مصوب"
+              innerBarLabel="مصوب روزانه"
               data={chartData}
             />
           )}

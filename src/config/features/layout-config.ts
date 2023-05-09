@@ -15,6 +15,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
 import SummarizeIcon from "@mui/icons-material/Summarize";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 
 import { accessNamesConfig } from "config/access-names-config";
 import { SidenavShape } from "types/layout-type";
@@ -23,20 +24,7 @@ export const sidenavsLayout: SidenavShape[] = [
   {
     title: "گزارشات",
     icon: CircleIcon,
-    items: [
-      {
-        title: "گزارش عملکرد",
-        path: "/report/chart/revenue",
-        icon: AssessmentIcon,
-        licenseName: accessNamesConfig.REVENUE_CHART_PAGE,
-      },
-      {
-        title: "گزارش متولی",
-        path: "/report/proctor/abstract",
-        icon: MonitorHeartIcon,
-        licenseName: accessNamesConfig.ABSTRUCT_PROCTOR_PAGE,
-      },
-    ],
+    items: [],
   },
   {
     title: "فرایندهای بودجه",
@@ -74,9 +62,22 @@ export const sidenavsLayout: SidenavShape[] = [
       },
       {
         title: "گزارشات بودجه",
-        path: "/",
         icon: SummarizeIcon,
         licenseName: accessNamesConfig.BUDGET_CODING_PAGE,
+        items: [
+          {
+            title: "گزارش عملکرد",
+            path: "/report/chart/revenue",
+            icon: AssessmentIcon,
+            licenseName: accessNamesConfig.REVENUE_CHART_PAGE,
+          },
+          {
+            title: "گزارش متولی",
+            path: "/report/proctor/abstract",
+            icon: MonitorHeartIcon,
+            licenseName: accessNamesConfig.ABSTRUCT_PROCTOR_PAGE,
+          },
+        ],
       },
     ],
   },
@@ -160,7 +161,7 @@ export const sidenavsLayout: SidenavShape[] = [
       {
         title: "ساختار",
         path: "/organization/posts",
-        icon: SortSharpIcon,
+        icon: AccountBalanceIcon,
         licenseName: accessNamesConfig.ORGANIZATION_POSTS_PAGE,
       },
       {
@@ -171,7 +172,7 @@ export const sidenavsLayout: SidenavShape[] = [
       },
       {
         title: "مخاطبین",
-        icon: KeyIcon,
+        icon: GroupsIcon,
         path: "/transfer",
         licenseName: accessNamesConfig.ACCESS_PAGE,
       },
