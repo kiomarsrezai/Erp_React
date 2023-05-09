@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 function AdminHeader() {
-  const toggleNormlize = useLayoutStore((state) => state.toggleNormlize);
+  const toggleNormalize = useLayoutStore((state) => state.toggleNormalize);
 
   // sign out
   const [confrimSignoutModal, setConfrimSignoutModal] = useState(false);
@@ -53,7 +53,7 @@ function AdminHeader() {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
-            onClick={toggleNormlize}
+            onClick={toggleNormalize}
           >
             <MenuIcon />
           </IconButton>

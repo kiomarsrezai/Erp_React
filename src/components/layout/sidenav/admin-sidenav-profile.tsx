@@ -7,7 +7,7 @@ import useLayoutStore from "hooks/store/layout-store";
 import userStore from "hooks/store/user-store";
 
 function AdminSidenavProfile() {
-  const normalize = useLayoutStore((state) => state.normlize);
+  const normalize = useLayoutStore((state) => state.normalize);
 
   const { firstName, lastName, bio } = userStore((state) => state);
 

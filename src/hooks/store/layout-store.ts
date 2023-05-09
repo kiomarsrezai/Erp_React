@@ -1,13 +1,26 @@
 import { create } from "zustand";
 
 interface LayoutState {
-  normlize: boolean;
-  toggleNormlize: () => void;
+  normalize: boolean;
+  toggleNormalize: () => void;
+
+  activeSidenavIndex: number | null;
+  onChangeActiveSidenav: (i: number) => void;
 }
 
 const useLayoutStore = create<LayoutState>((set) => ({
-  normlize: false,
-  toggleNormlize: () => set((state) => ({ normlize: !state.normlize })),
+  normalize: false,
+  toggleNormalize: () => {
+    set((state) => ({ normalize: !state.normalize }));
+  },
+
+  activeSidenavIndex: null,
+  onChangeActiveSidenav: (i: number) => {
+    set((state) => ({
+      ...state,
+      activeSidenavIndex: state.activeSidenavIndex === i ? null : i,
+    }));
+  },
 }));
 
 export default useLayoutStore;

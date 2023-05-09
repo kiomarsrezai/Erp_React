@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import CopyrightIcon from "@mui/icons-material/Copyright";
 
 function AdminSidenav() {
-  const normalize = useLayoutStore((state) => state.normlize);
+  const normalize = useLayoutStore((state) => state.normalize);
 
   const drawerWidth = normalize ? 74 : 300;
 

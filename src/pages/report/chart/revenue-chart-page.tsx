@@ -59,7 +59,7 @@ function ReportRevenueChartPage() {
     : [];
 
   // height
-  const normalize = useLayoutStore((state) => state.normlize);
+  const normalize = useLayoutStore((state) => state.normalize);
   const [formHeight, setFormHeight] = useState(0);
   const boxElement = useRef<HTMLDivElement>(null);
   useEffect(() => {
