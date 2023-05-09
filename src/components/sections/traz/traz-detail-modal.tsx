@@ -44,10 +44,12 @@ function TrazDetailModal(props: TrazDetailModalProps) {
       title: "شرح مرکز هزینه",
       name: "descriptionCenter",
       align: "left",
+      hidden: formData[trazConfig.AREA] >= 11,
     },
     {
       title: "مرکز هزینه",
       name: "revenueCenter",
+      hidden: formData[trazConfig.AREA] >= 11,
     },
     {
       title: "کد تفضیل",
