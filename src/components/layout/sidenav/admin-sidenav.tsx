@@ -18,6 +18,7 @@ function AdminSidenav() {
     <Drawer
       sx={{
         width: drawerWidth,
+        height: "100%",
         flexShrink: 0,
         "& .MuiDrawer-paper": {
           width: drawerWidth,
@@ -29,18 +30,21 @@ function AdminSidenav() {
       anchor="left"
     >
       <Box
+        padding={1}
+        height={1}
         display="flex"
         flexDirection="column"
         justifyContent="space-between"
-        sx={{ height: "100%" }}
       >
-        <Box padding={1}>
-          <AdminSidenavProfile />
-          <Divider />
-          <AdminSidenavMenu />
+        <AdminSidenavProfile />
+        <Divider />
+        <Box sx={{ overflow: "auto", height: "100%" }} dir="ltr">
+          <Box dir="rtl">
+            <AdminSidenavMenu />
+          </Box>
         </Box>
 
-        <Card sx={{ textAlign: "center" }}>
+        <Card sx={{ textAlign: "center", bgcolor: "grey.100" }}>
           <CardContent>
             <Typography
               display="flex"

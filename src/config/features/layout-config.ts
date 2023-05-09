@@ -2,7 +2,6 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import KeyIcon from "@mui/icons-material/Key";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import GroupsIcon from "@mui/icons-material/Groups";
-import SortSharpIcon from "@mui/icons-material/SortSharp";
 import DesignServicesIcon from "@mui/icons-material/DesignServices";
 import CodeIcon from "@mui/icons-material/Code";
 import AssessmentIcon from "@mui/icons-material/Assessment";
@@ -56,6 +55,12 @@ export const sidenavsLayout: SidenavShape[] = [
       },
       {
         title: "تفریغ بودجه",
+        path: "/",
+        icon: IndeterminateCheckBoxIcon,
+        licenseName: accessNamesConfig.BUDGET_CODING_PAGE,
+      },
+      {
+        title: "انتصاب",
         path: "/",
         icon: IndeterminateCheckBoxIcon,
         licenseName: accessNamesConfig.BUDGET_CODING_PAGE,
@@ -116,10 +121,34 @@ export const sidenavsLayout: SidenavShape[] = [
         path: "/",
       },
       {
+        title: "ممیزی",
+        icon: SummarizeIcon,
+        licenseName: accessNamesConfig.ACCESS_PAGE,
+        path: "/",
+      },
+      {
+        title: "درخواست وجه",
+        icon: SummarizeIcon,
+        licenseName: accessNamesConfig.ACCESS_PAGE,
+        path: "/",
+      },
+      {
+        title: "حسابرسی",
+        icon: SummarizeIcon,
+        licenseName: accessNamesConfig.ACCESS_PAGE,
+        path: "/",
+      },
+      {
         title: "تراز",
         path: "/traz",
         icon: DesignServicesIcon,
         licenseName: accessNamesConfig.TRAZ_PAGE,
+      },
+      {
+        title: "واسط کدینگ",
+        path: "/transfer",
+        icon: ApartmentIcon,
+        licenseName: accessNamesConfig.TRANSFER_PAGE,
       },
     ],
   },
@@ -133,19 +162,177 @@ export const sidenavsLayout: SidenavShape[] = [
   {
     title: "انبار",
     icon: CircleIcon,
-    items: [],
+    items: [
+      {
+        title: "معرفی کدینگ کالا",
+        icon: CircleIcon,
+        licenseName: accessNamesConfig.ACCESS_PAGE,
+        path: "/",
+      },
+
+      {
+        title: "رسید انبار",
+        icon: CircleIcon,
+        licenseName: accessNamesConfig.ACCESS_PAGE,
+        path: "/",
+      },
+      {
+        title: "خروجی انبار",
+        icon: CircleIcon,
+        licenseName: accessNamesConfig.ACCESS_PAGE,
+        path: "/",
+      },
+    ],
   },
   //
   {
     title: "اموال و دارایی ها",
     icon: CircleIcon,
-    items: [],
+    items: [
+      {
+        title: "وسایل نقلیه موتوری",
+        icon: CircleIcon,
+        licenseName: accessNamesConfig.ACCESS_PAGE,
+        path: "/",
+      },
+      {
+        title: "تاسیسات و تجهیزات",
+        icon: CircleIcon,
+        licenseName: accessNamesConfig.ACCESS_PAGE,
+        path: "/",
+      },
+    ],
   },
   //
   {
     title: "کنترل پروژه",
     icon: CircleIcon,
+    items: [
+      {
+        title: "برنامه عملیاتی",
+        icon: CircleIcon,
+        licenseName: accessNamesConfig.ACCESS_PAGE,
+        path: "/",
+      },
+      {
+        title: "پروژه ها",
+        path: "/project/org",
+        icon: AccountTreeIcon,
+        licenseName: accessNamesConfig.PROJECT_ORG_PAGE,
+      },
+      {
+        title: "جلسات",
+        path: "/project/meetings",
+        icon: GroupsIcon,
+        licenseName: accessNamesConfig.PROJECT_MEETINGS_PAGE,
+      },
+    ],
+  },
+  //
+  {
+    title: "برنامه ریزی",
+    icon: CircleIcon,
     items: [],
+  },
+  //
+  {
+    title: "املاک اختصاصی و آزادسازی",
+    icon: CircleIcon,
+    items: [
+      {
+        title: "معرفی املاک در مسیر",
+        icon: CircleIcon,
+        path: "/",
+        licenseName: accessNamesConfig.ACCESS_PAGE,
+      },
+      {
+        title: "املاک در اختیار شهرداری",
+        icon: CircleIcon,
+        path: "/",
+        licenseName: accessNamesConfig.ACCESS_PAGE,
+      },
+      {
+        title: "آزادسازی",
+        icon: CircleIcon,
+        path: "/",
+        licenseName: accessNamesConfig.ACCESS_PAGE,
+      },
+      {
+        title: "گزارشات",
+        icon: CircleIcon,
+        path: "/",
+        licenseName: accessNamesConfig.ACCESS_PAGE,
+      },
+    ],
+  },
+  //
+  {
+    title: "نت دارایی های ثابت",
+    icon: CircleIcon,
+    items: [
+      {
+        title: "وسایل نقریه موتوری",
+        icon: CircleIcon,
+        licenseName: accessNamesConfig.ACCESS_PAGE,
+        items: [
+          {
+            title: "تعمیرات",
+            icon: CircleIcon,
+            path: "/",
+            licenseName: accessNamesConfig.ACCESS_PAGE,
+          },
+          {
+            title: "سوخت",
+            icon: CircleIcon,
+            path: "/",
+            licenseName: accessNamesConfig.ACCESS_PAGE,
+          },
+          {
+            title: "بیمه",
+            icon: CircleIcon,
+            path: "/",
+            licenseName: accessNamesConfig.ACCESS_PAGE,
+          },
+          {
+            title: "خلافی",
+            icon: CircleIcon,
+            path: "/",
+            licenseName: accessNamesConfig.ACCESS_PAGE,
+          },
+          {
+            title: "معاینه فنی",
+            icon: CircleIcon,
+            path: "/",
+            licenseName: accessNamesConfig.ACCESS_PAGE,
+          },
+        ],
+      },
+    ],
+  },
+  //
+  {
+    title: "انرژی",
+    icon: CircleIcon,
+    items: [
+      {
+        title: "آب",
+        icon: CircleIcon,
+        path: "/",
+        licenseName: accessNamesConfig.ACCESS_PAGE,
+      },
+      {
+        title: "برق",
+        icon: CircleIcon,
+        path: "/",
+        licenseName: accessNamesConfig.ACCESS_PAGE,
+      },
+      {
+        title: "گاز",
+        icon: CircleIcon,
+        path: "/",
+        licenseName: accessNamesConfig.ACCESS_PAGE,
+      },
+    ],
   },
   // base info
   {
@@ -164,45 +351,41 @@ export const sidenavsLayout: SidenavShape[] = [
         icon: AccountBalanceIcon,
         licenseName: accessNamesConfig.ORGANIZATION_POSTS_PAGE,
       },
-      {
-        title: "واسط کدینگ",
-        path: "/transfer",
-        icon: ApartmentIcon,
-        licenseName: accessNamesConfig.TRANSFER_PAGE,
-      },
+
       {
         title: "مخاطبین",
         icon: GroupsIcon,
         path: "/transfer",
         licenseName: accessNamesConfig.ACCESS_PAGE,
       },
+      {
+        title: "مناطق و سازمان ها",
+        icon: GroupsIcon,
+        path: "/",
+        licenseName: accessNamesConfig.ACCESS_PAGE,
+      },
     ],
   },
 
   // others
-
   {
     title: "سایر",
     icon: CircleIcon,
     items: [
       {
-        title: "درخواست اعتبار",
-        path: "/credit/request",
-        icon: CreditCardIcon,
-        licenseName: accessNamesConfig.CREDIT_REQUEST_PAGE,
-      },
-      {
-        title: "پروژه ها",
-        path: "/project/org",
-        icon: AccountTreeIcon,
-        licenseName: accessNamesConfig.PROJECT_ORG_PAGE,
-      },
-      {
-        title: "جلسات",
-        path: "/project/meetings",
-        icon: GroupsIcon,
-        licenseName: accessNamesConfig.PROJECT_MEETINGS_PAGE,
+        title: "استیجاری ها",
+        path: "",
+        icon: KeyIcon,
+        licenseName: accessNamesConfig.ACCESS_PAGE,
       },
     ],
+  },
+
+  //
+  {
+    title: "درخواست اعتبار",
+    path: "/credit/request",
+    icon: CreditCardIcon,
+    licenseName: accessNamesConfig.CREDIT_REQUEST_PAGE,
   },
 ];

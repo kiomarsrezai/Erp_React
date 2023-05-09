@@ -8,17 +8,16 @@ import useLayoutStore from "hooks/store/layout-store";
 import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
+import SectionGuard from "components/auth/section-guard";
 
 import { blue } from "@mui/material/colors";
 import { Fragment } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { SidenavShape } from "types/layout-type";
 import { sidenavsLayout } from "config/features/layout-config";
-import SectionGuard from "components/auth/section-guard";
 
 function AdminSidenavMenu() {
-  const { normalize, activeSidenavIndex, onChangeActiveSidenav } =
-    useLayoutStore();
+  const { normalize, activeSidenavIndex, openSidenav } = useLayoutStore();
 
   // active
   const location = useLocation();
@@ -27,11 +26,7 @@ function AdminSidenavMenu() {
     return location.pathname === path;
   };
 
-  const renderItem = (
-    sidenav: SidenavShape,
-    i: number,
-    isSubSidenav: boolean
-  ) => {
+  const renderItem = (sidenav: SidenavShape, i: number, level: number) => {
     return (
       <SectionGuard
         permission={
@@ -48,18 +43,31 @@ function AdminSidenavMenu() {
               to: sidenav.path,
             })}
             sx={{
-              ...(isSubSidenav && {
-                bgcolor: "grey.100",
+              ...(level > 0 && {
+                bgcolor: `grey.${100 * level}`,
                 borderLeft: 2,
                 borderColor: "grey.400",
               }),
+              ...(!!activeSidenavIndex.includes(sidenav.title) &&
+                !!sidenav.items?.length &&
+                level === 0 && {
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
+                }),
+              ...(!!activeSidenavIndex.includes(sidenav.title) &&
+                !!sidenav.items?.length && {
+                  bgcolor: `grey.${100 * (level + 2)}`,
+                }),
               ...(sidenav.path &&
-                isActive(sidenav.path) && { bgcolor: blue[50] }),
+                isActive(sidenav.path) && { bgcolor: blue[100] }),
+              "&:hover": {
+                bgcolor: blue[50],
+              },
             }}
           >
             <ListItemButton
               {...(sidenav.items && {
-                onClick: () => onChangeActiveSidenav(i),
+                onClick: () => openSidenav(sidenav.title),
               })}
               disableRipple
             >
@@ -75,7 +83,7 @@ function AdminSidenavMenu() {
 
                   {!sidenav.items ? (
                     <></>
-                  ) : i === activeSidenavIndex ? (
+                  ) : !!activeSidenavIndex.includes(sidenav.title) ? (
                     <ExpandLess sx={{ color: "GrayText" }} />
                   ) : (
                     <ExpandMore sx={{ color: "GrayText" }} />
@@ -87,11 +95,15 @@ function AdminSidenavMenu() {
         </Tooltip>
 
         {sidenav.items && (
-          <Collapse in={i === activeSidenavIndex} timeout="auto" unmountOnExit>
+          <Collapse
+            in={!!activeSidenavIndex.includes(sidenav.title)}
+            timeout="auto"
+            unmountOnExit
+          >
             <List component="div" disablePadding>
               {sidenav.items.map((subSidenav, subI) => (
-                <Fragment key={i}>
-                  {renderItem(subSidenav, subI, true)}
+                <Fragment key={subSidenav.title}>
+                  {renderItem(subSidenav, subI, level + 1)}
                 </Fragment>
               ))}
             </List>
@@ -104,41 +116,7 @@ function AdminSidenavMenu() {
   return (
     <List>
       {sidenavsLayout.map((sidenav, i) => (
-        <Fragment key={i}>{renderItem(sidenav, i, false)}</Fragment>
-        // sidenav.items ? (
-        //   <Collapse in={open} timeout="auto" unmountOnExit>
-        // <List component="div" disablePadding>
-        /* <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Starred" />
-          </ListItemButton> */
-        //   </List>
-        // </Collapse>
-        //   )  : (
-
-        //   )
-        // <SectionGuard key={i} permission={sidenav.licenseName}>
-        // <Tooltip title={normalize ? sidenav.title : ""} placement="right">
-        //   <ListItem
-        //     disablePadding
-        //     component={Link}
-        //     to={sidenav.path}
-        //     sx={isActive(sidenav.path) ? { bgcolor: blue[50] } : {}}
-        //   >
-        //     <ListItemButton disableRipple>
-        //       <ListItemIcon>{sidenav.icon}</ListItemIcon>
-        //       {!normlize && (
-        //         <ListItemText
-        //           sx={{ color: "GrayText" }}
-        //           primary={sidenav.title}
-        //         />
-        //       )}
-        //     </ListItemButton>
-        //   </ListItem>
-        // </Tooltip>
-        // </SectionGuard>
+        <Fragment key={sidenav.title}>{renderItem(sidenav, i, 0)}</Fragment>
       ))}
     </List>
   );

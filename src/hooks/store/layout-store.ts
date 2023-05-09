@@ -4,8 +4,8 @@ interface LayoutState {
   normalize: boolean;
   toggleNormalize: () => void;
 
-  activeSidenavIndex: number | null;
-  onChangeActiveSidenav: (i: number) => void;
+  activeSidenavIndex: string[];
+  openSidenav: (item: string) => void;
 }
 
 const useLayoutStore = create<LayoutState>((set) => ({
@@ -14,12 +14,25 @@ const useLayoutStore = create<LayoutState>((set) => ({
     set((state) => ({ normalize: !state.normalize }));
   },
 
-  activeSidenavIndex: null,
-  onChangeActiveSidenav: (i: number) => {
-    set((state) => ({
-      ...state,
-      activeSidenavIndex: state.activeSidenavIndex === i ? null : i,
-    }));
+  activeSidenavIndex: [],
+  openSidenav: (item: string) => {
+    set((state) => {
+      const index = state.activeSidenavIndex.indexOf(item);
+      if (index >= 0) {
+        let copied = [...state.activeSidenavIndex];
+        copied.splice(index, 1);
+
+        return {
+          ...state,
+          activeSidenavIndex: copied,
+        };
+      } else {
+        return {
+          ...state,
+          activeSidenavIndex: [...state.activeSidenavIndex, item],
+        };
+      }
+    });
   },
 }));
 
