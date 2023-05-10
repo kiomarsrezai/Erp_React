@@ -7,22 +7,18 @@ import { mettingsProjectApi } from "api/project/meetings-project-api";
 
 interface YearInputProps {
   setter: (prevData: any) => void;
-  value: number;
+  value: number | undefined;
+  showError?: boolean;
 }
 
 function CommiteInput(props: YearInputProps) {
-  const { setter, value } = props;
+  const { setter, value, showError } = props;
 
   const commiteQuery = useQuery(
     ["commite-list"],
     mettingsProjectApi.getComiteList,
     {
-      onSuccess: (data) => {
-        setter((prevState: any) => ({
-          ...prevState,
-          [mettingsProjectConfig.commiteType]: data.data[0].id,
-        }));
-      },
+      onSuccess: () => {},
     }
   );
 
@@ -40,6 +36,7 @@ function CommiteInput(props: YearInputProps) {
       items={commitesItems}
       value={value}
       setter={setter}
+      showError={showError}
     />
   );
 }

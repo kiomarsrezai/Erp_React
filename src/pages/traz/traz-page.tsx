@@ -29,8 +29,8 @@ interface TableDataItemShape {
 function TrazPage() {
   const [formData, setFormData] = useState({
     [trazConfig.YEAR]: 32,
-    [trazConfig.AREA]: 1,
-    [trazConfig.kind]: 1,
+    [trazConfig.AREA]: undefined,
+    [trazConfig.kind]: undefined,
     [trazConfig.MOEIN]: null,
     [trazConfig.tafsily]: null,
     [trazConfig.markaz_hazine]: null,

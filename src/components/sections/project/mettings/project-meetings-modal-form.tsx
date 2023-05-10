@@ -9,12 +9,13 @@ import { FormEvent, useEffect, useState } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { mettingsProjectConfig } from "config/features/project/meetings-project-config";
 import { mettingsProjectApi } from "api/project/meetings-project-api";
+import { checkHaveValue } from "helper/form-utils";
 
 function ProjectMettingsModalForm() {
   // forms
   const [formData, setFormData] = useState({
-    [mettingsProjectConfig.commiteType]: 0,
-    [mettingsProjectConfig.year]: 0,
+    [mettingsProjectConfig.commiteType]: undefined,
+    [mettingsProjectConfig.year]: undefined,
   });
 
   useEffect(() => {
@@ -34,9 +35,21 @@ function ProjectMettingsModalForm() {
     },
   });
 
+  const [haveSubmitedForm, setHaveSubmitedForm] = useState(false);
+
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
-    submitMutation.mutate(formData);
+
+    setHaveSubmitedForm(true);
+
+    if (
+      checkHaveValue(formData, [
+        mettingsProjectConfig.commiteType,
+        mettingsProjectConfig.year,
+      ])
+    ) {
+      submitMutation.mutate(formData);
+    }
   };
 
   return (
@@ -46,12 +59,14 @@ function ProjectMettingsModalForm() {
           <YearInput
             setter={setFormData}
             value={formData[mettingsProjectConfig.year]}
+            showError={haveSubmitedForm}
           />
         </Grid>
         <Grid lg={3}>
           <CommiteInput
             setter={setFormData}
             value={formData[mettingsProjectConfig.commiteType]}
+            showError={haveSubmitedForm}
           />
         </Grid>
 

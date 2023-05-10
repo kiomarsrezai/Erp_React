@@ -8,13 +8,20 @@ import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
 import userStore from "hooks/store/user-store";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { FormEvent, useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { trazApi } from "api/traz/traz-api";
 import { trazConfig } from "config/features/traz/traz-config";
-import { filedItemsGuard, joinPermissions } from "helper/auth-utils";
+import {
+  checkHavePermission,
+  filedItemsGuard,
+  joinPermissions,
+} from "helper/auth-utils";
 import { accessNamesConfig } from "config/access-names-config";
 import { trazKindItems } from "config/features/general-fields-config";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
+import { checkHaveValue } from "helper/form-utils";
 
 interface TrazFormProps {
   formData: any;
@@ -34,9 +41,39 @@ function TrazForm(props: TrazFormProps) {
     },
   });
 
+  const [haveSubmitedForm, setHaveSubmitedForm] = useState(false);
+
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
-    submitMutation.mutate(formData);
+
+    // permission
+    const havePermission = checkHavePermission(
+      userLicenses,
+      [
+        accessNamesConfig.FIELD_YEAR,
+        accessNamesConfig.FIELD_AREA,
+        accessNamesConfig.FINANCIAL__TARAZ_PAGE_KIND,
+      ],
+      accessNamesConfig.FINANCIAL__TARAZ_PAGE
+    );
+
+    if (!havePermission) {
+      return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
+        variant: "error",
+      });
+    }
+
+    setHaveSubmitedForm(true);
+
+    if (
+      checkHaveValue(formData, [
+        trazConfig.YEAR,
+        trazConfig.AREA,
+        trazConfig.kind,
+      ])
+    ) {
+      submitMutation.mutate(formData);
+    }
   };
 
   // change state
@@ -61,6 +98,7 @@ function TrazForm(props: TrazFormProps) {
               value={formData[trazConfig.YEAR]}
               level={2}
               permissionForm={accessNamesConfig.FINANCIAL__TARAZ_PAGE}
+              showError={haveSubmitedForm}
             />
           </Grid>
         </SectionGuard>
@@ -76,6 +114,7 @@ function TrazForm(props: TrazFormProps) {
               setter={setFormData}
               value={formData[trazConfig.AREA]}
               permissionForm={accessNamesConfig.FINANCIAL__TARAZ_PAGE}
+              showError={haveSubmitedForm}
             />
           </Grid>
         </SectionGuard>
@@ -100,6 +139,7 @@ function TrazForm(props: TrazFormProps) {
               )}
               value={formData[trazConfig.kind]}
               setter={setFormData}
+              showError={haveSubmitedForm}
             />
           </Grid>
         </SectionGuard>

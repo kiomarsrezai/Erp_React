@@ -5,7 +5,11 @@ import { useQuery } from "@tanstack/react-query";
 import { areaGeneralApi } from "api/general/area-general-api";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 import { generalFieldsConfig } from "config/features/general-fields-config";
-import { filedItemsGuard, joinPermissions } from "helper/auth-utils";
+import {
+  checkHavePermission,
+  filedItemsGuard,
+  joinPermissions,
+} from "helper/auth-utils";
 import { accessNamesConfig } from "config/access-names-config";
 
 interface AreaInputProps {
@@ -26,11 +30,21 @@ function AreaInput(props: AreaInputProps) {
     ["general-area", level || 2],
     () => areaGeneralApi.getData(level || 2),
     {
-      onSuccess: (data) => {
-        // setter((prevState: any) => ({
-        //   ...prevState,
-        //   [generalFieldsConfig.AREA]: data.data[0].id,
-        // }));
+      onSuccess: () => {
+        if (value !== undefined && permissionForm) {
+          const havePermission = checkHavePermission(
+            userLicenses,
+            [joinPermissions([accessNamesConfig.FIELD_AREA, value])],
+            permissionForm
+          );
+
+          if (!havePermission) {
+            setter((prevState: any) => ({
+              ...prevState,
+              [generalFieldsConfig.AREA]: undefined,
+            }));
+          }
+        }
       },
     }
   );

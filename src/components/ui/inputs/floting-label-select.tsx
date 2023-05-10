@@ -10,7 +10,7 @@ interface FlotingLabelTextfieldProps {
   label: string;
   name: string;
   items: FlotingLabelTextfieldItemsShape;
-  value: string | number | boolean;
+  value: string | number | boolean | undefined;
   setter: (data: any) => void;
   disabled?: boolean;
   showError?: boolean;

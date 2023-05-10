@@ -4,14 +4,18 @@ import { useQuery } from "@tanstack/react-query";
 import { yearGeneralApi } from "api/general/year-general-api";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 import { generalFieldsConfig } from "config/features/general-fields-config";
-import { filedItemsGuard, joinPermissions } from "helper/auth-utils";
+import {
+  checkHavePermission,
+  filedItemsGuard,
+  joinPermissions,
+} from "helper/auth-utils";
 import { accessNamesConfig } from "config/access-names-config";
 
 import userStore from "hooks/store/user-store";
 
 interface YearInputProps {
   setter: (prevData: any) => void;
-  value: number;
+  value: number | undefined;
   permissionForm?: string;
   disabled?: boolean;
   level?: number;
@@ -26,18 +30,21 @@ function YearInput(props: YearInputProps) {
     ["general-year", level || 1],
     () => yearGeneralApi.getData(level || 1),
     {
-      onSuccess: (data) => {
-        // if (permissionForm) {
-        //   const item = gitFirstGoodItem(
-        //     data.data,
-        //     userLicenses,
-        //     joinPermissions([permissionForm, accessNamesConfig.FIELD_YEAR])
-        //   );
-        //   setter((prevState: any) => ({
-        //     ...prevState,
-        //     [generalFieldsConfig.YEAR]: item.id,
-        //   }));
-        // }
+      onSuccess: () => {
+        if (value !== undefined && permissionForm) {
+          const havePermission = checkHavePermission(
+            userLicenses,
+            [joinPermissions([accessNamesConfig.FIELD_YEAR, value])],
+            permissionForm
+          );
+
+          if (!havePermission) {
+            setter((prevState: any) => ({
+              ...prevState,
+              [generalFieldsConfig.YEAR]: undefined,
+            }));
+          }
+        }
       },
     }
   );
