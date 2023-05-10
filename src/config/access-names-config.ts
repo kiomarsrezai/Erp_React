@@ -1,36 +1,110 @@
 export const accessNamesConfig = {
-  // revenue chart form
-  REVENUE_CHART_PAGE: "revenue-chart",
-  REVENUE_CHART_PAGE__CENTER: "center",
-  REVENUE_CHART_PAGE__SALE: "sale",
-  REVENUE_CHART_PAGE__LOAN: "loan",
-  REVENUE_CHART_PAGE__NIABATI: "niabati",
-  REVENUE_CHART_PAGE__REVENUE: "revenue",
+  // report
+  REPORT__PERCENT_PAGE: "report-percent",
 
-  // proposal form
-  BUDGET_PROPOSAL_PAGE: "budget-proposal",
+  // budget
+  BUDGET__PROPOSAL_PAGE: "budget-proposal",
 
-  // seprator
-  SEPRATOR_BUDGET_PAGE: "seprator-budget",
-  SEPRATOR_BUDGET_PAGE__TAMIN_BTN: "tamin-btn",
+  BUDGET__SEPRATOR_PAGE: "budget-seprator",
+  BUDGET__SEPRATOR_PAGE__TAMIN_BTN: "tamin-btn",
 
-  // organization
-  ORGANIZATION_POSTS_PAGE: "organiztion-posts",
+  BUDGET__CODING_PAGE: "budget-coding",
 
-  // traz form
-  TRAZ_PAGE: "traz",
-  TRAZ_PAGE__KIND: "kind",
+  BUDGET__EDIT_PAGE: "budget-edit",
 
-  // coding
-  BUDGET_CODING_PAGE: "budget-coding-page",
+  BUDGET__TAFRIGH_PAGE: "budget-tafrigh",
 
-  //
-  ABSTRUCT_PROCTOR_PAGE: "abstruct-proctor",
+  BUDGET__REPORT__EXPENSE_PAGE: "budget-report-expense",
+
+  BUDGET__REPORT__ABSTRUCT_PAGE: "budget-report-abstruct",
+
+  // contracts
+  CONTRACT__MANAGE_PAGE: "contract-manage",
+
+  CONTRACT__REPORT_PAGE: "contract-report",
+
+  // financial
+  FINANCIAL__ACCOUNTS_PAGE: "financial-accounts",
+
+  FINANCIAL__DOCUMENT_PAGE: "financial-document",
+
+  FINANCIAL__INSPECTOR_PAGE: "financial-inspector",
+
+  FINANCIAL__REQUEST_PAGE: "financial-request",
+
+  FINANCIAL__AUDIT_PAGE: "financial-audit",
+
+  FINANCIAL__TARAZ_PAGE: "financial-taraz",
+  FINANCIAL__TARAZ_PAGE__KIND: "kind",
+
+  FINANCIAL__CODING_PAGE: "financial-coding",
+
+  // treasury
+  TREASURY__REQUEST_PAGE: "treasury-request",
+
+  // store
+  STORE__CODING_PAGE: "store-coding",
+
+  STORE__DOCUMENT_PAGE: "store-document",
+
+  STORE__OUTPUT_PAGE: "store-output",
+
+  // property
+  PROPERTY__MOTOR_PAGE: "property-motor",
+
+  PROPERTY__INSTALLATION_PAGE: "property-installation",
+
+  // project
+  PROJECT__PLAN_PAGE: "project-plan",
+
+  PROJECT__ORG_PAGE: "project-org",
+
+  PROJECT__MEETINGS_PAGE: "project-meetings",
+
+  // plans
+  PLANS__INDICATOR_PAGE: "plans-Indicator",
+
+  // estate
+  ESTATE__INTRODUCTION_PAGE: "estate-introduction",
+
+  ESTATE__POSSESSION_PAGE: "estate-possession",
+
+  ESTATE__FREE_PAGE: "estate-free",
+
+  ESTATE__REPORTS_PAGE: "estate-reports",
+
+  // stable
+  STABLE__MOTOR__EDIT_PAGE: "stable-motor-edit",
+
+  STABLE__MOTOR__FUEL_PAGE: "stable-motor-fuel",
+
+  STABLE__MOTOR__INSURANCE_PAGE: "stable-motor-insurance",
+
+  STABLE__MOTOR__FOUL_PAGE: "stable-motor-foul",
+
+  STABLE__MOTOR__EXAMINATION_PAGE: "stable-motor-examination",
+
+  // energy
+  ENERGY__WATER_PAGE: "energy-water",
+
+  ENERGY__ELECTEICITY_PAGE: "energy-electricity",
+
+  ENERGY__GAS_PAGE: "energy-gas",
+
+  // base
+  BASE__ACCESS_PAGE: "base-access",
+
+  BASE__STRUCTURE_PAGE: "base-structure",
+
+  BASE__USERS_PAGE: "base-users",
+
+  BASE__ORGAN_PAGE: "base-organ",
+
+  // others
+  OTHERS__RENTAL_PAGE: "others-rental",
+
+  // request
   CREDIT_REQUEST_PAGE: "credit-request",
-  ACCESS_PAGE: "access",
-  PROJECT_ORG_PAGE: "project-org",
-  PROJECT_MEETINGS_PAGE: "project-meetings",
-  TRANSFER_PAGE: "transfer",
 
   // global fields
   FIELD_YEAR: "year",

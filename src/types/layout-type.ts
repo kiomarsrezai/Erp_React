@@ -4,4 +4,5 @@ export interface SidenavShape {
   icon: any;
   licenseName?: string;
   items?: SidenavShape[];
+  permissionItems?: string[];
 }
