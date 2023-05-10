@@ -35,9 +35,9 @@ interface TableDataItemShape {
 
 function TransferPage() {
   const [formData, setFormData] = useState({
-    [transferConfig.YEAR]: 32,
-    [transferConfig.AREA]: 1,
-    [transferConfig.BUDGET_METHOD]: 1,
+    [transferConfig.YEAR]: undefined,
+    [transferConfig.AREA]: undefined,
+    [transferConfig.BUDGET_METHOD]: undefined,
   });
 
   // modal
@@ -270,7 +270,7 @@ function TransferPage() {
       >
         <TransferModalTable
           data={dataTableMutation.data?.data || []}
-          areaId={formData[transferConfig.AREA]}
+          areaId={formData[transferConfig.AREA] || 0}
           onDoneTask={handleDoneModalTask}
         />
       </FixedModal>
