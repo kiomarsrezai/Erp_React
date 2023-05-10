@@ -14,6 +14,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { proposalBudgetApi } from "api/budget/proposal-api";
 import { getBgColorBudget } from "helper/get-color-utils";
+import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -77,7 +78,7 @@ function BudgetProposalPage() {
       split: true,
     },
     {
-      title: "جذب %",
+      title: "% جذب",
       name: "percent",
       percent: true,
     },
@@ -157,17 +158,49 @@ function BudgetProposalPage() {
     : [];
 
   // footer
-  // const tableFooter: TableDataItemShape | any = {
-  //   number: "جمع",
-  //   "colspan-number": 3,
-  //   code: null,
-  //   description: null,
-  //   mosavab: sumFieldsInSingleItemData(proposalQuery.data?.data, "mosavab"),
-  //   edit: sumFieldsInSingleItemData(proposalQuery.data?.data, "edit"),
-  //   expense: sumFieldsInSingleItemData(proposalQuery.data?.data, "expense"),
-  //   percent: "",
-  //   actions: "",
-  // };
+  const footerMosavabSum = sumFieldsInSingleItemData(
+    proposalQuery.data?.data,
+    "mosavab",
+    (item: GetSingleProposalItemShape) => item.levelNumber === 1
+  );
+
+  const footerEditSum = sumFieldsInSingleItemData(
+    proposalQuery.data?.data,
+    "edit",
+    (item: GetSingleProposalItemShape) => item.levelNumber === 1
+  );
+
+  const footerExpenseSum = sumFieldsInSingleItemData(
+    proposalQuery.data?.data,
+    "expense",
+    (item: GetSingleProposalItemShape) => item.levelNumber === 1
+  );
+
+  const tableFooter: TableDataItemShape | any = {
+    number: "جمع",
+    "colspan-number": 3,
+    "rowspan-number": 2,
+    code: null,
+    description: null,
+    mosavab: footerMosavabSum,
+    edit: footerEditSum,
+    expense: footerExpenseSum,
+    percent: "",
+    actions: "",
+  };
+
+  const tableBottomFooter: TableDataItemShape | any = {
+    number: null,
+    code: null,
+    description: null,
+    mosavab: `${getPercent(footerExpenseSum, footerMosavabSum)}%`,
+    "align-mosavab": "center",
+    edit: `${getPercent(footerExpenseSum, footerEditSum)}%`,
+    "align-edit": "center",
+    expense: "",
+    percent: "",
+    actions: "",
+  };
 
   return (
     <>
@@ -176,7 +209,8 @@ function BudgetProposalPage() {
           heads={tableHeads}
           headGroups={tableHeadGroups}
           data={tableData}
-          // footer={tableFooter}
+          footer={tableFooter}
+          bottomFooter={tableBottomFooter}
         />
       </AdminLayout>
 

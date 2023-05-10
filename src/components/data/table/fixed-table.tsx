@@ -82,6 +82,7 @@ interface FixedTableProps {
   heads: TableHeadShape;
   data: any;
   footer?: any;
+  bottomFooter?: any;
   notFixed?: boolean;
   canSort?: boolean;
   enableVirtual?: boolean;
@@ -96,6 +97,7 @@ function FixedTable(props: FixedTableProps) {
     topHeadGroups,
     canSort,
     enableVirtual,
+    bottomFooter,
   } = props;
 
   const visibleHeads = heads.filter((item: any) => !item.hidden);
@@ -262,7 +264,7 @@ function FixedTable(props: FixedTableProps) {
               textAlign: row[`textAlign-${name}`] || item.align,
             }}
           >
-            {i + 1}
+            {_index + 1}
           </TableCell>
         );
       }
@@ -312,8 +314,45 @@ function FixedTable(props: FixedTableProps) {
               dir={typeof footer[name] === "number" ? "ltr" : "rtl"}
               key={i}
               colSpan={footer[`colspan-${name}`] || 1}
+              rowSpan={footer[`rowspan-${name}`] || 1}
             >
               {formatDataCell(footer[name], item, footer)}
+            </TableCell>
+          );
+        }
+      })}
+    </TableRow>
+  );
+
+  // bottom footer
+  const tableBottomFooterContent = bottomFooter && !!sortedData.length && (
+    <TableRow>
+      {visibleHeads.map((item: any, i: any) => {
+        const name = item.name;
+        if (bottomFooter[name] === null) {
+          return <></>;
+        } else {
+          return (
+            <TableCell
+              align={bottomFooter[`align-${name}`] || item.align || "center"}
+              sx={{
+                borderRight: 1,
+                borderTop: 1,
+                borderColor: grey[borderColor],
+                bgcolor: grey[200],
+                fontWeight: 500,
+                whiteSpace: "nowrap",
+                p: 1,
+                color: "#000",
+                "&:last-child": {
+                  borderRight: 0,
+                },
+              }}
+              dir={typeof bottomFooter[name] === "number" ? "ltr" : "rtl"}
+              key={i}
+              colSpan={bottomFooter[`colspan-${name}`] || 1}
+            >
+              {formatDataCell(bottomFooter[name], item, bottomFooter)}
             </TableCell>
           );
         }
@@ -337,7 +376,11 @@ function FixedTable(props: FixedTableProps) {
           components={VirtuosoTableComponents}
           itemContent={rowContent}
           fixedHeaderContent={fixedHeaderContent}
-          fixedFooterContent={() => tableFooterContent}
+          fixedFooterContent={() => (
+            <>
+              {tableFooterContent} {tableBottomFooterContent}
+            </>
+          )}
         />
       ) : (
         <TableContainer
@@ -371,6 +414,7 @@ function FixedTable(props: FixedTableProps) {
               sx={{ bgcolor: grey[200], position: "sticky", bottom: 0 }}
             >
               {tableFooterContent}
+              {tableBottomFooterContent}
             </TableFooter>
           </Table>
         </TableContainer>
