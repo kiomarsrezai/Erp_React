@@ -20,6 +20,7 @@ import { alpha } from "@mui/system/colorManipulator";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Notifications from "./notifictions";
 
 function AdminHeader() {
   const toggleNormalize = useLayoutStore((state) => state.toggleNormalize);
@@ -47,6 +48,19 @@ function AdminHeader() {
 
   const handleCloseChangePasswordModal = () => {
     setIsOpenChangePasswordModal(false);
+  };
+
+  // notification
+  const [anchorNotification, setAnchorNotification] =
+    useState<HTMLButtonElement | null>(null);
+  const handleClickNotification = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    setAnchorNotification(event.currentTarget);
+  };
+
+  const closeNotifications = () => {
+    setAnchorNotification(null);
   };
 
   return (
@@ -95,15 +109,21 @@ function AdminHeader() {
               alignItems={"center"}
               justifyContent={"space-between"}
             >
-              <IconButton color="inherit">
-                <Badge
-                  badgeContent={423}
-                  color="error"
-                  anchorOrigin={{ horizontal: "left", vertical: "top" }}
-                >
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
+              <>
+                <IconButton color="inherit" onClick={handleClickNotification}>
+                  <Badge
+                    badgeContent={423}
+                    color="error"
+                    anchorOrigin={{ horizontal: "left", vertical: "top" }}
+                  >
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+                <Notifications
+                  anchorEl={anchorNotification}
+                  onClose={closeNotifications}
+                />
+              </>
 
               <IconButton
                 color="inherit"
