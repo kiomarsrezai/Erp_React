@@ -60,7 +60,7 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
         <Grid container spacing={2}>
           <SectionGuard
             permission={joinPermissions([
-              accessNamesConfig.SEPRATOR_BUDGET_PAGE,
+              accessNamesConfig.BUDGET__SEPRATOR_PAGE,
               accessNamesConfig.FIELD_YEAR,
             ])}
           >
@@ -68,13 +68,13 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
               <YearInput
                 setter={setFormData}
                 value={formData[sepratorBudgetConfig.YEAR]}
-                permissionForm={accessNamesConfig.SEPRATOR_BUDGET_PAGE}
+                permissionForm={accessNamesConfig.BUDGET__SEPRATOR_PAGE}
               />
             </Grid>
           </SectionGuard>
           <SectionGuard
             permission={joinPermissions([
-              accessNamesConfig.SEPRATOR_BUDGET_PAGE,
+              accessNamesConfig.BUDGET__SEPRATOR_PAGE,
               accessNamesConfig.FIELD_AREA,
             ])}
           >
@@ -82,14 +82,14 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
               <AreaInput
                 setter={setFormData}
                 value={formData[sepratorBudgetConfig.AREA]}
-                permissionForm={accessNamesConfig.SEPRATOR_BUDGET_PAGE}
+                permissionForm={accessNamesConfig.BUDGET__SEPRATOR_PAGE}
               />
             </Grid>
           </SectionGuard>
 
           <SectionGuard
             permission={joinPermissions([
-              accessNamesConfig.SEPRATOR_BUDGET_PAGE,
+              accessNamesConfig.BUDGET__SEPRATOR_PAGE,
               accessNamesConfig.FIELD_BUDGET_METHOD,
             ])}
           >
@@ -97,7 +97,7 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
               <BudgetMethodInput
                 setter={setFormData}
                 value={formData[sepratorBudgetConfig.BUDGET_METHOD]}
-                permissionForm={accessNamesConfig.SEPRATOR_BUDGET_PAGE}
+                permissionForm={accessNamesConfig.BUDGET__SEPRATOR_PAGE}
               />
             </Grid>
           </SectionGuard>

@@ -6,7 +6,7 @@ export const accessNamesConfig = {
   BUDGET__PROPOSAL_PAGE: "budget-proposal",
 
   BUDGET__SEPRATOR_PAGE: "budget-seprator",
-  BUDGET__SEPRATOR_PAGE__TAMIN_BTN: "tamin-btn",
+  BUDGET__SEPRATOR_PAGE_TAMIN_BTN: "tamin-btn",
 
   BUDGET__CODING_PAGE: "budget-coding",
 
@@ -15,6 +15,7 @@ export const accessNamesConfig = {
   BUDGET__TAFRIGH_PAGE: "budget-tafrigh",
 
   BUDGET__REPORT__EXPENSE_PAGE: "budget-report-expense",
+  BUDGET__REPORT__EXPENSE_PAGE_CENTER: "center",
 
   BUDGET__REPORT__ABSTRUCT_PAGE: "budget-report-abstruct",
 
@@ -35,7 +36,7 @@ export const accessNamesConfig = {
   FINANCIAL__AUDIT_PAGE: "financial-audit",
 
   FINANCIAL__TARAZ_PAGE: "financial-taraz",
-  FINANCIAL__TARAZ_PAGE__KIND: "kind",
+  FINANCIAL__TARAZ_PAGE_KIND: "kind",
 
   FINANCIAL__CODING_PAGE: "financial-coding",
 

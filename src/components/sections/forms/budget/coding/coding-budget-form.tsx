@@ -45,7 +45,7 @@ function CodingBudgetForm(props: CodingBudgetFormProps) {
       <Grid container spacing={2}>
         <SectionGuard
           permission={joinPermissions([
-            accessNamesConfig.BUDGET_CODING_PAGE,
+            accessNamesConfig.BUDGET__CODING_PAGE,
             accessNamesConfig.FIELD_BUDGET_METHOD,
           ])}
         >
@@ -53,7 +53,7 @@ function CodingBudgetForm(props: CodingBudgetFormProps) {
             <BudgetMethodInput
               setter={setFormData}
               value={formData[sepratorBudgetConfig.BUDGET_METHOD]}
-              permissionForm={accessNamesConfig.BUDGET_CODING_PAGE}
+              permissionForm={accessNamesConfig.BUDGET__CODING_PAGE}
             />
           </Grid>
         </SectionGuard>

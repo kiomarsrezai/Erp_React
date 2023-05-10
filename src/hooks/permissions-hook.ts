@@ -81,7 +81,7 @@ function usePermissions() {
   // traz type
   const trazKindField = formatLocalFields(
     "نوع تراز",
-    accessNamesConfig.FINANCIAL__TARAZ_PAGE__KIND,
+    accessNamesConfig.FINANCIAL__TARAZ_PAGE_KIND,
     trazKindItems
   );
 

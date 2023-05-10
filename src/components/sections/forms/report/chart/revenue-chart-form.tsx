@@ -53,7 +53,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
     const havePermission = checkHavePermission(
       userLicenses,
       [accessNamesConfig.FIELD_YEAR],
-      accessNamesConfig.REVENUE_CHART_PAGE
+      accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE
     );
 
     if (!havePermission) {
@@ -110,7 +110,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
         <Grid container spacing={2}>
           <SectionGuard
             permission={joinPermissions([
-              accessNamesConfig.REVENUE_CHART_PAGE,
+              accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
               accessNamesConfig.FIELD_ORGAN,
             ])}
           >
@@ -122,7 +122,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
                   organItems,
                   userLicenses,
                   joinPermissions([
-                    accessNamesConfig.REVENUE_CHART_PAGE,
+                    accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
                     accessNamesConfig.FIELD_ORGAN,
                   ])
                 )}
@@ -134,7 +134,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
           </SectionGuard>
           <SectionGuard
             permission={joinPermissions([
-              accessNamesConfig.REVENUE_CHART_PAGE,
+              accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
               accessNamesConfig.FIELD_YEAR,
             ])}
           >
@@ -142,7 +142,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
               <YearInput
                 setter={setFormData}
                 value={formData[revenueChartFormConfig.YEAR] as number}
-                permissionForm={accessNamesConfig.REVENUE_CHART_PAGE}
+                permissionForm={accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE}
                 showError={haveSubmitedForm}
               />
             </Grid>
@@ -150,8 +150,8 @@ function RevenueChartForm(props: RevenueChartFormProps) {
           {!(formData[revenueChartFormConfig.ORGAN] === 4) && (
             <SectionGuard
               permission={joinPermissions([
-                accessNamesConfig.REVENUE_CHART_PAGE,
-                accessNamesConfig.REVENUE_CHART_PAGE__CENTER,
+                accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
+                accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER,
               ])}
             >
               <Grid xs={2}>
@@ -162,8 +162,8 @@ function RevenueChartForm(props: RevenueChartFormProps) {
                     centerItems,
                     userLicenses,
                     joinPermissions([
-                      accessNamesConfig.REVENUE_CHART_PAGE,
-                      accessNamesConfig.REVENUE_CHART_PAGE__CENTER,
+                      accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
+                      accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER,
                     ])
                   )}
                   value={formData[revenueChartFormConfig.CENTER]}
@@ -176,7 +176,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
 
           <SectionGuard
             permission={joinPermissions([
-              accessNamesConfig.REVENUE_CHART_PAGE,
+              accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
               accessNamesConfig.FIELD_BUDGET_METHOD,
             ])}
           >
@@ -184,7 +184,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
               <BudgetMethodInput
                 setter={setFormData}
                 value={formData[revenueChartFormConfig.BUDGET_METHOD] as number}
-                permissionForm={accessNamesConfig.REVENUE_CHART_PAGE}
+                permissionForm={accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE}
                 showError={haveSubmitedForm}
               />
             </Grid>

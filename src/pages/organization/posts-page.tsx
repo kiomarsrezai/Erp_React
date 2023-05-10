@@ -67,14 +67,14 @@ function PostsOrganzationPage() {
       <Box component="form" sx={{ width: 700, mx: "auto", p: 3 }}>
         <SectionGuard
           permission={joinPermissions([
-            accessNamesConfig.ORGANIZATION_POSTS_PAGE,
+            accessNamesConfig.BASE__STRUCTURE_PAGE,
             accessNamesConfig.FIELD_AREA,
           ])}
         >
           <AreaInput
             value={formdata[orgPostsConfig.area]}
             setter={setFormdata}
-            permissionForm={accessNamesConfig.ORGANIZATION_POSTS_PAGE}
+            permissionForm={accessNamesConfig.BASE__STRUCTURE_PAGE}
           />
         </SectionGuard>
         <Button variant="contained" sx={{ mt: 1 }} onClick={handleDoneClick}>

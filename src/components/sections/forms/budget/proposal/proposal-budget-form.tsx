@@ -47,7 +47,7 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
       <Grid container spacing={2}>
         <SectionGuard
           permission={joinPermissions([
-            accessNamesConfig.BUDGET_PROPOSAL_PAGE,
+            accessNamesConfig.BUDGET__PROPOSAL_PAGE,
             accessNamesConfig.FIELD_YEAR,
           ])}
         >
@@ -55,13 +55,13 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
             <YearInput
               setter={setFormData}
               value={formData[sepratorBudgetConfig.YEAR]}
-              permissionForm={accessNamesConfig.BUDGET_PROPOSAL_PAGE}
+              permissionForm={accessNamesConfig.BUDGET__PROPOSAL_PAGE}
             />
           </Grid>
         </SectionGuard>
         <SectionGuard
           permission={joinPermissions([
-            accessNamesConfig.BUDGET_PROPOSAL_PAGE,
+            accessNamesConfig.BUDGET__PROPOSAL_PAGE,
             accessNamesConfig.FIELD_AREA,
           ])}
         >
@@ -69,7 +69,7 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
             <AreaInput
               setter={setFormData}
               value={formData[sepratorBudgetConfig.AREA]}
-              permissionForm={accessNamesConfig.BUDGET_PROPOSAL_PAGE}
+              permissionForm={accessNamesConfig.BUDGET__PROPOSAL_PAGE}
               level={1}
             />
           </Grid>
@@ -77,7 +77,7 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
 
         <SectionGuard
           permission={joinPermissions([
-            accessNamesConfig.BUDGET_PROPOSAL_PAGE,
+            accessNamesConfig.BUDGET__PROPOSAL_PAGE,
             accessNamesConfig.FIELD_BUDGET_METHOD,
           ])}
         >
@@ -85,7 +85,7 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
             <BudgetMethodInput
               setter={setFormData}
               value={formData[sepratorBudgetConfig.BUDGET_METHOD]}
-              permissionForm={accessNamesConfig.BUDGET_PROPOSAL_PAGE}
+              permissionForm={accessNamesConfig.BUDGET__PROPOSAL_PAGE}
             />
           </Grid>
         </SectionGuard>

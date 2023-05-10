@@ -18,6 +18,18 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 
 import { accessNamesConfig } from "config/access-names-config";
 import { SidenavShape } from "types/layout-type";
+import ReportRevenueChartPage from "pages/report/chart/revenue-chart-page";
+import ReportProctorAbstructPage from "pages/report/proctor/abstract-page";
+import BudgetProposalPage from "pages/budget/proposal-page";
+import BudgetSepratorPage from "pages/budget/seprator-page";
+import BudgetCodingPage from "pages/budget/coding-page ";
+import TransferPage from "pages/transfer/transfer-page";
+import RequestCreditPage from "pages/credit/request-page";
+import AccessPage from "pages/access-page";
+import OrgProjectPage from "pages/project/org-page";
+import MeetingsProjectPage from "pages/project/meetings-page";
+import PostsOrganzationPage from "pages/organization/posts-page";
+import TrazPage from "pages/traz/traz-page";
 
 export const sidenavsLayout: SidenavShape[] = [
   // report
@@ -43,18 +55,21 @@ export const sidenavsLayout: SidenavShape[] = [
         path: "/budget/proposal",
         icon: MoneyIcon,
         licenseName: accessNamesConfig.BUDGET__PROPOSAL_PAGE,
+        element: BudgetProposalPage,
       },
       {
         title: "بودجه تفکیکی",
         path: "/budget/seprator",
         icon: PointOfSaleIcon,
         licenseName: accessNamesConfig.BUDGET__SEPRATOR_PAGE,
+        element: BudgetSepratorPage,
       },
       {
         title: "کدینگ بودجه",
         path: "/budget/coding",
         icon: CodeIcon,
         licenseName: accessNamesConfig.BUDGET__CODING_PAGE,
+        element: BudgetCodingPage,
       },
       {
         title: "اصلاح بودجه",
@@ -83,12 +98,14 @@ export const sidenavsLayout: SidenavShape[] = [
             path: "/report/chart/revenue",
             icon: AssessmentIcon,
             licenseName: accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
+            element: ReportRevenueChartPage,
           },
           {
             title: "گزارش متولی",
             path: "/report/proctor/abstract",
             icon: MonitorHeartIcon,
             licenseName: accessNamesConfig.BUDGET__REPORT__ABSTRUCT_PAGE,
+            element: ReportProctorAbstructPage,
           },
         ],
       },
@@ -153,12 +170,14 @@ export const sidenavsLayout: SidenavShape[] = [
         path: "/traz",
         icon: DesignServicesIcon,
         licenseName: accessNamesConfig.FINANCIAL__TARAZ_PAGE,
+        element: TrazPage,
       },
       {
         title: "واسط کدینگ",
         path: "/transfer",
         icon: ApartmentIcon,
         licenseName: accessNamesConfig.FINANCIAL__CODING_PAGE,
+        element: TransferPage,
       },
     ],
   },
@@ -236,12 +255,14 @@ export const sidenavsLayout: SidenavShape[] = [
         path: "/project/org",
         icon: AccountTreeIcon,
         licenseName: accessNamesConfig.PROJECT__ORG_PAGE,
+        element: OrgProjectPage,
       },
       {
         title: "جلسات",
         path: "/project/meetings",
         icon: GroupsIcon,
         licenseName: accessNamesConfig.PROJECT__MEETINGS_PAGE,
+        element: MeetingsProjectPage,
       },
     ],
   },
@@ -367,12 +388,14 @@ export const sidenavsLayout: SidenavShape[] = [
         path: "/access",
         icon: KeyIcon,
         licenseName: accessNamesConfig.BASE__ACCESS_PAGE,
+        element: AccessPage,
       },
       {
         title: "ساختار",
         path: "/organization/posts",
         icon: AccountBalanceIcon,
         licenseName: accessNamesConfig.BASE__STRUCTURE_PAGE,
+        element: PostsOrganzationPage,
       },
 
       {
@@ -410,5 +433,6 @@ export const sidenavsLayout: SidenavShape[] = [
     path: "/credit/request",
     icon: CreditCardIcon,
     licenseName: accessNamesConfig.CREDIT_REQUEST_PAGE,
+    element: RequestCreditPage,
   },
 ];

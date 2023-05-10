@@ -126,8 +126,8 @@ function SepratorDetailModal(props: SepratorDetailModalProps) {
   const headGroupBtn = (
     <SectionGuard
       permission={joinPermissions([
-        accessNamesConfig.SEPRATOR_BUDGET_PAGE,
-        accessNamesConfig.SEPRATOR_BUDGET_PAGE__TAMIN_BTN,
+        accessNamesConfig.BUDGET__SEPRATOR_PAGE,
+        accessNamesConfig.BUDGET__SEPRATOR_PAGE_TAMIN_BTN,
       ])}
     >
       <Button

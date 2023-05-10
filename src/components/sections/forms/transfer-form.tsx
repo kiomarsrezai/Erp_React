@@ -47,7 +47,7 @@ function TransferForm(props: TransferFormProps) {
       <Grid container spacing={2}>
         <SectionGuard
           permission={joinPermissions([
-            accessNamesConfig.TRANSFER_PAGE,
+            accessNamesConfig.FINANCIAL__CODING_PAGE,
             accessNamesConfig.FIELD_YEAR,
           ])}
         >
@@ -55,13 +55,13 @@ function TransferForm(props: TransferFormProps) {
             <YearInput
               setter={setFormData}
               value={formData[sepratorBudgetConfig.YEAR]}
-              permissionForm={accessNamesConfig.TRANSFER_PAGE}
+              permissionForm={accessNamesConfig.FINANCIAL__CODING_PAGE}
             />
           </Grid>
         </SectionGuard>
         <SectionGuard
           permission={joinPermissions([
-            accessNamesConfig.TRANSFER_PAGE,
+            accessNamesConfig.FINANCIAL__CODING_PAGE,
             accessNamesConfig.FIELD_AREA,
           ])}
         >
@@ -69,13 +69,13 @@ function TransferForm(props: TransferFormProps) {
             <AreaInput
               setter={setFormData}
               value={formData[sepratorBudgetConfig.AREA]}
-              permissionForm={accessNamesConfig.TRANSFER_PAGE}
+              permissionForm={accessNamesConfig.FINANCIAL__CODING_PAGE}
             />
           </Grid>
         </SectionGuard>
         <SectionGuard
           permission={joinPermissions([
-            accessNamesConfig.TRANSFER_PAGE,
+            accessNamesConfig.FINANCIAL__CODING_PAGE,
             accessNamesConfig.FIELD_BUDGET_METHOD,
           ])}
         >
@@ -83,7 +83,7 @@ function TransferForm(props: TransferFormProps) {
             <BudgetMethodInput
               setter={setFormData}
               value={formData[sepratorBudgetConfig.BUDGET_METHOD]}
-              permissionForm={accessNamesConfig.TRANSFER_PAGE}
+              permissionForm={accessNamesConfig.FINANCIAL__CODING_PAGE}
             />
           </Grid>
         </SectionGuard>

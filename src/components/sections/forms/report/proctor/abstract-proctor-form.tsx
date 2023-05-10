@@ -48,7 +48,7 @@ function AbstractProctorForm(props: AbstractProctorFormProps) {
       <Grid container spacing={2}>
         <SectionGuard
           permission={joinPermissions([
-            accessNamesConfig.ABSTRUCT_PROCTOR_PAGE,
+            accessNamesConfig.BUDGET__REPORT__ABSTRUCT_PAGE,
             accessNamesConfig.FIELD_YEAR,
           ])}
         >
@@ -56,7 +56,7 @@ function AbstractProctorForm(props: AbstractProctorFormProps) {
             <YearInput
               setter={setFormData}
               value={formData[abstructProctorConfig.YEAR]}
-              permissionForm={accessNamesConfig.ABSTRUCT_PROCTOR_PAGE}
+              permissionForm={accessNamesConfig.BUDGET__REPORT__ABSTRUCT_PAGE}
             />
           </Grid>
         </SectionGuard>

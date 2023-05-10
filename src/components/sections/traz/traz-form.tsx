@@ -51,7 +51,7 @@ function TrazForm(props: TrazFormProps) {
       <Grid container spacing={2}>
         <SectionGuard
           permission={joinPermissions([
-            accessNamesConfig.TRAZ_PAGE,
+            accessNamesConfig.FINANCIAL__TARAZ_PAGE,
             accessNamesConfig.FIELD_YEAR,
           ])}
         >
@@ -60,14 +60,14 @@ function TrazForm(props: TrazFormProps) {
               setter={setFormData}
               value={formData[trazConfig.YEAR]}
               level={2}
-              permissionForm={accessNamesConfig.TRAZ_PAGE}
+              permissionForm={accessNamesConfig.FINANCIAL__TARAZ_PAGE}
             />
           </Grid>
         </SectionGuard>
 
         <SectionGuard
           permission={joinPermissions([
-            accessNamesConfig.TRAZ_PAGE,
+            accessNamesConfig.FINANCIAL__TARAZ_PAGE,
             accessNamesConfig.FIELD_AREA,
           ])}
         >
@@ -75,15 +75,15 @@ function TrazForm(props: TrazFormProps) {
             <AreaInput
               setter={setFormData}
               value={formData[trazConfig.AREA]}
-              permissionForm={accessNamesConfig.TRAZ_PAGE}
+              permissionForm={accessNamesConfig.FINANCIAL__TARAZ_PAGE}
             />
           </Grid>
         </SectionGuard>
 
         <SectionGuard
           permission={joinPermissions([
-            accessNamesConfig.TRAZ_PAGE,
-            accessNamesConfig.TRAZ_PAGE__KIND,
+            accessNamesConfig.FINANCIAL__TARAZ_PAGE,
+            accessNamesConfig.FINANCIAL__TARAZ_PAGE_KIND,
           ])}
         >
           <Grid lg={2}>
@@ -94,8 +94,8 @@ function TrazForm(props: TrazFormProps) {
                 trazKindItems,
                 userLicenses,
                 joinPermissions([
-                  accessNamesConfig.TRAZ_PAGE,
-                  accessNamesConfig.TRAZ_PAGE__KIND,
+                  accessNamesConfig.FINANCIAL__TARAZ_PAGE,
+                  accessNamesConfig.FINANCIAL__TARAZ_PAGE_KIND,
                 ])
               )}
               value={formData[trazConfig.kind]}
