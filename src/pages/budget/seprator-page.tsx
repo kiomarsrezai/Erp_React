@@ -31,9 +31,9 @@ interface TableDataItemShape {
 function BudgetSepratorPage() {
   // forms
   const [formData, setFormData] = useState({
-    [sepratorBudgetConfig.YEAR]: 32,
-    [sepratorBudgetConfig.AREA]: 1,
-    [sepratorBudgetConfig.BUDGET_METHOD]: 1,
+    [sepratorBudgetConfig.YEAR]: undefined,
+    [sepratorBudgetConfig.AREA]: undefined,
+    [sepratorBudgetConfig.BUDGET_METHOD]: undefined,
   });
 
   const [codingId, setCodingId] = useState(0);
@@ -159,7 +159,7 @@ function BudgetSepratorPage() {
         actions: actionButtons,
         bgcolor: getBgColorBudget(
           item.levelNumber,
-          formData[sepratorBudgetConfig.BUDGET_METHOD]
+          formData[sepratorBudgetConfig.BUDGET_METHOD] || 0
         ),
 
         "bgcolor-creditAmount": item.creditAmount > item.mosavab && "#d7a2a2",

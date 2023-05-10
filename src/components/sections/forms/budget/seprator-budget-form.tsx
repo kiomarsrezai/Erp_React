@@ -10,11 +10,15 @@ import SectionGuard from "components/auth/section-guard";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
-import { FormEvent, useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { accessNamesConfig } from "config/access-names-config";
-import { joinPermissions } from "helper/auth-utils";
+import { checkHavePermission, joinPermissions } from "helper/auth-utils";
 import WindowLoading from "components/ui/loading/window-loading";
+import { checkHaveValue } from "helper/form-utils";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
+import userStore from "hooks/store/user-store";
 
 interface SepratoeBudgetFormProps {
   formData: any;
@@ -22,6 +26,7 @@ interface SepratoeBudgetFormProps {
 }
 function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
   const { formData, setFormData } = props;
+  const userLicenses = userStore((state) => state.permissions);
 
   // submit
   const queryClient = useQueryClient();
@@ -31,9 +36,38 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
     },
   });
 
+  const [haveSubmitedForm, setHaveSubmitedForm] = useState(false);
+
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
-    submitMutation.mutate(formData);
+    // permission
+    const havePermission = checkHavePermission(
+      userLicenses,
+      [
+        accessNamesConfig.FIELD_YEAR,
+        accessNamesConfig.FIELD_AREA,
+        accessNamesConfig.FIELD_BUDGET_METHOD,
+      ],
+      accessNamesConfig.BUDGET__SEPRATOR_PAGE
+    );
+
+    if (!havePermission) {
+      return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
+        variant: "error",
+      });
+    }
+
+    setHaveSubmitedForm(true);
+
+    if (
+      checkHaveValue(formData, [
+        sepratorBudgetConfig.YEAR,
+        sepratorBudgetConfig.BUDGET_METHOD,
+        sepratorBudgetConfig.AREA,
+      ])
+    ) {
+      submitMutation.mutate(formData);
+    }
   };
 
   // change state
@@ -69,6 +103,7 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
                 setter={setFormData}
                 value={formData[sepratorBudgetConfig.YEAR]}
                 permissionForm={accessNamesConfig.BUDGET__SEPRATOR_PAGE}
+                showError={haveSubmitedForm}
               />
             </Grid>
           </SectionGuard>
@@ -83,6 +118,7 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
                 setter={setFormData}
                 value={formData[sepratorBudgetConfig.AREA]}
                 permissionForm={accessNamesConfig.BUDGET__SEPRATOR_PAGE}
+                showError={haveSubmitedForm}
               />
             </Grid>
           </SectionGuard>
@@ -98,6 +134,7 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
                 setter={setFormData}
                 value={formData[sepratorBudgetConfig.BUDGET_METHOD]}
                 permissionForm={accessNamesConfig.BUDGET__SEPRATOR_PAGE}
+                showError={haveSubmitedForm}
               />
             </Grid>
           </SectionGuard>
