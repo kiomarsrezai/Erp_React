@@ -28,9 +28,9 @@ interface TableDataItemShape {
 
 function BudgetCodingPage() {
   const [formData, setFormData] = useState({
-    [codingBudgetConfig.BUDGET_METHOD]: 1,
-    [codingBudgetConfig.crud]: 1,
-    [codingBudgetConfig.show]: 1,
+    [codingBudgetConfig.BUDGET_METHOD]: undefined,
+    [codingBudgetConfig.crud]: undefined,
+    [codingBudgetConfig.show]: undefined,
   });
 
   // form heads

@@ -5,12 +5,16 @@ import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 import SectionGuard from "components/auth/section-guard";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
-import { FormEvent, useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { accessNamesConfig } from "config/access-names-config";
-import { joinPermissions } from "helper/auth-utils";
+import { checkHavePermission, joinPermissions } from "helper/auth-utils";
 import { codingBudgetApi } from "api/budget/coding-api";
+import userStore from "hooks/store/user-store";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
+import { checkHaveValue } from "helper/form-utils";
+import { codingBudgetConfig } from "config/features/budget/coding-config";
 
 interface CodingBudgetFormProps {
   formData: any;
@@ -20,6 +24,8 @@ interface CodingBudgetFormProps {
 function CodingBudgetForm(props: CodingBudgetFormProps) {
   const { formData, setFormData } = props;
 
+  const userLicenses = userStore((state) => state.permissions);
+
   // submit
   const queryClient = useQueryClient();
   const submitMutation = useMutation(codingBudgetApi.getData, {
@@ -28,9 +34,29 @@ function CodingBudgetForm(props: CodingBudgetFormProps) {
     },
   });
 
+  const [haveSubmitedForm, setHaveSubmitedForm] = useState(false);
+
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
-    submitMutation.mutate(formData);
+
+    // permission
+    const havePermission = checkHavePermission(
+      userLicenses,
+      [accessNamesConfig.FIELD_BUDGET_METHOD],
+      accessNamesConfig.BUDGET__CODING_PAGE
+    );
+
+    if (!havePermission) {
+      return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
+        variant: "error",
+      });
+    }
+
+    setHaveSubmitedForm(true);
+
+    if (checkHaveValue(formData, [codingBudgetConfig.BUDGET_METHOD])) {
+      submitMutation.mutate(formData);
+    }
   };
 
   // change state
@@ -52,8 +78,9 @@ function CodingBudgetForm(props: CodingBudgetFormProps) {
           <Grid lg={2}>
             <BudgetMethodInput
               setter={setFormData}
-              value={formData[sepratorBudgetConfig.BUDGET_METHOD]}
+              value={formData[codingBudgetConfig.BUDGET_METHOD]}
               permissionForm={accessNamesConfig.BUDGET__CODING_PAGE}
+              showError={haveSubmitedForm}
             />
           </Grid>
         </SectionGuard>

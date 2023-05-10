@@ -7,7 +7,6 @@ import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 import SectionGuard from "components/auth/section-guard";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { FormEvent, useEffect, useState } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { proposalBudgetApi } from "api/budget/proposal-api";
@@ -91,7 +90,7 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
           <Grid lg={2}>
             <YearInput
               setter={setFormData}
-              value={formData[sepratorBudgetConfig.YEAR]}
+              value={formData[proposalConfig.YEAR]}
               permissionForm={accessNamesConfig.BUDGET__PROPOSAL_PAGE}
               showError={haveSubmitedForm}
             />
@@ -106,7 +105,7 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
           <Grid lg={2}>
             <AreaInput
               setter={setFormData}
-              value={formData[sepratorBudgetConfig.AREA]}
+              value={formData[proposalConfig.AREA]}
               permissionForm={accessNamesConfig.BUDGET__PROPOSAL_PAGE}
               level={1}
               showError={haveSubmitedForm}
@@ -123,7 +122,7 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
           <Grid lg={2}>
             <BudgetMethodInput
               setter={setFormData}
-              value={formData[sepratorBudgetConfig.BUDGET_METHOD]}
+              value={formData[proposalConfig.BUDGET_METHOD]}
               permissionForm={accessNamesConfig.BUDGET__PROPOSAL_PAGE}
               showError={haveSubmitedForm}
             />
