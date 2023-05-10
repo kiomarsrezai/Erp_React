@@ -16,3 +16,7 @@ export const sumFieldsInSingleItemData = (
 export const numberWithCommas = (x: number) => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
+
+export const getPercent = (a: number = 0, b: number = 1) => {
+  return Math.round((a / b) * 100);
+};

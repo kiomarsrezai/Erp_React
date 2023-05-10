@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 
 import { grey, blue, green } from "@mui/material/colors";
-import { numberWithCommas } from "helper/calculate-utils";
+import { getPercent, numberWithCommas } from "helper/calculate-utils";
 import {
   ComposedChart,
   Line,
@@ -82,7 +82,7 @@ function BulletChart(props: BulletChartProps) {
           fill={"black"}
           textAnchor="middle"
         >
-          {Math.round((barData[lineName] / barData[barName]) * 100)}%
+          {getPercent(barData[lineName], barData[barName])}%
         </text>
       </svg>
     );
@@ -110,6 +110,17 @@ function BulletChart(props: BulletChartProps) {
             <Typography variant="body2" color={lineColor}>
               {lineLabel} :{" "}
               <strong>{numberWithCommas(payload[0]?.payload[lineName])}</strong>
+            </Typography>
+
+            <Typography variant="body2" color="black">
+              % جذب :{" "}
+              <strong>
+                %
+                {getPercent(
+                  payload[0]?.payload[lineName],
+                  payload[0]?.payload[barName]
+                )}
+              </strong>
             </Typography>
           </CardContent>
         </Card>
