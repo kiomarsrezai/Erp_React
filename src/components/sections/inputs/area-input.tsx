@@ -14,10 +14,11 @@ interface AreaInputProps {
   permissionForm?: string;
   disabled?: boolean;
   level?: number;
+  showError?: boolean;
 }
 
 function AreaInput(props: AreaInputProps) {
-  const { setter, value, permissionForm, disabled, level } = props;
+  const { setter, value, permissionForm, disabled, level, showError } = props;
 
   const userLicenses = userStore((state) => state.permissions);
 
@@ -26,10 +27,10 @@ function AreaInput(props: AreaInputProps) {
     () => areaGeneralApi.getData(level || 2),
     {
       onSuccess: (data) => {
-        setter((prevState: any) => ({
-          ...prevState,
-          [generalFieldsConfig.AREA]: data.data[0].id,
-        }));
+        // setter((prevState: any) => ({
+        //   ...prevState,
+        //   [generalFieldsConfig.AREA]: data.data[0].id,
+        // }));
       },
     }
   );
@@ -57,6 +58,7 @@ function AreaInput(props: AreaInputProps) {
       value={value}
       setter={setter}
       disabled={disabled}
+      showError={showError}
     />
   );
 }

@@ -14,7 +14,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { proposalBudgetApi } from "api/budget/proposal-api";
 import { getBgColorBudget } from "helper/get-color-utils";
-import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -30,9 +29,9 @@ interface TableDataItemShape {
 
 function BudgetProposalPage() {
   const [formData, setFormData] = useState({
-    [proposalConfig.YEAR]: 32,
-    [proposalConfig.AREA]: 1,
-    [proposalConfig.BUDGET_METHOD]: 1,
+    [proposalConfig.YEAR]: undefined,
+    [proposalConfig.AREA]: undefined,
+    [proposalConfig.BUDGET_METHOD]: undefined,
   });
 
   // form heads
@@ -136,7 +135,7 @@ function BudgetProposalPage() {
         expense: item.expense,
         bgcolor: getBgColorBudget(
           item.levelNumber,
-          formData[proposalConfig.BUDGET_METHOD]
+          formData[proposalConfig.BUDGET_METHOD] || 0
         ),
         actions: actionButtons,
       })

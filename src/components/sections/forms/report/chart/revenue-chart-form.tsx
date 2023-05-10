@@ -52,7 +52,11 @@ function RevenueChartForm(props: RevenueChartFormProps) {
     // permission
     const havePermission = checkHavePermission(
       userLicenses,
-      [accessNamesConfig.FIELD_YEAR],
+      [
+        accessNamesConfig.FIELD_YEAR,
+        accessNamesConfig.FIELD_BUDGET_METHOD,
+        accessNamesConfig.FIELD_ORGAN,
+      ],
       accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE
     );
 

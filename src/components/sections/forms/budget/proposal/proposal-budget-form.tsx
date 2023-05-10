@@ -8,11 +8,16 @@ import SectionGuard from "components/auth/section-guard";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
-import { FormEvent, useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { proposalBudgetApi } from "api/budget/proposal-api";
 import { accessNamesConfig } from "config/access-names-config";
-import { joinPermissions } from "helper/auth-utils";
+import { checkHavePermission, joinPermissions } from "helper/auth-utils";
+import userStore from "hooks/store/user-store";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
+import { checkHaveValue } from "helper/form-utils";
+import { proposalConfig } from "config/features/budget/proposal-config";
 
 interface ProposalBudgetFormProps {
   formData: any;
@@ -22,6 +27,8 @@ interface ProposalBudgetFormProps {
 function ProposalBudgetForm(props: ProposalBudgetFormProps) {
   const { formData, setFormData } = props;
 
+  const userLicenses = userStore((state) => state.permissions);
+
   // submit
   const queryClient = useQueryClient();
   const submitMutation = useMutation(proposalBudgetApi.getData, {
@@ -30,9 +37,39 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
     },
   });
 
+  const [haveSubmitedForm, setHaveSubmitedForm] = useState(false);
+
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
-    submitMutation.mutate(formData);
+
+    // permission
+    const havePermission = checkHavePermission(
+      userLicenses,
+      [
+        accessNamesConfig.FIELD_YEAR,
+        accessNamesConfig.FIELD_AREA,
+        accessNamesConfig.FIELD_BUDGET_METHOD,
+      ],
+      accessNamesConfig.BUDGET__PROPOSAL_PAGE
+    );
+
+    if (!havePermission) {
+      return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
+        variant: "error",
+      });
+    }
+
+    setHaveSubmitedForm(true);
+
+    if (
+      checkHaveValue(formData, [
+        proposalConfig.YEAR,
+        proposalConfig.BUDGET_METHOD,
+        proposalConfig.AREA,
+      ])
+    ) {
+      submitMutation.mutate(formData);
+    }
   };
 
   // change state
@@ -56,6 +93,7 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
               setter={setFormData}
               value={formData[sepratorBudgetConfig.YEAR]}
               permissionForm={accessNamesConfig.BUDGET__PROPOSAL_PAGE}
+              showError={haveSubmitedForm}
             />
           </Grid>
         </SectionGuard>
@@ -71,6 +109,7 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
               value={formData[sepratorBudgetConfig.AREA]}
               permissionForm={accessNamesConfig.BUDGET__PROPOSAL_PAGE}
               level={1}
+              showError={haveSubmitedForm}
             />
           </Grid>
         </SectionGuard>
@@ -86,6 +125,7 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
               setter={setFormData}
               value={formData[sepratorBudgetConfig.BUDGET_METHOD]}
               permissionForm={accessNamesConfig.BUDGET__PROPOSAL_PAGE}
+              showError={haveSubmitedForm}
             />
           </Grid>
         </SectionGuard>
