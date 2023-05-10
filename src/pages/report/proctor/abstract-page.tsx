@@ -30,7 +30,7 @@ interface TableDataItemShape {
 
 function ReportProctorAbstructPage() {
   const [formData, setFormData] = useState({
-    [abstructProctorConfig.YEAR]: 32,
+    [abstructProctorConfig.YEAR]: undefined,
     [abstructProctorConfig.AREA]: 0,
     [abstructProctorConfig.PROCTOR]: 0,
     [abstructProctorConfig.BUDGETPROCESS]: 0,
