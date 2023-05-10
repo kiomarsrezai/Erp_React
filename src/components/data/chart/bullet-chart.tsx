@@ -46,8 +46,10 @@ function BulletChart(props: BulletChartProps) {
   const CustomBarWithTarget = (props: any) => {
     const { x, y, width, height, ...barData } = props;
 
+    const isHigh = height >= 300;
+
     const check = barData[innerBarName] / barData[barName];
-    const customHeight = height * check;
+    const customHeight = height * check - 10;
     const customWidth = width / 3;
     const customX = x + width / 2 - customWidth / 2;
     const customY = y + height - customHeight;
@@ -56,9 +58,9 @@ function BulletChart(props: BulletChartProps) {
       <svg>
         <rect
           x={x}
-          y={y}
+          y={y + (isHigh ? 10 : 0)}
           width={width}
-          height={height}
+          height={height - (isHigh ? 10 : 0)}
           stroke="none"
           fill={barColor}
         />
@@ -74,7 +76,7 @@ function BulletChart(props: BulletChartProps) {
 
         <text
           x={x + width / 2}
-          y={y}
+          y={y + (isHigh ? 10 : 0)}
           dy={-4}
           fontSize="14"
           fill={"black"}
