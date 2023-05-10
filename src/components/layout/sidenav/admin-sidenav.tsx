@@ -38,7 +38,21 @@ function AdminSidenav() {
       >
         <AdminSidenavProfile />
         <Divider />
-        <Box sx={{ overflow: "auto", height: "100%" }} dir="ltr">
+        <Box
+          sx={{
+            overflow: "auto",
+            height: "100%",
+
+            ...(normalize && {
+              "&::-webkit-scrollbar": {
+                display: "none",
+              },
+              "-ms-overflow-style": "none",
+              "scrollbar-width": "none",
+            }),
+          }}
+          dir="ltr"
+        >
           <Box dir="rtl">
             <AdminSidenavMenu />
           </Box>

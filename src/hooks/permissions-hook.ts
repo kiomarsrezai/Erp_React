@@ -119,13 +119,6 @@ function usePermissions() {
           centerItems
         ),
         budgetMethodField,
-        // {
-        //   label: "درآمد",
-        //   name: revenueChartFormConfig.REVENUE,
-        // },
-        // { label: "فروش اموال", name: revenueChartFormConfig.SALE },
-        // { label: "وام و اوراق", name: revenueChartFormConfig.LAON },
-        // { label: "نیابتی", name: revenueChartFormConfig.NIABATI },
       ],
     },
     {

@@ -1,5 +1,6 @@
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
+import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
@@ -11,10 +12,14 @@ import FixedModal from "components/ui/modal/fixed-modal";
 import ChnagePasswordForm from "components/auth/chnage-password-form";
 import KeyIcon from "@mui/icons-material/Key";
 import userStore from "hooks/store/user-store";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+import logoImg from "assets/images/logos/fava.svg";
+
+import { grey } from "@mui/material/colors";
+import { alpha } from "@mui/system/colorManipulator";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 function AdminHeader() {
   const toggleNormalize = useLayoutStore((state) => state.toggleNormalize);
@@ -48,41 +53,72 @@ function AdminHeader() {
     <>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            onClick={toggleNormalize}
+          <Box
+            display={"flex"}
+            alignItems={"center"}
+            width={1}
+            justifyContent={"space-between"}
           >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            سامانه ERP
-            <Typography variant="caption" sx={{ ml: 1 }}>
-              ( سازمان فاوا اهواز )
-            </Typography>
-          </Typography>
-          <IconButton color="inherit">
-            <Badge
-              badgeContent={423}
-              color="error"
-              anchorOrigin={{ horizontal: "left", vertical: "top" }}
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              justifyContent={"space-between"}
             >
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{ mr: 2 }}
+                onClick={toggleNormalize}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6" component="div">
+                سامانه ERP
+                <Typography variant="caption" sx={{ ml: 1 }}>
+                  ( سازمان فاوا اهواز )
+                </Typography>
+              </Typography>
+            </Box>
 
-          <IconButton color="inherit" onClick={handleOpenChangePasswordModal}>
-            <KeyIcon />
-          </IconButton>
-          <IconButton
-            color="inherit"
-            onClick={() => setConfrimSignoutModal(true)}
-          >
-            <LogoutIcon />
-          </IconButton>
+            <Box
+              component={"img"}
+              src={logoImg}
+              alt="logo"
+              height={"55px"}
+              sx={{ bgcolor: alpha(grey[100], 0.3), borderRadius: 2 }}
+            />
+
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              justifyContent={"space-between"}
+            >
+              <IconButton color="inherit">
+                <Badge
+                  badgeContent={423}
+                  color="error"
+                  anchorOrigin={{ horizontal: "left", vertical: "top" }}
+                >
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+
+              <IconButton
+                color="inherit"
+                onClick={handleOpenChangePasswordModal}
+              >
+                <KeyIcon />
+              </IconButton>
+              <IconButton
+                color="inherit"
+                onClick={() => setConfrimSignoutModal(true)}
+              >
+                <LogoutIcon />
+              </IconButton>
+            </Box>
+          </Box>
         </Toolbar>
       </AppBar>
 
