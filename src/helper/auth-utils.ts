@@ -35,3 +35,10 @@ export const checkHavePermission = (
 
   return havePermissions.length === permissionNames.length;
 };
+
+export const getPermissionWithLevel = (
+  permissionName: string,
+  level: number
+) => {
+  return `${permissionName}-${level}`;
+};

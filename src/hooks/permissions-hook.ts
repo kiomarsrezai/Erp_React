@@ -9,7 +9,7 @@ import {
   trazKindItems,
 } from "config/features/general-fields-config";
 import { sidenavsLayout } from "config/features/layout-config";
-import { revenueChartFormConfig } from "config/features/revenue-chart-config";
+import { getPermissionWithLevel } from "helper/auth-utils";
 import { AccessItemShape } from "types/access-type";
 import { SidenavShape } from "types/layout-type";
 
@@ -85,6 +85,13 @@ function usePermissions() {
     trazKindItems
   );
 
+  // center
+  const centerField = formatLocalFields(
+    "مرکز",
+    accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER,
+    centerItems
+  );
+
   //   area
   const areaNumber2Query = useQuery(["general-area", 2], () =>
     areaGeneralApi.getData(2)
@@ -108,89 +115,26 @@ function usePermissions() {
     areaNumber2Query.data?.data || []
   );
 
-  // const ACCESS_CONFIG: AccessItemShape[] = [
-  //   {
-  //     label: "گزارش",
-  //     name: accessNamesConfig.REVENUE_CHART_PAGE,
-  //     value: [
-  //       yearLevel1Field,
-  //       organField,
-  //       formatLocalFields(
-  //         "مرکز",
-  //         accessNamesConfig.REVENUE_CHART_PAGE__CENTER,
-  //         centerItems
-  //       ),
-  //       budgetMethodField,
-  //     ],
-  //   },
-  //   {
-  //     label: "بودجه",
-  //     name: accessNamesConfig.BUDGET_PROPOSAL_PAGE,
-  //     value: [yearLevel1Field, areaNumber1Field, budgetMethodField],
-  //   },
-  //   {
-  //     label: "بودجه تفکیکی",
-  //     name: accessNamesConfig.SEPRATOR_BUDGET_PAGE,
-  //     value: [
-  //       yearLevel1Field,
-  //       areaNumber2Field,
-  //       budgetMethodField,
-  //       {
-  //         label: "دکمه تامین اعتبار",
-  //         name: accessNamesConfig.SEPRATOR_BUDGET_PAGE__TAMIN_BTN,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     label: "کدینگ بودجه",
-  //     name: accessNamesConfig.BUDGET_CODING_PAGE,
-  //     value: [budgetMethodField],
-  //   },
-  //   {
-  //     label: "متولی ها",
-  //     name: accessNamesConfig.ABSTRUCT_PROCTOR_PAGE,
-  //     value: [yearLevel1Field],
-  //   },
-  //   {
-  //     label: "واسط کدینگ",
-  //     name: accessNamesConfig.TRANSFER_PAGE,
-  //     value: [yearLevel1Field, areaNumber2Field, budgetMethodField],
-  //   },
-  //   {
-  //     label: "درخواست اعتبار",
-  //     name: accessNamesConfig.CREDIT_REQUEST_PAGE,
-  //   },
-  //   {
-  //     label: "دسترسی ها",
-  //     name: accessNamesConfig.ACCESS_PAGE,
-  //   },
-  //   {
-  //     label: "پروژه ها",
-  //     name: accessNamesConfig.PROJECT_ORG_PAGE,
-  //   },
-  //   {
-  //     label: "جلسات",
-  //     name: accessNamesConfig.PROJECT_MEETINGS_PAGE,
-  //   },
-  //   {
-  //     label: "ساختار",
-  //     name: accessNamesConfig.ORGANIZATION_POSTS_PAGE,
-  //     value: [areaNumber2Field],
-  //   },
-  //   {
-  //     label: "تراز",
-  //     name: accessNamesConfig.TRAZ_PAGE,
-  //     value: [yearLevel2Field, areaNumber2Field, trazKindField],
-  //   },
-  // ];
-
   const accessValues = {
-    // global fileds
-    [`${accessNamesConfig.FIELD_YEAR}-1`]: yearLevel1Field,
-    [`${accessNamesConfig.FIELD_YEAR}-2`]: yearLevel2Field,
+    // seprator
+    [accessNamesConfig.BUDGET__SEPRATOR_PAGE_TAMIN_BTN]: {
+      label: "دکمه تامین اعتبار",
+      name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_TAMIN_BTN,
+    },
 
-    [`${accessNamesConfig.FIELD_AREA}-1`]: areaNumber1Field,
-    [`${accessNamesConfig.FIELD_AREA}-2`]: areaNumber2Field,
+    [accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER]: centerField,
+
+    [accessNamesConfig.FIELD_ORGAN]: organField,
+
+    // taraz
+    [accessNamesConfig.FINANCIAL__TARAZ_PAGE_KIND]: trazKindField,
+
+    // global fileds
+    [getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1)]: yearLevel1Field,
+    [getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 2)]: yearLevel2Field,
+
+    [getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 1)]: areaNumber1Field,
+    [getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 2)]: areaNumber2Field,
 
     [accessNamesConfig.FIELD_BUDGET_METHOD]: budgetMethodField,
   };
@@ -202,7 +146,9 @@ function usePermissions() {
         renderedAccessConfig.push({
           label: item.title,
           name: item.licenseName || "1",
-          value: [],
+          value: [
+            ...(item.permissionItems?.map((item) => accessValues[item]) || []),
+          ],
         });
       } else {
         renderedAccessConfig = [

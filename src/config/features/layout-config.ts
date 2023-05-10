@@ -30,6 +30,7 @@ import OrgProjectPage from "pages/project/org-page";
 import MeetingsProjectPage from "pages/project/meetings-page";
 import PostsOrganzationPage from "pages/organization/posts-page";
 import TrazPage from "pages/traz/traz-page";
+import { getPermissionWithLevel } from "helper/auth-utils";
 
 export const sidenavsLayout: SidenavShape[] = [
   // report
@@ -56,6 +57,11 @@ export const sidenavsLayout: SidenavShape[] = [
         icon: MoneyIcon,
         licenseName: accessNamesConfig.BUDGET__PROPOSAL_PAGE,
         element: BudgetProposalPage,
+        permissionItems: [
+          getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
+          getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 1),
+          accessNamesConfig.FIELD_BUDGET_METHOD,
+        ],
       },
       {
         title: "بودجه تفکیکی",
@@ -63,6 +69,12 @@ export const sidenavsLayout: SidenavShape[] = [
         icon: PointOfSaleIcon,
         licenseName: accessNamesConfig.BUDGET__SEPRATOR_PAGE,
         element: BudgetSepratorPage,
+        permissionItems: [
+          getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
+          getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 2),
+          accessNamesConfig.FIELD_BUDGET_METHOD,
+          accessNamesConfig.BUDGET__SEPRATOR_PAGE_TAMIN_BTN,
+        ],
       },
       {
         title: "کدینگ بودجه",
@@ -70,6 +82,7 @@ export const sidenavsLayout: SidenavShape[] = [
         icon: CodeIcon,
         licenseName: accessNamesConfig.BUDGET__CODING_PAGE,
         element: BudgetCodingPage,
+        permissionItems: [accessNamesConfig.FIELD_BUDGET_METHOD],
       },
       {
         title: "اصلاح بودجه",
@@ -99,6 +112,12 @@ export const sidenavsLayout: SidenavShape[] = [
             icon: AssessmentIcon,
             licenseName: accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
             element: ReportRevenueChartPage,
+            permissionItems: [
+              getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
+              accessNamesConfig.FIELD_BUDGET_METHOD,
+              accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER,
+              accessNamesConfig.FIELD_ORGAN,
+            ],
           },
           {
             title: "گزارش متولی",
@@ -106,6 +125,9 @@ export const sidenavsLayout: SidenavShape[] = [
             icon: MonitorHeartIcon,
             licenseName: accessNamesConfig.BUDGET__REPORT__ABSTRUCT_PAGE,
             element: ReportProctorAbstructPage,
+            permissionItems: [
+              getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
+            ],
           },
         ],
       },
@@ -171,6 +193,11 @@ export const sidenavsLayout: SidenavShape[] = [
         icon: DesignServicesIcon,
         licenseName: accessNamesConfig.FINANCIAL__TARAZ_PAGE,
         element: TrazPage,
+        permissionItems: [
+          getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 2),
+          getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 2),
+          accessNamesConfig.FINANCIAL__TARAZ_PAGE_KIND,
+        ],
       },
       {
         title: "واسط کدینگ",
@@ -178,6 +205,11 @@ export const sidenavsLayout: SidenavShape[] = [
         icon: ApartmentIcon,
         licenseName: accessNamesConfig.FINANCIAL__CODING_PAGE,
         element: TransferPage,
+        permissionItems: [
+          getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
+          getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 2),
+          accessNamesConfig.FIELD_BUDGET_METHOD,
+        ],
       },
     ],
   },
@@ -396,6 +428,9 @@ export const sidenavsLayout: SidenavShape[] = [
         icon: AccountBalanceIcon,
         licenseName: accessNamesConfig.BASE__STRUCTURE_PAGE,
         element: PostsOrganzationPage,
+        permissionItems: [
+          getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 2),
+        ],
       },
 
       {
