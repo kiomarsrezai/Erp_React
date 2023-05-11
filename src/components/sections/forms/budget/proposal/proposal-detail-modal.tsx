@@ -28,10 +28,10 @@ interface TableDataItemShape {
 
 interface ProposalDetailModalProps {
   data: any[];
-  formData: any;
+  baseTitle: string;
 }
 function ProposalDetailModal(props: ProposalDetailModalProps) {
-  const { data, formData } = props;
+  const { data, baseTitle } = props;
 
   const tableHeads: TableHeadShape = [
     {
@@ -125,7 +125,7 @@ function ProposalDetailModal(props: ProposalDetailModalProps) {
 
   // modal
   const [isOpenMoreDetailModal, setIsOpenMoreDetailModal] = useState(false);
-  const [modalTitle, setModalTitle] = useState("");
+  const [modalTitle, setModalTitle] = useState<ReactNode>("");
 
   const getMoreDetailMutation = useMutation(
     proposalBudgetApi.getMoreDetailData
@@ -134,7 +134,12 @@ function ProposalDetailModal(props: ProposalDetailModalProps) {
     row: TableDataItemShape & GetSingleProposalItemShape
   ) => {
     const title = `${row.code} - ${row.description}`;
-    setModalTitle(title);
+    setModalTitle(
+      <>
+        <div>{baseTitle}</div>
+        <div>{title}</div>
+      </>
+    );
 
     getMoreDetailMutation.mutate({
       [proposalConfig.ID]: row.id,
@@ -157,9 +162,12 @@ function ProposalDetailModal(props: ProposalDetailModalProps) {
         handleClose={() => setIsOpenMoreDetailModal(false)}
         loading={getMoreDetailMutation.isLoading}
         title={modalTitle}
+        maxWidth="md"
+        maxHeight="80%"
       >
         <ProposalMoreDetailModal
           data={getMoreDetailMutation.data?.data || []}
+          baseTitle={modalTitle}
         />
       </FixedModal>
     </>

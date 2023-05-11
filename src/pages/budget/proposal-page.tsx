@@ -220,10 +220,11 @@ function BudgetProposalPage() {
         handleClose={() => setIsOpenDetailModal(false)}
         loading={getDetailMutation.isLoading}
         title={modalTitle}
+        maxWidth="xl"
       >
         <ProposalDetailModal
           data={getDetailMutation.data?.data || []}
-          formData={formData}
+          baseTitle={modalTitle}
         />
       </FixedModal>
     </>

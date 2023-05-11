@@ -24,9 +24,10 @@ interface TableDataItemShape {
 
 interface ProposalMoreDetailModalProps {
   data: any[];
+  baseTitle: ReactNode;
 }
 function ProposalMoreDetailModal(props: ProposalMoreDetailModalProps) {
-  const { data } = props;
+  const { data, baseTitle } = props;
 
   const tableHeads: TableHeadShape = [
     {
@@ -73,14 +74,18 @@ function ProposalMoreDetailModal(props: ProposalMoreDetailModalProps) {
 
   // modal
   const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
-  const [modalTitle, setModalTitle] = useState("");
+  const [modalTitle, setModalTitle] = useState<ReactNode>("");
 
   const getDetailMutation = useMutation(proposalBudgetApi.getLevel5DetailData);
   const handleOpenDetailModal = (
     row: TableDataItemShape & GetSingleMoreDetailProposalItemShape
   ) => {
     const title = `${row.projectCode} - ${row.projectName}`;
-    setModalTitle(title);
+    setModalTitle(
+      <>
+        {baseTitle} <div>{title}</div>
+      </>
+    );
 
     getDetailMutation.mutate({
       [proposalConfig.ID]: row.id,
