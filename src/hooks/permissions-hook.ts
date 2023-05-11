@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { areaGeneralApi } from "api/general/area-general-api";
 import { yearGeneralApi } from "api/general/year-general-api";
+import { programProjectApi } from "api/project/programs-project-api";
 import { accessNamesConfig } from "config/access-names-config";
 import {
   budgetMethodItems,
@@ -64,6 +65,18 @@ function usePermissions() {
     yearLevel2Query.data?.data || []
   );
 
+  // program
+  const programProjectQuery = useQuery(["program-list"], () =>
+    programProjectApi.getProgramList()
+  );
+
+  const programProjectField: AccessItemShape = formatApiFields(
+    "برنامه",
+    accessNamesConfig.PROJECT__PLAN_PAGE_PROGRAM,
+    "programName",
+    programProjectQuery.data?.data || []
+  );
+
   // organ
   const organField = formatLocalFields(
     "سازمان",
@@ -101,6 +114,10 @@ function usePermissions() {
     areaGeneralApi.getData(1)
   );
 
+  const areaNumber3Query = useQuery(["general-area", 3], () =>
+    areaGeneralApi.getData(3)
+  );
+
   const areaNumber1Field: AccessItemShape = formatApiFields(
     "منطقه",
     accessNamesConfig.FIELD_AREA,
@@ -113,6 +130,13 @@ function usePermissions() {
     accessNamesConfig.FIELD_AREA,
     "areaName",
     areaNumber2Query.data?.data || []
+  );
+
+  const areaNumber3Field: AccessItemShape = formatApiFields(
+    "منطقه",
+    accessNamesConfig.FIELD_AREA,
+    "areaName",
+    areaNumber3Query.data?.data || []
   );
 
   const accessValues = {
@@ -129,12 +153,16 @@ function usePermissions() {
     // taraz
     [accessNamesConfig.FINANCIAL__TARAZ_PAGE_KIND]: trazKindField,
 
+    // program
+    [accessNamesConfig.PROJECT__PLAN_PAGE_PROGRAM]: programProjectField,
+
     // global fileds
     [getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1)]: yearLevel1Field,
     [getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 2)]: yearLevel2Field,
 
     [getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 1)]: areaNumber1Field,
     [getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 2)]: areaNumber2Field,
+    [getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 3)]: areaNumber3Field,
 
     [accessNamesConfig.FIELD_BUDGET_METHOD]: budgetMethodField,
   };

@@ -57,6 +57,7 @@ export const accessNamesConfig = {
 
   // project
   PROJECT__PLAN_PAGE: "project-plan",
+  PROJECT__PLAN_PAGE_PROGRAM: "program",
 
   PROJECT__ORG_PAGE: "project-org",
 

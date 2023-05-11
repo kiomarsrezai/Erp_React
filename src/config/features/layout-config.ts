@@ -31,6 +31,7 @@ import MeetingsProjectPage from "pages/project/meetings-page";
 import PostsOrganzationPage from "pages/organization/posts-page";
 import TrazPage from "pages/traz/traz-page";
 import { getPermissionWithLevel } from "helper/auth-utils";
+import ProgramOperationProjectPage from "pages/project/program-operation-page";
 
 export const sidenavsLayout: SidenavShape[] = [
   // report
@@ -280,7 +281,12 @@ export const sidenavsLayout: SidenavShape[] = [
         title: "برنامه عملیاتی",
         icon: CircleIcon,
         licenseName: accessNamesConfig.PROJECT__PLAN_PAGE,
-        path: "/",
+        path: "/project/program",
+        element: ProgramOperationProjectPage,
+        permissionItems: [
+          accessNamesConfig.PROJECT__PLAN_PAGE_PROGRAM,
+          getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 3),
+        ],
       },
       {
         title: "پروژه ها",
