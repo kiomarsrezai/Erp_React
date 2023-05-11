@@ -97,7 +97,8 @@ function ProposalMoreDetailModal(props: ProposalMoreDetailModalProps) {
     );
 
     getDetailMutation.mutate({
-      [proposalConfig.ID]: row.id,
+      ...formData,
+      [proposalConfig.project]: row.projectId,
     });
 
     setIsOpenDetailModal(true);

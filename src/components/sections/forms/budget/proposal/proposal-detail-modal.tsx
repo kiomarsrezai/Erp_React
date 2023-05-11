@@ -154,7 +154,8 @@ function ProposalDetailModal(props: ProposalDetailModalProps) {
     );
 
     getMoreDetailMutation.mutate({
-      [proposalConfig.ID]: row.id,
+      ...formData,
+      [proposalConfig.coding]: row.id,
     });
 
     setIsOpenMoreDetailModal(true);

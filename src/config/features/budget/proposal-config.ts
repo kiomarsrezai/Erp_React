@@ -5,6 +5,7 @@ export const proposalConfig = {
   AREA: generalFieldsConfig.AREA,
   BUDGET_METHOD: generalFieldsConfig.BUDGET_METHOD,
   coding: "codingId",
+  project: "projectId",
   ID: "id",
 };
 

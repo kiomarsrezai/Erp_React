@@ -44,7 +44,9 @@ export const proposalBudgetApi = new (class extends BaseApi {
 
   getMoreDetailData = async (formdata: any) => {
     const filterData = {
-      [proposalConfig.ID]: formdata[proposalConfig.ID],
+      [proposalConfig.coding]: formdata[proposalConfig.coding],
+      [proposalConfig.AREA]: formdata[proposalConfig.AREA],
+      [proposalConfig.YEAR]: formdata[proposalConfig.YEAR],
     };
 
     const url =
@@ -57,7 +59,9 @@ export const proposalBudgetApi = new (class extends BaseApi {
 
   getLevel5DetailData = async (formdata: any) => {
     const filterData = {
-      [proposalConfig.ID]: formdata[proposalConfig.ID],
+      [proposalConfig.project]: formdata[proposalConfig.project],
+      [proposalConfig.AREA]: formdata[proposalConfig.AREA],
+      [proposalConfig.YEAR]: formdata[proposalConfig.YEAR],
     };
 
     const url =
