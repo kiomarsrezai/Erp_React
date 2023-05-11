@@ -17,6 +17,7 @@ interface TableDataItemShape {
   code: ReactNode;
   project_name: ReactNode;
   mosavab: ReactNode;
+  creditAmount: ReactNode;
   expense: ReactNode;
   edit: ReactNode;
   percent: ReactNode;
@@ -24,10 +25,11 @@ interface TableDataItemShape {
 
 interface ProposalMoreDetailModalProps {
   data: any[];
+  formData: any;
   baseTitle: ReactNode;
 }
 function ProposalMoreDetailModal(props: ProposalMoreDetailModalProps) {
-  const { data, baseTitle } = props;
+  const { data, baseTitle, formData } = props;
 
   const tableHeads: TableHeadShape = [
     {
@@ -56,7 +58,14 @@ function ProposalMoreDetailModal(props: ProposalMoreDetailModalProps) {
       split: true,
     },
     {
-      title: "عملکرد",
+      title: "ت اعتبار",
+      name: "creditAmount",
+      split: true,
+      align: "left",
+      hidden: formData[proposalConfig.BUDGET_METHOD] === 1,
+    },
+    {
+      title: "هزینه",
       name: "expense",
       align: "left",
       split: true,
@@ -114,9 +123,11 @@ function ProposalMoreDetailModal(props: ProposalMoreDetailModalProps) {
       ...item,
       number: i + 1,
       code: item.projectCode,
+      creditAmount: 0,
       project_name: item.projectName,
       mosavab: item.mosavab,
       expense: item.expense,
+      "textcolor-expense": item.expense < 0 ? "red" : "",
       percent: item.percentBud,
       edit: item.edit,
       actions: actionButtons,
@@ -134,6 +145,7 @@ function ProposalMoreDetailModal(props: ProposalMoreDetailModalProps) {
     code: null,
     project_name: null,
     mosavab: sumFieldsInSingleItemData(data, "mosavab"),
+    creditAmount: 0,
     edit: sumFieldsInSingleItemData(data, "edit"),
     percent: "",
     expense: sumFieldsInSingleItemData(data, "expense"),
@@ -154,8 +166,13 @@ function ProposalMoreDetailModal(props: ProposalMoreDetailModalProps) {
         handleClose={() => setIsOpenDetailModal(false)}
         title={modalTitle}
         loading={getDetailMutation.isLoading}
+        maxHeight="80%"
+        maxWidth="sm"
       >
-        <ProposalLevel5DetailModal data={getDetailMutation.data?.data || []} />
+        <ProposalLevel5DetailModal
+          data={getDetailMutation.data?.data || []}
+          formData={formData}
+        />
       </FixedModal>
     </>
   );

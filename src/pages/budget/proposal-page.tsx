@@ -36,14 +36,6 @@ function BudgetProposalPage() {
   });
 
   // form heads
-  const tableHeadGroups: TableHeadGroupShape = [
-    {
-      title: (
-        <ProposalBudgetForm formData={formData} setFormData={setFormData} />
-      ),
-      colspan: 8,
-    },
-  ];
 
   const tableHeads: TableHeadShape = [
     {
@@ -72,7 +64,14 @@ function BudgetProposalPage() {
       split: true,
     },
     {
-      title: "عملکرد",
+      title: "ت اعتبار",
+      name: "creditAmount",
+      split: true,
+      align: "left",
+      hidden: formData[proposalConfig.BUDGET_METHOD] === 1,
+    },
+    {
+      title: "هزینه",
       name: "expense",
       align: "left",
       split: true,
@@ -85,6 +84,15 @@ function BudgetProposalPage() {
     {
       title: "عملیات",
       name: "actions",
+    },
+  ];
+
+  const tableHeadGroups: TableHeadGroupShape = [
+    {
+      title: (
+        <ProposalBudgetForm formData={formData} setFormData={setFormData} />
+      ),
+      colspan: tableHeads.filter((item) => !item.hidden).length,
     },
   ];
 
@@ -132,6 +140,7 @@ function BudgetProposalPage() {
         description: item.description,
         mosavab: item.mosavab,
         edit: item.edit,
+        creditAmount: 0,
         percent: item.percentBud,
         expense: item.expense,
         "textcolor-expense": item.expense < 0 ? "red" : "",
@@ -185,6 +194,7 @@ function BudgetProposalPage() {
     description: null,
     mosavab: footerMosavabSum,
     edit: footerEditSum,
+    creditAmount: 0,
     expense: footerExpenseSum,
     percent: "",
     actions: "",
@@ -195,6 +205,7 @@ function BudgetProposalPage() {
     code: null,
     description: null,
     mosavab: `${getPercent(footerExpenseSum, footerMosavabSum)}%`,
+    creditAmount: 0,
     "align-mosavab": "center",
     edit: `${getPercent(footerExpenseSum, footerEditSum)}%`,
     "align-edit": "center",
@@ -220,11 +231,11 @@ function BudgetProposalPage() {
         handleClose={() => setIsOpenDetailModal(false)}
         loading={getDetailMutation.isLoading}
         title={modalTitle}
-        maxWidth="xl"
       >
         <ProposalDetailModal
           data={getDetailMutation.data?.data || []}
           baseTitle={modalTitle}
+          formData={formData}
         />
       </FixedModal>
     </>

@@ -20,6 +20,7 @@ interface TableDataItemShape {
   code: ReactNode;
   description: ReactNode;
   mosavab: ReactNode;
+  creditAmount: ReactNode;
   expense: ReactNode;
   edit: ReactNode;
   percent: ReactNode;
@@ -29,9 +30,10 @@ interface TableDataItemShape {
 interface ProposalDetailModalProps {
   data: any[];
   baseTitle: string;
+  formData: any;
 }
 function ProposalDetailModal(props: ProposalDetailModalProps) {
-  const { data, baseTitle } = props;
+  const { data, baseTitle, formData } = props;
 
   const tableHeads: TableHeadShape = [
     {
@@ -61,7 +63,14 @@ function ProposalDetailModal(props: ProposalDetailModalProps) {
       split: true,
     },
     {
-      title: "عملکرد",
+      title: "ت اعتبار",
+      name: "creditAmount",
+      split: true,
+      align: "left",
+      hidden: formData[proposalConfig.BUDGET_METHOD] === 1,
+    },
+    {
+      title: "هزینه",
       name: "expense",
       align: "left",
       split: true,
@@ -98,7 +107,9 @@ function ProposalDetailModal(props: ProposalDetailModalProps) {
       number: i + 1,
       code: item.code,
       description: item.description,
+      creditAmount: 0,
       mosavab: item.mosavab,
+      "textcolor-expense": item.expense < 0 ? "red" : "",
       expense: item.expense,
       percent: item.percentBud,
       edit: item.edit,
@@ -116,6 +127,7 @@ function ProposalDetailModal(props: ProposalDetailModalProps) {
     "colspan-number": 3,
     code: null,
     description: null,
+    creditAmount: 0,
     mosavab: sumFieldsInSingleItemData(data, "mosavab"),
     edit: sumFieldsInSingleItemData(data, "edit"),
     percent: "",
@@ -163,11 +175,12 @@ function ProposalDetailModal(props: ProposalDetailModalProps) {
         loading={getMoreDetailMutation.isLoading}
         title={modalTitle}
         maxWidth="md"
-        maxHeight="80%"
+        maxHeight="70%"
       >
         <ProposalMoreDetailModal
           data={getMoreDetailMutation.data?.data || []}
           baseTitle={modalTitle}
+          formData={formData}
         />
       </FixedModal>
     </>

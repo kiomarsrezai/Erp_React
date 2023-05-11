@@ -69,10 +69,11 @@ function BudgetSepratorPage() {
       title: "ت اعتبار",
       name: "creditAmount",
       split: true,
+      align: "left",
       hidden: formData[sepratorBudgetConfig.BUDGET_METHOD] === 1,
     },
     {
-      title: "عملکرد",
+      title: "هزینه",
       name: "expense",
       split: true,
       align: "left",

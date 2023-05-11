@@ -4,10 +4,12 @@ import { TableHeadShape } from "types/table-type";
 import { ReactNode } from "react";
 import { GetSingleLevel5DetailProposalItemShape } from "types/data/budget/proposal-type";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
+import { proposalConfig } from "config/features/budget/proposal-config";
 
 interface TableDataItemShape {
   number: ReactNode;
   area: ReactNode;
+  creditAmount: ReactNode;
   mosavab: ReactNode;
   expense: ReactNode;
   edit: ReactNode;
@@ -16,9 +18,10 @@ interface TableDataItemShape {
 
 interface ProposalLevel5DetailModalProps {
   data: any[];
+  formData: any;
 }
 function ProposalLevel5DetailModal(props: ProposalLevel5DetailModalProps) {
-  const { data } = props;
+  const { data, formData } = props;
 
   const tableHeads: TableHeadShape = [
     {
@@ -42,7 +45,14 @@ function ProposalLevel5DetailModal(props: ProposalLevel5DetailModalProps) {
       split: true,
     },
     {
-      title: "عملکرد",
+      title: "ت اعتبار",
+      name: "creditAmount",
+      split: true,
+      align: "left",
+      hidden: formData[proposalConfig.BUDGET_METHOD] === 1,
+    },
+    {
+      title: "هزینه",
       name: "expense",
       align: "left",
       split: true,
@@ -62,8 +72,10 @@ function ProposalLevel5DetailModal(props: ProposalLevel5DetailModalProps) {
       ...item,
       number: i + 1,
       area: item.areaName,
+      creditAmount: 0,
       mosavab: item.mosavab,
       expense: item.expense,
+      "textcolor-expense": item.expense < 0 ? "red" : "",
       percent: item.percentBud,
       edit: item.edit,
     }));
@@ -78,6 +90,7 @@ function ProposalLevel5DetailModal(props: ProposalLevel5DetailModalProps) {
     number: "جمع",
     "colspan-number": 2,
     area: null,
+    creditAmount: 0,
     mosavab: sumFieldsInSingleItemData(data, "mosavab"),
     edit: sumFieldsInSingleItemData(data, "edit"),
     percent: "",
