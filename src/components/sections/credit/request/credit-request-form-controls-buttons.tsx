@@ -1,4 +1,3 @@
-import ClearIcon from "@mui/icons-material/Clear";
 import CheckIcon from "@mui/icons-material/Check";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -17,6 +16,8 @@ import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import { creditRequestConfig } from "config/features/credit/credit-request-config";
 import { useState } from "react";
+import { FaEraser } from "react-icons/fa";
+import { BsEraserFill } from "react-icons/bs";
 
 interface CreditRequestFormControlsButtonsProps {
   formData: any;
@@ -124,7 +125,7 @@ function CreditRequestFormControlsButtons(
             "&:hover": { borderColor: grey[400] },
           }}
         >
-          <ClearIcon />
+          <BsEraserFill fontSize={20} />
         </Button>
 
         <Button

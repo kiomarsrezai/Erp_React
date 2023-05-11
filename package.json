@@ -25,6 +25,7 @@
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.5",
     "react-hook-form": "^7.43.9",
+    "react-icons": "^4.8.0",
     "react-medium-image-zoom": "^5.1.5",
     "react-organizational-chart": "^2.2.1",
     "react-router-dom": "^6.10.0",
