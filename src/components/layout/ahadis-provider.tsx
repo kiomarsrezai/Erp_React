@@ -12,14 +12,11 @@ function AhadisProvider(props: AhadisProviderProps) {
 
   useEffect(() => {
     const lastHadisShowed = localStorage.getItem("last-hadis-showed");
-    const date = new Date();
+    const dayOfWeek = new Date().getDay();
 
-    if (
-      !lastHadisShowed ||
-      date.getTime() - +lastHadisShowed > 24 * 60 * 60 * 1000
-    ) {
+    if (!lastHadisShowed || dayOfWeek !== +lastHadisShowed) {
       setIsOpenHandisModal(true);
-      localStorage.setItem("last-hadis-showed", date.getTime().toString());
+      localStorage.setItem("last-hadis-showed", dayOfWeek.toString());
     }
   }, []);
 
