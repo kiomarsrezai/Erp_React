@@ -208,8 +208,8 @@ function RevenueChartDetailModalTable(props: ChartDetailModalTableProps) {
         handleClose={handleCloseMoreContentModal}
         loading={dataTableMutation.isLoading}
         title={modalTitle}
-        isNested
-        isBiger
+        maxWidth="md"
+        maxHeight="70%"
       >
         <RevenueChartMoreDetailModalContent
           data={revenueChart.data?.data || dataTableMutation.data?.data || []}

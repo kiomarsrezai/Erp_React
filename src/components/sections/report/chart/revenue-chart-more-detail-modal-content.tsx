@@ -1,7 +1,9 @@
 import FixedTable from "components/data/table/fixed-table";
 import Stack from "@mui/material/Stack";
+import IconButton from "@mui/material/IconButton";
 import CheckboxLabeled from "components/ui/inputs/checkbox-labeled";
 import LoadingButton from "@mui/lab/LoadingButton";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { TableHeadShape } from "types/table-type";
@@ -9,6 +11,8 @@ import { revenueChartFormConfig } from "config/features/revenue-chart-config";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { revenueChartApi } from "api/report/chart-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
+import FixedModal from "components/ui/modal/fixed-modal";
+import RevenueChartModal_3 from "./revenue-chart-modal-3";
 
 type GetChartShape = [
   number[],
@@ -26,6 +30,7 @@ interface TableDataItemShape {
   mosavab: ReactNode;
   expense: ReactNode;
   percent: ReactNode;
+  actions: ((row: any) => ReactNode) | ReactNode;
 }
 
 interface RevenueChartMoreDetailModalProps {
@@ -121,7 +126,7 @@ function RevenueChartMoreDetailModalContent(
           </LoadingButton>
         </Stack>
       ),
-      colspan: 6,
+      colspan: 7,
     },
   ];
 
@@ -161,6 +166,10 @@ function RevenueChartMoreDetailModalContent(
       percent: true,
       canSort: true,
     },
+    {
+      title: "عملیات",
+      name: "actions",
+    },
   ];
 
   // body
@@ -168,6 +177,33 @@ function RevenueChartMoreDetailModalContent(
     expense: 0,
     mosavab: 0,
   });
+
+  const [modalTitle, setModalTitle] = useState("");
+  const [isOpenModal3, setIsOpenModal3] = useState(false);
+  const modal3Mutation = useMutation(revenueChartApi.getChart);
+
+  const handleClickModal3 = (row: any, coding: number) => {
+    const title = `${row.code} - ${row.description}`;
+    setModalTitle(title);
+
+    modal3Mutation.mutate({
+      ...formData,
+      [revenueChartFormConfig.coding]: coding,
+    });
+    setIsOpenModal3(true);
+  };
+
+  const actionButton = (row: any, coding: number) => {
+    return (
+      <IconButton
+        size="small"
+        color="primary"
+        onClick={() => handleClickModal3(row, coding)}
+      >
+        <FormatListBulletedIcon />
+      </IconButton>
+    );
+  };
 
   const formatTableData = (
     unFormatData: GetChartShape
@@ -187,6 +223,7 @@ function RevenueChartMoreDetailModalContent(
         expense: unFormatData[4][i],
         "textcolor-expense": unFormatData[4][i] < 0 ? "red" : "",
         percent: unFormatData[5][i],
+        actions: (row: any) => actionButton(row, unFormatData[0][i]),
       };
       formatedData.push(dataItem);
       TotalExpense += unFormatData[4][i];
@@ -216,14 +253,27 @@ function RevenueChartMoreDetailModalContent(
   };
 
   return (
-    <FixedTable
-      heads={tableHeads}
-      data={tableData}
-      headGroups={tableHeadGroup}
-      footer={tableFooter}
-      canSort
-      notFixed
-    />
+    <>
+      <FixedTable
+        heads={tableHeads}
+        data={tableData}
+        headGroups={tableHeadGroup}
+        footer={tableFooter}
+        canSort
+        notFixed
+      />
+
+      <FixedModal
+        open={isOpenModal3}
+        handleClose={() => setIsOpenModal3(false)}
+        loading={modal3Mutation.isLoading}
+        title={modalTitle}
+        maxWidth="sm"
+        maxHeight="80%"
+      >
+        <RevenueChartModal_3 data={modal3Mutation.data?.data || []} />
+      </FixedModal>
+    </>
   );
 }
 

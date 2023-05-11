@@ -11,6 +11,7 @@ export const revenueChartFormConfig = {
   NIABATI: "niabati",
   PAGE_NAME: "reportChartRevenue",
   TAMIN_ATBAR: "tamin-atbar",
+  coding: "codingId",
   area: generalFieldsConfig.AREA,
 };
 
