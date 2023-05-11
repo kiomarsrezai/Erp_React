@@ -155,6 +155,7 @@ function BudgetSepratorPage() {
         edit: item.edit,
         creditAmount: item.creditAmount,
         expense: item.expense,
+        "textcolor-expense": item.expense < 0 ? "red" : "",
         percentBud: item.percentBud,
         actions: actionButtons,
         bgcolor: getBgColorBudget(

@@ -64,6 +64,7 @@ function AbstructRowModalTable(props: AbstructRowModalTableProps) {
       title: item.description,
       code: item.code,
       hazine: item.expense,
+      "textcolor-hazine": item.expense < 0 ? "red" : "",
       jazb: item.percent,
       mosavab: item.mosavab,
       actions: () => "",

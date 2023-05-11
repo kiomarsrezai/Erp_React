@@ -186,8 +186,10 @@ function AbstructModalTable(props: AbstructModalTableProps) {
       expenseHazine: item.expenseCurrent,
       jazbHazine: item.percentCurrent,
       mosavabSarmaie: item.mosavabCivil,
+      "textcolor-expenseHazine": item.expenseCurrent < 0 ? "red" : "",
+      "textcolor-expenseSarmaie": item.expenseCivil < 0 ? "red" : "",
       expenseSarmaie: item.expenseCivil,
-      jazbSarmaie: item.expenseCivil,
+      jazbSarmaie: item.percentCivil,
       jazbKol: item.percentTotal,
       actions: actionButtons,
     }));

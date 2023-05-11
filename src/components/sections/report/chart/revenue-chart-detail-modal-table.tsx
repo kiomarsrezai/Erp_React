@@ -119,6 +119,7 @@ function RevenueChartDetailModalTable(props: ChartDetailModalTableProps) {
         area: item.areaName,
         dailyJazb: item.percentMosavabDaily,
         expense: item.expense,
+        "textcolor-expense": item.expense < 0 ? "red" : "",
         mosavab: item.mosavab,
         mosavabDaily: item.mosavabDaily,
         mosavabJazb: item.percentMosavab,

@@ -16,6 +16,7 @@ export interface GetSingleAbstructProctorModalDataItemShape {
   percentCurrent: number;
   mosavabCivil: number;
   expenseCivil: number;
+  percentCivil: number;
   percentTotal: number;
 }
 

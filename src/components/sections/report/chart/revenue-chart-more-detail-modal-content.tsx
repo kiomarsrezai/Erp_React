@@ -185,8 +185,8 @@ function RevenueChartMoreDetailModalContent(
         description: unFormatData[2][i],
         mosavab: unFormatData[3][i],
         expense: unFormatData[4][i],
+        "textcolor-expense": unFormatData[4][i] < 0 ? "red" : "",
         percent: unFormatData[5][i],
-        "bgcolor-expense": unFormatData[4][i] < 0 ? "#d7a2a2" : "",
       };
       formatedData.push(dataItem);
       TotalExpense += unFormatData[4][i];

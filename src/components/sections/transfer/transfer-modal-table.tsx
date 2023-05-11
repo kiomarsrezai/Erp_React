@@ -118,6 +118,8 @@ function TransferModalTable(props: TransferModalTableProps) {
       idMoein: item.idMoein,
       idKol: item.idKol,
       name: item.name,
+      expense: item.expense,
+      "textcolor-expense": item.expense < 0 ? "red" : "",
       actions: actionButtons,
     }));
 

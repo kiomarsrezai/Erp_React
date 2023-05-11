@@ -184,6 +184,8 @@ function ReportProctorAbstructPage() {
       title: item.proctorName,
       mosavabHazine: item.mosavabCurrent,
       expenseHazine: item.expenseCurrent,
+      "textcolor-expenseHazine": item.expenseCurrent < 0 ? "red" : "",
+      "textcolor-expenseSarmaie": item.expenseCivil < 0 ? "red" : "",
       jazbHazine: item.percentCurrent,
       mosavabSarmaie: item.mosavabCivil,
       expenseSarmaie: item.expenseCivil,
