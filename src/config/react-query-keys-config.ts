@@ -22,6 +22,9 @@ export const reactQueryKeys = {
       abstract: ["abstract-proctor"],
       getDetailData: ["abstract-proctor-detail"],
     },
+    abstruct: {
+      getData: ["abstruct-budget-list"],
+    },
   },
   transfer: {
     getData: ["transfer"],

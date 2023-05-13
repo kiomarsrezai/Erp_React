@@ -5,6 +5,7 @@ export const generalFieldsConfig = {
   AREA: "areaId",
   BUDGET_METHOD: "budgetprocessId",
   CENTER: "center",
+  ORGAN: "structureId",
 };
 
 export const centerItems: FlotingLabelTextfieldItemsShape = [
@@ -57,6 +58,17 @@ export const budgetMethodItems: FlotingLabelTextfieldItemsShape = [
   {
     label: "دریافت از خزانه",
     value: 9,
+  },
+];
+
+export const budgetKindItems: FlotingLabelTextfieldItemsShape = [
+  {
+    label: "بودجه مصوب",
+    value: 1,
+  },
+  {
+    label: "اصلاح بودجه",
+    value: 2,
   },
 ];
 

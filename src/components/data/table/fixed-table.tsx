@@ -32,7 +32,7 @@ const formatDataCell = (
     }
 
     if (headDataCell?.percent) {
-      dataCell = dataCell + "%";
+      dataCell = (dataCell || 0) + "%";
     }
   }
 

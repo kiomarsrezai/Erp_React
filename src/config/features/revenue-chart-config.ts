@@ -3,7 +3,7 @@ import { generalFieldsConfig } from "./general-fields-config";
 export const revenueChartFormConfig = {
   YEAR: generalFieldsConfig.YEAR,
   CENTER: "centerId",
-  ORGAN: "structureId",
+  ORGAN: generalFieldsConfig.ORGAN,
   BUDGET_METHOD: generalFieldsConfig.BUDGET_METHOD,
   REVENUE: "revenue",
   SALE: "sale",

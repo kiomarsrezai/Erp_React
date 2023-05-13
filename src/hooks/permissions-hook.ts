@@ -4,6 +4,7 @@ import { yearGeneralApi } from "api/general/year-general-api";
 import { programProjectApi } from "api/project/programs-project-api";
 import { accessNamesConfig } from "config/access-names-config";
 import {
+  budgetKindItems,
   budgetMethodItems,
   centerItems,
   organItems,
@@ -91,6 +92,13 @@ function usePermissions() {
     budgetMethodItems
   );
 
+  //   budget kind
+  const budgetKindField = formatLocalFields(
+    "نوع فرایند",
+    accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE_KIND,
+    budgetKindItems
+  );
+
   // traz type
   const trazKindField = formatLocalFields(
     "نوع تراز",
@@ -140,6 +148,9 @@ function usePermissions() {
   );
 
   const accessValues = {
+    // abstruct
+    [accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE_KIND]:
+      budgetKindField,
     // seprator
     [accessNamesConfig.BUDGET__SEPRATOR_PAGE_TAMIN_BTN]: {
       label: "دکمه تامین اعتبار",

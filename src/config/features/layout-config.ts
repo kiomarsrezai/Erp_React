@@ -32,6 +32,7 @@ import PostsOrganzationPage from "pages/organization/posts-page";
 import TrazPage from "pages/traz/traz-page";
 import { getPermissionWithLevel } from "helper/auth-utils";
 import ProgramOperationProjectPage from "pages/project/program-operation-page";
+import AbstructBudgetPage from "pages/report/budget/abstruct-budget-page";
 
 export const sidenavsLayout: SidenavShape[] = [
   // report
@@ -122,12 +123,24 @@ export const sidenavsLayout: SidenavShape[] = [
           },
           {
             title: "گزارش متولی",
-            path: "/report/proctor/abstract",
+            path: "/report/abstract-proctor",
             icon: MonitorHeartIcon,
             licenseName: accessNamesConfig.BUDGET__REPORT__ABSTRUCT_PAGE,
             element: ReportProctorAbstructPage,
             permissionItems: [
               getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
+            ],
+          },
+          {
+            title: "گزارش خلاصه بودجه",
+            path: "/report/abstract-budget",
+            icon: MonitorHeartIcon,
+            licenseName: accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE,
+            element: AbstructBudgetPage,
+            permissionItems: [
+              getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
+              accessNamesConfig.FIELD_ORGAN,
+              accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE_KIND,
             ],
           },
         ],
