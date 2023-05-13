@@ -138,7 +138,7 @@ function ProposalDetailModal(props: ProposalDetailModalProps) {
   // modal
   const [isOpenMoreDetailModal, setIsOpenMoreDetailModal] = useState(false);
   const [modalTitle, setModalTitle] = useState<ReactNode>("");
-
+  const [codingId, setCodingId] = useState(0);
   const getMoreDetailMutation = useMutation(
     proposalBudgetApi.getMoreDetailData
   );
@@ -152,6 +152,8 @@ function ProposalDetailModal(props: ProposalDetailModalProps) {
         <div>{title}</div>
       </>
     );
+
+    setCodingId(row.id);
 
     getMoreDetailMutation.mutate({
       ...formData,
@@ -182,6 +184,7 @@ function ProposalDetailModal(props: ProposalDetailModalProps) {
           data={getMoreDetailMutation.data?.data || []}
           baseTitle={modalTitle}
           formData={formData}
+          codingId={codingId}
         />
       </FixedModal>
     </>

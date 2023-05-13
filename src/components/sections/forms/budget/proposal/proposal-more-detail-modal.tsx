@@ -27,9 +27,10 @@ interface ProposalMoreDetailModalProps {
   data: any[];
   formData: any;
   baseTitle: ReactNode;
+  codingId: number;
 }
 function ProposalMoreDetailModal(props: ProposalMoreDetailModalProps) {
-  const { data, baseTitle, formData } = props;
+  const { data, baseTitle, formData, codingId } = props;
 
   const tableHeads: TableHeadShape = [
     {
@@ -98,6 +99,7 @@ function ProposalMoreDetailModal(props: ProposalMoreDetailModalProps) {
 
     getDetailMutation.mutate({
       ...formData,
+      [proposalConfig.coding]: codingId,
       [proposalConfig.project]: row.projectId,
     });
 

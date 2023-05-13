@@ -62,6 +62,7 @@ export const proposalBudgetApi = new (class extends BaseApi {
       [proposalConfig.project]: formdata[proposalConfig.project],
       [proposalConfig.AREA]: formdata[proposalConfig.AREA],
       [proposalConfig.YEAR]: formdata[proposalConfig.YEAR],
+      [proposalConfig.coding]: formdata[proposalConfig.coding],
     };
 
     const url =
