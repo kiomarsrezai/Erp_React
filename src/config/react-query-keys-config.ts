@@ -10,6 +10,11 @@ export const reactQueryKeys = {
       getData: ["budget-coding"],
     },
   },
+  request: {
+    suppliers: {
+      list: ["suppliers-list"],
+    },
+  },
   traz: {
     getData: ["data-traz"],
   },

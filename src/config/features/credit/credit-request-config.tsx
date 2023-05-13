@@ -12,9 +12,11 @@ export const creditRequestConfig = {
   request_type: "requestType",
   contractor: "contractor",
   why_leave_ceremonies: "whyTarkTashrifat",
+  suppliersKind: "suppliersCoKindId",
 };
 
 export const creditRequestConfigURLS = {
   createRequest: "RequestApi/RequestInsert",
   searchRequest: "RequestApi/GetRequestList",
+  suppliersList: "SupplyApi/GetSupplyList",
 };

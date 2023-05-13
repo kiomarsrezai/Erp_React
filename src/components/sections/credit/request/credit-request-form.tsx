@@ -11,13 +11,13 @@ import CreidtRequestFormTableTpye from "./crdit-request-form-table-type";
 import YearInput from "components/sections/inputs/year-input";
 import AreaInput from "components/sections/inputs/area-input";
 import FixedModal from "components/ui/modal/fixed-modal";
-import SelectUser from "components/sections/select-user";
 import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
 import Paper from "@mui/material/Paper";
 import userStore from "hooks/store/user-store";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import CreditRequestFormControlsButtons from "./credit-request-form-controls-buttons";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+import SuppliersModalCreditRequest from "./supplier/suppliers-modal";
 
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
@@ -81,16 +81,6 @@ function CreditRequestForm(props: CreditRequestFormProps) {
 
   const userState = userStore();
 
-  // const handleSelectChange = (e: SelectChangeEvent) => {
-  //   const name = e.target.name;
-  //   const value = e.target.value;
-
-  //   setFormData((state: any) => ({
-  //     ...state,
-  //     [name]: value,
-  //   }));
-  // };
-
   // ui
   const controlFormRef = useRef<HTMLDivElement>(null);
   const [paperHeight, setPaperHeight] = useState("0px");
@@ -99,25 +89,30 @@ function CreditRequestForm(props: CreditRequestFormProps) {
   }, [controlFormRef, formData[creditRequestConfig.doing_method]]);
 
   // doing method
+  const [isOpenSelectUserModal, setIsOpenSelectUserModal] = useState(false);
+
+  const [showConfrimChangeDoingMethod, setShowConfrimChangeDoingMethod] =
+    useState<null | number>(null);
 
   const handleChangeDoingMethod = (event: SelectChangeEvent) => {
     const value = event.target.value;
-    console.log(value);
+    if (formData[creditRequestConfig.doing_method] === 5) {
+      return setShowConfrimChangeDoingMethod(+value);
+    }
+    setFormData((state: any) => ({
+      ...state,
+      [creditRequestConfig.doing_method]: value,
+    }));
   };
-  const doingMethodIdRef = useRef<number>(
-    formData[creditRequestConfig.doing_method]
-  );
-
-  const [textConfrimChangeDoingMethod, setTextConfrimChangeDoingMethod] =
-    useState<null | string>(null);
 
   const onConfrimChangeDoingMethod = () => {
     setFormData((state: any) => ({
       ...state,
       [creditRequestConfig.why_leave_ceremonies]: "",
-      [creditRequestConfig.contractor]: null,
+      [creditRequestConfig.contractor]: undefined,
+      [creditRequestConfig.doing_method]: showConfrimChangeDoingMethod,
     }));
-    setTextConfrimChangeDoingMethod(null);
+    setShowConfrimChangeDoingMethod(null);
   };
 
   const onCancelChangeDoingMethod = () => {
@@ -125,20 +120,16 @@ function CreditRequestForm(props: CreditRequestFormProps) {
       ...state,
       [creditRequestConfig.doing_method]: 5,
     }));
-    setTextConfrimChangeDoingMethod(null);
+    setShowConfrimChangeDoingMethod(null);
   };
 
-  useEffect(() => {
-    if (doingMethodIdRef.current === 5) {
-      setTextConfrimChangeDoingMethod(
-        "درصورت تغییر شیوه انجام اطلاعات پیمانکار و دلیل ترک تشریفات از بین میرود"
-      );
-    }
-
-    doingMethodIdRef.current = formData[creditRequestConfig.doing_method];
-  }, [formData[creditRequestConfig.doing_method]]);
-
-  const [isOpenSelectUserModal, setIsOpenSelectUserModal] = useState(false);
+  const onDoneSelectSupplier = (value: number) => {
+    setIsOpenSelectUserModal(false);
+    setFormData((state: any) => ({
+      ...state,
+      [creditRequestConfig.contractor]: value,
+    }));
+  };
 
   return (
     <>
@@ -232,13 +223,6 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                 />
               </Grid>
               <Grid xs={12} xl={6}>
-                {/* <FlotingLabelSelect
-                  items={doingMethodItems}
-                  label="شیوه انجام"
-                  name={creditRequestConfig.doing_method}
-                  value={formData[creditRequestConfig.doing_method]}
-                  setter={setFormData}
-                /> */}
                 <FormControl fullWidth size="small">
                   <InputLabel id="doing-method-floting-select-label">
                     شیوه انجام
@@ -348,19 +332,17 @@ function CreditRequestForm(props: CreditRequestFormProps) {
         <ConfrimProcessModal
           onCancel={onCancelChangeDoingMethod}
           onConfrim={onConfrimChangeDoingMethod}
-          open={textConfrimChangeDoingMethod !== null}
-          text={textConfrimChangeDoingMethod as string}
+          open={showConfrimChangeDoingMethod !== null}
+          text="درصورت تغییر شیوه انجام اطلاعات پیمانکار و دلیل ترک تشریفات از بین میرود"
         />
 
         {/* select user modal */}
         <FixedModal
           open={isOpenSelectUserModal}
           handleClose={() => setIsOpenSelectUserModal(false)}
-          title="انتخاب پیمانکار"
+          title="مخاطبین"
         >
-          <Box p={3}>
-            <SelectUser onSelectUser={() => {}} />
-          </Box>
+          <SuppliersModalCreditRequest onDoneTask={onDoneSelectSupplier} />
         </FixedModal>
       </Box>
     </>
