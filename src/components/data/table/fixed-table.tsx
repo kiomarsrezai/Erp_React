@@ -263,6 +263,7 @@ function FixedTable(props: FixedTableProps) {
               color: row[`textcolor-${name}`] || "#000",
               p: 1,
               textAlign: row[`textAlign-${name}`] || item.align,
+              borderRight: `1px solid ${grey[300]} !important`,
             }}
           >
             {_index + 1}
@@ -280,6 +281,7 @@ function FixedTable(props: FixedTableProps) {
             color: row[`textcolor-${name}`] || "#000",
             p: 1,
             textAlign: row[`textAlign-${name}`] || item.align,
+            borderRight: `1px solid ${grey[300]} !important`,
           }}
         >
           {formatDataCell(row[name], item, row)}

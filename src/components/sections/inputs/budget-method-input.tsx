@@ -1,11 +1,12 @@
 import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
+import userStore from "hooks/store/user-store";
+
 import { accessNamesConfig } from "config/access-names-config";
+import { filedItemsGuard, joinPermissions } from "helper/auth-utils";
 import {
   budgetMethodItems,
   generalFieldsConfig,
 } from "config/features/general-fields-config";
-import { filedItemsGuard, joinPermissions } from "helper/auth-utils";
-import userStore from "hooks/store/user-store";
 
 interface BudgetMethodInputProps {
   setter: (prevData: any) => void;

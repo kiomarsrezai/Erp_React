@@ -1,8 +1,10 @@
 import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
+import userStore from "hooks/store/user-store";
+
 import { accessNamesConfig } from "config/access-names-config";
 import { budgetKindItems } from "config/features/general-fields-config";
 import { filedItemsGuard, joinPermissions } from "helper/auth-utils";
-import userStore from "hooks/store/user-store";
+import { abstructBudgetConfig } from "config/features/report/budget/abstruct-budget-config";
 
 interface BudgetMethodInputProps {
   setter: (prevData: any) => void;
@@ -29,7 +31,7 @@ function BudgetKindInput(props: BudgetMethodInputProps) {
   return (
     <FlotingLabelSelect
       label="نوع بودجه"
-      name={accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE_KIND}
+      name={abstructBudgetConfig.KIND}
       items={inputItems}
       value={value}
       setter={setter}

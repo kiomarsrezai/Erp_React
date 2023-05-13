@@ -2,19 +2,16 @@ import AdminLayout from "components/layout/admin-layout";
 import FixedTable from "components/data/table/fixed-table";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import IconButton from "@mui/material/IconButton";
+import AbstructBudgetForm from "components/sections/report/abstruct-budget/abstruct-budget-form";
 
-import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
-import { ReactNode, useState } from "react";
-import { abstructProctorConfig } from "config/features/report/proctor/abstruct-config";
-import { GetSingleAbstructProctorItemShape } from "types/data/report/abstruct-proctor-type";
 import { useQuery } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
-import { abstructProctorApi } from "api/report/abstruct-proctor-api";
 import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
-import AbstructBudgetForm from "components/sections/report/abstruct-budget/abstruct-budget-form";
 import { abstructBudgetConfig } from "config/features/report/budget/abstruct-budget-config";
 import { abstructBudgetApi } from "api/report/abstruct-budget-api";
 import { GetSingleAbstructBudgetItemShape } from "types/data/report/abstruct-budget-type";
+import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
+import { ReactNode, useState } from "react";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -34,7 +31,7 @@ interface TableDataItemShape {
 function AbstructBudgetPage() {
   const [formData, setFormData] = useState({
     [abstructBudgetConfig.YEAR]: undefined,
-    [abstructBudgetConfig.KIND]: 1,
+    [abstructBudgetConfig.KIND]: undefined,
     [abstructBudgetConfig.ORGAN]: undefined,
   });
 
