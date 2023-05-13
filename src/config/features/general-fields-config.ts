@@ -50,6 +50,14 @@ export const budgetMethodItems: FlotingLabelTextfieldItemsShape = [
     label: "دیون قطعی سنواتی",
     value: 5,
   },
+  {
+    label: "پرداخت متمرکز",
+    value: 8,
+  },
+  {
+    label: "دریافت از خزانه",
+    value: 9,
+  },
 ];
 
 export const trazKindItems: FlotingLabelTextfieldItemsShape = [
