@@ -8,7 +8,10 @@ import { RouterProvider } from "react-router-dom";
 import { createTheme } from "@mui/material/styles";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
-import "config/yup-config.ts";
+import "config/yup-config";
+// import "services/stimulsoft/libheif";
+// import "services/stimulsoft/stimulsoft.reports";
+// import "services/stimulsoft/stimulsoft.designer";
 import "assets/styles/font.css";
 import "assets/styles/global.css";
 import "react-medium-image-zoom/dist/styles.css";
