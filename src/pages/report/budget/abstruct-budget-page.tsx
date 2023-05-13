@@ -86,44 +86,52 @@ function AbstructBudgetPage() {
       name: "mosavabCurrent",
       split: true,
       align: "left",
+      colspan: 2,
     },
     {
       title: "هزینه ای",
       name: "percent_mosavabCurrent",
       percent: true,
+      hiddenSelf: true,
     },
     {
       title: "سرمایه ای",
       name: "mosavabCivil",
       split: true,
       align: "left",
+      colspan: 2,
     },
     {
       title: "سرمایه ای",
       name: "percent_mosavabCivil",
       percent: true,
+      hiddenSelf: true,
     },
     {
       title: "مالی",
       name: "mosavabFinancial",
       split: true,
       align: "left",
+      colspan: 2,
     },
     {
       title: "مالی",
       name: "percent_mosavabFinancial",
       percent: true,
+      hiddenSelf: true,
     },
     {
       title: "دیون سنواتی",
       name: "mosavabSanavati",
       split: true,
       align: "left",
+      colspan: 2,
     },
     {
       title: "دیون سنواتی",
       name: "percent_mosavabSanavati",
       percent: true,
+      hiddenSelf: true,
     },
     {
       title: "مانده",
@@ -203,43 +211,68 @@ function AbstructBudgetPage() {
     : [];
 
   // footer
+  const sumMosavabCurrent = sumFieldsInSingleItemData(
+    abstractQuery.data?.data,
+    "mosavabCurrent"
+  );
+
+  const sumMosavabCivil = sumFieldsInSingleItemData(
+    abstractQuery.data?.data,
+    "mosavabCivil"
+  );
+
+  const sumMosavabFinancial = sumFieldsInSingleItemData(
+    abstractQuery.data?.data,
+    "mosavabFinancial"
+  );
+
+  const sumMosavabRevenue = sumFieldsInSingleItemData(
+    abstractQuery.data?.data,
+    "mosavabRevenue"
+  );
+
+  const sumMosavabDar_Khazane = sumFieldsInSingleItemData(
+    abstractQuery.data?.data,
+    "mosavabDar_Khazane"
+  );
+
+  const sumMosavabSanavati = sumFieldsInSingleItemData(
+    abstractQuery.data?.data,
+    "mosavabSanavati"
+  );
+
+  const sumMosavabPayMotomarkez = sumFieldsInSingleItemData(
+    abstractQuery.data?.data,
+    "mosavabPayMotomarkez"
+  );
+
+  const sumBalanceMosavab = sumFieldsInSingleItemData(
+    abstractQuery.data?.data,
+    "balanceMosavab"
+  );
+
+  const sumResources = sumFieldsInSingleItemData(
+    abstractQuery.data?.data,
+    "resoures"
+  );
+
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
     "colspan-number": 2,
     areaName: null,
-    mosavabCurrent: sumFieldsInSingleItemData(
-      abstractQuery.data?.data,
-      "mosavabCurrent"
-    ),
-    mosavabCivil: sumFieldsInSingleItemData(
-      abstractQuery.data?.data,
-      "mosavabCivil"
-    ),
-    mosavabFinancial: sumFieldsInSingleItemData(
-      abstractQuery.data?.data,
-      "mosavabFinancial"
-    ),
-    mosavabRevenue: sumFieldsInSingleItemData(
-      abstractQuery.data?.data,
-      "mosavabRevenue"
-    ),
-    mosavabDar_Khazane: sumFieldsInSingleItemData(
-      abstractQuery.data?.data,
-      "mosavabDar_Khazane"
-    ),
-    mosavabSanavati: sumFieldsInSingleItemData(
-      abstractQuery.data?.data,
-      "mosavabSanavati"
-    ),
-    mosavabPayMotomarkez: sumFieldsInSingleItemData(
-      abstractQuery.data?.data,
-      "mosavabPayMotomarkez"
-    ),
-    balanceMosavab: sumFieldsInSingleItemData(
-      abstractQuery.data?.data,
-      "balanceMosavab"
-    ),
-    resoures: sumFieldsInSingleItemData(abstractQuery.data?.data, "resoures"),
+    mosavabCurrent: sumMosavabCurrent,
+    percent_mosavabCurrent: getPercent(sumMosavabCurrent, sumResources),
+    mosavabCivil: sumMosavabCivil,
+    percent_mosavabCivil: getPercent(sumMosavabCivil, sumResources),
+    mosavabFinancial: sumMosavabFinancial,
+    percent_mosavabFinancial: getPercent(sumMosavabFinancial, sumResources),
+    mosavabRevenue: sumMosavabRevenue,
+    mosavabDar_Khazane: sumMosavabDar_Khazane,
+    mosavabSanavati: sumMosavabSanavati,
+    percent_mosavabSanavati: getPercent(sumMosavabSanavati, sumResources),
+    mosavabPayMotomarkez: sumMosavabPayMotomarkez,
+    balanceMosavab: sumBalanceMosavab,
+    resoures: sumResources,
     actions: () => "",
   };
 

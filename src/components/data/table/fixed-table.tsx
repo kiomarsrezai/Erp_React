@@ -201,6 +201,7 @@ function FixedTable(props: FixedTableProps) {
                 <TableCell
                   key={i}
                   variant="head"
+                  colSpan={head.colspan || 1}
                   sx={{
                     borderRight: 1,
                     borderColor: grey[borderColor],
