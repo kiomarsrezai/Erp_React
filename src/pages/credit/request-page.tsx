@@ -41,7 +41,8 @@ function RequestCreditPage() {
     [creditRequestConfig.area]: 1,
     [creditRequestConfig.execute_departman_id]: 1,
     [creditRequestConfig.approximate_price]: "",
-    [creditRequestConfig.contractor]: null,
+    [creditRequestConfig.contractor]: undefined,
+    [creditRequestConfig.contractorName]: undefined,
     [creditRequestConfig.why_leave_ceremonies]: "",
   });
 

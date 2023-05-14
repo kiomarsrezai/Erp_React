@@ -1,7 +1,7 @@
 import FixedTable from "components/data/table/fixed-table";
 import IconButton from "@mui/material/IconButton";
 import CheckIcon from "@mui/icons-material/Check";
-import ProgramForm from "./program-form";
+import SuppliersForm from "./suppliers-form";
 
 import { useQuery } from "@tanstack/react-query";
 import { ReactNode } from "react";
@@ -17,16 +17,16 @@ interface TableDataItemShape {
 }
 
 interface SuppliersModalCreditRequestProps {
-  onDoneTask: (value: number) => void;
+  onDoneTask: (id: number, name: string) => void;
 }
 
-function ProgramModalCreditRequest(props: SuppliersModalCreditRequestProps) {
+function SuppliersModalCreditRequest(props: SuppliersModalCreditRequestProps) {
   const { onDoneTask } = props;
 
   // heads
   const tableHeadGroups: TableHeadGroupShape = [
     {
-      title: <ProgramForm />,
+      title: <SuppliersForm />,
       colspan: 4,
     },
   ];
@@ -50,7 +50,11 @@ function ProgramModalCreditRequest(props: SuppliersModalCreditRequestProps) {
 
   // data
   const actionButtons = (row: TableDataItemShape & SuppliersShape) => (
-    <IconButton size="small" color="primary" onClick={() => onDoneTask(row.id)}>
+    <IconButton
+      size="small"
+      color="primary"
+      onClick={() => onDoneTask(row.id, row.name)}
+    >
       <CheckIcon />
     </IconButton>
   );
@@ -90,4 +94,4 @@ function ProgramModalCreditRequest(props: SuppliersModalCreditRequestProps) {
   );
 }
 
-export default ProgramModalCreditRequest;
+export default SuppliersModalCreditRequest;

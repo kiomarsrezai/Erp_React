@@ -17,7 +17,7 @@ import userStore from "hooks/store/user-store";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import CreditRequestFormControlsButtons from "./credit-request-form-controls-buttons";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
-import ProgramsModalCreditRequest from "./supplier/program-modal";
+import SuppliersModalCreditRequest from "./supplier/suppliers-modal";
 
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
@@ -123,11 +123,12 @@ function CreditRequestForm(props: CreditRequestFormProps) {
     setShowConfrimChangeDoingMethod(null);
   };
 
-  const onDoneSelectSupplier = (value: number) => {
+  const onDoneSelectSupplier = (id: number, name: string) => {
     setIsOpenSelectUserModal(false);
     setFormData((state: any) => ({
       ...state,
-      [creditRequestConfig.contractor]: value,
+      [creditRequestConfig.contractor]: id,
+      [creditRequestConfig.contractorName]: name,
     }));
   };
 
@@ -262,7 +263,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                       id="person-tark-tashrifat-input"
                       label="پیمانکار"
                       variant="outlined"
-                      value={formData[creditRequestConfig.contractor]}
+                      value={formData[creditRequestConfig.contractorName]}
                       size="small"
                       disabled
                       InputProps={{
@@ -340,9 +341,9 @@ function CreditRequestForm(props: CreditRequestFormProps) {
         <FixedModal
           open={isOpenSelectUserModal}
           handleClose={() => setIsOpenSelectUserModal(false)}
-          title="مخاطبین"
+          title="انتخاب پیمانکار"
         >
-          <ProgramsModalCreditRequest onDoneTask={onDoneSelectSupplier} />
+          <SuppliersModalCreditRequest onDoneTask={onDoneSelectSupplier} />
         </FixedModal>
       </Box>
     </>

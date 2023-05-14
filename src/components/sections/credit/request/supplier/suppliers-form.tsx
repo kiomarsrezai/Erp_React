@@ -7,8 +7,14 @@ import { reactQueryKeys } from "config/react-query-keys-config";
 import { FormEvent, useState } from "react";
 import SuppliersInput from "components/sections/inputs/suppliers-input";
 import { suppliersApi } from "api/credit/suppliers-api";
+import { suppliersConfig } from "config/features/credit/suppliers-config";
+import { checkHaveValue } from "helper/form-utils";
 
-function ProgramForm() {
+function SuppliersForm() {
+  const [formData, setFormData] = useState({
+    [suppliersConfig.kind]: undefined,
+  });
+
   const queryClient = useQueryClient();
 
   const suppliersMutation = useMutation(suppliersApi.list, {
@@ -21,18 +27,20 @@ function ProgramForm() {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setHaveSubmitedForm(true);
-    suppliersMutation.mutate(1);
+    if (checkHaveValue(formData, [suppliersConfig.kind])) {
+      suppliersMutation.mutate(formData[suppliersConfig.kind] || 0);
+    }
   };
 
   return (
     <Box component="form" onSubmit={handleSubmit}>
       <Grid container spacing={2}>
         <Grid xs={4}>
-          {/* <SuppliersInput
+          <SuppliersInput
             setter={setFormData}
-            value={formData[programConfig.kind]}
+            value={formData[suppliersConfig.kind]}
             showError={haveSubmitedForm}
-          /> */}
+          />
         </Grid>
         <Grid xs={4}>
           <LoadingButton
@@ -48,4 +56,4 @@ function ProgramForm() {
   );
 }
 
-export default ProgramForm;
+export default SuppliersForm;

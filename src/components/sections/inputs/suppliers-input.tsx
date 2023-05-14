@@ -12,6 +12,8 @@ import {
 import { accessNamesConfig } from "config/access-names-config";
 
 import userStore from "hooks/store/user-store";
+import { suppliersApi } from "api/credit/suppliers-api";
+import { suppliersConfig } from "config/features/credit/suppliers-config";
 
 interface YearInputProps {
   setter: (prevData: any) => void;
@@ -23,51 +25,28 @@ interface YearInputProps {
 }
 
 function SuppliersInput(props: YearInputProps) {
-  const { setter, value, permissionForm, disabled, level, showError } = props;
-  const userLicenses = userStore((state) => state.permissions);
+  const { setter, value, disabled, showError } = props;
 
-  const yearQuery = useQuery(
-    ["general-year", level || 1],
-    () => yearGeneralApi.getData(level || 1),
+  const sippliersQuery = useQuery(
+    ["general-suppliers"],
+    () => suppliersApi.combo(),
     {
-      onSuccess: () => {
-        if (value !== undefined && permissionForm) {
-          const havePermission = checkHavePermission(
-            userLicenses,
-            [joinPermissions([accessNamesConfig.FIELD_YEAR, value])],
-            permissionForm
-          );
-
-          if (!havePermission) {
-            setter((prevState: any) => ({
-              ...prevState,
-              [generalFieldsConfig.YEAR]: undefined,
-            }));
-          }
-        }
-      },
+      onSuccess: () => {},
     }
   );
 
-  const yearItems: FlotingLabelTextfieldItemsShape = yearQuery.data
-    ? yearQuery.data.data.map((item) => ({
-        label: item.yearName,
+  const suppliersItems: FlotingLabelTextfieldItemsShape = sippliersQuery.data
+    ? sippliersQuery.data.data.map((item) => ({
+        label: item.companyKindName,
         value: item.id,
       }))
     : [];
 
-  const inputItems = permissionForm
-    ? filedItemsGuard(
-        yearItems,
-        userLicenses,
-        joinPermissions([permissionForm, accessNamesConfig.FIELD_YEAR])
-      )
-    : yearItems;
   return (
     <FlotingLabelSelect
-      label="سال"
-      name={generalFieldsConfig.YEAR}
-      items={inputItems}
+      label="نوع"
+      name={suppliersConfig.kind}
+      items={suppliersItems}
       value={value}
       setter={setter}
       disabled={disabled}

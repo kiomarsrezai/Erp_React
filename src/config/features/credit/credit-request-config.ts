@@ -13,6 +13,7 @@ export const creditRequestConfig = {
   contractor: "contractor",
   why_leave_ceremonies: "whyTarkTashrifat",
   suppliersKind: "suppliersCoKindId",
+  contractorName: "contractorName",
 };
 
 export const creditRequestConfigURLS = {
