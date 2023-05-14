@@ -7,26 +7,27 @@ import { TableHeadShape } from "types/table-type";
 import { SearchCreditRequestShape } from "types/data/credit/credit-request-type";
 
 interface TableDataItemShape {
+  rowNumber: ReactNode;
+  employee: ReactNode;
   number: ReactNode;
+  dateS: ReactNode;
   description: ReactNode;
-  unit: ReactNode;
-  rate: ReactNode;
-  price: ReactNode;
+  estimateAmount: ReactNode;
   actions: (row: any) => ReactNode;
 }
 
-interface ProjectMettingsModalProps {
+interface CreditSearchRequestModalProps {
   data: any[];
 }
 
-function ProjectMettingsModal(props: ProjectMettingsModalProps) {
+function CreditSearchRequestModal(props: CreditSearchRequestModalProps) {
   const { data } = props;
 
   // table head
   const tableHeads: TableHeadShape = [
     {
       title: "ردیف",
-      name: "number",
+      name: "rowNumber",
     },
     {
       title: "شرح",
@@ -34,21 +35,26 @@ function ProjectMettingsModal(props: ProjectMettingsModalProps) {
       name: "description",
     },
     {
-      title: "واحد",
-      name: "organ",
+      title: "تاریخ",
+      name: "dateS",
+    },
+    {
+      title: "ثبت کننده",
+      name: "employee",
+    },
+    {
+      title: "شماره",
+      name: "number",
+    },
+    {
+      title: "براورد مبلغ",
+      name: "estimateAmount",
+      split: true,
       align: "left",
     },
     {
-      title: "نرخ",
-      align: "left",
-      split: true,
-      name: "rate",
-    },
-    {
-      title: "مبلغ",
-      name: "price",
-      split: true,
-      align: "left",
+      title: "عملیات",
+      name: "actions",
     },
   ];
 
@@ -65,11 +71,7 @@ function ProjectMettingsModal(props: ProjectMettingsModalProps) {
   ): TableDataItemShape[] => {
     const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
       ...item,
-      number: i + 1,
-      rate: "", //item.rate,
-      description: "", //item.rate,
-      price: "", //item.rate,
-      unit: "", //item.rate,
+      rowNumber: i + 1,
       actions: actionButtons,
     }));
 
@@ -81,4 +83,4 @@ function ProjectMettingsModal(props: ProjectMettingsModalProps) {
   return <FixedTable heads={tableHeads} data={tableData} notFixed />;
 }
 
-export default ProjectMettingsModal;
+export default CreditSearchRequestModal;

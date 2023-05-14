@@ -11,8 +11,9 @@ export interface CreateCreditRequestShape {
 
 export interface SearchCreditRequestShape {
   id: number;
-  rate: number;
+  employee: string;
+  number: string;
+  dateS: string;
   description: string;
-  unit: string;
-  price: number;
+  estimateAmount: number;
 }

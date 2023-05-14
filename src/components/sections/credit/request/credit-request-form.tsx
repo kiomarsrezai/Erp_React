@@ -86,7 +86,14 @@ function CreditRequestForm(props: CreditRequestFormProps) {
 
   const [haveSubmitedForm, setHaveSubmitedForm] = useState(false);
   const onSubmitedCreateRequestCallback = () => {
+    setHaveClickedSearch(false);
     setHaveSubmitedForm(true);
+  };
+
+  const [haveClickedSearch, setHaveClickedSearch] = useState(false);
+  const onClickedSearchCallback = () => {
+    setHaveSubmitedForm(false);
+    setHaveClickedSearch(true);
   };
 
   // ui
@@ -155,6 +162,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   firstStepCrossed={firstStepCrossed}
                   setFirstStepCrossed={setFirstStepCrossed}
                   onSubmitedCallback={onSubmitedCreateRequestCallback}
+                  onClickedSearchCallback={onClickedSearchCallback}
                 />
               </Grid>
 
@@ -185,8 +193,9 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                 <FormControl
                   error={
                     !formData[creditRequestConfig.execute_departman_id] &&
-                    haveSubmitedForm
+                    (haveSubmitedForm || haveClickedSearch)
                   }
+                  size="small"
                   fullWidth
                 >
                   <InputLabel id="witch-organ-label">
@@ -211,7 +220,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                     <MenuItem value={2}>واحد بهمان</MenuItem>
                   </Select>
                   {!formData[creditRequestConfig.execute_departman_id] &&
-                    haveSubmitedForm && (
+                    (haveSubmitedForm || haveClickedSearch) && (
                       <FormHelperText>
                         {globalConfig.ERROR_NO_EMPTY}
                       </FormHelperText>
@@ -234,7 +243,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   setter={setFormData}
                   value={formData[creditRequestConfig.area]}
                   disabled={firstStepCrossed}
-                  showError={haveSubmitedForm}
+                  showError={haveSubmitedForm || haveClickedSearch}
                 />
               </Grid>
               <Grid xs={12} xl={6}>
@@ -253,7 +262,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   setter={setFormData}
                   value={formData[creditRequestConfig.year]}
                   disabled={firstStepCrossed}
-                  showError={haveSubmitedForm}
+                  showError={haveSubmitedForm || haveClickedSearch}
                 />
               </Grid>
               <Grid xs={12} xl={6}>

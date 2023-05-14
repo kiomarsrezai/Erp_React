@@ -6,7 +6,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import WindowLoading from "components/ui/loading/window-loading";
 import userStore from "hooks/store/user-store";
 import FixedModal from "components/ui/modal/fixed-modal";
-import ProjectMettingsModal from "./credit-search-request-modal";
+import CreditSearchRequestModal from "./credit-search-request-modal";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import { grey } from "@mui/material/colors";
@@ -25,6 +25,7 @@ interface CreditRequestFormControlsButtonsProps {
   firstStepCrossed: boolean;
   setFirstStepCrossed: (state: boolean) => void;
   onSubmitedCallback: () => void;
+  onClickedSearchCallback: () => void;
 }
 
 function CreditRequestFormControlsButtons(
@@ -36,6 +37,7 @@ function CreditRequestFormControlsButtons(
     firstStepCrossed,
     setFirstStepCrossed,
     onSubmitedCallback,
+    onClickedSearchCallback,
   } = props;
 
   const userId = userStore((state) => state.id);
@@ -47,14 +49,23 @@ function CreditRequestFormControlsButtons(
   const searchRequestMutation = useMutation(creditRequestApi.searchRequest);
 
   const openSearchRequestModal = () => {
-    searchRequestMutation.mutate({
-      [creditRequestConfig.area]: formData[creditRequestConfig.area],
-      [creditRequestConfig.execute_departman_id]:
-        formData[creditRequestConfig.execute_departman_id],
-      [creditRequestConfig.year]: formData[creditRequestConfig.year],
-    });
+    onClickedSearchCallback();
+    if (
+      checkHaveValue(formData, [
+        creditRequestConfig.year,
+        creditRequestConfig.execute_departman_id,
+        creditRequestConfig.area,
+      ])
+    ) {
+      searchRequestMutation.mutate({
+        [creditRequestConfig.area]: formData[creditRequestConfig.area],
+        [creditRequestConfig.execute_departman_id]:
+          formData[creditRequestConfig.execute_departman_id],
+        [creditRequestConfig.year]: formData[creditRequestConfig.year],
+      });
 
-    setIsOpenSelectRequestModal(true);
+      setIsOpenSelectRequestModal(true);
+    }
   };
 
   // create request
@@ -178,7 +189,9 @@ function CreditRequestFormControlsButtons(
         title="انتخاب درخواست"
         loading={searchRequestMutation.isLoading}
       >
-        <ProjectMettingsModal data={searchRequestMutation.data?.data || []} />
+        <CreditSearchRequestModal
+          data={searchRequestMutation.data?.data || []}
+        />
       </FixedModal>
 
       {/* loading */}

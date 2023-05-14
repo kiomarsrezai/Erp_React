@@ -33,7 +33,7 @@ function TabPanel(props: TabPanelProps) {
 function RequestCreditPage() {
   // forms
   const [formData, setFormData] = useState({
-    [creditRequestConfig.doing_method]: undefined,
+    [creditRequestConfig.doing_method]: 1,
     [creditRequestConfig.request_type]: 1,
     [creditRequestConfig.request_date]: "",
     [creditRequestConfig.request_number]: "",
