@@ -5,6 +5,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
+import { globalConfig } from "config/global-config";
 
 interface FlotingLabelTextfieldProps {
   label: string;
@@ -45,7 +46,7 @@ function FlotingLabelSelect(props: FlotingLabelTextfieldProps) {
         {renderItems}
       </Select>
       {!value && showError && (
-        <FormHelperText>این فیلد نباید خالی باشد</FormHelperText>
+        <FormHelperText>{globalConfig.ERROR_NO_EMPTY}</FormHelperText>
       )}
     </FormControl>
   );

@@ -22,6 +22,9 @@ import SuppliersModalCreditRequest from "./supplier/suppliers-modal";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 import { creditRequestConfig } from "config/features/credit/credit-request-config";
+import { Alert, AlertTitle, FormHelperText } from "@mui/material";
+import { globalConfig } from "config/global-config";
+import { creditRequestApi } from "api/credit/credit-request-api";
 
 interface CreditRequestFormProps {
   formData: any;
@@ -81,6 +84,11 @@ function CreditRequestForm(props: CreditRequestFormProps) {
 
   const userState = userStore();
 
+  const [haveSubmitedForm, setHaveSubmitedForm] = useState(false);
+  const onSubmitedCreateRequestCallback = () => {
+    setHaveSubmitedForm(true);
+  };
+
   // ui
   const controlFormRef = useRef<HTMLDivElement>(null);
   const [paperHeight, setPaperHeight] = useState("0px");
@@ -96,13 +104,15 @@ function CreditRequestForm(props: CreditRequestFormProps) {
 
   const handleChangeDoingMethod = (event: SelectChangeEvent) => {
     const value = event.target.value;
+
     if (formData[creditRequestConfig.doing_method] === 5) {
-      return setShowConfrimChangeDoingMethod(+value);
+      setShowConfrimChangeDoingMethod(+value);
+    } else {
+      setFormData((state: any) => ({
+        ...state,
+        [creditRequestConfig.doing_method]: +value,
+      }));
     }
-    setFormData((state: any) => ({
-      ...state,
-      [creditRequestConfig.doing_method]: value,
-    }));
   };
 
   const onConfrimChangeDoingMethod = () => {
@@ -144,6 +154,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   setFormData={setFormData}
                   firstStepCrossed={firstStepCrossed}
                   setFirstStepCrossed={setFirstStepCrossed}
+                  onSubmitedCallback={onSubmitedCreateRequestCallback}
                 />
               </Grid>
 
@@ -154,6 +165,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   name={creditRequestConfig.request_type}
                   value={formData[creditRequestConfig.request_type]}
                   setter={setFormData}
+                  showError={haveSubmitedForm}
                 />
               </Grid>
 
@@ -170,7 +182,13 @@ function CreditRequestForm(props: CreditRequestFormProps) {
               </Grid>
 
               <Grid xs={12} xl={6}>
-                <FormControl fullWidth>
+                <FormControl
+                  error={
+                    !formData[creditRequestConfig.execute_departman_id] &&
+                    haveSubmitedForm
+                  }
+                  fullWidth
+                >
                   <InputLabel id="witch-organ-label">
                     واحد درخواست کننده
                   </InputLabel>
@@ -178,6 +196,13 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                     labelId="witch-organ-label"
                     id="witch-organ-input"
                     value={formData[creditRequestConfig.execute_departman_id]}
+                    onChange={(e) =>
+                      setFormData((state: any) => ({
+                        ...state,
+                        [creditRequestConfig.execute_departman_id]:
+                          e.target.value,
+                      }))
+                    }
                     size="small"
                     label="واحد درخواست کننده"
                     disabled={firstStepCrossed}
@@ -185,6 +210,12 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                     <MenuItem value={1}>واحد فلان</MenuItem>
                     <MenuItem value={2}>واحد بهمان</MenuItem>
                   </Select>
+                  {!formData[creditRequestConfig.execute_departman_id] &&
+                    haveSubmitedForm && (
+                      <FormHelperText>
+                        {globalConfig.ERROR_NO_EMPTY}
+                      </FormHelperText>
+                    )}
                 </FormControl>
               </Grid>
               <Grid xs={12} xl={6}>
@@ -203,6 +234,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   setter={setFormData}
                   value={formData[creditRequestConfig.area]}
                   disabled={firstStepCrossed}
+                  showError={haveSubmitedForm}
                 />
               </Grid>
               <Grid xs={12} xl={6}>
@@ -221,10 +253,18 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   setter={setFormData}
                   value={formData[creditRequestConfig.year]}
                   disabled={firstStepCrossed}
+                  showError={haveSubmitedForm}
                 />
               </Grid>
               <Grid xs={12} xl={6}>
-                <FormControl fullWidth size="small">
+                <FormControl
+                  fullWidth
+                  size="small"
+                  error={
+                    haveSubmitedForm &&
+                    !formData[creditRequestConfig.doing_method]
+                  }
+                >
                   <InputLabel id="doing-method-floting-select-label">
                     شیوه انجام
                   </InputLabel>
@@ -234,7 +274,6 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                     value={formData[creditRequestConfig.doing_method]}
                     label="شیوه انجام"
                     onChange={handleChangeDoingMethod}
-                    MenuProps={{ PaperProps: { sx: { maxHeight: 350 } } }}
                   >
                     {doingMethodItems.map((item) => (
                       <MenuItem value={item.value} key={item.value}>
@@ -242,6 +281,12 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                       </MenuItem>
                     ))}
                   </Select>
+                  {!formData[creditRequestConfig.doing_method] &&
+                    haveSubmitedForm && (
+                      <FormHelperText>
+                        {globalConfig.ERROR_NO_EMPTY}
+                      </FormHelperText>
+                    )}
                 </FormControl>
               </Grid>
               <Grid xs={12} xl={6}>
@@ -254,9 +299,18 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   name={creditRequestConfig.approximate_price}
                   onChange={handleChangeTextFields}
                   fullWidth
+                  error={
+                    !formData[creditRequestConfig.approximate_price] &&
+                    haveSubmitedForm
+                  }
+                  helperText={
+                    !formData[creditRequestConfig.approximate_price] &&
+                    haveSubmitedForm &&
+                    globalConfig.ERROR_NO_EMPTY
+                  }
                 />
               </Grid>
-              {formData.doingMethod === 5 && (
+              {formData[creditRequestConfig.doing_method] === 5 && (
                 <>
                   <Grid xs={12}>
                     <TextField
@@ -314,14 +368,31 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                     label="شرح درخواست"
                     variant="outlined"
                     size="small"
+                    name={creditRequestConfig.request_description}
+                    onChange={handleChangeTextFields}
                     fullWidth
-                    value=""
+                    value={formData[creditRequestConfig.request_description]}
+                    error={
+                      !formData[creditRequestConfig.request_description] &&
+                      haveSubmitedForm
+                    }
+                    helperText={
+                      !formData[creditRequestConfig.request_description] &&
+                      haveSubmitedForm &&
+                      globalConfig.ERROR_NO_EMPTY
+                    }
                   />
                 </Grid>
               )}
 
               {formData[creditRequestConfig.request_type] === 2 && (
                 <Grid xs={12}>
+                  {!firstStepCrossed && (
+                    <Alert severity="info" icon={false}>
+                      <AlertTitle>درخواست جدولی</AlertTitle>
+                      بعد از ذخیره کردن درخواست میتوانید به جدول آیتم اضافه کنید
+                    </Alert>
+                  )}
                   <CreidtRequestFormTableTpye />
                 </Grid>
               )}

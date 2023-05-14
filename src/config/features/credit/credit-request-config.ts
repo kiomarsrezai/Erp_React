@@ -7,13 +7,14 @@ export const creditRequestConfig = {
   user_id: "userId",
   request_date: "dateS",
   request_number: "number",
-  approximate_price: "approximatePrice",
-  doing_method: "doingMethod",
-  request_type: "requestType",
-  contractor: "contractor",
-  why_leave_ceremonies: "whyTarkTashrifat",
-  suppliersKind: "suppliersCoKindId",
+  approximate_price: "estimateAmount",
+  doing_method: "doingMethodId",
+  request_type: "requestKindId",
+  contractor: "suppliersId",
+  why_leave_ceremonies: "resonDoingMethod",
+  suppliersKind: "suppliersId",
   contractorName: "contractorName",
+  request_description: "description",
 };
 
 export const creditRequestConfigURLS = {

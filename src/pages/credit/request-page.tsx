@@ -33,17 +33,18 @@ function TabPanel(props: TabPanelProps) {
 function RequestCreditPage() {
   // forms
   const [formData, setFormData] = useState({
-    [creditRequestConfig.doing_method]: 1,
+    [creditRequestConfig.doing_method]: undefined,
     [creditRequestConfig.request_type]: 1,
     [creditRequestConfig.request_date]: "",
     [creditRequestConfig.request_number]: "",
-    [creditRequestConfig.year]: 32,
-    [creditRequestConfig.area]: 1,
-    [creditRequestConfig.execute_departman_id]: 1,
-    [creditRequestConfig.approximate_price]: "",
+    [creditRequestConfig.year]: undefined,
+    [creditRequestConfig.area]: undefined,
+    [creditRequestConfig.execute_departman_id]: undefined,
+    [creditRequestConfig.approximate_price]: undefined,
     [creditRequestConfig.contractor]: undefined,
     [creditRequestConfig.contractorName]: undefined,
-    [creditRequestConfig.why_leave_ceremonies]: "",
+    [creditRequestConfig.why_leave_ceremonies]: undefined,
+    [creditRequestConfig.request_description]: undefined,
   });
 
   const [firstStepCrossed, setFirstStepCrossed] = useState(false);

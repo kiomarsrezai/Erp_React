@@ -16,21 +16,27 @@ import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import { creditRequestConfig } from "config/features/credit/credit-request-config";
 import { useState } from "react";
-import { FaEraser } from "react-icons/fa";
 import { BsEraserFill } from "react-icons/bs";
+import { checkHaveValue } from "helper/form-utils";
 
 interface CreditRequestFormControlsButtonsProps {
   formData: any;
   setFormData: (state: any) => void;
   firstStepCrossed: boolean;
   setFirstStepCrossed: (state: boolean) => void;
+  onSubmitedCallback: () => void;
 }
 
 function CreditRequestFormControlsButtons(
   props: CreditRequestFormControlsButtonsProps
 ) {
-  const { formData, setFormData, firstStepCrossed, setFirstStepCrossed } =
-    props;
+  const {
+    formData,
+    setFormData,
+    firstStepCrossed,
+    setFirstStepCrossed,
+    onSubmitedCallback,
+  } = props;
 
   const userId = userStore((state) => state.id);
 
@@ -54,11 +60,11 @@ function CreditRequestFormControlsButtons(
   // create request
   const createRequestMutation = useMutation(creditRequestApi.createRequest, {
     onSuccess(data) {
-      setFormData((state: any) => ({
-        ...state,
-        [creditRequestConfig.request_date]: data.data.dateS,
-        [creditRequestConfig.request_number]: data.data.number,
-      }));
+      // setFormData((state: any) => ({
+      //   ...state,
+      //   [creditRequestConfig.request_date]: data.data.dateS,
+      //   [creditRequestConfig.request_number]: data.data.number,
+      // }));
 
       setFirstStepCrossed(true);
 
@@ -74,13 +80,39 @@ function CreditRequestFormControlsButtons(
   });
 
   const handleCheckClick = () => {
+    onSubmitedCallback();
     if (!formData[creditRequestConfig.request_number]) {
-      createRequestMutation.mutate({
-        ...formData,
-        [creditRequestConfig.user_id]: userId,
-      });
+      // create request
+      if (
+        checkHaveValue(formData, [
+          creditRequestConfig.year,
+          creditRequestConfig.execute_departman_id,
+          creditRequestConfig.area,
+          creditRequestConfig.request_type,
+          creditRequestConfig.approximate_price,
+          creditRequestConfig.doing_method,
+        ])
+      ) {
+        if (
+          formData[creditRequestConfig.doing_method] === 5 &&
+          (!formData[creditRequestConfig.contractor] ||
+            !formData[creditRequestConfig.why_leave_ceremonies])
+        ) {
+          return;
+        }
+        if (
+          formData[creditRequestConfig.request_type] === 1 &&
+          !formData[creditRequestConfig.request_description]
+        ) {
+          return;
+        }
+        createRequestMutation.mutate({
+          ...formData,
+          [creditRequestConfig.user_id]: userId,
+        });
+      }
     } else {
-      // save
+      // update request
     }
   };
 
