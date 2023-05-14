@@ -33,6 +33,7 @@ import TrazPage from "pages/traz/traz-page";
 import { getPermissionWithLevel } from "helper/auth-utils";
 import ProgramOperationProjectPage from "pages/project/program-operation-page";
 import AbstructBudgetPage from "pages/report/budget/abstruct-budget-page";
+import SuppliersPage from "pages/base/suppliers-page";
 
 export const sidenavsLayout: SidenavShape[] = [
   // report
@@ -455,8 +456,9 @@ export const sidenavsLayout: SidenavShape[] = [
       {
         title: "مخاطبین",
         icon: GroupsIcon,
-        path: "/",
+        path: "/base/suppliers",
         licenseName: accessNamesConfig.BASE__USERS_PAGE,
+        element: SuppliersPage,
       },
       {
         title: "مناطق و سازمان ها",
