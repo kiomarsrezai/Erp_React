@@ -64,7 +64,7 @@ const VirtuosoTableComponents: TableComponents = {
       sx={{
         "&:last-child td, &:last-child th": { border: 0 },
         "&:nth-of-type(even)": {
-          bgcolor: _item.bgcolor || grey[100],
+          bgcolor: _item.bgcolor || grey[200],
         },
         bgcolor: _item.bgcolor,
       }}
@@ -403,7 +403,7 @@ function FixedTable(props: FixedTableProps) {
                   sx={{
                     "&:last-child td, &:last-child th": { border: 0 },
                     "&:nth-of-type(even)": {
-                      bgcolor: row.bgcolor || grey[100],
+                      bgcolor: row.bgcolor || grey[200],
                     },
                     bgcolor: row.bgcolor,
                   }}
