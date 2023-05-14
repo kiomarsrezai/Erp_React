@@ -7,14 +7,13 @@ import { useQuery } from "@tanstack/react-query";
 import { ReactNode } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
-import { programApi } from "api/credit/program-api";
-import { ProgramShape } from "types/data/credit/program-type";
+import { SuppliersShape } from "types/data/credit/suppliers-type";
+import { suppliersApi } from "api/credit/suppliers-api";
 
 interface TableDataItemShape {
   number: ReactNode;
-  projectName: ReactNode;
-  projectCode: ReactNode;
-  actions: (() => ReactNode) | ReactNode;
+  name: ReactNode;
+  actions: ((row: any) => ReactNode) | ReactNode;
 }
 
 interface SuppliersModalCreditRequestProps {
@@ -39,14 +38,10 @@ function ProgramModalCreditRequest(props: SuppliersModalCreditRequestProps) {
     },
     {
       title: "نام",
-      name: "projectName",
+      name: "name",
       align: "left",
     },
-    {
-      title: "کد",
-      name: "projectCode",
-      align: "left",
-    },
+
     {
       title: "عملیات",
       name: "actions",
@@ -54,29 +49,28 @@ function ProgramModalCreditRequest(props: SuppliersModalCreditRequestProps) {
   ];
 
   // data
-  const actionButtons = (row: TableDataItemShape & ProgramShape) => (
+  const actionButtons = (row: TableDataItemShape & SuppliersShape) => (
     <IconButton size="small" color="primary" onClick={() => onDoneTask(row.id)}>
       <CheckIcon />
     </IconButton>
   );
 
   const formatTableData = (
-    unFormatData: ProgramShape[]
-  ): TableDataItemShape[] => {
-    const formatedData: TableDataItemShape[] | any = unFormatData.map(
-      (item, i) => ({
+    unFormatData: SuppliersShape[]
+  ): (SuppliersShape & TableDataItemShape)[] => {
+    const formatedData: (SuppliersShape & TableDataItemShape)[] =
+      unFormatData.map((item, i) => ({
         ...item,
         number: i + 1,
         actions: actionButtons,
-      })
-    );
+      }));
 
     return formatedData;
   };
 
   const suppliersQuery = useQuery(
     reactQueryKeys.request.suppliers.list,
-    () => programApi.list({}),
+    () => suppliersApi.list(1),
     {
       enabled: false,
     }
