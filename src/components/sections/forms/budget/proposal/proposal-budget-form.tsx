@@ -82,7 +82,7 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
 
   // export
   const handleExport = async () => {
-    await loadreport();
+    await loadreport(submitMutation.data?.data || []);
   };
 
   return (
