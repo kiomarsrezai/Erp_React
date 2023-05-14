@@ -1,18 +1,19 @@
 import FixedTable from "components/data/table/fixed-table";
 import IconButton from "@mui/material/IconButton";
 import CheckIcon from "@mui/icons-material/Check";
-import SuppliersForm from "./suppliers-form";
+import ProgramForm from "./program-form";
 
 import { useQuery } from "@tanstack/react-query";
-import { creditRequestApi } from "api/credit/credit-request-api";
-import { SuppliersCreditRequestShape } from "config/features/credit/credit-request-type";
 import { ReactNode } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
+import { programApi } from "api/credit/program-api";
+import { ProgramShape } from "types/data/credit/program-type";
 
 interface TableDataItemShape {
   number: ReactNode;
-  name: ReactNode;
+  projectName: ReactNode;
+  projectCode: ReactNode;
   actions: (() => ReactNode) | ReactNode;
 }
 
@@ -20,14 +21,14 @@ interface SuppliersModalCreditRequestProps {
   onDoneTask: (value: number) => void;
 }
 
-function SuppliersModalCreditRequest(props: SuppliersModalCreditRequestProps) {
+function ProgramModalCreditRequest(props: SuppliersModalCreditRequestProps) {
   const { onDoneTask } = props;
 
   // heads
   const tableHeadGroups: TableHeadGroupShape = [
     {
-      title: <SuppliersForm />,
-      colspan: 3,
+      title: <ProgramForm />,
+      colspan: 4,
     },
   ];
 
@@ -38,7 +39,12 @@ function SuppliersModalCreditRequest(props: SuppliersModalCreditRequestProps) {
     },
     {
       title: "نام",
-      name: "name",
+      name: "projectName",
+      align: "left",
+    },
+    {
+      title: "کد",
+      name: "projectCode",
       align: "left",
     },
     {
@@ -48,16 +54,14 @@ function SuppliersModalCreditRequest(props: SuppliersModalCreditRequestProps) {
   ];
 
   // data
-  const actionButtons = (
-    row: TableDataItemShape & SuppliersCreditRequestShape
-  ) => (
+  const actionButtons = (row: TableDataItemShape & ProgramShape) => (
     <IconButton size="small" color="primary" onClick={() => onDoneTask(row.id)}>
       <CheckIcon />
     </IconButton>
   );
 
   const formatTableData = (
-    unFormatData: SuppliersCreditRequestShape[]
+    unFormatData: ProgramShape[]
   ): TableDataItemShape[] => {
     const formatedData: TableDataItemShape[] | any = unFormatData.map(
       (item, i) => ({
@@ -72,7 +76,7 @@ function SuppliersModalCreditRequest(props: SuppliersModalCreditRequestProps) {
 
   const suppliersQuery = useQuery(
     reactQueryKeys.request.suppliers.list,
-    () => creditRequestApi.suppliersList(0),
+    () => programApi.list({}),
     {
       enabled: false,
     }
@@ -92,4 +96,4 @@ function SuppliersModalCreditRequest(props: SuppliersModalCreditRequestProps) {
   );
 }
 
-export default SuppliersModalCreditRequest;
+export default ProgramModalCreditRequest;

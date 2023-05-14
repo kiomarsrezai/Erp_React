@@ -9,8 +9,7 @@ import {
 import {
   CreateCreditRequestShape,
   SearchCreditRequestShape,
-  SuppliersCreditRequestShape,
-} from "config/features/credit/credit-request-type";
+} from "types/data/credit/credit-request-type";
 
 export const creditRequestApi = new (class extends BaseApi {
   createRequest = async (formdata: any) => {
@@ -42,15 +41,6 @@ export const creditRequestApi = new (class extends BaseApi {
     const response = await clientAxios.get<
       BaseApiResponseShape<SearchCreditRequestShape[]>
     >(url);
-    return response.data;
-  };
-
-  suppliersList = async (kind: number) => {
-    const response = await clientAxios.get<
-      BaseApiResponseShape<SuppliersCreditRequestShape[]>
-    >(
-      `${creditRequestConfigURLS.suppliersList}?${creditRequestConfig.suppliersKind}=${kind}`
-    );
     return response.data;
   };
 })();

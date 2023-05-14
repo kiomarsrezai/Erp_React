@@ -18,5 +18,4 @@ export const creditRequestConfig = {
 export const creditRequestConfigURLS = {
   createRequest: "RequestApi/RequestInsert",
   searchRequest: "RequestApi/GetRequestList",
-  suppliersList: "SupplyApi/GetSupplyList",
 };

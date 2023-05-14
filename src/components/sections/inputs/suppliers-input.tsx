@@ -1,10 +1,9 @@
 import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
-import userStore from "hooks/store/user-store";
 
 import { useQuery } from "@tanstack/react-query";
-import { programProjectApi } from "api/project/programs-project-api";
-import { programProjectConfig } from "config/features/project/program-project-config";
+import { yearGeneralApi } from "api/general/year-general-api";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
+import { generalFieldsConfig } from "config/features/general-fields-config";
 import {
   checkHavePermission,
   filedItemsGuard,
@@ -12,39 +11,37 @@ import {
 } from "helper/auth-utils";
 import { accessNamesConfig } from "config/access-names-config";
 
-interface ProgramListInputProps {
+import userStore from "hooks/store/user-store";
+
+interface YearInputProps {
   setter: (prevData: any) => void;
   value: number | undefined;
   permissionForm?: string;
+  disabled?: boolean;
+  level?: number;
   showError?: boolean;
 }
 
-function ProgramListInput(props: ProgramListInputProps) {
-  const { setter, value, showError, permissionForm } = props;
-
+function SuppliersInput(props: YearInputProps) {
+  const { setter, value, permissionForm, disabled, level, showError } = props;
   const userLicenses = userStore((state) => state.permissions);
 
-  const programQuery = useQuery(
-    ["program-list"],
-    programProjectApi.getProgramList,
+  const yearQuery = useQuery(
+    ["general-year", level || 1],
+    () => yearGeneralApi.getData(level || 1),
     {
       onSuccess: () => {
         if (value !== undefined && permissionForm) {
           const havePermission = checkHavePermission(
             userLicenses,
-            [
-              joinPermissions([
-                accessNamesConfig.PROJECT__PLAN_PAGE_PROGRAM,
-                value,
-              ]),
-            ],
+            [joinPermissions([accessNamesConfig.FIELD_YEAR, value])],
             permissionForm
           );
 
           if (!havePermission) {
             setter((prevState: any) => ({
               ...prevState,
-              [programProjectConfig.program]: undefined,
+              [generalFieldsConfig.YEAR]: undefined,
             }));
           }
         }
@@ -52,34 +49,31 @@ function ProgramListInput(props: ProgramListInputProps) {
     }
   );
 
-  const programItems: FlotingLabelTextfieldItemsShape = programQuery.data
-    ? programQuery.data.data.map((item) => ({
-        label: item.programName,
+  const yearItems: FlotingLabelTextfieldItemsShape = yearQuery.data
+    ? yearQuery.data.data.map((item) => ({
+        label: item.yearName,
         value: item.id,
       }))
     : [];
 
   const inputItems = permissionForm
     ? filedItemsGuard(
-        programItems,
+        yearItems,
         userLicenses,
-        joinPermissions([
-          permissionForm,
-          accessNamesConfig.PROJECT__PLAN_PAGE_PROGRAM,
-        ])
+        joinPermissions([permissionForm, accessNamesConfig.FIELD_YEAR])
       )
-    : programItems;
-
+    : yearItems;
   return (
     <FlotingLabelSelect
-      label="برنامه"
-      name={programProjectConfig.program}
+      label="سال"
+      name={generalFieldsConfig.YEAR}
       items={inputItems}
       value={value}
       setter={setter}
+      disabled={disabled}
       showError={showError}
     />
   );
 }
 
-export default ProgramListInput;
+export default SuppliersInput;

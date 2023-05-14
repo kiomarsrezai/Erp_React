@@ -16,9 +16,3 @@ export interface SearchCreditRequestShape {
   unit: string;
   price: number;
 }
-
-// suppliers
-export interface SuppliersCreditRequestShape {
-  id: number;
-  name: string;
-}

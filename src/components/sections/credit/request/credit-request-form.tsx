@@ -17,7 +17,7 @@ import userStore from "hooks/store/user-store";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import CreditRequestFormControlsButtons from "./credit-request-form-controls-buttons";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
-import SuppliersModalCreditRequest from "./supplier/suppliers-modal";
+import ProgramsModalCreditRequest from "./supplier/program-modal";
 
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
@@ -342,7 +342,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
           handleClose={() => setIsOpenSelectUserModal(false)}
           title="مخاطبین"
         >
-          <SuppliersModalCreditRequest onDoneTask={onDoneSelectSupplier} />
+          <ProgramsModalCreditRequest onDoneTask={onDoneSelectSupplier} />
         </FixedModal>
       </Box>
     </>

@@ -14,7 +14,7 @@ import { accessNamesConfig } from "config/access-names-config";
 
 interface AreaInputProps {
   setter: (prevData: any) => void;
-  value: number;
+  value: number | undefined;
   permissionForm?: string;
   disabled?: boolean;
   level?: number;

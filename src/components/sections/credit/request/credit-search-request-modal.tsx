@@ -2,9 +2,9 @@ import FixedTable from "components/data/table/fixed-table";
 import IconButton from "@mui/material/IconButton";
 import CheckIcon from "@mui/icons-material/Check";
 
-import { SearchCreditRequestShape } from "config/features/credit/credit-request-type";
 import { ReactNode } from "react";
 import { TableHeadShape } from "types/table-type";
+import { SearchCreditRequestShape } from "types/data/credit/credit-request-type";
 
 interface TableDataItemShape {
   number: ReactNode;
