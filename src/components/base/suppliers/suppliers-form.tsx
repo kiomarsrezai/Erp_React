@@ -35,7 +35,7 @@ function SuppliersForm() {
   return (
     <Box component="form" onSubmit={handleSubmit}>
       <Grid container spacing={2}>
-        <Grid xs={4}>
+        <Grid xs={2}>
           <SuppliersInput
             setter={setFormData}
             value={formData[suppliersConfig.kind]}

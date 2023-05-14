@@ -103,7 +103,7 @@ export const sidenavsLayout: SidenavShape[] = [
         title: "انتصاب",
         path: "/",
         icon: IndeterminateCheckBoxIcon,
-        licenseName: accessNamesConfig.BUDGET__TAFRIGH_PAGE,
+        licenseName: accessNamesConfig.BUDGET__ENTESAB_PAGE,
       },
       {
         title: "گزارشات بودجه",

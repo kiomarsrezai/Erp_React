@@ -24,6 +24,7 @@ import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 import { creditRequestConfig } from "config/features/credit/credit-request-config";
 import { Alert, AlertTitle, FormHelperText } from "@mui/material";
 import { globalConfig } from "config/global-config";
+import { red } from "@mui/material/colors";
 import { creditRequestApi } from "api/credit/credit-request-api";
 
 interface CreditRequestFormProps {
@@ -328,6 +329,23 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                       variant="outlined"
                       value={formData[creditRequestConfig.contractorName]}
                       size="small"
+                      error={
+                        !formData[creditRequestConfig.contractorName] &&
+                        haveSubmitedForm
+                      }
+                      helperText={
+                        !formData[creditRequestConfig.contractorName] &&
+                        haveSubmitedForm &&
+                        globalConfig.ERROR_NO_EMPTY
+                      }
+                      sx={{
+                        "& fieldset": {
+                          ...(!formData[creditRequestConfig.contractorName] &&
+                            haveSubmitedForm && {
+                              borderColor: `${red[600]} !important`,
+                            }),
+                        },
+                      }}
                       disabled
                       InputProps={{
                         endAdornment: (
@@ -354,6 +372,15 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                       onChange={handleChangeTextFields}
                       size="small"
                       fullWidth
+                      error={
+                        !formData[creditRequestConfig.why_leave_ceremonies] &&
+                        haveSubmitedForm
+                      }
+                      helperText={
+                        !formData[creditRequestConfig.why_leave_ceremonies] &&
+                        haveSubmitedForm &&
+                        globalConfig.ERROR_NO_EMPTY
+                      }
                     />
                   </Grid>
                 </>

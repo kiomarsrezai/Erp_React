@@ -12,18 +12,32 @@ interface FlotingLabelTextfieldProps {
   name: string;
   items: FlotingLabelTextfieldItemsShape;
   value: string | number | boolean | undefined;
-  setter: (data: any) => void;
+  setter?: (data: any) => void;
+  manualHandleChange?: (value: any) => void;
   disabled?: boolean;
   showError?: boolean;
 }
 
 function FlotingLabelSelect(props: FlotingLabelTextfieldProps) {
-  const { label, name, items, value, setter, disabled, showError } = props;
+  const {
+    label,
+    name,
+    items,
+    value,
+    setter,
+    manualHandleChange,
+    disabled,
+    showError,
+  } = props;
 
   const handleChange = (event: SelectChangeEvent) => {
     const value = event.target.value;
 
-    setter((prevState: any) => ({ ...prevState, [name]: value }));
+    if (manualHandleChange) {
+      manualHandleChange(value);
+    } else if (setter) {
+      setter((prevState: any) => ({ ...prevState, [name]: value }));
+    }
   };
   // select items
   const renderItems = items.map((item) => (

@@ -14,6 +14,8 @@ export const accessNamesConfig = {
 
   BUDGET__TAFRIGH_PAGE: "budget-tafrigh",
 
+  BUDGET__ENTESAB_PAGE: "budget-entesab",
+
   BUDGET__REPORT__EXPENSE_PAGE: "budget-report-expense",
   BUDGET__REPORT__EXPENSE_PAGE_CENTER: "center",
 
