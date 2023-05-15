@@ -12,6 +12,10 @@ import CheckIcon from "@mui/icons-material/Check";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { ReactNode, useState } from "react";
 import { GetSingleCodingItemShape } from "types/data/budget/coding-type";
+import { enqueueSnackbar } from "notistack";
+import { useMutation } from "@tanstack/react-query";
+import { codingBudgetApi } from "api/budget/coding-api";
+import { globalConfig } from "config/global-config";
 
 interface TableDataItemShape {
   rowNumber: ReactNode;
@@ -26,9 +30,10 @@ interface TableDataItemShape {
 
 interface CodingBudgetModal2Props {
   data: any[];
+  motherId: number;
 }
 function CodingBudgetModal2(props: CodingBudgetModal2Props) {
-  const { data } = props;
+  const { data, motherId } = props;
 
   // action modal
   const [isOpenActionModal, setIsOpenActionModal] = useState(false);
@@ -47,16 +52,37 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
     setIsOpenActionModal(true);
   };
 
+  const handleDoneActionTask = () => {
+    setIsOpenActionModal(false);
+  };
+
   // delete item
-  const [isShowConfrimDelete, setIsShowConfrimDelete] = useState(false);
+  const [isShowConfrimDelete, setIsShowConfrimDelete] = useState<number | null>(
+    null
+  );
+
+  const deleteMutation = useMutation(codingBudgetApi.deleteItem, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+      setIsShowConfrimDelete(null);
+    },
+    onError: () => {
+      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+        variant: "error",
+      });
+    },
+  });
 
   const onConfrimDelete = () => {
-    alert("shoud delete");
+    deleteMutation.mutate(isShowConfrimDelete || 0);
   };
 
   const onCancelDelete = () => {
-    setIsShowConfrimDelete(false);
+    setIsShowConfrimDelete(null);
   };
+
   // head group
   const headGroup: TableHeadGroupShape = [
     {
@@ -114,7 +140,7 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
       <IconButton
         size="small"
         color="error"
-        onClick={() => setIsShowConfrimDelete(true)}
+        onClick={() => setIsShowConfrimDelete(row.id)}
       >
         <DeleteIcon />
       </IconButton>
@@ -178,8 +204,8 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
         <CodingBudgetActionModal
           initialData={modalFormInitialData}
           level={6}
-          motherId={0}
-          onDoneTask={() => setIsOpenActionModal(false)}
+          onDoneTask={handleDoneActionTask}
+          motherId={motherId}
         />
       </FixedModal>
 
@@ -187,7 +213,7 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
       <ConfrimProcessModal
         onCancel={onCancelDelete}
         onConfrim={onConfrimDelete}
-        open={isShowConfrimDelete}
+        open={isShowConfrimDelete !== null}
         title="حذف آیتم"
       />
     </>

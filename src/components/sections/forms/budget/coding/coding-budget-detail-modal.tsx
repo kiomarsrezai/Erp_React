@@ -142,12 +142,14 @@ function CodingBudgetDetailModal(props: CodingBudgetDetailModalProps) {
 
   // modal
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [rowMotherId, setRowMotherId] = useState(0);
 
   const detailCodingMutation = useMutation(codingBudgetApi.getData);
 
   const handleListClick = (
     row: TableDataItemShape & GetSingleCodingItemShape
   ) => {
+    setRowMotherId(row.id);
     detailCodingMutation.mutate({
       ...formData,
       [codingBudgetConfig.mother_id]: row.id,
@@ -239,7 +241,10 @@ function CodingBudgetDetailModal(props: CodingBudgetDetailModalProps) {
         loading={detailCodingMutation.isLoading}
         handleClose={() => setIsOpenModal(false)}
       >
-        <CodingBudgetModal2 data={detailCodingMutation.data?.data || []} />
+        <CodingBudgetModal2
+          data={detailCodingMutation.data?.data || []}
+          motherId={rowMotherId}
+        />
       </FixedModal>
 
       {/* action modal */}
