@@ -12,6 +12,6 @@ export const proposalConfig = {
 export const propsalBudgetUrls = {
   getData: "Budget/FetchIndex",
   getDetail: "Budget/BudgetModal1Coding",
-  getMoreDetail: "Budget/BudgetModal2Project",
+  getMoreDetail: "Budget/BudgetModal2Coding",
   getLevel5Detail: "Budget/BudgetModal3Area",
 };

@@ -20,6 +20,7 @@ export interface GetSingleDetailProposalItemShape {
   expense: number;
   id: number;
   mosavab: number;
+  codingId: number;
   percentBud: number;
 }
 
@@ -36,9 +37,10 @@ export interface GetSingleMoreDetailProposalItemShape {
 
 export interface GetSingleLevel5DetailProposalItemShape {
   id: number;
-  areaName: string;
+  areaNameShort: string;
   mosavab: number;
   edit: number;
   expense: number;
   percentBud: number;
+  supply: number;
 }

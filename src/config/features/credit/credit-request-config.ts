@@ -43,6 +43,6 @@ export const creditRequestFormDefaultValue = {
 
 export const creditRequestConfigURLS = {
   createRequest: "RequestApi/RequestCreate",
-  searchRequest: "RequestApi/GetRequestTableList",
+  searchRequest: "RequestApi/GetRequestList",
   readRequest: "RequestApi/RequestRead",
 };

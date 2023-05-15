@@ -71,7 +71,7 @@ function ProposalLevel5DetailModal(props: ProposalLevel5DetailModalProps) {
     const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
       ...item,
       number: i + 1,
-      area: item.areaName,
+      area: item.areaNameShort,
       creditAmount: 0,
       mosavab: item.mosavab,
       expense: item.expense,

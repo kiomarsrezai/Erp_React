@@ -110,7 +110,7 @@ export const sidenavsLayout: SidenavShape[] = [
         icon: SummarizeIcon,
         items: [
           {
-            title: "گزارش عملکرد",
+            title: "نمودار عملکرد",
             path: "/report/chart/revenue",
             icon: AssessmentIcon,
             licenseName: accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
