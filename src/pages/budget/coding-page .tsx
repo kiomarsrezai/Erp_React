@@ -5,6 +5,13 @@ import IconButton from "@mui/material/IconButton";
 import CodingBudgetForm from "components/sections/forms/budget/coding/coding-budget-form";
 import FixedModal from "components/ui/modal/fixed-modal";
 import CodingBudgetModal from "components/sections/forms/budget/coding/coding-budget-modal";
+import Stack from "@mui/material/Stack";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CodingBudgetActionModal from "components/sections/forms/budget/coding/coding-budget-action-modal";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+import ClearIcon from "@mui/icons-material/Clear";
+import CheckIcon from "@mui/icons-material/Check";
 
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { ReactNode, useState } from "react";
@@ -12,7 +19,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { codingBudgetApi } from "api/budget/coding-api";
 import { GetSingleCodingItemShape } from "types/data/budget/coding-type";
-import { Checkbox } from "@mui/material";
 import { codingBudgetConfig } from "config/features/budget/coding-config";
 
 interface TableDataItemShape {
@@ -32,6 +38,34 @@ function BudgetCodingPage() {
     [codingBudgetConfig.crud]: undefined,
     [codingBudgetConfig.show]: undefined,
   });
+
+  // action modal
+  const [isOpenActionModal, setIsOpenActionModal] = useState(false);
+  const [titleActionModal, setTitleActionModal] = useState("");
+  const [modalFormInitialData, setModalFormInitialData] = useState(null);
+
+  const handleAddClick = () => {
+    setTitleActionModal("افزودن آیتم");
+    setModalFormInitialData(null);
+    setIsOpenActionModal(true);
+  };
+
+  const handleClickEditBtn = (row: any) => {
+    setTitleActionModal("ویرایش آیتم");
+    setModalFormInitialData(row);
+    setIsOpenActionModal(true);
+  };
+
+  // delete item
+  const [isShowConfrimDelete, setIsShowConfrimDelete] = useState(false);
+
+  const onConfrimDelete = () => {
+    alert("shoud delete");
+  };
+
+  const onCancelDelete = () => {
+    setIsShowConfrimDelete(false);
+  };
 
   // form heads
   const tableHeadGroups: TableHeadGroupShape = [
@@ -92,18 +126,37 @@ function BudgetCodingPage() {
   };
 
   // data
-  const actionButtons = (row: TableDataItemShape & GetSingleCodingItemShape) =>
-    row.levelNumber === 3 ? (
+  const actionButtons = (
+    row: TableDataItemShape & GetSingleCodingItemShape
+  ) => (
+    <Stack direction="row" spacing={0.5} justifyContent={"start"}>
+      <IconButton
+        size="small"
+        color="error"
+        onClick={() => setIsShowConfrimDelete(true)}
+      >
+        <DeleteIcon />
+      </IconButton>
+
       <IconButton
         size="small"
         color="primary"
-        onClick={() => openDeatilModal(row)}
+        onClick={() => handleClickEditBtn(row)}
       >
-        <FormatListBulletedIcon />
+        <EditIcon />
       </IconButton>
-    ) : (
-      ""
-    );
+
+      {row.levelNumber === 3 && (
+        <IconButton
+          size="small"
+          color="primary"
+          onClick={() => openDeatilModal(row)}
+        >
+          <FormatListBulletedIcon />
+        </IconButton>
+      )}
+    </Stack>
+  );
 
   const getBgColor = (levelNumber: number) => {
     if (levelNumber === 1) {
@@ -114,6 +167,15 @@ function BudgetCodingPage() {
       return "#fff";
     }
   };
+
+  const getDataItemIcon = (active: boolean) => {
+    if (active) {
+      return <CheckIcon color="primary" />;
+    } else {
+      return <ClearIcon color="error" />;
+    }
+  };
+
   const formatTableData = (
     unFormatData: GetSingleCodingItemShape[]
   ): TableDataItemShape[] => {
@@ -123,16 +185,10 @@ function BudgetCodingPage() {
         rowNumber: i + 1,
         code: item.code,
         description: item.description,
-        crud: (
-          <Checkbox
-            defaultChecked={item.crud}
-            size="small"
-            onChange={() => {}}
-          />
-        ),
+        crud: getDataItemIcon(item.crud),
         level: item.levelNumber,
         revenueType: item.codingRevenueKind,
-        show: <Checkbox defaultChecked={item.show} size="small" />,
+        show: getDataItemIcon(item.show),
         bgcolor: getBgColor(item.levelNumber),
         actions: actionButtons,
       })
@@ -163,6 +219,7 @@ function BudgetCodingPage() {
         />
       </AdminLayout>
 
+      {/* detail modal */}
       <FixedModal
         open={isOpenModal}
         handleClose={() => setIsOpenModal(false)}
@@ -175,6 +232,28 @@ function BudgetCodingPage() {
           data={detailCodingMutation.data?.data || []}
         />
       </FixedModal>
+
+      {/* action modal */}
+      <FixedModal
+        open={isOpenActionModal}
+        handleClose={() => setIsOpenActionModal(false)}
+        maxHeight="70%"
+        maxWidth="md"
+        title={titleActionModal}
+      >
+        <CodingBudgetActionModal
+          onDoneTask={() => {}}
+          initialData={modalFormInitialData}
+        />
+      </FixedModal>
+
+      {/* confrim delete */}
+      <ConfrimProcessModal
+        onCancel={onCancelDelete}
+        onConfrim={onConfrimDelete}
+        open={isShowConfrimDelete}
+        title="حذف آیتم"
+      />
     </>
   );
 }

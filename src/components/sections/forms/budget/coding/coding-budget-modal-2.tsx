@@ -1,6 +1,5 @@
 import IconButton from "@mui/material/IconButton";
 import FixedTable from "components/data/table/fixed-table";
-import Checkbox from "@mui/material/Checkbox";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
