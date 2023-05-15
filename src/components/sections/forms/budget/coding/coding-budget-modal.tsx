@@ -141,10 +141,12 @@ function CodingBudgetModal(props: CodingBudgetModalProps) {
 
   // more detail
   const detailCodingMutation = useMutation(codingBudgetApi.getData);
+  const [rowMotherId, setRowMotherId] = useState(0);
 
   const openMoreDetail = (
     row: TableDataItemShape & GetSingleCodingItemShape
   ) => {
+    setRowMotherId(row.id);
     detailCodingMutation.mutate({
       ...formData,
       [codingBudgetConfig.mother_id]: row.id,
@@ -228,6 +230,7 @@ function CodingBudgetModal(props: CodingBudgetModalProps) {
             data={detailCodingMutation.data?.data || []}
             loading={detailCodingMutation.isLoading}
             formData={formData}
+            motherId={rowMotherId}
           />
         </Box>
       </Box>
