@@ -1,11 +1,16 @@
 import IconButton from "@mui/material/IconButton";
 import FixedTable from "components/data/table/fixed-table";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import Checkbox from "@mui/material/Checkbox";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import FixedModal from "components/ui/modal/fixed-modal";
+import CodingBudgetActionModal from "./coding-budget-action-modal";
 
-import { TableHeadShape } from "types/table-type";
-import { ReactNode } from "react";
+import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
+import { ReactNode, useState } from "react";
 import { GetSingleCodingItemShape } from "types/data/budget/coding-type";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 interface TableDataItemShape {
   rowNumber: ReactNode;
@@ -23,6 +28,47 @@ interface CodingBudgetModal2Props {
 }
 function CodingBudgetModal2(props: CodingBudgetModal2Props) {
   const { data } = props;
+
+  // action modal
+  const [isOpenActionModal, setIsOpenActionModal] = useState(false);
+  const [modalActionType, setModalActionType] = useState<"edit" | "create">(
+    "create"
+  );
+  const [titleActionModal, setTitleActionModal] = useState("");
+
+  const handleAddClick = () => {
+    setTitleActionModal("افزودن آیتم");
+    setModalActionType("create");
+    setIsOpenActionModal(true);
+  };
+
+  const handleClickEditBtn = () => {
+    setTitleActionModal("ویرایش آیتم");
+    setModalActionType("edit");
+    setIsOpenActionModal(true);
+  };
+
+  // delete item
+  const [isShowConfrimDelete, setIsShowConfrimDelete] = useState(false);
+
+  const onConfrimDelete = () => {
+    alert("shoud delete");
+  };
+
+  const onCancelDelete = () => {
+    setIsShowConfrimDelete(false);
+  };
+  // head group
+  const headGroup: TableHeadGroupShape = [
+    {
+      title: (
+        <IconButton color="primary" size="small" onClick={handleAddClick}>
+          <AddIcon />
+        </IconButton>
+      ),
+      colspan: 8,
+    },
+  ];
 
   // heads
   const tableHeads: TableHeadShape = [
@@ -65,9 +111,19 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
   const actionButtons = (
     row: TableDataItemShape & GetSingleCodingItemShape
   ) => (
-    <IconButton size="small" color="primary">
-      <FormatListBulletedIcon />
-    </IconButton>
+    <>
+      <IconButton
+        size="small"
+        color="error"
+        onClick={() => setIsShowConfrimDelete(true)}
+      >
+        <DeleteIcon />
+      </IconButton>
+
+      <IconButton size="small" color="primary" onClick={handleClickEditBtn}>
+        <EditIcon />
+      </IconButton>
+    </>
   );
 
   const formatTableData = (
@@ -98,7 +154,38 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
 
   const tableData = data ? formatTableData(data) : [];
 
-  return <FixedTable data={tableData} heads={tableHeads} notFixed />;
+  return (
+    <>
+      <FixedTable
+        data={tableData}
+        heads={tableHeads}
+        headGroups={headGroup}
+        notFixed
+      />
+
+      {/* action modal */}
+      <FixedModal
+        open={isOpenActionModal}
+        handleClose={() => setIsOpenActionModal(false)}
+        maxHeight="70%"
+        maxWidth="md"
+        title={titleActionModal}
+      >
+        <CodingBudgetActionModal
+          onDoneTask={() => {}}
+          actionType={modalActionType}
+        />
+      </FixedModal>
+
+      {/* confrim delete */}
+      <ConfrimProcessModal
+        onCancel={onCancelDelete}
+        onConfrim={onConfrimDelete}
+        open={isShowConfrimDelete}
+        title="حذف آیتم"
+      />
+    </>
+  );
 }
 
 export default CodingBudgetModal2;

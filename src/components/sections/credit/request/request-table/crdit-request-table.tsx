@@ -3,12 +3,12 @@ import RequestTopheadTableForm from "./request-tophead-table-form";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-
-import { ReactNode, useState } from "react";
-import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import FixedModal from "components/ui/modal/fixed-modal";
 import RequestTopheadTableModal from "./request-tophead-table-modal";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+
+import { ReactNode, useState } from "react";
+import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -76,9 +76,6 @@ function CreidtRequestTable(props: CreidtRequestFormTableProps) {
   };
 
   // delete item
-  // onCancel={onCancelDelete}
-  // onConfrim={onConfrimDelete}
-  // open={showConfrimDelete}
   const [isShowConfrimDelete, setIsShowConfrimDelete] = useState(false);
 
   const onConfrimDelete = () => {

@@ -5,8 +5,12 @@ export const codingBudgetConfig = {
   crud: "crud",
   mother_id: "motherId",
   show: "show",
+  level: "levelNumber",
+  code: "code",
+  description: "description",
 };
 
 export const codingBudgetUrls = {
   getData: "Budget/GetCodingList",
+  insert: "Budget/CodingInsert",
 };
