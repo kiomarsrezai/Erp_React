@@ -10,14 +10,20 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { TextField } from "@mui/material";
 import { codingBudgetConfig } from "config/features/budget/coding-config";
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { codingBudgetApi } from "api/budget/coding-api";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
 
 interface CodingBudgetActionModalProps {
-  onDoneTask: (data: any) => void;
+  onDoneTask: () => void;
   initialData?: any;
+  level?: number;
+  motherId?: number;
 }
 
 function CodingBudgetActionModal(props: CodingBudgetActionModalProps) {
-  const { onDoneTask, initialData } = props;
+  const { onDoneTask, initialData, level, motherId } = props;
 
   // form manage
   const [checkData, setCheckData] = useState({
@@ -38,8 +44,60 @@ function CodingBudgetActionModal(props: CodingBudgetActionModalProps) {
     resolver: yupResolver(editFormSchema),
   });
 
+  const insertCodingMutation = useMutation(codingBudgetApi.insertItem, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+      onDoneTask();
+    },
+    onError: () => {
+      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+        variant: "error",
+      });
+    },
+  });
+
+  const editCodingMutation = useMutation(codingBudgetApi.editItem, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+      onDoneTask();
+    },
+    onError: () => {
+      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+        variant: "error",
+      });
+    },
+  });
+
   const onSubmitHandler = (values: any) => {
-    onDoneTask(values);
+    if (initialData) {
+      // edit
+      const data = {
+        ...values,
+        ...checkData,
+        [codingBudgetConfig.level]: level,
+        [codingBudgetConfig.id]: initialData[codingBudgetConfig.id],
+      };
+
+      editCodingMutation.mutate({
+        ...data,
+      });
+    } else {
+      // create
+      const data = {
+        ...values,
+        ...checkData,
+        [codingBudgetConfig.mother_id]: motherId,
+        [codingBudgetConfig.level]: level,
+      };
+
+      insertCodingMutation.mutate({
+        ...data,
+      });
+    }
   };
 
   return (

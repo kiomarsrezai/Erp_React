@@ -41,20 +41,12 @@ function BudgetCodingPage() {
 
   // action modal
   const [isOpenActionModal, setIsOpenActionModal] = useState(false);
-  const [titleActionModal, setTitleActionModal] = useState("");
-  const [modalFormInitialData, setModalFormInitialData] = useState(null);
-
-  const handleAddClick = () => {
-    setTitleActionModal("افزودن آیتم");
-    setModalFormInitialData(null);
-    setIsOpenActionModal(true);
-  };
 
   const handleClickEditBtn = (row: any) => {
-    setTitleActionModal("ویرایش آیتم");
-    setModalFormInitialData(row);
     setIsOpenActionModal(true);
   };
+
+  const [actionMotherId, setActionMotherId] = useState(0);
 
   // delete item
   const [isShowConfrimDelete, setIsShowConfrimDelete] = useState(false);
@@ -118,6 +110,7 @@ function BudgetCodingPage() {
   const openDeatilModal = (
     row: TableDataItemShape & GetSingleCodingItemShape
   ) => {
+    setActionMotherId(row.id || 0);
     detailCodingMutation.mutate({
       ...formData,
       [codingBudgetConfig.mother_id]: row.id,
@@ -230,6 +223,7 @@ function BudgetCodingPage() {
         <CodingBudgetModal
           formData={formData}
           data={detailCodingMutation.data?.data || []}
+          motherId={actionMotherId}
         />
       </FixedModal>
 
@@ -239,12 +233,13 @@ function BudgetCodingPage() {
         handleClose={() => setIsOpenActionModal(false)}
         maxHeight="70%"
         maxWidth="md"
-        title={titleActionModal}
+        title="ویرایش آیتم"
       >
-        <CodingBudgetActionModal
+        {/* <CodingBudgetActionModal
           onDoneTask={() => {}}
-          initialData={modalFormInitialData}
-        />
+          level={actionLevelNumber}
+          motherId={actionMotherId}
+        /> */}
       </FixedModal>
 
       {/* confrim delete */}

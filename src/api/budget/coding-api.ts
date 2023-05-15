@@ -22,4 +22,32 @@ export const codingBudgetApi = new (class extends BaseApi {
     >(url);
     return response.data;
   };
+
+  insertItem = async (formdata: any) => {
+    const url = codingBudgetUrls.insert + this.joinFilterData(formdata);
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(url);
+
+    return response.data;
+  };
+
+  editItem = async (formdata: any) => {
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      codingBudgetUrls.edit,
+      formdata
+    );
+
+    return response.data;
+  };
+
+  deleteItem = async (id: number) => {
+    const url =
+      codingBudgetUrls.delete +
+      this.joinFilterData({
+        [codingBudgetConfig.id_coding_delete]: id,
+      });
+
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(url);
+
+    return response.data;
+  };
 })();

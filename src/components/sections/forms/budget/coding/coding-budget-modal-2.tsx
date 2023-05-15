@@ -176,8 +176,10 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
         title={titleActionModal}
       >
         <CodingBudgetActionModal
-          onDoneTask={() => {}}
           initialData={modalFormInitialData}
+          level={6}
+          motherId={0}
+          onDoneTask={() => setIsOpenActionModal(false)}
         />
       </FixedModal>
 
