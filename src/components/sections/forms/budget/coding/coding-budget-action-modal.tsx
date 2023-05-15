@@ -9,16 +9,22 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextField } from "@mui/material";
 import { codingBudgetConfig } from "config/features/budget/coding-config";
+import { useState } from "react";
 
 interface CodingBudgetActionModalProps {
   onDoneTask: (data: any) => void;
-  actionType: "edit" | "create";
+  initialData?: any;
 }
 
 function CodingBudgetActionModal(props: CodingBudgetActionModalProps) {
-  const { onDoneTask, actionType } = props;
+  const { onDoneTask, initialData } = props;
 
   // form manage
+  const [checkData, setCheckData] = useState({
+    [codingBudgetConfig.crud]: initialData?.[codingBudgetConfig.crud] || false,
+    [codingBudgetConfig.show]: initialData?.[codingBudgetConfig.show] || false,
+  });
+
   const editFormSchema = yup.object({
     [codingBudgetConfig.code]: yup.string().required(),
     [codingBudgetConfig.description]: yup.string().required(),
@@ -53,6 +59,7 @@ function CodingBudgetActionModal(props: CodingBudgetActionModalProps) {
             {...register(codingBudgetConfig.code)}
             error={!!errors[codingBudgetConfig.code]}
             helperText={(errors[codingBudgetConfig.code]?.message || "") as any}
+            defaultValue={initialData?.[codingBudgetConfig.code] || ""}
             fullWidth
           />
         </Grid>
@@ -64,6 +71,7 @@ function CodingBudgetActionModal(props: CodingBudgetActionModalProps) {
             size="small"
             {...register(codingBudgetConfig.description)}
             error={!!errors[codingBudgetConfig.description]}
+            defaultValue={initialData?.[codingBudgetConfig.description] || ""}
             helperText={
               (errors[codingBudgetConfig.description]?.message || "") as any
             }
@@ -75,23 +83,23 @@ function CodingBudgetActionModal(props: CodingBudgetActionModalProps) {
           <Stack direction={"row"} spacing={1}>
             <CheckboxLabeled
               label="نمایش"
-              name={""}
-              value={false}
-              setter={() => {}}
+              name={codingBudgetConfig.show}
+              value={checkData[codingBudgetConfig.show]}
+              setter={setCheckData}
             />
 
             <CheckboxLabeled
               label="crud"
-              name={""}
-              value={false}
-              setter={() => {}}
+              name={codingBudgetConfig.crud}
+              value={checkData[codingBudgetConfig.crud]}
+              setter={setCheckData}
             />
           </Stack>
         </Grid>
 
         <Grid item lg={8}>
           <Button variant="contained" type="submit">
-            {actionType === "create" ? "افزودن" : "ویرایش"}
+            {initialData ? "ویرایش" : "افزودن"}
           </Button>
         </Grid>
       </Grid>

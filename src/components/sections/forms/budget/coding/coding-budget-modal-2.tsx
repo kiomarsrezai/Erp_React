@@ -6,19 +6,21 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import FixedModal from "components/ui/modal/fixed-modal";
 import CodingBudgetActionModal from "./coding-budget-action-modal";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+import ClearIcon from "@mui/icons-material/Clear";
+import CheckIcon from "@mui/icons-material/Check";
 
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { ReactNode, useState } from "react";
 import { GetSingleCodingItemShape } from "types/data/budget/coding-type";
-import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 interface TableDataItemShape {
   rowNumber: ReactNode;
   code: ReactNode;
   description: ReactNode;
   level: ReactNode;
-  crud: ReactNode;
-  show: ReactNode;
+  crudCell: ReactNode;
+  showCell: ReactNode;
   revenueType: ReactNode;
   actions: ((row: TableDataItemShape) => ReactNode) | ReactNode;
 }
@@ -31,20 +33,18 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
 
   // action modal
   const [isOpenActionModal, setIsOpenActionModal] = useState(false);
-  const [modalActionType, setModalActionType] = useState<"edit" | "create">(
-    "create"
-  );
   const [titleActionModal, setTitleActionModal] = useState("");
+  const [modalFormInitialData, setModalFormInitialData] = useState(null);
 
   const handleAddClick = () => {
     setTitleActionModal("افزودن آیتم");
-    setModalActionType("create");
+    setModalFormInitialData(null);
     setIsOpenActionModal(true);
   };
 
-  const handleClickEditBtn = () => {
+  const handleClickEditBtn = (row: any) => {
     setTitleActionModal("ویرایش آیتم");
-    setModalActionType("edit");
+    setModalFormInitialData(row);
     setIsOpenActionModal(true);
   };
 
@@ -91,11 +91,11 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
     },
     {
       title: "crud",
-      name: "crud",
+      name: "crudCell",
     },
     {
       title: "نمایش",
-      name: "show",
+      name: "showCell",
     },
     {
       title: "نوع درامد",
@@ -120,12 +120,23 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
         <DeleteIcon />
       </IconButton>
 
-      <IconButton size="small" color="primary" onClick={handleClickEditBtn}>
+      <IconButton
+        size="small"
+        color="primary"
+        onClick={() => handleClickEditBtn(row)}
+      >
         <EditIcon />
       </IconButton>
     </>
   );
 
+  const getDataItemIcon = (active: boolean) => {
+    if (active) {
+      return <CheckIcon color="primary" />;
+    } else {
+      return <ClearIcon color="error" />;
+    }
+  };
   const formatTableData = (
     unFormatData: GetSingleCodingItemShape[]
   ): TableDataItemShape[] => {
@@ -135,16 +146,10 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
         rowNumber: i + 1,
         code: item.code,
         description: item.description,
-        crud: (
-          <Checkbox
-            defaultChecked={item.crud}
-            size="small"
-            onChange={() => {}}
-          />
-        ),
+        crudCell: getDataItemIcon(item.crud),
         level: item.levelNumber,
         revenueType: item.codingRevenueKind,
-        show: <Checkbox defaultChecked={item.show} size="small" />,
+        showCell: getDataItemIcon(item.show),
         actions: actionButtons,
       })
     );
@@ -173,7 +178,7 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
       >
         <CodingBudgetActionModal
           onDoneTask={() => {}}
-          actionType={modalActionType}
+          initialData={modalFormInitialData}
         />
       </FixedModal>
 
