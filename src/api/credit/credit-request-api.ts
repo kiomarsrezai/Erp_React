@@ -26,9 +26,7 @@ export const creditRequestApi = new (class extends BaseApi {
       [creditRequestConfig.request_description]:
         formdata[creditRequestConfig.request_description],
       [creditRequestConfig.approximate_price]:
-        formdata[creditRequestConfig.approximate_price],
-      [creditRequestConfig.approximate_price]:
-        formdata[creditRequestConfig.approximate_price],
+        +formdata[creditRequestConfig.approximate_price],
       [creditRequestConfig.contractor]:
         formdata[creditRequestConfig.contractor],
       [creditRequestConfig.why_leave_ceremonies]:

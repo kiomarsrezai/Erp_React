@@ -71,11 +71,11 @@ function CreditRequestFormControlsButtons(
   // create request
   const createRequestMutation = useMutation(creditRequestApi.createRequest, {
     onSuccess(data) {
-      // setFormData((state: any) => ({
-      //   ...state,
-      //   [creditRequestConfig.request_date]: data.data.dateS,
-      //   [creditRequestConfig.request_number]: data.data.number,
-      // }));
+      setFormData((state: any) => ({
+        ...state,
+        [creditRequestConfig.request_date]: data.data.dateS,
+        [creditRequestConfig.request_number]: data.data.number,
+      }));
 
       setFirstStepCrossed(true);
 
@@ -124,6 +124,7 @@ function CreditRequestFormControlsButtons(
       }
     } else {
       // update request
+      alert("should update");
     }
   };
 

@@ -41,9 +41,9 @@ function RequestCreditPage() {
     [creditRequestConfig.area]: undefined,
     [creditRequestConfig.execute_departman_id]: undefined,
     [creditRequestConfig.approximate_price]: undefined,
-    [creditRequestConfig.contractor]: undefined,
+    [creditRequestConfig.contractor]: 2265,
     [creditRequestConfig.contractorName]: undefined,
-    [creditRequestConfig.why_leave_ceremonies]: undefined,
+    [creditRequestConfig.why_leave_ceremonies]: "test",
     [creditRequestConfig.request_description]: undefined,
   });
 

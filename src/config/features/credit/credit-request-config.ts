@@ -12,12 +12,11 @@ export const creditRequestConfig = {
   request_type: "requestKindId",
   contractor: "suppliersId",
   why_leave_ceremonies: "resonDoingMethod",
-  suppliersKind: "suppliersId",
   contractorName: "contractorName",
   request_description: "description",
 };
 
 export const creditRequestConfigURLS = {
-  createRequest: "RequestApi/RequestInsert",
+  createRequest: "RequestApi/RequestCreate",
   searchRequest: "RequestApi/GetRequestTableList",
 };
