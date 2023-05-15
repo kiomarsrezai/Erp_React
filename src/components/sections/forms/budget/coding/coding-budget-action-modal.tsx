@@ -118,6 +118,7 @@ function CodingBudgetActionModal(props: CodingBudgetActionModalProps) {
             error={!!errors[codingBudgetConfig.code]}
             helperText={(errors[codingBudgetConfig.code]?.message || "") as any}
             defaultValue={initialData?.[codingBudgetConfig.code] || ""}
+            autoComplete="off"
             fullWidth
           />
         </Grid>
@@ -126,6 +127,7 @@ function CodingBudgetActionModal(props: CodingBudgetActionModalProps) {
             id="description-input"
             label="توضیحات"
             variant="outlined"
+            autoComplete="off"
             size="small"
             {...register(codingBudgetConfig.description)}
             error={!!errors[codingBudgetConfig.description]}

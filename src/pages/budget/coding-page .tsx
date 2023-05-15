@@ -54,8 +54,14 @@ function BudgetCodingPage() {
     setIsOpenActionModal(true);
   };
 
+  const dataMutation = useMutation(codingBudgetApi.getData);
+
   const handleDoneActionTask = () => {
     setIsOpenActionModal(false);
+
+    dataMutation.mutate({
+      ...formData,
+    });
   };
 
   // delete item
@@ -69,6 +75,7 @@ function BudgetCodingPage() {
         variant: "success",
       });
       setIsShowConfrimDelete(null);
+      handleDoneActionTask();
     },
     onError: () => {
       enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
@@ -224,7 +231,9 @@ function BudgetCodingPage() {
     }
   );
 
-  const tableData = codingQuery.data
+  const tableData = dataMutation.data?.data
+    ? formatTableData(dataMutation.data.data)
+    : codingQuery.data
     ? formatTableData(codingQuery.data?.data)
     : [];
 

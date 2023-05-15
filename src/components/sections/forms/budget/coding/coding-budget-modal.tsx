@@ -59,8 +59,15 @@ function CodingBudgetModal(props: CodingBudgetModalProps) {
     setIsOpenActionModal(true);
   };
 
+  const dataMutation = useMutation(codingBudgetApi.getData);
+
   const handleDoneActionTask = () => {
     setIsOpenActionModal(false);
+
+    dataMutation.mutate({
+      ...formData,
+      [codingBudgetConfig.mother_id]: motherId,
+    });
   };
 
   // delete item
@@ -74,6 +81,7 @@ function CodingBudgetModal(props: CodingBudgetModalProps) {
         variant: "success",
       });
       setIsShowConfrimDelete(null);
+      handleDoneActionTask();
     },
     onError: () => {
       enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
@@ -212,7 +220,11 @@ function CodingBudgetModal(props: CodingBudgetModalProps) {
     return formatedData;
   };
 
-  const tableData = data ? formatTableData(data) : [];
+  const tableData = dataMutation.data?.data
+    ? formatTableData(dataMutation.data.data)
+    : data
+    ? formatTableData(data)
+    : [];
 
   return (
     <>

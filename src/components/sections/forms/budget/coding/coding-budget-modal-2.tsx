@@ -16,6 +16,7 @@ import { enqueueSnackbar } from "notistack";
 import { useMutation } from "@tanstack/react-query";
 import { codingBudgetApi } from "api/budget/coding-api";
 import { globalConfig } from "config/global-config";
+import { codingBudgetConfig } from "config/features/budget/coding-config";
 
 interface TableDataItemShape {
   rowNumber: ReactNode;
@@ -31,9 +32,10 @@ interface TableDataItemShape {
 interface CodingBudgetModal2Props {
   data: any[];
   motherId: number;
+  formData: any;
 }
 function CodingBudgetModal2(props: CodingBudgetModal2Props) {
-  const { data, motherId } = props;
+  const { data, motherId, formData } = props;
 
   // action modal
   const [isOpenActionModal, setIsOpenActionModal] = useState(false);
@@ -52,8 +54,15 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
     setIsOpenActionModal(true);
   };
 
+  const dataMutation = useMutation(codingBudgetApi.getData);
+
   const handleDoneActionTask = () => {
     setIsOpenActionModal(false);
+
+    dataMutation.mutate({
+      ...formData,
+      [codingBudgetConfig.mother_id]: motherId,
+    });
   };
 
   // delete item
@@ -67,6 +76,7 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
         variant: "success",
       });
       setIsShowConfrimDelete(null);
+      handleDoneActionTask();
     },
     onError: () => {
       enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
@@ -182,7 +192,11 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
     return formatedData;
   };
 
-  const tableData = data ? formatTableData(data) : [];
+  const tableData = dataMutation.data?.data
+    ? formatTableData(dataMutation.data.data)
+    : data
+    ? formatTableData(data)
+    : [];
 
   return (
     <>

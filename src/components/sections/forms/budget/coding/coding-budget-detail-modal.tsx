@@ -60,8 +60,15 @@ function CodingBudgetDetailModal(props: CodingBudgetDetailModalProps) {
     setIsOpenActionModal(true);
   };
 
+  const dataMutation = useMutation(codingBudgetApi.getData);
+
   const handleDoneActionTask = () => {
     setIsOpenActionModal(false);
+
+    dataMutation.mutate({
+      ...formData,
+      [codingBudgetConfig.mother_id]: motherId,
+    });
   };
 
   // delete item
@@ -75,6 +82,7 @@ function CodingBudgetDetailModal(props: CodingBudgetDetailModalProps) {
         variant: "success",
       });
       setIsShowConfrimDelete(null);
+      handleDoneActionTask();
     },
     onError: () => {
       enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
@@ -216,7 +224,11 @@ function CodingBudgetDetailModal(props: CodingBudgetDetailModalProps) {
     return formatedData;
   };
 
-  const tableData = data ? formatTableData(data) : [];
+  const tableData = dataMutation.data?.data
+    ? formatTableData(dataMutation.data.data)
+    : data
+    ? formatTableData(data)
+    : [];
 
   if (loading) {
     return (
@@ -244,6 +256,7 @@ function CodingBudgetDetailModal(props: CodingBudgetDetailModalProps) {
         <CodingBudgetModal2
           data={detailCodingMutation.data?.data || []}
           motherId={rowMotherId}
+          formData={formData}
         />
       </FixedModal>
 
