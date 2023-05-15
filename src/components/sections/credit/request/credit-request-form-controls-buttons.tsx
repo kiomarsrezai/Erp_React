@@ -169,6 +169,38 @@ function CreditRequestFormControlsButtons(
     setShowConfrimClearForm(false);
   };
 
+  // delete
+  const [showConfrimDeleteForm, setShowConfrimDeleteForm] = useState(false);
+
+  const handleDeleteClick = () => {
+    setShowConfrimDeleteForm(true);
+  };
+
+  const onConfrimDeleteForm = () => {
+    setShowConfrimDeleteForm(false);
+    alert("should delete");
+  };
+
+  const onCancelDeleteForm = () => {
+    setShowConfrimDeleteForm(false);
+  };
+
+  // send
+  const [showConfrimSendForm, setShowConfrimSendForm] = useState(false);
+
+  const handleSendClick = () => {
+    setShowConfrimSendForm(true);
+  };
+
+  const onConfrimSendForm = () => {
+    setShowConfrimSendForm(false);
+    alert("should send");
+  };
+
+  const onCancelSendForm = () => {
+    setShowConfrimSendForm(false);
+  };
+
   return (
     <>
       <ButtonGroup fullWidth sx={{ height: 1 }}>
@@ -200,6 +232,7 @@ function CreditRequestFormControlsButtons(
             color: grey[700],
             "&:hover": { borderColor: grey[400] },
           }}
+          onClick={handleDeleteClick}
         >
           <DeleteIcon />
         </Button>
@@ -220,6 +253,7 @@ function CreditRequestFormControlsButtons(
             color: grey[700],
             "&:hover": { borderColor: grey[400] },
           }}
+          onClick={handleSendClick}
         >
           <SendIcon />
         </Button>
@@ -244,6 +278,22 @@ function CreditRequestFormControlsButtons(
         onConfrim={onConfrimClearForm}
         open={showConfrimClearForm}
         title="خالی کردن فرم"
+      />
+
+      {/* confrim delete form */}
+      <ConfrimProcessModal
+        onCancel={onCancelDeleteForm}
+        onConfrim={onConfrimDeleteForm}
+        open={showConfrimDeleteForm}
+        title="حذف کردن درخواست"
+      />
+
+      {/* confrim send */}
+      <ConfrimProcessModal
+        onCancel={onCancelSendForm}
+        onConfrim={onConfrimSendForm}
+        open={showConfrimSendForm}
+        title="ارسال درخواست"
       />
 
       {/* loading */}

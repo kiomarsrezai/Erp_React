@@ -18,6 +18,14 @@ export const creditRequestConfig = {
   employee: "employee",
 };
 
+export const creditRequestTableConfig = {
+  requestId: "requestId",
+  quantity: "quantity",
+  price: "price",
+  description: "description",
+  others_description: "othersDescription",
+};
+
 export const creditRequestFormDefaultValue = {
   [creditRequestConfig.doing_method]: 1,
   [creditRequestConfig.request_type]: 1,

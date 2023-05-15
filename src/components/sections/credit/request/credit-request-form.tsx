@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
-import CreidtRequestFormTableTpye from "./crdit-request-form-table-type";
+import CreidtRequestTable from "./request-table/crdit-request-table";
 import YearInput from "components/sections/inputs/year-input";
 import AreaInput from "components/sections/inputs/area-input";
 import FixedModal from "components/ui/modal/fixed-modal";
@@ -439,7 +439,10 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                       بعد از ذخیره کردن درخواست میتوانید به جدول آیتم اضافه کنید
                     </Alert>
                   )}
-                  <CreidtRequestFormTableTpye />
+                  <CreidtRequestTable
+                    formData={formData}
+                    firstStepCrossed={firstStepCrossed}
+                  />
                 </Grid>
               )}
             </Paper>
