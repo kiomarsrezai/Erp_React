@@ -20,14 +20,16 @@ import { reactQueryKeys } from "config/react-query-keys-config";
 import { codingBudgetApi } from "api/budget/coding-api";
 import { GetSingleCodingItemShape } from "types/data/budget/coding-type";
 import { codingBudgetConfig } from "config/features/budget/coding-config";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
 
 interface TableDataItemShape {
   rowNumber: ReactNode;
   code: ReactNode;
   description: ReactNode;
   level: ReactNode;
-  crud: ReactNode;
-  show: ReactNode;
+  crudCell: ReactNode;
+  showCell: ReactNode;
   revenueType: ReactNode;
   actions: ((row: TableDataItemShape) => ReactNode) | ReactNode;
 }
@@ -35,28 +37,52 @@ interface TableDataItemShape {
 function BudgetCodingPage() {
   const [formData, setFormData] = useState({
     [codingBudgetConfig.BUDGET_METHOD]: undefined,
-    [codingBudgetConfig.crud]: undefined,
-    [codingBudgetConfig.show]: undefined,
   });
 
   // action modal
   const [isOpenActionModal, setIsOpenActionModal] = useState(false);
+  const [actionMotherId, setActionMotherId] = useState(0);
+  const [actionLevelNumber, setActionLevelNumber] = useState(0);
+  const [actionModaInitialData, setActionModaInitialData] = useState<any>(null);
 
-  const handleClickEditBtn = (row: any) => {
+  const handleClickEditBtn = (
+    row: TableDataItemShape & GetSingleCodingItemShape
+  ) => {
+    setActionModaInitialData(row);
+    setActionLevelNumber(row.levelNumber || 0);
+    setActionMotherId(row.id || 0);
     setIsOpenActionModal(true);
   };
 
-  const [actionMotherId, setActionMotherId] = useState(0);
+  const handleDoneActionTask = () => {
+    setIsOpenActionModal(false);
+  };
 
   // delete item
-  const [isShowConfrimDelete, setIsShowConfrimDelete] = useState(false);
+  const [isShowConfrimDelete, setIsShowConfrimDelete] = useState<null | number>(
+    null
+  );
+
+  const deleteMutation = useMutation(codingBudgetApi.deleteItem, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+      setIsShowConfrimDelete(null);
+    },
+    onError: () => {
+      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+        variant: "error",
+      });
+    },
+  });
 
   const onConfrimDelete = () => {
-    alert("shoud delete");
+    deleteMutation.mutate(isShowConfrimDelete || 0);
   };
 
   const onCancelDelete = () => {
-    setIsShowConfrimDelete(false);
+    setIsShowConfrimDelete(null);
   };
 
   // form heads
@@ -87,11 +113,11 @@ function BudgetCodingPage() {
     },
     {
       title: "crud",
-      name: "crud",
+      name: "crudCell",
     },
     {
       title: "نمایش",
-      name: "show",
+      name: "showCell",
     },
     {
       title: "نوع درامد",
@@ -126,7 +152,7 @@ function BudgetCodingPage() {
       <IconButton
         size="small"
         color="error"
-        onClick={() => setIsShowConfrimDelete(true)}
+        onClick={() => setIsShowConfrimDelete(row.id)}
       >
         <DeleteIcon />
       </IconButton>
@@ -178,10 +204,10 @@ function BudgetCodingPage() {
         rowNumber: i + 1,
         code: item.code,
         description: item.description,
-        crud: getDataItemIcon(item.crud),
+        crudCell: getDataItemIcon(item.crud),
         level: item.levelNumber,
         revenueType: item.codingRevenueKind,
-        show: getDataItemIcon(item.show),
+        showCell: getDataItemIcon(item.show),
         bgcolor: getBgColor(item.levelNumber),
         actions: actionButtons,
       })
@@ -235,18 +261,19 @@ function BudgetCodingPage() {
         maxWidth="md"
         title="ویرایش آیتم"
       >
-        {/* <CodingBudgetActionModal
-          onDoneTask={() => {}}
+        <CodingBudgetActionModal
+          onDoneTask={handleDoneActionTask}
           level={actionLevelNumber}
           motherId={actionMotherId}
-        /> */}
+          initialData={actionModaInitialData}
+        />
       </FixedModal>
 
       {/* confrim delete */}
       <ConfrimProcessModal
         onCancel={onCancelDelete}
         onConfrim={onConfrimDelete}
-        open={isShowConfrimDelete}
+        open={isShowConfrimDelete !== null}
         title="حذف آیتم"
       />
     </>
