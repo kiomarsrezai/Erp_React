@@ -101,10 +101,16 @@ function CodingBudgetModal(props: CodingBudgetModalProps) {
         rowNumber: i + 1,
         code: item.code,
         description: item.description,
-        crud: <Checkbox defaultChecked={item.crud} onChange={() => {}} />,
+        crud: (
+          <Checkbox
+            defaultChecked={item.crud}
+            size="small"
+            onChange={() => {}}
+          />
+        ),
         level: item.levelNumber,
         revenueType: item.codingRevenueKind,
-        show: <Checkbox defaultChecked={item.show} />,
+        show: <Checkbox defaultChecked={item.show} size="small" />,
         actions: actionButtons,
       })
     );
@@ -123,6 +129,7 @@ function CodingBudgetModal(props: CodingBudgetModalProps) {
         <CodingBudgetDetailModal
           data={detailCodingMutation.data?.data || []}
           loading={detailCodingMutation.isLoading}
+          formData={formData}
         />
       </Box>
     </Box>

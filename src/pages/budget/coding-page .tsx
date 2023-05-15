@@ -3,14 +3,14 @@ import FixedTable from "components/data/table/fixed-table";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import IconButton from "@mui/material/IconButton";
 import CodingBudgetForm from "components/sections/forms/budget/coding/coding-budget-form";
+import FixedModal from "components/ui/modal/fixed-modal";
+import CodingBudgetModal from "components/sections/forms/budget/coding/coding-budget-modal";
 
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { ReactNode, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { codingBudgetApi } from "api/budget/coding-api";
-import FixedModal from "components/ui/modal/fixed-modal";
-import CodingBudgetModal from "components/sections/forms/budget/coding/coding-budget-modal";
 import { GetSingleCodingItemShape } from "types/data/budget/coding-type";
 import { Checkbox } from "@mui/material";
 import { codingBudgetConfig } from "config/features/budget/coding-config";
@@ -123,10 +123,16 @@ function BudgetCodingPage() {
         rowNumber: i + 1,
         code: item.code,
         description: item.description,
-        crud: <Checkbox defaultChecked={item.crud} onChange={() => {}} />,
+        crud: (
+          <Checkbox
+            defaultChecked={item.crud}
+            size="small"
+            onChange={() => {}}
+          />
+        ),
         level: item.levelNumber,
         revenueType: item.codingRevenueKind,
-        show: <Checkbox defaultChecked={item.show} />,
+        show: <Checkbox defaultChecked={item.show} size="small" />,
         bgcolor: getBgColor(item.levelNumber),
         actions: actionButtons,
       })
