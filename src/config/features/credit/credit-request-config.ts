@@ -1,6 +1,7 @@
 import { generalFieldsConfig } from "../general-fields-config";
 
 export const creditRequestConfig = {
+  request_id: "requestId",
   execute_departman_id: "executeDepartmanId",
   year: generalFieldsConfig.YEAR,
   area: generalFieldsConfig.AREA,
@@ -14,9 +15,26 @@ export const creditRequestConfig = {
   why_leave_ceremonies: "resonDoingMethod",
   contractorName: "contractorName",
   request_description: "description",
+  employee: "employee",
+};
+
+export const creditRequestFormDefaultValue = {
+  [creditRequestConfig.doing_method]: 1,
+  [creditRequestConfig.request_type]: 1,
+  [creditRequestConfig.request_date]: "",
+  [creditRequestConfig.request_number]: "",
+  [creditRequestConfig.year]: undefined,
+  [creditRequestConfig.area]: undefined,
+  [creditRequestConfig.execute_departman_id]: undefined,
+  [creditRequestConfig.approximate_price]: 0,
+  [creditRequestConfig.contractor]: undefined,
+  [creditRequestConfig.contractorName]: undefined,
+  [creditRequestConfig.why_leave_ceremonies]: "",
+  [creditRequestConfig.request_description]: "",
 };
 
 export const creditRequestConfigURLS = {
   createRequest: "RequestApi/RequestCreate",
   searchRequest: "RequestApi/GetRequestTableList",
+  readRequest: "RequestApi/RequestRead",
 };

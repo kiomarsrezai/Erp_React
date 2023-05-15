@@ -8,6 +8,7 @@ import {
 } from "config/features/credit/credit-request-config";
 import {
   CreateCreditRequestShape,
+  CreditReadRequestShape,
   SearchCreditRequestShape,
 } from "types/data/credit/credit-request-type";
 
@@ -52,6 +53,20 @@ export const creditRequestApi = new (class extends BaseApi {
 
     const response = await clientAxios.get<
       BaseApiResponseShape<SearchCreditRequestShape[]>
+    >(url);
+    return response.data;
+  };
+
+  readRequest = async (requestId: number) => {
+    const filterData = {
+      [creditRequestConfig.request_id]: requestId,
+    };
+
+    const url =
+      creditRequestConfigURLS.readRequest + this.joinFilterData(filterData);
+
+    const response = await clientAxios.get<
+      BaseApiResponseShape<CreditReadRequestShape>
     >(url);
     return response.data;
   };

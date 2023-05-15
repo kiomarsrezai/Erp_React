@@ -97,6 +97,11 @@ function CreditRequestForm(props: CreditRequestFormProps) {
     setHaveClickedSearch(true);
   };
 
+  const onClearCallback = () => {
+    setHaveClickedSearch(false);
+    setHaveSubmitedForm(false);
+  };
+
   // ui
   const controlFormRef = useRef<HTMLDivElement>(null);
   const [paperHeight, setPaperHeight] = useState("0px");
@@ -164,6 +169,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   setFirstStepCrossed={setFirstStepCrossed}
                   onSubmitedCallback={onSubmitedCreateRequestCallback}
                   onClickedSearchCallback={onClickedSearchCallback}
+                  onClearCallback={onClearCallback}
                 />
               </Grid>
 
@@ -185,7 +191,10 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   variant="outlined"
                   fullWidth
                   size="small"
-                  value={`${userState.firstName} ${userState.lastName}`}
+                  value={
+                    formData[creditRequestConfig.employee] ||
+                    `${userState.firstName} ${userState.lastName}`
+                  }
                   disabled
                 />
               </Grid>
@@ -305,6 +314,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   label="برآورد مبلغ"
                   variant="outlined"
                   size="small"
+                  type="number"
                   value={formData[creditRequestConfig.approximate_price]}
                   name={creditRequestConfig.approximate_price}
                   onChange={handleChangeTextFields}

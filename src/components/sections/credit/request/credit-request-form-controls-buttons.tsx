@@ -14,10 +14,15 @@ import { creditRequestApi } from "api/credit/credit-request-api";
 import { useMutation } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
-import { creditRequestConfig } from "config/features/credit/credit-request-config";
+import {
+  creditRequestConfig,
+  creditRequestFormDefaultValue,
+} from "config/features/credit/credit-request-config";
 import { useState } from "react";
 import { BsEraserFill } from "react-icons/bs";
 import { checkHaveValue } from "helper/form-utils";
+import { CreditReadRequestShape } from "types/data/credit/credit-request-type";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 interface CreditRequestFormControlsButtonsProps {
   formData: any;
@@ -26,6 +31,7 @@ interface CreditRequestFormControlsButtonsProps {
   setFirstStepCrossed: (state: boolean) => void;
   onSubmitedCallback: () => void;
   onClickedSearchCallback: () => void;
+  onClearCallback: () => void;
 }
 
 function CreditRequestFormControlsButtons(
@@ -38,6 +44,7 @@ function CreditRequestFormControlsButtons(
     setFirstStepCrossed,
     onSubmitedCallback,
     onClickedSearchCallback,
+    onClearCallback,
   } = props;
 
   const userId = userStore((state) => state.id);
@@ -128,6 +135,40 @@ function CreditRequestFormControlsButtons(
     }
   };
 
+  // select request
+  const handleSelectRequest = (data: CreditReadRequestShape) => {
+    setFormData((state: any) => ({
+      ...state,
+      [creditRequestConfig.request_number]: data.number,
+      [creditRequestConfig.request_date]: data.dateS,
+      [creditRequestConfig.approximate_price]: data.estimateAmount,
+      [creditRequestConfig.doing_method]: data.doingMethodId,
+      [creditRequestConfig.request_description]: data.description,
+      [creditRequestConfig.why_leave_ceremonies]: data.resonDoingMethod,
+      [creditRequestConfig.employee]: data.employee,
+    }));
+    setIsOpenSelectRequestModal(false);
+    setFirstStepCrossed(true);
+  };
+
+  // clear
+  const [showConfrimClearForm, setShowConfrimClearForm] = useState(false);
+
+  const handleClearForm = () => {
+    setShowConfrimClearForm(true);
+  };
+
+  const onConfrimClearForm = () => {
+    setFormData(creditRequestFormDefaultValue);
+    setFirstStepCrossed(false);
+    onClearCallback();
+    setShowConfrimClearForm(false);
+  };
+
+  const onCancelClearForm = () => {
+    setShowConfrimClearForm(false);
+  };
+
   return (
     <>
       <ButtonGroup fullWidth sx={{ height: 1 }}>
@@ -168,6 +209,7 @@ function CreditRequestFormControlsButtons(
             color: grey[700],
             "&:hover": { borderColor: grey[400] },
           }}
+          onClick={handleClearForm}
         >
           <BsEraserFill fontSize={20} />
         </Button>
@@ -192,8 +234,17 @@ function CreditRequestFormControlsButtons(
       >
         <CreditSearchRequestModal
           data={searchRequestMutation.data?.data || []}
+          onDoneTask={handleSelectRequest}
         />
       </FixedModal>
+
+      {/* confrim clear form */}
+      <ConfrimProcessModal
+        onCancel={onCancelClearForm}
+        onConfrim={onConfrimClearForm}
+        open={showConfrimClearForm}
+        title="خالی کردن فرم"
+      />
 
       {/* loading */}
       <WindowLoading active={createRequestMutation.isLoading} />

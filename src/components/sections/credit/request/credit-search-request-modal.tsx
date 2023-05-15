@@ -4,7 +4,12 @@ import CheckIcon from "@mui/icons-material/Check";
 
 import { ReactNode } from "react";
 import { TableHeadShape } from "types/table-type";
-import { SearchCreditRequestShape } from "types/data/credit/credit-request-type";
+import {
+  CreditReadRequestShape,
+  SearchCreditRequestShape,
+} from "types/data/credit/credit-request-type";
+import { useMutation } from "@tanstack/react-query";
+import { creditRequestApi } from "api/credit/credit-request-api";
 
 interface TableDataItemShape {
   rowNumber: ReactNode;
@@ -18,10 +23,11 @@ interface TableDataItemShape {
 
 interface CreditSearchRequestModalProps {
   data: any[];
+  onDoneTask: (data: CreditReadRequestShape) => void;
 }
 
 function CreditSearchRequestModal(props: CreditSearchRequestModalProps) {
-  const { data } = props;
+  const { data, onDoneTask } = props;
 
   // table head
   const tableHeads: TableHeadShape = [
@@ -58,14 +64,32 @@ function CreditSearchRequestModal(props: CreditSearchRequestModalProps) {
     },
   ];
 
-  // table data
-  const handleClickCheckBtn = () => {};
+  // read request
+  const readMutation = useMutation(creditRequestApi.readRequest, {
+    onSuccess: (data) => {
+      onDoneTask(data.data);
+    },
+  });
 
-  const actionButtons = () => (
-    <IconButton color="primary" size="small" onClick={handleClickCheckBtn}>
+  // table data
+  const handleClickCheckBtn = (
+    row: TableDataItemShape & SearchCreditRequestShape
+  ) => {
+    readMutation.mutate(row.id);
+  };
+
+  const actionButtons = (
+    row: TableDataItemShape & SearchCreditRequestShape
+  ) => (
+    <IconButton
+      color="primary"
+      size="small"
+      onClick={() => handleClickCheckBtn(row)}
+    >
       <CheckIcon />
     </IconButton>
   );
+
   const formatTableData = (
     unFormatData: SearchCreditRequestShape[]
   ): TableDataItemShape[] => {

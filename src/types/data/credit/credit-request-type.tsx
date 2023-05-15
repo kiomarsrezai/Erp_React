@@ -17,3 +17,19 @@ export interface SearchCreditRequestShape {
   description: string;
   estimateAmount: number;
 }
+
+export interface CreditReadRequestShape {
+  id: number;
+  yearId: number;
+  areaId: number;
+  executeDepartmanId: number;
+  employee: string;
+  doingMethodId: number;
+  users: null;
+  number: string;
+  date: string;
+  dateS: string;
+  description: string;
+  estimateAmount: string;
+  resonDoingMethod: string;
+}

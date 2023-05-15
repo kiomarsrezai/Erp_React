@@ -8,7 +8,10 @@ import CreditRequestConfrimUsersTable from "components/sections/credit/request/c
 import CreditRequestBudgetRowTable from "components/sections/credit/request/credit-request-budget-row-table";
 
 import { useState } from "react";
-import { creditRequestConfig } from "config/features/credit/credit-request-config";
+import {
+  creditRequestConfig,
+  creditRequestFormDefaultValue,
+} from "config/features/credit/credit-request-config";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -32,20 +35,7 @@ function TabPanel(props: TabPanelProps) {
 
 function RequestCreditPage() {
   // forms
-  const [formData, setFormData] = useState({
-    [creditRequestConfig.doing_method]: 1,
-    [creditRequestConfig.request_type]: 1,
-    [creditRequestConfig.request_date]: "",
-    [creditRequestConfig.request_number]: "",
-    [creditRequestConfig.year]: undefined,
-    [creditRequestConfig.area]: undefined,
-    [creditRequestConfig.execute_departman_id]: undefined,
-    [creditRequestConfig.approximate_price]: undefined,
-    [creditRequestConfig.contractor]: 2265,
-    [creditRequestConfig.contractorName]: undefined,
-    [creditRequestConfig.why_leave_ceremonies]: "test",
-    [creditRequestConfig.request_description]: undefined,
-  });
+  const [formData, setFormData] = useState(creditRequestFormDefaultValue);
 
   const [firstStepCrossed, setFirstStepCrossed] = useState(false);
 
