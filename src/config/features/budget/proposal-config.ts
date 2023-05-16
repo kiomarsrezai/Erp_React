@@ -9,10 +9,16 @@ export const proposalConfig = {
   ID: "id",
 };
 
+export const proposalModal1EditConfig = {
+  mosavab: "mosavab",
+};
+
 export const propsalBudgetUrls = {
   getData: "Budget/FetchIndex",
   getDetail: "Budget/BudgetModal1Coding",
   getMoreDetail: "Budget/BudgetModal2Coding",
   getLevel5Detail: "Budget/BudgetModal3Area",
-  getSearch: "Budget/GetBudgetSearchCodingModal",
+  getSearchModal1: "Budget/GetBudgetSearchCodingModal",
+  insertModal1: "Budget/GetBudgetSearchCodingModal",
+  editModal1: "Budget/BudgteModal1CodingUpdate",
 };

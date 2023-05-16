@@ -3,7 +3,6 @@ import FixedTable from "components/data/table/fixed-table";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import IconButton from "@mui/material/IconButton";
 import FixedModal from "components/ui/modal/fixed-modal";
-import ProposalModal1 from "components/sections/budget/proposal/proposal-modal-1";
 import ProposalBudgetForm from "components/sections/budget/proposal/proposal-budget-form";
 
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
@@ -15,6 +14,7 @@ import { reactQueryKeys } from "config/react-query-keys-config";
 import { proposalBudgetApi } from "api/budget/proposal-api";
 import { getBgColorBudget } from "helper/get-color-utils";
 import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
+import ProposalModal1 from "components/sections/budget/proposal/modal-1/proposal-modal-1";
 
 interface TableDataItemShape {
   number: ReactNode;

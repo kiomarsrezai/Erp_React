@@ -7,6 +7,11 @@ import TextField from "@mui/material/TextField";
 import { ReactNode, useState } from "react";
 import { GetSearchPropsalModal1Data } from "types/data/budget/proposal-type";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
+import { useMutation } from "@tanstack/react-query";
+import { proposalBudgetApi } from "api/budget/proposal-api";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
+import { proposalConfig } from "config/features/budget/proposal-config";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -15,12 +20,12 @@ interface TableDataItemShape {
   actions: ((row: TableDataItemShape) => ReactNode) | ReactNode;
 }
 
-interface ProposalModal1ModalAddProos {
+interface ProposalModal1SearchProos {
   formData: any;
   data: GetSearchPropsalModal1Data[];
 }
 
-function ProposalModal1ModalAdd(props: ProposalModal1ModalAddProos) {
+function ProposalModal1Search(props: ProposalModal1SearchProos) {
   const { formData, data } = props;
 
   const [filterText, setFilterText] = useState("");
@@ -28,13 +33,14 @@ function ProposalModal1ModalAdd(props: ProposalModal1ModalAddProos) {
   const headGroup: TableHeadGroupShape = [
     {
       title: (
-        <Box display={"flex"} justifyContent={"center"}>
+        <Box sx={{ width: "80%", mx: "auto" }}>
           <TextField
             size="small"
             label="جستجو"
             value={filterText}
             variant="filled"
             onChange={(e) => setFilterText(e.target.value)}
+            fullWidth
           />
         </Box>
       ),
@@ -63,16 +69,39 @@ function ProposalModal1ModalAdd(props: ProposalModal1ModalAddProos) {
     },
   ];
 
+  // insert
+  const insertMutation = useMutation(proposalBudgetApi.insertModal1, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+    },
+    onError: () => {
+      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+        variant: "error",
+      });
+    },
+  });
   //   data
-  const handleAddClick = () => {
-    alert("should add");
+  const handleAddClick = (
+    row: GetSearchPropsalModal1Data & TableDataItemShape
+  ) => {
+    insertMutation.mutate({
+      ...formData,
+      [proposalConfig.coding]: "something",
+    });
   };
 
-  const actionButtons = () => (
-    <IconButton color="primary" size="small" onClick={handleAddClick}>
+  const actionButtons = (row: any) => (
+    <IconButton
+      color="primary"
+      size="small"
+      onClick={() => handleAddClick(row)}
+    >
       <AddIocn />
     </IconButton>
   );
+
   const formatTableData = (
     unFormatData: GetSearchPropsalModal1Data[]
   ): TableDataItemShape[] => {
@@ -87,7 +116,11 @@ function ProposalModal1ModalAdd(props: ProposalModal1ModalAddProos) {
 
   const tableData = filterText.length
     ? formatTableData(
-        data.filter((item) => item.description.includes(filterText))
+        data.filter(
+          (item) =>
+            item.description.includes(filterText) ||
+            item.code.includes(filterText)
+        )
       )
     : [];
 
@@ -102,4 +135,4 @@ function ProposalModal1ModalAdd(props: ProposalModal1ModalAddProos) {
   );
 }
 
-export default ProposalModal1ModalAdd;
+export default ProposalModal1Search;

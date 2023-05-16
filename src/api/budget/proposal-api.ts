@@ -74,11 +74,29 @@ export const proposalBudgetApi = new (class extends BaseApi {
     return response.data;
   };
 
-  getSearchData = async (formdata: any) => {
-    const url = propsalBudgetUrls.getSearch + this.joinFilterData(formdata);
+  getSearchModal1Data = async (formdata: any) => {
+    const url =
+      propsalBudgetUrls.getSearchModal1 + this.joinFilterData(formdata);
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSearchPropsalModal1Data[]>
     >(url);
+    return response.data;
+  };
+
+  // modal 1
+  insertModal1 = async (formdata: any) => {
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      propsalBudgetUrls.insertModal1,
+      formdata
+    );
+    return response.data;
+  };
+
+  editModal1 = async (formdata: any) => {
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      propsalBudgetUrls.editModal1,
+      formdata
+    );
     return response.data;
   };
 })();

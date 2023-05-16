@@ -1,10 +1,12 @@
 import FixedTable from "components/data/table/fixed-table";
-import ProposalModal2 from "./proposal-modal-2";
 import FixedModal from "components/ui/modal/fixed-modal";
 import IconButton from "@mui/material/IconButton";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import SearchIcon from "@mui/icons-material/Search";
-import ProposalModal1ModalAdd from "./proposal-modal-1-modal-add";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ProposalModal1Search from "./proposal-modal-1-search";
+import ProposalModal2 from "../proposal-modal-2";
 
 import { useMutation } from "@tanstack/react-query";
 import { proposalBudgetApi } from "api/budget/proposal-api";
@@ -16,6 +18,7 @@ import {
   GetSingleDetailProposalItemShape,
   GetSingleProposalItemShape,
 } from "types/data/budget/proposal-type";
+import ProposalModal1Edit from "./proposal-modal-1-edit";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -40,7 +43,7 @@ function ProposalModal1(props: ProposalModal1Props) {
   // insert modal
   const [isOpenInsertModal, setIsOpenInsertModal] = useState(false);
 
-  const searchMutation = useMutation(proposalBudgetApi.getSearchData);
+  const searchMutation = useMutation(proposalBudgetApi.getSearchModal1Data);
 
   const handleAddClick = () => {
     searchMutation.mutate(formData);
@@ -109,17 +112,41 @@ function ProposalModal1(props: ProposalModal1Props) {
     },
   ];
 
+  // eidt modal
+  const [isOpenEditModal, setIsOpenEditModal] = useState(false);
+  const [editModalInitialData, setEditModalInitialData] = useState({});
+  const handleEditBtnClick = (
+    row: TableDataItemShape & GetSingleProposalItemShape
+  ) => {
+    setEditModalInitialData(row);
+    setIsOpenEditModal(true);
+  };
+
   // data
   const actionButtons = (
     row: TableDataItemShape & GetSingleProposalItemShape
   ) => (
-    <IconButton
-      size="small"
-      color="primary"
-      onClick={() => handleOpenDetailModal(row)}
-    >
-      <FormatListBulletedIcon />
-    </IconButton>
+    <>
+      <IconButton size="small" color="error" onClick={() => {}}>
+        <DeleteIcon />
+      </IconButton>
+
+      <IconButton
+        size="small"
+        color="primary"
+        onClick={() => handleEditBtnClick(row)}
+      >
+        <EditIcon />
+      </IconButton>
+
+      <IconButton
+        size="small"
+        color="primary"
+        onClick={() => handleOpenDetailModal(row)}
+      >
+        <FormatListBulletedIcon />
+      </IconButton>
+    </>
   );
 
   const formatTableData = (
@@ -222,10 +249,22 @@ function ProposalModal1(props: ProposalModal1Props) {
         title="افزودن آیتم"
         loading={searchMutation.isLoading}
       >
-        <ProposalModal1ModalAdd
+        <ProposalModal1Search
           formData={formData}
           data={searchMutation.data?.data || []}
         />
+      </FixedModal>
+
+      {/* edit modal */}
+
+      <FixedModal
+        open={isOpenEditModal}
+        handleClose={() => setIsOpenEditModal(false)}
+        title="ویرایش آیتم"
+        maxHeight="70%"
+        maxWidth="md"
+      >
+        <ProposalModal1Edit initialData={editModalInitialData} />
       </FixedModal>
     </>
   );
