@@ -5,7 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import WindowLoading from "components/ui/loading/window-loading";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import FixedModal from "components/ui/modal/fixed-modal";
-import SepratorTaminModal from "./seprator-tamin-modal";
+import SepratorModal2 from "./seprator-modal-2";
 import SectionGuard from "components/auth/section-guard";
 
 import { TableHeadShape } from "types/table-type";
@@ -30,13 +30,13 @@ interface TableDataItemShape {
   actions: (row: TableDataItemShape) => ReactNode;
 }
 
-interface SepratorDetailModalProps {
+interface SepratorModal1props {
   title: string;
   formdata: any;
   data: any[];
   coding: number;
 }
-function SepratorDetailModal(props: SepratorDetailModalProps) {
+function SepratorModal1(props: SepratorModal1props) {
   const { title, formdata, data, coding } = props;
 
   const tableHeads: TableHeadShape = [
@@ -215,7 +215,7 @@ function SepratorDetailModal(props: SepratorDetailModalProps) {
         title={title}
         loading={taminEtbarMutation.isLoading}
       >
-        <SepratorTaminModal
+        <SepratorModal2
           data={taminEtbarMutation.data?.data || []}
           formData={formdata}
           coding={coding}
@@ -239,4 +239,4 @@ function SepratorDetailModal(props: SepratorDetailModalProps) {
   );
 }
 
-export default SepratorDetailModal;
+export default SepratorModal1;

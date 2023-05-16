@@ -1,10 +1,10 @@
 import AdminLayout from "components/layout/admin-layout";
 import FixedTable from "components/data/table/fixed-table";
-import SepratoeBudgetForm from "components/sections/forms/budget/seprator-budget-form";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import IconButton from "@mui/material/IconButton";
 import FixedModal from "components/ui/modal/fixed-modal";
-import SepratorDetailModal from "components/sections/forms/budget/seprator-detail-modal";
+import SepratoeBudgetForm from "components/sections/budget/seprator/seprator-budget-form";
+import SepratorModal1 from "components/sections/budget/seprator/seprator-modal-1";
 
 import { TableHeadShape } from "types/table-type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -240,7 +240,7 @@ function BudgetSepratorPage() {
         title={detailModalTitle}
         loading={sepratorDetailMutation.isLoading}
       >
-        <SepratorDetailModal
+        <SepratorModal1
           title={detailModalTitle}
           formdata={formData}
           coding={codingId}

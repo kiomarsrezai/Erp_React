@@ -1,20 +1,19 @@
 import IconButton from "@mui/material/IconButton";
 import FixedTable from "components/data/table/fixed-table";
 import LinkIcon from "@mui/icons-material/Link";
+import WindowLoading from "components/ui/loading/window-loading";
 
 import { GetSingleSepratorTaminItemShape } from "types/data/budget/seprator-type";
 import { ReactNode } from "react";
-
 import { TableHeadShape } from "types/table-type";
 import { useMutation } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
-import WindowLoading from "components/ui/loading/window-loading";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 
-interface SepratorTaminModalProps {
+interface SepratorModal2Props {
   data: any[];
   formData: any;
   coding: number;
@@ -32,7 +31,7 @@ interface TableDataItemShape {
   actions: (row: TableDataItemShape) => ReactNode;
 }
 
-function SepratorTaminModal(props: SepratorTaminModalProps) {
+function SepratorModal2(props: SepratorModal2Props) {
   const { data, formData, coding, onDoneTask } = props;
 
   // heads
@@ -157,4 +156,4 @@ function SepratorTaminModal(props: SepratorTaminModalProps) {
   );
 }
 
-export default SepratorTaminModal;
+export default SepratorModal2;
