@@ -3,12 +3,14 @@ import ProposalModal2 from "./proposal-modal-2";
 import FixedModal from "components/ui/modal/fixed-modal";
 import IconButton from "@mui/material/IconButton";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import SearchIcon from "@mui/icons-material/Search";
+import ProposalModal1ModalAdd from "./proposal-modal-1-modal-add";
 
 import { useMutation } from "@tanstack/react-query";
 import { proposalBudgetApi } from "api/budget/proposal-api";
 import { proposalConfig } from "config/features/budget/proposal-config";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
-import { TableHeadShape } from "types/table-type";
+import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { ReactNode, useState } from "react";
 import {
   GetSingleDetailProposalItemShape,
@@ -35,6 +37,27 @@ interface ProposalModal1Props {
 function ProposalModal1(props: ProposalModal1Props) {
   const { data, baseTitle, formData } = props;
 
+  // insert modal
+  const [isOpenInsertModal, setIsOpenInsertModal] = useState(false);
+
+  const searchMutation = useMutation(proposalBudgetApi.getSearchData);
+
+  const handleAddClick = () => {
+    searchMutation.mutate(formData);
+    setIsOpenInsertModal(true);
+  };
+
+  const tableHeadGroup: TableHeadGroupShape = [
+    {
+      title: (
+        <IconButton color="primary" size="small" onClick={handleAddClick}>
+          <SearchIcon />
+        </IconButton>
+      ),
+      colspan: 9,
+    },
+  ];
+  // heads
   const tableHeads: TableHeadShape = [
     {
       title: "ردیف",
@@ -167,11 +190,13 @@ function ProposalModal1(props: ProposalModal1Props) {
     <>
       <FixedTable
         heads={tableHeads}
+        headGroups={tableHeadGroup}
         data={tableData}
         footer={tableFooter}
         notFixed
       />
 
+      {/* modal 2 */}
       <FixedModal
         open={isOpenMoreDetailModal}
         handleClose={() => setIsOpenMoreDetailModal(false)}
@@ -185,6 +210,21 @@ function ProposalModal1(props: ProposalModal1Props) {
           baseTitle={modalTitle}
           formData={formData}
           codingId={codingId}
+        />
+      </FixedModal>
+
+      {/* insert modal */}
+      <FixedModal
+        open={isOpenInsertModal}
+        handleClose={() => setIsOpenInsertModal(false)}
+        maxWidth="md"
+        maxHeight="70%"
+        title="افزودن آیتم"
+        loading={searchMutation.isLoading}
+      >
+        <ProposalModal1ModalAdd
+          formData={formData}
+          data={searchMutation.data?.data || []}
         />
       </FixedModal>
     </>

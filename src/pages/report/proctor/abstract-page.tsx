@@ -1,10 +1,10 @@
 import AdminLayout from "components/layout/admin-layout";
 import FixedTable from "components/data/table/fixed-table";
-import AbstractProctorForm from "components/sections/forms/report/proctor/abstract-proctor-form";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import IconButton from "@mui/material/IconButton";
 import FixedModal from "components/ui/modal/fixed-modal";
 import AbstructModal1 from "components/sections/abstruct/abstruct-modal-1";
+import AbstractProctorForm from "components/sections/abstruct/abstract-proctor-form";
 
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { ReactNode, useState } from "react";

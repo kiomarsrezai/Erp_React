@@ -4,6 +4,8 @@ import IconButton from "@mui/material/IconButton";
 import CheckboxLabeled from "components/ui/inputs/checkbox-labeled";
 import LoadingButton from "@mui/lab/LoadingButton";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import FixedModal from "components/ui/modal/fixed-modal";
+import RevenueChartModal3 from "./revenue-chart-modal-3";
 
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { TableHeadShape } from "types/table-type";
@@ -11,8 +13,6 @@ import { revenueChartFormConfig } from "config/features/revenue-chart-config";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { revenueChartApi } from "api/report/chart-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
-import FixedModal from "components/ui/modal/fixed-modal";
-import RevenueChartModal_3 from "./revenue-chart-modal-3";
 
 type GetChartShape = [
   number[],
@@ -38,9 +38,8 @@ interface RevenueChartMoreDetailModalProps {
   formData: any;
   area: number;
 }
-function RevenueChartMoreDetailModalContent(
-  props: RevenueChartMoreDetailModalProps
-) {
+
+function RevenueChartModal2(props: RevenueChartMoreDetailModalProps) {
   const { data, formData, area } = props;
 
   // head group
@@ -271,10 +270,10 @@ function RevenueChartMoreDetailModalContent(
         maxWidth="sm"
         maxHeight="80%"
       >
-        <RevenueChartModal_3 data={modal3Mutation.data?.data || []} />
+        <RevenueChartModal3 data={modal3Mutation.data?.data || []} />
       </FixedModal>
     </>
   );
 }
 
-export default RevenueChartMoreDetailModalContent;
+export default RevenueChartModal2;

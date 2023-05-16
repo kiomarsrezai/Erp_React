@@ -2,13 +2,13 @@ import FixedTable from "components/data/table/fixed-table";
 import IconButton from "@mui/material/IconButton";
 import green from "@mui/material/colors/green";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import FixedModal from "components/ui/modal/fixed-modal";
+import RevenueChartModal2 from "./revenue-chart-modal-2";
 
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { ReactNode, useState } from "react";
 import { GetSingleDetailRevenueChartShape } from "types/data/report/chart/revenue-chart-type";
 import { TableHeadShape } from "types/table-type";
-import RevenueChartMoreDetailModalContent from "./revenue-chart-more-detail-modal-content";
-import FixedModal from "components/ui/modal/fixed-modal";
 import { revenueChartApi } from "api/report/chart-api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { revenueChartFormConfig } from "config/features/revenue-chart-config";
@@ -26,11 +26,11 @@ interface TableDataItemShape {
   actions: ((row: TableDataItemShape) => ReactNode) | ReactNode;
 }
 
-interface ChartDetailModalTableProps {
+interface RevenueChartModal1Props {
   data: any[];
   formData: any;
 }
-function RevenueChartDetailModalTable(props: ChartDetailModalTableProps) {
+function RevenueChartModal1(props: RevenueChartModal1Props) {
   const { data, formData } = props;
 
   // heads
@@ -211,7 +211,7 @@ function RevenueChartDetailModalTable(props: ChartDetailModalTableProps) {
         maxWidth="md"
         maxHeight="70%"
       >
-        <RevenueChartMoreDetailModalContent
+        <RevenueChartModal2
           data={revenueChart.data?.data || dataTableMutation.data?.data || []}
           formData={formData}
           area={areaId}
@@ -221,4 +221,4 @@ function RevenueChartDetailModalTable(props: ChartDetailModalTableProps) {
   );
 }
 
-export default RevenueChartDetailModalTable;
+export default RevenueChartModal1;

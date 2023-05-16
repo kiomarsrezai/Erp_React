@@ -44,3 +44,12 @@ export interface GetSingleLevel5DetailProposalItemShape {
   percentBud: number;
   supply: number;
 }
+
+export interface GetSearchPropsalModal1Data {
+  id: number;
+  code: string;
+  description: string;
+  levelNumber: number;
+  crud: boolean;
+  show: boolean;
+}

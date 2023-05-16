@@ -20,10 +20,10 @@ interface TableDataItemShape {
   percent: ReactNode;
 }
 
-interface RevenueChartModal_3_Props {
+interface RevenueChartModal3Props {
   data: any[];
 }
-function RevenueChartModal_3(props: RevenueChartModal_3_Props) {
+function RevenueChartModal3(props: RevenueChartModal3Props) {
   const { data } = props;
 
   // heads
@@ -120,4 +120,4 @@ function RevenueChartModal_3(props: RevenueChartModal_3_Props) {
   );
 }
 
-export default RevenueChartModal_3;
+export default RevenueChartModal3;
