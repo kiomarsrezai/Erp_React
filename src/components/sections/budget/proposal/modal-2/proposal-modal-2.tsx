@@ -26,6 +26,7 @@ interface TableDataItemShape {
   expense: ReactNode;
   edit: ReactNode;
   percent: ReactNode;
+  areaName: ReactNode;
 }
 
 interface ProposalModal2Props {
@@ -38,11 +39,14 @@ function ProposalModal2(props: ProposalModal2Props) {
   const { data, baseTitle, formData, codingId } = props;
 
   // heads
-
   const tableHeads: TableHeadShape = [
     {
       title: "ردیف",
       name: "number",
+    },
+    {
+      title: "منطقه",
+      name: "areaName",
     },
     {
       title: "کد پروژه",
@@ -103,7 +107,7 @@ function ProposalModal2(props: ProposalModal2Props) {
           <SearchIcon />
         </IconButton>
       ),
-      colspan: 8,
+      colspan: 9,
     },
   ];
 
@@ -171,19 +175,21 @@ function ProposalModal2(props: ProposalModal2Props) {
   const formatTableData = (
     unFormatData: GetSingleMoreDetailProposalItemShape[]
   ): TableDataItemShape[] => {
-    const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
-      ...item,
-      number: i + 1,
-      code: item.projectCode,
-      creditAmount: 0,
-      project_name: item.projectName,
-      mosavab: item.mosavab,
-      expense: item.expense,
-      "textcolor-expense": item.expense < 0 ? "red" : "",
-      percent: item.percentBud,
-      edit: item.edit,
-      actions: actionButtons,
-    }));
+    const formatedData: TableDataItemShape[] | any = unFormatData.map(
+      (item, i) => ({
+        ...item,
+        number: i + 1,
+        code: item.projectCode,
+        creditAmount: 0,
+        project_name: item.projectName,
+        mosavab: item.mosavab,
+        expense: item.expense,
+        "textcolor-expense": item.expense < 0 ? "red" : "",
+        percent: item.percentBud,
+        edit: item.edit,
+        actions: actionButtons,
+      })
+    );
 
     return formatedData;
   };
@@ -193,8 +199,9 @@ function ProposalModal2(props: ProposalModal2Props) {
   // footer
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
-    "colspan-number": 3,
+    "colspan-number": 4,
     code: null,
+    areaName: null,
     project_name: null,
     mosavab: sumFieldsInSingleItemData(data, "mosavab"),
     creditAmount: 0,

@@ -10,15 +10,19 @@ import { TextField } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
-import { proposalModal1EditConfig } from "config/features/budget/proposal-config";
+import {
+  proposalConfig,
+  proposalModal1EditConfig,
+} from "config/features/budget/proposal-config";
 import { proposalBudgetApi } from "api/budget/proposal-api";
 
 interface ProposalModal1EditProos {
   initialData: any;
+  onDoneTask: () => void;
 }
 
 function ProposalModal1Edit(props: ProposalModal1EditProos) {
-  const { initialData } = props;
+  const { initialData, onDoneTask } = props;
 
   // form manage
   const editFormSchema = yup.object({
@@ -38,6 +42,7 @@ function ProposalModal1Edit(props: ProposalModal1EditProos) {
       enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
         variant: "success",
       });
+      onDoneTask();
     },
     onError: () => {
       enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
@@ -47,7 +52,10 @@ function ProposalModal1Edit(props: ProposalModal1EditProos) {
   });
 
   const onSubmitHandler = (values: any) => {
-    editMutation.mutate(values);
+    editMutation.mutate({
+      ...values,
+      [proposalConfig.ID]: initialData[proposalConfig.ID],
+    });
   };
 
   return (

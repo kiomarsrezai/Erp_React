@@ -19,6 +19,6 @@ export const propsalBudgetUrls = {
   getMoreDetail: "Budget/BudgetModal2Coding",
   getLevel5Detail: "Budget/BudgetModal3Area",
   getSearchModal1: "Budget/GetBudgetSearchCodingModal",
-  insertModal1: "Budget/GetBudgetSearchCodingModal",
+  insertModal1: "Budget/BudgteModal1CodingInsert",
   editModal1: "Budget/BudgteModal1CodingUpdate",
 };

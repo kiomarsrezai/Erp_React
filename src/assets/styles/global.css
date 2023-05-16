@@ -2,6 +2,10 @@
   font-family: "IRANSans" !important;
 }
 
+:root {
+  --hover-color: 1;
+}
+
 .notistack-SnackbarContainer.z-alert {
   z-index: 110000;
 }

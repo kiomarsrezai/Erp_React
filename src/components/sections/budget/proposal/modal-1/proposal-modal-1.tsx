@@ -36,9 +36,23 @@ interface ProposalModal1Props {
   data: any[];
   baseTitle: string;
   formData: any;
+  activeCodingId: number;
 }
 function ProposalModal1(props: ProposalModal1Props) {
-  const { data, baseTitle, formData } = props;
+  const { data, baseTitle, formData, activeCodingId } = props;
+
+  // data
+  const getDataMutation = useMutation(proposalBudgetApi.getDetailData);
+
+  const handleDoneActionTask = () => {
+    getDataMutation.mutate({
+      ...formData,
+      [proposalConfig.coding]: codingId,
+    });
+
+    setIsOpenInsertModal(false);
+    setIsOpenEditModal(false);
+  };
 
   // search modal
   const [isOpenInsertModal, setIsOpenInsertModal] = useState(false);
@@ -169,7 +183,9 @@ function ProposalModal1(props: ProposalModal1Props) {
     return formatedData;
   };
 
-  const tableData = data ? formatTableData(data) : [];
+  const tableData = getDataMutation.data?.data
+    ? formatTableData(getDataMutation.data?.data)
+    : formatTableData(data);
 
   // footer
   const tableFooter: TableDataItemShape | any = {
@@ -252,6 +268,8 @@ function ProposalModal1(props: ProposalModal1Props) {
         <ProposalModal1Search
           formData={formData}
           data={searchMutation.data?.data || []}
+          codingId={activeCodingId}
+          onDoneTask={handleDoneActionTask}
         />
       </FixedModal>
 
@@ -263,7 +281,10 @@ function ProposalModal1(props: ProposalModal1Props) {
         maxHeight="70%"
         maxWidth="md"
       >
-        <ProposalModal1Edit initialData={editModalInitialData} />
+        <ProposalModal1Edit
+          initialData={editModalInitialData}
+          onDoneTask={handleDoneActionTask}
+        />
       </FixedModal>
     </>
   );

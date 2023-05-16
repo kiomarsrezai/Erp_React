@@ -401,11 +401,18 @@ function FixedTable(props: FixedTableProps) {
               {sortedData.map((row: any, i: number) => (
                 <TableRow
                   sx={{
+                    transition: "background ease 0.1s",
                     "&:last-child td, &:last-child th": { border: 0 },
                     "&:nth-of-type(even)": {
                       bgcolor: row.bgcolor || grey[200],
+                      "&:hover": {
+                        bgcolor: row.bgcolor || grey[400],
+                      },
                     },
-                    bgcolor: row.bgcolor,
+                    bgcolor: row.bgcolor || "white",
+                    "&:hover": {
+                      bgcolor: row.bgcolor || grey[400],
+                    },
                   }}
                   key={i}
                 >

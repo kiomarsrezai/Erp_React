@@ -23,10 +23,12 @@ interface TableDataItemShape {
 interface ProposalModal1SearchProos {
   formData: any;
   data: GetSearchPropsalModal1Data[];
+  codingId: number;
+  onDoneTask: () => void;
 }
 
 function ProposalModal1Search(props: ProposalModal1SearchProos) {
-  const { formData, data } = props;
+  const { formData, data, codingId, onDoneTask } = props;
 
   const [filterText, setFilterText] = useState("");
 
@@ -75,6 +77,7 @@ function ProposalModal1Search(props: ProposalModal1SearchProos) {
       enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
         variant: "success",
       });
+      onDoneTask();
     },
     onError: () => {
       enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
@@ -88,7 +91,7 @@ function ProposalModal1Search(props: ProposalModal1SearchProos) {
   ) => {
     insertMutation.mutate({
       ...formData,
-      [proposalConfig.coding]: "something",
+      [proposalConfig.coding]: codingId,
     });
   };
 
