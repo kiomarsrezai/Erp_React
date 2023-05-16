@@ -6,7 +6,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ProposalModal1Search from "./proposal-modal-1-search";
-import ProposalModal2 from "../proposal-modal-2";
+import ProposalModal2 from "../modal-2/proposal-modal-2";
+import ProposalModal1Edit from "./proposal-modal-1-edit";
 
 import { useMutation } from "@tanstack/react-query";
 import { proposalBudgetApi } from "api/budget/proposal-api";
@@ -18,7 +19,6 @@ import {
   GetSingleDetailProposalItemShape,
   GetSingleProposalItemShape,
 } from "types/data/budget/proposal-type";
-import ProposalModal1Edit from "./proposal-modal-1-edit";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -240,7 +240,7 @@ function ProposalModal1(props: ProposalModal1Props) {
         />
       </FixedModal>
 
-      {/* insert modal */}
+      {/* search modal */}
       <FixedModal
         open={isOpenInsertModal}
         handleClose={() => setIsOpenInsertModal(false)}
@@ -256,7 +256,6 @@ function ProposalModal1(props: ProposalModal1Props) {
       </FixedModal>
 
       {/* edit modal */}
-
       <FixedModal
         open={isOpenEditModal}
         handleClose={() => setIsOpenEditModal(false)}

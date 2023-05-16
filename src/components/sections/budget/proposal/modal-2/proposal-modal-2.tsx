@@ -2,15 +2,20 @@ import FixedTable from "components/data/table/fixed-table";
 import IconButton from "@mui/material/IconButton";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import FixedModal from "components/ui/modal/fixed-modal";
-import ProposalModal3 from "./proposal-modal-3";
+import ProposalModal3 from "../proposal-modal-3";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import SearchIcon from "@mui/icons-material/Search";
+import ProposalModal2Search from "./proposal-modal-2-search";
 
-import { TableHeadShape } from "types/table-type";
+import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { ReactNode, useState } from "react";
 import { GetSingleMoreDetailProposalItemShape } from "types/data/budget/proposal-type";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { proposalBudgetApi } from "api/budget/proposal-api";
 import { proposalConfig } from "config/features/budget/proposal-config";
 import { useMutation } from "@tanstack/react-query";
+import ProposalModal2Edit from "./proposal-modal-2-edit";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -31,6 +36,8 @@ interface ProposalModal2Props {
 }
 function ProposalModal2(props: ProposalModal2Props) {
   const { data, baseTitle, formData, codingId } = props;
+
+  // heads
 
   const tableHeads: TableHeadShape = [
     {
@@ -82,7 +89,25 @@ function ProposalModal2(props: ProposalModal2Props) {
     },
   ];
 
-  // modal
+  // modal search
+  const [isOpenSearchModal, setIsOpenSearchModal] = useState(false);
+
+  const tableHeadGroup: TableHeadGroupShape = [
+    {
+      title: (
+        <IconButton
+          color="primary"
+          size="small"
+          onClick={() => setIsOpenSearchModal(true)}
+        >
+          <SearchIcon />
+        </IconButton>
+      ),
+      colspan: 8,
+    },
+  ];
+
+  // modal 3
   const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
   const [modalTitle, setModalTitle] = useState<ReactNode>("");
 
@@ -106,17 +131,41 @@ function ProposalModal2(props: ProposalModal2Props) {
     setIsOpenDetailModal(true);
   };
 
+  // edit modal
+  const [isOpenEditModal, setIsOpenEditModal] = useState(false);
+  const [editModalInitialData, setEditModalInitialData] = useState({});
+  const handleEditBtnClick = (
+    row: TableDataItemShape & GetSingleMoreDetailProposalItemShape
+  ) => {
+    setEditModalInitialData(row);
+    setIsOpenEditModal(true);
+  };
+
   // data
   const actionButtons = (
     row: TableDataItemShape & GetSingleMoreDetailProposalItemShape
   ) => (
-    <IconButton
-      size="small"
-      color="primary"
-      onClick={() => handleOpenDetailModal(row)}
-    >
-      <FormatListBulletedIcon />
-    </IconButton>
+    <>
+      <IconButton size="small" color="error" onClick={() => {}}>
+        <DeleteIcon />
+      </IconButton>
+
+      <IconButton
+        size="small"
+        color="primary"
+        onClick={() => handleEditBtnClick(row)}
+      >
+        <EditIcon />
+      </IconButton>
+
+      <IconButton
+        size="small"
+        color="primary"
+        onClick={() => handleOpenDetailModal(row)}
+      >
+        <FormatListBulletedIcon />
+      </IconButton>
+    </>
   );
 
   const formatTableData = (
@@ -159,6 +208,7 @@ function ProposalModal2(props: ProposalModal2Props) {
     <>
       <FixedTable
         heads={tableHeads}
+        headGroups={tableHeadGroup}
         data={tableData}
         footer={tableFooter}
         notFixed
@@ -176,6 +226,28 @@ function ProposalModal2(props: ProposalModal2Props) {
           data={getDetailMutation.data?.data || []}
           formData={formData}
         />
+      </FixedModal>
+
+      {/* search modal */}
+      <FixedModal
+        open={isOpenSearchModal}
+        handleClose={() => setIsOpenSearchModal(false)}
+        maxWidth="sm"
+        maxHeight="80%"
+        title="افزودن آیتم"
+      >
+        <ProposalModal2Search formData={formData} />
+      </FixedModal>
+
+      {/* edit modal */}
+      <FixedModal
+        open={isOpenEditModal}
+        handleClose={() => setIsOpenEditModal(false)}
+        title="ویرایش آیتم"
+        maxHeight="80%"
+        maxWidth="sm"
+      >
+        <ProposalModal2Edit initialData={editModalInitialData} />
       </FixedModal>
     </>
   );
