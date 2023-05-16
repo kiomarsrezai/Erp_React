@@ -1,43 +1,58 @@
 import FixedTable from "components/data/table/fixed-table";
+import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import FixedModal from "components/ui/modal/fixed-modal";
-import ProposalModal3 from "../modal-3/proposal-modal-3";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import SearchIcon from "@mui/icons-material/Search";
-import ProposalModal2Search from "./proposal-modal-2-search";
-import ProposalModal2Edit from "./proposal-modal-2-edit";
+import FixedModal from "components/ui/modal/fixed-modal";
+import ProposalModal3Edit from "./proposal-modal-3-edit";
+import ProposalModal3Search from "./proposal-modal-3-search";
 
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { ReactNode, useState } from "react";
-import { GetSingleMoreDetailProposalItemShape } from "types/data/budget/proposal-type";
+import { GetSingleLevel5DetailProposalItemShape } from "types/data/budget/proposal-type";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
-import { proposalBudgetApi } from "api/budget/proposal-api";
 import { proposalConfig } from "config/features/budget/proposal-config";
 import { useMutation } from "@tanstack/react-query";
+import { areaGeneralApi } from "api/general/area-general-api";
 
 interface TableDataItemShape {
   number: ReactNode;
-  code: ReactNode;
-  project_name: ReactNode;
-  mosavab: ReactNode;
+  area: ReactNode;
   creditAmount: ReactNode;
+  mosavab: ReactNode;
   expense: ReactNode;
   edit: ReactNode;
   percent: ReactNode;
 }
 
-interface ProposalModal2Props {
+interface ProposalModal3Props {
   data: any[];
   formData: any;
-  baseTitle: ReactNode;
-  codingId: number;
 }
-function ProposalModal2(props: ProposalModal2Props) {
-  const { data, baseTitle, formData, codingId } = props;
+function ProposalModal3(props: ProposalModal3Props) {
+  const { data, formData } = props;
+
+  // search modal
+  const [isOpenSearchModal, setIsOpenSearchModal] = useState(false);
+
+  const searchMutation = useMutation(areaGeneralApi.getData);
+
+  const handleSearchClick = () => {
+    searchMutation.mutate(3);
+    setIsOpenSearchModal(true);
+  };
 
   // heads
+  const tableHeadGroup: TableHeadGroupShape = [
+    {
+      title: (
+        <IconButton color="primary" size="small" onClick={handleSearchClick}>
+          <SearchIcon />
+        </IconButton>
+      ),
+      colspan: 9,
+    },
+  ];
 
   const tableHeads: TableHeadShape = [
     {
@@ -45,13 +60,8 @@ function ProposalModal2(props: ProposalModal2Props) {
       name: "number",
     },
     {
-      title: "کد پروژه",
-      name: "code",
-    },
-    {
-      title: "نام پروژه",
-      name: "project_name",
-      align: "left",
+      title: "منطقه",
+      name: "area",
     },
     {
       title: "مصوب",
@@ -89,53 +99,11 @@ function ProposalModal2(props: ProposalModal2Props) {
     },
   ];
 
-  // modal search
-  const [isOpenSearchModal, setIsOpenSearchModal] = useState(false);
-
-  const tableHeadGroup: TableHeadGroupShape = [
-    {
-      title: (
-        <IconButton
-          color="primary"
-          size="small"
-          onClick={() => setIsOpenSearchModal(true)}
-        >
-          <SearchIcon />
-        </IconButton>
-      ),
-      colspan: 8,
-    },
-  ];
-
-  // modal 3
-  const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
-  const [modalTitle, setModalTitle] = useState<ReactNode>("");
-
-  const getDetailMutation = useMutation(proposalBudgetApi.getLevel5DetailData);
-  const handleOpenDetailModal = (
-    row: TableDataItemShape & GetSingleMoreDetailProposalItemShape
-  ) => {
-    const title = `${row.projectCode} - ${row.projectName}`;
-    setModalTitle(
-      <>
-        {baseTitle} <div>{title}</div>
-      </>
-    );
-
-    getDetailMutation.mutate({
-      ...formData,
-      [proposalConfig.coding]: codingId,
-      [proposalConfig.project]: row.projectId,
-    });
-
-    setIsOpenDetailModal(true);
-  };
-
-  // edit modal
+  // eidt modal
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const [editModalInitialData, setEditModalInitialData] = useState({});
   const handleEditBtnClick = (
-    row: TableDataItemShape & GetSingleMoreDetailProposalItemShape
+    row: TableDataItemShape & GetSingleLevel5DetailProposalItemShape
   ) => {
     setEditModalInitialData(row);
     setIsOpenEditModal(true);
@@ -143,7 +111,7 @@ function ProposalModal2(props: ProposalModal2Props) {
 
   // data
   const actionButtons = (
-    row: TableDataItemShape & GetSingleMoreDetailProposalItemShape
+    row: TableDataItemShape & GetSingleLevel5DetailProposalItemShape
   ) => (
     <>
       <IconButton size="small" color="error" onClick={() => {}}>
@@ -157,26 +125,17 @@ function ProposalModal2(props: ProposalModal2Props) {
       >
         <EditIcon />
       </IconButton>
-
-      <IconButton
-        size="small"
-        color="primary"
-        onClick={() => handleOpenDetailModal(row)}
-      >
-        <FormatListBulletedIcon />
-      </IconButton>
     </>
   );
 
   const formatTableData = (
-    unFormatData: GetSingleMoreDetailProposalItemShape[]
+    unFormatData: GetSingleLevel5DetailProposalItemShape[]
   ): TableDataItemShape[] => {
     const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
       ...item,
       number: i + 1,
-      code: item.projectCode,
+      area: item.areaNameShort,
       creditAmount: 0,
-      project_name: item.projectName,
       mosavab: item.mosavab,
       expense: item.expense,
       "textcolor-expense": item.expense < 0 ? "red" : "",
@@ -193,50 +152,38 @@ function ProposalModal2(props: ProposalModal2Props) {
   // footer
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
-    "colspan-number": 3,
-    code: null,
-    project_name: null,
-    mosavab: sumFieldsInSingleItemData(data, "mosavab"),
+    "colspan-number": 2,
+    area: null,
     creditAmount: 0,
+    mosavab: sumFieldsInSingleItemData(data, "mosavab"),
     edit: sumFieldsInSingleItemData(data, "edit"),
     percent: "",
     expense: sumFieldsInSingleItemData(data, "expense"),
-    actions: "",
   };
 
   return (
     <>
       <FixedTable
         heads={tableHeads}
-        headGroups={tableHeadGroup}
         data={tableData}
         footer={tableFooter}
+        headGroups={tableHeadGroup}
         notFixed
       />
-
-      <FixedModal
-        open={isOpenDetailModal}
-        handleClose={() => setIsOpenDetailModal(false)}
-        title={modalTitle}
-        loading={getDetailMutation.isLoading}
-        maxHeight="80%"
-        maxWidth="sm"
-      >
-        <ProposalModal3
-          data={getDetailMutation.data?.data || []}
-          formData={formData}
-        />
-      </FixedModal>
 
       {/* search modal */}
       <FixedModal
         open={isOpenSearchModal}
         handleClose={() => setIsOpenSearchModal(false)}
         maxWidth="sm"
-        maxHeight="80%"
+        maxHeight="60%"
         title="افزودن آیتم"
+        loading={searchMutation.isLoading}
       >
-        <ProposalModal2Search formData={formData} />
+        <ProposalModal3Search
+          formData={formData}
+          data={searchMutation.data?.data || []}
+        />
       </FixedModal>
 
       {/* edit modal */}
@@ -244,13 +191,13 @@ function ProposalModal2(props: ProposalModal2Props) {
         open={isOpenEditModal}
         handleClose={() => setIsOpenEditModal(false)}
         title="ویرایش آیتم"
-        maxHeight="80%"
         maxWidth="sm"
+        maxHeight="60%"
       >
-        <ProposalModal2Edit initialData={editModalInitialData} />
+        <ProposalModal3Edit initialData={editModalInitialData} />
       </FixedModal>
     </>
   );
 }
 
-export default ProposalModal2;
+export default ProposalModal3;

@@ -1,22 +1,15 @@
 import clientAxios from "config/axios-config";
 
 import { BaseApi } from "api/base-api";
-
-interface BaseApiResponseShape<T> {
-  data: T;
-}
-
-interface GetSingleSepratorItemShape {
-  id: number;
-  areaName: string;
-}
+import { BaseApiResponseShape } from "types/base-type";
+import { GetSingleAreaShape } from "types/data/general/area-type";
 
 export const areaGeneralApi = new (class extends BaseApi {
   getData = async (areaId: number) => {
     const url = `GeneralApi/AreaFetch?areaform=${areaId}`;
 
     const response = await clientAxios.get<
-      BaseApiResponseShape<GetSingleSepratorItemShape[]>
+      BaseApiResponseShape<GetSingleAreaShape[]>
     >(url);
 
     return response.data;

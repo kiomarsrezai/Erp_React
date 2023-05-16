@@ -40,7 +40,7 @@ interface ProposalModal1Props {
 function ProposalModal1(props: ProposalModal1Props) {
   const { data, baseTitle, formData } = props;
 
-  // insert modal
+  // search modal
   const [isOpenInsertModal, setIsOpenInsertModal] = useState(false);
 
   const searchMutation = useMutation(proposalBudgetApi.getSearchModal1Data);
