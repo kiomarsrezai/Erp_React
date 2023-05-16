@@ -19,6 +19,9 @@ import {
   GetSingleDetailProposalItemShape,
   GetSingleProposalItemShape,
 } from "types/data/budget/proposal-type";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -136,12 +139,51 @@ function ProposalModal1(props: ProposalModal1Props) {
     setIsOpenEditModal(true);
   };
 
+  // delete item
+  const [isShowConfrimDelete, setIsShowConfrimDelete] =
+    useState<boolean>(false);
+  const [idItemShouldDelete, setIdItemShouldDelete] = useState<number>();
+
+  const deleteMutation = useMutation(proposalBudgetApi.deleteModal1, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+      handleDoneActionTask();
+      setIsOpenEditModal(false);
+    },
+    onError: () => {
+      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+        variant: "error",
+      });
+    },
+  });
+
+  const onConfrimDelete = () => {
+    if (idItemShouldDelete) deleteMutation.mutate(idItemShouldDelete);
+  };
+
+  const onCancelDelete = () => {
+    setIsShowConfrimDelete(false);
+  };
+
+  const handleDeleteBtnClick = (
+    row: TableDataItemShape & GetSingleProposalItemShape
+  ) => {
+    setIdItemShouldDelete(row.id);
+    setIsShowConfrimDelete(true);
+  };
+
   // data
   const actionButtons = (
     row: TableDataItemShape & GetSingleProposalItemShape
   ) => (
     <>
-      <IconButton size="small" color="error" onClick={() => {}}>
+      <IconButton
+        size="small"
+        color="error"
+        onClick={() => handleDeleteBtnClick(row)}
+      >
         <DeleteIcon />
       </IconButton>
 
@@ -286,6 +328,14 @@ function ProposalModal1(props: ProposalModal1Props) {
           onDoneTask={handleDoneActionTask}
         />
       </FixedModal>
+
+      {/* confrim delete */}
+      <ConfrimProcessModal
+        onCancel={onCancelDelete}
+        onConfrim={onConfrimDelete}
+        open={isShowConfrimDelete}
+        title="حذف آیتم"
+      />
     </>
   );
 }

@@ -21,4 +21,5 @@ export const propsalBudgetUrls = {
   getSearchModal1: "Budget/GetBudgetSearchCodingModal",
   insertModal1: "Budget/BudgteModal1CodingInsert",
   editModal1: "Budget/BudgteModal1CodingUpdate",
+  deleteModal1: "Budget/BudgteModal1CodingDelete",
 };

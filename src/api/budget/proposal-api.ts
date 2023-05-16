@@ -99,4 +99,10 @@ export const proposalBudgetApi = new (class extends BaseApi {
     );
     return response.data;
   };
+
+  deleteModal1 = async (id: number) => {
+    const url = propsalBudgetUrls.deleteModal1 + id;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(url);
+    return response.data;
+  };
 })();
