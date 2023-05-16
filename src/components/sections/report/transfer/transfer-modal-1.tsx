@@ -22,13 +22,13 @@ interface TableDataItemShape {
   actions: (row: any) => ReactNode;
 }
 
-interface TransferModalTableProps {
+interface TransferModal1Props {
   data: any[];
   areaId: number;
   onDoneTask: () => void;
 }
 
-function TransferModalTable(props: TransferModalTableProps) {
+function TransferModal1(props: TransferModal1Props) {
   const { data, areaId, onDoneTask } = props;
 
   // heads
@@ -136,4 +136,4 @@ function TransferModalTable(props: TransferModalTableProps) {
   );
 }
 
-export default TransferModalTable;
+export default TransferModal1;

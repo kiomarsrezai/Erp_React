@@ -3,8 +3,8 @@ import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import ColorizeIcon from "@mui/icons-material/Colorize";
 import FixedModal from "components/ui/modal/fixed-modal";
-import AbstructRowModalTable from "./abstruct-row-modal-table";
 import CastleIcon from "@mui/icons-material/Castle";
+import AbstructModal2 from "./abstruct-modal-2";
 
 import { ReactNode, useState } from "react";
 import { GetSingleAbstructProctorModalDataItemShape } from "types/data/report/abstruct-proctor-type";
@@ -27,14 +27,14 @@ interface TableDataItemShape {
   actions: (row: any) => ReactNode;
 }
 
-interface AbstructModalTableProps {
+interface AbstructModal1Props {
   data: any[];
   title: string;
   formdata: any;
   recordId: number;
 }
 
-function AbstructModalTable(props: AbstructModalTableProps) {
+function AbstructModal1(props: AbstructModal1Props) {
   const { data, title, formdata, recordId } = props;
 
   // table heads
@@ -242,11 +242,13 @@ function AbstructModalTable(props: AbstructModalTableProps) {
         handleClose={handleCloseBudgetRowModal}
         title={`${title} - ${areaName}`}
         loading={dataModalRowMutation.isLoading}
+        maxHeight="70%"
+        maxWidth="md"
       >
-        <AbstructRowModalTable data={dataModalRowMutation.data?.data || []} />
+        <AbstructModal2 data={dataModalRowMutation.data?.data || []} />
       </FixedModal>
     </>
   );
 }
 
-export default AbstructModalTable;
+export default AbstructModal1;

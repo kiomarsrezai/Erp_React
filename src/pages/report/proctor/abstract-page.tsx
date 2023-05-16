@@ -4,7 +4,7 @@ import AbstractProctorForm from "components/sections/forms/report/proctor/abstra
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import IconButton from "@mui/material/IconButton";
 import FixedModal from "components/ui/modal/fixed-modal";
-import AbstructModalTable from "components/sections/abstruct/abstruct-modal-table";
+import AbstructModal1 from "components/sections/abstruct/abstruct-modal-1";
 
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { ReactNode, useState } from "react";
@@ -252,7 +252,7 @@ function ReportProctorAbstructPage() {
         loading={dataModalMutation.isLoading}
         title={titleModal}
       >
-        <AbstructModalTable
+        <AbstructModal1
           data={dataModalMutation.data?.data || []}
           title={titleModal}
           formdata={formData}

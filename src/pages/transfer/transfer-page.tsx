@@ -1,6 +1,5 @@
 import AdminLayout from "components/layout/admin-layout";
 import FixedTable from "components/data/table/fixed-table";
-import TransferForm from "components/sections/forms/transfer-form";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import grey from "@mui/material/colors/grey";
@@ -8,9 +7,10 @@ import BalanceIcon from "@mui/icons-material/Balance";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FixedModal from "components/ui/modal/fixed-modal";
-import TransferModalTable from "components/sections/transfer/transfer-modal-table";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import WindowLoading from "components/ui/loading/window-loading";
+import TransferForm from "components/sections/report/transfer/transfer-form";
+import TransferModal1 from "components/sections/report/transfer/transfer-modal-1";
 
 import { useSnackbar } from "notistack";
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
@@ -268,7 +268,7 @@ function TransferPage() {
         loading={dataTableMutation.isLoading}
         title={modalTitle}
       >
-        <TransferModalTable
+        <TransferModal1
           data={dataTableMutation.data?.data || []}
           areaId={formData[transferConfig.AREA] || 0}
           onDoneTask={handleDoneModalTask}

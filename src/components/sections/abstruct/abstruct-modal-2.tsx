@@ -1,4 +1,5 @@
 import FixedTable from "components/data/table/fixed-table";
+
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { ReactNode } from "react";
 import { GetSingleAbstructProctorModalRowDataItemShape } from "types/data/report/abstruct-proctor-type";
@@ -13,11 +14,11 @@ interface TableDataItemShape {
   jazb: ReactNode;
 }
 
-interface AbstructRowModalTableProps {
+interface AbstructModal2Props {
   data: any[];
 }
 
-function AbstructRowModalTable(props: AbstructRowModalTableProps) {
+function AbstructModal2(props: AbstructModal2Props) {
   const { data } = props;
 
   // table heads
@@ -96,4 +97,4 @@ function AbstructRowModalTable(props: AbstructRowModalTableProps) {
   );
 }
 
-export default AbstructRowModalTable;
+export default AbstructModal2;
