@@ -29,12 +29,12 @@ interface TableDataItemShape {
   actions: ((row: TableDataItemShape) => ReactNode) | ReactNode;
 }
 
-interface CodingBudgetModal2Props {
+interface CodingBudgetModal3Props {
   data: any[];
   motherId: number;
   formData: any;
 }
-function CodingBudgetModal2(props: CodingBudgetModal2Props) {
+function CodingBudgetModal3(props: CodingBudgetModal3Props) {
   const { data, motherId, formData } = props;
 
   // action modal
@@ -234,4 +234,4 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
   );
 }
 
-export default CodingBudgetModal2;
+export default CodingBudgetModal3;

@@ -2,16 +2,16 @@ import AdminLayout from "components/layout/admin-layout";
 import FixedTable from "components/data/table/fixed-table";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import IconButton from "@mui/material/IconButton";
-import CodingBudgetForm from "components/sections/forms/budget/coding/coding-budget-form";
 import FixedModal from "components/ui/modal/fixed-modal";
-import CodingBudgetModal from "components/sections/forms/budget/coding/coding-budget-modal";
 import Stack from "@mui/material/Stack";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CodingBudgetActionModal from "components/sections/forms/budget/coding/coding-budget-action-modal";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import ClearIcon from "@mui/icons-material/Clear";
 import CheckIcon from "@mui/icons-material/Check";
+import CodingBudgetForm from "components/sections/budget/coding/coding-budget-form";
+import CodingBudgetActionModal from "components/sections/budget/coding/coding-budget-action-modal";
+import CodingBudgetModal1 from "components/sections/budget/coding/coding-budget-modal-1";
 
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { ReactNode, useState } from "react";
@@ -255,7 +255,7 @@ function BudgetCodingPage() {
         maxHeight="90%"
         loading={detailCodingMutation.isLoading}
       >
-        <CodingBudgetModal
+        <CodingBudgetModal1
           formData={formData}
           data={detailCodingMutation.data?.data || []}
           motherId={actionMotherId}

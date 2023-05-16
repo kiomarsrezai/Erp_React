@@ -1,18 +1,17 @@
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import FixedTable from "components/data/table/fixed-table";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import CircularProgress from "@mui/material/CircularProgress";
+import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import Stack from "@mui/material/Stack";
-import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
 import FixedModal from "components/ui/modal/fixed-modal";
-import CodingBudgetModal2 from "./coding-budget-modal-2";
-import CodingBudgetActionModal from "./coding-budget-action-modal";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+import CodingBudgetActionModal from "./coding-budget-action-modal";
 import ClearIcon from "@mui/icons-material/Clear";
 import CheckIcon from "@mui/icons-material/Check";
+import CodingBudgetModal2 from "./coding-budget-modal-2";
 
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { ReactNode, useState } from "react";
@@ -20,8 +19,8 @@ import { GetSingleCodingItemShape } from "types/data/budget/coding-type";
 import { codingBudgetApi } from "api/budget/coding-api";
 import { useMutation } from "@tanstack/react-query";
 import { codingBudgetConfig } from "config/features/budget/coding-config";
-import { globalConfig } from "config/global-config";
 import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
 
 interface TableDataItemShape {
   rowNumber: ReactNode;
@@ -34,14 +33,13 @@ interface TableDataItemShape {
   actions: ((row: TableDataItemShape) => ReactNode) | ReactNode;
 }
 
-interface CodingBudgetDetailModalProps {
+interface CodingBudgetModal1Props {
   data: any[];
-  loading: boolean;
   formData: any;
   motherId: number;
 }
-function CodingBudgetDetailModal(props: CodingBudgetDetailModalProps) {
-  const { data, loading, formData, motherId } = props;
+function CodingBudgetModal1(props: CodingBudgetModal1Props) {
+  const { data, formData, motherId } = props;
 
   // action modal
   const [isOpenActionModal, setIsOpenActionModal] = useState(false);
@@ -72,7 +70,7 @@ function CodingBudgetDetailModal(props: CodingBudgetDetailModalProps) {
   };
 
   // delete item
-  const [isShowConfrimDelete, setIsShowConfrimDelete] = useState<number | null>(
+  const [isShowConfrimDelete, setIsShowConfrimDelete] = useState<null | number>(
     null
   );
 
@@ -148,13 +146,11 @@ function CodingBudgetDetailModal(props: CodingBudgetDetailModalProps) {
     },
   ];
 
-  // modal
-  const [isOpenModal, setIsOpenModal] = useState(false);
+  // more detail
+  const detailCodingMutation = useMutation(codingBudgetApi.getData);
   const [rowMotherId, setRowMotherId] = useState(0);
 
-  const detailCodingMutation = useMutation(codingBudgetApi.getData);
-
-  const handleListClick = (
+  const openMoreDetail = (
     row: TableDataItemShape & GetSingleCodingItemShape
   ) => {
     setRowMotherId(row.id);
@@ -162,7 +158,6 @@ function CodingBudgetDetailModal(props: CodingBudgetDetailModalProps) {
       ...formData,
       [codingBudgetConfig.mother_id]: row.id,
     });
-    setIsOpenModal(true);
   };
 
   // data
@@ -189,9 +184,9 @@ function CodingBudgetDetailModal(props: CodingBudgetDetailModalProps) {
       <IconButton
         size="small"
         color="primary"
-        onClick={() => handleListClick(row)}
+        onClick={() => openMoreDetail(row)}
       >
-        <FormatListBulletedIcon />
+        <ArrowCircleLeftIcon />
       </IconButton>
     </Stack>
   );
@@ -230,35 +225,26 @@ function CodingBudgetDetailModal(props: CodingBudgetDetailModalProps) {
     ? formatTableData(data)
     : [];
 
-  if (loading) {
-    return (
-      <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
-        <CircularProgress color="inherit" />
-      </Box>
-    );
-  }
-
   return (
     <>
-      <FixedTable
-        data={tableData}
-        heads={tableHeads}
-        headGroups={headGroup}
-        notFixed
-      />
-
-      {/* modal 2 */}
-      <FixedModal
-        open={isOpenModal}
-        loading={detailCodingMutation.isLoading}
-        handleClose={() => setIsOpenModal(false)}
-      >
-        <CodingBudgetModal2
-          data={detailCodingMutation.data?.data || []}
-          motherId={rowMotherId}
-          formData={formData}
-        />
-      </FixedModal>
+      <Box display={"flex"}>
+        <Box sx={{ width: "50%", borderRight: 1, borderColor: "grey.400" }}>
+          <FixedTable
+            data={tableData}
+            heads={tableHeads}
+            headGroups={headGroup}
+            notFixed
+          />
+        </Box>
+        <Box sx={{ width: "50%" }}>
+          <CodingBudgetModal2
+            data={detailCodingMutation.data?.data || []}
+            loading={detailCodingMutation.isLoading}
+            formData={formData}
+            motherId={rowMotherId}
+          />
+        </Box>
+      </Box>
 
       {/* action modal */}
       <FixedModal
@@ -271,8 +257,8 @@ function CodingBudgetDetailModal(props: CodingBudgetDetailModalProps) {
         <CodingBudgetActionModal
           onDoneTask={handleDoneActionTask}
           initialData={modalFormInitialData}
+          level={4}
           motherId={motherId}
-          level={5}
         />
       </FixedModal>
 
@@ -287,4 +273,4 @@ function CodingBudgetDetailModal(props: CodingBudgetDetailModalProps) {
   );
 }
 
-export default CodingBudgetDetailModal;
+export default CodingBudgetModal1;
