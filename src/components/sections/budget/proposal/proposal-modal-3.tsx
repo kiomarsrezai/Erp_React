@@ -16,11 +16,11 @@ interface TableDataItemShape {
   percent: ReactNode;
 }
 
-interface ProposalLevel5DetailModalProps {
+interface ProposalModal3Props {
   data: any[];
   formData: any;
 }
-function ProposalLevel5DetailModal(props: ProposalLevel5DetailModalProps) {
+function ProposalModal3(props: ProposalModal3Props) {
   const { data, formData } = props;
 
   const tableHeads: TableHeadShape = [
@@ -107,4 +107,4 @@ function ProposalLevel5DetailModal(props: ProposalLevel5DetailModalProps) {
   );
 }
 
-export default ProposalLevel5DetailModal;
+export default ProposalModal3;

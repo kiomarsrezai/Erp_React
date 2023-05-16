@@ -1,10 +1,10 @@
 import AdminLayout from "components/layout/admin-layout";
 import FixedTable from "components/data/table/fixed-table";
-import ProposalBudgetForm from "components/sections/forms/budget/proposal/proposal-budget-form";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import IconButton from "@mui/material/IconButton";
 import FixedModal from "components/ui/modal/fixed-modal";
-import ProposalDetailModal from "components/sections/forms/budget/proposal/proposal-detail-modal";
+import ProposalModal1 from "components/sections/budget/proposal/proposal-modal-1";
+import ProposalBudgetForm from "components/sections/budget/proposal/proposal-budget-form";
 
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { ReactNode, useState } from "react";
@@ -232,7 +232,7 @@ function BudgetProposalPage() {
         loading={getDetailMutation.isLoading}
         title={modalTitle}
       >
-        <ProposalDetailModal
+        <ProposalModal1
           data={getDetailMutation.data?.data || []}
           baseTitle={modalTitle}
           formData={formData}
