@@ -310,7 +310,7 @@ function ProposalModal1(props: ProposalModal1Props) {
         <ProposalModal1Search
           formData={formData}
           data={searchMutation.data?.data || []}
-          codingId={activeCodingId}
+          codingId={codingId}
           onDoneTask={handleDoneActionTask}
         />
       </FixedModal>

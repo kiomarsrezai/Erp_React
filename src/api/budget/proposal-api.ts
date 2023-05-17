@@ -5,6 +5,7 @@ import { BaseApiResponseShape } from "types/base-type";
 
 import {
   GetSearchPropsalModal1Data,
+  GetSearchPropsalModal2Data,
   GetSingleLevel5DetailProposalItemShape,
   GetSingleMoreDetailProposalItemShape,
   GetSingleProposalItemShape,
@@ -74,6 +75,7 @@ export const proposalBudgetApi = new (class extends BaseApi {
     return response.data;
   };
 
+  // modal 1
   getSearchModal1Data = async (formdata: any) => {
     const url =
       propsalBudgetUrls.getSearchModal1 + this.joinFilterData(formdata);
@@ -83,7 +85,6 @@ export const proposalBudgetApi = new (class extends BaseApi {
     return response.data;
   };
 
-  // modal 1
   insertModal1 = async (formdata: any) => {
     const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
       propsalBudgetUrls.insertModal1,
@@ -103,6 +104,24 @@ export const proposalBudgetApi = new (class extends BaseApi {
   deleteModal1 = async (id: number) => {
     const url = propsalBudgetUrls.deleteModal1 + id;
     const response = await clientAxios.post<BaseApiResponseShape<boolean>>(url);
+    return response.data;
+  };
+
+  // modal 2
+  getSearchModal2Data = async (formdata: any) => {
+    const url =
+      propsalBudgetUrls.getSearchModal2 + this.joinFilterData(formdata);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSearchPropsalModal2Data[]>
+    >(url);
+    return response.data;
+  };
+
+  insertModal2 = async (formdata: any) => {
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      propsalBudgetUrls.insertModal2,
+      formdata
+    );
     return response.data;
   };
 })();

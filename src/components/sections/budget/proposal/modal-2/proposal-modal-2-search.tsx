@@ -4,8 +4,11 @@ import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 
-import { ReactNode, useState } from "react";
-import { GetSearchPropsalModal1Data } from "types/data/budget/proposal-type";
+import { ReactNode, useEffect, useState } from "react";
+import {
+  GetSearchPropsalModal1Data,
+  GetSearchPropsalModal2Data,
+} from "types/data/budget/proposal-type";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { useMutation } from "@tanstack/react-query";
 import { proposalBudgetApi } from "api/budget/proposal-api";
@@ -16,17 +19,19 @@ import AreaInput from "components/sections/inputs/area-input";
 
 interface TableDataItemShape {
   number: ReactNode;
-  code: ReactNode;
-  description: ReactNode;
+  projectCode: ReactNode;
+  projectName: ReactNode;
   actions: ((row: TableDataItemShape) => ReactNode) | ReactNode;
 }
 
 interface ProposalModal2SearchProos {
   formData: any;
+  codingId: number;
+  onDoneTask: () => void;
 }
 
 function ProposalModal2Search(props: ProposalModal2SearchProos) {
-  const { formData } = props;
+  const { formData, codingId, onDoneTask } = props;
 
   const [modalFormData, setModalFormData] = useState({
     [proposalConfig.AREA]: undefined,
@@ -40,7 +45,6 @@ function ProposalModal2Search(props: ProposalModal2SearchProos) {
             setter={setModalFormData}
             value={modalFormData[proposalConfig.AREA]}
             level={3}
-            // showError={haveSubmitedForm}
           />
         </Box>
       ),
@@ -56,11 +60,11 @@ function ProposalModal2Search(props: ProposalModal2SearchProos) {
     },
     {
       title: "کد پروژه",
-      name: "code",
+      name: "projectCode",
     },
     {
       title: "نام پروژه",
-      name: "description",
+      name: "projectName",
       align: "left",
     },
     {
@@ -70,11 +74,12 @@ function ProposalModal2Search(props: ProposalModal2SearchProos) {
   ];
 
   // insert
-  const insertMutation = useMutation(proposalBudgetApi.insertModal1, {
+  const insertMutation = useMutation(proposalBudgetApi.insertModal2, {
     onSuccess: () => {
       enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
         variant: "success",
       });
+      onDoneTask();
     },
     onError: () => {
       enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
@@ -82,41 +87,54 @@ function ProposalModal2Search(props: ProposalModal2SearchProos) {
       });
     },
   });
+
+  const handleAddClick = (
+    row: GetSearchPropsalModal1Data & TableDataItemShape
+  ) => {
+    insertMutation.mutate({
+      [proposalConfig.AREA]: modalFormData[proposalConfig.AREA],
+      [proposalConfig.coding]: codingId,
+      [proposalConfig.YEAR]: formData[proposalConfig.YEAR],
+      id: row.id,
+    });
+  };
+
   //   data
-  // const handleAddClick = (
-  //   row: GetSearchPropsalModal1Data & TableDataItemShape
-  // ) => {
-  //   insertMutation.mutate({
-  //     ...formData,
-  //     [proposalConfig.coding]: "something",
-  //   });
-  // };
+  const searchMutation = useMutation(proposalBudgetApi.getSearchModal2Data);
 
-  // const actionButtons = (row: any) => (
-  //   <IconButton
-  //     color="primary"
-  //     size="small"
-  //     onClick={() => handleAddClick(row)}
-  //   >
-  //     <AddIocn />
-  //   </IconButton>
-  // );
+  useEffect(() => {
+    searchMutation.mutate({ ...formData, ...modalFormData });
+  }, [modalFormData]);
 
-  // const formatTableData = (
-  //   unFormatData: GetSearchPropsalModal1Data[]
-  // ): TableDataItemShape[] => {
-  //   const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
-  //     ...item,
-  //     number: i + 1,
-  //     actions: actionButtons,
-  //   }));
+  const actionButtons = (row: any) => (
+    <IconButton
+      color="primary"
+      size="small"
+      onClick={() => handleAddClick(row)}
+    >
+      <AddIocn />
+    </IconButton>
+  );
 
-  //   return formatedData;
-  // };
+  const formatTableData = (
+    unFormatData: GetSearchPropsalModal2Data[]
+  ): TableDataItemShape[] => {
+    const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
+      ...item,
+      number: i + 1,
+      actions: actionButtons,
+    }));
+
+    return formatedData;
+  };
+
+  const tableData = searchMutation.data?.data
+    ? formatTableData(searchMutation.data.data)
+    : [];
 
   return (
     <FixedTable
-      data={[]}
+      data={tableData}
       heads={tableHeads}
       headGroups={headGroup}
       enableVirtual

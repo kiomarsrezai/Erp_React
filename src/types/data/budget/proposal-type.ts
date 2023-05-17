@@ -53,3 +53,9 @@ export interface GetSearchPropsalModal1Data {
   crud: boolean;
   show: boolean;
 }
+
+export interface GetSearchPropsalModal2Data {
+  id: number;
+  projectCode: string;
+  projectName: string;
+}

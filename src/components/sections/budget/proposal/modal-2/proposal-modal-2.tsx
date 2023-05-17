@@ -96,6 +96,16 @@ function ProposalModal2(props: ProposalModal2Props) {
   // modal search
   const [isOpenSearchModal, setIsOpenSearchModal] = useState(false);
 
+  const dataMutation = useMutation(proposalBudgetApi.getMoreDetailData);
+
+  const handleDoneModal2Task = () => {
+    dataMutation.mutate({
+      ...formData,
+      [proposalConfig.coding]: codingId,
+    });
+    setIsOpenSearchModal(false);
+  };
+
   const tableHeadGroup: TableHeadGroupShape = [
     {
       title: (
@@ -194,7 +204,9 @@ function ProposalModal2(props: ProposalModal2Props) {
     return formatedData;
   };
 
-  const tableData = data ? formatTableData(data) : [];
+  const tableData = dataMutation.data?.data
+    ? formatTableData(dataMutation.data.data)
+    : formatTableData(data);
 
   // footer
   const tableFooter: TableDataItemShape | any = {
@@ -243,7 +255,11 @@ function ProposalModal2(props: ProposalModal2Props) {
         maxHeight="80%"
         title="افزودن آیتم"
       >
-        <ProposalModal2Search formData={formData} />
+        <ProposalModal2Search
+          formData={formData}
+          codingId={codingId}
+          onDoneTask={handleDoneModal2Task}
+        />
       </FixedModal>
 
       {/* edit modal */}
