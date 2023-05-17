@@ -104,8 +104,41 @@ function RevenueChartForm(props: RevenueChartFormProps) {
   const dataTableMutation = useMutation(revenueChartApi.chartDetail);
 
   const handleClickDetailValues = () => {
-    dataTableMutation.mutate(formData);
-    handleOpenModal();
+    // permission
+    const havePermission = checkHavePermission(
+      userLicenses,
+      [
+        accessNamesConfig.FIELD_YEAR,
+        accessNamesConfig.FIELD_BUDGET_METHOD,
+        accessNamesConfig.FIELD_ORGAN,
+      ],
+      accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE
+    );
+
+    if (!havePermission) {
+      return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
+        variant: "error",
+      });
+    }
+
+    setHaveSubmitedForm(true);
+
+    if (
+      checkHaveValue(formData, [
+        revenueChartFormConfig.YEAR,
+        revenueChartFormConfig.BUDGET_METHOD,
+        revenueChartFormConfig.ORGAN,
+      ])
+    ) {
+      if (
+        !(formData[revenueChartFormConfig.ORGAN] === 4) &&
+        !formData[revenueChartFormConfig.CENTER]
+      ) {
+        return;
+      }
+      dataTableMutation.mutate(formData);
+      handleOpenModal();
+    }
   };
 
   return (

@@ -51,7 +51,7 @@ function SuppliersPage() {
 
   const formatTableData = (
     unFormatData: SuppliersShape[]
-  ): (SuppliersShape & TableDataItemShape)[] => {
+  ): (SuppliersShape & TableDataItemShape)[] | any => {
     const formatedData: (SuppliersShape & TableDataItemShape)[] =
       unFormatData.map((item, i) => ({
         ...item,

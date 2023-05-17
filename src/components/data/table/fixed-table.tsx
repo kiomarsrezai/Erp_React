@@ -43,50 +43,6 @@ const formatDataCell = (
   return dataCell;
 };
 
-const VirtuosoTableComponents: TableComponents = {
-  Scroller: React.forwardRef<HTMLDivElement>((props, ref) => (
-    <TableContainer component={Paper} {...props} ref={ref} />
-  )),
-  Table: (props) => (
-    <Table
-      {...props}
-      sx={{ borderCollapse: "separate", tableLayout: "fixed" }}
-    />
-  ),
-  TableHead,
-  TableFoot: (props: any) => (
-    <TableFooter sx={{ bgcolor: grey[200], position: "sticky", bottom: 0 }}>
-      {props.children}
-    </TableFooter>
-  ),
-  TableRow: ({ item: row, ...props }: any) => (
-    <TableRow
-      sx={{
-        transition: "background ease 0.1s",
-        "&:last-child td, &:last-child th": { border: 0 },
-        "&:nth-of-type(even)": {
-          bgcolor: row.bgcolor || grey[200],
-          "&:hover": {
-            "--hover-color": "0.6",
-            bgcolor:
-              row.bgcolor === "#fff" ? grey[200] : row.bgcolor || grey[300],
-          },
-        },
-        bgcolor: row.bgcolor || "white",
-        "&:hover": {
-          "--hover-color": "0.6",
-          bgcolor:
-            row.bgcolor === "#fff" ? grey[200] : row.bgcolor || grey[300],
-        },
-      }}
-      {...props}
-    />
-  ),
-  TableBody: React.forwardRef<HTMLTableSectionElement>((props, ref) => (
-    <TableBody {...props} ref={ref} />
-  )),
-};
-
 interface FixedTableProps {
   topHeadGroups?: TableHeadGroupShape;
   headGroups?: TableHeadGroupShape;
@@ -97,6 +53,7 @@ interface FixedTableProps {
   notFixed?: boolean;
   canSort?: boolean;
   enableVirtual?: boolean;
+  tableLayout?: "fixed" | "auto";
 }
 function FixedTable(props: FixedTableProps) {
   const {
@@ -109,7 +66,54 @@ function FixedTable(props: FixedTableProps) {
     canSort,
     enableVirtual,
     bottomFooter,
+    tableLayout,
   } = props;
+
+  const VirtuosoTableComponents: TableComponents = {
+    Scroller: React.forwardRef<HTMLDivElement>((props, ref) => (
+      <TableContainer component={Paper} {...props} ref={ref} />
+    )),
+    Table: (props) => (
+      <Table
+        {...props}
+        sx={{ borderCollapse: "separate", tableLayout: tableLayout || "fixed" }}
+      />
+    ),
+    TableHead,
+    TableFoot: (props: any) => (
+      <TableFooter sx={{ bgcolor: grey[200], position: "sticky", bottom: 0 }}>
+        {props.children}
+      </TableFooter>
+    ),
+    TableRow: ({ item: row, ...props }: any) => (
+      <TableRow
+        sx={{
+          transition: "background ease 0.1s",
+          "&:last-child td, &:last-child th": { border: 0 },
+          "&:nth-of-type(even)": {
+            bgcolor: row.bgcolor || grey[200],
+            "&:hover": {
+              "--hover-color": "0.6",
+              bgcolor:
+                row.bgcolor === "#fff" ? grey[200] : row.bgcolor || grey[300],
+            },
+          },
+          bgcolor: row.bgcolor || "white",
+          "&:hover": {
+            "--hover-color": "0.6",
+            bgcolor:
+              row.bgcolor === "#fff" ? grey[200] : row.bgcolor || grey[300],
+          },
+        }}
+        {...props}
+      />
+    ),
+    TableBody: React.forwardRef<HTMLTableSectionElement>((props, ref) => (
+      <TableBody {...props} ref={ref} />
+    )),
+  };
+
+  // sort
 
   const visibleHeads = heads.filter((item: any) => !item.hidden);
   const borderColor = 400;
@@ -288,6 +292,7 @@ function FixedTable(props: FixedTableProps) {
           key={i}
           dir={typeof row[name] === "number" ? "ltr" : "rtl"}
           sx={{
+            width: row[`width-${name}`] || null,
             bgcolor: row[`bgcolor-${name}`] || "transparent",
             color: row[`textcolor-${name}`] || "#000",
             p: 1,
@@ -404,7 +409,12 @@ function FixedTable(props: FixedTableProps) {
               : "100%",
           }}
         >
-          <Table sx={{ borderCollapse: "separate", tableLayout: "auto" }}>
+          <Table
+            sx={{
+              borderCollapse: "separate",
+              tableLayout: tableLayout || "auto",
+            }}
+          >
             <TableHead sx={{ position: "sticky", top: "0px", zIndex: 1 }}>
               {fixedHeaderContent()}
             </TableHead>

@@ -5,7 +5,7 @@ import SuppliersInput from "components/sections/inputs/suppliers-input";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { suppliersApi } from "api/credit/suppliers-api";
 import { suppliersConfig } from "config/features/credit/suppliers-config";
 import { checkHaveValue } from "helper/form-utils";
@@ -14,6 +14,12 @@ function SuppliersForm() {
   const [formData, setFormData] = useState({
     [suppliersConfig.kind]: undefined,
   });
+
+  useEffect(() => {
+    queryClient.setQueryData(reactQueryKeys.request.suppliers.list, {
+      data: [],
+    });
+  }, [formData]);
 
   const queryClient = useQueryClient();
 
