@@ -3,7 +3,6 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import FixedModal from "components/ui/modal/fixed-modal";
-import RequestTopheadTableModal from "./request-tophead-table-modal";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import AddIcon from "@mui/icons-material/Add";
 
@@ -14,6 +13,7 @@ import { useMutation } from "@tanstack/react-query";
 import { creditRequestApi } from "api/credit/credit-request-api";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
+import CreditRequestTableActionModal from "./credit-request-table-action-modal";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -242,7 +242,7 @@ function CreidtRequestTable(props: CreidtRequestFormTableProps) {
         handleClose={() => setIsOpenAddItemModal(false)}
         title="افزودن آیتم"
       >
-        <RequestTopheadTableModal onDoneTask={handleDoneAddTask} />
+        <CreditRequestTableActionModal onDoneTask={handleDoneAddTask} />
       </FixedModal>
 
       {/* edit modal */}
@@ -251,7 +251,7 @@ function CreidtRequestTable(props: CreidtRequestFormTableProps) {
         handleClose={() => setIsOpenEditModal(false)}
         title="ویرایش آیتم"
       >
-        <RequestTopheadTableModal onDoneTask={handleDoneUpdateTask} />
+        <CreditRequestTableActionModal onDoneTask={handleDoneUpdateTask} />
       </FixedModal>
 
       {/* confrim delete */}

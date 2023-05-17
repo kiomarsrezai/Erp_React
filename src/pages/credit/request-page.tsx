@@ -8,10 +8,7 @@ import CreditRequestConfrimUsersTable from "components/sections/credit/request/c
 import CreditRequestBudgetRowTable from "components/sections/credit/request/credit-request-budget-row-table";
 
 import { useState } from "react";
-import {
-  creditRequestConfig,
-  creditRequestFormDefaultValue,
-} from "config/features/credit/credit-request-config";
+import { creditRequestFormDefaultValue } from "config/features/credit/credit-request-config";
 
 interface TabPanelProps {
   children?: React.ReactNode;

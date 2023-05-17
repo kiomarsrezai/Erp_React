@@ -41,15 +41,8 @@ export const creditRequestApi = new (class extends BaseApi {
   };
 
   searchRequest = async (formdata: any) => {
-    const filterData = {
-      [creditRequestConfig.year]: formdata[creditRequestConfig.year],
-      [creditRequestConfig.area]: formdata[creditRequestConfig.area],
-      [creditRequestConfig.execute_departman_id]:
-        formdata[creditRequestConfig.execute_departman_id],
-    };
-
     const url =
-      creditRequestConfigURLS.searchRequest + this.joinFilterData(filterData);
+      creditRequestConfigURLS.searchRequest + this.joinFilterData(formdata);
 
     const response = await clientAxios.get<
       BaseApiResponseShape<SearchCreditRequestShape[]>

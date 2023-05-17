@@ -8,11 +8,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { TextField } from "@mui/material";
 import { creditRequestTableConfig } from "config/features/credit/credit-request-config";
 
-interface RequestTopheadTableModalProps {
+interface CreditRequestTableActionModalProps {
   onDoneTask: (data: any) => void;
 }
 
-function RequestTopheadTableModal(props: RequestTopheadTableModalProps) {
+function CreditRequestTableActionModal(
+  props: CreditRequestTableActionModalProps
+) {
   const { onDoneTask } = props;
 
   // form manage
@@ -108,4 +110,4 @@ function RequestTopheadTableModal(props: RequestTopheadTableModalProps) {
   );
 }
 
-export default RequestTopheadTableModal;
+export default CreditRequestTableActionModal;
