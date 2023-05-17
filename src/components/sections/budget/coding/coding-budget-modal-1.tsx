@@ -213,6 +213,7 @@ function CodingBudgetModal1(props: CodingBudgetModal1Props) {
         revenueType: item.codingRevenueKind,
         showCell: getDataItemIcon(item.show),
         actions: actionButtons,
+        bgcolor: rowMotherId === item.id ? "rgba(187,222,251)" : "",
       })
     );
 
@@ -236,6 +237,7 @@ function CodingBudgetModal1(props: CodingBudgetModal1Props) {
             notFixed
           />
         </Box>
+        {/* modal 2 */}
         <Box sx={{ width: "50%" }}>
           <CodingBudgetModal2
             data={detailCodingMutation.data?.data || []}

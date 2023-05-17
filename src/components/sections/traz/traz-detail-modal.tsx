@@ -178,8 +178,8 @@ function TrazDetailModal(props: TrazDetailModalProps) {
         handleClose={() => setIsOpenMoreDetailModal(false)}
         loading={trazMoreDetailMutation.isLoading}
         title={modalTitle}
-        maxWidth="lg"
-        isNested
+        maxWidth="md"
+        maxHeight="70%"
       >
         <TrazDetailMoreModal data={trazMoreDetailMutation.data?.data || []} />
       </FixedModal>

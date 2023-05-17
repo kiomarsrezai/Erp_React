@@ -202,7 +202,7 @@ function TransferPage() {
 
   // table data
   let prevRowColor = "#fff";
-  let nextRowColor = `${grey[300]}`;
+  let nextRowColor = "rgba(224,224,224,var(--hover-color))";
   const getBgColor = (
     item: GetSingleTransferItemShape,
     previtem: GetSingleTransferItemShape | undefined

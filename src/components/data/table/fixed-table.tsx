@@ -59,14 +59,25 @@ const VirtuosoTableComponents: TableComponents = {
       {props.children}
     </TableFooter>
   ),
-  TableRow: ({ item: _item, ...props }: any) => (
+  TableRow: ({ item: row, ...props }: any) => (
     <TableRow
       sx={{
+        transition: "background ease 0.1s",
         "&:last-child td, &:last-child th": { border: 0 },
         "&:nth-of-type(even)": {
-          bgcolor: _item.bgcolor || grey[200],
+          bgcolor: row.bgcolor || grey[200],
+          "&:hover": {
+            "--hover-color": "0.6",
+            bgcolor:
+              row.bgcolor === "#fff" ? grey[200] : row.bgcolor || grey[300],
+          },
         },
-        bgcolor: _item.bgcolor,
+        bgcolor: row.bgcolor || "white",
+        "&:hover": {
+          "--hover-color": "0.6",
+          bgcolor:
+            row.bgcolor === "#fff" ? grey[200] : row.bgcolor || grey[300],
+        },
       }}
       {...props}
     />
@@ -406,12 +417,20 @@ function FixedTable(props: FixedTableProps) {
                     "&:nth-of-type(even)": {
                       bgcolor: row.bgcolor || grey[200],
                       "&:hover": {
-                        bgcolor: row.bgcolor || grey[400],
+                        "--hover-color": "0.6",
+                        bgcolor:
+                          row.bgcolor === "#fff"
+                            ? grey[200]
+                            : row.bgcolor || grey[300],
                       },
                     },
                     bgcolor: row.bgcolor || "white",
                     "&:hover": {
-                      bgcolor: row.bgcolor || grey[400],
+                      "--hover-color": "0.6",
+                      bgcolor:
+                        row.bgcolor === "#fff"
+                          ? grey[200]
+                          : row.bgcolor || grey[300],
                     },
                   }}
                   key={i}

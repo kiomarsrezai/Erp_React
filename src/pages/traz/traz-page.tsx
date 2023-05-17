@@ -110,7 +110,7 @@ function TrazPage() {
   // table data
   const getBgColorTraz = (levels: number) => {
     if (levels === 1) {
-      return "#BBDEFB";
+      return "rgba(187,222,251,var(--hover-color))";
     }
 
     return "#fff";

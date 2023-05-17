@@ -3,7 +3,7 @@ import FixedTable from "components/data/table/fixed-table";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import IconButton from "@mui/material/IconButton";
 import FixedModal from "components/ui/modal/fixed-modal";
-import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Box";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
@@ -155,7 +155,17 @@ function BudgetCodingPage() {
   const actionButtons = (
     row: TableDataItemShape & GetSingleCodingItemShape
   ) => (
-    <Stack direction="row" spacing={0.5} justifyContent={"start"}>
+    <Box display="flex" justifyContent="end">
+      {row.levelNumber === 3 && (
+        <IconButton
+          size="small"
+          color="primary"
+          onClick={() => openDeatilModal(row)}
+        >
+          <FormatListBulletedIcon />
+        </IconButton>
+      )}
+
       <IconButton
         size="small"
         color="error"
@@ -171,24 +181,14 @@ function BudgetCodingPage() {
       >
         <EditIcon />
       </IconButton>
-
-      {row.levelNumber === 3 && (
-        <IconButton
-          size="small"
-          color="primary"
-          onClick={() => openDeatilModal(row)}
-        >
-          <FormatListBulletedIcon />
-        </IconButton>
-      )}
-    </Stack>
+    </Box>
   );
 
   const getBgColor = (levelNumber: number) => {
     if (levelNumber === 1) {
-      return "rgb(248,203,173)";
+      return "rgb(248,203,173,var(--hover-color))";
     } else if (levelNumber === 2) {
-      return "rgb(198,224,180)";
+      return "rgb(198,224,180,var(--hover-color))";
     } else if (levelNumber === 3) {
       return "#fff";
     }
@@ -247,7 +247,7 @@ function BudgetCodingPage() {
         />
       </AdminLayout>
 
-      {/* detail modal */}
+      {/* modal 1 */}
       <FixedModal
         open={isOpenModal}
         handleClose={() => setIsOpenModal(false)}
