@@ -81,8 +81,8 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
   }, [formData, queryClient]);
 
   // export
-  const handleExport = async () => {
-    await loadreport(submitMutation.data?.data || []);
+  const handleExport = () => {
+    loadreport(submitMutation.data?.data || []);
   };
 
   return (
