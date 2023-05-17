@@ -70,4 +70,21 @@ export const creditRequestApi = new (class extends BaseApi {
     >(url);
     return response.data;
   };
+
+  // request table
+  insertToTable = async (formData: any) => {
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      creditRequestConfigURLS.insertToTable,
+      formData
+    );
+    return response.data;
+  };
+
+  updateTableItem = async (formData: any) => {
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      creditRequestConfigURLS.updateTableItem,
+      formData
+    );
+    return response.data;
+  };
 })();

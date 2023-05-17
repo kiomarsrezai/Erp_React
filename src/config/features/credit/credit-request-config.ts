@@ -45,4 +45,6 @@ export const creditRequestConfigURLS = {
   createRequest: "RequestApi/RequestCreate",
   searchRequest: "RequestApi/GetRequestList",
   readRequest: "RequestApi/RequestRead",
+  insertToTable: "RequestApi/RequestTableCreate",
+  updateTableItem: "RequestApi/RequestTableUpdate",
 };
