@@ -33,7 +33,7 @@ function ProposalModal3Edit(props: ProposalModal3EditProps) {
     resolver: yupResolver(editFormSchema),
   });
 
-  const editMutation = useMutation(proposalBudgetApi.editModal1, {
+  const editMutation = useMutation(proposalBudgetApi.editModal3, {
     onSuccess: () => {
       enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
         variant: "success",
@@ -47,7 +47,10 @@ function ProposalModal3Edit(props: ProposalModal3EditProps) {
   });
 
   const onSubmitHandler = (values: any) => {
-    editMutation.mutate(values);
+    // editMutation.mutate({
+    //   ...values,
+    //   [proposalConfig.ID]: initialData[proposalConfig.ID],
+    // });
   };
 
   return (

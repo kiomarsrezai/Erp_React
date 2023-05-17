@@ -124,4 +124,13 @@ export const proposalBudgetApi = new (class extends BaseApi {
     );
     return response.data;
   };
+
+  // modal 3
+  editModal3 = async (formdata: any) => {
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      propsalBudgetUrls.editModal3,
+      formdata
+    );
+    return response.data;
+  };
 })();

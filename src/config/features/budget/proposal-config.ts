@@ -26,4 +26,6 @@ export const propsalBudgetUrls = {
   // modal 2
   getSearchModal2: "Budget/SP001_BudgetModal2ProjectSearch",
   insertModal2: "Budget/BudgteModal2ProjectInsert",
+  // modal 3
+  editModal3: "Budget/BudgteModal2ProjectUpdate",
 };
