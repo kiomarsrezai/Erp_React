@@ -91,7 +91,7 @@ function ProposalModal1Search(props: ProposalModal1SearchProos) {
   ) => {
     insertMutation.mutate({
       ...formData,
-      [proposalConfig.coding]: codingId,
+      [proposalConfig.coding]: row.id,
     });
   };
 
@@ -117,7 +117,7 @@ function ProposalModal1Search(props: ProposalModal1SearchProos) {
     return formatedData;
   };
 
-  const tableData = filterText.length
+  const tableData = filterText.length || true
     ? formatTableData(
         data.filter(
           (item) =>

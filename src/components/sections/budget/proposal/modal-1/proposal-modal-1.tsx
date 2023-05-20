@@ -50,7 +50,7 @@ function ProposalModal1(props: ProposalModal1Props) {
   const handleDoneActionTask = () => {
     getDataMutation.mutate({
       ...formData,
-      [proposalConfig.coding]: codingId,
+      [proposalConfig.coding]: activeCodingId,
     });
 
     setIsOpenInsertModal(false);
@@ -247,6 +247,7 @@ function ProposalModal1(props: ProposalModal1Props) {
   const [isOpenMoreDetailModal, setIsOpenMoreDetailModal] = useState(false);
   const [modalTitle, setModalTitle] = useState<ReactNode>("");
   const [codingId, setCodingId] = useState(0);
+  const [motherId, setMotherId] = useState(0)
   const getMoreDetailMutation = useMutation(
     proposalBudgetApi.getMoreDetailData
   );
@@ -262,6 +263,7 @@ function ProposalModal1(props: ProposalModal1Props) {
     );
 
     setCodingId(row.codingId);
+    setMotherId(row.id)
 
     getMoreDetailMutation.mutate({
       ...formData,
@@ -295,6 +297,7 @@ function ProposalModal1(props: ProposalModal1Props) {
           baseTitle={modalTitle}
           formData={formData}
           codingId={codingId}
+          motherId={motherId}
         />
       </FixedModal>
 
@@ -310,7 +313,7 @@ function ProposalModal1(props: ProposalModal1Props) {
         <ProposalModal1Search
           formData={formData}
           data={searchMutation.data?.data || []}
-          codingId={codingId}
+          codingId={activeCodingId}
           onDoneTask={handleDoneActionTask}
         />
       </FixedModal>

@@ -34,9 +34,10 @@ interface ProposalModal2Props {
   formData: any;
   baseTitle: ReactNode;
   codingId: number;
+  motherId: number;
 }
 function ProposalModal2(props: ProposalModal2Props) {
-  const { data, baseTitle, formData, codingId } = props;
+  const { data, baseTitle, formData, codingId, motherId } = props;
 
   // heads
   const tableHeads: TableHeadShape = [
@@ -117,7 +118,7 @@ function ProposalModal2(props: ProposalModal2Props) {
           <SearchIcon />
         </IconButton>
       ),
-      colspan: 9,
+      colspan: tableHeads.filter(item => !item.hidden).length,
     },
   ];
 
@@ -257,7 +258,7 @@ function ProposalModal2(props: ProposalModal2Props) {
       >
         <ProposalModal2Search
           formData={formData}
-          codingId={codingId}
+          codingId={motherId}
           onDoneTask={handleDoneModal2Task}
         />
       </FixedModal>
