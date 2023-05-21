@@ -23,12 +23,12 @@ interface TableDataItemShape {
 interface ProposalModal1SearchProos {
   formData: any;
   data: GetSearchPropsalModal1Data[];
-  codingId: number;
+  motherid: number;
   onDoneTask: () => void;
 }
 
 function ProposalModal1Search(props: ProposalModal1SearchProos) {
-  const { formData, data, codingId, onDoneTask } = props;
+  const { formData, data, motherid, onDoneTask } = props;
 
   const [filterText, setFilterText] = useState("");
 
@@ -117,15 +117,13 @@ function ProposalModal1Search(props: ProposalModal1SearchProos) {
     return formatedData;
   };
 
-  const tableData = filterText.length || true
-    ? formatTableData(
-        data.filter(
-          (item) =>
-            item.description.includes(filterText) ||
-            item.code.includes(filterText)
-        )
+  const tableData = formatTableData(
+      data.filter(
+        (item) =>
+          item.description.includes(filterText) ||
+          item.code.includes(filterText)
       )
-    : [];
+    )
 
   return (
     <FixedTable

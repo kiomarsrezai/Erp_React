@@ -37,7 +37,7 @@ function AhadisProvider(props: AhadisProviderProps) {
             src={`/Ahadis/810 Hadis ${
               generateNumber.toString().length === 2 ? "0" : ""
             }${generateNumber}.jpg`}
-            sx={{ width: "100%", height: "100%" }}
+            sx={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
           />
         </Box>
       </FixedModal>

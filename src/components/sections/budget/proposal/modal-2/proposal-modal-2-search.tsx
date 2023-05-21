@@ -93,9 +93,9 @@ function ProposalModal2Search(props: ProposalModal2SearchProos) {
   ) => {
     insertMutation.mutate({
       [proposalConfig.AREA]: modalFormData[proposalConfig.AREA],
-      [proposalConfig.coding]: codingId,
+      [proposalConfig.detailId]: codingId,
       [proposalConfig.YEAR]: formData[proposalConfig.YEAR],
-      id: row.id,
+      [proposalConfig.program]: row.id,
     });
   };
 

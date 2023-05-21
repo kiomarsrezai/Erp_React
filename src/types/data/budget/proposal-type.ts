@@ -54,6 +54,7 @@ export interface GetSearchPropsalModal1Data {
   show: boolean;
 }
 
+// modal 2
 export interface GetSearchPropsalModal2Data {
   id: number;
   projectCode: string;

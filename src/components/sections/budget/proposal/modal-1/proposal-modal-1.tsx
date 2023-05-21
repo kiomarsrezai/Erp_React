@@ -63,7 +63,7 @@ function ProposalModal1(props: ProposalModal1Props) {
   const searchMutation = useMutation(proposalBudgetApi.getSearchModal1Data);
 
   const handleAddClick = () => {
-    searchMutation.mutate(formData);
+    searchMutation.mutate({...formData, [proposalConfig.motherid]: activeCodingId});
     setIsOpenInsertModal(true);
   };
 
@@ -313,7 +313,7 @@ function ProposalModal1(props: ProposalModal1Props) {
         <ProposalModal1Search
           formData={formData}
           data={searchMutation.data?.data || []}
-          codingId={activeCodingId}
+          motherid={codingId}
           onDoneTask={handleDoneActionTask}
         />
       </FixedModal>

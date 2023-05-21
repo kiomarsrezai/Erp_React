@@ -7,6 +7,9 @@ export const proposalConfig = {
   coding: "codingId",
   project: "projectId",
   ID: "id",
+  motherid: "motherid",
+  program: "programOperationDetailsId",
+  detailId: "budgetDetailId"
 };
 
 export const proposalModal1EditConfig = {
@@ -24,7 +27,7 @@ export const propsalBudgetUrls = {
   editModal1: "Budget/BudgteModal1CodingUpdate",
   deleteModal1: "Budget/BudgteModal1CodingDelete",
   // modal 2
-  getSearchModal2: "Budget/SP001_BudgetModal2ProjectSearch",
+  getSearchModal2: "Budget/BudgetModal2ProjectSearch",
   insertModal2: "Budget/BudgteModal2ProjectInsert",
   // modal 3
   editModal3: "Budget/BudgteModal2ProjectUpdate",
