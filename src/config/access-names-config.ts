@@ -23,6 +23,7 @@ export const accessNamesConfig = {
 
   BUDGET__REPORT_PAGE: "budget-report",
   BUDGET__REPORT_PAGE_COMBO: "combo",
+  BUDGET__REPORT_PAGE_RAVAND: "ravand",
 
   BUDGET__REPORT__EXPENSE_PAGE: "budget-report-expense",
   BUDGET__REPORT__EXPENSE_PAGE_CENTER: "center",

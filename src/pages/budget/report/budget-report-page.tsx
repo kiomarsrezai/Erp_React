@@ -8,6 +8,7 @@ import SectionGuard from "components/auth/section-guard";
 import { useState } from "react";
 import { accessNamesConfig } from "config/access-names-config";
 import { joinPermissions } from "helper/auth-utils";
+import ReportRavandBudgetChart from "components/sections/budget/reports/ravand/report-ravand-budget-chart";
 
 function BudgetReportsPage() {
   const [formData, setFormData] = useState({
@@ -26,6 +27,11 @@ function BudgetReportsPage() {
   // revenue chart page
   if (formData.chartType === 1) {
     return <ReportRevenueChartPage inputRender={budgetTypeComboRender} />;
+  }
+
+  // ravand chart page
+  if (formData.chartType === 2) {
+    return <ReportRavandBudgetChart inputRender={budgetTypeComboRender} />;
   }
 
   // no one selected

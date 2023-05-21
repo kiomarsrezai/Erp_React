@@ -21,6 +21,7 @@ export const reactQueryKeys = {
   report: {
     chart: {
       revenue: ["revenuse-chart"],
+      ravand: ["ravand-chart"],
       revenueMoreDetail: ["revenuse-chart-more-detail"],
     },
     proctor: {

@@ -118,25 +118,27 @@ export const sidenavsLayout: SidenavShape[] = [
             element: BudgetReportsPage,
             permissionItems: [
               accessNamesConfig.BUDGET__REPORT_PAGE_COMBO,
+              // accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND,
               // getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
               // accessNamesConfig.FIELD_BUDGET_METHOD,
               // accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER,
               // accessNamesConfig.FIELD_ORGAN,
             ],
           },
-          {
-            title: "نمودار عملکرد",
-            path: "/report/chart/revenue",
-            icon: AssessmentIcon,
-            licenseName: accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
-            element: ReportRevenueChartPage,
-            permissionItems: [
-              getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
-              accessNamesConfig.FIELD_BUDGET_METHOD,
-              accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER,
-              accessNamesConfig.FIELD_ORGAN,
-            ],
-          },
+
+          // {
+          //   title: "نمودار عملکرد",
+          //   path: "/report/chart/revenue",
+          //   icon: AssessmentIcon,
+          //   licenseName: accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
+          //   element: ReportRevenueChartPage,
+          //   permissionItems: [
+          //     getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
+          //     accessNamesConfig.FIELD_BUDGET_METHOD,
+          //     accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER,
+          //     accessNamesConfig.FIELD_ORGAN,
+          //   ],
+          // },
 
           {
             title: "گزارش متولی",

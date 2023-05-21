@@ -155,11 +155,21 @@ function usePermissions() {
   );
 
   const accessValues = {
+    // propsal
+    // [accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND]: formatLocalFields(
+    //   "روند",
+    //   accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND,
+    //   [
+    //     getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 2),
+    //     accessNamesConfig.FIELD_BUDGET_METHOD,
+    //   ]
+    // ),
+
     // abstruct
     [accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE_KIND]:
       budgetKindField,
 
-      [accessNamesConfig.BUDGET__REPORT_PAGE_COMBO] : budgetField,
+    [accessNamesConfig.BUDGET__REPORT_PAGE_COMBO]: budgetField,
     // seprator
     [accessNamesConfig.BUDGET__SEPRATOR_PAGE_TAMIN_BTN]: {
       label: "دکمه تامین اعتبار",
