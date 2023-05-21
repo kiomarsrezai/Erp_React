@@ -21,10 +21,13 @@ interface TableDataItemShape {
 interface ProposalModal3SearchProos {
   formData: any;
   data: GetSingleAreaShape[];
+  modal1CodingId: number;
+  projectId: number;
+  onDoneTask: () => void;
 }
 
 function ProposalModal3Search(props: ProposalModal3SearchProos) {
-  const { formData, data } = props;
+  const { formData, data, modal1CodingId, projectId, onDoneTask } = props;
 
   // heads
   const tableHeads: TableHeadShape = [
@@ -43,11 +46,12 @@ function ProposalModal3Search(props: ProposalModal3SearchProos) {
   ];
 
   // insert
-  const insertMutation = useMutation(proposalBudgetApi.insertModal1, {
+  const insertMutation = useMutation(proposalBudgetApi.insertModal3, {
     onSuccess: () => {
       enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
         variant: "success",
       });
+      onDoneTask();
     },
     onError: () => {
       enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
@@ -57,12 +61,13 @@ function ProposalModal3Search(props: ProposalModal3SearchProos) {
   });
 
   // data
-  const handleAddClick = (
-    row: GetSearchPropsalModal1Data & TableDataItemShape
-  ) => {
+  const handleAddClick = (row: GetSingleAreaShape & TableDataItemShape) => {
     insertMutation.mutate({
-      ...formData,
-      [proposalConfig.coding]: "something",
+      [proposalConfig.area_public]: formData[proposalConfig.AREA],
+      [proposalConfig.YEAR]: formData[proposalConfig.YEAR],
+      [proposalConfig.coding]: modal1CodingId,
+      [proposalConfig.project]: projectId,
+      [proposalConfig.AREA]: row.id,
     });
   };
 

@@ -39,10 +39,10 @@ interface ProposalModal1Props {
   data: any[];
   baseTitle: string;
   formData: any;
-  activeCodingId: number;
+  baseCodingId: number;
 }
 function ProposalModal1(props: ProposalModal1Props) {
-  const { data, baseTitle, formData, activeCodingId } = props;
+  const { data, baseTitle, formData, baseCodingId } = props;
 
   // data
   const getDataMutation = useMutation(proposalBudgetApi.getDetailData);
@@ -50,7 +50,7 @@ function ProposalModal1(props: ProposalModal1Props) {
   const handleDoneActionTask = () => {
     getDataMutation.mutate({
       ...formData,
-      [proposalConfig.coding]: activeCodingId,
+      [proposalConfig.coding]: baseCodingId,
     });
 
     setIsOpenInsertModal(false);
@@ -63,7 +63,10 @@ function ProposalModal1(props: ProposalModal1Props) {
   const searchMutation = useMutation(proposalBudgetApi.getSearchModal1Data);
 
   const handleAddClick = () => {
-    searchMutation.mutate({...formData, [proposalConfig.motherid]: activeCodingId});
+    searchMutation.mutate({
+      ...formData,
+      [proposalConfig.motherid]: baseCodingId,
+    });
     setIsOpenInsertModal(true);
   };
 
@@ -247,7 +250,7 @@ function ProposalModal1(props: ProposalModal1Props) {
   const [isOpenMoreDetailModal, setIsOpenMoreDetailModal] = useState(false);
   const [modalTitle, setModalTitle] = useState<ReactNode>("");
   const [codingId, setCodingId] = useState(0);
-  const [motherId, setMotherId] = useState(0)
+  const [motherId, setMotherId] = useState(0);
   const getMoreDetailMutation = useMutation(
     proposalBudgetApi.getMoreDetailData
   );
@@ -263,7 +266,7 @@ function ProposalModal1(props: ProposalModal1Props) {
     );
 
     setCodingId(row.codingId);
-    setMotherId(row.id)
+    setMotherId(row.id);
 
     getMoreDetailMutation.mutate({
       ...formData,
@@ -296,7 +299,7 @@ function ProposalModal1(props: ProposalModal1Props) {
           data={getMoreDetailMutation.data?.data || []}
           baseTitle={modalTitle}
           formData={formData}
-          codingId={codingId}
+          modal1CodingId={codingId}
           motherId={motherId}
         />
       </FixedModal>

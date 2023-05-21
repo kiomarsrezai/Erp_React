@@ -109,20 +109,35 @@ export const sidenavsLayout: SidenavShape[] = [
         title: "گزارشات بودجه",
         icon: SummarizeIcon,
         items: [
+          //   {
+          //     title: "گزارشات",
+          //     path: "/budget/report",
+          //     icon: AssessmentIcon,
+          //     licenseName: accessNamesConfig.BUDGET__REPORT_PAGE,
+          //     element: ReportRevenueChartPage,
+          //     permissionItems: [
+          //       accessNamesConfig.BUDGET__REPORT_PAGE_COMBO
+          //       // getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
+          //       // accessNamesConfig.FIELD_BUDGET_METHOD,
+          //       // accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER,
+          //       // accessNamesConfig.FIELD_ORGAN,
+          //     ],
+          //   },
+
           {
-            title: "گزارشات",
-            path: "/budget/report",
+            title: "نمودار عملکرد",
+            path: "/report/chart/revenue",
             icon: AssessmentIcon,
-            licenseName: accessNamesConfig.BUDGET__REPORT_PAGE,
+            licenseName: accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
             element: ReportRevenueChartPage,
             permissionItems: [
-              accessNamesConfig.BUDGET__REPORT_PAGE_COMBO
-              // getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
-              // accessNamesConfig.FIELD_BUDGET_METHOD,
-              // accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER,
-              // accessNamesConfig.FIELD_ORGAN,
+              getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
+              accessNamesConfig.FIELD_BUDGET_METHOD,
+              accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER,
+              accessNamesConfig.FIELD_ORGAN,
             ],
           },
+
           {
             title: "گزارش متولی",
             path: "/report/abstract-proctor",

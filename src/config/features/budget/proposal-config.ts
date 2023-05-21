@@ -9,7 +9,8 @@ export const proposalConfig = {
   ID: "id",
   motherid: "motherid",
   program: "programOperationDetailsId",
-  detailId: "budgetDetailId"
+  detailId: "budgetDetailId",
+  area_public: "areaPublicId",
 };
 
 export const proposalModal1EditConfig = {
@@ -20,7 +21,6 @@ export const propsalBudgetUrls = {
   getData: "Budget/FetchIndex",
   getDetail: "Budget/BudgetModal1Coding",
   getMoreDetail: "Budget/BudgetModal2Coding",
-  getLevel5Detail: "Budget/BudgetModal3Area",
   // modal 1
   getSearchModal1: "Budget/GetBudgetSearchCodingModal",
   insertModal1: "Budget/BudgteModal1CodingInsert",
@@ -29,6 +29,10 @@ export const propsalBudgetUrls = {
   // modal 2
   getSearchModal2: "Budget/BudgetModal2ProjectSearch",
   insertModal2: "Budget/BudgteModal2ProjectInsert",
+  editModal2: "Budget/BudgteModal2ProjectUpdate",
+  deleteModal2: "Budget/BudgteModal2ProjectDelete",
   // modal 3
-  editModal3: "Budget/BudgteModal2ProjectUpdate",
+  getModal3: "Budget/BudgetModal3AreaRead",
+  editModal3: "Budget/BudgetModal3AreaUpdate",
+  insertModal3: "Budget/BudgetModal3AreaInsert",
 };

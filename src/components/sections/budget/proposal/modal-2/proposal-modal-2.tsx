@@ -1,5 +1,6 @@
 import FixedTable from "components/data/table/fixed-table";
 import IconButton from "@mui/material/IconButton";
+import Box from "@mui/material/Box";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import FixedModal from "components/ui/modal/fixed-modal";
 import ProposalModal3 from "../modal-3/proposal-modal-3";
@@ -16,6 +17,9 @@ import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { proposalBudgetApi } from "api/budget/proposal-api";
 import { proposalConfig } from "config/features/budget/proposal-config";
 import { useMutation } from "@tanstack/react-query";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -33,11 +37,11 @@ interface ProposalModal2Props {
   data: any[];
   formData: any;
   baseTitle: ReactNode;
-  codingId: number;
   motherId: number;
+  modal1CodingId: number;
 }
 function ProposalModal2(props: ProposalModal2Props) {
-  const { data, baseTitle, formData, codingId, motherId } = props;
+  const { data, baseTitle, formData, motherId, modal1CodingId } = props;
 
   // heads
   const tableHeads: TableHeadShape = [
@@ -102,9 +106,10 @@ function ProposalModal2(props: ProposalModal2Props) {
   const handleDoneModal2Task = () => {
     dataMutation.mutate({
       ...formData,
-      [proposalConfig.coding]: codingId,
+      [proposalConfig.coding]: modal1CodingId,
     });
     setIsOpenSearchModal(false);
+    setIsOpenEditModal(false);
   };
 
   const tableHeadGroup: TableHeadGroupShape = [
@@ -118,13 +123,14 @@ function ProposalModal2(props: ProposalModal2Props) {
           <SearchIcon />
         </IconButton>
       ),
-      colspan: tableHeads.filter(item => !item.hidden).length,
+      colspan: tableHeads.filter((item) => !item.hidden).length,
     },
   ];
 
   // modal 3
   const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
   const [modalTitle, setModalTitle] = useState<ReactNode>("");
+  const [activeProjectId, setActiveProjectId] = useState(0);
 
   const getDetailMutation = useMutation(proposalBudgetApi.getLevel5DetailData);
   const handleOpenDetailModal = (
@@ -139,9 +145,11 @@ function ProposalModal2(props: ProposalModal2Props) {
 
     getDetailMutation.mutate({
       ...formData,
-      [proposalConfig.coding]: codingId,
+      [proposalConfig.coding]: modal1CodingId,
       [proposalConfig.project]: row.projectId,
     });
+
+    setActiveProjectId(row.projectId);
 
     setIsOpenDetailModal(true);
   };
@@ -156,12 +164,51 @@ function ProposalModal2(props: ProposalModal2Props) {
     setIsOpenEditModal(true);
   };
 
+  // delete
+  const [isShowConfrimDelete, setIsShowConfrimDelete] =
+    useState<boolean>(false);
+  const [idItemShouldDelete, setIdItemShouldDelete] = useState<number>();
+
+  const deleteMutation = useMutation(proposalBudgetApi.deleteModal2, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+      handleDoneModal2Task();
+      setIsOpenEditModal(false);
+    },
+    onError: () => {
+      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+        variant: "error",
+      });
+    },
+  });
+
+  const onConfrimDelete = () => {
+    if (idItemShouldDelete) deleteMutation.mutate(idItemShouldDelete);
+  };
+
+  const onCancelDelete = () => {
+    setIsShowConfrimDelete(false);
+  };
+
+  const handleDeleteBtnClick = (
+    row: TableDataItemShape & GetSingleMoreDetailProposalItemShape
+  ) => {
+    setIdItemShouldDelete(row.id);
+    setIsShowConfrimDelete(true);
+  };
+
   // data
   const actionButtons = (
     row: TableDataItemShape & GetSingleMoreDetailProposalItemShape
   ) => (
-    <>
-      <IconButton size="small" color="error" onClick={() => {}}>
+    <Box display={"flex"}>
+      <IconButton
+        size="small"
+        color="error"
+        onClick={() => handleDeleteBtnClick(row)}
+      >
         <DeleteIcon />
       </IconButton>
 
@@ -180,7 +227,7 @@ function ProposalModal2(props: ProposalModal2Props) {
       >
         <FormatListBulletedIcon />
       </IconButton>
-    </>
+    </Box>
   );
 
   const formatTableData = (
@@ -245,6 +292,8 @@ function ProposalModal2(props: ProposalModal2Props) {
         <ProposalModal3
           data={getDetailMutation.data?.data || []}
           formData={formData}
+          modal1CodingId={modal1CodingId}
+          projectId={activeProjectId}
         />
       </FixedModal>
 
@@ -271,8 +320,19 @@ function ProposalModal2(props: ProposalModal2Props) {
         maxHeight="80%"
         maxWidth="sm"
       >
-        <ProposalModal2Edit initialData={editModalInitialData} />
+        <ProposalModal2Edit
+          initialData={editModalInitialData}
+          onDoneTask={handleDoneModal2Task}
+        />
       </FixedModal>
+
+      {/* confrim delete */}
+      <ConfrimProcessModal
+        onCancel={onCancelDelete}
+        onConfrim={onConfrimDelete}
+        open={isShowConfrimDelete}
+        title="حذف آیتم"
+      />
     </>
   );
 }

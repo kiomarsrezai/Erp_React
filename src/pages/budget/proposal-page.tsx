@@ -238,7 +238,7 @@ function BudgetProposalPage() {
           data={getDetailMutation.data?.data || []}
           baseTitle={modalTitle}
           formData={formData}
-          activeCodingId={activeCodingId}
+          baseCodingId={activeCodingId}
         />
       </FixedModal>
     </>

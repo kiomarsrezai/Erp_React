@@ -14,6 +14,10 @@ import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { proposalConfig } from "config/features/budget/proposal-config";
 import { useMutation } from "@tanstack/react-query";
 import { areaGeneralApi } from "api/general/area-general-api";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+import { proposalBudgetApi } from "api/budget/proposal-api";
+import { globalConfig } from "config/global-config";
+import { enqueueSnackbar } from "notistack";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -28,9 +32,11 @@ interface TableDataItemShape {
 interface ProposalModal3Props {
   data: any[];
   formData: any;
+  modal1CodingId: number;
+  projectId: number;
 }
 function ProposalModal3(props: ProposalModal3Props) {
-  const { data, formData } = props;
+  const { data, formData, modal1CodingId, projectId } = props;
 
   // search modal
   const [isOpenSearchModal, setIsOpenSearchModal] = useState(false);
@@ -40,6 +46,18 @@ function ProposalModal3(props: ProposalModal3Props) {
   const handleSearchClick = () => {
     searchMutation.mutate(3);
     setIsOpenSearchModal(true);
+  };
+
+  const dataMutation = useMutation(proposalBudgetApi.getLevel5DetailData);
+
+  const handleDoneModal3Task = () => {
+    dataMutation.mutate({
+      ...formData,
+      [proposalConfig.coding]: modal1CodingId,
+      [proposalConfig.project]: projectId,
+    });
+    setIsOpenSearchModal(false);
+    setIsOpenEditModal(false);
   };
 
   // heads
@@ -109,12 +127,50 @@ function ProposalModal3(props: ProposalModal3Props) {
     setIsOpenEditModal(true);
   };
 
+  // delete
+  const [isShowConfrimDelete, setIsShowConfrimDelete] =
+    useState<boolean>(false);
+  const [idItemShouldDelete, setIdItemShouldDelete] = useState<number>();
+
+  const deleteMutation = useMutation(proposalBudgetApi.deleteModal2, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+      setIsOpenEditModal(false);
+    },
+    onError: () => {
+      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+        variant: "error",
+      });
+    },
+  });
+
+  const onConfrimDelete = () => {
+    if (idItemShouldDelete) deleteMutation.mutate(idItemShouldDelete);
+  };
+
+  const onCancelDelete = () => {
+    setIsShowConfrimDelete(false);
+  };
+
+  const handleDeleteBtnClick = (
+    row: TableDataItemShape & GetSingleLevel5DetailProposalItemShape
+  ) => {
+    setIdItemShouldDelete(row.id);
+    setIsShowConfrimDelete(true);
+  };
+
   // data
   const actionButtons = (
     row: TableDataItemShape & GetSingleLevel5DetailProposalItemShape
   ) => (
     <>
-      <IconButton size="small" color="error" onClick={() => {}}>
+      <IconButton
+        size="small"
+        color="error"
+        onClick={() => handleDeleteBtnClick(row)}
+      >
         <DeleteIcon />
       </IconButton>
 
@@ -147,7 +203,9 @@ function ProposalModal3(props: ProposalModal3Props) {
     return formatedData;
   };
 
-  const tableData = data ? formatTableData(data) : [];
+  const tableData = dataMutation.data?.data
+    ? formatTableData(dataMutation.data.data)
+    : formatTableData(data);
 
   // footer
   const tableFooter: TableDataItemShape | any = {
@@ -183,6 +241,9 @@ function ProposalModal3(props: ProposalModal3Props) {
         <ProposalModal3Search
           formData={formData}
           data={searchMutation.data?.data || []}
+          modal1CodingId={modal1CodingId}
+          projectId={projectId}
+          onDoneTask={handleDoneModal3Task}
         />
       </FixedModal>
 
@@ -194,8 +255,19 @@ function ProposalModal3(props: ProposalModal3Props) {
         maxWidth="sm"
         maxHeight="60%"
       >
-        <ProposalModal3Edit initialData={editModalInitialData} />
+        <ProposalModal3Edit
+          initialData={editModalInitialData}
+          onDoneTask={handleDoneModal3Task}
+        />
       </FixedModal>
+
+      {/* confrim delete */}
+      <ConfrimProcessModal
+        onCancel={onCancelDelete}
+        onConfrim={onConfrimDelete}
+        open={isShowConfrimDelete}
+        title="حذف آیتم"
+      />
     </>
   );
 }

@@ -67,8 +67,7 @@ export const proposalBudgetApi = new (class extends BaseApi {
       [proposalConfig.coding]: formdata[proposalConfig.coding],
     };
 
-    const url =
-      propsalBudgetUrls.getLevel5Detail + this.joinFilterData(filterData);
+    const url = propsalBudgetUrls.getModal3 + this.joinFilterData(filterData);
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleLevel5DetailProposalItemShape[]>
     >(url);
@@ -125,10 +124,32 @@ export const proposalBudgetApi = new (class extends BaseApi {
     return response.data;
   };
 
+  editModal2 = async (formdata: any) => {
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      propsalBudgetUrls.editModal2,
+      formdata
+    );
+    return response.data;
+  };
+
+  deleteModal2 = async (id: number) => {
+    const url = propsalBudgetUrls.deleteModal2 + id;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(url);
+    return response.data;
+  };
+
   // modal 3
   editModal3 = async (formdata: any) => {
     const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
       propsalBudgetUrls.editModal3,
+      formdata
+    );
+    return response.data;
+  };
+
+  insertModal3 = async (formdata: any) => {
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      propsalBudgetUrls.insertModal3,
       formdata
     );
     return response.data;

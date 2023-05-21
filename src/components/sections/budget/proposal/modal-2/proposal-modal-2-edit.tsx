@@ -15,10 +15,11 @@ import { proposalBudgetApi } from "api/budget/proposal-api";
 
 interface ProposalModal2EditProps {
   initialData: any;
+  onDoneTask: () => void;
 }
 
 function ProposalModal2Edit(props: ProposalModal2EditProps) {
-  const { initialData } = props;
+  const { initialData, onDoneTask } = props;
 
   // form manage
   const editFormSchema = yup.object({
@@ -33,11 +34,12 @@ function ProposalModal2Edit(props: ProposalModal2EditProps) {
     resolver: yupResolver(editFormSchema),
   });
 
-  const editMutation = useMutation(proposalBudgetApi.editModal1, {
+  const editMutation = useMutation(proposalBudgetApi.editModal2, {
     onSuccess: () => {
       enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
         variant: "success",
       });
+      onDoneTask();
     },
     onError: () => {
       enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
@@ -47,7 +49,10 @@ function ProposalModal2Edit(props: ProposalModal2EditProps) {
   });
 
   const onSubmitHandler = (values: any) => {
-    editMutation.mutate(values);
+    editMutation.mutate({
+      ...values,
+      id: initialData.id,
+    });
   };
 
   return (

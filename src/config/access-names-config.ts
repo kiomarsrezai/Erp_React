@@ -21,16 +21,11 @@ export const accessNamesConfig = {
   BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE: "budget-report-abstruct-budget",
   BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE_KIND: "budget-kind",
 
-
-
-
-
   BUDGET__REPORT_PAGE: "budget-report",
   BUDGET__REPORT_PAGE_COMBO: "combo",
 
   BUDGET__REPORT__EXPENSE_PAGE: "budget-report-expense",
   BUDGET__REPORT__EXPENSE_PAGE_CENTER: "center",
-
 
   // contracts
   CONTRACT__MANAGE_PAGE: "contract-manage",
