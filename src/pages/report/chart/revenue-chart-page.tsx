@@ -7,7 +7,7 @@ import RevenueChartForm from "components/sections/report/chart/revenue-chart-for
 
 import { revenueChartApi } from "api/report/chart-api";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { revenueChartFormConfig } from "config/features/revenue-chart-config";
 import { globalConfig } from "config/global-config";
@@ -37,7 +37,13 @@ const formatChatData = (unFormatData: GetChartShape): ChartDataShape[] => {
   return formatedData;
 };
 
-function ReportRevenueChartPage() {
+interface ReportRevenueChartPageProps {
+  inputRender?: ReactNode;
+}
+
+function ReportRevenueChartPage(props: ReportRevenueChartPageProps) {
+  const { inputRender } = props;
+
   const [formData, setFormData] = useState({
     [revenueChartFormConfig.YEAR]: undefined,
     [revenueChartFormConfig.CENTER]: undefined,
@@ -76,7 +82,11 @@ function ReportRevenueChartPage() {
         }}
       >
         <Box ref={boxElement}>
-          <RevenueChartForm formData={formData} setFormData={setFormData} />
+          <RevenueChartForm
+            formData={formData}
+            setFormData={setFormData}
+            inputRender={inputRender}
+          />
         </Box>
         <Box
           sx={{

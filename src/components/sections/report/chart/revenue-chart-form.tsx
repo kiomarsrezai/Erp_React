@@ -12,7 +12,7 @@ import SectionGuard from "components/auth/section-guard";
 import userStore from "hooks/store/user-store";
 import RevenueChartModal1 from "./revenue-chart-modal-1";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, ReactNode, useEffect, useState } from "react";
 import { revenueChartFormConfig } from "config/features/revenue-chart-config";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { revenueChartApi } from "api/report/chart-api";
@@ -31,9 +31,10 @@ import {
 interface RevenueChartFormProps {
   formData: any;
   setFormData: (prevState: any) => void;
+  inputRender?: ReactNode;
 }
 function RevenueChartForm(props: RevenueChartFormProps) {
-  const { formData, setFormData } = props;
+  const { formData, setFormData, inputRender } = props;
   const userLicenses = userStore((state) => state.permissions);
 
   // form
@@ -145,6 +146,8 @@ function RevenueChartForm(props: RevenueChartFormProps) {
     <>
       <Box component="form" padding={2} onSubmit={handleSubmit}>
         <Grid container spacing={2}>
+          {inputRender && <Grid xs={2}>{inputRender}</Grid>}
+
           <SectionGuard
             permission={joinPermissions([
               accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,

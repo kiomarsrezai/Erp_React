@@ -11,7 +11,7 @@ interface FlotingLabelTextfieldProps {
   label: string;
   name: string;
   items: FlotingLabelTextfieldItemsShape;
-  value: string | number | boolean | undefined;
+  value: string | number | boolean | undefined | null;
   setter?: (data: any) => void;
   manualHandleChange?: (value: any) => void;
   disabled?: boolean;
