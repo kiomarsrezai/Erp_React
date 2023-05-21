@@ -154,6 +154,7 @@ function ProposalModal1(props: ProposalModal1Props) {
       });
       handleDoneActionTask();
       setIsOpenEditModal(false);
+      setIsShowConfrimDelete(false);
     },
     onError: () => {
       enqueueSnackbar(globalConfig.ERROR_MESSAGE, {

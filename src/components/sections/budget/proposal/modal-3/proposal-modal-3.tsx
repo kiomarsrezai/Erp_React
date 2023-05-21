@@ -132,12 +132,13 @@ function ProposalModal3(props: ProposalModal3Props) {
     useState<boolean>(false);
   const [idItemShouldDelete, setIdItemShouldDelete] = useState<number>();
 
-  const deleteMutation = useMutation(proposalBudgetApi.deleteModal2, {
+  const deleteMutation = useMutation(proposalBudgetApi.deleteModal3, {
     onSuccess: () => {
       enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
         variant: "success",
       });
-      setIsOpenEditModal(false);
+      handleDoneModal3Task();
+      setIsShowConfrimDelete(false);
     },
     onError: () => {
       enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
