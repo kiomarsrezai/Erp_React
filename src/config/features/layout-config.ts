@@ -110,16 +110,17 @@ export const sidenavsLayout: SidenavShape[] = [
         icon: SummarizeIcon,
         items: [
           {
-            title: "نمودار عملکرد",
-            path: "/report/chart/revenue",
+            title: "گزارشات",
+            path: "/budget/report",
             icon: AssessmentIcon,
-            licenseName: accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
+            licenseName: accessNamesConfig.BUDGET__REPORT_PAGE,
             element: ReportRevenueChartPage,
             permissionItems: [
-              getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
-              accessNamesConfig.FIELD_BUDGET_METHOD,
-              accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER,
-              accessNamesConfig.FIELD_ORGAN,
+              accessNamesConfig.BUDGET__REPORT_PAGE_COMBO
+              // getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
+              // accessNamesConfig.FIELD_BUDGET_METHOD,
+              // accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER,
+              // accessNamesConfig.FIELD_ORGAN,
             ],
           },
           {

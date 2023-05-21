@@ -6,6 +6,7 @@ import { accessNamesConfig } from "config/access-names-config";
 import {
   budgetKindItems,
   budgetMethodItems,
+  budgetReportItems,
   centerItems,
   organItems,
   trazKindItems,
@@ -92,6 +93,12 @@ function usePermissions() {
     budgetMethodItems
   );
 
+  const budgetField = formatLocalFields(
+    "نوع گزارش",
+    accessNamesConfig.BUDGET__REPORT_PAGE_COMBO,
+    budgetReportItems
+  );
+
   //   budget kind
   const budgetKindField = formatLocalFields(
     "نوع فرایند",
@@ -151,6 +158,8 @@ function usePermissions() {
     // abstruct
     [accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE_KIND]:
       budgetKindField,
+
+      [accessNamesConfig.BUDGET__REPORT_PAGE_COMBO] : budgetField,
     // seprator
     [accessNamesConfig.BUDGET__SEPRATOR_PAGE_TAMIN_BTN]: {
       label: "دکمه تامین اعتبار",
