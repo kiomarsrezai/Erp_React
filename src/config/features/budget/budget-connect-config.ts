@@ -4,8 +4,10 @@ export const budgetConnectConfig = {
   YEAR: generalFieldsConfig.YEAR,
   AREA: generalFieldsConfig.AREA,
   BUDGET_METHOD: generalFieldsConfig.BUDGET_METHOD,
+  proctor: generalFieldsConfig.PROCTOR,
 };
 
 export const budgetConnectUrls = {
   getData: "Budget/BudgetConnectRead",
+  updateItem: "Budget/BudgetConnectUpdate",
 };

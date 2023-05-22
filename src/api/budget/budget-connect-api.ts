@@ -14,4 +14,11 @@ export const connectBudgetApi = new (class extends BaseApi {
     >(url);
     return response.data;
   };
+
+  updateItem = async (formdata: any) => {
+    const response = await clientAxios.post<
+      BaseApiResponseShape<GetSingleBudgetConnectItemShape[]>
+    >(budgetConnectUrls.updateItem, formdata);
+    return response.data;
+  };
 })();

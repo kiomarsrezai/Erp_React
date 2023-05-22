@@ -7,7 +7,7 @@ import { abstructProctorApi } from "api/report/abstruct-proctor-api";
 
 interface AreaInputProps {
   setter: (prevData: any) => void;
-  value: number;
+  value: number | undefined;
 }
 
 function ProctorInput(props: AreaInputProps) {
@@ -18,10 +18,10 @@ function ProctorInput(props: AreaInputProps) {
     () => abstructProctorApi.getProctorList(),
     {
       onSuccess: (data) => {
-        setter((prevState: any) => ({
-          ...prevState,
-          [abstructProctorConfig.PROCTOR]: data.data[0].id,
-        }));
+        // setter((prevState: any) => ({
+        //   ...prevState,
+        //   [abstructProctorConfig.PROCTOR]: data.data[0].id,
+        // }));
       },
     }
   );
@@ -35,7 +35,7 @@ function ProctorInput(props: AreaInputProps) {
 
   return (
     <FlotingLabelSelect
-      label="بخش"
+      label="متولی"
       name={abstructProctorConfig.PROCTOR}
       items={proctorItems}
       value={value}

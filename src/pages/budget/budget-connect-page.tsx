@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { connectBudgetApi } from "api/budget/budget-connect-api";
 import FixedTable from "components/data/table/fixed-table";
 import IconButton from "@mui/material/IconButton";
@@ -10,12 +10,16 @@ import { ReactNode, useState } from "react";
 import { GetSingleBudgetConnectItemShape } from "types/data/budget/budget-connect-type";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import EditIcon from "@mui/icons-material/Edit";
+import FixedModal from "components/ui/modal/fixed-modal";
+import BudgetConnectEditModal from "components/sections/budget/connect/budget-connect-edit-modal";
+import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 
 interface TableDataItemShape {
   number: ReactNode;
   code: ReactNode;
   description: ReactNode;
   mosavab: ReactNode;
+  proctorName: ReactNode;
   actions: ((row: TableDataItemShape) => ReactNode) | ReactNode;
 }
 
@@ -42,6 +46,11 @@ function BudgetConnectPage() {
       name: "description",
     },
     {
+      title: "متولی",
+      align: "left",
+      name: "proctorName",
+    },
+    {
       title: "مصوب",
       align: "left",
       name: "mosavab",
@@ -63,9 +72,35 @@ function BudgetConnectPage() {
     },
   ];
 
+  // edit modal
+  const [isOpenEditModal, setIsOpenEditModal] = useState(false);
+  const [editModalTitle, setEditModalTitle] = useState("");
+
+  const [editModalInitialData, setEditModalInitialData] =
+    useState<GetSingleBudgetConnectItemShape | null>(null);
+
+  const openEditModal = (row: GetSingleBudgetConnectItemShape) => {
+    setEditModalTitle(row.description);
+    setIsOpenEditModal(true);
+    setEditModalInitialData(row);
+  };
+
+  const queryClient = useQueryClient();
+  const getDataMutation = useMutation(connectBudgetApi.getData, {
+    onSuccess: (data) => {
+      queryClient.setQueryData(reactQueryKeys.budget.connect.getData, data);
+    },
+  });
+
+  const handleDoneModalEditTask = () => {
+    setIsOpenEditModal(false);
+    setEditModalInitialData(null);
+    getDataMutation.mutate(formData);
+  };
+
   // actions
-  const actionButtons = (
-    <IconButton size="small" color="primary" onClick={() => {}}>
+  const actionButtons = (row: GetSingleBudgetConnectItemShape) => (
+    <IconButton size="small" color="primary" onClick={() => openEditModal(row)}>
       <EditIcon />
     </IconButton>
   );
@@ -78,6 +113,9 @@ function BudgetConnectPage() {
       (item, i) => ({
         ...item,
         number: i + 1,
+        proctorName: (
+          <span style={{ whiteSpace: "nowrap" }}>{item.proctorName}</span>
+        ),
         actions: actionButtons,
       })
     );
@@ -97,14 +135,41 @@ function BudgetConnectPage() {
     ? formatTableData(proposalQuery.data?.data)
     : [];
 
+  // footer
+  const tableFooter: TableDataItemShape | any = {
+    number: "جمع",
+    "colspan-number": 4,
+    code: null,
+    description: null,
+    proctorName: null,
+    mosavab: sumFieldsInSingleItemData(proposalQuery.data?.data, "mosavab"),
+    actions: "",
+  };
+
   return (
-    <AdminLayout>
-      <FixedTable
-        heads={tableHeads}
-        headGroups={tableHeadGroups}
-        data={tableData}
-      />
-    </AdminLayout>
+    <>
+      <AdminLayout>
+        <FixedTable
+          heads={tableHeads}
+          headGroups={tableHeadGroups}
+          data={tableData}
+          footer={tableFooter}
+        />
+      </AdminLayout>
+
+      <FixedModal
+        open={isOpenEditModal}
+        handleClose={() => setIsOpenEditModal(false)}
+        title={editModalTitle}
+        maxWidth="md"
+        maxHeight="30%"
+      >
+        <BudgetConnectEditModal
+          initialData={editModalInitialData}
+          onDoneTask={handleDoneModalEditTask}
+        />
+      </FixedModal>
+    </>
   );
 }
 

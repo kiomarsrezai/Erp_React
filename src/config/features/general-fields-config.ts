@@ -6,6 +6,7 @@ export const generalFieldsConfig = {
   BUDGET_METHOD: "budgetprocessId",
   CENTER: "center",
   ORGAN: "structureId",
+  PROCTOR: "proctorId",
 };
 
 export const centerItems: FlotingLabelTextfieldItemsShape = [
