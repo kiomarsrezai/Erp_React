@@ -40,10 +40,11 @@ const formatChatData = (
 
 interface ReportRavandBudgetChartProps {
   inputRender?: ReactNode;
+  tabRender?: ReactNode;
 }
 
 function ReportRavandBudgetChart(props: ReportRavandBudgetChartProps) {
-  const { inputRender } = props;
+  const { inputRender, tabRender } = props;
 
   const [formData, setFormData] = useState({
     [ravandChartConfig.area]: undefined,
@@ -81,6 +82,7 @@ function ReportRavandBudgetChart(props: ReportRavandBudgetChartProps) {
             formData={formData}
             setFormData={setFormData}
             inputRender={inputRender}
+            tabRender={tabRender}
           />
         </Box>
         <Box

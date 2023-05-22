@@ -32,9 +32,10 @@ interface RevenueChartFormProps {
   formData: any;
   setFormData: (prevState: any) => void;
   inputRender?: ReactNode;
+  tabRender?: ReactNode;
 }
 function RevenueChartForm(props: RevenueChartFormProps) {
-  const { formData, setFormData, inputRender } = props;
+  const { formData, setFormData, inputRender, tabRender } = props;
   const userLicenses = userStore((state) => state.permissions);
 
   // form
@@ -146,6 +147,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
     <>
       <Box component="form" padding={2} onSubmit={handleSubmit}>
         <Grid container spacing={2}>
+          {tabRender && <Grid xs={12}>{tabRender}</Grid>}
           {inputRender && <Grid xs={2}>{inputRender}</Grid>}
 
           <SectionGuard

@@ -22,9 +22,10 @@ interface ReportRavandBudgetFormProps {
   formData: any;
   setFormData: (prevState: any) => void;
   inputRender?: ReactNode;
+  tabRender?: ReactNode;
 }
 function ReportRavandBudgetForm(props: ReportRavandBudgetFormProps) {
-  const { formData, setFormData, inputRender } = props;
+  const { formData, setFormData, inputRender, tabRender } = props;
   const userLicenses = userStore((state) => state.permissions);
 
   // form
@@ -74,6 +75,7 @@ function ReportRavandBudgetForm(props: ReportRavandBudgetFormProps) {
   return (
     <Box component="form" padding={2} onSubmit={handleSubmit}>
       <Grid container spacing={2}>
+        {tabRender && <Grid xs={12}>{tabRender}</Grid>}
         {inputRender && <Grid xs={2}>{inputRender}</Grid>}
 
         {/* <SectionGuard

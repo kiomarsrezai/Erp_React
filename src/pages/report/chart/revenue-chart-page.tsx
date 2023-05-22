@@ -39,10 +39,11 @@ const formatChatData = (unFormatData: GetChartShape): ChartDataShape[] => {
 
 interface ReportRevenueChartPageProps {
   inputRender?: ReactNode;
+  tabRender?: ReactNode;
 }
 
 function ReportRevenueChartPage(props: ReportRevenueChartPageProps) {
-  const { inputRender } = props;
+  const { inputRender, tabRender } = props;
 
   const [formData, setFormData] = useState({
     [revenueChartFormConfig.YEAR]: undefined,
@@ -86,6 +87,7 @@ function ReportRevenueChartPage(props: ReportRevenueChartPageProps) {
             formData={formData}
             setFormData={setFormData}
             inputRender={inputRender}
+            tabRender={tabRender}
           />
         </Box>
         <Box
