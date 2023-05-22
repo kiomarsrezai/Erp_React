@@ -35,6 +35,7 @@ import ProgramOperationProjectPage from "pages/project/program-operation-page";
 import AbstructBudgetPage from "pages/report/budget/abstruct-budget-page";
 import SuppliersPage from "pages/base/suppliers-page";
 import BudgetReportsPage from "pages/budget/report/budget-report-page";
+import BudgetConnectPage from "pages/budget/budget-connect-page";
 
 export const sidenavsLayout: SidenavShape[] = [
   // report
@@ -102,9 +103,15 @@ export const sidenavsLayout: SidenavShape[] = [
       },
       {
         title: "انتصاب",
-        path: "/",
+        path: "/budget/connect",
         icon: IndeterminateCheckBoxIcon,
         licenseName: accessNamesConfig.BUDGET__ENTESAB_PAGE,
+        element: BudgetConnectPage,
+        permissionItems: [
+          getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
+          getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 3),
+          accessNamesConfig.FIELD_BUDGET_METHOD,
+        ],
       },
       {
         title: "گزارشات بودجه",
@@ -117,29 +124,10 @@ export const sidenavsLayout: SidenavShape[] = [
             licenseName: accessNamesConfig.BUDGET__REPORT_PAGE,
             element: BudgetReportsPage,
             permissionItems: [
-              // accessNamesConfig.BUDGET__REPORT_PAGE_COMBO,
               accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND,
               accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
-              // getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
-              // accessNamesConfig.FIELD_BUDGET_METHOD,
-              // accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER,
-              // accessNamesConfig.FIELD_ORGAN,
             ],
           },
-
-          // {
-          //   title: "نمودار عملکرد",
-          //   path: "/report/chart/revenue",
-          //   icon: AssessmentIcon,
-          //   licenseName: accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
-          //   element: ReportRevenueChartPage,
-          //   permissionItems: [
-          //     getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
-          //     accessNamesConfig.FIELD_BUDGET_METHOD,
-          //     accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER,
-          //     accessNamesConfig.FIELD_ORGAN,
-          //   ],
-          // },
 
           {
             title: "گزارش متولی",
