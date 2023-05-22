@@ -26,13 +26,24 @@ function AdminSidenavMenu() {
     return location.pathname === path;
   };
 
+  const formatLicenses = (items?: SidenavShape[]) => {
+    let formated: string[] = [];
+
+    items?.forEach((item) => {
+      formated = [
+        item.licenseName as string,
+        ...formated,
+        ...formatLicenses(item.items),
+      ];
+    });
+
+    return formated;
+  };
+
   const renderItem = (sidenav: SidenavShape, i: number, level: number) => {
     return (
       <SectionGuard
-        permission={
-          sidenav.licenseName ||
-          sidenav.items?.map((item) => item.licenseName as string)
-        }
+        permission={sidenav.licenseName || formatLicenses(sidenav.items)}
         oneOfPermissions
       >
         <Tooltip title={normalize ? sidenav.title : ""} placement="right">

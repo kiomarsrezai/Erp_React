@@ -52,21 +52,24 @@ function RevenueChartForm(props: RevenueChartFormProps) {
     e.preventDefault();
 
     // permission
-    // const havePermission = checkHavePermission(
-    //   userLicenses,
-    //   [
-    //     accessNamesConfig.FIELD_YEAR,
-    //     accessNamesConfig.FIELD_BUDGET_METHOD,
-    //     accessNamesConfig.FIELD_ORGAN,
-    //   ],
-    //   accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE
-    // );
+    const havePermission = checkHavePermission(
+      userLicenses,
+      [
+        accessNamesConfig.FIELD_YEAR,
+        accessNamesConfig.FIELD_BUDGET_METHOD,
+        accessNamesConfig.FIELD_ORGAN,
+      ],
+      joinPermissions([
+        accessNamesConfig.BUDGET__REPORT_PAGE,
+        accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
+      ])
+    );
 
-    // if (!havePermission) {
-    //   return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
-    //     variant: "error",
-    //   });
-    // }
+    if (!havePermission) {
+      return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
+        variant: "error",
+      });
+    }
 
     setHaveSubmitedForm(true);
 
@@ -107,21 +110,24 @@ function RevenueChartForm(props: RevenueChartFormProps) {
 
   const handleClickDetailValues = () => {
     // permission
-    // const havePermission = checkHavePermission(
-    //   userLicenses,
-    //   [
-    //     accessNamesConfig.FIELD_YEAR,
-    //     accessNamesConfig.FIELD_BUDGET_METHOD,
-    //     accessNamesConfig.FIELD_ORGAN,
-    //   ],
-    //   accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE
-    // );
+    const havePermission = checkHavePermission(
+      userLicenses,
+      [
+        accessNamesConfig.FIELD_YEAR,
+        accessNamesConfig.FIELD_BUDGET_METHOD,
+        accessNamesConfig.FIELD_ORGAN,
+      ],
+      joinPermissions([
+        accessNamesConfig.BUDGET__REPORT_PAGE,
+        accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
+      ])
+    );
 
-    // if (!havePermission) {
-    //   return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
-    //     variant: "error",
-    //   });
-    // }
+    if (!havePermission) {
+      return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
+        variant: "error",
+      });
+    }
 
     setHaveSubmitedForm(true);
 
@@ -150,89 +156,99 @@ function RevenueChartForm(props: RevenueChartFormProps) {
           {tabRender && <Grid xs={12}>{tabRender}</Grid>}
           {inputRender && <Grid xs={2}>{inputRender}</Grid>}
 
-          {/* <SectionGuard
+          <SectionGuard
             permission={joinPermissions([
-              accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
+              accessNamesConfig.BUDGET__REPORT_PAGE,
+              accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
               accessNamesConfig.FIELD_ORGAN,
             ])}
-          > */}
-          <Grid xs={2}>
-            <FlotingLabelSelect
-              label="سازمان"
-              name={revenueChartFormConfig.ORGAN}
-              // items={filedItemsGuard(
-              //   organItems,
-              //   userLicenses,
-              //   joinPermissions([
-              //     accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
-              //     accessNamesConfig.FIELD_ORGAN,
-              //   ])
-              // )}
-              items={organItems}
-              value={formData[revenueChartFormConfig.ORGAN]}
-              setter={setFormData}
-              showError={haveSubmitedForm}
-            />
-          </Grid>
-          {/* </SectionGuard> */}
-          {/* <SectionGuard
-            permission={joinPermissions([
-              accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
-              accessNamesConfig.FIELD_YEAR,
-            ])}
-          > */}
-          <Grid xs={2}>
-            <YearInput
-              setter={setFormData}
-              value={formData[revenueChartFormConfig.YEAR] as number}
-              // permissionForm={accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE}
-              showError={haveSubmitedForm}
-            />
-          </Grid>
-          {/* </SectionGuard> */}
-          {!(formData[revenueChartFormConfig.ORGAN] === 4) && (
-            // <SectionGuard
-            //   permission={joinPermissions([
-            //     accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
-            //     accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER,
-            //   ])}
-            // >
+          >
             <Grid xs={2}>
               <FlotingLabelSelect
-                label="مرکز"
-                name={revenueChartFormConfig.CENTER}
-                // items={filedItemsGuard(
-                //   centerItems,
-                //   userLicenses,
-                //   joinPermissions([
-                //     accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
-                //     accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER,
-                //   ])
-                // )}
-                items={centerItems}
-                value={formData[revenueChartFormConfig.CENTER]}
+                label="سازمان"
+                name={revenueChartFormConfig.ORGAN}
+                items={filedItemsGuard(
+                  organItems,
+                  userLicenses,
+                  joinPermissions([
+                    accessNamesConfig.BUDGET__REPORT_PAGE,
+                    accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
+                    accessNamesConfig.FIELD_ORGAN,
+                  ])
+                )}
+                value={formData[revenueChartFormConfig.ORGAN]}
                 setter={setFormData}
                 showError={haveSubmitedForm}
               />
             </Grid>
-            // </SectionGuard>
+          </SectionGuard>
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.BUDGET__REPORT_PAGE,
+              accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
+              accessNamesConfig.FIELD_YEAR,
+            ])}
+          >
+            <Grid xs={2}>
+              <YearInput
+                setter={setFormData}
+                value={formData[revenueChartFormConfig.YEAR] as number}
+                permissionForm={joinPermissions([
+                  accessNamesConfig.BUDGET__REPORT_PAGE,
+                  accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
+                ])}
+                showError={haveSubmitedForm}
+              />
+            </Grid>
+          </SectionGuard>
+          {!(formData[revenueChartFormConfig.ORGAN] === 4) && (
+            <SectionGuard
+              permission={joinPermissions([
+                accessNamesConfig.BUDGET__REPORT_PAGE,
+                accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
+                accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE_CENTER,
+              ])}
+            >
+              <Grid xs={2}>
+                <FlotingLabelSelect
+                  label="مرکز"
+                  name={revenueChartFormConfig.CENTER}
+                  items={filedItemsGuard(
+                    centerItems,
+                    userLicenses,
+                    joinPermissions([
+                      accessNamesConfig.BUDGET__REPORT_PAGE,
+                      accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
+                      accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE_CENTER,
+                    ])
+                  )}
+                  value={formData[revenueChartFormConfig.CENTER]}
+                  setter={setFormData}
+                  showError={haveSubmitedForm}
+                />
+              </Grid>
+            </SectionGuard>
           )}
 
-          {/* <SectionGuard
+          <SectionGuard
             permission={joinPermissions([
-              accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
+              accessNamesConfig.BUDGET__REPORT_PAGE,
+              accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
               accessNamesConfig.FIELD_BUDGET_METHOD,
             ])}
-          > */}
-          <Grid xs={2}>
-            <BudgetMethodInput
-              setter={setFormData}
-              value={formData[revenueChartFormConfig.BUDGET_METHOD] as number}
-              // permissionForm={accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE}
-              showError={haveSubmitedForm}
-            />
-          </Grid>
-          {/* </SectionGuard> */}
+          >
+            <Grid xs={2}>
+              <BudgetMethodInput
+                setter={setFormData}
+                value={formData[revenueChartFormConfig.BUDGET_METHOD] as number}
+                permissionForm={joinPermissions([
+                  accessNamesConfig.BUDGET__REPORT_PAGE,
+                  accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
+                ])}
+                showError={haveSubmitedForm}
+              />
+            </Grid>
+          </SectionGuard>
           <Grid xs>
             <Stack direction="row" flexWrap="wrap" gap={1}>
               <CheckboxLabeled

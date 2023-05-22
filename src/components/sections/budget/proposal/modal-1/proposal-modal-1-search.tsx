@@ -118,12 +118,11 @@ function ProposalModal1Search(props: ProposalModal1SearchProos) {
   };
 
   const tableData = formatTableData(
-      data.filter(
-        (item) =>
-          item.description.includes(filterText) ||
-          item.code.includes(filterText)
-      )
+    data.filter(
+      (item) =>
+        item.description.includes(filterText) || item.code.includes(filterText)
     )
+  );
 
   return (
     <FixedTable

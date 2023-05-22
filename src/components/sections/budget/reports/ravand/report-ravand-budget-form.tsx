@@ -42,17 +42,20 @@ function ReportRavandBudgetForm(props: ReportRavandBudgetFormProps) {
     e.preventDefault();
 
     // permission
-    // const havePermission = checkHavePermission(
-    //   userLicenses,
-    //   [accessNamesConfig.FIELD_AREA, accessNamesConfig.FIELD_BUDGET_METHOD],
-    //   accessNamesConfig.BUDGET__REPORT_PAGE
-    // );
+    const havePermission = checkHavePermission(
+      userLicenses,
+      [accessNamesConfig.FIELD_AREA, accessNamesConfig.FIELD_BUDGET_METHOD],
+      joinPermissions([
+        accessNamesConfig.BUDGET__REPORT_PAGE,
+        accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND,
+      ])
+    );
 
-    // if (!havePermission) {
-    //   return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
-    //     variant: "error",
-    //   });
-    // }
+    if (!havePermission) {
+      return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
+        variant: "error",
+      });
+    }
 
     setHaveSubmitedForm(true);
 
@@ -78,37 +81,46 @@ function ReportRavandBudgetForm(props: ReportRavandBudgetFormProps) {
         {tabRender && <Grid xs={12}>{tabRender}</Grid>}
         {inputRender && <Grid xs={2}>{inputRender}</Grid>}
 
-        {/* <SectionGuard
+        <SectionGuard
           permission={joinPermissions([
             accessNamesConfig.BUDGET__REPORT_PAGE,
+            accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND,
             accessNamesConfig.FIELD_AREA,
           ])}
-        > */}
-        <Grid lg={2}>
-          <AreaInput
-            setter={setFormData}
-            value={formData[ravandChartConfig.area]}
-            // permissionForm={accessNamesConfig.BUDGET__REPORT_PAGE}
-            level={1}
-            showError={haveSubmitedForm}
-          />
-        </Grid>
-        {/* </SectionGuard> */}
+        >
+          <Grid lg={2}>
+            <AreaInput
+              setter={setFormData}
+              value={formData[ravandChartConfig.area]}
+              permissionForm={joinPermissions([
+                accessNamesConfig.BUDGET__REPORT_PAGE,
+                accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND,
+              ])}
+              level={3}
+              showError={haveSubmitedForm}
+            />
+          </Grid>
+        </SectionGuard>
 
-        {/* <SectionGuard
+        <SectionGuard
           permission={joinPermissions([
             accessNamesConfig.BUDGET__REPORT_PAGE,
+            accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND,
             accessNamesConfig.FIELD_BUDGET_METHOD,
           ])}
-        > */}
-        <Grid xs={2}>
-          <BudgetMethodInput
-            setter={setFormData}
-            value={formData[revenueChartFormConfig.BUDGET_METHOD] as number}
-            // permissionForm={accessNamesConfig.BUDGET__REPORT_PAGE}
-            showError={haveSubmitedForm}
-          />
-        </Grid>
+        >
+          <Grid xs={2}>
+            <BudgetMethodInput
+              setter={setFormData}
+              value={formData[revenueChartFormConfig.BUDGET_METHOD] as number}
+              permissionForm={joinPermissions([
+                accessNamesConfig.BUDGET__REPORT_PAGE,
+                accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND,
+              ])}
+              showError={haveSubmitedForm}
+            />
+          </Grid>
+        </SectionGuard>
 
         <Grid xs={2}>
           <LoadingButton
@@ -119,7 +131,6 @@ function ReportRavandBudgetForm(props: ReportRavandBudgetFormProps) {
             نمایش
           </LoadingButton>
         </Grid>
-        {/* </SectionGuard> */}
       </Grid>
     </Box>
   );

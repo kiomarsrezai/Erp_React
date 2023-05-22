@@ -10,64 +10,57 @@ import Tab from "@mui/material/Tab";
 
 import { useState } from "react";
 import { accessNamesConfig } from "config/access-names-config";
-import { joinPermissions } from "helper/auth-utils";
+import { checkHavePermission, joinPermissions } from "helper/auth-utils";
 import { budgetReportItems } from "config/features/general-fields-config";
+import userStore from "hooks/store/user-store";
 
 function BudgetReportsPage() {
-  const [formData, setFormData] = useState({
-    chartType: null,
-  });
+  const [tabValue, setTabValue] = useState(undefined);
+  const userLicenses = userStore((state) => state.permissions);
 
-  const [tabValue, setTabValue] = useState(0);
+  const formatTabPermission = (id: number) => {
+    switch (id) {
+      case 1:
+        return accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE;
 
-  const budgetTypeComboRender = (
-    <BudgetReportTypeInput
-      setter={setFormData}
-      value={formData.chartType}
-      name="chartType"
-      permissionForm={accessNamesConfig.BUDGET__REPORT_PAGE}
-    />
-  );
+      case 2:
+        return accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND;
+
+      default:
+        return "";
+    }
+  };
 
   const budgetTabRender = (
-    <Tabs value={tabValue} onChange={(e, newValue) => setTabValue(newValue)}>
-      {budgetReportItems.map((item, i) => (
-        <Tab label={item.label} value={item.value} />
-      ))}
+    <Tabs
+      value={tabValue}
+      onChange={(e, newValue) => {
+        setTabValue(newValue);
+      }}
+    >
+      {budgetReportItems
+        .filter((item) =>
+          checkHavePermission(
+            userLicenses,
+            [formatTabPermission(item.value as number)],
+            accessNamesConfig.BUDGET__REPORT_PAGE
+          )
+        )
+        .map((item, i) => (
+          <Tab label={item.label} value={item.value} />
+        ))}
     </Tabs>
   );
 
   // revenue chart page
-  // formData.chartType === 1
   if (tabValue === 1) {
     return <ReportRevenueChartPage tabRender={budgetTabRender} />;
   }
 
   // ravand chart page
-  // formData.chartType === 2
   if (tabValue === 2) {
     return <ReportRavandBudgetChart tabRender={budgetTabRender} />;
   }
-
-  // no one selected
-  // return (
-  //   <AdminLayout>
-  //     <Box padding={2}>
-  //       <Grid container spacing={2}>
-  //         <Grid sm={2}>
-  //           <SectionGuard
-  //             permission={joinPermissions([
-  //               accessNamesConfig.BUDGET__REPORT_PAGE,
-  //               accessNamesConfig.BUDGET__REPORT_PAGE_COMBO,
-  //             ])}
-  //           >
-  //             {budgetTypeComboRender}
-  //           </SectionGuard>
-  //         </Grid>
-  //       </Grid>
-  //     </Box>
-  //   </AdminLayout>
-  // );
 
   return (
     <AdminLayout>

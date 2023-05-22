@@ -168,7 +168,7 @@ function usePermissions() {
     ),
     [accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE]: formatLocalFields(
       "عملکرد",
-      accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND,
+      accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
       [yearLevel1Field, budgetMethodField, centerField, organField]
     ),
 
