@@ -69,49 +69,55 @@ function FixedTable(props: FixedTableProps) {
     tableLayout,
   } = props;
 
-  const VirtuosoTableComponents: TableComponents = {
-    Scroller: React.forwardRef<HTMLDivElement>((props, ref) => (
-      <TableContainer component={Paper} {...props} ref={ref} />
-    )),
-    Table: (props) => (
-      <Table
-        {...props}
-        sx={{ borderCollapse: "separate", tableLayout: tableLayout || "fixed" }}
-      />
-    ),
-    TableHead,
-    TableFoot: (props: any) => (
-      <TableFooter sx={{ bgcolor: grey[200], position: "sticky", bottom: 0 }}>
-        {props.children}
-      </TableFooter>
-    ),
-    TableRow: ({ item: row, ...props }: any) => (
-      <TableRow
-        sx={{
-          transition: "background ease 0.1s",
-          "&:last-child td, &:last-child th": { border: 0 },
-          "&:nth-of-type(even)": {
-            bgcolor: row.bgcolor || grey[200],
+  const VirtuosoTableComponents: TableComponents = React.useMemo(
+    () => ({
+      Scroller: React.forwardRef<HTMLDivElement>((props, ref) => (
+        <TableContainer component={Paper} {...props} ref={ref} />
+      )),
+      Table: (props) => (
+        <Table
+          {...props}
+          sx={{
+            borderCollapse: "separate",
+            tableLayout: tableLayout || "fixed",
+          }}
+        />
+      ),
+      TableHead,
+      TableFoot: (props: any) => (
+        <TableFooter sx={{ bgcolor: grey[200], position: "sticky", bottom: 0 }}>
+          {props.children}
+        </TableFooter>
+      ),
+      TableRow: ({ item: row, ...props }: any) => (
+        <TableRow
+          sx={{
+            transition: "background ease 0.1s",
+            "&:last-child td, &:last-child th": { border: 0 },
+            "&:nth-of-type(even)": {
+              bgcolor: row.bgcolor || grey[200],
+              "&:hover": {
+                "--hover-color": "0.6",
+                bgcolor:
+                  row.bgcolor === "#fff" ? grey[200] : row.bgcolor || grey[300],
+              },
+            },
+            bgcolor: row.bgcolor || "white",
             "&:hover": {
               "--hover-color": "0.6",
               bgcolor:
                 row.bgcolor === "#fff" ? grey[200] : row.bgcolor || grey[300],
             },
-          },
-          bgcolor: row.bgcolor || "white",
-          "&:hover": {
-            "--hover-color": "0.6",
-            bgcolor:
-              row.bgcolor === "#fff" ? grey[200] : row.bgcolor || grey[300],
-          },
-        }}
-        {...props}
-      />
-    ),
-    TableBody: React.forwardRef<HTMLTableSectionElement>((props, ref) => (
-      <TableBody {...props} ref={ref} />
-    )),
-  };
+          }}
+          {...props}
+        />
+      ),
+      TableBody: React.forwardRef<HTMLTableSectionElement>((props, ref) => (
+        <TableBody {...props} ref={ref} />
+      )),
+    }),
+    [tableLayout, TableHead]
+  );
 
   // sort
 

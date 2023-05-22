@@ -12,7 +12,6 @@ import { proposalBudgetApi } from "api/budget/proposal-api";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import { proposalConfig } from "config/features/budget/proposal-config";
-import ProposalSearchInput from "./proposal-search-input";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -34,7 +33,18 @@ function ProposalBudgetBaseModal(props: ProposalBudgetBaseModalProps) {
 
   const headGroup: TableHeadGroupShape = [
     {
-      title: <ProposalSearchInput text={filterText} setText={setFilterText} />,
+      title: (
+        <Box sx={{ width: "80%", mx: "auto" }}>
+          <TextField
+            size="small"
+            label="جستجو"
+            value={filterText}
+            variant="filled"
+            onChange={(e) => setFilterText(e.target.value)}
+            fullWidth
+          />
+        </Box>
+      ),
       colspan: 4,
     },
   ];
