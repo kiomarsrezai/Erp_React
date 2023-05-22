@@ -53,7 +53,7 @@ function ProposalModal1Edit(props: ProposalModal1EditProos) {
 
   const onSubmitHandler = (values: any) => {
     editMutation.mutate({
-      ...values,
+      mosavabPublic: values[proposalModal1EditConfig.mosavab],
       [proposalConfig.ID]: initialData[proposalConfig.ID],
     });
   };

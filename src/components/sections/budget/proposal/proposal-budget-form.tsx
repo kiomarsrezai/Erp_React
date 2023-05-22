@@ -87,9 +87,36 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
   const getModalDataMutation = useMutation(proposalBudgetApi.getModalBaseData);
 
   const handleOpenBaseModal = () => {
-    getModalDataMutation.mutate(formData);
+    // permission
+    const havePermission = checkHavePermission(
+      userLicenses,
+      [
+        accessNamesConfig.FIELD_YEAR,
+        accessNamesConfig.FIELD_AREA,
+        accessNamesConfig.FIELD_BUDGET_METHOD,
+      ],
+      accessNamesConfig.BUDGET__PROPOSAL_PAGE
+    );
 
-    setIsOpenBaseModal(true);
+    if (!havePermission) {
+      return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
+        variant: "error",
+      });
+    }
+
+    setHaveSubmitedForm(true);
+
+    if (
+      checkHaveValue(formData, [
+        proposalConfig.YEAR,
+        proposalConfig.BUDGET_METHOD,
+        proposalConfig.AREA,
+      ])
+    ) {
+      getModalDataMutation.mutate(formData);
+
+      setIsOpenBaseModal(true);
+    }
   };
 
   const handleDoneTaskBaseModal = () => {

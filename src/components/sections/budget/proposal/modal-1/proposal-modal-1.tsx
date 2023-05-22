@@ -1,6 +1,7 @@
 import FixedTable from "components/data/table/fixed-table";
 import FixedModal from "components/ui/modal/fixed-modal";
 import IconButton from "@mui/material/IconButton";
+import Box from "@mui/material/Box";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
@@ -15,13 +16,13 @@ import { proposalConfig } from "config/features/budget/proposal-config";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { ReactNode, useState } from "react";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
 import {
   GetSingleDetailProposalItemShape,
   GetSingleProposalItemShape,
 } from "types/data/budget/proposal-type";
-import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
-import { enqueueSnackbar } from "notistack";
-import { globalConfig } from "config/global-config";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -182,7 +183,7 @@ function ProposalModal1(props: ProposalModal1Props) {
   const actionButtons = (
     row: TableDataItemShape & GetSingleProposalItemShape
   ) => (
-    <>
+    <Box display={"flex"}>
       <IconButton
         size="small"
         color="error"
@@ -206,7 +207,7 @@ function ProposalModal1(props: ProposalModal1Props) {
       >
         <FormatListBulletedIcon />
       </IconButton>
-    </>
+    </Box>
   );
 
   const formatTableData = (
