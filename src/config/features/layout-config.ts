@@ -117,8 +117,9 @@ export const sidenavsLayout: SidenavShape[] = [
             licenseName: accessNamesConfig.BUDGET__REPORT_PAGE,
             element: BudgetReportsPage,
             permissionItems: [
-              accessNamesConfig.BUDGET__REPORT_PAGE_COMBO,
-              // accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND,
+              // accessNamesConfig.BUDGET__REPORT_PAGE_COMBO,
+              accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND,
+              accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
               // getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
               // accessNamesConfig.FIELD_BUDGET_METHOD,
               // accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER,

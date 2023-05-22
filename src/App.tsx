@@ -17,8 +17,9 @@ import "react-medium-image-zoom/dist/styles.css";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      refetchOnWindowFocus: false, // default: true
+      refetchOnWindowFocus: false,
       staleTime: 0,
+      cacheTime: 0,
     },
   },
 });

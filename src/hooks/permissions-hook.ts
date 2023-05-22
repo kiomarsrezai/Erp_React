@@ -33,14 +33,19 @@ function usePermissions() {
     };
   };
 
-  const formatLocalFields = (label: string, name: string, values: any[]) => {
+  const formatLocalFields: any = (label: string, name: string, values: any) => {
     return {
       label,
       name,
-      value: values.map((item) => ({
-        label: item.label,
-        name: item.value,
-      })),
+      ...(Array.isArray(values) && {
+        value: values.map((item: any) =>
+          formatLocalFields(item.label, item.name || item.value, item.value)
+        ),
+      }),
+      // value: values.map((item: any) => ({
+      //   label: item.label,
+      //   name: item.value,
+      // })),
     };
   };
 
@@ -156,14 +161,16 @@ function usePermissions() {
 
   const accessValues = {
     // propsal
-    // [accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND]: formatLocalFields(
-    //   "روند",
-    //   accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND,
-    //   [
-    //     getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 2),
-    //     accessNamesConfig.FIELD_BUDGET_METHOD,
-    //   ]
-    // ),
+    [accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND]: formatLocalFields(
+      "روند",
+      accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND,
+      [areaNumber3Field, budgetMethodField]
+    ),
+    [accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE]: formatLocalFields(
+      "عملکرد",
+      accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND,
+      [yearLevel1Field, budgetMethodField, centerField, organField]
+    ),
 
     // abstruct
     [accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE_KIND]:
