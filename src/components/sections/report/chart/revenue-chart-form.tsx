@@ -52,21 +52,21 @@ function RevenueChartForm(props: RevenueChartFormProps) {
     e.preventDefault();
 
     // permission
-    const havePermission = checkHavePermission(
-      userLicenses,
-      [
-        accessNamesConfig.FIELD_YEAR,
-        accessNamesConfig.FIELD_BUDGET_METHOD,
-        accessNamesConfig.FIELD_ORGAN,
-      ],
-      accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE
-    );
+    // const havePermission = checkHavePermission(
+    //   userLicenses,
+    //   [
+    //     accessNamesConfig.FIELD_YEAR,
+    //     accessNamesConfig.FIELD_BUDGET_METHOD,
+    //     accessNamesConfig.FIELD_ORGAN,
+    //   ],
+    //   accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE
+    // );
 
-    if (!havePermission) {
-      return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
-        variant: "error",
-      });
-    }
+    // if (!havePermission) {
+    //   return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
+    //     variant: "error",
+    //   });
+    // }
 
     setHaveSubmitedForm(true);
 
@@ -160,14 +160,15 @@ function RevenueChartForm(props: RevenueChartFormProps) {
             <FlotingLabelSelect
               label="سازمان"
               name={revenueChartFormConfig.ORGAN}
-              items={filedItemsGuard(
-                organItems,
-                userLicenses,
-                joinPermissions([
-                  accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
-                  accessNamesConfig.FIELD_ORGAN,
-                ])
-              )}
+              // items={filedItemsGuard(
+              //   organItems,
+              //   userLicenses,
+              //   joinPermissions([
+              //     accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
+              //     accessNamesConfig.FIELD_ORGAN,
+              //   ])
+              // )}
+              items={organItems}
               value={formData[revenueChartFormConfig.ORGAN]}
               setter={setFormData}
               showError={haveSubmitedForm}
@@ -184,7 +185,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
             <YearInput
               setter={setFormData}
               value={formData[revenueChartFormConfig.YEAR] as number}
-              permissionForm={accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE}
+              // permissionForm={accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE}
               showError={haveSubmitedForm}
             />
           </Grid>
@@ -200,14 +201,15 @@ function RevenueChartForm(props: RevenueChartFormProps) {
               <FlotingLabelSelect
                 label="مرکز"
                 name={revenueChartFormConfig.CENTER}
-                items={filedItemsGuard(
-                  centerItems,
-                  userLicenses,
-                  joinPermissions([
-                    accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
-                    accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER,
-                  ])
-                )}
+                // items={filedItemsGuard(
+                //   centerItems,
+                //   userLicenses,
+                //   joinPermissions([
+                //     accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE,
+                //     accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER,
+                //   ])
+                // )}
+                items={centerItems}
                 value={formData[revenueChartFormConfig.CENTER]}
                 setter={setFormData}
                 showError={haveSubmitedForm}
@@ -226,7 +228,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
             <BudgetMethodInput
               setter={setFormData}
               value={formData[revenueChartFormConfig.BUDGET_METHOD] as number}
-              permissionForm={accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE}
+              // permissionForm={accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE}
               showError={haveSubmitedForm}
             />
           </Grid>
