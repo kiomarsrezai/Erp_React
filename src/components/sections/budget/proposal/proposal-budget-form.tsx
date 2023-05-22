@@ -1,11 +1,14 @@
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
 import YearInput from "components/sections/inputs/year-input";
 import AreaInput from "components/sections/inputs/area-input";
 import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 import SectionGuard from "components/auth/section-guard";
 import userStore from "hooks/store/user-store";
+import FixedModal from "components/ui/modal/fixed-modal";
+import ProposalBudgetBaseModal from "./proposal-budget-base-modal";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FormEvent, useEffect, useState } from "react";
@@ -78,67 +81,106 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
     });
   }, [formData, queryClient]);
 
-  return (
-    <Box component="form" onSubmit={handleFormSubmit}>
-      <Grid container spacing={2}>
-        <SectionGuard
-          permission={joinPermissions([
-            accessNamesConfig.BUDGET__PROPOSAL_PAGE,
-            accessNamesConfig.FIELD_YEAR,
-          ])}
-        >
-          <Grid lg={2}>
-            <YearInput
-              setter={setFormData}
-              value={formData[proposalConfig.YEAR]}
-              permissionForm={accessNamesConfig.BUDGET__PROPOSAL_PAGE}
-              showError={haveSubmitedForm}
-            />
-          </Grid>
-        </SectionGuard>
-        <SectionGuard
-          permission={joinPermissions([
-            accessNamesConfig.BUDGET__PROPOSAL_PAGE,
-            accessNamesConfig.FIELD_AREA,
-          ])}
-        >
-          <Grid lg={2}>
-            <AreaInput
-              setter={setFormData}
-              value={formData[proposalConfig.AREA]}
-              permissionForm={accessNamesConfig.BUDGET__PROPOSAL_PAGE}
-              level={1}
-              showError={haveSubmitedForm}
-            />
-          </Grid>
-        </SectionGuard>
+  // base modal
+  const [isOpenBaseModal, setIsOpenBaseModal] = useState(false);
 
-        <SectionGuard
-          permission={joinPermissions([
-            accessNamesConfig.BUDGET__PROPOSAL_PAGE,
-            accessNamesConfig.FIELD_BUDGET_METHOD,
-          ])}
-        >
-          <Grid lg={2}>
-            <BudgetMethodInput
-              setter={setFormData}
-              value={formData[proposalConfig.BUDGET_METHOD]}
-              permissionForm={accessNamesConfig.BUDGET__PROPOSAL_PAGE}
-              showError={haveSubmitedForm}
-            />
-          </Grid>
-        </SectionGuard>
-        <Grid lg={4}>
-          <LoadingButton
-            variant="contained"
-            type="submit"
-            loading={submitMutation.isLoading}
+  const getModalDataMutation = useMutation(proposalBudgetApi.getModalBaseData);
+
+  const handleOpenBaseModal = () => {
+    getModalDataMutation.mutate(formData);
+
+    setIsOpenBaseModal(true);
+  };
+
+  const handleDoneTaskBaseModal = () => {
+    setIsOpenBaseModal(false);
+    submitMutation.mutate(formData);
+  };
+
+  return (
+    <>
+      <Box component="form" onSubmit={handleFormSubmit}>
+        <Grid container spacing={2}>
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.BUDGET__PROPOSAL_PAGE,
+              accessNamesConfig.FIELD_YEAR,
+            ])}
           >
-            نمایش
-          </LoadingButton>
+            <Grid lg={2}>
+              <YearInput
+                setter={setFormData}
+                value={formData[proposalConfig.YEAR]}
+                permissionForm={accessNamesConfig.BUDGET__PROPOSAL_PAGE}
+                showError={haveSubmitedForm}
+              />
+            </Grid>
+          </SectionGuard>
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.BUDGET__PROPOSAL_PAGE,
+              accessNamesConfig.FIELD_AREA,
+            ])}
+          >
+            <Grid lg={2}>
+              <AreaInput
+                setter={setFormData}
+                value={formData[proposalConfig.AREA]}
+                permissionForm={accessNamesConfig.BUDGET__PROPOSAL_PAGE}
+                level={1}
+                showError={haveSubmitedForm}
+              />
+            </Grid>
+          </SectionGuard>
+
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.BUDGET__PROPOSAL_PAGE,
+              accessNamesConfig.FIELD_BUDGET_METHOD,
+            ])}
+          >
+            <Grid lg={2}>
+              <BudgetMethodInput
+                setter={setFormData}
+                value={formData[proposalConfig.BUDGET_METHOD]}
+                permissionForm={accessNamesConfig.BUDGET__PROPOSAL_PAGE}
+                showError={haveSubmitedForm}
+              />
+            </Grid>
+          </SectionGuard>
+          <Grid lg={4}>
+            <LoadingButton
+              variant="contained"
+              type="submit"
+              loading={submitMutation.isLoading}
+            >
+              نمایش
+            </LoadingButton>
+            <Button
+              variant="contained"
+              onClick={handleOpenBaseModal}
+              sx={{ mx: 1 }}
+            >
+              افزودن
+            </Button>
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+
+      {/* base modal */}
+      <FixedModal
+        open={isOpenBaseModal}
+        handleClose={() => setIsOpenBaseModal(false)}
+        loading={getModalDataMutation.isLoading}
+        title="افزودن آیتم"
+      >
+        <ProposalBudgetBaseModal
+          data={getModalDataMutation.data?.data || []}
+          formData={formData}
+          onDoneTask={handleDoneTaskBaseModal}
+        />
+      </FixedModal>
+    </>
   );
 }
 

@@ -4,6 +4,7 @@ import { BaseApi } from "api/base-api";
 import { BaseApiResponseShape } from "types/base-type";
 
 import {
+  GetModalBaseData,
   GetSearchPropsalModal1Data,
   GetSearchPropsalModal2Data,
   GetSingleLevel5DetailProposalItemShape,
@@ -70,6 +71,16 @@ export const proposalBudgetApi = new (class extends BaseApi {
     const url = propsalBudgetUrls.getModal3 + this.joinFilterData(filterData);
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleLevel5DetailProposalItemShape[]>
+    >(url);
+    return response.data;
+  };
+
+  // modal base
+  getModalBaseData = async (formdata: any) => {
+    const url =
+      propsalBudgetUrls.getModalBaseData + this.joinFilterData(formdata);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetModalBaseData[]>
     >(url);
     return response.data;
   };

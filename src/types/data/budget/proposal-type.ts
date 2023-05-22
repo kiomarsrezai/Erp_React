@@ -54,6 +54,14 @@ export interface GetSearchPropsalModal1Data {
   show: boolean;
 }
 
+// modal base
+export interface GetModalBaseData {
+  id: number;
+  code: string;
+  description: string;
+  levelNumber: number;
+}
+
 // modal 2
 export interface GetSearchPropsalModal2Data {
   id: number;

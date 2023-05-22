@@ -228,6 +228,7 @@ function BudgetProposalPage() {
         />
       </AdminLayout>
 
+      {/* modal 1 */}
       <FixedModal
         open={isOpenDetailModal}
         handleClose={() => setIsOpenDetailModal(false)}
