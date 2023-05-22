@@ -131,6 +131,7 @@ function ProposalModal2(props: ProposalModal2Props) {
   const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
   const [modalTitle, setModalTitle] = useState<ReactNode>("");
   const [activeProjectId, setActiveProjectId] = useState(0);
+  const [rowProjectId, setRowProjectId] = useState(0);
 
   const getDetailMutation = useMutation(proposalBudgetApi.getLevel5DetailData);
   const handleOpenDetailModal = (
@@ -150,6 +151,7 @@ function ProposalModal2(props: ProposalModal2Props) {
     });
 
     setActiveProjectId(row.projectId);
+    setRowProjectId(row.id);
 
     setIsOpenDetailModal(true);
   };
@@ -295,6 +297,7 @@ function ProposalModal2(props: ProposalModal2Props) {
           formData={formData}
           modal1CodingId={modal1CodingId}
           projectId={activeProjectId}
+          rowProjectId={rowProjectId}
         />
       </FixedModal>
 

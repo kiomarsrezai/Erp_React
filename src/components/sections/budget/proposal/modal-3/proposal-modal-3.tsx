@@ -34,9 +34,10 @@ interface ProposalModal3Props {
   formData: any;
   modal1CodingId: number;
   projectId: number;
+  rowProjectId: number;
 }
 function ProposalModal3(props: ProposalModal3Props) {
-  const { data, formData, modal1CodingId, projectId } = props;
+  const { data, formData, modal1CodingId, projectId, rowProjectId } = props;
 
   // search modal
   const [isOpenSearchModal, setIsOpenSearchModal] = useState(false);
@@ -245,6 +246,7 @@ function ProposalModal3(props: ProposalModal3Props) {
           modal1CodingId={modal1CodingId}
           projectId={projectId}
           onDoneTask={handleDoneModal3Task}
+          rowProjectId={rowProjectId}
         />
       </FixedModal>
 

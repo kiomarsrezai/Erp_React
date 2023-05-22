@@ -23,11 +23,19 @@ interface ProposalModal3SearchProos {
   data: GetSingleAreaShape[];
   modal1CodingId: number;
   projectId: number;
+  rowProjectId: number;
   onDoneTask: () => void;
 }
 
 function ProposalModal3Search(props: ProposalModal3SearchProos) {
-  const { formData, data, modal1CodingId, projectId, onDoneTask } = props;
+  const {
+    formData,
+    data,
+    modal1CodingId,
+    projectId,
+    onDoneTask,
+    rowProjectId,
+  } = props;
 
   // heads
   const tableHeads: TableHeadShape = [
@@ -63,7 +71,7 @@ function ProposalModal3Search(props: ProposalModal3SearchProos) {
   // data
   const handleAddClick = (row: GetSingleAreaShape & TableDataItemShape) => {
     insertMutation.mutate({
-      [proposalConfig.area_public]: formData[proposalConfig.AREA],
+      [proposalConfig.area_public]: rowProjectId, // formData[proposalConfig.AREA],
       [proposalConfig.YEAR]: formData[proposalConfig.YEAR],
       [proposalConfig.coding]: modal1CodingId,
       [proposalConfig.project]: projectId,
