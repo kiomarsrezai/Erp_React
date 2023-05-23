@@ -85,9 +85,9 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
       handleDoneActionTask();
     },
     onError: () => {
-      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
-        variant: "error",
-      });
+      //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+      //variant: "error",
+      //});
     },
   });
 

@@ -147,9 +147,11 @@ function ProposalModal2(props: ProposalModal2Props) {
     );
 
     getDetailMutation.mutate({
-      ...formData,
+      [proposalConfig.YEAR]: formData[proposalConfig.YEAR],
+      [proposalConfig.area_public]: formData[proposalConfig.AREA],
       [proposalConfig.coding]: baseRowData.codingId,
       [proposalConfig.project]: row.projectId,
+      [proposalConfig.AREA]: row.areaId,
     });
 
     setActiveRowData(row);
@@ -182,9 +184,9 @@ function ProposalModal2(props: ProposalModal2Props) {
       setIsShowConfrimDelete(false);
     },
     onError: () => {
-      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
-        variant: "error",
-      });
+      //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+      //variant: "error",
+      //});
     },
   });
 

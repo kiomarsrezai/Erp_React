@@ -27,9 +27,9 @@ function PostsOrgEditModal(props: PostsOrgEditModalProps) {
       });
     },
     onError: () => {
-      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
-        variant: "error",
-      });
+      //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+      //variant: "error",
+      //});
     },
   });
 

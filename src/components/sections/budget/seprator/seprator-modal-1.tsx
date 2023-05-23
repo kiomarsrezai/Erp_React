@@ -85,9 +85,9 @@ function SepratorModal1(props: SepratorModal1props) {
       });
     },
     onError: () => {
-      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
-        variant: "error",
-      });
+      //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+      //variant: "error",
+      //});
     },
   });
 

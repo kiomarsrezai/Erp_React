@@ -55,9 +55,11 @@ function ProposalModal3(props: ProposalModal3Props) {
 
   const handleDoneModal3Task = () => {
     dataMutation.mutate({
-      ...formData,
+      [proposalConfig.YEAR]: formData[proposalConfig.YEAR],
+      [proposalConfig.area_public]: formData[proposalConfig.AREA],
       [proposalConfig.coding]: modal1CodingId,
       [proposalConfig.project]: baseRowData.projectId,
+      [proposalConfig.AREA]: baseRowData.areaId,
     });
     setIsOpenSearchModal(false);
     setIsOpenEditModal(false);
@@ -144,9 +146,9 @@ function ProposalModal3(props: ProposalModal3Props) {
       setIsShowConfrimDelete(false);
     },
     onError: () => {
-      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
-        variant: "error",
-      });
+      //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+      //variant: "error",
+      //});
     },
   });
 

@@ -82,9 +82,9 @@ function ProposalModal2Search(props: ProposalModal2SearchProos) {
       onDoneTask();
     },
     onError: () => {
-      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
-        variant: "error",
-      });
+      //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+      //variant: "error",
+      //});
     },
   });
 

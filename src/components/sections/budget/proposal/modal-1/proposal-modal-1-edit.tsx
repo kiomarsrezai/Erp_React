@@ -45,9 +45,9 @@ function ProposalModal1Edit(props: ProposalModal1EditProos) {
       onDoneTask();
     },
     onError: () => {
-      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
-        variant: "error",
-      });
+      //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+      //variant: "error",
+      //});
     },
   });
 

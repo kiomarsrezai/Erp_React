@@ -80,9 +80,9 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
       getDataMutation.mutate({ [orgProjectConfig.ID]: rootId });
     },
     onError: () => {
-      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
-        variant: "error",
-      });
+      //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+      //variant: "error",
+      //});
     },
   });
 
@@ -115,9 +115,9 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
       });
     },
     onError: () => {
-      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
-        variant: "error",
-      });
+      //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+      //variant: "error",
+      //});
     },
   });
 

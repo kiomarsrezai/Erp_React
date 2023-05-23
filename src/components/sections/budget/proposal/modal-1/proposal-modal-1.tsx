@@ -158,9 +158,9 @@ function ProposalModal1(props: ProposalModal1Props) {
       setIsShowConfrimDelete(false);
     },
     onError: () => {
-      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
-        variant: "error",
-      });
+      //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+      //variant: "error",
+      //});
     },
   });
 

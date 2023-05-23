@@ -61,14 +61,7 @@ export const proposalBudgetApi = new (class extends BaseApi {
   };
 
   getLevel5DetailData = async (formdata: any) => {
-    const filterData = {
-      [proposalConfig.project]: formdata[proposalConfig.project],
-      [proposalConfig.AREA]: formdata[proposalConfig.AREA],
-      [proposalConfig.YEAR]: formdata[proposalConfig.YEAR],
-      [proposalConfig.coding]: formdata[proposalConfig.coding],
-    };
-
-    const url = propsalBudgetUrls.getModal3 + this.joinFilterData(filterData);
+    const url = propsalBudgetUrls.getModal3 + this.joinFilterData(formdata);
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleLevel5DetailProposalItemShape[]>
     >(url);

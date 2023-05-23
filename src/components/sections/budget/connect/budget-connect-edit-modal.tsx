@@ -29,9 +29,9 @@ function BudgetConnectEditModal(props: BudgetConnectEditModalProps) {
       onDoneTask();
     },
     onError: () => {
-      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
-        variant: "error",
-      });
+      //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+      //variant: "error",
+      //});
     },
   });
 

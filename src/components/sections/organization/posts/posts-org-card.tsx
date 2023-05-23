@@ -72,9 +72,9 @@ function OrganizationPostsOrgCard(props: OrganizationPostsOrgCardProps) {
       getDataMutation.mutate(area);
     },
     onError: () => {
-      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
-        variant: "error",
-      });
+      //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+      //variant: "error",
+      //});
     },
   });
 
@@ -145,9 +145,9 @@ function OrganizationPostsOrgCard(props: OrganizationPostsOrgCardProps) {
       });
     },
     onError: () => {
-      enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
-        variant: "error",
-      });
+      //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+      //variant: "error",
+      //});
     },
   });
 

@@ -20,7 +20,7 @@ export const proposalModal1EditConfig = {
 export const propsalBudgetUrls = {
   getData: "Budget/FetchIndex",
   getDetail: "Budget/BudgetModal1Coding",
-  getMoreDetail: "Budget/BudgetModal2Coding",
+  getMoreDetail: "Budget/BudgetModal2CodingRead",
   getModalBaseData: "Budget/BudgetCodingMainModal",
   // modal 1
   getSearchModal1: "Budget/GetBudgetSearchCodingModal",

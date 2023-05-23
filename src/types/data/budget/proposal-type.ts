@@ -33,6 +33,7 @@ export interface GetSingleMoreDetailProposalItemShape {
   percentBud: number;
   projectCode: number;
   projectName: string;
+  areaId: number;
 }
 
 export interface GetSingleLevel5DetailProposalItemShape {
