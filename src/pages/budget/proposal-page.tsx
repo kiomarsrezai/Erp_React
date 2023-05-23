@@ -99,7 +99,8 @@ function BudgetProposalPage() {
   // detail modal
   const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
-  const [activeCodingId, setActiveCodingId] = useState(0);
+  const [activeRowData, setActiveRowData] =
+    useState<GetSingleProposalItemShape | null>(null);
 
   const getDetailMutation = useMutation(proposalBudgetApi.getDetailData);
 
@@ -108,7 +109,7 @@ function BudgetProposalPage() {
   ) => {
     const title = `${row.code} - ${row.description}`;
     setModalTitle(title);
-    setActiveCodingId(row.codingId);
+    setActiveRowData(row);
 
     getDetailMutation.mutate({
       ...formData,
@@ -239,7 +240,7 @@ function BudgetProposalPage() {
           data={getDetailMutation.data?.data || []}
           baseTitle={modalTitle}
           formData={formData}
-          baseCodingId={activeCodingId}
+          baseRowData={activeRowData as GetSingleProposalItemShape}
         />
       </FixedModal>
     </>

@@ -215,10 +215,16 @@ function ProposalModal3(props: ProposalModal3Props) {
     "colspan-number": 2,
     area: null,
     creditAmount: 0,
-    mosavab: sumFieldsInSingleItemData(data, "mosavab"),
-    edit: sumFieldsInSingleItemData(data, "edit"),
+    mosavab: sumFieldsInSingleItemData(
+      dataMutation.data?.data || data,
+      "mosavab"
+    ),
+    edit: sumFieldsInSingleItemData(dataMutation.data?.data || data, "edit"),
     percent: "",
-    expense: sumFieldsInSingleItemData(data, "expense"),
+    expense: sumFieldsInSingleItemData(
+      dataMutation.data?.data || data,
+      "expense"
+    ),
   };
 
   return (

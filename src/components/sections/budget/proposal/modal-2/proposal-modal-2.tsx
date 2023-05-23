@@ -266,11 +266,17 @@ function ProposalModal2(props: ProposalModal2Props) {
     code: null,
     areaName: null,
     project_name: null,
-    mosavab: sumFieldsInSingleItemData(data, "mosavab"),
+    mosavab: sumFieldsInSingleItemData(
+      dataMutation.data?.data || data,
+      "mosavab"
+    ),
     creditAmount: 0,
-    edit: sumFieldsInSingleItemData(data, "edit"),
+    edit: sumFieldsInSingleItemData(dataMutation.data?.data || data, "edit"),
     percent: "",
-    expense: sumFieldsInSingleItemData(data, "expense"),
+    expense: sumFieldsInSingleItemData(
+      dataMutation.data?.data || data,
+      "expense"
+    ),
     actions: "",
   };
 

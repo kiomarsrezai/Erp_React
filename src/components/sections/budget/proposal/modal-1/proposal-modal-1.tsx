@@ -40,10 +40,10 @@ interface ProposalModal1Props {
   data: any[];
   baseTitle: string;
   formData: any;
-  baseCodingId: number;
+  baseRowData: GetSingleProposalItemShape;
 }
 function ProposalModal1(props: ProposalModal1Props) {
-  const { data, baseTitle, formData, baseCodingId } = props;
+  const { data, baseTitle, formData, baseRowData } = props;
 
   // data
   const getDataMutation = useMutation(proposalBudgetApi.getDetailData);
@@ -51,7 +51,7 @@ function ProposalModal1(props: ProposalModal1Props) {
   const handleDoneActionTask = () => {
     getDataMutation.mutate({
       ...formData,
-      [proposalConfig.coding]: baseCodingId,
+      [proposalConfig.coding]: baseRowData.codingId,
     });
 
     setIsOpenInsertModal(false);
@@ -66,7 +66,7 @@ function ProposalModal1(props: ProposalModal1Props) {
   const handleAddClick = () => {
     searchMutation.mutate({
       ...formData,
-      [proposalConfig.motherid]: baseCodingId,
+      [proposalConfig.motherid]: baseRowData.codingId,
     });
     setIsOpenInsertModal(true);
   };
@@ -235,17 +235,35 @@ function ProposalModal1(props: ProposalModal1Props) {
     : formatTableData(data);
 
   // footer
+  const sumMosavab = sumFieldsInSingleItemData(
+    getDataMutation.data?.data || data,
+    "mosavab"
+  );
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
     "colspan-number": 3,
     code: null,
     description: null,
-    creditAmount: 0,
-    mosavab: sumFieldsInSingleItemData(data, "mosavab"),
-    edit: sumFieldsInSingleItemData(data, "edit"),
+    creditAmount: "",
+    mosavab: sumMosavab,
+    edit: "",
     percent: "",
     actions: "",
-    expense: sumFieldsInSingleItemData(data, "expense"),
+    expense: "",
+  };
+
+  const tableBottomFooter: TableDataItemShape | any = {
+    number: "مانده",
+    "colspan-number": 3,
+    code: null,
+    description: null,
+    creditAmount: "",
+    mosavab: baseRowData.mosavab - sumMosavab,
+    "textcolor-mosavab": "blue",
+    edit: "",
+    percent: "",
+    actions: "",
+    expense: "",
   };
 
   // modal
@@ -285,6 +303,7 @@ function ProposalModal1(props: ProposalModal1Props) {
         headGroups={tableHeadGroup}
         data={tableData}
         footer={tableFooter}
+        bottomFooter={tableBottomFooter}
         notFixed
       />
 

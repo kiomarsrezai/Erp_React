@@ -368,7 +368,7 @@ function FixedTable(props: FixedTableProps) {
                 fontWeight: 500,
                 whiteSpace: "nowrap",
                 p: 1,
-                color: "#000",
+                color: bottomFooter[`textcolor-${name}`] || "#000",
                 "&:last-child": {
                   borderRight: 0,
                 },
