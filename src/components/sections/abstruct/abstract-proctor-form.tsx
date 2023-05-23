@@ -43,7 +43,10 @@ function AbstractProctorForm(props: AbstractProctorFormProps) {
     const havePermission = checkHavePermission(
       userLicenses,
       [accessNamesConfig.FIELD_YEAR],
-      accessNamesConfig.BUDGET__REPORT__ABSTRUCT_PAGE
+      joinPermissions([
+        accessNamesConfig.BUDGET__REPORT_PAGE,
+        accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT,
+      ])
     );
 
     if (!havePermission) {
@@ -73,7 +76,8 @@ function AbstractProctorForm(props: AbstractProctorFormProps) {
 
         <SectionGuard
           permission={joinPermissions([
-            accessNamesConfig.BUDGET__REPORT__ABSTRUCT_PAGE,
+            accessNamesConfig.BUDGET__REPORT_PAGE,
+            accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT,
             accessNamesConfig.FIELD_YEAR,
           ])}
         >
@@ -81,7 +85,10 @@ function AbstractProctorForm(props: AbstractProctorFormProps) {
             <YearInput
               setter={setFormData}
               value={formData[abstructProctorConfig.YEAR]}
-              permissionForm={accessNamesConfig.BUDGET__REPORT__ABSTRUCT_PAGE}
+              permissionForm={joinPermissions([
+                accessNamesConfig.BUDGET__REPORT_PAGE,
+                accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT,
+              ])}
               showError={haveSubmitedForm}
             />
           </Grid>

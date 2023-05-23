@@ -23,7 +23,7 @@ function BudgetKindInput(props: BudgetMethodInputProps) {
         userLicenses,
         joinPermissions([
           permissionForm || "",
-          accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE_KIND,
+          accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY_KIND,
         ])
       )
     : budgetKindItems;

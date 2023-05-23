@@ -52,10 +52,13 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
       userLicenses,
       [
         accessNamesConfig.FIELD_YEAR,
-        accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE_KIND,
+        accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY_KIND,
         accessNamesConfig.FIELD_ORGAN,
       ],
-      accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE
+      joinPermissions([
+        accessNamesConfig.BUDGET__REPORT_PAGE,
+        accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY,
+      ])
     );
 
     if (!havePermission) {
@@ -90,7 +93,8 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
 
           <SectionGuard
             permission={joinPermissions([
-              accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE,
+              accessNamesConfig.BUDGET__REPORT_PAGE,
+              accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY,
               accessNamesConfig.FIELD_ORGAN,
             ])}
           >
@@ -102,7 +106,8 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
                   organItems,
                   userLicenses,
                   joinPermissions([
-                    accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE,
+                    accessNamesConfig.BUDGET__REPORT_PAGE,
+                    accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY,
                     accessNamesConfig.FIELD_ORGAN,
                   ])
                 )}
@@ -114,7 +119,8 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
           </SectionGuard>
           <SectionGuard
             permission={joinPermissions([
-              accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE,
+              accessNamesConfig.BUDGET__REPORT_PAGE,
+              accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY,
               accessNamesConfig.FIELD_YEAR,
             ])}
           >
@@ -122,9 +128,10 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
               <YearInput
                 setter={setFormData}
                 value={formData[abstructBudgetConfig.YEAR] as number}
-                permissionForm={
-                  accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE
-                }
+                permissionForm={joinPermissions([
+                  accessNamesConfig.BUDGET__REPORT_PAGE,
+                  accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY,
+                ])}
                 showError={haveSubmitedForm}
               />
             </Grid>
@@ -132,17 +139,19 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
 
           <SectionGuard
             permission={joinPermissions([
-              accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE,
-              accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE_KIND,
+              accessNamesConfig.BUDGET__REPORT_PAGE,
+              accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY,
+              accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY_KIND,
             ])}
           >
             <Grid xs={2}>
               <BudgetKindInput
                 setter={setFormData}
                 value={formData[abstructBudgetConfig.KIND] as number}
-                permissionForm={
-                  accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE
-                }
+                permissionForm={joinPermissions([
+                  accessNamesConfig.BUDGET__REPORT_PAGE,
+                  accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY,
+                ])}
                 showError={haveSubmitedForm}
               />
             </Grid>
