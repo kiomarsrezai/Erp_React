@@ -12,7 +12,10 @@ import ProposalModal2Edit from "./proposal-modal-2-edit";
 
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { ReactNode, useState } from "react";
-import { GetSingleMoreDetailProposalItemShape } from "types/data/budget/proposal-type";
+import {
+  GetSingleMoreDetailProposalItemShape,
+  GetSingleProposalItemShape,
+} from "types/data/budget/proposal-type";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { proposalBudgetApi } from "api/budget/proposal-api";
 import { proposalConfig } from "config/features/budget/proposal-config";
@@ -37,11 +40,10 @@ interface ProposalModal2Props {
   data: any[];
   formData: any;
   baseTitle: ReactNode;
-  motherId: number;
-  modal1CodingId: number;
+  baseRowData: GetSingleProposalItemShape;
 }
 function ProposalModal2(props: ProposalModal2Props) {
-  const { data, baseTitle, formData, motherId, modal1CodingId } = props;
+  const { data, baseTitle, formData, baseRowData } = props;
 
   // heads
   const tableHeads: TableHeadShape = [
@@ -106,7 +108,7 @@ function ProposalModal2(props: ProposalModal2Props) {
   const handleDoneModal2Task = () => {
     dataMutation.mutate({
       ...formData,
-      [proposalConfig.coding]: modal1CodingId,
+      [proposalConfig.coding]: baseRowData.codingId,
     });
     setIsOpenSearchModal(false);
     setIsOpenEditModal(false);
@@ -146,7 +148,7 @@ function ProposalModal2(props: ProposalModal2Props) {
 
     getDetailMutation.mutate({
       ...formData,
-      [proposalConfig.coding]: modal1CodingId,
+      [proposalConfig.coding]: baseRowData.codingId,
       [proposalConfig.project]: row.projectId,
     });
 
@@ -260,16 +262,18 @@ function ProposalModal2(props: ProposalModal2Props) {
     : formatTableData(data);
 
   // footer
+  const sumMosavab = sumFieldsInSingleItemData(
+    dataMutation.data?.data || data,
+    "mosavab"
+  );
+
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
     "colspan-number": 4,
     code: null,
     areaName: null,
     project_name: null,
-    mosavab: sumFieldsInSingleItemData(
-      dataMutation.data?.data || data,
-      "mosavab"
-    ),
+    mosavab: sumMosavab,
     creditAmount: 0,
     edit: sumFieldsInSingleItemData(dataMutation.data?.data || data, "edit"),
     percent: "",
@@ -280,6 +284,21 @@ function ProposalModal2(props: ProposalModal2Props) {
     actions: "",
   };
 
+  const tableBottomFooter: TableDataItemShape | any = {
+    number: "مانده",
+    "colspan-number": 4,
+    code: null,
+    areaName: null,
+    project_name: null,
+    mosavab: baseRowData.mosavab - sumMosavab,
+    "textcolor-mosavab": "blue",
+    creditAmount: "",
+    edit: "",
+    percent: "",
+    expense: "",
+    actions: "",
+  };
+
   return (
     <>
       <FixedTable
@@ -287,6 +306,7 @@ function ProposalModal2(props: ProposalModal2Props) {
         headGroups={tableHeadGroup}
         data={tableData}
         footer={tableFooter}
+        bottomFooter={tableBottomFooter}
         notFixed
       />
 
@@ -301,7 +321,7 @@ function ProposalModal2(props: ProposalModal2Props) {
         <ProposalModal3
           data={getDetailMutation.data?.data || []}
           formData={formData}
-          modal1CodingId={modal1CodingId}
+          modal1CodingId={baseRowData.codingId}
           projectId={activeProjectId}
           rowProjectId={rowProjectId}
         />
@@ -317,7 +337,7 @@ function ProposalModal2(props: ProposalModal2Props) {
       >
         <ProposalModal2Search
           formData={formData}
-          codingId={motherId}
+          codingId={baseRowData.id}
           onDoneTask={handleDoneModal2Task}
         />
       </FixedModal>

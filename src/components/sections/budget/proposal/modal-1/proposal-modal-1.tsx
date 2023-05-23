@@ -269,8 +269,9 @@ function ProposalModal1(props: ProposalModal1Props) {
   // modal
   const [isOpenMoreDetailModal, setIsOpenMoreDetailModal] = useState(false);
   const [modalTitle, setModalTitle] = useState<ReactNode>("");
-  const [codingId, setCodingId] = useState(0);
-  const [motherId, setMotherId] = useState(0);
+  const [activeRowData, setActiveRowData] =
+    useState<GetSingleProposalItemShape | null>(null);
+
   const getMoreDetailMutation = useMutation(
     proposalBudgetApi.getMoreDetailData
   );
@@ -285,8 +286,7 @@ function ProposalModal1(props: ProposalModal1Props) {
       </>
     );
 
-    setCodingId(row.codingId);
-    setMotherId(row.id);
+    setActiveRowData(row);
 
     getMoreDetailMutation.mutate({
       ...formData,
@@ -320,8 +320,7 @@ function ProposalModal1(props: ProposalModal1Props) {
           data={getMoreDetailMutation.data?.data || []}
           baseTitle={modalTitle}
           formData={formData}
-          modal1CodingId={codingId}
-          motherId={motherId}
+          baseRowData={activeRowData as GetSingleProposalItemShape}
         />
       </FixedModal>
 
@@ -337,7 +336,6 @@ function ProposalModal1(props: ProposalModal1Props) {
         <ProposalModal1Search
           formData={formData}
           data={searchMutation.data?.data || []}
-          motherid={codingId}
           onDoneTask={handleDoneActionTask}
         />
       </FixedModal>
