@@ -318,7 +318,7 @@ function FixedTable(props: FixedTableProps) {
       {visibleHeads.map((item: any, i: any) => {
         const name = item.name;
         if (footer[name] === null) {
-          return <></>;
+          return <React.Fragment key={i}></React.Fragment>;
         } else {
           return (
             <TableCell
@@ -355,7 +355,7 @@ function FixedTable(props: FixedTableProps) {
       {visibleHeads.map((item: any, i: any) => {
         const name = item.name;
         if (bottomFooter[name] === null) {
-          return <></>;
+          return <React.Fragment key={i}></React.Fragment>;
         } else {
           return (
             <TableCell

@@ -98,7 +98,7 @@ function ReportRevenueChartPage(props: ReportRevenueChartPageProps) {
             margin: "auto",
           }}
         >
-          {revenueChart.data && (
+          {!!revenueChart.data?.data?.[0]?.length && (
             <BulletChart
               lineName="Expense"
               barName="Mosavab"

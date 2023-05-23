@@ -12,6 +12,7 @@ import { globalConfig } from "config/global-config";
 import { ravandChartApi } from "api/report/ravand-chart-api";
 import { ravandChartConfig } from "config/features/report/chart/ravand-chart-config";
 import { GetRavandChartShape } from "types/data/report/chart/ravand-chart-type";
+import FixedChart from "components/data/chart/fixed-chart";
 
 interface ChartDataShape {
   Mosavab: number;
@@ -94,13 +95,11 @@ function ReportRavandBudgetChart(props: ReportRavandBudgetChartProps) {
           }}
         >
           {ravandQuery.data && (
-            <BulletChart
+            <FixedChart
               lineName="Expense"
               barName="Mosavab"
-              innerBarName="MosavabDaily"
               lineLabel="عملکرد"
               barLabel="مصوب"
-              innerBarLabel="مصوب روزانه"
               data={chartData}
             />
           )}

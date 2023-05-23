@@ -57,7 +57,7 @@ export const sidenavsLayout: SidenavShape[] = [
     icon: CircleIcon,
     items: [
       {
-        title: "بودجه پیشنهادی",
+        title: "بودجه مصوب",
         path: "/budget/proposal",
         icon: MoneyIcon,
         licenseName: accessNamesConfig.BUDGET__PROPOSAL_PAGE,

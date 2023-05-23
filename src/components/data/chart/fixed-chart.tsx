@@ -21,73 +21,16 @@ interface BulletChartProps {
   data: any[];
   lineName: string;
   barName: string;
-  innerBarName: string;
   lineLabel: string;
   barLabel: string;
-  innerBarLabel: string;
 }
 
-function BulletChart(props: BulletChartProps) {
-  const {
-    data,
-    barName,
-    innerBarName,
-    lineName,
-    lineLabel,
-    barLabel,
-    innerBarLabel,
-  } = props;
+function FixedChart(props: BulletChartProps) {
+  const { data, barName, lineName, lineLabel, barLabel } = props;
 
   const barColor = "#999";
   const innerBarColor = blue[300];
   const lineColor = green[700];
-
-  // bar
-  const CustomBarWithTarget = (barProps: any) => {
-    const { x, y, width, height, ...barData } = barProps;
-
-    const isHigh = height >= 300;
-
-    const check = barData[innerBarName] / barData[barName];
-    const customHeight = height * check - (isHigh ? 10 : 0);
-    const customWidth = width / 3;
-    const customX = x + width / 2 - customWidth / 2;
-    const customY = y + height - customHeight;
-
-    return (
-      <svg>
-        <rect
-          x={x}
-          y={y + (isHigh ? 10 : 0)}
-          width={width}
-          height={height - (isHigh ? 10 : 0)}
-          stroke="none"
-          fill={barColor}
-          rx={"4"}
-        />
-
-        <rect
-          x={customX}
-          y={customY}
-          width={customWidth}
-          height={customHeight}
-          stroke="none"
-          fill={innerBarColor}
-        />
-
-        <text
-          x={x + width / 2}
-          y={y + (isHigh ? 10 : 0)}
-          dy={-4}
-          fontSize="14"
-          fill={"black"}
-          textAnchor="middle"
-        >
-          {getPercent(barData[lineName], barData[barName])}%
-        </text>
-      </svg>
-    );
-  };
 
   // formaters
   const CustomTooltip = ({ active, payload, label }: any) => {
@@ -101,12 +44,6 @@ function BulletChart(props: BulletChartProps) {
             <Typography variant="body2" color={barColor}>
               {barLabel} :{" "}
               <strong>{numberWithCommas(payload[0]?.payload[barName])}</strong>
-            </Typography>
-            <Typography variant="body2" color={innerBarColor}>
-              {innerBarLabel} :{" "}
-              <strong>
-                {numberWithCommas(payload[0]?.payload[innerBarName])}
-              </strong>
             </Typography>
             <Typography variant="body2" color={lineColor}>
               {lineLabel} :{" "}
@@ -137,13 +74,41 @@ function BulletChart(props: BulletChartProps) {
         <Typography variant="caption" color={barColor}>
           {barLabel}
         </Typography>
-        <Typography variant="caption" color={innerBarColor}>
-          {innerBarLabel}
-        </Typography>
         <Typography variant="caption" color={lineColor}>
           {lineLabel}
         </Typography>
       </Stack>
+    );
+  };
+
+  const CustomBarWithTarget = (barProps: any) => {
+    const { x, y, width, height, ...barData } = barProps;
+
+    const isHigh = height >= 300;
+
+    return (
+      <svg>
+        <rect
+          x={x}
+          y={y + (isHigh ? 10 : 0)}
+          width={width}
+          height={height - (isHigh ? 10 : 0)}
+          stroke="none"
+          fill={barColor}
+          rx={"4"}
+        />
+
+        <text
+          x={x + width / 2}
+          y={y + (isHigh ? 10 : 0)}
+          dy={-4}
+          fontSize="14"
+          fill={"black"}
+          textAnchor="middle"
+        >
+          {getPercent(barData[lineName], barData[barName])}%
+        </text>
+      </svg>
     );
   };
 
@@ -158,8 +123,8 @@ function BulletChart(props: BulletChartProps) {
         <Bar
           dataKey={barName}
           barSize={40}
+          fill={barColor}
           shape={<CustomBarWithTarget />}
-          fill={grey[400]}
         />
 
         <Line
@@ -174,4 +139,4 @@ function BulletChart(props: BulletChartProps) {
   );
 }
 
-export default BulletChart;
+export default FixedChart;
