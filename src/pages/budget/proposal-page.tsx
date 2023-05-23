@@ -9,12 +9,13 @@ import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { ReactNode, useState } from "react";
 import { proposalConfig } from "config/features/budget/proposal-config";
 import { GetSingleProposalItemShape } from "types/data/budget/proposal-type";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { proposalBudgetApi } from "api/budget/proposal-api";
 import { getBgColorBudget } from "helper/get-color-utils";
 import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
 import ProposalModal1 from "components/sections/budget/proposal/modal-1/proposal-modal-1";
+import WindowLoading from "components/ui/loading/window-loading";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -103,6 +104,18 @@ function BudgetProposalPage() {
     useState<GetSingleProposalItemShape | null>(null);
 
   const getDetailMutation = useMutation(proposalBudgetApi.getDetailData);
+
+  const queryClient = useQueryClient();
+  const getDataMutation = useMutation(proposalBudgetApi.getData, {
+    onSuccess: (data) => {
+      queryClient.setQueryData(reactQueryKeys.budget.proposal.getData, data);
+    },
+  });
+
+  const handleCloseModal1 = () => {
+    setIsOpenDetailModal(false);
+    getDataMutation.mutate(formData);
+  };
 
   const handleOpenDetailModal = (
     row: TableDataItemShape & GetSingleProposalItemShape
@@ -232,7 +245,7 @@ function BudgetProposalPage() {
       {/* modal 1 */}
       <FixedModal
         open={isOpenDetailModal}
-        handleClose={() => setIsOpenDetailModal(false)}
+        handleClose={handleCloseModal1}
         loading={getDetailMutation.isLoading}
         title={modalTitle}
       >
@@ -243,6 +256,9 @@ function BudgetProposalPage() {
           baseRowData={activeRowData as GetSingleProposalItemShape}
         />
       </FixedModal>
+
+      {/* loading */}
+      <WindowLoading active={getDataMutation.isLoading} />
     </>
   );
 }
