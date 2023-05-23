@@ -132,8 +132,8 @@ function ProposalModal2(props: ProposalModal2Props) {
   // modal 3
   const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
   const [modalTitle, setModalTitle] = useState<ReactNode>("");
-  const [activeProjectId, setActiveProjectId] = useState(0);
-  const [rowProjectId, setRowProjectId] = useState(0);
+  const [activeRowData, setActiveRowData] =
+    useState<GetSingleMoreDetailProposalItemShape | null>(null);
 
   const getDetailMutation = useMutation(proposalBudgetApi.getLevel5DetailData);
   const handleOpenDetailModal = (
@@ -152,8 +152,7 @@ function ProposalModal2(props: ProposalModal2Props) {
       [proposalConfig.project]: row.projectId,
     });
 
-    setActiveProjectId(row.projectId);
-    setRowProjectId(row.id);
+    setActiveRowData(row);
 
     setIsOpenDetailModal(true);
   };
@@ -291,7 +290,7 @@ function ProposalModal2(props: ProposalModal2Props) {
     areaName: null,
     project_name: null,
     mosavab: baseRowData.mosavab - sumMosavab,
-    "textcolor-mosavab": "blue",
+    "textcolor-mosavab": baseRowData.mosavab - sumMosavab < 0 ? "red" : "blue",
     creditAmount: "",
     edit: "",
     percent: "",
@@ -310,6 +309,7 @@ function ProposalModal2(props: ProposalModal2Props) {
         notFixed
       />
 
+      {/* modal 3 */}
       <FixedModal
         open={isOpenDetailModal}
         handleClose={() => setIsOpenDetailModal(false)}
@@ -322,8 +322,7 @@ function ProposalModal2(props: ProposalModal2Props) {
           data={getDetailMutation.data?.data || []}
           formData={formData}
           modal1CodingId={baseRowData.codingId}
-          projectId={activeProjectId}
-          rowProjectId={rowProjectId}
+          baseRowData={activeRowData as GetSingleMoreDetailProposalItemShape}
         />
       </FixedModal>
 

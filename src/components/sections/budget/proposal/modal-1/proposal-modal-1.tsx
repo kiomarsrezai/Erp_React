@@ -259,7 +259,7 @@ function ProposalModal1(props: ProposalModal1Props) {
     description: null,
     creditAmount: "",
     mosavab: baseRowData.mosavab - sumMosavab,
-    "textcolor-mosavab": "blue",
+    "textcolor-mosavab": baseRowData.mosavab - sumMosavab < 0 ? "red" : "blue",
     edit: "",
     percent: "",
     actions: "",

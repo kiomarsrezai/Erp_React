@@ -9,7 +9,10 @@ import ProposalModal3Search from "./proposal-modal-3-search";
 
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { ReactNode, useState } from "react";
-import { GetSingleLevel5DetailProposalItemShape } from "types/data/budget/proposal-type";
+import {
+  GetSingleLevel5DetailProposalItemShape,
+  GetSingleMoreDetailProposalItemShape,
+} from "types/data/budget/proposal-type";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { proposalConfig } from "config/features/budget/proposal-config";
 import { useMutation } from "@tanstack/react-query";
@@ -33,11 +36,10 @@ interface ProposalModal3Props {
   data: any[];
   formData: any;
   modal1CodingId: number;
-  projectId: number;
-  rowProjectId: number;
+  baseRowData: GetSingleMoreDetailProposalItemShape;
 }
 function ProposalModal3(props: ProposalModal3Props) {
-  const { data, formData, modal1CodingId, projectId, rowProjectId } = props;
+  const { data, formData, modal1CodingId, baseRowData } = props;
 
   // search modal
   const [isOpenSearchModal, setIsOpenSearchModal] = useState(false);
@@ -55,7 +57,7 @@ function ProposalModal3(props: ProposalModal3Props) {
     dataMutation.mutate({
       ...formData,
       [proposalConfig.coding]: modal1CodingId,
-      [proposalConfig.project]: projectId,
+      [proposalConfig.project]: baseRowData.projectId,
     });
     setIsOpenSearchModal(false);
     setIsOpenEditModal(false);
@@ -210,21 +212,35 @@ function ProposalModal3(props: ProposalModal3Props) {
     : formatTableData(data);
 
   // footer
+  const sumMosavab = sumFieldsInSingleItemData(
+    dataMutation.data?.data || data,
+    "mosavab"
+  );
+
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
     "colspan-number": 2,
     area: null,
     creditAmount: 0,
-    mosavab: sumFieldsInSingleItemData(
-      dataMutation.data?.data || data,
-      "mosavab"
-    ),
+    mosavab: sumMosavab,
     edit: sumFieldsInSingleItemData(dataMutation.data?.data || data, "edit"),
     percent: "",
     expense: sumFieldsInSingleItemData(
       dataMutation.data?.data || data,
       "expense"
     ),
+  };
+
+  const tableBottomFooter: TableDataItemShape | any = {
+    number: "مانده",
+    "colspan-number": 2,
+    area: null,
+    creditAmount: 0,
+    mosavab: baseRowData.mosavab - sumMosavab,
+    "textcolor-mosavab": baseRowData.mosavab - sumMosavab < 0 ? "red" : "blue",
+    edit: "",
+    percent: "",
+    expense: "",
   };
 
   return (
@@ -234,6 +250,7 @@ function ProposalModal3(props: ProposalModal3Props) {
         data={tableData}
         footer={tableFooter}
         headGroups={tableHeadGroup}
+        bottomFooter={tableBottomFooter}
         notFixed
       />
 
@@ -250,9 +267,9 @@ function ProposalModal3(props: ProposalModal3Props) {
           formData={formData}
           data={searchMutation.data?.data || []}
           modal1CodingId={modal1CodingId}
-          projectId={projectId}
+          projectId={baseRowData.projectId}
           onDoneTask={handleDoneModal3Task}
-          rowProjectId={rowProjectId}
+          rowProjectId={baseRowData.id}
         />
       </FixedModal>
 
