@@ -29,6 +29,10 @@ export const accessNamesConfig = {
   BUDGET__REPORT_PAGE_REVENUE: "budget-report-expense",
   BUDGET__REPORT_PAGE_REVENUE_CENTER: "center",
 
+  BUDGET__REPORT_PAGE_ABSTRUCT: "budget-report-abstruct",
+
+  BUDGET__REPORT_PAGE_SUMMARY: "budget-report-summary",
+
   BUDGET__REPORT__EXPENSE_PAGE: "budget-report-expense",
   BUDGET__REPORT__EXPENSE_PAGE_CENTER: "center",
 

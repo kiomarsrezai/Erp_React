@@ -5,7 +5,7 @@ import YearInput from "components/sections/inputs/year-input";
 import SectionGuard from "components/auth/section-guard";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, ReactNode, useEffect, useState } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { abstructProctorApi } from "api/report/abstruct-proctor-api";
 import { abstructProctorConfig } from "config/features/report/proctor/abstruct-config";
@@ -19,10 +19,11 @@ import userStore from "hooks/store/user-store";
 interface AbstractProctorFormProps {
   formData: any;
   setFormData: any;
+  tabRender?: ReactNode;
 }
 
 function AbstractProctorForm(props: AbstractProctorFormProps) {
-  const { formData, setFormData } = props;
+  const { formData, setFormData, tabRender } = props;
 
   const userLicenses = userStore((state) => state.permissions);
   // submit
@@ -66,8 +67,10 @@ function AbstractProctorForm(props: AbstractProctorFormProps) {
   }, [formData, queryClient]);
 
   return (
-    <Box component="form" onSubmit={handleFormSubmit}>
+    <Box component="form" p={1} onSubmit={handleFormSubmit}>
       <Grid container spacing={2}>
+        {tabRender && <Grid xs={12}>{tabRender}</Grid>}
+
         <SectionGuard
           permission={joinPermissions([
             accessNamesConfig.BUDGET__REPORT__ABSTRUCT_PAGE,

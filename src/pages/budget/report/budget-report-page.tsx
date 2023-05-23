@@ -13,6 +13,8 @@ import { accessNamesConfig } from "config/access-names-config";
 import { checkHavePermission, joinPermissions } from "helper/auth-utils";
 import { budgetReportItems } from "config/features/general-fields-config";
 import userStore from "hooks/store/user-store";
+import ReportProctorAbstructPage from "pages/report/proctor/abstract-page";
+import AbstructBudgetPage from "pages/report/budget/abstruct-budget-page";
 
 function BudgetReportsPage() {
   const [tabValue, setTabValue] = useState(undefined);
@@ -25,6 +27,12 @@ function BudgetReportsPage() {
 
       case 2:
         return accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND;
+
+      case 3:
+        return accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT;
+
+      case 4:
+        return accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY;
 
       default:
         return "";
@@ -60,6 +68,16 @@ function BudgetReportsPage() {
   // ravand chart page
   if (tabValue === 2) {
     return <ReportRavandBudgetChart tabRender={budgetTabRender} />;
+  }
+
+  // abstruct page
+  if (tabValue === 3) {
+    return <ReportProctorAbstructPage tabRender={budgetTabRender} />;
+  }
+
+  // abstruct report page
+  if (tabValue === 4) {
+    return <AbstructBudgetPage tabRender={budgetTabRender} />;
   }
 
   return (

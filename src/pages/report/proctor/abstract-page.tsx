@@ -28,7 +28,12 @@ interface TableDataItemShape {
   actions: (row: any) => ReactNode;
 }
 
-function ReportProctorAbstructPage() {
+interface ReportProctorAbstructProps {
+  tabRender?: ReactNode;
+}
+function ReportProctorAbstructPage(props: ReportProctorAbstructProps) {
+  const { tabRender } = props;
+
   const [formData, setFormData] = useState({
     [abstructProctorConfig.YEAR]: undefined,
     [abstructProctorConfig.AREA]: 0,
@@ -39,7 +44,11 @@ function ReportProctorAbstructPage() {
   const tableTopHeadGroups: TableHeadGroupShape = [
     {
       title: (
-        <AbstractProctorForm formData={formData} setFormData={setFormData} />
+        <AbstractProctorForm
+          formData={formData}
+          setFormData={setFormData}
+          tabRender={tabRender}
+        />
       ),
       colspan: 10,
     },

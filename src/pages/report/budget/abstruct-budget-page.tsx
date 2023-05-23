@@ -28,7 +28,13 @@ interface TableDataItemShape {
   actions: (row: any) => ReactNode;
 }
 
-function AbstructBudgetPage() {
+interface AbstructBudgetProps {
+  tabRender?: ReactNode;
+}
+
+function AbstructBudgetPage(props: AbstructBudgetProps) {
+  const { tabRender } = props;
+
   const [formData, setFormData] = useState({
     [abstructBudgetConfig.YEAR]: undefined,
     [abstructBudgetConfig.KIND]: undefined,
@@ -38,7 +44,11 @@ function AbstructBudgetPage() {
   const tableHeadGroups: TableHeadGroupShape = [
     {
       title: (
-        <AbstructBudgetForm formData={formData} setFormData={setFormData} />
+        <AbstructBudgetForm
+          formData={formData}
+          setFormData={setFormData}
+          tabRender={tabRender}
+        />
       ),
       colspan: 16,
     },

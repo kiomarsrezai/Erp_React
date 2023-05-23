@@ -103,7 +103,8 @@ function ProposalModal2Search(props: ProposalModal2SearchProos) {
   const searchMutation = useMutation(proposalBudgetApi.getSearchModal2Data);
 
   useEffect(() => {
-    searchMutation.mutate({ ...formData, ...modalFormData });
+    if (modalFormData[proposalConfig.AREA])
+      searchMutation.mutate({ ...formData, ...modalFormData });
   }, [modalFormData]);
 
   const actionButtons = (row: any) => (

@@ -7,7 +7,7 @@ import SectionGuard from "components/auth/section-guard";
 import userStore from "hooks/store/user-store";
 import BudgetKindInput from "components/sections/inputs/budget-kind-input";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, ReactNode, useEffect, useState } from "react";
 import { revenueChartFormConfig } from "config/features/revenue-chart-config";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
@@ -27,9 +27,11 @@ import {
 interface RevenueChartFormProps {
   formData: any;
   setFormData: (prevState: any) => void;
+  tabRender?: ReactNode;
 }
+
 function AbstructBudgetForm(props: RevenueChartFormProps) {
-  const { formData, setFormData } = props;
+  const { formData, setFormData, tabRender } = props;
   const userLicenses = userStore((state) => state.permissions);
 
   // form
@@ -82,8 +84,10 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
 
   return (
     <>
-      <Box component="form" padding={0} onSubmit={handleSubmit}>
+      <Box component="form" padding={1} onSubmit={handleSubmit}>
         <Grid container spacing={2}>
+          {tabRender && <Grid xs={12}>{tabRender}</Grid>}
+
           <SectionGuard
             permission={joinPermissions([
               accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE,

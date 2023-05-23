@@ -172,6 +172,18 @@ function usePermissions() {
       [yearLevel1Field, budgetMethodField, centerField, organField]
     ),
 
+    [accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT]: formatLocalFields(
+      "متولی",
+      accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT,
+      [yearLevel1Field]
+    ),
+
+    [accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY]: formatLocalFields(
+      "خلاصه بودجه",
+      accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY,
+      [yearLevel1Field, budgetKindField, organField]
+    ),
+
     // abstruct
     [accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE_KIND]:
       budgetKindField,
