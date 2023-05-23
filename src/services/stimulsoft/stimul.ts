@@ -17,7 +17,7 @@ export const loadreport = (data: GetSingleProposalItemShape[]) => {
 
   let DataSourceList = [
     {
-      name: "SP001_Budget",
+      name: "data1",
       data: data,
     },
   ];
