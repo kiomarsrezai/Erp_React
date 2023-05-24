@@ -138,11 +138,13 @@ function BudgetCodingPage() {
 
   // modal
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [modal1Title, setModal1Title] = useState("");
   const detailCodingMutation = useMutation(codingBudgetApi.getData);
 
   const openDeatilModal = (
     row: TableDataItemShape & GetSingleCodingItemShape
   ) => {
+    setModal1Title(`${row.code} - ${row.description}`);
     setActionMotherId(row.id || 0);
     detailCodingMutation.mutate({
       ...formData,
@@ -254,6 +256,7 @@ function BudgetCodingPage() {
         maxWidth="xl"
         maxHeight="90%"
         loading={detailCodingMutation.isLoading}
+        title={modal1Title}
       >
         <CodingBudgetModal1
           formData={formData}

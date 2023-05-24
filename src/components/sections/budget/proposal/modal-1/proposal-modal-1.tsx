@@ -15,7 +15,7 @@ import { proposalBudgetApi } from "api/budget/proposal-api";
 import { proposalConfig } from "config/features/budget/proposal-config";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
@@ -41,9 +41,10 @@ interface ProposalModal1Props {
   baseTitle: string;
   formData: any;
   baseRowData: GetSingleProposalItemShape;
+  setIsmodal1Changed: (state: any) => void;
 }
 function ProposalModal1(props: ProposalModal1Props) {
-  const { data, baseTitle, formData, baseRowData } = props;
+  const { data, baseTitle, formData, baseRowData, setIsmodal1Changed } = props;
 
   // data
   const getDataMutation = useMutation(proposalBudgetApi.getDetailData);
@@ -53,7 +54,7 @@ function ProposalModal1(props: ProposalModal1Props) {
       ...formData,
       [proposalConfig.coding]: baseRowData.codingId,
     });
-
+    setIsmodal1Changed(true);
     setIsOpenInsertModal(false);
     setIsOpenEditModal(false);
   };

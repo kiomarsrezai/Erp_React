@@ -112,14 +112,19 @@ function BudgetProposalPage() {
     },
   });
 
+  const [isModal1Changed, setIsmodal1Changed] = useState(false);
+
   const handleCloseModal1 = () => {
+    if (isModal1Changed) {
+      getDataMutation.mutate(formData);
+    }
     setIsOpenDetailModal(false);
-    getDataMutation.mutate(formData);
   };
 
   const handleOpenDetailModal = (
     row: TableDataItemShape & GetSingleProposalItemShape
   ) => {
+    setIsmodal1Changed(false);
     const title = `${row.code} - ${row.description}`;
     setModalTitle(title);
     setActiveRowData(row);
@@ -254,6 +259,7 @@ function BudgetProposalPage() {
           baseTitle={modalTitle}
           formData={formData}
           baseRowData={activeRowData as GetSingleProposalItemShape}
+          setIsmodal1Changed={setIsmodal1Changed}
         />
       </FixedModal>
 
