@@ -45,4 +45,10 @@ export const reactQueryKeys = {
       data: ["project-program-data"],
     },
   },
+
+  // globals
+  generals: {
+    year: ["general-year"],
+    area: ["general-area"],
+  },
 };

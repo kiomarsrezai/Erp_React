@@ -19,6 +19,10 @@ import { globalConfig } from "config/global-config";
 import { checkHaveValue } from "helper/form-utils";
 import { proposalConfig } from "config/features/budget/proposal-config";
 import { loadreport } from "services/stimulsoft/stimul";
+import {
+  budgetMethodItems,
+  generalFieldsConfig,
+} from "config/features/general-fields-config";
 
 interface ProposalBudgetFormProps {
   formData: any;
@@ -82,7 +86,22 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
 
   // export
   const handleExport = () => {
-    loadreport(submitMutation.data?.data || []);
+    const budgetMethodLabel = budgetMethodItems.find(
+      (item) => item.value === formData[proposalConfig.BUDGET_METHOD]
+    );
+
+    const yearLabel = (
+      queryClient.getQueryData([...reactQueryKeys.generals.year, 1]) as any
+    )?.data.find((item: any) => item.id === formData[generalFieldsConfig.YEAR]);
+
+    const areaLabel = (
+      queryClient.getQueryData([...reactQueryKeys.generals.area, 1]) as any
+    )?.data.find((item: any) => item.id === formData[generalFieldsConfig.AREA]);
+
+    loadreport(
+      submitMutation.data?.data || [],
+      `سال ${yearLabel.yearName} - ${areaLabel.areaName} - ${budgetMethodLabel?.label}`
+    );
   };
 
   return (
