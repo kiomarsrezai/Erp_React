@@ -153,7 +153,7 @@ function AdminHeader() {
       <FixedModal
         open={isOpenChangePasswordModal}
         handleClose={handleCloseChangePasswordModal}
-        title="عوض کردن رمز ورود"
+        title="تغییر کردن رمز ورود"
       >
         <ChnagePasswordForm />
       </FixedModal>
