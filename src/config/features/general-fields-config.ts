@@ -7,6 +7,7 @@ export const generalFieldsConfig = {
   CENTER: "center",
   ORGAN: "structureId",
   PROCTOR: "proctorId",
+  numbers: "numbers",
 };
 
 export const centerItems: FlotingLabelTextfieldItemsShape = [
@@ -27,6 +28,25 @@ export const organItems: FlotingLabelTextfieldItemsShape = [
   },
   {
     label: "سازمانها",
+    value: 4,
+  },
+];
+
+export const numbersItems: FlotingLabelTextfieldItemsShape = [
+  {
+    label: "یک",
+    value: 1,
+  },
+  {
+    label: "هزار",
+    value: 2,
+  },
+  {
+    label: "میلیون",
+    value: 3,
+  },
+  {
+    label: "میلیارد",
     value: 4,
   },
 ];

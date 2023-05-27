@@ -8,11 +8,14 @@ import SectionGuard from "components/auth/section-guard";
 import userStore from "hooks/store/user-store";
 import BudgetKindInput from "components/sections/inputs/budget-kind-input";
 
-import { FormEvent, ReactNode, useEffect, useState } from "react";
+import { FormEvent, ReactNode, useEffect, useMemo, useState } from "react";
 import { revenueChartFormConfig } from "config/features/revenue-chart-config";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
-import { organItems } from "config/features/general-fields-config";
+import {
+  generalFieldsConfig,
+  organItems,
+} from "config/features/general-fields-config";
 import { accessNamesConfig } from "config/access-names-config";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
@@ -25,6 +28,8 @@ import {
   joinPermissions,
 } from "helper/auth-utils";
 import { stimulExport } from "helper/export-utils";
+import NumbersInput from "components/sections/inputs/numbers-input";
+import { convertNumbers } from "helper/number-utils";
 
 interface RevenueChartFormProps {
   formData: any;
@@ -36,12 +41,57 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
   const { formData, setFormData, tabRender } = props;
   const userLicenses = userStore((state) => state.permissions);
 
+  const [formatedData, setFormatedData] = useState<any>();
+
+  useEffect(() => {
+    queryClient.setQueryData(
+      reactQueryKeys.report.abstruct.getData,
+      formatedData
+    );
+  }, [formatedData]);
+
+  useEffect(() => {
+    setFormatedData({
+      data: convertNumbers(
+        submitMutation.data?.data || [],
+        [
+          "mosavabRevenue",
+          "mosavabPayMotomarkez",
+          "mosavabDar_Khazane",
+          "resoures",
+          "mosavabCurrent",
+          "mosavabCivil",
+          "mosavabFinancial",
+          "mosavabSanavati",
+          "balanceMosavab",
+        ],
+        formData[generalFieldsConfig.numbers]
+      ),
+    });
+  }, [formData[generalFieldsConfig.numbers]]);
+
   // form
   const queryClient = useQueryClient();
 
   const submitMutation = useMutation(abstructBudgetApi.getData, {
     onSuccess: (data) => {
-      queryClient.setQueryData(reactQueryKeys.report.abstruct.getData, data);
+      setFormatedData({
+        data: convertNumbers(
+          data.data,
+          [
+            "mosavabRevenue",
+            "mosavabPayMotomarkez",
+            "mosavabDar_Khazane",
+            "resoures",
+            "mosavabCurrent",
+            "mosavabCivil",
+            "mosavabFinancial",
+            "mosavabSanavati",
+            "balanceMosavab",
+          ],
+          formData[generalFieldsConfig.numbers]
+        ),
+      });
     },
   });
 
@@ -85,11 +135,15 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
     queryClient?.setQueryData(reactQueryKeys.report.abstruct.getData, {
       data: [],
     });
-  }, [formData, queryClient]);
+  }, [
+    formData[generalFieldsConfig.YEAR],
+    formData[generalFieldsConfig.ORGAN],
+    formData[generalFieldsConfig.BUDGET_METHOD],
+  ]);
 
   // print
   const handlePrintForm = () => {
-    stimulExport(submitMutation.data?.data || [], {
+    stimulExport(formatedData, {
       file: "proposal/report/abstruct-budget.mrt",
       header: "salam",
       headerDescription: "salam",
@@ -169,6 +223,14 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
               />
             </Grid>
           </SectionGuard>
+
+          <Grid xs={2}>
+            <NumbersInput
+              setter={setFormData}
+              value={formData[generalFieldsConfig.numbers] as number}
+            />
+          </Grid>
+
           <Grid xs>
             <LoadingButton
               variant="contained"

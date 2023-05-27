@@ -12,6 +12,7 @@ import { abstructBudgetApi } from "api/report/abstruct-budget-api";
 import { GetSingleAbstructBudgetItemShape } from "types/data/report/abstruct-budget-type";
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { ReactNode, useState } from "react";
+import { generalFieldsConfig } from "config/features/general-fields-config";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -39,6 +40,7 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
     [abstructBudgetConfig.YEAR]: undefined,
     [abstructBudgetConfig.KIND]: undefined,
     [abstructBudgetConfig.ORGAN]: undefined,
+    [generalFieldsConfig.numbers]: 1,
   });
 
   const tableHeadGroups: TableHeadGroupShape = [
