@@ -94,7 +94,7 @@ function ReportRavandBudgetChart(props: ReportRavandBudgetChartProps) {
             margin: "auto",
           }}
         >
-          {ravandQuery.data && (
+          {!!ravandQuery.data?.data?.[0]?.length && (
             <FixedChart
               lineName="Expense"
               barName="Mosavab"

@@ -151,7 +151,12 @@ function RevenueChartForm(props: RevenueChartFormProps) {
 
   return (
     <>
-      <Box component="form" padding={2} onSubmit={handleSubmit}>
+      <Box
+        component="form"
+        padding={2}
+        onSubmit={handleSubmit}
+        sx={{ bgcolor: "grey.200" }}
+      >
         <Grid container spacing={2}>
           {tabRender && <Grid xs={12}>{tabRender}</Grid>}
           {inputRender && <Grid xs={2}>{inputRender}</Grid>}

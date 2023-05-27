@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import LoadingButton from "@mui/lab/LoadingButton";
 import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
 import YearInput from "components/sections/inputs/year-input";
+import Button from "@mui/material/Button";
 import SectionGuard from "components/auth/section-guard";
 import userStore from "hooks/store/user-store";
 import BudgetKindInput from "components/sections/inputs/budget-kind-input";
@@ -23,6 +24,7 @@ import {
   filedItemsGuard,
   joinPermissions,
 } from "helper/auth-utils";
+import { stimulExport } from "helper/export-utils";
 
 interface RevenueChartFormProps {
   formData: any;
@@ -84,6 +86,17 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
       data: [],
     });
   }, [formData, queryClient]);
+
+  // print
+  const handlePrintForm = () => {
+    stimulExport(submitMutation.data?.data || [], {
+      file: "proposal/report/abstruct-budget.mrt",
+      header: "salam",
+      headerDescription: "salam",
+      // justExport: "print",
+    });
+    // loadreport([], "salam");
+  };
 
   return (
     <>
@@ -164,6 +177,13 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
             >
               نمایش
             </LoadingButton>
+            <Button
+              sx={{ mx: 1 }}
+              variant="contained"
+              onClick={handlePrintForm}
+            >
+              پرینت
+            </Button>
           </Grid>
         </Grid>
       </Box>

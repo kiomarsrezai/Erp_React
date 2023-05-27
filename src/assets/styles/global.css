@@ -13,3 +13,13 @@
 .ck-editor__editable {
   min-height: 400px;
 }
+
+.stimulsoft-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100000;
+  overflow-y: auto;
+  height: 100vh;
+  background-color: white;
+}
