@@ -37,9 +37,10 @@ interface ProposalModal3Props {
   formData: any;
   modal1CodingId: number;
   baseRowData: GetSingleMoreDetailProposalItemShape;
+  baseTitle: ReactNode;
 }
 function ProposalModal3(props: ProposalModal3Props) {
-  const { data, formData, modal1CodingId, baseRowData } = props;
+  const { data, formData, modal1CodingId, baseRowData, baseTitle } = props;
 
   // search modal
   const [isOpenSearchModal, setIsOpenSearchModal] = useState(false);
@@ -262,7 +263,7 @@ function ProposalModal3(props: ProposalModal3Props) {
         handleClose={() => setIsOpenSearchModal(false)}
         maxWidth="sm"
         maxHeight="60%"
-        title="افزودن آیتم"
+        title={baseTitle}
         loading={searchMutation.isLoading}
       >
         <ProposalModal3Search
@@ -279,7 +280,7 @@ function ProposalModal3(props: ProposalModal3Props) {
       <FixedModal
         open={isOpenEditModal}
         handleClose={() => setIsOpenEditModal(false)}
-        title="ویرایش آیتم"
+        title={baseTitle}
         maxWidth="sm"
         maxHeight="60%"
       >

@@ -331,7 +331,7 @@ function ProposalModal1(props: ProposalModal1Props) {
         handleClose={() => setIsOpenInsertModal(false)}
         maxWidth="md"
         maxHeight="70%"
-        title="افزودن آیتم"
+        title={baseTitle}
         loading={searchMutation.isLoading}
       >
         <ProposalModal1Search
@@ -345,7 +345,7 @@ function ProposalModal1(props: ProposalModal1Props) {
       <FixedModal
         open={isOpenEditModal}
         handleClose={() => setIsOpenEditModal(false)}
-        title="ویرایش آیتم"
+        title={modalTitle}
         maxHeight="70%"
         maxWidth="md"
       >

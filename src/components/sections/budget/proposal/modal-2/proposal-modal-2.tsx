@@ -325,6 +325,7 @@ function ProposalModal2(props: ProposalModal2Props) {
           formData={formData}
           modal1CodingId={baseRowData.codingId}
           baseRowData={activeRowData as GetSingleMoreDetailProposalItemShape}
+          baseTitle={modalTitle}
         />
       </FixedModal>
 
@@ -334,7 +335,7 @@ function ProposalModal2(props: ProposalModal2Props) {
         handleClose={() => setIsOpenSearchModal(false)}
         maxWidth="sm"
         maxHeight="80%"
-        title="افزودن آیتم"
+        title={baseTitle}
       >
         <ProposalModal2Search
           formData={formData}
@@ -347,7 +348,7 @@ function ProposalModal2(props: ProposalModal2Props) {
       <FixedModal
         open={isOpenEditModal}
         handleClose={() => setIsOpenEditModal(false)}
-        title="ویرایش آیتم"
+        title={modalTitle}
         maxHeight="80%"
         maxWidth="sm"
       >
