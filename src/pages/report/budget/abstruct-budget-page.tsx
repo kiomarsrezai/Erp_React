@@ -178,6 +178,10 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
       .map((item, i) => ({
         ...item,
         percent_mosavabCurrent: getPercent(item.mosavabCurrent, item.resoures),
+        "textcolor-percent_mosavabCurrent":
+          getPercent(item.mosavabCurrent, item.resoures) > 100 ? "red" : "",
+        "textcolor-mosavabCurrent":
+          getPercent(item.mosavabCurrent, item.resoures) > 100 ? "red" : "",
         percent_mosavabCivil: getPercent(item.mosavabCivil, item.resoures),
         percent_mosavabSanavati: getPercent(
           item.mosavabSanavati,
