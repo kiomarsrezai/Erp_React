@@ -35,7 +35,10 @@ import { getPercent } from "helper/calculate-utils";
 
 interface RevenueChartFormProps {
   formData: any;
-  printData: any[];
+  printData: {
+    data: any[];
+    footer: any[];
+  };
   setFormData: (prevState: any) => void;
   tabRender?: ReactNode;
 }
@@ -129,7 +132,7 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
 
   // print
   const handlePrintForm = () => {
-    stimulExport(printData, {
+    stimulExport(printData.data, printData.footer, {
       file: "proposal/report/abstruct-budget.mrt",
       header: "خلاصه بودجه",
       headerDescription: "salam",

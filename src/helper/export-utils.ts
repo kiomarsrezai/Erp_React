@@ -12,6 +12,7 @@ const key =
 
 export const stimulExport = (
   data: any[],
+  footer: any[],
   exportOptions: StimulOptionsShape
 ) => {
   // config
@@ -28,8 +29,12 @@ export const stimulExport = (
   // data
   const DataSourceList = [
     {
-      name: "data1",
+      name: "budget",
       data,
+    },
+    {
+      name: "footer",
+      data: footer,
     },
   ];
 

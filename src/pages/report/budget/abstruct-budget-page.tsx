@@ -206,21 +206,6 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
     ? formatTableData(abstractQuery.data.data)
     : [];
 
-  // head group
-  const tableHeadGroups: TableHeadGroupShape = [
-    {
-      title: (
-        <AbstructBudgetForm
-          formData={formData}
-          setFormData={setFormData}
-          tabRender={tabRender}
-          printData={tableData}
-        />
-      ),
-      colspan: 16,
-    },
-  ];
-
   // footer
   const sumMosavabCurrent = sumFieldsInSingleItemData(
     abstractQuery.data?.data,
@@ -286,6 +271,24 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
     resoures: sumResources,
     actions: () => "",
   };
+
+  // head group
+  const tableHeadGroups: TableHeadGroupShape = [
+    {
+      title: (
+        <AbstructBudgetForm
+          formData={formData}
+          setFormData={setFormData}
+          tabRender={tabRender}
+          printData={{
+            data: tableData,
+            footer: [tableFooter],
+          }}
+        />
+      ),
+      colspan: 16,
+    },
+  ];
 
   return (
     <AdminLayout>
