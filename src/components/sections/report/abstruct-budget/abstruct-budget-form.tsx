@@ -28,7 +28,13 @@ import {
   filedItemsGuard,
   joinPermissions,
 } from "helper/auth-utils";
-import { getGeneralFieldItem, stimulExport } from "helper/export-utils";
+import {
+  getGeneralFieldItem,
+  getGeneralFieldItemBudgetKind,
+  getGeneralFieldItemNumber,
+  getGeneralFieldItemYear,
+  stimulExport,
+} from "helper/export-utils";
 import NumbersInput from "components/sections/inputs/numbers-input";
 import { convertNumbers } from "helper/number-utils";
 import { GetSingleAbstructBudgetItemShape } from "types/data/report/abstruct-budget-type";
@@ -134,16 +140,14 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
   // print
   const handlePrintForm = () => {
     if (printData.data.length) {
-      const headerDescription = getGeneralFieldItem(queryClient, formData, [
-        [generalFieldsConfig.ORGAN],
-        [generalFieldsConfig.YEAR, 1],
-        [generalFieldsConfig.kind],
-        [generalFieldsConfig.numbers],
-      ]);
+      const yearLabel = getGeneralFieldItemYear(queryClient, formData, 1);
+      const budgetKindLabel = getGeneralFieldItemBudgetKind(formData);
+      const numberLabel = getGeneralFieldItemNumber(formData);
       stimulExport(printData.data, printData.footer, {
         file: "proposal/report/abstruct-budget.mrt",
-        header: "خلاصه بودجه",
-        headerDescription,
+        year: yearLabel,
+        budgetKind: budgetKindLabel,
+        numberShow: numberLabel,
         justExport: "print",
       });
     }

@@ -11,9 +11,10 @@ declare const Stimulsoft: any;
 
 interface StimulOptionsShape {
   file: string;
-  header?: string;
   justExport?: "print";
-  headerDescription?: string;
+  year?: string;
+  budgetKind?: string;
+  numberShow?: string;
 }
 
 const key =
@@ -55,22 +56,23 @@ export const stimulExport = (
   }
 
   // varibles
-  if (exportOptions.headerDescription) {
-    report.dictionary.variables.getByName("headerDescription").valueObject =
-      exportOptions.headerDescription;
-  }
+  try {
+    report.dictionary.variables.getByName("year").valueObject =
+      exportOptions.year;
 
-  if (exportOptions.header) {
-    report.dictionary.variables.getByName("header").valueObject =
-      exportOptions.header;
-  }
+    report.dictionary.variables.getByName("budgetKind").valueObject =
+      exportOptions.budgetKind;
 
-  report.dictionary.variables.getByName("headerDate").valueObject =
-    new Date().toLocaleDateString("fa-IR-u-nu-latn", {
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric",
-    });
+    report.dictionary.variables.getByName("numberShow").valueObject =
+      exportOptions.numberShow;
+
+    report.dictionary.variables.getByName("headerDate").valueObject =
+      new Date().toLocaleDateString("fa-IR-u-nu-latn", {
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+      });
+  } catch (err) {}
 
   // virewe
   if (exportOptions.justExport === "print") {
@@ -91,6 +93,36 @@ export const stimulExport = (
 
 const createStimulsoftFilePath = (name: string) => {
   return "/Stimulsoft/list/" + name;
+};
+
+export const getGeneralFieldItemYear = (
+  queryClient: any,
+  formData: any,
+  id: number
+) => {
+  const yearLabel =
+    (
+      queryClient.getQueryData([...reactQueryKeys.generals.year, id]) as any
+    )?.data.find((item: any) => item?.id === formData[generalFieldsConfig.YEAR])
+      ?.yearName || "";
+
+  return yearLabel;
+};
+
+export const getGeneralFieldItemBudgetKind = (formData: any) => {
+  return (
+    budgetKindItems.find(
+      (item) => item.value === formData[generalFieldsConfig.kind]
+    )?.label || ""
+  );
+};
+
+export const getGeneralFieldItemNumber = (formData: any) => {
+  return (
+    numbersItems.find(
+      (item) => item.value === formData[generalFieldsConfig.numbers]
+    )?.label || ""
+  );
 };
 
 export const getGeneralFieldItem = (
