@@ -82,8 +82,13 @@ function BudgetReportsPage() {
 
   return (
     <AdminLayout>
-      <Box sx={{ borderBottom: 1, borderColor: "divider", m: 2 }}>
-        {budgetTabRender}
+      <Box
+        sx={{
+          p: 2,
+          bgcolor: "grey.200",
+        }}
+      >
+        <Box>{budgetTabRender}</Box>
       </Box>
     </AdminLayout>
   );

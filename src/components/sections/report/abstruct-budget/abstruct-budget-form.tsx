@@ -30,44 +30,46 @@ import {
 import { stimulExport } from "helper/export-utils";
 import NumbersInput from "components/sections/inputs/numbers-input";
 import { convertNumbers } from "helper/number-utils";
+import { GetSingleAbstructBudgetItemShape } from "types/data/report/abstruct-budget-type";
+import { getPercent } from "helper/calculate-utils";
 
 interface RevenueChartFormProps {
   formData: any;
+  printData: any[];
   setFormData: (prevState: any) => void;
   tabRender?: ReactNode;
 }
 
 function AbstructBudgetForm(props: RevenueChartFormProps) {
-  const { formData, setFormData, tabRender } = props;
+  const { formData, setFormData, tabRender, printData } = props;
   const userLicenses = userStore((state) => state.permissions);
 
-  const [formatedData, setFormatedData] = useState<any>();
+  const formatAndBindData = (data?: any[]) => {
+    console.log(submitMutation.data?.data);
 
-  useEffect(() => {
-    queryClient.setQueryData(
-      reactQueryKeys.report.abstruct.getData,
-      formatedData
+    const formatedData = convertNumbers(
+      data || submitMutation.data?.data || [],
+      [
+        "mosavabRevenue",
+        "mosavabPayMotomarkez",
+        "mosavabDar_Khazane",
+        "resoures",
+        "mosavabCurrent",
+        "mosavabCivil",
+        "mosavabFinancial",
+        "mosavabSanavati",
+        "balanceMosavab",
+      ],
+      formData[generalFieldsConfig.numbers]
     );
-  }, [formatedData]);
+
+    queryClient.setQueryData(reactQueryKeys.report.abstruct.getData, {
+      data: formatedData,
+    });
+  };
 
   useEffect(() => {
-    setFormatedData({
-      data: convertNumbers(
-        submitMutation.data?.data || [],
-        [
-          "mosavabRevenue",
-          "mosavabPayMotomarkez",
-          "mosavabDar_Khazane",
-          "resoures",
-          "mosavabCurrent",
-          "mosavabCivil",
-          "mosavabFinancial",
-          "mosavabSanavati",
-          "balanceMosavab",
-        ],
-        formData[generalFieldsConfig.numbers]
-      ),
-    });
+    formatAndBindData();
   }, [formData[generalFieldsConfig.numbers]]);
 
   // form
@@ -75,23 +77,7 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
 
   const submitMutation = useMutation(abstructBudgetApi.getData, {
     onSuccess: (data) => {
-      setFormatedData({
-        data: convertNumbers(
-          data.data,
-          [
-            "mosavabRevenue",
-            "mosavabPayMotomarkez",
-            "mosavabDar_Khazane",
-            "resoures",
-            "mosavabCurrent",
-            "mosavabCivil",
-            "mosavabFinancial",
-            "mosavabSanavati",
-            "balanceMosavab",
-          ],
-          formData[generalFieldsConfig.numbers]
-        ),
-      });
+      formatAndBindData(data.data);
     },
   });
 
@@ -136,20 +122,19 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
       data: [],
     });
   }, [
-    formData[generalFieldsConfig.YEAR],
-    formData[generalFieldsConfig.ORGAN],
-    formData[generalFieldsConfig.BUDGET_METHOD],
+    formData[abstructBudgetConfig.ORGAN],
+    formData[abstructBudgetConfig.KIND],
+    formData[abstructBudgetConfig.YEAR],
   ]);
 
   // print
   const handlePrintForm = () => {
-    stimulExport(formatedData, {
+    stimulExport(printData, {
       file: "proposal/report/abstruct-budget.mrt",
-      header: "salam",
+      header: "خلاصه بودجه",
       headerDescription: "salam",
       // justExport: "print",
     });
-    // loadreport([], "salam");
   };
 
   return (

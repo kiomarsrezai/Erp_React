@@ -43,19 +43,6 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
     [generalFieldsConfig.numbers]: 1,
   });
 
-  const tableHeadGroups: TableHeadGroupShape = [
-    {
-      title: (
-        <AbstructBudgetForm
-          formData={formData}
-          setFormData={setFormData}
-          tabRender={tabRender}
-        />
-      ),
-      colspan: 16,
-    },
-  ];
-
   const tableHeads: TableHeadShape = [
     {
       title: "ردیف",
@@ -218,6 +205,21 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
   const tableData = abstractQuery.data
     ? formatTableData(abstractQuery.data.data)
     : [];
+
+  // head group
+  const tableHeadGroups: TableHeadGroupShape = [
+    {
+      title: (
+        <AbstructBudgetForm
+          formData={formData}
+          setFormData={setFormData}
+          tabRender={tabRender}
+          printData={tableData}
+        />
+      ),
+      colspan: 16,
+    },
+  ];
 
   // footer
   const sumMosavabCurrent = sumFieldsInSingleItemData(
