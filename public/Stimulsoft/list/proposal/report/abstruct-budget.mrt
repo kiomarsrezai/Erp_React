@@ -240,7 +240,7 @@
             <Text2 Ref="17" type="Text" isKey="true">
               <Border>Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>1030,0,59,40</ClientRectangle>
+              <ClientRectangle>1030,0,79,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>IRANSansWeb,10</Font>
@@ -257,7 +257,7 @@
             <Text3 Ref="18" type="Text" isKey="true">
               <Border>Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>1090,0,59,40</ClientRectangle>
+              <ClientRectangle>1110,0,39,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>IRANSansWeb,10</Font>
@@ -444,7 +444,7 @@
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>1090,0,60,30</ClientRectangle>
+              <ClientRectangle>1110,0,40,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>IRANSansWeb,9</Font>
@@ -464,7 +464,7 @@
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>1030,0,60,30</ClientRectangle>
+              <ClientRectangle>1030,0,80,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>IRANSansWeb,9</Font>
@@ -662,7 +662,7 @@
                 <DecimalDigits>0</DecimalDigits>
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator>,</GroupSeparator>
-                <NegativePattern>3</NegativePattern>
+                <NegativePattern>1</NegativePattern>
                 <UseLocalSetting>False</UseLocalSetting>
               </TextFormat>
               <TextOptions>,,,Trimming=Character,,A=0</TextOptions>
@@ -1030,7 +1030,7 @@
                 <DecimalDigits>0</DecimalDigits>
                 <DecimalSeparator>/</DecimalSeparator>
                 <GroupSeparator>,</GroupSeparator>
-                <NegativePattern>3</NegativePattern>
+                <NegativePattern>1</NegativePattern>
                 <UseLocalSetting>False</UseLocalSetting>
               </TextFormat>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
@@ -1157,11 +1157,11 @@
   </ReferencedAssemblies>
   <ReportAlias>SimpleList</ReportAlias>
   <ReportAuthor>Stimulsoft</ReportAuthor>
-  <ReportChanged>5/28/2023 10:08:05 AM</ReportChanged>
+  <ReportChanged>5/28/2023 10:52:13 AM</ReportChanged>
   <ReportCreated>5/29/2004 10:59:00 AM</ReportCreated>
   <ReportDescription>This sample demonstrates how to create a simple list report.</ReportDescription>
   <ReportFile>D:\Profiles\akasir\Desktop\stimul\abstruct-budget.mrt</ReportFile>
-  <ReportGuid>a804b0e1d9bc43fca5c75e33a70f0ba8</ReportGuid>
+  <ReportGuid>3a000b78c86d44aaa58da4026e0c0ea7</ReportGuid>
   <ReportImage>iVBORw0KGgoAAAANSUhEUgAAASAAAAGWCAMAAADvzq7aAAAABGdBTUEAALGPC/xhBQAAAYBQTFRF
 S7asucbHqba33/Hx8vr56fb1paqq+v394fPx1N3i5/X1nKan7/n52+zryOfl8/T0s77B7ezt4/b1
 /f7+0+Tj29vcu7u9kZSV09PTsby8uMK+4vXzzN3d0+LewsPD0s3Iy8vMws3M5OTkys3S4t3Zw9PU

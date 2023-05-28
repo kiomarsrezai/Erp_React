@@ -8,6 +8,7 @@ export const generalFieldsConfig = {
   ORGAN: "structureId",
   PROCTOR: "proctorId",
   numbers: "numbers",
+  kind: "kindId",
 };
 
 export const centerItems: FlotingLabelTextfieldItemsShape = [

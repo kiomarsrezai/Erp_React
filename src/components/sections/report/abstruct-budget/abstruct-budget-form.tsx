@@ -19,7 +19,7 @@ import {
 import { accessNamesConfig } from "config/access-names-config";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
-import { checkHaveValue } from "helper/form-utils";
+import { checkHaveValue, getGeneralFieldItem } from "helper/form-utils";
 import { abstructBudgetConfig } from "config/features/report/budget/abstruct-budget-config";
 import { abstructBudgetApi } from "api/report/abstruct-budget-api";
 import {
@@ -132,11 +132,16 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
 
   // print
   const handlePrintForm = () => {
+    const headerDescription = getGeneralFieldItem(queryClient, formData, [
+      [generalFieldsConfig.ORGAN],
+      [generalFieldsConfig.YEAR, 1],
+      [generalFieldsConfig.kind],
+    ]);
     stimulExport(printData.data, printData.footer, {
       file: "proposal/report/abstruct-budget.mrt",
       header: "خلاصه بودجه",
-      headerDescription: "salam",
-      // justExport: "print",
+      headerDescription,
+      justExport: "print",
     });
   };
 

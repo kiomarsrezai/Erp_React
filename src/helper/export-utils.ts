@@ -65,7 +65,9 @@ export const stimulExport = (
 
   // virewe
   if (exportOptions.justExport === "print") {
-    report.print();
+    report.renderAsync(() => {
+      report.print();
+    });
   } else {
     const options: any = new Stimulsoft.Viewer.StiViewerOptions({});
     const viewer: any = new Stimulsoft.Viewer.StiViewer(
