@@ -35,19 +35,19 @@ export const organItems: FlotingLabelTextfieldItemsShape = [
 
 export const numbersItems: FlotingLabelTextfieldItemsShape = [
   {
-    label: "یک",
+    label: "ریال",
     value: 1,
   },
   {
-    label: "هزار",
+    label: "هزار ریال",
     value: 2,
   },
   {
-    label: "میلیون",
+    label: "میلیون ریال",
     value: 3,
   },
   {
-    label: "میلیارد",
+    label: "میلیارد ریال",
     value: 4,
   },
 ];

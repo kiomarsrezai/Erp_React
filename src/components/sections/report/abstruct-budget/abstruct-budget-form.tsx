@@ -1,3 +1,4 @@
+import PrintIcon from "@mui/icons-material/Print";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -132,18 +133,20 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
 
   // print
   const handlePrintForm = () => {
-    const headerDescription = getGeneralFieldItem(queryClient, formData, [
-      [generalFieldsConfig.ORGAN],
-      [generalFieldsConfig.YEAR, 1],
-      [generalFieldsConfig.kind],
-      [generalFieldsConfig.numbers],
-    ]);
-    stimulExport(printData.data, printData.footer, {
-      file: "proposal/report/abstruct-budget.mrt",
-      header: "خلاصه بودجه",
-      headerDescription,
-      justExport: "print",
-    });
+    if (printData.data.length) {
+      const headerDescription = getGeneralFieldItem(queryClient, formData, [
+        [generalFieldsConfig.ORGAN],
+        [generalFieldsConfig.YEAR, 1],
+        [generalFieldsConfig.kind],
+        [generalFieldsConfig.numbers],
+      ]);
+      stimulExport(printData.data, printData.footer, {
+        file: "proposal/report/abstruct-budget.mrt",
+        header: "خلاصه بودجه",
+        headerDescription,
+        justExport: "print",
+      });
+    }
   };
 
   return (
@@ -238,7 +241,7 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
               variant="contained"
               onClick={handlePrintForm}
             >
-              پرینت
+              <PrintIcon />
             </Button>
           </Grid>
         </Grid>

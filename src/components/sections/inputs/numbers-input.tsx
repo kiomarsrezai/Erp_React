@@ -21,7 +21,7 @@ function NumbersInput(props: BudgetMethodInputProps) {
 
   return (
     <FlotingLabelSelect
-      label="مرتبه اعداد"
+      label="نمایش ارقام"
       name={generalFieldsConfig.numbers}
       items={numbersItems}
       value={value}

@@ -103,16 +103,17 @@ export const getGeneralFieldItem = (
   fields.forEach((field) => {
     // year
     if (field[0] === generalFieldsConfig.YEAR) {
-      const yearLabel = (
-        queryClient.getQueryData([
-          ...reactQueryKeys.generals.year,
-          field[1],
-        ]) as any
-      )?.data.find(
-        (item: any) => item?.id === formData[generalFieldsConfig.YEAR]
-      );
+      const yearLabel =
+        (
+          queryClient.getQueryData([
+            ...reactQueryKeys.generals.year,
+            field[1],
+          ]) as any
+        )?.data.find(
+          (item: any) => item?.id === formData[generalFieldsConfig.YEAR]
+        )?.yearName || "";
 
-      result = `${result} - سال ${yearLabel.yearName}`;
+      result = `${result} - سال ${yearLabel}`;
     }
 
     // budget method
@@ -132,7 +133,7 @@ export const getGeneralFieldItem = (
           (item) => item.value === formData[generalFieldsConfig.numbers]
         )?.label || "";
 
-      result = `${result} - مرتبه اعداد ${numbersLabel} میباشد`;
+      result = `${result} - نمایش ارقام به صورت ${numbersLabel} میباشد`;
     }
 
     // kind method
@@ -157,16 +158,17 @@ export const getGeneralFieldItem = (
 
     // area
     if (field[0] === generalFieldsConfig.AREA) {
-      const areaLabel = (
-        queryClient.getQueryData([
-          ...reactQueryKeys.generals.area,
-          field[1],
-        ]) as any
-      )?.data.find(
-        (item: any) => item.id === formData[generalFieldsConfig.AREA]
-      );
+      const areaLabel =
+        (
+          queryClient.getQueryData([
+            ...reactQueryKeys.generals.area,
+            field[1],
+          ]) as any
+        )?.data.find(
+          (item: any) => item.id === formData[generalFieldsConfig.AREA]
+        )?.areaName || "";
 
-      result = `${result} - ${areaLabel.areaName}`;
+      result = `${result} - ${areaLabel}`;
     }
   });
 
