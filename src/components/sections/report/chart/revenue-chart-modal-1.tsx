@@ -4,15 +4,23 @@ import green from "@mui/material/colors/green";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import FixedModal from "components/ui/modal/fixed-modal";
 import RevenueChartModal2 from "./revenue-chart-modal-2";
+import PrintIcon from "@mui/icons-material/Print";
 
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { ReactNode, useState } from "react";
 import { GetSingleDetailRevenueChartShape } from "types/data/report/chart/revenue-chart-type";
-import { TableHeadShape } from "types/table-type";
+import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { revenueChartApi } from "api/report/chart-api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { revenueChartFormConfig } from "config/features/revenue-chart-config";
 import { reactQueryKeys } from "config/react-query-keys-config";
+import { revenueModal1Stimul } from "stimul/budget/report/revenue/revenue-modal1-stimul";
+import {
+  getGeneralFieldItemBudgetKind,
+  getGeneralFieldItemBudgetMethod,
+  getGeneralFieldItemNumber,
+  getGeneralFieldItemYear,
+} from "helper/export-utils";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -32,6 +40,33 @@ interface RevenueChartModal1Props {
 }
 function RevenueChartModal1(props: RevenueChartModal1Props) {
   const { data, formData } = props;
+
+  // print
+  const handlePrintForm = () => {
+    const yearLabel = getGeneralFieldItemYear(formData, 1);
+    const budgetKindLabel = getGeneralFieldItemBudgetMethod(formData);
+
+    if (tableData.length) {
+      revenueModal1Stimul({
+        data: tableData,
+        footer: tableFooter,
+        year: yearLabel,
+        budgetKind: budgetKindLabel,
+        number: "ریال",
+      });
+    }
+  };
+
+  const tableHeadGroup: TableHeadGroupShape = [
+    {
+      title: (
+        <IconButton color="primary" onClick={handlePrintForm}>
+          <PrintIcon />
+        </IconButton>
+      ),
+      colspan: 9,
+    },
+  ];
 
   // heads
   const tableHeads: TableHeadShape = [
@@ -199,6 +234,7 @@ function RevenueChartModal1(props: RevenueChartModal1Props) {
         heads={tableHeads}
         data={tableData}
         footer={tableFooter}
+        headGroups={tableHeadGroup}
         notFixed
         canSort
       />

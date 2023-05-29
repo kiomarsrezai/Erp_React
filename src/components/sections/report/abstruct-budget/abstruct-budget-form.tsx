@@ -137,7 +137,7 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
   // print
   const handlePrintForm = () => {
     if (printData.data.length) {
-      const yearLabel = getGeneralFieldItemYear(queryClient, formData, 1);
+      const yearLabel = getGeneralFieldItemYear(formData, 1);
       const budgetKindLabel = getGeneralFieldItemBudgetKind(formData);
       const numberLabel = getGeneralFieldItemNumber(formData);
       stimulExport(printData.data, printData.footer, {

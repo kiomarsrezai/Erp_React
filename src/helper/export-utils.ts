@@ -5,7 +5,10 @@ import {
   numbersItems,
   organItems,
 } from "config/features/general-fields-config";
-import { reactQueryKeys } from "config/react-query-keys-config";
+import {
+  reactQueryClient,
+  reactQueryKeys,
+} from "config/react-query-keys-config";
 
 declare const Stimulsoft: any;
 
@@ -91,18 +94,24 @@ export const stimulExport = (
   }
 };
 
-const createStimulsoftFilePath = (name: string) => {
+export const stimulDateValue = () => {
+  return new Date().toLocaleDateString("fa-IR-u-nu-latn", {
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  });
+};
+export const createStimulsoftFilePath = (name: string) => {
   return "/Stimulsoft/list/" + name;
 };
 
-export const getGeneralFieldItemYear = (
-  queryClient: any,
-  formData: any,
-  id: number
-) => {
+export const getGeneralFieldItemYear = (formData: any, id: number) => {
   const yearLabel =
     (
-      queryClient.getQueryData([...reactQueryKeys.generals.year, id]) as any
+      reactQueryClient.getQueryData([
+        ...reactQueryKeys.generals.year,
+        id,
+      ]) as any
     )?.data.find((item: any) => item?.id === formData[generalFieldsConfig.YEAR])
       ?.yearName || "";
 
@@ -123,6 +132,15 @@ export const getGeneralFieldItemNumber = (formData: any) => {
       (item) => item.value === formData[generalFieldsConfig.numbers]
     )?.label || ""
   );
+};
+
+export const getGeneralFieldItemBudgetMethod = (formData: any) => {
+  const budgetMethodLabel =
+    budgetMethodItems.find(
+      (item) => item.value === formData[generalFieldsConfig.BUDGET_METHOD]
+    )?.label || "";
+
+  return budgetMethodLabel;
 };
 
 export const getGeneralFieldItem = (

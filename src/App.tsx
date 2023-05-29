@@ -12,17 +12,7 @@ import "config/yup-config.ts";
 import "assets/styles/font.css";
 import "assets/styles/global.css";
 import "react-medium-image-zoom/dist/styles.css";
-
-// react query client
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      staleTime: 0,
-      cacheTime: 0,
-    },
-  },
-});
+import { reactQueryClient } from "config/react-query-keys-config";
 
 // material ui theme
 const theme = createTheme({
@@ -31,7 +21,7 @@ const theme = createTheme({
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={reactQueryClient}>
       <ThemeProvider theme={theme}>
         <RightToLeft>
           <SnackbarProvider
