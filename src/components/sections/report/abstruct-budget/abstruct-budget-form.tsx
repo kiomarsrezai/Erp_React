@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import LoadingButton from "@mui/lab/LoadingButton";
 import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
 import YearInput from "components/sections/inputs/year-input";
-import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 import SectionGuard from "components/auth/section-guard";
 import userStore from "hooks/store/user-store";
 import BudgetKindInput from "components/sections/inputs/budget-kind-input";
@@ -29,7 +29,6 @@ import {
   joinPermissions,
 } from "helper/auth-utils";
 import {
-  getGeneralFieldItem,
   getGeneralFieldItemBudgetKind,
   getGeneralFieldItemNumber,
   getGeneralFieldItemYear,
@@ -37,8 +36,6 @@ import {
 } from "helper/export-utils";
 import NumbersInput from "components/sections/inputs/numbers-input";
 import { convertNumbers } from "helper/number-utils";
-import { GetSingleAbstructBudgetItemShape } from "types/data/report/abstruct-budget-type";
-import { getPercent } from "helper/calculate-utils";
 
 interface RevenueChartFormProps {
   formData: any;
@@ -237,16 +234,13 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
               variant="contained"
               type="submit"
               loading={submitMutation.isLoading}
+              sx={{ mr: 1 }}
             >
               نمایش
             </LoadingButton>
-            <Button
-              sx={{ mx: 1 }}
-              variant="contained"
-              onClick={handlePrintForm}
-            >
+            <IconButton color="primary" onClick={handlePrintForm}>
               <PrintIcon />
-            </Button>
+            </IconButton>
           </Grid>
         </Grid>
       </Box>
