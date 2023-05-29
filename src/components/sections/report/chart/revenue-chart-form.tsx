@@ -11,6 +11,8 @@ import FixedModal from "components/ui/modal/fixed-modal";
 import SectionGuard from "components/auth/section-guard";
 import userStore from "hooks/store/user-store";
 import RevenueChartModal1 from "./revenue-chart-modal-1";
+import IconButton from "@mui/material/IconButton";
+import PrintIcon from "@mui/icons-material/Print";
 
 import { FormEvent, ReactNode, useEffect, useState } from "react";
 import { revenueChartFormConfig } from "config/features/revenue-chart-config";
@@ -27,6 +29,12 @@ import {
   filedItemsGuard,
   joinPermissions,
 } from "helper/auth-utils";
+import { revenueChartStimul } from "stimul/budget/report/revenue/revenue-chart-stimul";
+import {
+  getGeneralFieldItemBudgetKind,
+  getGeneralFieldItemBudgetMethod,
+  getGeneralFieldItemYear,
+} from "helper/export-utils";
 
 interface RevenueChartFormProps {
   formData: any;
@@ -146,6 +154,23 @@ function RevenueChartForm(props: RevenueChartFormProps) {
       }
       dataTableMutation.mutate(formData);
       handleOpenModal();
+    }
+  };
+
+  // print
+  const handlePrintForm = () => {
+    const data = submitMutation.data?.data;
+    if (data?.[0].length) {
+      const yearLabel = getGeneralFieldItemYear(formData, 1);
+      const budgetMethodLabel = getGeneralFieldItemBudgetMethod(formData);
+      revenueChartStimul({
+        mosavab: data[1],
+        area: data[0],
+        expense: data[3],
+        mosavabDaily: data[2],
+        year: yearLabel,
+        budgetMethod: budgetMethodLabel,
+      });
     }
   };
 
@@ -298,6 +323,9 @@ function RevenueChartForm(props: RevenueChartFormProps) {
               <Button variant="contained" onClick={handleClickDetailValues}>
                 ریز مقادیر
               </Button>
+              <IconButton color="primary" onClick={handlePrintForm}>
+                <PrintIcon />
+              </IconButton>
             </Stack>
           </Grid>
         </Grid>
