@@ -38,7 +38,7 @@ function BulletChart(props: BulletChartProps) {
     innerBarLabel,
   } = props;
 
-  const barColor = "#999";
+  const barColor = "#cbd5e1";
   const innerBarColor = blue[300];
   const lineColor = green[700];
 

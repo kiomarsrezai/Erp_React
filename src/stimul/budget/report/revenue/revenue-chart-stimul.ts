@@ -62,6 +62,21 @@ export const revenueChartStimul = (exportOptions: StimulOptionsShape) => {
       exportOptions.budgetMethod;
     report.dictionary.variables.getByName("headerDate").valueObject =
       stimulDateValue();
+
+    var svgElement: any = document.querySelector(".recharts-surface");
+
+    // Serialize the svg to string
+    var svgString = new XMLSerializer().serializeToString(svgElement);
+
+    // Remove any characters outside the Latin1 range
+    var decoded = unescape(encodeURIComponent(svgString));
+
+    // Now we can use btoa to convert the svg to base64
+    var base64 = btoa(decoded);
+
+    var imgSource = `data:image/svg+xml;base64,${base64}`;
+
+    report.dictionary.variables.getByName("imgChart").valueObject = imgSource;
   } catch (err) {}
 
   // virewe
