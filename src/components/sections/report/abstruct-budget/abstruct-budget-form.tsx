@@ -32,10 +32,10 @@ import {
   getGeneralFieldItemBudgetKind,
   getGeneralFieldItemNumber,
   getGeneralFieldItemYear,
-  stimulExport,
 } from "helper/export-utils";
 import NumbersInput from "components/sections/inputs/numbers-input";
 import { convertNumbers } from "helper/number-utils";
+import { abstructBudgetStimul } from "stimul/budget/report/abstruct/abstruct-budget-stimul";
 
 interface RevenueChartFormProps {
   formData: any;
@@ -140,12 +140,12 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
       const yearLabel = getGeneralFieldItemYear(formData, 1);
       const budgetKindLabel = getGeneralFieldItemBudgetKind(formData);
       const numberLabel = getGeneralFieldItemNumber(formData);
-      stimulExport(printData.data, printData.footer, {
-        file: "proposal/report/abstruct-budget.mrt",
+      abstructBudgetStimul({
+        data: printData.data,
+        footer: printData.footer,
         year: yearLabel,
         budgetKind: budgetKindLabel,
         numberShow: numberLabel,
-        justExport: "print",
       });
     }
   };
