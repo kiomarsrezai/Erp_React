@@ -85,6 +85,8 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
     null
   );
 
+  const [textDeleteModal, setTextDeleteModal] = useState("");
+
   const deleteMutation = useMutation(codingBudgetApi.deleteItem, {
     onSuccess: () => {
       enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
@@ -106,6 +108,14 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
 
   const onCancelDelete = () => {
     setIsShowConfrimDelete(null);
+  };
+
+  const handleClickDelete = (
+    row: TableDataItemShape & GetSingleCodingItemShape
+  ) => {
+    const deleteText = `آیا مایل به حذف ${row.code} - ${row.description} هستید ؟`;
+    setTextDeleteModal(deleteText);
+    setIsShowConfrimDelete(row.id);
   };
 
   // head group
@@ -194,7 +204,7 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
       <IconButton
         size="small"
         color="error"
-        onClick={() => setIsShowConfrimDelete(row.id)}
+        onClick={() => handleClickDelete(row)}
       >
         <DeleteIcon />
       </IconButton>
@@ -306,6 +316,7 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
         onConfrim={onConfrimDelete}
         open={isShowConfrimDelete !== null}
         title="حذف آیتم"
+        text={textDeleteModal}
       />
     </>
   );
