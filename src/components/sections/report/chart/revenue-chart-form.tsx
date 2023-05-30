@@ -31,7 +31,6 @@ import {
 } from "helper/auth-utils";
 import { revenueChartStimul } from "stimul/budget/report/revenue/revenue-chart-stimul";
 import {
-  getGeneralFieldItemBudgetKind,
   getGeneralFieldItemBudgetMethod,
   getGeneralFieldItemYear,
 } from "helper/export-utils";
@@ -164,10 +163,6 @@ function RevenueChartForm(props: RevenueChartFormProps) {
       const yearLabel = getGeneralFieldItemYear(formData, 1);
       const budgetMethodLabel = getGeneralFieldItemBudgetMethod(formData);
       revenueChartStimul({
-        mosavab: data[1],
-        area: data[0],
-        expense: data[3],
-        mosavabDaily: data[2],
         year: yearLabel,
         budgetMethod: budgetMethodLabel,
       });

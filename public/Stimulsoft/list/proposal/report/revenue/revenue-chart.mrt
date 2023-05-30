@@ -3,74 +3,8 @@
   <CalculationMode>Interpretation</CalculationMode>
   <Dictionary Ref="1" type="Dictionary" isKey="true">
     <BusinessObjects isList="true" count="0" />
-    <Databases isList="true" count="4">
-      <area Ref="2" type="Stimulsoft.Report.Dictionary.StiJsonDatabase" isKey="true">
-        <Alias>area</Alias>
-        <Key>177292df1caf4effab92d23f1afb0dff</Key>
-        <Name>area</Name>
-        <PathData>D:\Profiles\akasir\Desktop\stimul\area.json</PathData>
-      </area>
-      <mosavab Ref="3" type="Stimulsoft.Report.Dictionary.StiJsonDatabase" isKey="true">
-        <Alias>mosavab</Alias>
-        <Key>ab9d8a75043745bc858fc79c12f9c279</Key>
-        <Name>mosavab</Name>
-        <PathData>D:\Profiles\akasir\Desktop\stimul\mosavab.json</PathData>
-      </mosavab>
-      <expense Ref="4" type="Stimulsoft.Report.Dictionary.StiJsonDatabase" isKey="true">
-        <Alias>expense</Alias>
-        <Key>d57680005ae84600b0cde202947fdafc</Key>
-        <Name>expense</Name>
-        <PathData>D:\Profiles\akasir\Desktop\stimul\expense.json</PathData>
-      </expense>
-      <daily Ref="5" type="Stimulsoft.Report.Dictionary.StiJsonDatabase" isKey="true">
-        <Alias>daily</Alias>
-        <Key>2037b046102a4ae09ae28cea1ddec788</Key>
-        <Name>daily</Name>
-        <PathData>D:\Profiles\akasir\Desktop\stimul\daily.json</PathData>
-      </daily>
-    </Databases>
-    <DataSources isList="true" count="4">
-      <area Ref="6" type="DataTableSource" isKey="true">
-        <Alias>area</Alias>
-        <Columns isList="true" count="1">
-          <value>ORIGINAL,value,value,value,System.Decimal,f92636caf89644fda5dfc8d09fd8dec5</value>
-        </Columns>
-        <Dictionary isRef="1" />
-        <Key>2544b48279554cb99cb226b838d49f4f</Key>
-        <Name>area</Name>
-        <NameInSource>area.data</NameInSource>
-      </area>
-      <mosavab Ref="7" type="DataTableSource" isKey="true">
-        <Alias>mosavab</Alias>
-        <Columns isList="true" count="1">
-          <value>ORIGINAL,value,value,value,System.Decimal,_x0031_67aa0aea34e415db17bc766c1ead331</value>
-        </Columns>
-        <Dictionary isRef="1" />
-        <Key>6da93d87c9254697a5ade1c9bad82ee9</Key>
-        <Name>mosavab</Name>
-        <NameInSource>mosavab.data</NameInSource>
-      </mosavab>
-      <expense Ref="8" type="DataTableSource" isKey="true">
-        <Alias>expense</Alias>
-        <Columns isList="true" count="1">
-          <value>value,System.Decimal</value>
-        </Columns>
-        <Dictionary isRef="1" />
-        <Key>e565f800aef546fd873b7f3d1ced150a</Key>
-        <Name>expense</Name>
-        <NameInSource>expense.data</NameInSource>
-      </expense>
-      <daily Ref="9" type="DataTableSource" isKey="true">
-        <Alias>daily</Alias>
-        <Columns isList="true" count="1">
-          <value>value,System.Decimal</value>
-        </Columns>
-        <Dictionary isRef="1" />
-        <Key>1edd66919acc4e7dbf2898ebd615b8b7</Key>
-        <Name>daily</Name>
-        <NameInSource>daily.data</NameInSource>
-      </daily>
-    </DataSources>
+    <Databases isList="true" count="0" />
+    <DataSources isList="true" count="0" />
     <Relations isList="true" count="0" />
     <Report isRef="0" />
     <Resources isList="true" count="0" />
@@ -88,29 +22,29 @@
   <Key>feb11f1774b141838099ad870da1726f</Key>
   <MetaTags isList="true" count="0" />
   <Pages isList="true" count="1">
-    <Page1 Ref="10" type="Page" isKey="true">
+    <Page1 Ref="2" type="Page" isKey="true">
       <Border>None;Black;2;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <Components isList="true" count="2">
-        <Image1 Ref="11" type="Image" isKey="true">
+        <Image1 Ref="3" type="Image" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>20,120,1120,650</ClientRectangle>
+          <ClientRectangle>20,120,1110,650</ClientRectangle>
           <Conditions isList="true" count="0" />
           <Expressions isList="true" count="0" />
           <IconColor>68, 114, 196</IconColor>
           <ImageData>{ImgChart}</ImageData>
           <Margins>0,0,0,0</Margins>
           <Name>Image1</Name>
-          <Page isRef="10" />
-          <Parent isRef="10" />
+          <Page isRef="2" />
+          <Parent isRef="2" />
           <Stretch>True</Stretch>
           <VertAlignment>Center</VertAlignment>
         </Image1>
-        <ReportTitleBand2 Ref="12" type="ReportTitleBand" isKey="true">
+        <ReportTitleBand2 Ref="4" type="ReportTitleBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,20,1149,80</ClientRectangle>
           <Components isList="true" count="5">
-            <Text23 Ref="13" type="Text" isKey="true">
+            <Text23 Ref="5" type="Text" isKey="true">
               <Border>None;[158:158:158];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <ClientRectangle>250,0,600,60</ClientRectangle>
@@ -121,14 +55,14 @@
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text23</Name>
-              <Page isRef="10" />
-              <Parent isRef="12" />
+              <Page isRef="2" />
+              <Parent isRef="4" />
               <Text>نمودار عملکرد</Text>
               <TextBrush>[158:158:158]</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text23>
-            <Text17 Ref="14" type="Text" isKey="true">
+            <Text17 Ref="6" type="Text" isKey="true">
               <Border>None;[58:78:94];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
@@ -139,15 +73,15 @@
               <Guid>75b851754174412ab8c478e5c8479f92</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text17</Name>
-              <Page isRef="10" />
-              <Parent isRef="12" />
+              <Page isRef="2" />
+              <Parent isRef="4" />
               <Text>سال : {year}</Text>
               <TextBrush>[158:158:158]</TextBrush>
               <TextOptions>,,RightToLeft=True,,WordWrap=True,A=0</TextOptions>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text17>
-            <Text21 Ref="15" type="Text" isKey="true">
+            <Text21 Ref="7" type="Text" isKey="true">
               <Border>None;[58:78:94];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
@@ -158,15 +92,15 @@
               <Guid>17572f48037943e888f1a9e1fd7aecdb</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text21</Name>
-              <Page isRef="10" />
-              <Parent isRef="12" />
+              <Page isRef="2" />
+              <Parent isRef="4" />
               <Text>{headerDate}</Text>
               <TextBrush>[158:158:158]</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text21>
-            <Text6 Ref="16" type="Text" isKey="true">
+            <Text6 Ref="8" type="Text" isKey="true">
               <Border>None;[58:78:94];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
@@ -177,15 +111,15 @@
               <Guid>d24f6ee369f44b9e8f8715013c329039</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text6</Name>
-              <Page isRef="10" />
-              <Parent isRef="12" />
+              <Page isRef="2" />
+              <Parent isRef="4" />
               <Text>نوع : {budgetKind}</Text>
               <TextBrush>[158:158:158]</TextBrush>
               <TextOptions>,,RightToLeft=True,,WordWrap=True,A=0</TextOptions>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text6>
-            <Text32 Ref="17" type="Text" isKey="true">
+            <Text32 Ref="9" type="Text" isKey="true">
               <Border>None;[58:78:94];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
@@ -196,8 +130,8 @@
               <Guid>6a6c30bd6a5f42a58844e5801cae248a</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text32</Name>
-              <Page isRef="10" />
-              <Parent isRef="12" />
+              <Page isRef="2" />
+              <Parent isRef="4" />
               <Text>ارقام : ریال</Text>
               <TextBrush>[158:158:158]</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
@@ -209,8 +143,8 @@
           <Expressions isList="true" count="0" />
           <Guid>0e78e53250ce4a74baab882ac9d3f6e0</Guid>
           <Name>ReportTitleBand2</Name>
-          <Page isRef="10" />
-          <Parent isRef="10" />
+          <Page isRef="2" />
+          <Parent isRef="2" />
         </ReportTitleBand2>
       </Components>
       <Conditions isList="true" count="0" />
@@ -224,7 +158,7 @@
       <PaperSize>A4</PaperSize>
       <Report isRef="0" />
       <RightToLeft>True</RightToLeft>
-      <Watermark Ref="18" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+      <Watermark Ref="10" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
         <Font>Arial,100,Bold</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
       </Watermark>
@@ -244,11 +178,11 @@
   </ReferencedAssemblies>
   <ReportAlias>SimpleList</ReportAlias>
   <ReportAuthor>Stimulsoft</ReportAuthor>
-  <ReportChanged>5/29/2023 5:37:10 PM</ReportChanged>
+  <ReportChanged>5/30/2023 2:06:39 PM</ReportChanged>
   <ReportCreated>5/29/2004 10:59:00 AM</ReportCreated>
   <ReportDescription>This sample demonstrates how to create a simple list report.</ReportDescription>
-  <ReportFile>D:\Profiles\akasir\Desktop\stimul\revenue-chart.mrt</ReportFile>
-  <ReportGuid>17c0fdc88e534635ad597962a9004e28</ReportGuid>
+  <ReportFile>D:\erp\erp-react\public\Stimulsoft\list\proposal\report\revenue\revenue-chart.mrt</ReportFile>
+  <ReportGuid>ac46571fb3b349ae959c59424fa3e157</ReportGuid>
   <ReportImage>iVBORw0KGgoAAAANSUhEUgAAASAAAAGWCAMAAADvzq7aAAAABGdBTUEAALGPC/xhBQAAAYBQTFRF
 S7asucbHqba33/Hx8vr56fb1paqq+v394fPx1N3i5/X1nKan7/n52+zryOfl8/T0s77B7ezt4/b1
 /f7+0+Tj29vcu7u9kZSV09PTsby8uMK+4vXzzN3d0+LewsPD0s3Iy8vMws3M5OTkys3S4t3Zw9PU
@@ -869,7 +803,7 @@ namespace Reports
 }</Script>
   <ScriptLanguage>CSharp</ScriptLanguage>
   <Styles isList="true" count="5">
-    <Header2 Ref="19" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Header2 Ref="11" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>Bottom;[158:158:158];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <Conditions isList="true" count="0" />
@@ -880,7 +814,7 @@ namespace Reports
       <TextBrush>[158:158:158]</TextBrush>
       <VertAlignment>Center</VertAlignment>
     </Header2>
-    <Header3 Ref="20" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Header3 Ref="12" type="Stimulsoft.Report.StiStyle" isKey="true">
       <AllowUseBorderFormatting>False</AllowUseBorderFormatting>
       <Border>Left;White;1;Solid;False;4;Black</Border>
       <Brush>[77:182:172]</Brush>
@@ -892,7 +826,7 @@ namespace Reports
       <TextBrush>[255:255:255]</TextBrush>
       <VertAlignment>Center</VertAlignment>
     </Header3>
-    <Data1 Ref="21" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Data1 Ref="13" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>None;[182:182:182];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <Conditions isList="true" count="0" />
@@ -902,7 +836,7 @@ namespace Reports
       <TextBrush>[74:74:74]</TextBrush>
       <VertAlignment>Center</VertAlignment>
     </Data1>
-    <Data2 Ref="22" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Data2 Ref="14" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>None;[255:255:255];1;Solid;False;4;Black</Border>
       <Brush>[224:242:241]</Brush>
       <Conditions isList="true" count="0" />
@@ -911,7 +845,7 @@ namespace Reports
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>[74:74:74]</TextBrush>
     </Data2>
-    <Footer2 Ref="23" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Footer2 Ref="15" type="Stimulsoft.Report.StiStyle" isKey="true">
       <AllowUseBorderSides>False</AllowUseBorderSides>
       <Border>None;[58:78:94];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>

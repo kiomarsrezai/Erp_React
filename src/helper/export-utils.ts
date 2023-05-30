@@ -58,3 +58,19 @@ export const getGeneralFieldItemBudgetMethod = (formData: any) => {
 
   return budgetMethodLabel;
 };
+
+export const createImgFromSvg = (selector: string) => {
+  var svgElement: any = document.querySelector(selector);
+
+  // Serialize the svg to string
+  var svgString = new XMLSerializer().serializeToString(svgElement);
+
+  // Remove any characters outside the Latin1 range
+  var decoded = unescape(encodeURIComponent(svgString));
+
+  // Now we can use btoa to convert the svg to base64
+  var base64 = btoa(decoded);
+
+  var imgSource = `data:image/svg+xml;base64,${base64}`;
+  return imgSource;
+};
