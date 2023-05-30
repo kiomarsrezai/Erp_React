@@ -140,6 +140,13 @@ function ProposalModal1(props: ProposalModal1Props) {
   const handleEditBtnClick = (
     row: TableDataItemShape & GetSingleProposalItemShape
   ) => {
+    const title = `${row.code} - ${row.description}`;
+    setModalTitle(
+      <>
+        <div>{baseTitle}</div>
+        <div>{title}</div>
+      </>
+    );
     setEditModalInitialData(row);
     setIsOpenEditModal(true);
   };

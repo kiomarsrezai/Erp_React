@@ -125,10 +125,17 @@ function ProposalModal3(props: ProposalModal3Props) {
 
   // eidt modal
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
+  const [titleEditModal, setTitleEditModal] = useState<ReactNode>("");
   const [editModalInitialData, setEditModalInitialData] = useState({});
   const handleEditBtnClick = (
     row: TableDataItemShape & GetSingleLevel5DetailProposalItemShape
   ) => {
+    setTitleEditModal(
+      <>
+        {baseTitle}
+        <div>{row.area}</div>
+      </>
+    );
     setEditModalInitialData(row);
     setIsOpenEditModal(true);
   };
@@ -280,7 +287,7 @@ function ProposalModal3(props: ProposalModal3Props) {
       <FixedModal
         open={isOpenEditModal}
         handleClose={() => setIsOpenEditModal(false)}
-        title={baseTitle}
+        title={titleEditModal}
         maxWidth="sm"
         maxHeight="60%"
       >
