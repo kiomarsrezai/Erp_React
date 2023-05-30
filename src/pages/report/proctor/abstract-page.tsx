@@ -41,19 +41,6 @@ function ReportProctorAbstructPage(props: ReportProctorAbstructProps) {
     [abstructProctorConfig.BUDGETPROCESS]: 0,
   });
 
-  const tableTopHeadGroups: TableHeadGroupShape = [
-    {
-      title: (
-        <AbstractProctorForm
-          formData={formData}
-          setFormData={setFormData}
-          tabRender={tabRender}
-        />
-      ),
-      colspan: 10,
-    },
-  ];
-
   const tableHeadGroups: TableHeadGroupShape = [
     {
       title: "ردیف",
@@ -244,6 +231,24 @@ function ReportProctorAbstructPage(props: ReportProctorAbstructProps) {
     jazbKol: "",
     actions: () => "",
   };
+
+  // print
+  const tableTopHeadGroups: TableHeadGroupShape = [
+    {
+      title: (
+        <AbstractProctorForm
+          formData={formData}
+          setFormData={setFormData}
+          tabRender={tabRender}
+          printData={{
+            data: tableData,
+            footer: [tableFooter],
+          }}
+        />
+      ),
+      colspan: 10,
+    },
+  ];
 
   return (
     <AdminLayout>

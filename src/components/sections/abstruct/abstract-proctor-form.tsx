@@ -3,6 +3,8 @@ import Box from "@mui/material/Box";
 import LoadingButton from "@mui/lab/LoadingButton";
 import YearInput from "components/sections/inputs/year-input";
 import SectionGuard from "components/auth/section-guard";
+import PrintIcon from "@mui/icons-material/Print";
+import IconButton from "@mui/material/IconButton";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FormEvent, ReactNode, useEffect, useState } from "react";
@@ -15,15 +17,21 @@ import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import { checkHaveValue } from "helper/form-utils";
 import userStore from "hooks/store/user-store";
+import { getGeneralFieldItemYear } from "helper/export-utils";
+import { abstructProctorStimul } from "stimul/budget/report/proctor/abstruct-proctor-stimul";
 
 interface AbstractProctorFormProps {
   formData: any;
   setFormData: any;
   tabRender?: ReactNode;
+  printData: {
+    data: any[];
+    footer: any[];
+  };
 }
 
 function AbstractProctorForm(props: AbstractProctorFormProps) {
-  const { formData, setFormData, tabRender } = props;
+  const { formData, setFormData, tabRender, printData } = props;
 
   const userLicenses = userStore((state) => state.permissions);
   // submit
@@ -68,6 +76,19 @@ function AbstractProctorForm(props: AbstractProctorFormProps) {
       data: [],
     });
   }, [formData, queryClient]);
+
+  // print
+  const handlePrintForm = () => {
+    if (printData.data.length) {
+      const yearLabel = getGeneralFieldItemYear(formData, 1);
+      abstructProctorStimul({
+        data: printData.data,
+        footer: printData.footer,
+        year: yearLabel,
+        numberShow: "ریال",
+      });
+    }
+  };
 
   return (
     <Box component="form" p={1} onSubmit={handleFormSubmit}>
@@ -122,6 +143,9 @@ function AbstractProctorForm(props: AbstractProctorFormProps) {
           >
             نمایش
           </LoadingButton>
+          <IconButton color="primary" onClick={handlePrintForm}>
+            <PrintIcon />
+          </IconButton>
         </Grid>
       </Grid>
     </Box>
