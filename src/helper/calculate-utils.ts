@@ -18,5 +18,6 @@ export const numberWithCommas = (x: number) => {
 };
 
 export const getPercent = (a: number = 0, b: number = 1) => {
-  return Math.round((a / b) * 100);
+  const result = Math.round((a / b) * 100);
+  return isFinite(result) ? result : 0;
 };
