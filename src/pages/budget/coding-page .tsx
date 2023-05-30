@@ -48,6 +48,7 @@ function BudgetCodingPage() {
   const handleClickEditBtn = (
     row: TableDataItemShape & GetSingleCodingItemShape
   ) => {
+    setActiveRowTitle(`${row.code} - ${row.description}`);
     setActionModaInitialData(row);
     setActionLevelNumber(row.levelNumber || 0);
     setActionMotherId(row.id || 0);
@@ -138,13 +139,13 @@ function BudgetCodingPage() {
 
   // modal
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [modal1Title, setModal1Title] = useState("");
+  const [activeRowTitle, setActiveRowTitle] = useState("");
   const detailCodingMutation = useMutation(codingBudgetApi.getData);
 
   const openDeatilModal = (
     row: TableDataItemShape & GetSingleCodingItemShape
   ) => {
-    setModal1Title(`${row.code} - ${row.description}`);
+    setActiveRowTitle(`${row.code} - ${row.description}`);
     setActionMotherId(row.id || 0);
     detailCodingMutation.mutate({
       ...formData,
@@ -256,12 +257,13 @@ function BudgetCodingPage() {
         maxWidth="xl"
         maxHeight="90%"
         loading={detailCodingMutation.isLoading}
-        title={modal1Title}
+        title={activeRowTitle}
       >
         <CodingBudgetModal1
           formData={formData}
           data={detailCodingMutation.data?.data || []}
           motherId={actionMotherId}
+          modal1Title={activeRowTitle}
         />
       </FixedModal>
 
@@ -271,7 +273,8 @@ function BudgetCodingPage() {
         handleClose={() => setIsOpenActionModal(false)}
         maxHeight="70%"
         maxWidth="md"
-        title="ویرایش آیتم"
+        title={activeRowTitle}
+        topTitle={<div>ویرایش آیتم</div>}
       >
         <CodingBudgetActionModal
           onDoneTask={handleDoneActionTask}

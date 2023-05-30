@@ -33,23 +33,29 @@ interface CodingBudgetModal3Props {
   data: any[];
   motherId: number;
   formData: any;
+  baseModal3Title: ReactNode;
 }
 function CodingBudgetModal3(props: CodingBudgetModal3Props) {
-  const { data, motherId, formData } = props;
+  const { data, motherId, formData, baseModal3Title } = props;
 
   // action modal
   const [isOpenActionModal, setIsOpenActionModal] = useState(false);
-  const [titleActionModal, setTitleActionModal] = useState("");
+  const [titleActionModal, setTitleActionModal] = useState<ReactNode>("");
   const [modalFormInitialData, setModalFormInitialData] = useState(null);
 
   const handleAddClick = () => {
-    setTitleActionModal("افزودن آیتم");
+    setTitleActionModal(<>{baseModal3Title}</>);
     setModalFormInitialData(null);
     setIsOpenActionModal(true);
   };
 
   const handleClickEditBtn = (row: any) => {
-    setTitleActionModal("ویرایش آیتم");
+    setTitleActionModal(
+      <>
+        {baseModal3Title}
+        <div>{`${row.code} - ${row.description}`}</div>
+      </>
+    );
     setModalFormInitialData(row);
     setIsOpenActionModal(true);
   };
@@ -214,6 +220,7 @@ function CodingBudgetModal3(props: CodingBudgetModal3Props) {
         maxHeight="70%"
         maxWidth="md"
         title={titleActionModal}
+        topTitle={modalFormInitialData ? "ویرایش آیتم" : "افزودن آیتم"}
       >
         <CodingBudgetActionModal
           initialData={modalFormInitialData}

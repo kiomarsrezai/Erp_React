@@ -37,23 +37,33 @@ interface CodingBudgetModal1Props {
   data: any[];
   formData: any;
   motherId: number;
+  modal1Title: string;
 }
 function CodingBudgetModal1(props: CodingBudgetModal1Props) {
-  const { data, formData, motherId } = props;
+  const { data, formData, motherId, modal1Title } = props;
 
   // action modal
   const [isOpenActionModal, setIsOpenActionModal] = useState(false);
-  const [titleActionModal, setTitleActionModal] = useState("");
+  const [titleActionModal, setTitleActionModal] = useState<ReactNode>("");
   const [modalFormInitialData, setModalFormInitialData] = useState(null);
 
   const handleAddClick = () => {
-    setTitleActionModal("افزودن آیتم");
+    setTitleActionModal(
+      <>
+        <div>{modal1Title}</div>
+      </>
+    );
     setModalFormInitialData(null);
     setIsOpenActionModal(true);
   };
 
   const handleClickEditBtn = (row: any) => {
-    setTitleActionModal("ویرایش آیتم");
+    setTitleActionModal(
+      <>
+        <div>{modal1Title}</div>
+        <div>{`${row.code} - ${row.description}`}</div>
+      </>
+    );
     setModalFormInitialData(row);
     setIsOpenActionModal(true);
   };
@@ -146,13 +156,19 @@ function CodingBudgetModal1(props: CodingBudgetModal1Props) {
     },
   ];
 
-  // more detail
+  // modal 2
   const detailCodingMutation = useMutation(codingBudgetApi.getData);
   const [rowMotherId, setRowMotherId] = useState(0);
 
   const openMoreDetail = (
     row: TableDataItemShape & GetSingleCodingItemShape
   ) => {
+    setTitleActionModal(
+      <>
+        <div>{modal1Title}</div>
+        <div>{`${row.code} - ${row.description}`}</div>
+      </>
+    );
     setRowMotherId(row.id);
     detailCodingMutation.mutate({
       ...formData,
@@ -244,6 +260,7 @@ function CodingBudgetModal1(props: CodingBudgetModal1Props) {
             loading={detailCodingMutation.isLoading}
             formData={formData}
             motherId={rowMotherId}
+            baseModal2Title={titleActionModal}
           />
         </Box>
       </Box>
@@ -254,6 +271,7 @@ function CodingBudgetModal1(props: CodingBudgetModal1Props) {
         handleClose={() => setIsOpenActionModal(false)}
         maxHeight="70%"
         maxWidth="md"
+        topTitle={modalFormInitialData ? "ویرایش آیتم" : "افزودن آیتم"}
         title={titleActionModal}
       >
         <CodingBudgetActionModal

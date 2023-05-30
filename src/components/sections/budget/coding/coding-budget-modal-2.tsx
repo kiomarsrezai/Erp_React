@@ -22,6 +22,7 @@ import { useMutation } from "@tanstack/react-query";
 import { codingBudgetConfig } from "config/features/budget/coding-config";
 import { globalConfig } from "config/global-config";
 import { enqueueSnackbar } from "notistack";
+import { Typography } from "@mui/material";
 
 interface TableDataItemShape {
   rowNumber: ReactNode;
@@ -39,23 +40,31 @@ interface CodingBudgetModal2Props {
   loading: boolean;
   formData: any;
   motherId: number;
+  baseModal2Title: ReactNode;
 }
 function CodingBudgetModal2(props: CodingBudgetModal2Props) {
-  const { data, loading, formData, motherId } = props;
+  const { data, loading, formData, motherId, baseModal2Title } = props;
 
   // action modal
   const [isOpenActionModal, setIsOpenActionModal] = useState(false);
-  const [titleActionModal, setTitleActionModal] = useState("");
+  const [titleActionModal, setTitleActionModal] = useState<ReactNode>("");
   const [modalFormInitialData, setModalFormInitialData] = useState(null);
 
   const handleAddClick = () => {
-    setTitleActionModal("افزودن آیتم");
+    setTitleActionModal(<>{baseModal2Title}</>);
     setModalFormInitialData(null);
     setIsOpenActionModal(true);
   };
 
   const handleClickEditBtn = (row: any) => {
-    setTitleActionModal("ویرایش آیتم");
+    setTitleActionModal(
+      <>
+        {baseModal2Title}
+        <div>
+          {row.code} - {row.description}
+        </div>
+      </>
+    );
     setModalFormInitialData(row);
     setIsOpenActionModal(true);
   };
@@ -102,7 +111,11 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
   // head group
   const headGroup: TableHeadGroupShape = [
     {
-      title: (
+      title: !motherId ? (
+        <Box display={"flex"} justifyContent={"center"}>
+          <Typography variant="caption">هیچ آیتمی انتخاب نشده است</Typography>
+        </Box>
+      ) : (
         <IconButton color="primary" size="small" onClick={handleAddClick}>
           <AddIcon />
         </IconButton>
@@ -157,6 +170,14 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
   const handleListClick = (
     row: TableDataItemShape & GetSingleCodingItemShape
   ) => {
+    setTitleActionModal(
+      <>
+        {baseModal2Title}
+        <div>
+          {row.code} - {row.description}
+        </div>
+      </>
+    );
     setRowMotherId(row.id);
     detailCodingMutation.mutate({
       ...formData,
@@ -247,16 +268,18 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
         notFixed
       />
 
-      {/* modal 2 */}
+      {/* modal 3 */}
       <FixedModal
         open={isOpenModal}
         loading={detailCodingMutation.isLoading}
         handleClose={() => setIsOpenModal(false)}
+        title={titleActionModal}
       >
         <CodingBudgetModal3
           data={detailCodingMutation.data?.data || []}
           motherId={rowMotherId}
           formData={formData}
+          baseModal3Title={titleActionModal}
         />
       </FixedModal>
 
@@ -267,6 +290,7 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
         maxHeight="70%"
         maxWidth="md"
         title={titleActionModal}
+        topTitle={modalFormInitialData ? "ویرایش آیتم" : "افزودن آیتم"}
       >
         <CodingBudgetActionModal
           onDoneTask={handleDoneActionTask}

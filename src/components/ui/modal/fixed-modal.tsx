@@ -33,6 +33,7 @@ interface FixedModalProps {
   children?: ReactNode;
   loading?: boolean;
   title?: string | ReactNode;
+  topTitle?: ReactNode;
   maxWidth?: string;
   maxHeight?: string;
   isNested?: boolean;
@@ -52,6 +53,7 @@ function FixedModal(props: FixedModalProps) {
     isBiger,
     maxWidth,
     maxHeight,
+    topTitle,
   } = props;
 
   // loading
@@ -82,7 +84,14 @@ function FixedModal(props: FixedModalProps) {
         justifyContent="space-between"
         alignItems="center"
       >
-        <Box>{title || "جزئیات اطلاعات"}</Box>
+        <Box>
+          {(
+            <>
+              {topTitle}
+              {title}
+            </>
+          ) || "جزئیات اطلاعات"}
+        </Box>
         <IconButton size="small" onClick={handleClose}>
           <CloseIcon fontSize="small" />
         </IconButton>
