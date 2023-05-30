@@ -1,9 +1,13 @@
 import FixedTable from "components/data/table/fixed-table";
+import PrintIcon from "@mui/icons-material/Print";
+import IconButton from "@mui/material/IconButton";
 
-import { sumFieldsInSingleItemData } from "helper/calculate-utils";
+import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
+import { getGeneralFieldItemYear } from "helper/export-utils";
 import { ReactNode } from "react";
 import { GetSingleAbstructProctorModalRowDataItemShape } from "types/data/report/abstruct-proctor-type";
-import { TableHeadShape } from "types/table-type";
+import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
+import { abstructProctorModal2Stimul } from "stimul/budget/report/proctor/abstruct-proctor-modal2-stimul";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -16,10 +20,13 @@ interface TableDataItemShape {
 
 interface AbstructModal2Props {
   data: any[];
+  formdata: any;
+  modal1Title: string;
+  modal2Title: string;
 }
 
 function AbstructModal2(props: AbstructModal2Props) {
-  const { data } = props;
+  const { data, formdata, modal1Title, modal2Title } = props;
 
   // table heads
   const tableHeads: TableHeadShape = [
@@ -66,8 +73,8 @@ function AbstructModal2(props: AbstructModal2Props) {
       code: item.code,
       hazine: item.expense,
       "textcolor-hazine": item.expense < 0 ? "red" : "",
-      jazb: item.percent,
       mosavab: item.mosavab,
+      jazb: getPercent(item.expense, item.mosavab),
       actions: () => "",
     }));
 
@@ -77,21 +84,52 @@ function AbstructModal2(props: AbstructModal2Props) {
   const tableData = data ? formatTableData(data) : [];
 
   // table footer
+  const sumMosavab = sumFieldsInSingleItemData(data, "mosavab");
+  const sumHazine = sumFieldsInSingleItemData(data, "expense");
   const tableFooters: TableDataItemShape | any = {
     number: "جمع",
     "colspan-number": 3,
     title: null,
     code: null,
-    mosavab: sumFieldsInSingleItemData(data, "mosavab"),
-    jazb: "",
-    hazine: sumFieldsInSingleItemData(data, "expense"),
+    mosavab: sumMosavab,
+    hazine: sumHazine,
+    jazb: getPercent(sumHazine, sumMosavab),
   };
+
+  // print
+  const handlePrintForm = () => {
+    if (tableData.length) {
+      console.log(tableData[0]);
+
+      const yearLabel = getGeneralFieldItemYear(formdata, 1);
+      abstructProctorModal2Stimul({
+        data: tableData,
+        footer: [tableFooters],
+        year: yearLabel,
+        title1: modal1Title,
+        title2: modal2Title,
+        numberShow: "ریال",
+      });
+    }
+  };
+
+  const tableHeadGroups: TableHeadGroupShape = [
+    {
+      title: (
+        <IconButton color="primary" onClick={handlePrintForm}>
+          <PrintIcon />
+        </IconButton>
+      ),
+      colspan: 6,
+    },
+  ];
 
   return (
     <FixedTable
       heads={tableHeads}
       data={tableData}
       footer={tableFooters}
+      headGroups={tableHeadGroups}
       notFixed
     />
   );

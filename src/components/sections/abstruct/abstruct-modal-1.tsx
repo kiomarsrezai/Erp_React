@@ -283,7 +283,12 @@ function AbstructModal1(props: AbstructModal1Props) {
         maxHeight="70%"
         maxWidth="md"
       >
-        <AbstructModal2 data={dataModalRowMutation.data?.data || []} />
+        <AbstructModal2
+          data={dataModalRowMutation.data?.data || []}
+          formdata={formdata}
+          modal1Title={title}
+          modal2Title={areaName}
+        />
       </FixedModal>
     </>
   );
