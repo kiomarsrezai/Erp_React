@@ -145,6 +145,8 @@ function ProposalModal3(props: ProposalModal3Props) {
     useState<boolean>(false);
   const [idItemShouldDelete, setIdItemShouldDelete] = useState<number>();
 
+  const [textDeleteModal, setTextDeleteModal] = useState("");
+
   const deleteMutation = useMutation(proposalBudgetApi.deleteModal3, {
     onSuccess: () => {
       enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
@@ -171,6 +173,8 @@ function ProposalModal3(props: ProposalModal3Props) {
   const handleDeleteBtnClick = (
     row: TableDataItemShape & GetSingleLevel5DetailProposalItemShape
   ) => {
+    const deleteText = `آیا مایل به حذف  ${row.area} هستید ؟`;
+    setTextDeleteModal(deleteText);
     setIdItemShouldDelete(row.id);
     setIsShowConfrimDelete(true);
   };
@@ -303,6 +307,7 @@ function ProposalModal3(props: ProposalModal3Props) {
         onConfrim={onConfrimDelete}
         open={isShowConfrimDelete}
         title="حذف آیتم"
+        text={textDeleteModal}
       />
     </>
   );
