@@ -13,7 +13,7 @@ import { GetSingleAbstructProctorItemShape } from "types/data/report/abstruct-pr
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { abstructProctorApi } from "api/report/abstruct-proctor-api";
-import { sumFieldsInSingleItemData } from "helper/calculate-utils";
+import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -206,33 +206,42 @@ function ReportProctorAbstructPage(props: ReportProctorAbstructProps) {
     : [];
 
   // table footer
+  const sumMosavabHazine = sumFieldsInSingleItemData(
+    abstractQuery.data?.data || [],
+    "mosavabCurrent"
+  );
+  const sumExpenseHazine = sumFieldsInSingleItemData(
+    abstractQuery.data?.data || [],
+    "expenseCurrent"
+  );
+
+  const sumMosavabSarmaie = sumFieldsInSingleItemData(
+    abstractQuery.data?.data || [],
+    "mosavabCivil"
+  );
+  const sumExpenseSarmaie = sumFieldsInSingleItemData(
+    abstractQuery.data?.data || [],
+    "expenseCivil"
+  );
+
   const tableFooter: TableDataItemShape & any = {
     number: "جمع",
     "colspan-number": 2,
     title: null,
-    mosavabHazine: sumFieldsInSingleItemData(
-      abstractQuery.data?.data,
-      "mosavabCurrent"
+    mosavabHazine: sumMosavabHazine,
+    expenseHazine: sumExpenseHazine,
+    jazbHazine: getPercent(sumExpenseHazine, sumMosavabHazine),
+    mosavabSarmaie: sumMosavabSarmaie,
+    expenseSarmaie: sumExpenseSarmaie,
+    jazbSarmaie: getPercent(sumExpenseSarmaie, sumMosavabSarmaie),
+    jazbKol: getPercent(
+      sumExpenseSarmaie + sumExpenseHazine,
+      sumMosavabHazine + sumMosavabSarmaie
     ),
-    expenseHazine: sumFieldsInSingleItemData(
-      abstractQuery.data?.data,
-      "expenseCurrent"
-    ),
-    jazbHazine: "",
-    mosavabSarmaie: sumFieldsInSingleItemData(
-      abstractQuery.data?.data,
-      "mosavabCivil"
-    ),
-    expenseSarmaie: sumFieldsInSingleItemData(
-      abstractQuery.data?.data,
-      "expenseCivil"
-    ),
-    jazbSarmaie: "",
-    jazbKol: "",
     actions: () => "",
   };
 
-  // print
+  // form
   const tableTopHeadGroups: TableHeadGroupShape = [
     {
       title: (

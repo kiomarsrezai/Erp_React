@@ -5,14 +5,17 @@ import ColorizeIcon from "@mui/icons-material/Colorize";
 import FixedModal from "components/ui/modal/fixed-modal";
 import CastleIcon from "@mui/icons-material/Castle";
 import AbstructModal2 from "./abstruct-modal-2";
+import PrintIcon from "@mui/icons-material/Print";
 
 import { ReactNode, useState } from "react";
 import { GetSingleAbstructProctorModalDataItemShape } from "types/data/report/abstruct-proctor-type";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
-import { sumFieldsInSingleItemData } from "helper/calculate-utils";
+import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { abstructProctorApi } from "api/report/abstruct-proctor-api";
 import { useMutation } from "@tanstack/react-query";
 import { abstructProctorConfig } from "config/features/report/proctor/abstruct-config";
+import { getGeneralFieldItemYear } from "helper/export-utils";
+import { abstructProctorModal1Stimul } from "stimul/budget/report/proctor/abstruct-proctor-modal1-stimul";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -62,7 +65,7 @@ function AbstructModal1(props: AbstructModal1Props) {
       align: "center",
     },
     {
-      title: "جذب کل %",
+      title: "% جذب کل",
       colspan: 1,
       rowspan: 2,
       align: "center",
@@ -100,7 +103,7 @@ function AbstructModal1(props: AbstructModal1Props) {
       align: "left",
     },
     {
-      title: "جذب %",
+      title: "% جذب",
       name: "jazbHazine",
       percent: true,
     },
@@ -116,7 +119,7 @@ function AbstructModal1(props: AbstructModal1Props) {
       split: true,
     },
     {
-      title: "جذب %",
+      title: "% جذب",
       name: "jazbSarmaie",
       forceHaveBorder: true,
       percent: true,
@@ -200,17 +203,26 @@ function AbstructModal1(props: AbstructModal1Props) {
   const tableData = data ? formatTableData(data) : [];
 
   // table footer
+  const sumMosavabHazine = sumFieldsInSingleItemData(data, "mosavabCurrent");
+  const sumExpenseHazine = sumFieldsInSingleItemData(data, "expenseCurrent");
+
+  const sumMosavabSarmaie = sumFieldsInSingleItemData(data, "mosavabCivil");
+  const sumExpenseSarmaie = sumFieldsInSingleItemData(data, "expenseCivil");
+
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
     "colspan-number": 2,
     title: null,
-    mosavabHazine: sumFieldsInSingleItemData(data, "mosavabCurrent"),
-    expenseHazine: sumFieldsInSingleItemData(data, "expenseCurrent"),
-    jazbHazine: "",
-    mosavabSarmaie: sumFieldsInSingleItemData(data, "mosavabCivil"),
-    expenseSarmaie: sumFieldsInSingleItemData(data, "expenseCivil"),
-    jazbSarmaie: "",
-    jazbKol: "",
+    mosavabHazine: sumMosavabHazine,
+    expenseHazine: sumExpenseHazine,
+    jazbHazine: getPercent(sumExpenseHazine, sumMosavabHazine),
+    mosavabSarmaie: sumMosavabSarmaie,
+    expenseSarmaie: sumExpenseSarmaie,
+    jazbSarmaie: getPercent(sumExpenseSarmaie, sumMosavabSarmaie),
+    jazbKol: getPercent(
+      sumExpenseSarmaie + sumExpenseHazine,
+      sumMosavabHazine + sumMosavabSarmaie
+    ),
     actions: () => "",
   };
 
@@ -227,9 +239,35 @@ function AbstructModal1(props: AbstructModal1Props) {
 
   const dataModalRowMutation = useMutation(abstructProctorApi.getModalRowData);
 
+  // print
+  const handlePrintForm = () => {
+    if (tableData.length) {
+      const yearLabel = getGeneralFieldItemYear(formdata, 1);
+      abstructProctorModal1Stimul({
+        data: tableData,
+        footer: tableFooter,
+        year: yearLabel,
+        title1: title,
+        numberShow: "ریال",
+      });
+    }
+  };
+
+  const tableTopHeadGroups: TableHeadGroupShape = [
+    {
+      title: (
+        <IconButton color="primary" onClick={handlePrintForm}>
+          <PrintIcon />
+        </IconButton>
+      ),
+      colspan: 10,
+    },
+  ];
+
   return (
     <>
       <FixedTable
+        topHeadGroups={tableTopHeadGroups}
         heads={tableHeads}
         headGroups={tableHeadGroups}
         data={tableData}

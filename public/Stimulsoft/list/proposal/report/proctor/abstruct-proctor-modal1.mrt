@@ -55,12 +55,13 @@
     <Relations isList="true" count="0" />
     <Report isRef="0" />
     <Resources isList="true" count="0" />
-    <Variables isList="true" count="5">
+    <Variables isList="true" count="6">
       <value>,year,year,,System.String,frtu,False,False,False,False,,_x0038_05cff7110d74adb8302d625efaffa9f</value>
       <value>,headerDate,headerDate,,System.String,tyu,False,False,False,False,,_x0036_718ee1929db408c9b94050c8d3bc0c3</value>
       <value>,header,header,,System.String,tyu,False,False,False,False,,_x0039_b8bd71aec444b1bb30a1b16cf9c0bcb</value>
       <value>,budgetKind,budgetKind,,System.String,tyu,False,False,False,False,,_x0039_837dcfecf1e4e53b722576075ab1abe</value>
       <value>,numberShow,numberShow,,System.String,,False,False,False,False</value>
+      <value>,title1,title1,,System.String,,False,False,False,False</value>
     </Variables>
   </Dictionary>
   <EngineVersion>EngineV2</EngineVersion>
@@ -89,7 +90,7 @@
               <Name>Text23</Name>
               <Page isRef="6" />
               <Parent isRef="7" />
-              <Text>گزارش حوزه های متولی</Text>
+              <Text>گزارش مناطق حوزه متولی</Text>
               <TextBrush>[158:158:158]</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -145,6 +146,7 @@
               <Name>Text6</Name>
               <Page isRef="6" />
               <Parent isRef="7" />
+              <Text>معاونت : {title1}</Text>
               <TextBrush>[158:158:158]</TextBrush>
               <TextOptions>,,RightToLeft=True,,WordWrap=True,A=0</TextOptions>
               <Type>Expression</Type>
@@ -581,7 +583,7 @@
                 <UseLocalSetting>False</UseLocalSetting>
               </TextFormat>
               <TextOptions>,,,Trimming=Character,,A=0</TextOptions>
-              <Type>DataColumn</Type>
+              <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text5>
           </Components>
@@ -833,11 +835,11 @@
   </ReferencedAssemblies>
   <ReportAlias>SimpleList</ReportAlias>
   <ReportAuthor>Stimulsoft</ReportAuthor>
-  <ReportChanged>5/30/2023 5:58:34 PM</ReportChanged>
+  <ReportChanged>5/30/2023 5:47:42 PM</ReportChanged>
   <ReportCreated>5/29/2004 10:59:00 AM</ReportCreated>
   <ReportDescription>This sample demonstrates how to create a simple list report.</ReportDescription>
-  <ReportFile>D:\Profiles\akasir\Desktop\stimul\abstruct-proctor.mrt</ReportFile>
-  <ReportGuid>853a9f877942412c825643b11eedcc3c</ReportGuid>
+  <ReportFile>D:\Profiles\akasir\Desktop\stimul\abstruct-budget.mrt</ReportFile>
+  <ReportGuid>8c16ca52316c4d3f9f667f00f49c5d58</ReportGuid>
   <ReportImage>iVBORw0KGgoAAAANSUhEUgAAASAAAAGWCAMAAADvzq7aAAAABGdBTUEAALGPC/xhBQAAAYBQTFRF
 S7asucbHqba33/Hx8vr56fb1paqq+v394fPx1N3i5/X1nKan7/n52+zryOfl8/T0s77B7ezt4/b1
 /f7+0+Tj29vcu7u9kZSV09PTsby8uMK+4vXzzN3d0+LewsPD0s3Iy8vMws3M5OTkys3S4t3Zw9PU
