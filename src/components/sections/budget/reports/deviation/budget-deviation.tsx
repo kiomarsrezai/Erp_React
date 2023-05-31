@@ -42,8 +42,13 @@ function BudgetReportDeviation(props: BudgetReportDeviationProps) {
       align: "left",
     },
     {
-      title: "شرح",
+      title: "منطقه",
       name: "areaname",
+      align: "left",
+    },
+    {
+      title: "شرح",
+      name: "description",
       align: "left",
     },
     {
@@ -105,9 +110,10 @@ function BudgetReportDeviation(props: BudgetReportDeviationProps) {
   const sumExpense = sumFieldsInSingleItemData(tableData, "expense");
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
-    "colspan-number": 3,
+    "colspan-number": 4,
     code: null,
     areaname: null,
+    description: null,
     mosavab: sumMosavab,
     expense: sumExpense,
     percmosavab: getPercent(sumExpense, sumMosavab),
