@@ -143,7 +143,7 @@ function AbstractProctorForm(props: AbstractProctorFormProps) {
           >
             نمایش
           </LoadingButton>
-          <IconButton color="primary" onClick={handlePrintForm}>
+          <IconButton color="primary" onClick={handlePrintForm} sx={{ ml: 1 }}>
             <PrintIcon />
           </IconButton>
         </Grid>

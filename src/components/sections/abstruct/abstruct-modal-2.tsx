@@ -74,6 +74,7 @@ function AbstructModal2(props: AbstructModal2Props) {
       hazine: item.expense,
       "textcolor-hazine": item.expense < 0 ? "red" : "",
       mosavab: item.mosavab,
+      creditAmount: item.mosavab,
       jazb: getPercent(item.expense, item.mosavab),
       actions: () => "",
     }));
@@ -99,7 +100,7 @@ function AbstructModal2(props: AbstructModal2Props) {
   // print
   const handlePrintForm = () => {
     if (tableData.length) {
-      console.log(tableData[0]);
+      const [areaTitle, mainTitle] = modal2Title.split("-");
 
       const yearLabel = getGeneralFieldItemYear(formdata, 1);
       abstructProctorModal2Stimul({
@@ -107,7 +108,8 @@ function AbstructModal2(props: AbstructModal2Props) {
         footer: [tableFooters],
         year: yearLabel,
         title1: modal1Title,
-        title2: modal2Title,
+        title2: areaTitle?.trim(),
+        mainTitle: mainTitle?.trim(),
         numberShow: "ریال",
       });
     }

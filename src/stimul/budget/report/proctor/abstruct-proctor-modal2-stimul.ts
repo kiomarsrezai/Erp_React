@@ -8,6 +8,7 @@ interface StimulOptionsShape {
   numberShow?: string;
   title1?: string;
   title2?: string;
+  mainTitle?: string;
   data: any[];
   footer: any[];
 }
@@ -58,6 +59,8 @@ export const abstructProctorModal2Stimul = (
       exportOptions.title1;
     report.dictionary.variables.getByName("title2").valueObject =
       exportOptions.title2;
+    report.dictionary.variables.getByName("mainTitle").valueObject =
+      exportOptions.mainTitle;
     report.dictionary.variables.getByName("headerDate").valueObject =
       stimulDateValue();
     report.dictionary.variables.getByName("numberShow").valueObject =

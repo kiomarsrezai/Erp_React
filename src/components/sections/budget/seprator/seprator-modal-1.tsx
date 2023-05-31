@@ -214,6 +214,8 @@ function SepratorModal1(props: SepratorModal1props) {
         handleClose={handleCloseTaminModal}
         title={title}
         loading={taminEtbarMutation.isLoading}
+        maxWidth="md"
+        maxHeight="70%"
       >
         <SepratorModal2
           data={taminEtbarMutation.data?.data || []}

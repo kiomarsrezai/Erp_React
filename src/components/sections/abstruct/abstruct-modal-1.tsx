@@ -160,7 +160,7 @@ function AbstructModal1(props: AbstructModal1Props) {
     handleOpenBudgetRowModal();
   };
   const actionButtons = (row: any) => (
-    <Box display="flex">
+    <Box display="flex" justifyContent={"center"}>
       <IconButton
         color="primary"
         size="small"
