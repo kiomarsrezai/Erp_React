@@ -15,6 +15,7 @@ import { budgetReportItems } from "config/features/general-fields-config";
 import userStore from "hooks/store/user-store";
 import ReportProctorAbstructPage from "pages/report/proctor/abstract-page";
 import AbstructBudgetPage from "pages/report/budget/abstruct-budget-page";
+import BudgetReportDeviation from "../../../components/sections/budget/reports/deviation/budget-deviation";
 
 function BudgetReportsPage() {
   const [tabValue, setTabValue] = useState(undefined);
@@ -45,6 +46,9 @@ function BudgetReportsPage() {
         return accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT;
 
       case 4:
+        return accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY;
+
+      case 5:
         return accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY;
 
       default:
@@ -78,6 +82,7 @@ function BudgetReportsPage() {
     2: <ReportRavandBudgetChart tabRender={budgetTabRender} />,
     3: <ReportProctorAbstructPage tabRender={budgetTabRender} />,
     4: <AbstructBudgetPage tabRender={budgetTabRender} />,
+    5: <BudgetReportDeviation tabRender={budgetTabRender} />,
   };
 
   return (

@@ -37,6 +37,8 @@ export const accessNamesConfig = {
   BUDGET__REPORT__EXPENSE_PAGE: "budget-report-expense",
   BUDGET__REPORT__EXPENSE_PAGE_CENTER: "center",
 
+  BUDGET__REPORT_PAGE_DEVIATION: "budget-deviation",
+
   // contracts
   CONTRACT__MANAGE_PAGE: "contract-manage",
 

@@ -100,6 +100,10 @@ export const budgetReportItems: FlotingLabelTextfieldItemsShape = [
     label: "خلاصه بودجه",
     value: 4,
   },
+  {
+    label: "انحراف بودجه",
+    value: 5,
+  },
 ];
 
 export const budgetKindItems: FlotingLabelTextfieldItemsShape = [
@@ -110,6 +114,21 @@ export const budgetKindItems: FlotingLabelTextfieldItemsShape = [
   {
     label: "اصلاح بودجه",
     value: 2,
+  },
+];
+
+export const budgetKindDeviationItems: FlotingLabelTextfieldItemsShape = [
+  {
+    label: "تا سقف 10 %",
+    value: 1,
+  },
+  {
+    label: "بیش از 10 %",
+    value: 2,
+  },
+  {
+    label: "هر دو",
+    value: 3,
   },
 ];
 
