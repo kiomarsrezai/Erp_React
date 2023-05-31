@@ -6,6 +6,8 @@ import AreaInput from "components/sections/inputs/area-input";
 import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 import SectionGuard from "components/auth/section-guard";
 import userStore from "hooks/store/user-store";
+import IconButton from "@mui/material/IconButton";
+import BalanceIcon from "@mui/icons-material/Balance";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FormEvent, useEffect, useState } from "react";
@@ -17,6 +19,8 @@ import { transferConfig } from "config/features/transfer/transfer-config";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import { checkHaveValue } from "helper/form-utils";
+import FixedModal from "components/ui/modal/fixed-modal";
+import TransferModal1 from "./transfer-modal-1";
 
 interface TransferFormProps {
   formData: any;
@@ -79,65 +83,127 @@ function TransferForm(props: TransferFormProps) {
     });
   }, [formData, queryClient]);
 
+  // modal
+  const [openModal, setOpenModal] = useState(false);
+
+  const dataTableMutation = useMutation(transferApi.getModalData);
+
+  const handleClickBalanceIcon = () => {
+    // permission
+    const havePermission = checkHavePermission(
+      userLicenses,
+      [
+        accessNamesConfig.FIELD_YEAR,
+        accessNamesConfig.FIELD_AREA,
+        accessNamesConfig.FIELD_BUDGET_METHOD,
+      ],
+      accessNamesConfig.FINANCIAL__CODING_PAGE
+    );
+
+    if (!havePermission) {
+      return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
+        variant: "error",
+      });
+    }
+
+    setHaveSubmitedForm(true);
+
+    if (
+      checkHaveValue(formData, [
+        transferConfig.YEAR,
+        transferConfig.BUDGET_METHOD,
+        transferConfig.AREA,
+      ])
+    ) {
+      dataTableMutation.mutate(formData);
+
+      setOpenModal(true);
+    }
+  };
+
   return (
-    <Box component="form" onSubmit={handleFormSubmit}>
-      <Grid container spacing={2}>
-        <SectionGuard
-          permission={joinPermissions([
-            accessNamesConfig.FINANCIAL__CODING_PAGE,
-            accessNamesConfig.FIELD_YEAR,
-          ])}
-        >
-          <Grid lg={2}>
-            <YearInput
-              setter={setFormData}
-              value={formData[transferConfig.YEAR]}
-              permissionForm={accessNamesConfig.FINANCIAL__CODING_PAGE}
-              showError={haveSubmitedForm}
-            />
-          </Grid>
-        </SectionGuard>
-        <SectionGuard
-          permission={joinPermissions([
-            accessNamesConfig.FINANCIAL__CODING_PAGE,
-            accessNamesConfig.FIELD_AREA,
-          ])}
-        >
-          <Grid lg={2}>
-            <AreaInput
-              setter={setFormData}
-              value={formData[transferConfig.AREA]}
-              permissionForm={accessNamesConfig.FINANCIAL__CODING_PAGE}
-              showError={haveSubmitedForm}
-            />
-          </Grid>
-        </SectionGuard>
-        <SectionGuard
-          permission={joinPermissions([
-            accessNamesConfig.FINANCIAL__CODING_PAGE,
-            accessNamesConfig.FIELD_BUDGET_METHOD,
-          ])}
-        >
-          <Grid lg={2}>
-            <BudgetMethodInput
-              setter={setFormData}
-              value={formData[transferConfig.BUDGET_METHOD]}
-              permissionForm={accessNamesConfig.FINANCIAL__CODING_PAGE}
-              showError={haveSubmitedForm}
-            />
-          </Grid>
-        </SectionGuard>
-        <Grid lg={4}>
-          <LoadingButton
-            variant="contained"
-            type="submit"
-            loading={submitMutation.isLoading}
+    <>
+      <Box component="form" onSubmit={handleFormSubmit}>
+        <Grid container spacing={2}>
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.FINANCIAL__CODING_PAGE,
+              accessNamesConfig.FIELD_YEAR,
+            ])}
           >
-            نمایش
-          </LoadingButton>
+            <Grid lg={2}>
+              <YearInput
+                setter={setFormData}
+                value={formData[transferConfig.YEAR]}
+                permissionForm={accessNamesConfig.FINANCIAL__CODING_PAGE}
+                showError={haveSubmitedForm}
+              />
+            </Grid>
+          </SectionGuard>
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.FINANCIAL__CODING_PAGE,
+              accessNamesConfig.FIELD_AREA,
+            ])}
+          >
+            <Grid lg={2}>
+              <AreaInput
+                setter={setFormData}
+                value={formData[transferConfig.AREA]}
+                permissionForm={accessNamesConfig.FINANCIAL__CODING_PAGE}
+                showError={haveSubmitedForm}
+              />
+            </Grid>
+          </SectionGuard>
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.FINANCIAL__CODING_PAGE,
+              accessNamesConfig.FIELD_BUDGET_METHOD,
+            ])}
+          >
+            <Grid lg={2}>
+              <BudgetMethodInput
+                setter={setFormData}
+                value={formData[transferConfig.BUDGET_METHOD]}
+                permissionForm={accessNamesConfig.FINANCIAL__CODING_PAGE}
+                showError={haveSubmitedForm}
+              />
+            </Grid>
+          </SectionGuard>
+          <Grid lg={4}>
+            <LoadingButton
+              variant="contained"
+              type="submit"
+              loading={submitMutation.isLoading}
+            >
+              نمایش
+            </LoadingButton>
+            <IconButton
+              color="primary"
+              size="small"
+              onClick={handleClickBalanceIcon}
+              sx={{ ml: 1 }}
+            >
+              <BalanceIcon />
+            </IconButton>
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+
+      {/* modal */}
+      <FixedModal
+        open={openModal}
+        handleClose={() => setOpenModal(false)}
+        loading={dataTableMutation.isLoading}
+      >
+        <TransferModal1
+          data={dataTableMutation.data?.data || []}
+          areaId={formData[transferConfig.AREA] || 0}
+          onDoneTask={() => {}}
+          disableAction
+        />
+      </FixedModal>
+    </>
   );
 }
 

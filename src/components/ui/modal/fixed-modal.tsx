@@ -85,12 +85,14 @@ function FixedModal(props: FixedModalProps) {
         alignItems="center"
       >
         <Box>
-          {(
+          {!(title === undefined) ? (
             <>
               {topTitle}
               {title}
             </>
-          ) || "جزئیات اطلاعات"}
+          ) : (
+            "جزئیات اطلاعات"
+          )}
         </Box>
         <IconButton size="small" onClick={handleClose}>
           <CloseIcon fontSize="small" />

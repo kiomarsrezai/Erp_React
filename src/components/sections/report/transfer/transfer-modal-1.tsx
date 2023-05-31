@@ -26,10 +26,11 @@ interface TransferModal1Props {
   data: any[];
   areaId: number;
   onDoneTask: () => void;
+  disableAction?: boolean;
 }
 
 function TransferModal1(props: TransferModal1Props) {
-  const { data, areaId, onDoneTask } = props;
+  const { data, areaId, onDoneTask, disableAction } = props;
 
   // heads
   const tableHeads: TableHeadShape = [
@@ -68,6 +69,7 @@ function TransferModal1(props: TransferModal1Props) {
     {
       title: "عملیات",
       name: "actions",
+      hidden: disableAction || false,
     },
   ];
 
