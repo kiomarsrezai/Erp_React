@@ -15,6 +15,7 @@ import { ReactNode, useState } from "react";
 import { GetSingleSepratorItemShape } from "types/data/budget/seprator-type";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { getBgColorBudget } from "helper/get-color-utils";
+import { formatExpenseName } from "helper/data-utils";
 
 interface TableDataItemShape {
   id: ReactNode;
@@ -73,7 +74,7 @@ function BudgetSepratorPage() {
       hidden: formData[sepratorBudgetConfig.BUDGET_METHOD] === 1,
     },
     {
-      title: "هزینه",
+      title: formatExpenseName(formData[sepratorBudgetConfig.BUDGET_METHOD]),
       name: "expense",
       split: true,
       align: "left",

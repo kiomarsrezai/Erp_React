@@ -16,6 +16,7 @@ import { getBgColorBudget } from "helper/get-color-utils";
 import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
 import ProposalModal1 from "components/sections/budget/proposal/modal-1/proposal-modal-1";
 import WindowLoading from "components/ui/loading/window-loading";
+import { formatExpenseName } from "helper/data-utils";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -72,7 +73,7 @@ function BudgetProposalPage() {
       hidden: formData[proposalConfig.BUDGET_METHOD] === 1,
     },
     {
-      title: "هزینه",
+      title: formatExpenseName(formData[proposalConfig.BUDGET_METHOD]),
       name: "expense",
       align: "left",
       split: true,
