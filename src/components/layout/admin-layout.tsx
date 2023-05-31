@@ -55,7 +55,7 @@ function AdminLayout(props: AdminLayoutProps) {
 
       document.title = title;
     }
-  }, [pageTitle]);
+  }, [location.pathname, pageTitle]);
 
   return (
     <AhadisProvider>

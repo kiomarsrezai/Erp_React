@@ -300,13 +300,13 @@ function RevenueChartForm(props: RevenueChartFormProps) {
                 disabled={formData[revenueChartFormConfig.BUDGET_METHOD] !== 1}
               />
 
-              <CheckboxLabeled
+              {/* <CheckboxLabeled
                 label="نیابتی"
                 name={revenueChartFormConfig.NIABATI}
                 value={formData[revenueChartFormConfig.NIABATI]}
                 setter={setFormData}
                 disabled={formData[revenueChartFormConfig.BUDGET_METHOD] !== 1}
-              />
+              /> */}
 
               <LoadingButton
                 variant="contained"
