@@ -260,7 +260,8 @@ function ReportProctorAbstructPage(props: ReportProctorAbstructProps) {
   ];
 
   return (
-    <AdminLayout>
+    // <AdminLayout>
+    <>
       <FixedTable
         heads={tableHeads}
         headGroups={tableHeadGroups}
@@ -282,7 +283,8 @@ function ReportProctorAbstructPage(props: ReportProctorAbstructProps) {
           recordId={recordId}
         />
       </FixedModal>
-    </AdminLayout>
+    </>
+    // </AdminLayout>
   );
 }
 

@@ -295,14 +295,14 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
   ];
 
   return (
-    <AdminLayout>
-      <FixedTable
-        heads={tableHeads}
-        headGroups={tableHeadGroups}
-        footer={tableFooter}
-        data={tableData}
-      />
-    </AdminLayout>
+    // <AdminLayout>
+    <FixedTable
+      heads={tableHeads}
+      headGroups={tableHeadGroups}
+      footer={tableFooter}
+      data={tableData}
+    />
+    // </AdminLayout>
   );
 }
 

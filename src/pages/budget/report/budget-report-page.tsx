@@ -8,7 +8,7 @@ import ReportRavandBudgetChart from "components/sections/budget/reports/ravand/r
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { accessNamesConfig } from "config/access-names-config";
 import { checkHavePermission, joinPermissions } from "helper/auth-utils";
 import { budgetReportItems } from "config/features/general-fields-config";
@@ -20,6 +20,19 @@ function BudgetReportsPage() {
   const [tabValue, setTabValue] = useState(undefined);
   const userLicenses = userStore((state) => state.permissions);
 
+  // title
+  useEffect(() => {
+    const label = budgetReportItems.find(
+      (item) => item.value === tabValue
+    )?.label;
+    if (label) {
+      document.title = label;
+    } else {
+      document.title = "گزارشات";
+    }
+  }, [tabValue]);
+
+  // tabs
   const formatTabPermission = (id: number) => {
     switch (id) {
       case 1:
@@ -60,36 +73,27 @@ function BudgetReportsPage() {
     </Tabs>
   );
 
-  // revenue chart page
-  if (tabValue === 1) {
-    return <ReportRevenueChartPage tabRender={budgetTabRender} />;
-  }
-
-  // ravand chart page
-  if (tabValue === 2) {
-    return <ReportRavandBudgetChart tabRender={budgetTabRender} />;
-  }
-
-  // abstruct page
-  if (tabValue === 3) {
-    return <ReportProctorAbstructPage tabRender={budgetTabRender} />;
-  }
-
-  // abstruct report page
-  if (tabValue === 4) {
-    return <AbstructBudgetPage tabRender={budgetTabRender} />;
-  }
+  const tabList = {
+    1: <ReportRevenueChartPage tabRender={budgetTabRender} />,
+    2: <ReportRavandBudgetChart tabRender={budgetTabRender} />,
+    3: <ReportProctorAbstructPage tabRender={budgetTabRender} />,
+    4: <AbstructBudgetPage tabRender={budgetTabRender} />,
+  };
 
   return (
     <AdminLayout>
-      <Box
-        sx={{
-          p: 2,
-          bgcolor: "grey.200",
-        }}
-      >
-        <Box>{budgetTabRender}</Box>
-      </Box>
+      {tabValue ? (
+        tabList[tabValue]
+      ) : (
+        <Box
+          sx={{
+            p: 2,
+            bgcolor: "grey.200",
+          }}
+        >
+          <Box>{budgetTabRender}</Box>
+        </Box>
+      )}
     </AdminLayout>
   );
 }

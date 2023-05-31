@@ -74,44 +74,44 @@ function ReportRevenueChartPage(props: ReportRevenueChartPageProps) {
   }, [normalize]);
 
   return (
-    <AdminLayout>
-      <Paper
+    // <AdminLayout>
+    <Paper
+      sx={{
+        width: "100%",
+        overflow: "hidden",
+        height: `calc(100vh - ${globalConfig.headerHeight}px)`,
+      }}
+    >
+      <Box ref={boxElement}>
+        <RevenueChartForm
+          formData={formData}
+          setFormData={setFormData}
+          inputRender={inputRender}
+          tabRender={tabRender}
+        />
+      </Box>
+      <Box
         sx={{
-          width: "100%",
-          overflow: "hidden",
-          height: `calc(100vh - ${globalConfig.headerHeight}px)`,
+          height: `calc(100% - ${formHeight}px)`,
+          width: "calc(100% - 100px)",
+          direction: "rtl",
+          margin: "auto",
         }}
       >
-        <Box ref={boxElement}>
-          <RevenueChartForm
-            formData={formData}
-            setFormData={setFormData}
-            inputRender={inputRender}
-            tabRender={tabRender}
+        {!!revenueChart.data?.data?.[0]?.length && (
+          <BulletChart
+            lineName="Expense"
+            barName="Mosavab"
+            innerBarName="MosavabDaily"
+            lineLabel="عملکرد"
+            barLabel="مصوب"
+            innerBarLabel="مصوب روزانه"
+            data={chartData}
           />
-        </Box>
-        <Box
-          sx={{
-            height: `calc(100% - ${formHeight}px)`,
-            width: "calc(100% - 100px)",
-            direction: "rtl",
-            margin: "auto",
-          }}
-        >
-          {!!revenueChart.data?.data?.[0]?.length && (
-            <BulletChart
-              lineName="Expense"
-              barName="Mosavab"
-              innerBarName="MosavabDaily"
-              lineLabel="عملکرد"
-              barLabel="مصوب"
-              innerBarLabel="مصوب روزانه"
-              data={chartData}
-            />
-          )}
-        </Box>
-      </Paper>
-    </AdminLayout>
+        )}
+      </Box>
+    </Paper>
+    // </AdminLayout>
   );
 }
 
