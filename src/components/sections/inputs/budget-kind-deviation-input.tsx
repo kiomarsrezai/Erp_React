@@ -3,6 +3,7 @@ import userStore from "hooks/store/user-store";
 
 import { abstructBudgetConfig } from "config/features/report/budget/abstruct-budget-config";
 import { budgetKindDeviationItems } from "config/features/general-fields-config";
+import { budgetDeviationConfig } from "config/features/budget/report/budget-deviation-config";
 
 interface BudgetKindDeviationInputProps {
   setter: (prevData: any) => void;
@@ -28,8 +29,8 @@ function BudgetKindDeviationInput(props: BudgetKindDeviationInputProps) {
 
   return (
     <FlotingLabelSelect
-      label="نوع بودجه"
-      name={abstructBudgetConfig.KIND}
+      label="نوع نمایش"
+      name={budgetDeviationConfig.kind}
       items={budgetKindDeviationItems}
       value={value}
       setter={setter}

@@ -21,6 +21,7 @@ import YearInput from "components/sections/inputs/year-input";
 import { abstructBudgetConfig } from "config/features/report/budget/abstruct-budget-config";
 import BudgetKindDeviationInput from "components/sections/inputs/budget-kind-deviation-input";
 import { budgetDeviationConfig } from "config/features/budget/report/budget-deviation-config";
+import { budgetDeviationApi } from "api/report/budget-deviation-api";
 
 interface BudgetReportDeviationFormProps {
   formData: any;
@@ -34,9 +35,9 @@ function BudgetReportDeviationForm(props: BudgetReportDeviationFormProps) {
 
   // form
   const queryClient = useQueryClient();
-  const submitMutation = useMutation(ravandChartApi.getChart, {
+  const submitMutation = useMutation(budgetDeviationApi.getData, {
     onSuccess: (data) => {
-      queryClient.setQueryData(reactQueryKeys.report.chart.ravand, data);
+      queryClient.setQueryData(reactQueryKeys.budget.deviation, data);
     },
   });
 
@@ -69,7 +70,18 @@ function BudgetReportDeviationForm(props: BudgetReportDeviationFormProps) {
     // ) {
     //   submitMutation.mutate(formData);
     // }
+    submitMutation.mutate(formData);
   };
+
+  // reset
+  useEffect(() => {
+    queryClient?.setQueryData(reactQueryKeys.budget.deviation, {
+      data: [],
+    });
+  }, [
+    formData[budgetDeviationConfig.area],
+    formData[budgetDeviationConfig.year],
+  ]);
 
   return (
     <Box

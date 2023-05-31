@@ -24,6 +24,7 @@ export const reactQueryKeys = {
     coding: {
       getData: ["budget-coding"],
     },
+    deviation: ["budget-deviation"],
   },
   request: {
     suppliers: {
