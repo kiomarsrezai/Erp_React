@@ -49,7 +49,7 @@ function BudgetReportsPage() {
         return accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY;
 
       case 5:
-        return accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY;
+        return accessNamesConfig.BUDGET__REPORT_PAGE_DEVIATION;
 
       default:
         return "";

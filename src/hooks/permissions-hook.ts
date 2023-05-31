@@ -184,6 +184,12 @@ function usePermissions() {
       [yearLevel1Field, budgetKindField, organField]
     ),
 
+    [accessNamesConfig.BUDGET__REPORT_PAGE_DEVIATION]: formatLocalFields(
+      "انحراف بودجه",
+      accessNamesConfig.BUDGET__REPORT_PAGE_DEVIATION,
+      [yearLevel1Field, areaNumber3Field]
+    ),
+
     // abstruct
     [accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE_KIND]:
       budgetKindField,
@@ -194,6 +200,8 @@ function usePermissions() {
       label: "دکمه تامین اعتبار",
       name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_TAMIN_BTN,
     },
+
+    // report
 
     [accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER]: centerField,
 

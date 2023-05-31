@@ -128,6 +128,7 @@ export const sidenavsLayout: SidenavShape[] = [
               accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
               accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT,
               accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY,
+              accessNamesConfig.BUDGET__REPORT_PAGE_DEVIATION,
             ],
           },
 

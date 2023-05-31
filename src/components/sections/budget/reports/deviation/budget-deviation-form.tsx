@@ -33,6 +33,7 @@ interface BudgetReportDeviationFormProps {
 function BudgetReportDeviationForm(props: BudgetReportDeviationFormProps) {
   const { formData, setFormData, inputRender, tabRender } = props;
 
+  const userLicenses = userStore((state) => state.permissions);
   // form
   const queryClient = useQueryClient();
   const submitMutation = useMutation(budgetDeviationApi.getData, {
@@ -45,32 +46,31 @@ function BudgetReportDeviationForm(props: BudgetReportDeviationFormProps) {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     // permission
-    // const havePermission = checkHavePermission(
-    //   userLicenses,
-    //   [accessNamesConfig.FIELD_AREA, accessNamesConfig.FIELD_BUDGET_METHOD],
-    //   joinPermissions([
-    //     accessNamesConfig.BUDGET__REPORT_PAGE,
-    //     accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND,
-    //   ])
-    // );
+    const havePermission = checkHavePermission(
+      userLicenses,
+      [accessNamesConfig.FIELD_AREA, accessNamesConfig.FIELD_YEAR],
+      joinPermissions([
+        accessNamesConfig.BUDGET__REPORT_PAGE,
+        accessNamesConfig.BUDGET__REPORT_PAGE_DEVIATION,
+      ])
+    );
 
-    // if (!havePermission) {
-    //   return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
-    //     variant: "error",
-    //   });
-    // }
+    if (!havePermission) {
+      return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
+        variant: "error",
+      });
+    }
 
-    // setHaveSubmitedForm(true);
+    setHaveSubmitedForm(true);
 
-    // if (
-    //   checkHaveValue(formData, [
-    //     ravandChartConfig.area,
-    //     ravandChartConfig.budget_method,
-    //   ])
-    // ) {
-    //   submitMutation.mutate(formData);
-    // }
-    submitMutation.mutate(formData);
+    if (
+      checkHaveValue(formData, [
+        budgetDeviationConfig.area,
+        budgetDeviationConfig.year,
+      ])
+    ) {
+      submitMutation.mutate(formData);
+    }
   };
 
   // reset
@@ -94,66 +94,54 @@ function BudgetReportDeviationForm(props: BudgetReportDeviationFormProps) {
         {tabRender && <Grid xs={12}>{tabRender}</Grid>}
         {inputRender && <Grid xs={2}>{inputRender}</Grid>}
 
-        {/* <SectionGuard
+        <SectionGuard
           permission={joinPermissions([
             accessNamesConfig.BUDGET__REPORT_PAGE,
-            accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY,
+            accessNamesConfig.BUDGET__REPORT_PAGE_DEVIATION,
             accessNamesConfig.FIELD_YEAR,
           ])}
-        > */}
-        <Grid xs={2}>
-          <YearInput
-            setter={setFormData}
-            value={formData[budgetDeviationConfig.year] as number}
-            // permissionForm={joinPermissions([
-            //   accessNamesConfig.BUDGET__REPORT_PAGE,
-            //   accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY,
-            // ])}
-            showError={haveSubmitedForm}
-          />
-        </Grid>
-        {/* </SectionGuard> */}
+        >
+          <Grid xs={2}>
+            <YearInput
+              setter={setFormData}
+              value={formData[budgetDeviationConfig.year] as number}
+              permissionForm={joinPermissions([
+                accessNamesConfig.BUDGET__REPORT_PAGE,
+                accessNamesConfig.BUDGET__REPORT_PAGE_DEVIATION,
+              ])}
+              showError={haveSubmitedForm}
+            />
+          </Grid>
+        </SectionGuard>
 
-        {/* <SectionGuard
+        <SectionGuard
           permission={joinPermissions([
             accessNamesConfig.BUDGET__REPORT_PAGE,
-            accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND,
+            accessNamesConfig.BUDGET__REPORT_PAGE_DEVIATION,
             accessNamesConfig.FIELD_AREA,
           ])}
-        > */}
-        <Grid lg={2}>
-          <AreaInput
-            setter={setFormData}
-            value={formData[budgetDeviationConfig.area]}
-            // permissionForm={joinPermissions([
-            //   accessNamesConfig.BUDGET__REPORT_PAGE,
-            //   accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND,
-            // ])}
-            level={3}
-            showError={haveSubmitedForm}
-          />
-        </Grid>
-        {/* </SectionGuard> */}
+        >
+          <Grid lg={2}>
+            <AreaInput
+              setter={setFormData}
+              value={formData[budgetDeviationConfig.area]}
+              permissionForm={joinPermissions([
+                accessNamesConfig.BUDGET__REPORT_PAGE,
+                accessNamesConfig.BUDGET__REPORT_PAGE_DEVIATION,
+              ])}
+              level={3}
+              showError={haveSubmitedForm}
+            />
+          </Grid>
+        </SectionGuard>
 
-        {/* <SectionGuard
-          permission={joinPermissions([
-            accessNamesConfig.BUDGET__REPORT_PAGE,
-            accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND,
-            accessNamesConfig.FIELD_BUDGET_METHOD,
-          ])}
-        > */}
         <Grid xs={2}>
           <BudgetKindDeviationInput
             setter={setFormData}
             value={formData[budgetDeviationConfig.kind] as number}
-            // permissionForm={joinPermissions([
-            //   accessNamesConfig.BUDGET__REPORT_PAGE,
-            //   accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND,
-            // ])}
             showError={haveSubmitedForm}
           />
         </Grid>
-        {/* </SectionGuard> */}
 
         <Grid xs={2}>
           <LoadingButton
