@@ -10,7 +10,7 @@ import { TableHeadShape } from "types/table-type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
-import { sumFieldsInSingleItemData } from "helper/calculate-utils";
+import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { ReactNode, useState } from "react";
 import { GetSingleSepratorItemShape } from "types/data/budget/seprator-type";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
@@ -185,31 +185,52 @@ function BudgetSepratorPage() {
     : [];
 
   // footer
+  const sumMosavab = sumFieldsInSingleItemData(
+    sepratorQuery.data?.data,
+    "mosavab",
+    (item: GetSingleSepratorItemShape) => item.levelNumber === 1
+  );
+
+  const sumCreditAmount = sumFieldsInSingleItemData(
+    sepratorQuery.data?.data,
+    "creditAmount",
+    (item: GetSingleSepratorItemShape) => item.levelNumber === 1
+  );
+
+  const sumExpense = sumFieldsInSingleItemData(
+    sepratorQuery.data?.data,
+    "expense",
+    (item: GetSingleSepratorItemShape) => item.levelNumber === 1
+  );
+
   const tableFooter: TableDataItemShape | any = {
     id: "جمع",
     "colspan-id": 3,
+    "rowspan-id": 2,
     code: null,
     description: null,
-    mosavab: sumFieldsInSingleItemData(
-      sepratorQuery.data?.data,
-      "mosavab",
-      (item: GetSingleSepratorItemShape) => item.levelNumber === 1
-    ),
+    mosavab: sumMosavab,
     edit: sumFieldsInSingleItemData(
       sepratorQuery.data?.data,
       "edit",
       (item: GetSingleSepratorItemShape) => item.levelNumber === 1
     ),
-    creditAmount: sumFieldsInSingleItemData(
-      sepratorQuery.data?.data,
-      "creditAmount",
-      (item: GetSingleSepratorItemShape) => item.levelNumber === 1
-    ),
-    expense: sumFieldsInSingleItemData(
-      sepratorQuery.data?.data,
-      "expense",
-      (item: GetSingleSepratorItemShape) => item.levelNumber === 1
-    ),
+    creditAmount: sumCreditAmount,
+    expense: sumExpense,
+    percentBud: "",
+    actions: () => "",
+  };
+
+  const tableBottomFooter: TableDataItemShape | any = {
+    id: null,
+    code: null,
+    description: null,
+    mosavab: "-",
+    edit: "-",
+    creditAmount: `${getPercent(sumCreditAmount, sumMosavab)}%`,
+    expense: `${getPercent(sumExpense, sumMosavab)}%`,
+    "align-creditAmount": "center",
+    "align-expense": "center",
     percentBud: "",
     actions: () => "",
   };
@@ -232,6 +253,7 @@ function BudgetSepratorPage() {
         data={tableData}
         headGroups={tableHeadGroup}
         footer={tableFooter}
+        bottomFooter={tableBottomFooter}
       />
 
       <FixedModal
