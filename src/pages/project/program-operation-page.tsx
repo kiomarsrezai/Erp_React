@@ -12,8 +12,8 @@ import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 
 interface TableDataItemShape {
   number: ReactNode;
-  code: ReactNode;
-  name: ReactNode;
+  projectCode: ReactNode;
+  projectName: ReactNode;
 }
 
 function ProgramOperationProjectPage() {
@@ -21,19 +21,6 @@ function ProgramOperationProjectPage() {
     [programProjectConfig.area]: undefined,
     [programProjectConfig.program]: 10,
   });
-
-  // head group
-  const tableHeadGroups: TableHeadGroupShape = [
-    {
-      title: (
-        <ProgramOprationProjectForm
-          formData={formData}
-          setFormData={setFormData}
-        />
-      ),
-      colspan: 3,
-    },
-  ];
 
   // head
   const tableHeads: TableHeadShape = [
@@ -43,12 +30,12 @@ function ProgramOperationProjectPage() {
     },
     {
       title: "کد پروژه",
-      name: "code",
+      name: "projectCode",
     },
     {
       title: "نام پروژه",
       align: "left",
-      name: "name",
+      name: "projectName",
     },
   ];
 
@@ -56,12 +43,12 @@ function ProgramOperationProjectPage() {
   const formatTableData = (
     unFormatData: GetSingleProgramDataShape[]
   ): TableDataItemShape[] => {
-    const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
-      ...item,
-      number: i + 1,
-      code: item.projectCode,
-      name: item.projectName,
-    }));
+    const formatedData: TableDataItemShape[] | any = unFormatData.map(
+      (item, i) => ({
+        ...item,
+        number: i + 1,
+      })
+    );
 
     return formatedData;
   };
@@ -79,11 +66,29 @@ function ProgramOperationProjectPage() {
     : [];
 
   // footer
-  const tableFooter: TableDataItemShape = {
+  const tableFooter: TableDataItemShape | any = {
     number: "جمع",
-    code: "",
-    name: "",
+    "colspan-number": 3,
+    projectCode: null,
+    projectName: null,
   };
+
+  // head group
+  const tableHeadGroups: TableHeadGroupShape = [
+    {
+      title: (
+        <ProgramOprationProjectForm
+          formData={formData}
+          setFormData={setFormData}
+          printData={{
+            data: tableData,
+            footer: [tableFooter],
+          }}
+        />
+      ),
+      colspan: 3,
+    },
+  ];
 
   return (
     <AdminLayout>

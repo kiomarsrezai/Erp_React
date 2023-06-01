@@ -4,6 +4,8 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import AreaInput from "components/sections/inputs/area-input";
 import SectionGuard from "components/auth/section-guard";
 import userStore from "hooks/store/user-store";
+import IconButton from "@mui/material/IconButton";
+import PrintIcon from "@mui/icons-material/Print";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FormEvent, useEffect, useState } from "react";
@@ -16,14 +18,23 @@ import { checkHaveValue } from "helper/form-utils";
 import { programProjectConfig } from "config/features/project/program-project-config";
 import ProgramListInput from "components/sections/inputs/list-program";
 import { programProjectApi } from "api/project/programs-project-api";
+import {
+  getGeneralFieldItemArea,
+  getGeneralFieldItemProgram,
+} from "helper/export-utils";
+import { programOprationStimul } from "stimul/project/program/program-opration-stimul";
 
 interface ProgramOprationProjectFormProps {
   formData: any;
   setFormData: any;
+  printData: {
+    data: any[];
+    footer: any[];
+  };
 }
 
 function ProgramOprationProjectForm(props: ProgramOprationProjectFormProps) {
-  const { formData, setFormData } = props;
+  const { formData, setFormData, printData } = props;
 
   const userLicenses = userStore((state) => state.permissions);
 
@@ -76,6 +87,21 @@ function ProgramOprationProjectForm(props: ProgramOprationProjectFormProps) {
     });
   }, [formData, queryClient]);
 
+  // print
+  const handlePrintForm = () => {
+    if (printData.data.length) {
+      const areaLabel = getGeneralFieldItemArea(formData, 3);
+      const kindLabel = getGeneralFieldItemProgram(formData);
+
+      programOprationStimul({
+        data: printData.data,
+        footer: printData.footer,
+        area: areaLabel,
+        kind: kindLabel,
+      });
+    }
+  };
+
   return (
     <Box component="form" onSubmit={handleFormSubmit}>
       <Grid container spacing={2}>
@@ -116,9 +142,14 @@ function ProgramOprationProjectForm(props: ProgramOprationProjectFormProps) {
             variant="contained"
             type="submit"
             loading={submitMutation.isLoading}
+            sx={{ mr: 1 }}
           >
             نمایش
           </LoadingButton>
+
+          <IconButton color="primary" onClick={handlePrintForm}>
+            <PrintIcon />
+          </IconButton>
         </Grid>
       </Grid>
     </Box>

@@ -6,6 +6,7 @@ import {
   numbersItems,
   organItems,
 } from "config/features/general-fields-config";
+import { programProjectConfig } from "config/features/project/program-project-config";
 import {
   reactQueryClient,
   reactQueryKeys,
@@ -54,6 +55,15 @@ export const getGeneralFieldItemBudgetKind = (formData: any) => {
       (item) => item.value === formData[generalFieldsConfig.kind]
     )?.label || ""
   );
+};
+
+export const getGeneralFieldItemProgram = (formData: any) => {
+  const kindLabel =
+    (reactQueryClient.getQueryData(["program-list"]) as any)?.data.find(
+      (item: any) => item?.id === formData[programProjectConfig.program]
+    )?.programName || "";
+
+  return kindLabel;
 };
 
 export const getGeneralFieldItemBudgetKindDeviation = (formData: any) => {
