@@ -15,8 +15,6 @@ interface AdminLayoutProps {
 function AdminLayout(props: AdminLayoutProps) {
   const { children } = props;
 
-  const pageTitle = useLayoutStore((state) => state.pageTitle);
-
   const location = useLocation();
   const findTitle = (sidenav: SidenavShape): string | false => {
     let findedTitle: false | string = false;
@@ -38,24 +36,20 @@ function AdminLayout(props: AdminLayoutProps) {
   };
 
   useEffect(() => {
-    if (pageTitle) {
-      document.title = pageTitle;
-    } else {
-      let title = globalConfig.siteTitle;
+    let title = globalConfig.siteTitle;
 
-      sidenavsLayout.every((sidenav) => {
-        const findedTitle = findTitle(sidenav);
-        if (findedTitle) {
-          title = findedTitle;
-          return false;
-        } else {
-          return true;
-        }
-      });
+    sidenavsLayout.every((sidenav) => {
+      const findedTitle = findTitle(sidenav);
+      if (findedTitle) {
+        title = findedTitle;
+        return false;
+      } else {
+        return true;
+      }
+    });
 
-      document.title = title;
-    }
-  }, [location.pathname, pageTitle]);
+    document.title = title;
+  }, [location.pathname]);
 
   return (
     <AhadisProvider>

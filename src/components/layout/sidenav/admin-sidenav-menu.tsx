@@ -18,8 +18,7 @@ import { sidenavsLayout } from "config/features/layout-config";
 import { globalConfig } from "config/global-config";
 
 function AdminSidenavMenu() {
-  const { normalize, activeSidenavIndex, openSidenav, changePageTitle } =
-    useLayoutStore();
+  const { normalize, activeSidenavIndex, openSidenav } = useLayoutStore();
 
   // active
   const location = useLocation();
@@ -42,14 +41,6 @@ function AdminSidenavMenu() {
     return formated;
   };
 
-  const handleChangeRouteClicked = (sidenav: SidenavShape) => {
-    if (sidenav.path === "/") {
-      changePageTitle(globalConfig.siteTitle);
-    } else {
-      changePageTitle(sidenav.title);
-    }
-  };
-
   const renderItem = (sidenav: SidenavShape, i: number, level: number) => {
     return (
       <SectionGuard
@@ -62,7 +53,6 @@ function AdminSidenavMenu() {
             {...(sidenav.path && {
               component: Link,
               to: sidenav.path,
-              onClick: () => handleChangeRouteClicked(sidenav),
             })}
             sx={{
               ...(level > 0 && {
