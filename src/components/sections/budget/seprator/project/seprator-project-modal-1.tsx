@@ -69,10 +69,13 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
   // modal project
   const sepratorAreaMutation = useMutation(sepratorBudgetApi.areaArea);
   const [isOpenAreaModal, setIsOpenAreaModal] = useState(false);
+  const [modal1ProjectId, setModal1ProjectId] = useState<null | number>(null);
 
-  const handleClickAreaModal = (row: TableDataItemShape) => {
+  const handleClickAreaModal = (
+    row: TableDataItemShape & GetSingleSepratorProjectItemShape
+  ) => {
+    setModal1ProjectId(row.id);
     sepratorAreaMutation.mutate(formData);
-
     setIsOpenAreaModal(true);
   };
 
@@ -117,7 +120,10 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
         maxWidth="sm"
         maxHeight="70%"
       >
-        <SepratorProjectModal2 data={sepratorAreaMutation.data?.data || []} />
+        <SepratorProjectModal2
+          data={sepratorAreaMutation.data?.data || []}
+          modal1ProjectId={modal1ProjectId}
+        />
       </FixedModal>
     </>
   );
