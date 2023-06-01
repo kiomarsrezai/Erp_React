@@ -16,6 +16,7 @@ import { GetSingleSepratorItemShape } from "types/data/budget/seprator-type";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { getBgColorBudget } from "helper/get-color-utils";
 import { formatExpenseName } from "helper/data-utils";
+import SepratorAccModal from "components/sections/budget/seprator/acc/seprator-acc-modal";
 
 interface TableDataItemShape {
   id: ReactNode;
@@ -130,6 +131,18 @@ function BudgetSepratorPage() {
     handleOpenDetailModal();
   };
 
+  // modal acc
+  const sepratorAccMutation = useMutation(sepratorBudgetApi.areaAcc);
+  const [isOpenAccModal, setIsOpenAccModal] = useState(false);
+
+  const handleClickAccModal = (row: any) => {
+    sepratorAccMutation.mutate({
+      ...formData,
+      [sepratorBudgetConfig.CODING]: row[sepratorBudgetConfig.CODING],
+    });
+    setIsOpenAccModal(true);
+  };
+
   const actionButtons = (row: TableDataItemShape | any) => (
     <>
       {formData[sepratorBudgetConfig.BUDGET_METHOD] === 3 && row.crud && (
@@ -141,6 +154,15 @@ function BudgetSepratorPage() {
           <CreditCardIcon />
         </IconButton>
       )}
+
+      {[2, 3, 4, 5].includes(
+        formData[sepratorBudgetConfig.BUDGET_METHOD] as any
+      ) &&
+        row.crud && (
+          <IconButton color="primary" onClick={() => handleClickAccModal(row)}>
+            acc
+          </IconButton>
+        )}
     </>
   );
 
@@ -257,6 +279,7 @@ function BudgetSepratorPage() {
         bottomFooter={tableBottomFooter}
       />
 
+      {/* tamin modal */}
       <FixedModal
         open={detailModal}
         handleClose={handleCloseDetailModal}
@@ -269,6 +292,17 @@ function BudgetSepratorPage() {
           coding={codingId}
           data={sepratorDetailDataQuery.data?.data || []}
         />
+      </FixedModal>
+
+      {/* acc modal */}
+      <FixedModal
+        open={isOpenAccModal}
+        handleClose={() => setIsOpenAccModal(false)}
+        title={detailModalTitle}
+        loading={sepratorAccMutation.isLoading}
+        maxWidth="md"
+      >
+        <SepratorAccModal data={sepratorAccMutation.data?.data || []} />
       </FixedModal>
     </AdminLayout>
   );

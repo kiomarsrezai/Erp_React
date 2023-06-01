@@ -11,6 +11,10 @@ export const sepratorBudgetConfig = {
   REQUEST_DESC: "reqDesc",
 };
 
+export const sepratorBudgetUrl = {
+  areaAcc: "BudSepApi/BudgetSepratorAreaAccModal",
+};
+
 export const SEPRATOR_BUDGET_URL = "BudSepApi/FetchSeprator";
 export const SEPRATOR_BUDGET_TAMIN_URL = "BudSepApi/Taminetebarat";
 export const SEPRATOR_BUDGET_DETAIL_URL = "BudSepApi/Details";

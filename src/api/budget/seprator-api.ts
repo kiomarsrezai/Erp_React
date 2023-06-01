@@ -4,6 +4,7 @@ import { BaseApi } from "api/base-api";
 import { BaseApiResponseShape } from "types/base-type";
 import {
   GetSingleDetailSepratorItemShape,
+  GetSingleSepratorAccItemShape,
   GetSingleSepratorItemShape,
   GetSingleSepratorTaminItemShape,
 } from "types/data/budget/seprator-type";
@@ -15,6 +16,7 @@ import {
   SEPRATOR_BUDGET_TAMIN_URL,
   SEPRATOR_BUDGET_URL,
   sepratorBudgetConfig,
+  sepratorBudgetUrl,
 } from "config/features/budget/seprator-config";
 
 export const sepratorBudgetApi = new (class extends BaseApi {
@@ -89,6 +91,16 @@ export const sepratorBudgetApi = new (class extends BaseApi {
       SEPRATOR_BUDGET_TAMIN_DELETE_URL,
       { id }
     );
+    return response.data;
+  };
+
+  // acc
+  areaAcc = async (formdata: any) => {
+    const url = sepratorBudgetUrl.areaAcc + this.joinFilterData(formdata);
+
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleSepratorAccItemShape[]>
+    >(url);
     return response.data;
   };
 })();

@@ -26,3 +26,11 @@ export interface GetSingleDetailSepratorItemShape {
   estimateAmount: number;
   id: number;
 }
+
+// acc
+export interface GetSingleSepratorAccItemShape {
+  expense: number;
+  description: string;
+  dateSanad: string;
+  numberSanad: number;
+}
