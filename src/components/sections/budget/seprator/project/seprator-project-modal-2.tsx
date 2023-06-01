@@ -35,9 +35,12 @@ interface TableDataItemShape {
 interface SepratorProjectModal1props {
   data: any[];
   modal1ProjectId: number | null;
+  formData: any;
+  onClose: () => void;
+  baseCodingId: number;
 }
 function SepratorProjectModal2(props: SepratorProjectModal1props) {
-  const { data, modal1ProjectId } = props;
+  const { data, modal1ProjectId, formData, onClose, baseCodingId } = props;
 
   const tableHeads: TableHeadShape = [
     {
@@ -80,10 +83,25 @@ function SepratorProjectModal2(props: SepratorProjectModal1props) {
   ];
 
   // update
-  const updateMutation = useMutation(sepratorBudgetApi.areaAreaUpdate, {
-    onSuccess: () => {
+  const queryClient = useQueryClient();
+  const sepratorProjectMutation = useMutation(sepratorBudgetApi.areaProject, {
+    onSuccess: (data) => {
       enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
         variant: "success",
+      });
+      queryClient.setQueryData(
+        reactQueryKeys.budget.seprator.projectModal1,
+        data
+      );
+      onClose();
+    },
+  });
+
+  const updateMutation = useMutation(sepratorBudgetApi.areaAreaUpdate, {
+    onSuccess: () => {
+      sepratorProjectMutation.mutate({
+        ...formData,
+        [sepratorBudgetConfig.CODING]: baseCodingId,
       });
     },
   });

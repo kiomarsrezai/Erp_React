@@ -9,7 +9,7 @@ import SectionGuard from "components/auth/section-guard";
 
 import { TableHeadShape } from "types/table-type";
 import { ReactNode, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { joinPermissions } from "helper/auth-utils";
 import { accessNamesConfig } from "config/access-names-config";
@@ -36,9 +36,10 @@ interface SepratorProjectModal1props {
   data: any[];
   formData: any;
   baseModal1Title: string;
+  baseCodingId: number;
 }
 function SepratorProjectModal1(props: SepratorProjectModal1props) {
-  const { data, formData, baseModal1Title } = props;
+  const { data, formData, baseModal1Title, baseCodingId } = props;
 
   const tableHeads: TableHeadShape = [
     {
@@ -105,7 +106,15 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
     return formatedData;
   };
 
-  const tableData = formatTableData(data);
+  const modal1Query = useQuery(
+    reactQueryKeys.budget.seprator.projectModal1,
+    sepratorBudgetApi.areaProject,
+    {
+      enabled: false,
+    }
+  );
+
+  const tableData = formatTableData(modal1Query.data?.data || data);
 
   return (
     <>
@@ -123,6 +132,9 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
         <SepratorProjectModal2
           data={sepratorAreaMutation.data?.data || []}
           modal1ProjectId={modal1ProjectId}
+          baseCodingId={baseCodingId}
+          formData={formData}
+          onClose={() => setIsOpenAreaModal(false)}
         />
       </FixedModal>
     </>

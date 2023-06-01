@@ -154,6 +154,7 @@ function BudgetSepratorPage() {
       ...formData,
       [sepratorBudgetConfig.CODING]: row[sepratorBudgetConfig.CODING],
     });
+    setCodingId(row[sepratorBudgetConfig.CODING]);
     setDetailModalTitle(`${row.code} - ${row.description}`);
     setIsOpenProjectModal(true);
   };
@@ -345,6 +346,7 @@ function BudgetSepratorPage() {
           data={sepratorProjectMutation.data?.data || []}
           formData={formData}
           baseModal1Title={detailModalTitle}
+          baseCodingId={codingId}
         />
       </FixedModal>
     </AdminLayout>
