@@ -18,7 +18,7 @@ interface TableDataItemShape {
   number: ReactNode;
   projectCode: ReactNode;
   projectName: ReactNode;
-  projectScale: ReactNode;
+  projectScaleName: ReactNode;
 }
 
 function ProgramOperationProjectPage() {
@@ -44,7 +44,7 @@ function ProgramOperationProjectPage() {
     },
     {
       title: "مقیاس پروژه",
-      name: "projectScale",
+      name: "projectScaleName",
     },
     {
       title: "عملیات",
@@ -89,6 +89,9 @@ function ProgramOperationProjectPage() {
       (item, i) => ({
         ...item,
         number: i + 1,
+        projectScaleName: (
+          <span style={{ whiteSpace: "nowrap" }}>{item.projectScaleName}</span>
+        ),
         actions: actionButtons,
       })
     );
@@ -111,10 +114,10 @@ function ProgramOperationProjectPage() {
   // footer
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
-    "colspan-number": 3,
+    "colspan-number": 4,
     projectCode: null,
     projectName: null,
-    projectScale: null,
+    projectScaleName: null,
   };
 
   // head group

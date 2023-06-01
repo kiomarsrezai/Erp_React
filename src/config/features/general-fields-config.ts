@@ -104,6 +104,10 @@ export const budgetReportItems: FlotingLabelTextfieldItemsShape = [
     label: "انحراف بودجه",
     value: 5,
   },
+  {
+    label: "مقیاس پروژه",
+    value: 6,
+  },
 ];
 
 export const budgetKindItems: FlotingLabelTextfieldItemsShape = [
