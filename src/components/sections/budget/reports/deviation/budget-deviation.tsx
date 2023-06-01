@@ -127,6 +127,10 @@ function BudgetReportDeviation(props: BudgetReportDeviationProps) {
           formData={formData}
           setFormData={setFormData}
           tabRender={tabRender}
+          printData={{
+            data: tableData,
+            footer: [tableFooter],
+          }}
         />
       ),
       colspan: 16,

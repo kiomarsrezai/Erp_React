@@ -4,6 +4,8 @@ import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 import SectionGuard from "components/auth/section-guard";
 import userStore from "hooks/store/user-store";
 import LoadingButton from "@mui/lab/LoadingButton";
+import PrintIcon from "@mui/icons-material/Print";
+import IconButton from "@mui/material/IconButton";
 
 import { FormEvent, ReactNode, useEffect, useState } from "react";
 import { revenueChartFormConfig } from "config/features/revenue-chart-config";
@@ -22,16 +24,26 @@ import { abstructBudgetConfig } from "config/features/report/budget/abstruct-bud
 import BudgetKindDeviationInput from "components/sections/inputs/budget-kind-deviation-input";
 import { budgetDeviationConfig } from "config/features/budget/report/budget-deviation-config";
 import { budgetDeviationApi } from "api/report/budget-deviation-api";
+import { budgetDivationStimul } from "stimul/budget/report/divation/budget-divation-stimul";
+import {
+  getGeneralFieldItemArea,
+  getGeneralFieldItemBudgetKindDeviation,
+  getGeneralFieldItemYear,
+} from "helper/export-utils";
 
 interface BudgetReportDeviationFormProps {
   formData: any;
   setFormData: (prevState: any) => void;
   inputRender?: ReactNode;
   tabRender?: ReactNode;
+  printData: {
+    data: any[];
+    footer: any[];
+  };
 }
 
 function BudgetReportDeviationForm(props: BudgetReportDeviationFormProps) {
-  const { formData, setFormData, inputRender, tabRender } = props;
+  const { formData, setFormData, inputRender, tabRender, printData } = props;
 
   const userLicenses = userStore((state) => state.permissions);
   // form
@@ -82,6 +94,24 @@ function BudgetReportDeviationForm(props: BudgetReportDeviationFormProps) {
     formData[budgetDeviationConfig.area],
     formData[budgetDeviationConfig.year],
   ]);
+
+  // print
+  const handlePrintForm = () => {
+    if (printData.data.length) {
+      const yearLabel = getGeneralFieldItemYear(formData, 1);
+      const areaLabel = getGeneralFieldItemArea(formData, 3);
+      const budgetKindLabel = getGeneralFieldItemBudgetKindDeviation(formData);
+      // const numberLabel = getGeneralFieldItemNumber(formData);
+      budgetDivationStimul({
+        data: printData.data,
+        footer: printData.footer,
+        year: yearLabel,
+        area: areaLabel,
+        kind: budgetKindLabel,
+        numberShow: "ریال",
+      });
+    }
+  };
 
   return (
     <Box
@@ -148,9 +178,14 @@ function BudgetReportDeviationForm(props: BudgetReportDeviationFormProps) {
             variant="contained"
             type="submit"
             loading={submitMutation.isLoading}
+            sx={{ mr: 1 }}
           >
             نمایش
           </LoadingButton>
+
+          <IconButton color="primary" onClick={handlePrintForm}>
+            <PrintIcon />
+          </IconButton>
         </Grid>
       </Grid>
     </Box>

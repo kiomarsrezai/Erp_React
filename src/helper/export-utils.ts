@@ -1,4 +1,5 @@
 import {
+  budgetKindDeviationItems,
   budgetKindItems,
   budgetMethodItems,
   generalFieldsConfig,
@@ -34,9 +35,30 @@ export const getGeneralFieldItemYear = (formData: any, id: number) => {
   return yearLabel;
 };
 
+export const getGeneralFieldItemArea = (formData: any, id: number) => {
+  const areaLabel =
+    (
+      reactQueryClient.getQueryData([
+        ...reactQueryKeys.generals.area,
+        id,
+      ]) as any
+    )?.data.find((item: any) => item?.id === formData[generalFieldsConfig.AREA])
+      ?.areaName || "";
+
+  return areaLabel;
+};
+
 export const getGeneralFieldItemBudgetKind = (formData: any) => {
   return (
     budgetKindItems.find(
+      (item) => item.value === formData[generalFieldsConfig.kind]
+    )?.label || ""
+  );
+};
+
+export const getGeneralFieldItemBudgetKindDeviation = (formData: any) => {
+  return (
+    budgetKindDeviationItems.find(
       (item) => item.value === formData[generalFieldsConfig.kind]
     )?.label || ""
   );

@@ -42,11 +42,11 @@ function ProgramOperationProjectPage() {
       name: "number",
     },
     {
-      title: "کد",
+      title: "کد پروژه",
       name: "code",
     },
     {
-      title: "نام",
+      title: "نام پروژه",
       align: "left",
       name: "name",
     },
