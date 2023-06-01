@@ -77,7 +77,25 @@ function SepratorAccModal(props: SepratorModal1props) {
 
   const tableData = formatTableData(data);
 
-  return <FixedTable heads={tableHeads} data={tableData} notFixed />;
+  // footer
+  const sumExpense = sumFieldsInSingleItemData(data, "expense");
+  const tableFooter: TableDataItemShape | any = {
+    number: "جمع",
+    "colspan-number": 4,
+    numberSanad: null,
+    dateSanad: null,
+    description: null,
+    expense: sumExpense,
+  };
+
+  return (
+    <FixedTable
+      heads={tableHeads}
+      data={tableData}
+      footer={tableFooter}
+      notFixed
+    />
+  );
 }
 
 export default SepratorAccModal;

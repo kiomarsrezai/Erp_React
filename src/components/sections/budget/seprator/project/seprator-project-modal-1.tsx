@@ -10,6 +10,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { GetSingleSepratorProjectItemShape } from "types/data/budget/seprator-type";
 import { reactQueryKeys } from "config/react-query-keys-config";
+import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -103,9 +104,28 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
 
   const tableData = formatTableData(modal1Query.data?.data || data);
 
+  // footer
+  const sumMosavab = sumFieldsInSingleItemData(
+    modal1Query.data?.data || data,
+    "mosavab"
+  );
+  const tableFooter: TableDataItemShape | any = {
+    number: "جمع",
+    "colspan-number": 3,
+    projectCode: null,
+    projectName: null,
+    mosavab: sumMosavab,
+    actions: "",
+  };
+
   return (
     <>
-      <FixedTable heads={tableHeads} data={tableData} notFixed />
+      <FixedTable
+        heads={tableHeads}
+        data={tableData}
+        footer={tableFooter}
+        notFixed
+      />
 
       {/* area modal */}
       <FixedModal
