@@ -15,7 +15,7 @@ import { joinPermissions } from "helper/auth-utils";
 import { accessNamesConfig } from "config/access-names-config";
 import {
   GetSingleDetailSepratorItemShape,
-  GetSingleSepratorAccItemShape,
+  GetSingleSepratorProjectItemShape,
 } from "types/data/budget/seprator-type";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { reactQueryKeys } from "config/react-query-keys-config";
@@ -25,16 +25,15 @@ import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 
 interface TableDataItemShape {
   number: ReactNode;
-  dateSanad: ReactNode;
-  numberSanad: ReactNode;
-  description: ReactNode;
-  expense: ReactNode;
+  areaNameShort: ReactNode;
+  projectCode: ReactNode;
+  projectName: ReactNode;
 }
 
-interface SepratorModal1props {
+interface SepratorProjectModal1props {
   data: any[];
 }
-function SepratorAccModal(props: SepratorModal1props) {
+function SepratorProjectModal1(props: SepratorProjectModal1props) {
   const { data } = props;
 
   const tableHeads: TableHeadShape = [
@@ -43,21 +42,16 @@ function SepratorAccModal(props: SepratorModal1props) {
       name: "number",
     },
     {
-      title: "شماره سند",
-      name: "numberSanad",
+      title: "کد پروژه",
+      name: "projectCode",
     },
     {
-      title: "تاریخ سند",
-      name: "dateSanad",
+      title: "نام پروژه",
+      name: "projectName",
     },
     {
-      title: "شرح",
-      name: "description",
-      align: "left",
-    },
-    {
-      title: "عملکرد",
-      name: "expense",
+      title: "مصوب",
+      name: "mosavab",
       split: true,
       align: "left",
     },
@@ -65,19 +59,23 @@ function SepratorAccModal(props: SepratorModal1props) {
 
   // data
   const formatTableData = (
-    unFormatData: GetSingleSepratorAccItemShape[]
+    unFormatData: GetSingleSepratorProjectItemShape[]
   ): TableDataItemShape[] => {
-    const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
-      ...item,
-      number: i + 1,
-    }));
+    const formatedData: TableDataItemShape[] | any = unFormatData.map(
+      (item, i) => ({
+        ...item,
+        number: i + 1,
+      })
+    );
 
     return formatedData;
   };
 
   const tableData = formatTableData(data);
 
+  console.log(data);
+
   return <FixedTable heads={tableHeads} data={tableData} notFixed />;
 }
 
-export default SepratorAccModal;
+export default SepratorProjectModal1;

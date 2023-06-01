@@ -17,6 +17,7 @@ import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { getBgColorBudget } from "helper/get-color-utils";
 import { formatExpenseName } from "helper/data-utils";
 import SepratorAccModal from "components/sections/budget/seprator/acc/seprator-acc-modal";
+import SepratorProjectModal1 from "components/sections/budget/seprator/project/seprator-project-modal-1";
 
 interface TableDataItemShape {
   id: ReactNode;
@@ -143,6 +144,19 @@ function BudgetSepratorPage() {
     setIsOpenAccModal(true);
   };
 
+  // modal project
+  const sepratorProjectMutation = useMutation(sepratorBudgetApi.areaProject);
+  const [isOpenProjectModal, setIsOpenProjectModal] = useState(false);
+
+  const handleClickProjectModal = (row: any) => {
+    sepratorProjectMutation.mutate({
+      ...formData,
+      [sepratorBudgetConfig.CODING]: row[sepratorBudgetConfig.CODING],
+    });
+    setIsOpenProjectModal(true);
+  };
+
+  // actions
   const actionButtons = (row: TableDataItemShape | any) => (
     <>
       {formData[sepratorBudgetConfig.BUDGET_METHOD] === 3 && row.crud && (
@@ -159,9 +173,21 @@ function BudgetSepratorPage() {
         formData[sepratorBudgetConfig.BUDGET_METHOD] as any
       ) &&
         row.crud && (
-          <IconButton color="primary" onClick={() => handleClickAccModal(row)}>
-            acc
-          </IconButton>
+          <>
+            <IconButton
+              color="primary"
+              onClick={() => handleClickAccModal(row)}
+            >
+              acc
+            </IconButton>
+
+            <IconButton
+              color="primary"
+              onClick={() => handleClickProjectModal(row)}
+            >
+              pro
+            </IconButton>
+          </>
         )}
     </>
   );
@@ -303,6 +329,18 @@ function BudgetSepratorPage() {
         maxWidth="md"
       >
         <SepratorAccModal data={sepratorAccMutation.data?.data || []} />
+      </FixedModal>
+
+      {/* project modal */}
+      <FixedModal
+        open={isOpenProjectModal}
+        handleClose={() => setIsOpenProjectModal(false)}
+        title={detailModalTitle}
+        loading={sepratorProjectMutation.isLoading}
+      >
+        <SepratorProjectModal1
+          data={sepratorProjectMutation.data?.data || []}
+        />
       </FixedModal>
     </AdminLayout>
   );

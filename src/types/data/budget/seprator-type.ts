@@ -34,3 +34,11 @@ export interface GetSingleSepratorAccItemShape {
   dateSanad: string;
   numberSanad: number;
 }
+
+// project
+export interface GetSingleSepratorProjectItemShape {
+  areaNameShort: string;
+  projectName: string;
+  projectCode: string;
+  id: number;
+}
