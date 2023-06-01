@@ -5,6 +5,7 @@ import { BaseApiResponseShape } from "types/base-type";
 import {
   GetSingleProgramDataShape,
   GetSingleProgramListShape,
+  GetSingleProgramScaleShape,
 } from "types/data/project/program-project-type";
 import {
   programProjectConfig,
@@ -31,6 +32,23 @@ export const programProjectApi = new (class extends BaseApi {
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleProgramDataShape[]>
     >(url);
+
+    return response.data;
+  };
+
+  getScale = async () => {
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleProgramScaleShape[]>
+    >(programProjectUrls.scale);
+
+    return response.data;
+  };
+
+  updateItem = async (formData: any) => {
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      programProjectUrls.update,
+      formData
+    );
 
     return response.data;
   };

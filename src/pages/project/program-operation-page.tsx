@@ -1,8 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { programProjectApi } from "api/project/programs-project-api";
 import FixedTable from "components/data/table/fixed-table";
 import AdminLayout from "components/layout/admin-layout";
 import ProgramOprationProjectForm from "components/sections/project/program/program-opration-form";
+import ProgramOprationModal from "components/sections/project/program/program-opration-modal";
+import FixedModal from "components/ui/modal/fixed-modal";
+import IconButton from "@mui/material/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
 
 import { programProjectConfig } from "config/features/project/program-project-config";
 import { reactQueryKeys } from "config/react-query-keys-config";
@@ -14,6 +18,7 @@ interface TableDataItemShape {
   number: ReactNode;
   projectCode: ReactNode;
   projectName: ReactNode;
+  projectScale: ReactNode;
 }
 
 function ProgramOperationProjectPage() {
@@ -37,7 +42,44 @@ function ProgramOperationProjectPage() {
       align: "left",
       name: "projectName",
     },
+    {
+      title: "مقیاس پروژه",
+      name: "projectScale",
+    },
+    {
+      title: "عملیات",
+      name: "actions",
+    },
   ];
+
+  // modal
+  const [isOpenEditModal, setIsOpenEditModal] = useState(false);
+  const [activeItem, setActiveItem] =
+    useState<GetSingleProgramDataShape | null>(null);
+  const openEditModal = (row: GetSingleProgramDataShape) => {
+    setActiveItem(row);
+    setIsOpenEditModal(true);
+  };
+
+  const queryClient = useQueryClient();
+
+  const getDataMutation = useMutation(programProjectApi.getData, {
+    onSuccess: (data) => {
+      queryClient.setQueryData(reactQueryKeys.project.program.data, data);
+    },
+  });
+
+  const handleDoneTask = () => {
+    setIsOpenEditModal(false);
+    getDataMutation.mutate(formData);
+  };
+
+  // actions
+  const actionButtons = (row: GetSingleProgramDataShape) => (
+    <IconButton size="small" color="primary" onClick={() => openEditModal(row)}>
+      <EditIcon />
+    </IconButton>
+  );
 
   // data
   const formatTableData = (
@@ -47,6 +89,7 @@ function ProgramOperationProjectPage() {
       (item, i) => ({
         ...item,
         number: i + 1,
+        actions: actionButtons,
       })
     );
 
@@ -71,6 +114,7 @@ function ProgramOperationProjectPage() {
     "colspan-number": 3,
     projectCode: null,
     projectName: null,
+    projectScale: null,
   };
 
   // head group
@@ -86,19 +130,35 @@ function ProgramOperationProjectPage() {
           }}
         />
       ),
-      colspan: 3,
+      colspan: 5,
     },
   ];
 
   return (
-    <AdminLayout>
-      <FixedTable
-        heads={tableHeads}
-        headGroups={tableHeadGroups}
-        data={tableData}
-        footer={tableFooter}
-      />
-    </AdminLayout>
+    <>
+      <AdminLayout>
+        <FixedTable
+          heads={tableHeads}
+          headGroups={tableHeadGroups}
+          data={tableData}
+          footer={tableFooter}
+        />
+      </AdminLayout>
+
+      {/* modal */}
+      <FixedModal
+        open={isOpenEditModal}
+        handleClose={() => setIsOpenEditModal(false)}
+        maxWidth="md"
+        maxHeight="30%"
+        title={`${activeItem?.projectCode} - ${activeItem?.projectName}`}
+      >
+        <ProgramOprationModal
+          initialData={activeItem}
+          onDoneTask={handleDoneTask}
+        />
+      </FixedModal>
+    </>
   );
 }
 
