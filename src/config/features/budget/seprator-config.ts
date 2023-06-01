@@ -14,6 +14,7 @@ export const sepratorBudgetConfig = {
 export const sepratorBudgetUrl = {
   areaAcc: "BudSepApi/BudgetSepratorAreaAccModal",
   areaProject: "BudSepApi/BudgetSepratorAreaProjectModal",
+  areaProjectArea: "BudSepApi/BudgetSepratorAreaProjectModal2",
 };
 
 export const SEPRATOR_BUDGET_URL = "BudSepApi/FetchSeprator";

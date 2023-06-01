@@ -22,23 +22,19 @@ import { reactQueryKeys } from "config/react-query-keys-config";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
-import SepratorProjectModal2 from "./seprator-project-modal-2";
 
 interface TableDataItemShape {
   number: ReactNode;
   areaNameShort: ReactNode;
   projectCode: ReactNode;
   projectName: ReactNode;
-  actions: ((row: TableDataItemShape) => ReactNode) | ReactNode;
 }
 
 interface SepratorProjectModal1props {
   data: any[];
-  formData: any;
-  baseModal1Title: string;
 }
-function SepratorProjectModal1(props: SepratorProjectModal1props) {
-  const { data, formData, baseModal1Title } = props;
+function SepratorProjectModal2(props: SepratorProjectModal1props) {
+  const { data } = props;
 
   const tableHeads: TableHeadShape = [
     {
@@ -55,35 +51,19 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
       align: "left",
     },
     {
-      title: "مصوب",
-      name: "mosavab",
-      split: true,
-      align: "left",
-    },
-    {
       title: "عملیات",
       name: "actions",
     },
   ];
-
-  // modal project
-  const sepratorAreaMutation = useMutation(sepratorBudgetApi.areaArea);
-  const [isOpenAreaModal, setIsOpenAreaModal] = useState(false);
-
-  const handleClickAreaModal = (row: TableDataItemShape) => {
-    sepratorAreaMutation.mutate(formData);
-
-    setIsOpenAreaModal(true);
-  };
 
   // actions
   const actionButtons = (row: TableDataItemShape | any) => (
     <IconButton
       color="primary"
       size="small"
-      onClick={() => handleClickAreaModal(row)}
+      // onClick={() => handleClickAreaModal(row)}
     >
-      ar
+      li
     </IconButton>
   );
 
@@ -104,23 +84,9 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
 
   const tableData = formatTableData(data);
 
-  return (
-    <>
-      <FixedTable heads={tableHeads} data={tableData} notFixed />
+  console.log(data);
 
-      {/* area modal */}
-      <FixedModal
-        open={isOpenAreaModal}
-        handleClose={() => setIsOpenAreaModal(false)}
-        loading={sepratorAreaMutation.isLoading}
-        title={baseModal1Title}
-        maxWidth="sm"
-        maxHeight="70%"
-      >
-        <SepratorProjectModal2 data={sepratorAreaMutation.data?.data || []} />
-      </FixedModal>
-    </>
-  );
+  return <FixedTable heads={tableHeads} data={tableData} notFixed />;
 }
 
-export default SepratorProjectModal1;
+export default SepratorProjectModal2;

@@ -37,6 +37,14 @@ export interface GetSingleSepratorAccItemShape {
 
 // project
 export interface GetSingleSepratorProjectItemShape {
+  mosavab: number;
+  projectName: string;
+  projectCode: string;
+  id: number;
+}
+
+// area
+export interface GetSingleSepratorAreaItemShape {
   areaNameShort: string;
   projectName: string;
   projectCode: string;

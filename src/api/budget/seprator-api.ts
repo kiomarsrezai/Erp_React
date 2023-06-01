@@ -5,6 +5,7 @@ import { BaseApiResponseShape } from "types/base-type";
 import {
   GetSingleDetailSepratorItemShape,
   GetSingleSepratorAccItemShape,
+  GetSingleSepratorAreaItemShape,
   GetSingleSepratorItemShape,
   GetSingleSepratorProjectItemShape,
   GetSingleSepratorTaminItemShape,
@@ -111,6 +112,17 @@ export const sepratorBudgetApi = new (class extends BaseApi {
 
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleSepratorProjectItemShape[]>
+    >(url);
+    return response.data;
+  };
+
+  // area
+  areaArea = async (formdata: any) => {
+    const url =
+      sepratorBudgetUrl.areaProjectArea + this.joinFilterData(formdata);
+
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleSepratorAreaItemShape[]>
     >(url);
     return response.data;
   };

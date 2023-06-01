@@ -141,6 +141,7 @@ function BudgetSepratorPage() {
       ...formData,
       [sepratorBudgetConfig.CODING]: row[sepratorBudgetConfig.CODING],
     });
+    setDetailModalTitle(`${row.code} - ${row.description}`);
     setIsOpenAccModal(true);
   };
 
@@ -153,6 +154,7 @@ function BudgetSepratorPage() {
       ...formData,
       [sepratorBudgetConfig.CODING]: row[sepratorBudgetConfig.CODING],
     });
+    setDetailModalTitle(`${row.code} - ${row.description}`);
     setIsOpenProjectModal(true);
   };
 
@@ -337,9 +339,12 @@ function BudgetSepratorPage() {
         handleClose={() => setIsOpenProjectModal(false)}
         title={detailModalTitle}
         loading={sepratorProjectMutation.isLoading}
+        maxWidth="md"
       >
         <SepratorProjectModal1
           data={sepratorProjectMutation.data?.data || []}
+          formData={formData}
+          baseModal1Title={detailModalTitle}
         />
       </FixedModal>
     </AdminLayout>
