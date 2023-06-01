@@ -8,6 +8,7 @@ import FixedModal from "components/ui/modal/fixed-modal";
 import SectionGuard from "components/auth/section-guard";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import CheckIcon from "@mui/icons-material/Check";
 
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { ReactNode, useState } from "react";
@@ -119,7 +120,7 @@ function SepratorProjectModal2(props: SepratorProjectModal1props) {
       size="small"
       onClick={() => handleClickLink(row.id)}
     >
-      li
+      <CheckIcon />
     </IconButton>
   );
 

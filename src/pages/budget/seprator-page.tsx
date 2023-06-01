@@ -2,9 +2,13 @@ import AdminLayout from "components/layout/admin-layout";
 import FixedTable from "components/data/table/fixed-table";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
 import FixedModal from "components/ui/modal/fixed-modal";
 import SepratoeBudgetForm from "components/sections/budget/seprator/seprator-budget-form";
 import SepratorModal1 from "components/sections/budget/seprator/seprator-modal-1";
+import Box from "@mui/material/Box";
+import SepratorAccModal from "components/sections/budget/seprator/acc/seprator-acc-modal";
+import SepratorProjectModal1 from "components/sections/budget/seprator/project/seprator-project-modal-1";
 
 import { TableHeadShape } from "types/table-type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -16,8 +20,6 @@ import { GetSingleSepratorItemShape } from "types/data/budget/seprator-type";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { getBgColorBudget } from "helper/get-color-utils";
 import { formatExpenseName } from "helper/data-utils";
-import SepratorAccModal from "components/sections/budget/seprator/acc/seprator-acc-modal";
-import SepratorProjectModal1 from "components/sections/budget/seprator/project/seprator-project-modal-1";
 
 interface TableDataItemShape {
   id: ReactNode;
@@ -161,7 +163,34 @@ function BudgetSepratorPage() {
 
   // actions
   const actionButtons = (row: TableDataItemShape | any) => (
-    <>
+    <Box display={"flex"} justifyContent={"center"}>
+      {[2, 3, 4, 5].includes(
+        formData[sepratorBudgetConfig.BUDGET_METHOD] as any
+      ) &&
+        row.crud && (
+          <>
+            <Button
+              color="primary"
+              variant="outlined"
+              size="small"
+              onClick={() => handleClickProjectModal(row)}
+              sx={{ fontSize: 10, minWidth: "15px" }}
+            >
+              p
+            </Button>
+
+            <Button
+              variant="outlined"
+              size="small"
+              color="primary"
+              onClick={() => handleClickAccModal(row)}
+              sx={{ fontSize: 10, minWidth: "15px", ml: 1 }}
+            >
+              acc
+            </Button>
+          </>
+        )}
+
       {formData[sepratorBudgetConfig.BUDGET_METHOD] === 3 && row.crud && (
         <IconButton
           color="primary"
@@ -171,28 +200,7 @@ function BudgetSepratorPage() {
           <CreditCardIcon />
         </IconButton>
       )}
-
-      {[2, 3, 4, 5].includes(
-        formData[sepratorBudgetConfig.BUDGET_METHOD] as any
-      ) &&
-        row.crud && (
-          <>
-            <IconButton
-              color="primary"
-              onClick={() => handleClickAccModal(row)}
-            >
-              acc
-            </IconButton>
-
-            <IconButton
-              color="primary"
-              onClick={() => handleClickProjectModal(row)}
-            >
-              pro
-            </IconButton>
-          </>
-        )}
-    </>
+    </Box>
   );
 
   const formatTableData = (
