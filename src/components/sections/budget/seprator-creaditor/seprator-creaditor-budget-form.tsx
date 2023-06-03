@@ -51,7 +51,7 @@ function SepratorCreaditorBudgetForm(props: SepratorCreaditorBudgetFormProps) {
         accessNamesConfig.FIELD_AREA,
         accessNamesConfig.FIELD_BUDGET_METHOD,
       ],
-      accessNamesConfig.BUDGET__SEPRATOR_PAGE
+      accessNamesConfig.BUDGET__SEPRATOR_CREADITOR_PAGE
     );
 
     if (!havePermission) {
@@ -97,7 +97,7 @@ function SepratorCreaditorBudgetForm(props: SepratorCreaditorBudgetFormProps) {
         <Grid container spacing={2}>
           <SectionGuard
             permission={joinPermissions([
-              accessNamesConfig.BUDGET__SEPRATOR_PAGE,
+              accessNamesConfig.BUDGET__SEPRATOR_CREADITOR_PAGE,
               accessNamesConfig.FIELD_YEAR,
             ])}
           >
@@ -105,14 +105,16 @@ function SepratorCreaditorBudgetForm(props: SepratorCreaditorBudgetFormProps) {
               <YearInput
                 setter={setFormData}
                 value={formData[sepratorBudgetConfig.YEAR]}
-                permissionForm={accessNamesConfig.BUDGET__SEPRATOR_PAGE}
+                permissionForm={
+                  accessNamesConfig.BUDGET__SEPRATOR_CREADITOR_PAGE
+                }
                 showError={haveSubmitedForm}
               />
             </Grid>
           </SectionGuard>
           <SectionGuard
             permission={joinPermissions([
-              accessNamesConfig.BUDGET__SEPRATOR_PAGE,
+              accessNamesConfig.BUDGET__SEPRATOR_CREADITOR_PAGE,
               accessNamesConfig.FIELD_AREA,
             ])}
           >
@@ -120,7 +122,9 @@ function SepratorCreaditorBudgetForm(props: SepratorCreaditorBudgetFormProps) {
               <AreaInput
                 setter={setFormData}
                 value={formData[sepratorBudgetConfig.AREA]}
-                permissionForm={accessNamesConfig.BUDGET__SEPRATOR_PAGE}
+                permissionForm={
+                  accessNamesConfig.BUDGET__SEPRATOR_CREADITOR_PAGE
+                }
                 showError={haveSubmitedForm}
               />
             </Grid>
@@ -128,7 +132,7 @@ function SepratorCreaditorBudgetForm(props: SepratorCreaditorBudgetFormProps) {
 
           <SectionGuard
             permission={joinPermissions([
-              accessNamesConfig.BUDGET__SEPRATOR_PAGE,
+              accessNamesConfig.BUDGET__SEPRATOR_CREADITOR_PAGE,
               accessNamesConfig.FIELD_BUDGET_METHOD,
             ])}
           >
@@ -136,7 +140,9 @@ function SepratorCreaditorBudgetForm(props: SepratorCreaditorBudgetFormProps) {
               <BudgetMethodInput
                 setter={setFormData}
                 value={formData[sepratorBudgetConfig.BUDGET_METHOD]}
-                permissionForm={accessNamesConfig.BUDGET__SEPRATOR_PAGE}
+                permissionForm={
+                  accessNamesConfig.BUDGET__SEPRATOR_CREADITOR_PAGE
+                }
                 showError={haveSubmitedForm}
               />
             </Grid>
