@@ -8,6 +8,8 @@ export const accessNamesConfig = {
   BUDGET__SEPRATOR_PAGE: "budget-seprator",
   BUDGET__SEPRATOR_PAGE_TAMIN_BTN: "tamin-btn",
 
+  BUDGET__SEPRATOR_CREADITOR_PAGE: "budget-seprator-creditor",
+
   BUDGET__CODING_PAGE: "budget-coding",
 
   BUDGET__EDIT_PAGE: "budget-edit",

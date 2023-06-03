@@ -36,6 +36,7 @@ import AbstructBudgetPage from "pages/report/budget/abstruct-budget-page";
 import SuppliersPage from "pages/base/suppliers-page";
 import BudgetReportsPage from "pages/budget/report/budget-report-page";
 import BudgetConnectPage from "pages/budget/budget-connect-page";
+import BudgetSepratorCreaditorPage from "pages/budget/seprator-creaditor-page";
 
 export const sidenavsLayout: SidenavShape[] = [
   // report
@@ -74,6 +75,19 @@ export const sidenavsLayout: SidenavShape[] = [
         icon: PointOfSaleIcon,
         licenseName: accessNamesConfig.BUDGET__SEPRATOR_PAGE,
         element: BudgetSepratorPage,
+        permissionItems: [
+          getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
+          getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 2),
+          accessNamesConfig.FIELD_BUDGET_METHOD,
+          accessNamesConfig.BUDGET__SEPRATOR_PAGE_TAMIN_BTN,
+        ],
+      },
+      {
+        title: "تفکیک اعتبار دهنده",
+        path: "/budget/seprator-creaditor",
+        icon: PointOfSaleIcon,
+        licenseName: accessNamesConfig.BUDGET__SEPRATOR_CREADITOR_PAGE,
+        element: BudgetSepratorCreaditorPage,
         permissionItems: [
           getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
           getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 2),

@@ -100,6 +100,9 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
     },
     {
       enabled: false,
+      initialData: {
+        data: [],
+      },
     }
   );
 
