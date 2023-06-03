@@ -226,6 +226,7 @@ function FixedTable(props: FixedTableProps) {
                   sx={{
                     borderRight: 1,
                     borderColor: grey[borderColor],
+                    width: head.width || null,
                     bgcolor: grey[200],
                     //   top: headGroups ? headGroupHright : 0,
                     whiteSpace: "nowrap",
@@ -298,7 +299,7 @@ function FixedTable(props: FixedTableProps) {
           key={i}
           dir={typeof row[name] === "number" ? "ltr" : "rtl"}
           sx={{
-            width: row[`width-${name}`] || null,
+            // width: row[`width-${name}`] || null,
             bgcolor: row[`bgcolor-${name}`] || "transparent",
             color: row[`textcolor-${name}`] || "#000",
             p: 1,

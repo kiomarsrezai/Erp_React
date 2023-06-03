@@ -85,11 +85,11 @@ export const budgetMethodItems: FlotingLabelTextfieldItemsShape = [
 
 export const budgetSortKindItems: FlotingLabelTextfieldItemsShape = [
   {
-    label: "تفضیلی کد",
+    label: "تفضیلی کد بودجه",
     value: 1,
   },
   {
-    label: "تجمیعی کد",
+    label: "تجمیعی کد بودجه",
     value: 2,
   },
 ];

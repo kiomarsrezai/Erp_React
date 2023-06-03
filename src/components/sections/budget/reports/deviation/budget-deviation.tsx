@@ -39,7 +39,6 @@ function BudgetReportDeviation(props: BudgetReportDeviationProps) {
     {
       title: "کد",
       name: "code",
-      align: "left",
     },
     {
       title: "منطقه",

@@ -21,3 +21,12 @@ export const getPercent = (a: number = 0, b: number = 1) => {
   const result = Math.round((a / b) * 100);
   return isFinite(result) ? result : 0;
 };
+
+export const getPercentFloat = (
+  a: number = 0,
+  b: number = 1,
+  count: number
+) => {
+  const result = ((a / b) * 100).toFixed(count);
+  return result;
+};

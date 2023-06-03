@@ -22,6 +22,7 @@ export interface TableSingleHeadShape {
   forceHaveBorder?: boolean;
   colspan?: number;
   canSort?: true;
+  width?: string;
 }
 
 export type TableHeadShape = TableSingleHeadShape[];

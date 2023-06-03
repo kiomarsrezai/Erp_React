@@ -25,6 +25,9 @@ export const reactQueryKeys = {
     coding: {
       getData: ["budget-coding"],
     },
+    sort: {
+      getData: ["budget-sort"],
+    },
     deviation: ["budget-deviation"],
     projectOpration: ["budget-project-opration"],
   },
