@@ -237,7 +237,7 @@ function BudgetSepratorCreaditorPage() {
   };
 
   const sepratorQuery = useQuery(
-    reactQueryKeys.budget.seprator.getData,
+    reactQueryKeys.budget.sepratorCreaditor.getData,
     () => sepratorBudgetApi.getData({}),
     {
       enabled: false,

@@ -16,6 +16,10 @@ export const reactQueryKeys = {
       getData: ["budget-seprator"],
       projectModal1: ["budget-seprator-project-modal1"],
     },
+    sepratorCreaditor: {
+      getData: ["budget-seprator-creaditor"],
+      projectModal1: ["budget-seprator-project-modal1"],
+    },
     proposal: {
       getData: ["budget-propsal"],
     },

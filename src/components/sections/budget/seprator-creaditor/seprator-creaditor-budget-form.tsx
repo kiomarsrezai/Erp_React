@@ -19,6 +19,7 @@ import { checkHaveValue } from "helper/form-utils";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import userStore from "hooks/store/user-store";
+import { sepratorCreaditorBudgetApi } from "api/budget/seprator-creaditor-api";
 
 interface SepratorCreaditorBudgetFormProps {
   formData: any;
@@ -30,9 +31,12 @@ function SepratorCreaditorBudgetForm(props: SepratorCreaditorBudgetFormProps) {
 
   // submit
   const queryClient = useQueryClient();
-  const submitMutation = useMutation(sepratorBudgetApi.getData, {
+  const submitMutation = useMutation(sepratorCreaditorBudgetApi.getData, {
     onSuccess: (data) => {
-      queryClient.setQueryData(reactQueryKeys.budget.seprator.getData, data);
+      queryClient.setQueryData(
+        reactQueryKeys.budget.sepratorCreaditor.getData,
+        data
+      );
     },
   });
 
