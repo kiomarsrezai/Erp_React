@@ -1,22 +1,13 @@
-import FixedTable from "components/data/table/fixed-table";
-import IconButton from "@mui/material/IconButton";
-import FixedModal from "components/ui/modal/fixed-modal";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-
-import { TableHeadShape } from "types/table-type";
-import { ReactNode, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { sepratorBudgetApi } from "api/budget/seprator-api";
-import { GetSingleSepratorProjectItemShape } from "types/data/budget/seprator-type";
-import { reactQueryKeys } from "config/react-query-keys-config";
-import { sumFieldsInSingleItemData } from "helper/calculate-utils";
-import Box from "@mui/material/Box";
+import BudgetSepratorCreaditorInput from "components/sections/inputs/budget-seprator-creaditor-input";
 import LoadingButton from "@mui/lab/LoadingButton";
+import Box from "@mui/material/Box";
+
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import { sepratorCreaditorBudgetApi } from "api/budget/seprator-creaditor-api";
 import { sepratorCreaditorBudgetConfig } from "config/features/budget/seprator-creaditro-config";
-import BudgetSepratorCreaditorInput from "components/sections/inputs/budget-seprator-creaditor-input";
 
 interface SepratorCreaditModalprops {
   onDoneTask: () => void;
@@ -36,11 +27,6 @@ function SepratorCreaditModal(props: SepratorCreaditModalprops) {
         variant: "success",
       });
       onDoneTask();
-    },
-    onError: () => {
-      //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
-      //variant: "error",
-      //});
     },
   });
 

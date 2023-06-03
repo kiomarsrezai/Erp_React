@@ -92,7 +92,6 @@ export const sidenavsLayout: SidenavShape[] = [
           getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
           getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 2),
           accessNamesConfig.FIELD_BUDGET_METHOD,
-          accessNamesConfig.BUDGET__SEPRATOR_PAGE_TAMIN_BTN,
         ],
       },
       {

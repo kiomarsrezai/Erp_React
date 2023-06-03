@@ -1,7 +1,6 @@
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 import LoadingButton from "@mui/lab/LoadingButton";
-import Button from "@mui/material/Button";
 import YearInput from "components/sections/inputs/year-input";
 import AreaInput from "components/sections/inputs/area-input";
 import BudgetMethodInput from "components/sections/inputs/budget-method-input";
@@ -150,14 +149,6 @@ function SepratorCreaditorBudgetForm(props: SepratorCreaditorBudgetFormProps) {
             >
               نمایش
             </LoadingButton>
-            <Button
-              variant="contained"
-              type="button"
-              sx={{ marginLeft: 1 }}
-              onClick={handleRefeshForm}
-            >
-              به روز آوری
-            </Button>
           </Grid>
         </Grid>
       </Box>
