@@ -83,6 +83,17 @@ export const budgetMethodItems: FlotingLabelTextfieldItemsShape = [
   },
 ];
 
+export const budgetSortKindItems: FlotingLabelTextfieldItemsShape = [
+  {
+    label: "تفضیلی کد",
+    value: 1,
+  },
+  {
+    label: "تجمیعی کد",
+    value: 2,
+  },
+];
+
 export const budgetReportItems: FlotingLabelTextfieldItemsShape = [
   {
     label: "گزارش عملکرد",
@@ -103,6 +114,10 @@ export const budgetReportItems: FlotingLabelTextfieldItemsShape = [
   {
     label: "انحراف بودجه",
     value: 5,
+  },
+  {
+    label: "سهم ردیف های بودجه",
+    value: 7,
   },
   {
     label: "مقیاس پروژه",

@@ -15,6 +15,7 @@ import { checkHavePermission } from "helper/auth-utils";
 import { budgetReportItems } from "config/features/general-fields-config";
 import BudgetReportProjectScaleForm from "components/sections/budget/reports/project-scale/budget-project-scale-form";
 import BudgetReportProjectScale from "components/sections/budget/reports/project-scale/budget-project-scale";
+import BudgetReportProjectSort from "components/sections/budget/reports/deviation/porject/budget-report-project-sort";
 
 function BudgetReportsPage() {
   const [tabValue, setTabValue] = useState(undefined);
@@ -53,6 +54,9 @@ function BudgetReportsPage() {
       case 6:
         return accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE;
 
+      case 7:
+        return accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE;
+
       default:
         return "";
     }
@@ -86,6 +90,7 @@ function BudgetReportsPage() {
     4: <AbstructBudgetPage tabRender={budgetTabRender} />,
     5: <BudgetReportDeviation tabRender={budgetTabRender} />,
     6: <BudgetReportProjectScale tabRender={budgetTabRender} />,
+    7: <BudgetReportProjectSort tabRender={budgetTabRender} />,
   };
 
   return (
