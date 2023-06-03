@@ -32,7 +32,7 @@ function BudgetSepratorCreaditorInput(
   );
 
   const inputItems: FlotingLabelTextfieldItemsShape = kindQuery.data
-    ? kindQuery.data.data.map((item: any) => ({
+    ? kindQuery.data.data.map((item) => ({
         label: item.creaditorName,
         value: item.id,
       }))

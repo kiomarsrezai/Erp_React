@@ -10,7 +10,8 @@ export const sumFieldsInSingleItemData = (
     );
   };
 
-  return data ? data.reduce(reduceCallback, 0) : 0;
+  const result = data ? data.reduce(reduceCallback, 0) : 0;
+  return isNaN(result) ? 0 : result;
 };
 
 export const numberWithCommas = (x: number) => {

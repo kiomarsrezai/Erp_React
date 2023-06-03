@@ -75,7 +75,7 @@ function SepratorCreaditorBudgetForm(props: SepratorCreaditorBudgetFormProps) {
 
   // change state
   useEffect(() => {
-    queryClient?.setQueryData(reactQueryKeys.budget.seprator.getData, {
+    queryClient?.setQueryData(reactQueryKeys.budget.sepratorCreaditor.getData, {
       data: [],
     });
   }, [formData, queryClient]);

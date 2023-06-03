@@ -6,18 +6,20 @@ import Box from "@mui/material/Box";
 import PersonIcon from "@mui/icons-material/Person";
 import SepratorCreaditorBudgetForm from "components/sections/budget/seprator-creaditor/seprator-creaditor-budget-form";
 import SepratorCreaditModal from "components/sections/budget/seprator-creaditor/seprator-creadit-modal";
+import EditIcon from "@mui/icons-material/Edit";
+import SepratorUpdateModal from "components/sections/budget/seprator-creaditor/seprator-update-modal";
 
 import { TableHeadShape } from "types/table-type";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { ReactNode, useState } from "react";
 import { GetSingleSepratorItemShape } from "types/data/budget/seprator-type";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
-import { getBgColorBudget } from "helper/get-color-utils";
 import { formatExpenseName } from "helper/data-utils";
 import { sepratorCreaditorBudgetConfig } from "config/features/budget/seprator-creaditro-config";
+import { sepratorCreaditorBudgetApi } from "api/budget/seprator-creaditor-api";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -114,6 +116,15 @@ function BudgetSepratorCreaditorPage() {
     setIsOpenCreaditModal(true);
   };
 
+  // modal update
+  const [isOpenUpdateModal, setIsOpenUpdateModal] = useState(false);
+
+  const handleClickUpdateModal = (row: any) => {
+    setActiveInitialData(row);
+    setDetailModalTitle(`${row.code} - ${row.description}`);
+    setIsOpenUpdateModal(true);
+  };
+
   // actions
   const actionButtons = (row: TableDataItemShape | any) => (
     <Box display={"flex"} justifyContent={"center"}>
@@ -124,6 +135,16 @@ function BudgetSepratorCreaditorPage() {
           onClick={() => handleClickCraditModal(row)}
         >
           <PersonIcon />
+        </IconButton>
+      )}
+
+      {row.levelNumber === 0 && (
+        <IconButton
+          color="primary"
+          size="small"
+          onClick={() => handleClickUpdateModal(row)}
+        >
+          <EditIcon />
         </IconButton>
       )}
     </Box>
@@ -174,32 +195,31 @@ function BudgetSepratorCreaditorPage() {
   const sumMosavab = sumFieldsInSingleItemData(
     sepratorQuery.data?.data,
     "mosavab",
-    (item: GetSingleSepratorItemShape) => item.levelNumber === 1
+    (item: GetSingleSepratorItemShape) => item.levelNumber !== 0
   );
 
   const sumCreditAmount = sumFieldsInSingleItemData(
     sepratorQuery.data?.data,
     "creditAmount",
-    (item: GetSingleSepratorItemShape) => item.levelNumber === 1
+    (item: GetSingleSepratorItemShape) => item.levelNumber !== 0
   );
 
   const sumExpense = sumFieldsInSingleItemData(
     sepratorQuery.data?.data,
     "expense",
-    (item: GetSingleSepratorItemShape) => item.levelNumber === 1
+    (item: GetSingleSepratorItemShape) => item.levelNumber !== 0
   );
 
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
-    "colspan-id": 3,
-    "rowspan-id": 2,
+    "colspan-number": 3,
     code: null,
     description: null,
     mosavab: sumMosavab,
     edit: sumFieldsInSingleItemData(
       sepratorQuery.data?.data,
       "edit",
-      (item: GetSingleSepratorItemShape) => item.levelNumber === 1
+      (item: GetSingleSepratorItemShape) => item.levelNumber !== 0
     ),
     creditAmount: sumCreditAmount,
     expense: sumExpense,
@@ -207,20 +227,22 @@ function BudgetSepratorCreaditorPage() {
     actions: () => "",
   };
 
-  const tableBottomFooter: TableDataItemShape | any = {
-    number: null,
-    code: null,
-    description: null,
-    mosavab: "-",
-    edit: "-",
-    creditAmount: `${getPercent(sumCreditAmount, sumMosavab)}%`,
-    expense: `${getPercent(sumExpense, sumMosavab)}%`,
-    "align-creditAmount": "center",
-    "align-expense": "center",
-    percentBud: "",
-    actions: () => "",
-  };
+  // done modal task
+  const queryClient = useQueryClient();
+  const getDataMutation = useMutation(sepratorCreaditorBudgetApi.getData, {
+    onSuccess: (data) => {
+      queryClient.setQueryData(
+        reactQueryKeys.budget.sepratorCreaditor.getData,
+        data
+      );
+    },
+  });
+  const handleDoneTask = () => {
+    setIsOpenCreaditModal(false);
+    setIsOpenUpdateModal(false);
 
+    getDataMutation.mutate(formData);
+  };
   return (
     <AdminLayout>
       <FixedTable
@@ -228,7 +250,6 @@ function BudgetSepratorCreaditorPage() {
         data={tableData}
         headGroups={tableHeadGroup}
         footer={tableFooter}
-        bottomFooter={tableBottomFooter}
       />
 
       {/* creadit modal */}
@@ -241,7 +262,21 @@ function BudgetSepratorCreaditorPage() {
       >
         <SepratorCreaditModal
           initialData={activeInitialData as any}
-          onDoneTask={() => {}}
+          onDoneTask={handleDoneTask}
+        />
+      </FixedModal>
+
+      {/* update modal */}
+      <FixedModal
+        open={isOpenUpdateModal}
+        handleClose={() => setIsOpenUpdateModal(false)}
+        title={detailModalTitle}
+        loading={sepratorProjectMutation.isLoading}
+        maxWidth="md"
+      >
+        <SepratorUpdateModal
+          initialData={activeInitialData as any}
+          onDoneTask={handleDoneTask}
         />
       </FixedModal>
     </AdminLayout>
