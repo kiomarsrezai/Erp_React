@@ -51,7 +51,7 @@ function BudgetReportsPage() {
         return accessNamesConfig.BUDGET__REPORT_PAGE_DEVIATION;
 
       case 6:
-        return accessNamesConfig.BUDGET__REPORT_PAGE_DEVIATION;
+        return accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE;
 
       default:
         return "";

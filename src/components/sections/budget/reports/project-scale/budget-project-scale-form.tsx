@@ -28,11 +28,13 @@ import { budgetDivationStimul } from "stimul/budget/report/divation/budget-divat
 import {
   getGeneralFieldItemArea,
   getGeneralFieldItemBudgetKindDeviation,
+  getGeneralFieldItemProjectScale,
   getGeneralFieldItemYear,
 } from "helper/export-utils";
 import ProjectScaleInput from "components/sections/inputs/project-scale-input";
 import { budgetProjectOprationConfig } from "config/features/budget/report/budget-project-opration-config";
 import { budgetProjectOprationApi } from "api/report/budget-project-opration-api";
+import { budgetProjectScaleStimul } from "stimul/budget/report/project-scale/budget-project-scale-stimul";
 
 interface BudgetReportDeviationFormProps {
   formData: any;
@@ -61,31 +63,31 @@ function BudgetReportProjectScaleForm(props: BudgetReportDeviationFormProps) {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     // permission
-    // const havePermission = checkHavePermission(
-    //   userLicenses,
-    //   [accessNamesConfig.FIELD_AREA, accessNamesConfig.FIELD_YEAR],
-    //   joinPermissions([
-    //     accessNamesConfig.BUDGET__REPORT_PAGE,
-    //     accessNamesConfig.BUDGET__REPORT_PAGE_DEVIATION,
-    //   ])
-    // );
+    const havePermission = checkHavePermission(
+      userLicenses,
+      [accessNamesConfig.FIELD_AREA, accessNamesConfig.FIELD_YEAR],
+      joinPermissions([
+        accessNamesConfig.BUDGET__REPORT_PAGE,
+        accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE,
+      ])
+    );
 
-    // if (!havePermission) {
-    //   return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
-    //     variant: "error",
-    //   });
-    // }
+    if (!havePermission) {
+      return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
+        variant: "error",
+      });
+    }
 
-    // setHaveSubmitedForm(true);
+    setHaveSubmitedForm(true);
 
-    // if (
-    //   checkHaveValue(formData, [
-    //     budgetDeviationConfig.area,
-    //     budgetDeviationConfig.year,
-    //   ])
-    // ) {
-    submitMutation.mutate(formData);
-    // }
+    if (
+      checkHaveValue(formData, [
+        budgetDeviationConfig.area,
+        budgetDeviationConfig.year,
+      ])
+    ) {
+      submitMutation.mutate(formData);
+    }
   };
 
   // reset
@@ -99,22 +101,21 @@ function BudgetReportProjectScaleForm(props: BudgetReportDeviationFormProps) {
   ]);
 
   // print
-  // const handlePrintForm = () => {
-  //   if (printData.data.length) {
-  //     const yearLabel = getGeneralFieldItemYear(formData, 1);
-  //     const areaLabel = getGeneralFieldItemArea(formData, 3);
-  //     const budgetKindLabel = getGeneralFieldItemBudgetKindDeviation(formData);
-  //     // const numberLabel = getGeneralFieldItemNumber(formData);
-  //     budgetDivationStimul({
-  //       data: printData.data,
-  //       footer: printData.footer,
-  //       year: yearLabel,
-  //       area: areaLabel,
-  //       kind: budgetKindLabel,
-  //       numberShow: "ریال",
-  //     });
-  //   }
-  // };
+  const handlePrintForm = () => {
+    if (printData.data.length) {
+      const yearLabel = getGeneralFieldItemYear(formData, 1);
+      const areaLabel = getGeneralFieldItemArea(formData, 3);
+      const budgetKindLabel = getGeneralFieldItemProjectScale(formData);
+      budgetProjectScaleStimul({
+        data: printData.data,
+        footer: printData.footer,
+        year: yearLabel,
+        area: areaLabel,
+        kind: budgetKindLabel,
+        numberShow: "ریال",
+      });
+    }
+  };
 
   return (
     <Box
@@ -126,47 +127,47 @@ function BudgetReportProjectScaleForm(props: BudgetReportDeviationFormProps) {
       <Grid container spacing={2}>
         {tabRender && <Grid xs={12}>{tabRender}</Grid>}
         {inputRender && <Grid xs={2}>{inputRender}</Grid>}
-        {/* 
+
         <SectionGuard
           permission={joinPermissions([
             accessNamesConfig.BUDGET__REPORT_PAGE,
-            accessNamesConfig.BUDGET__REPORT_PAGE_DEVIATION,
+            accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE,
             accessNamesConfig.FIELD_YEAR,
           ])}
-        > */}
-        <Grid xs={2}>
-          <YearInput
-            setter={setFormData}
-            value={formData[budgetDeviationConfig.year] as number}
-            // permissionForm={joinPermissions([
-            //   accessNamesConfig.BUDGET__REPORT_PAGE,
-            //   accessNamesConfig.BUDGET__REPORT_PAGE_DEVIATION,
-            // ])}
-            showError={haveSubmitedForm}
-          />
-        </Grid>
-        {/* </SectionGuard> */}
+        >
+          <Grid xs={2}>
+            <YearInput
+              setter={setFormData}
+              value={formData[budgetDeviationConfig.year] as number}
+              permissionForm={joinPermissions([
+                accessNamesConfig.BUDGET__REPORT_PAGE,
+                accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE,
+              ])}
+              showError={haveSubmitedForm}
+            />
+          </Grid>
+        </SectionGuard>
 
-        {/* <SectionGuard
+        <SectionGuard
           permission={joinPermissions([
             accessNamesConfig.BUDGET__REPORT_PAGE,
-            accessNamesConfig.BUDGET__REPORT_PAGE_DEVIATION,
+            accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE,
             accessNamesConfig.FIELD_AREA,
           ])}
-        > */}
-        <Grid lg={2}>
-          <AreaInput
-            setter={setFormData}
-            value={formData[budgetDeviationConfig.area]}
-            // permissionForm={joinPermissions([
-            //   accessNamesConfig.BUDGET__REPORT_PAGE,
-            //   accessNamesConfig.BUDGET__REPORT_PAGE_DEVIATION,
-            // ])}
-            level={3}
-            showError={haveSubmitedForm}
-          />
-        </Grid>
-        {/* </SectionGuard> */}
+        >
+          <Grid lg={2}>
+            <AreaInput
+              setter={setFormData}
+              value={formData[budgetDeviationConfig.area]}
+              permissionForm={joinPermissions([
+                accessNamesConfig.BUDGET__REPORT_PAGE,
+                accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE,
+              ])}
+              level={3}
+              showError={haveSubmitedForm}
+            />
+          </Grid>
+        </SectionGuard>
 
         <Grid xs={2}>
           <ProjectScaleInput
@@ -185,9 +186,9 @@ function BudgetReportProjectScaleForm(props: BudgetReportDeviationFormProps) {
             نمایش
           </LoadingButton>
 
-          {/* <IconButton color="primary" onClick={handlePrintForm}>
+          <IconButton color="primary" onClick={handlePrintForm}>
             <PrintIcon />
-          </IconButton> */}
+          </IconButton>
         </Grid>
       </Grid>
     </Box>

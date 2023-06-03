@@ -190,6 +190,12 @@ function usePermissions() {
       [yearLevel1Field, areaNumber3Field]
     ),
 
+    [accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE]: formatLocalFields(
+      "مقیاس پروژه",
+      accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE,
+      [yearLevel1Field, areaNumber3Field]
+    ),
+
     // abstruct
     [accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE_KIND]:
       budgetKindField,

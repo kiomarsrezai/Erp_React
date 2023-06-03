@@ -51,7 +51,7 @@ function ProjectScaleInput(props: BudgetMethodInputProps) {
 
   return (
     <FlotingLabelSelect
-      label="مقیاس بودجه"
+      label="مقیاس پروژه"
       name={programProjectConfig.scale}
       items={inputItems}
       value={value}

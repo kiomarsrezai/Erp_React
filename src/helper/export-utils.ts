@@ -1,3 +1,4 @@
+import { budgetProjectOprationConfig } from "config/features/budget/report/budget-project-opration-config";
 import {
   budgetKindDeviationItems,
   budgetKindItems,
@@ -62,6 +63,15 @@ export const getGeneralFieldItemProgram = (formData: any) => {
     (reactQueryClient.getQueryData(["program-list"]) as any)?.data.find(
       (item: any) => item?.id === formData[programProjectConfig.program]
     )?.programName || "";
+
+  return kindLabel;
+};
+
+export const getGeneralFieldItemProjectScale = (formData: any) => {
+  const kindLabel =
+    (reactQueryClient.getQueryData(["project-scale"]) as any)?.data.find(
+      (item: any) => item?.id === formData[budgetProjectOprationConfig.scale]
+    )?.projectScaleName || "";
 
   return kindLabel;
 };
