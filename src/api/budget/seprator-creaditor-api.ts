@@ -32,6 +32,21 @@ export const sepratorCreaditorBudgetApi = new (class extends BaseApi {
     return response.data;
   };
 
+  getCombo = async () => {
+    const url = sepratorCreaditorBudgetUrl.getCombo;
+    const response = await clientAxios.get<BaseApiResponseShape<any>>(url);
+    return response.data;
+  };
+
+  connectOne = async (data: any) => {
+    const url = sepratorCreaditorBudgetUrl.connectOne;
+    const response = await clientAxios.post<BaseApiResponseShape<any>>(
+      url,
+      data
+    );
+    return response.data;
+  };
+
   getTaminData = async (formdata: any) => {
     const filterData = {
       [sepratorBudgetConfig.YEAR]: formdata[sepratorBudgetConfig.YEAR],

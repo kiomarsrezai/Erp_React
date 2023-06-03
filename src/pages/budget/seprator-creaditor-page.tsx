@@ -9,6 +9,7 @@ import SepratorModal1 from "components/sections/budget/seprator/seprator-modal-1
 import Box from "@mui/material/Box";
 import SepratorAccModal from "components/sections/budget/seprator/acc/seprator-acc-modal";
 import SepratorProjectModal1 from "components/sections/budget/seprator/project/seprator-project-modal-1";
+import PersonIcon from "@mui/icons-material/Person";
 
 import { TableHeadShape } from "types/table-type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -21,9 +22,10 @@ import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { getBgColorBudget } from "helper/get-color-utils";
 import { formatExpenseName } from "helper/data-utils";
 import SepratorCreaditorBudgetForm from "components/sections/budget/seprator-creaditor/seprator-creaditor-budget-form";
+import SepratorCreaditModal from "components/sections/budget/seprator-creaditor/seprator-creadit-modal";
 
 interface TableDataItemShape {
-  id: ReactNode;
+  number: ReactNode;
   code: ReactNode;
   description: ReactNode;
   mosavab: ReactNode;
@@ -48,7 +50,7 @@ function BudgetSepratorCreaditorPage() {
   const tableHeads: TableHeadShape = [
     {
       title: "ردیف",
-      name: "id",
+      name: "number",
     },
     {
       title: "کد",
@@ -151,59 +153,32 @@ function BudgetSepratorCreaditorPage() {
     setIsOpenAccModal(true);
   };
 
-  // modal project
+  // modal creadit
+  const [activeInitialData, setActiveInitialData] = useState<null | any>(null);
   const sepratorProjectMutation = useMutation(sepratorBudgetApi.areaProject);
-  const [isOpenProjectModal, setIsOpenProjectModal] = useState(false);
+  const [isOpenCreaditModal, setIsOpenCreaditModal] = useState(false);
 
-  const handleClickProjectModal = (row: any) => {
-    sepratorProjectMutation.mutate({
-      ...formData,
-      [sepratorBudgetConfig.CODING]: row[sepratorBudgetConfig.CODING],
-    });
-    setCodingId(row[sepratorBudgetConfig.CODING]);
+  const handleClickCraditModal = (row: any) => {
+    setActiveInitialData(row);
+    // sepratorProjectMutation.mutate({
+    //   ...formData,
+    //   [sepratorBudgetConfig.CODING]: row[sepratorBudgetConfig.CODING],
+    // });
+    // setCodingId(row[sepratorBudgetConfig.CODING]);
     setDetailModalTitle(`${row.code} - ${row.description}`);
-    setIsOpenProjectModal(true);
+    setIsOpenCreaditModal(true);
   };
 
   // actions
   const actionButtons = (row: TableDataItemShape | any) => (
     <Box display={"flex"} justifyContent={"center"}>
-      {[2, 3, 4, 5].includes(
-        formData[sepratorBudgetConfig.BUDGET_METHOD] as any
-      ) &&
-        row.crud && (
-          <>
-            <Button
-              color="primary"
-              variant="outlined"
-              size="small"
-              onClick={() => handleClickProjectModal(row)}
-              sx={{ fontSize: 10, minWidth: "15px" }}
-            >
-              p
-            </Button>
-
-            <Button
-              variant="outlined"
-              size="small"
-              color="primary"
-              onClick={() => handleClickAccModal(row)}
-              sx={{ fontSize: 10, minWidth: "15px", ml: 1 }}
-            >
-              acc
-            </Button>
-          </>
-        )}
-
-      {formData[sepratorBudgetConfig.BUDGET_METHOD] === 3 && row.crud && (
-        <IconButton
-          color="primary"
-          size="small"
-          onClick={() => handleClickDetailIcon(row)}
-        >
-          <CreditCardIcon />
-        </IconButton>
-      )}
+      <IconButton
+        color="primary"
+        size="small"
+        onClick={() => handleClickCraditModal(row)}
+      >
+        <PersonIcon />
+      </IconButton>
     </Box>
   );
 
@@ -213,7 +188,7 @@ function BudgetSepratorCreaditorPage() {
     const formatedData: TableDataItemShape[] | any = unFormatData.map(
       (item, i) => ({
         ...item,
-        id: i + 1,
+        number: i + 1,
         code: item.code,
         description: item.description,
         mosavab: item.mosavab,
@@ -320,45 +295,17 @@ function BudgetSepratorCreaditorPage() {
         bottomFooter={tableBottomFooter}
       />
 
-      {/* tamin modal */}
+      {/* creadit modal */}
       <FixedModal
-        open={detailModal}
-        handleClose={handleCloseDetailModal}
-        title={detailModalTitle}
-        loading={sepratorDetailMutation.isLoading}
-      >
-        <SepratorModal1
-          title={detailModalTitle}
-          formdata={formData}
-          coding={codingId}
-          data={sepratorDetailDataQuery.data?.data || []}
-        />
-      </FixedModal>
-
-      {/* acc modal */}
-      <FixedModal
-        open={isOpenAccModal}
-        handleClose={() => setIsOpenAccModal(false)}
-        title={detailModalTitle}
-        loading={sepratorAccMutation.isLoading}
-        maxWidth="md"
-      >
-        <SepratorAccModal data={sepratorAccMutation.data?.data || []} />
-      </FixedModal>
-
-      {/* project modal */}
-      <FixedModal
-        open={isOpenProjectModal}
-        handleClose={() => setIsOpenProjectModal(false)}
+        open={isOpenCreaditModal}
+        handleClose={() => setIsOpenCreaditModal(false)}
         title={detailModalTitle}
         loading={sepratorProjectMutation.isLoading}
         maxWidth="md"
       >
-        <SepratorProjectModal1
-          data={sepratorProjectMutation.data?.data || []}
-          formData={formData}
-          baseModal1Title={detailModalTitle}
-          baseCodingId={codingId}
+        <SepratorCreaditModal
+          initialData={activeInitialData as any}
+          onDoneTask={() => {}}
         />
       </FixedModal>
     </AdminLayout>
