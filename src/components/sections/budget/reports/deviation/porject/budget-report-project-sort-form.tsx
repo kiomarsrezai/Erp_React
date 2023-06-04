@@ -36,6 +36,7 @@ import { budgetProjectOprationConfig } from "config/features/budget/report/budge
 import { budgetProjectOprationApi } from "api/report/budget-project-opration-api";
 import { budgetProjectScaleStimul } from "stimul/budget/report/project-scale/budget-project-scale-stimul";
 import BudgetSortKindInput from "components/sections/inputs/budget-sort-kind-input";
+import { budgetReportShareStimul } from "stimul/budget/report/share/budget-share-stimul";
 
 const mockedData = [
   {
@@ -9830,7 +9831,7 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
       const yearLabel = getGeneralFieldItemYear(formData, 1);
       const areaLabel = getGeneralFieldItemArea(formData, 3);
       const budgetKindLabel = getGeneralFieldItemProjectScale(formData);
-      budgetProjectScaleStimul({
+      budgetReportShareStimul({
         data: printData.data,
         footer: printData.footer,
         year: yearLabel,
@@ -9909,9 +9910,9 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
             نمایش
           </LoadingButton>
 
-          {/* <IconButton color="primary" onClick={handlePrintForm}>
+          <IconButton color="primary" onClick={handlePrintForm}>
             <PrintIcon />
-          </IconButton> */}
+          </IconButton>
         </Grid>
       </Grid>
     </Box>

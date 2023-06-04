@@ -74,24 +74,6 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
     },
   ];
 
-  // head group
-  const tableHeadGroups: TableHeadGroupShape = [
-    {
-      title: (
-        <BudgetReportProjectSortForm
-          formData={formData}
-          setFormData={setFormData}
-          tabRender={tabRender}
-          printData={{
-            data: [],
-            footer: [{}],
-          }}
-        />
-      ),
-      colspan: 9,
-    },
-  ];
-
   // data
   const dataQuery = useQuery(
     reactQueryKeys.budget.sort.getData,
@@ -149,6 +131,24 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
   };
 
   const tableData: any = (formatTableData(dataQuery.data?.data) as any) || [];
+
+  // head group
+  const tableHeadGroups: TableHeadGroupShape = [
+    {
+      title: (
+        <BudgetReportProjectSortForm
+          formData={formData}
+          setFormData={setFormData}
+          tabRender={tabRender}
+          printData={{
+            data: tableData,
+            footer: [tableFooter],
+          }}
+        />
+      ),
+      colspan: 9,
+    },
+  ];
 
   return (
     <FixedTable
