@@ -11,6 +11,7 @@ import { abstructBudgetConfig } from "config/features/report/budget/abstruct-bud
 import { useQuery } from "@tanstack/react-query";
 import { programProjectApi } from "api/project/programs-project-api";
 import { programProjectConfig } from "config/features/project/program-project-config";
+import { budgetProjectSortConfig } from "config/features/budget/report/budget-project-sort-config";
 
 interface BudgetMethodInputProps {
   setter: (prevData: any) => void;
@@ -49,7 +50,7 @@ function BudgetSortKindInput(props: BudgetMethodInputProps) {
   return (
     <FlotingLabelSelect
       label="نوع نمایش"
-      name={programProjectConfig.scale}
+      name={budgetProjectSortConfig.kind}
       items={budgetSortKindItems}
       value={value}
       setter={setter}

@@ -9,6 +9,7 @@ import {
   getPercentFloat,
   sumFieldsInSingleItemData,
 } from "helper/calculate-utils";
+import { budgetProjectSortConfig } from "config/features/budget/report/budget-project-sort-config";
 
 interface BudgetReportProjectSortProps {
   tabRender?: ReactNode;
@@ -18,9 +19,9 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
   const { tabRender } = props;
 
   const [formData, setFormData] = useState({
-    year: undefined,
-    area: undefined,
-    kind: 1,
+    [budgetProjectSortConfig.year]: undefined,
+    [budgetProjectSortConfig.area]: undefined,
+    [budgetProjectSortConfig.kind]: 1,
   });
 
   // head
@@ -31,23 +32,23 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
     },
     {
       title: "کد بودجه",
-      name: "Code",
+      name: "code",
     },
     {
       title: "شرح ردیف",
-      name: "Description",
+      name: "description",
       align: "left",
     },
 
     {
       title: "مصوب",
-      name: "Mosavab",
+      name: "mosavab",
       split: true,
       align: "left",
     },
     {
       title: "عملکرد",
-      name: "Expense",
+      name: "expense",
       split: true,
       align: "left",
       width: "100px",
@@ -59,7 +60,7 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
     },
     {
       title: "منطقه",
-      name: "AreaNameShort",
+      name: "areaName",
       width: "100px",
     },
     {
@@ -91,22 +92,22 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
   // footer
   const sumMosavab = sumFieldsInSingleItemData(
     dataQuery.data?.data || [],
-    "Mosavab"
+    "mosavab"
   );
   const sumExpense = sumFieldsInSingleItemData(
     dataQuery.data?.data || [],
-    "Expense"
+    "expense"
   );
 
   const tableFooter: any = {
     number: "جمع",
     "colspan-number": 3,
-    Code: null,
-    AreaNameShort: "",
+    code: null,
+    areaName: "",
     jazb: getPercent(sumExpense, sumMosavab),
-    Description: null,
-    Mosavab: sumMosavab,
-    Expense: sumExpense,
+    description: null,
+    mosavab: sumMosavab,
+    expense: sumExpense,
   };
 
   // table data
@@ -115,15 +116,15 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
     const formatedData: any = unFormatData.map((item: any, i: any) => {
       const result = {
         ...item,
-        share: getPercentFloat(item.Mosavab, sumMosavab, 1) + "%",
-        jazb: getPercent(item.Expense, item.Mosavab),
+        share: getPercentFloat(item.mosavab, sumMosavab, 1) + "%",
+        jazb: getPercent(item.expense, item.mosavab),
         sum:
-          getPercentFloat(item.Mosavab + CalculatedMosavab, sumMosavab, 1) +
+          getPercentFloat(item.mosavab + CalculatedMosavab, sumMosavab, 1) +
           "%",
         number: i + 1,
       };
 
-      CalculatedMosavab += item.Mosavab;
+      CalculatedMosavab += item.mosavab;
       return result;
     });
 
