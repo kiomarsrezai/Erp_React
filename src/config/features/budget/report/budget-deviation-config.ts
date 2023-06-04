@@ -7,5 +7,5 @@ export const budgetDeviationConfig = {
 };
 
 export const budgetDeviationUrls = {
-  getData: "BudSepApi/ChartBudgetDeviation",
+  getData: "ReportApi/BudgetDeviation",
 };

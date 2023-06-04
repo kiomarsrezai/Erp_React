@@ -7,5 +7,5 @@ export const budgetProjectOprationConfig = {
 };
 
 export const budgetProjectOprationUrls = {
-  getData: "ProjectApi/ProjectReportScale",
+  getData: "ReportApi/ProjectReportScale",
 };

@@ -6,5 +6,5 @@ export const ravandChartConfig = {
 };
 
 export const ravandChartUrls = {
-  getChart: "BudSepApi/Chart_Ravand",
+  getChart: "ReportApi/ChartRavand",
 };

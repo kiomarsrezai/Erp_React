@@ -135,10 +135,6 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
       split: true,
       align: "left",
     },
-    {
-      title: "عملیات",
-      name: "actions",
-    },
   ];
 
   // table data
@@ -192,7 +188,6 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
           item.resoures
         ),
         number: i + 1,
-        actions: actionButtons,
       }));
 
     return formatedData;
@@ -273,7 +268,6 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
     mosavabPayMotomarkez: sumMosavabPayMotomarkez,
     balanceMosavab: sumBalanceMosavab,
     resoures: sumResources,
-    actions: () => "",
   };
 
   // head group

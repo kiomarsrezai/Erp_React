@@ -16,4 +16,4 @@ export const revenueChartFormConfig = {
 };
 
 export const REVENUE_CHART_URL = "ReportApi/ChartApi";
-export const DETAIL_REVENUE_CHART_URL = "BudSepApi/DetailChartApi";
+export const DETAIL_REVENUE_CHART_URL = "ReportApi/DetailChartApi";

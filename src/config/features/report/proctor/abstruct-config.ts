@@ -9,8 +9,8 @@ export const abstructProctorConfig = {
   PAGE_NAME: "reportProctorAbstruct",
 };
 
-export const ABSTRUCT_PROCTOR_URL = "DeputyApi/GetAllDeputy";
-export const ABSTRACT_PROCTOR_MODAL_URL = "DeputyApi/ProctorAreaBudget";
+export const ABSTRUCT_PROCTOR_URL = "ReportApi/AllDeputy";
+export const ABSTRACT_PROCTOR_MODAL_URL = "ReportApi/ProctorAreaBudget";
 export const ABSTRACT_PROCTOR_MODAL_ROW_URL =
-  "DeputyApi/ProctorAreaBudgetDetail";
-export const ABSTRACT_PROCTOR_LIST_URL = "DeputyApi/ProctorList";
+  "ReportApi/ProctorAreaBudgetDetail";
+export const ABSTRACT_PROCTOR_LIST_URL = "ReportApi/ProctorList";
