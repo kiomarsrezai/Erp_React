@@ -7,6 +7,7 @@ import { sepratorCreaditorBudgetUrl } from "config/features/budget/seprator-crea
 import {
   GetSingleSepratorCreaditorComboItemShape,
   GetSingleSepratorCreaditorItemShape,
+  GetSingleSepratorCreaditorModal1ItemShape,
 } from "types/data/budget/seprator-creaditor-type";
 
 export const sepratorCreaditorBudgetApi = new (class extends BaseApi {
@@ -15,6 +16,15 @@ export const sepratorCreaditorBudgetApi = new (class extends BaseApi {
       sepratorCreaditorBudgetUrl.getData + this.joinFilterData(formdata);
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleSepratorCreaditorItemShape[]>
+    >(url);
+    return response.data;
+  };
+
+  getModalData = async (formdata: any) => {
+    const url =
+      sepratorCreaditorBudgetUrl.getModal1Data + this.joinFilterData(formdata);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleSepratorCreaditorModal1ItemShape[]>
     >(url);
     return response.data;
   };

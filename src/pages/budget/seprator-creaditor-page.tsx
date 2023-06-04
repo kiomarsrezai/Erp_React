@@ -20,6 +20,8 @@ import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { formatExpenseName } from "helper/data-utils";
 import { sepratorCreaditorBudgetConfig } from "config/features/budget/seprator-creaditro-config";
 import { sepratorCreaditorBudgetApi } from "api/budget/seprator-creaditor-api";
+import { getBgColorBudget } from "helper/get-color-utils";
+import SepratorDepratmentModal1 from "components/sections/budget/seprator-creaditor/seprator-department-modal-1";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -51,9 +53,16 @@ function BudgetSepratorCreaditorPage() {
       title: "کد",
       name: "code",
     },
+
     {
       title: "شرح",
       name: "description",
+      align: "left",
+    },
+    {
+      title: "پروژه",
+      name: "project",
+      width: "300px",
       align: "left",
     },
     {
@@ -125,14 +134,32 @@ function BudgetSepratorCreaditorPage() {
     setIsOpenUpdateModal(true);
   };
 
+  // modal 1
+  const [isOpenModal1, setIsOpenModal1] = useState(false);
+
+  const sepratorModal1Mutation = useMutation(
+    sepratorCreaditorBudgetApi.getModalData
+  );
+
+  const handleClickOpenModal1 = (row: any) => {
+    setActiveInitialData(row);
+    setDetailModalTitle(`${row.code} - ${row.description}`);
+    sepratorModal1Mutation.mutate({
+      ...formData,
+      [sepratorCreaditorBudgetConfig.coding]: row.codingId,
+      [sepratorCreaditorBudgetConfig.project]: row.projectId,
+    });
+    setIsOpenModal1(true);
+  };
+
   // actions
   const actionButtons = (row: TableDataItemShape | any) => (
     <Box display={"flex"} justifyContent={"center"}>
-      {row.levelNumber !== 0 && (
+      {row.crud && (
         <IconButton
           color="primary"
           size="small"
-          onClick={() => handleClickCraditModal(row)}
+          onClick={() => handleClickOpenModal1(row)}
         >
           <PersonIcon />
         </IconButton>
@@ -166,10 +193,10 @@ function BudgetSepratorCreaditorPage() {
         "textcolor-expense": item.expense < 0 ? "red" : "",
         percentBud: item.percentBud,
         actions: actionButtons,
-        bgcolor:
-          item.levelNumber !== 0
-            ? "rgb(255,255,153,var(--hover-color))"
-            : "#fff",
+        bgcolor: getBgColorBudget(
+          item.levelNumber,
+          formData[sepratorBudgetConfig.BUDGET_METHOD] || 0
+        ),
 
         "bgcolor-creditAmount": item.creditAmount > item.mosavab && "#d7a2a2",
         "bgcolor-expense": item.expense > item.mosavab && "#d7a2a2",
@@ -187,9 +214,85 @@ function BudgetSepratorCreaditorPage() {
     }
   );
 
-  const tableData = sepratorQuery.data
-    ? formatTableData(sepratorQuery.data?.data)
-    : [];
+  let formatedData: any[] = [];
+
+  sepratorQuery.data?.data.forEach((item) => {
+    if (!formatedData.find((formatedItem) => formatedItem.code === item.code)) {
+      if (item.crud) {
+        formatedData.push({
+          ...item,
+          mosavab: 0,
+        });
+      } else {
+        formatedData.push({
+          ...item,
+          project: "-",
+          mosavab: 0,
+        });
+      }
+    }
+  });
+
+  sepratorQuery.data?.data.forEach((item) => {
+    formatedData = formatedData.map((formatedItem) => {
+      if (formatedItem.code === item.code) {
+        return {
+          ...formatedItem,
+          mosavab: formatedItem.mosavab + item.mosavab,
+        };
+      } else {
+        return formatedItem;
+      }
+    });
+  });
+
+  // console.log({ formatedData });
+
+  // let beforeMosavab = 0;
+  // let beforeCode: any = null;
+  // let beforeItem: any = null;
+  // sepratorQuery.data?.data.forEach((item) => {
+  //   if (beforeCode === null) {
+  //     beforeMosavab = item.mosavab;
+  //     beforeCode = item.code;
+  //     beforeItem = item;
+  //   } else {
+  //     if (beforeCode === item.code) {
+  //       beforeMosavab += item.mosavab;
+  //       beforeItem = item;
+  //     } else {
+  //       formatedData.push({
+  //         ...beforeItem,
+  //         project: "-",
+  //         description: "-",
+  //         mosavab: beforeMosavab,
+  //       });
+  //       beforeMosavab = 0;
+  //       beforeCode = item.code;
+  //     }
+  //   }
+  // const lastItem =
+  //   formatedData.length > 0
+  //     ? formatedData[formatedData.length - 1]
+  //     : undefined;
+  // if (lastItem?.code === item.code) {
+  //   beforeMosavab += item.mosavab;
+  // } else {
+  //   formatedData.push({
+  //     ...item,
+  //     project: "-",
+  //     mosavab: beforeMosavab,
+  //   });
+  //   beforeMosavab = 0;
+  // }
+  // });
+
+  // console.log({ formatedData });
+
+  // const tableData = sepratorQuery.data
+  //   ? formatTableData(sepratorQuery.data?.data)
+  //   : [];
+  const tableData = formatTableData(formatedData);
 
   // footer
   const sumMosavab = sumFieldsInSingleItemData(
@@ -252,8 +355,21 @@ function BudgetSepratorCreaditorPage() {
         footer={tableFooter}
       />
 
-      {/* creadit modal */}
+      {/* modal 1 */}
       <FixedModal
+        open={isOpenModal1}
+        handleClose={() => setIsOpenModal1(false)}
+        title={detailModalTitle}
+        loading={sepratorModal1Mutation.isLoading}
+        maxWidth="md"
+      >
+        <SepratorDepratmentModal1
+          data={sepratorModal1Mutation.data?.data || []}
+          baseTitle={detailModalTitle}
+        />
+      </FixedModal>
+      {/* creadit modal */}
+      {/* <FixedModal
         open={isOpenCreaditModal}
         handleClose={() => setIsOpenCreaditModal(false)}
         title={detailModalTitle}
@@ -264,10 +380,10 @@ function BudgetSepratorCreaditorPage() {
           initialData={activeInitialData as any}
           onDoneTask={handleDoneTask}
         />
-      </FixedModal>
+      </FixedModal> */}
 
       {/* update modal */}
-      <FixedModal
+      {/* <FixedModal
         open={isOpenUpdateModal}
         handleClose={() => setIsOpenUpdateModal(false)}
         title={detailModalTitle}
@@ -278,7 +394,7 @@ function BudgetSepratorCreaditorPage() {
           initialData={activeInitialData as any}
           onDoneTask={handleDoneTask}
         />
-      </FixedModal>
+      </FixedModal> */}
     </AdminLayout>
   );
 }
