@@ -27,10 +27,12 @@ import SepratorUpdateModal from "./seprator-update-modal";
 interface SepratorDepratmentModal1props {
   data: any[];
   baseTitle: ReactNode;
+  baseInitialValue: any;
+  formData: any;
 }
 
 function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
-  const { data, baseTitle } = props;
+  const { data, baseTitle, baseInitialValue, formData } = props;
 
   const tableHeads: TableHeadShape = [
     {
@@ -137,11 +139,13 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
         title={baseTitle}
         loading={sepratorProjectMutation.isLoading}
         maxWidth="sm"
-        maxHeight="50%"
+        maxHeight="70%"
       >
         <SepratorCreaditModal
           initialData={activeInitialData as any}
           onDoneTask={() => {}}
+          baseInitialValue={baseInitialValue}
+          formData={formData}
         />
       </FixedModal>
 

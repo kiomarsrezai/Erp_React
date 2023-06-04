@@ -135,6 +135,7 @@ function BudgetSepratorCreaditorPage() {
   };
 
   // modal 1
+
   const [isOpenModal1, setIsOpenModal1] = useState(false);
 
   const sepratorModal1Mutation = useMutation(
@@ -366,6 +367,8 @@ function BudgetSepratorCreaditorPage() {
         <SepratorDepratmentModal1
           data={sepratorModal1Mutation.data?.data || []}
           baseTitle={detailModalTitle}
+          baseInitialValue={activeInitialData}
+          formData={formData}
         />
       </FixedModal>
       {/* creadit modal */}

@@ -12,13 +12,15 @@ import { sepratorCreaditorBudgetConfig } from "config/features/budget/seprator-c
 interface SepratorCreaditModalprops {
   onDoneTask: () => void;
   initialData: any;
+  baseInitialValue: any;
+  formData: any;
 }
 
 function SepratorCreaditModal(props: SepratorCreaditModalprops) {
-  const { onDoneTask, initialData } = props;
+  const { onDoneTask, initialData, baseInitialValue, formData } = props;
 
-  const [modalFormData, setModalFormData] = useState({
-    [sepratorCreaditorBudgetConfig.creaditorId]: undefined,
+  const [modalFormData, setModalFormData] = useState<any>({
+    [sepratorCreaditorBudgetConfig.creaditorId]: {},
   });
 
   const updateMutation = useMutation(sepratorCreaditorBudgetApi.connectOne, {
@@ -31,10 +33,33 @@ function SepratorCreaditModal(props: SepratorCreaditModalprops) {
   });
 
   const handleSaveClick = () => {
-    updateMutation.mutate({
-      [sepratorCreaditorBudgetConfig.projectAreaId]: initialData?.id,
-      [sepratorCreaditorBudgetConfig.creaditorId]:
-        modalFormData[sepratorCreaditorBudgetConfig.creaditorId],
+    let shouldUpdateItems: any = [];
+
+    for (const key in modalFormData[
+      sepratorCreaditorBudgetConfig.creaditorId
+    ]) {
+      const value =
+        modalFormData[sepratorCreaditorBudgetConfig.creaditorId]?.[key];
+      if (value === true) {
+        shouldUpdateItems.push(+key);
+      }
+    }
+
+    shouldUpdateItems.forEach((item: any) => {
+      // console.log({
+      //   [sepratorCreaditorBudgetConfig.projectAreaId]: baseInitialValue,
+      //   [sepratorCreaditorBudgetConfig.creaditorId]: item,
+      // });
+
+      updateMutation.mutate({
+        [sepratorCreaditorBudgetConfig.coding]: baseInitialValue?.codingId,
+        [sepratorCreaditorBudgetConfig.project]: baseInitialValue?.projectId,
+        departmanId: item,
+        [sepratorCreaditorBudgetConfig.YEAR]:
+          formData[sepratorCreaditorBudgetConfig.YEAR],
+        [sepratorCreaditorBudgetConfig.AREA]:
+          formData[sepratorCreaditorBudgetConfig.AREA],
+      });
     });
   };
 
