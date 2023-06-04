@@ -32,7 +32,24 @@ interface SepratorDepratmentModal1props {
 }
 
 function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
-  const { data, baseTitle, baseInitialValue, formData } = props;
+  const { data: initData, baseTitle, baseInitialValue, formData } = props;
+
+  const sepratorModal1Mutation = useMutation(
+    sepratorCreaditorBudgetApi.getModalData
+  );
+
+  const data = sepratorModal1Mutation.data?.data || initData;
+
+  const handleDoneTask = () => {
+    setIsOpenCreaditModal(false);
+    setIsOpenUpdateModal(false);
+
+    sepratorModal1Mutation.mutate({
+      ...formData,
+      [sepratorCreaditorBudgetConfig.coding]: baseInitialValue.codingId,
+      [sepratorCreaditorBudgetConfig.project]: baseInitialValue.projectId,
+    });
+  };
 
   const tableHeads: TableHeadShape = [
     {
@@ -152,7 +169,7 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
       >
         <SepratorCreaditModal
           initialData={activeInitialData as any}
-          onDoneTask={() => {}}
+          onDoneTask={handleDoneTask}
           baseInitialValue={baseInitialValue}
           formData={formData}
           modal1Data={data}
@@ -170,7 +187,7 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
       >
         <SepratorUpdateModal
           initialData={activeInitialData as any}
-          onDoneTask={() => {}}
+          onDoneTask={handleDoneTask}
         />
       </FixedModal>
     </>

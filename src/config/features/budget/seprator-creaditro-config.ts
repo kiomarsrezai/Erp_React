@@ -3,7 +3,7 @@ import { generalFieldsConfig } from "../general-fields-config";
 export const sepratorCreaditorBudgetConfig = {
   projectAreaId: "budgetDetailProjectAreaId",
   creaditorId: "departmanId",
-  mosavab_creaditor: "mosavabCreaditor",
+  mosavab_creaditor: "mosavabDepartment",
   coding: "codingId",
   project: "projectId",
   YEAR: generalFieldsConfig.YEAR,
@@ -16,5 +16,5 @@ export const sepratorCreaditorBudgetUrl = {
   getModal1Data: "BudSepApi/SepratorAreaDepartmentModal",
   getCombo: "BudSepApi/BudgetSeperatorDepartmentCom",
   connectOne: "BudSepApi/SepratorAreaDepartmentInsert",
-  updateOne: "BudSepApi/BudgetSepratorAreaCreaditorUpdate",
+  updateOne: "BudSepApi/BudgetSepratorAreaDepartmantUpdate",
 };

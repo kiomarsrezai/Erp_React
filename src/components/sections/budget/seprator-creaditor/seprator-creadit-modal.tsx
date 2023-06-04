@@ -83,9 +83,12 @@ function SepratorCreaditModal(props: SepratorCreaditModalprops) {
         })
       );
     } catch {
-      onDoneTask();
+      return onDoneTask();
     }
 
+    enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+      variant: "success",
+    });
     onDoneTask();
   };
 
