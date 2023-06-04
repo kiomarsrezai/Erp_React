@@ -371,33 +371,6 @@ function BudgetSepratorCreaditorPage() {
           formData={formData}
         />
       </FixedModal>
-      {/* creadit modal */}
-      {/* <FixedModal
-        open={isOpenCreaditModal}
-        handleClose={() => setIsOpenCreaditModal(false)}
-        title={detailModalTitle}
-        loading={sepratorProjectMutation.isLoading}
-        maxWidth="md"
-      >
-        <SepratorCreaditModal
-          initialData={activeInitialData as any}
-          onDoneTask={handleDoneTask}
-        />
-      </FixedModal> */}
-
-      {/* update modal */}
-      {/* <FixedModal
-        open={isOpenUpdateModal}
-        handleClose={() => setIsOpenUpdateModal(false)}
-        title={detailModalTitle}
-        loading={sepratorProjectMutation.isLoading}
-        maxWidth="md"
-      >
-        <SepratorUpdateModal
-          initialData={activeInitialData as any}
-          onDoneTask={handleDoneTask}
-        />
-      </FixedModal> */}
     </AdminLayout>
   );
 }

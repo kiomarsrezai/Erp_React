@@ -49,24 +49,6 @@ function SepratorCreaditModal(props: SepratorCreaditModalprops) {
         shouldUpdateItems.push(+key);
       }
     }
-    /*
-        shouldUpdateItems.forEach(async (item: any) => {
-      // console.log({
-      //   [sepratorCreaditorBudgetConfig.projectAreaId]: baseInitialValue,
-      //   [sepratorCreaditorBudgetConfig.creaditorId]: item,
-      // });
-
-      await updateMutation.mutateAsync({
-        [sepratorCreaditorBudgetConfig.coding]: baseInitialValue?.codingId,
-        [sepratorCreaditorBudgetConfig.project]: baseInitialValue?.projectId,
-        [sepratorCreaditorBudgetConfig.creaditorId]: item,
-        [sepratorCreaditorBudgetConfig.YEAR]:
-          formData[sepratorCreaditorBudgetConfig.YEAR],
-        [sepratorCreaditorBudgetConfig.AREA]:
-          formData[sepratorCreaditorBudgetConfig.AREA],
-      });
-    });
-    */
     try {
       await Promise.all(
         shouldUpdateItems.map((item: any) => {
@@ -111,6 +93,7 @@ function SepratorCreaditModal(props: SepratorCreaditModalprops) {
         value={modalFormData[sepratorCreaditorBudgetConfig.creaditorId] as any}
         filterText={filterText}
         ignoreItems={modal1Data.map((item) => item.departmanName) as any}
+        isCheckboxed
       />
 
       <LoadingButton

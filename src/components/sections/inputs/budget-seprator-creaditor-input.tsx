@@ -17,15 +17,24 @@ interface BudgetSepratorCreaditorInputProps {
   value: any;
   permissionForm?: string;
   showError?: boolean;
-  filterText: string;
-  ignoreItems: string[];
+  filterText?: string;
+  ignoreItems?: string[];
+  isCheckboxed?: boolean;
 }
 
 function BudgetSepratorCreaditorInput(
   props: BudgetSepratorCreaditorInputProps
 ) {
-  const { setter, value, permissionForm, showError, filterText, ignoreItems } =
-    props;
+  const {
+    setter,
+    value,
+    permissionForm,
+    showError,
+    filterText,
+    ignoreItems,
+    isCheckboxed,
+  } = props;
+
   const userLicenses = userStore((state) => state.permissions);
 
   const kindQuery = useQuery(
@@ -64,34 +73,39 @@ function BudgetSepratorCreaditorInput(
     });
   };
 
+  if (isCheckboxed)
+    return (
+      <FormGroup>
+        {inputItems
+          .filter(
+            (item) =>
+              item.label.includes(filterText || "") &&
+              !(ignoreItems || []).includes(item.label)
+          )
+          .map((item) => (
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value={item.value}
+                  checked={value?.[item.value] === true}
+                  onChange={toggleItem}
+                />
+              }
+              label={item.label}
+            />
+          ))}
+      </FormGroup>
+    );
+
   return (
-    // <FlotingLabelSelect
-    //   label="اعتبار"
-    //   name={sepratorCreaditorBudgetConfig.creaditorId}
-    //   items={inputItems}
-    //   value={value}
-    //   setter={setter}
-    //   showError={showError}
-    // />
-    <FormGroup>
-      {inputItems
-        .filter(
-          (item) =>
-            item.label.includes(filterText) && !ignoreItems.includes(item.label)
-        )
-        .map((item) => (
-          <FormControlLabel
-            control={
-              <Checkbox
-                value={item.value}
-                checked={value?.[item.value] === true}
-                onChange={toggleItem}
-              />
-            }
-            label={item.label}
-          />
-        ))}
-    </FormGroup>
+    <FlotingLabelSelect
+      label="واحد درخواست کننده"
+      name={sepratorCreaditorBudgetConfig.creaditorId}
+      items={inputItems}
+      value={value}
+      setter={setter}
+      showError={showError}
+    />
   );
 }
 

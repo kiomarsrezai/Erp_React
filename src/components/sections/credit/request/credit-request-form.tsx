@@ -25,6 +25,7 @@ import { creditRequestConfig } from "config/features/credit/credit-request-confi
 import { Alert, AlertTitle, FormHelperText } from "@mui/material";
 import { globalConfig } from "config/global-config";
 import { red } from "@mui/material/colors";
+import BudgetSepratorCreaditorInput from "components/sections/inputs/budget-seprator-creaditor-input";
 
 interface CreditRequestFormProps {
   formData: any;
@@ -198,7 +199,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                 />
               </Grid>
 
-              <Grid xs={12} xl={6}>
+              {/* <Grid xs={12} xl={6}>
                 <FormControl
                   error={
                     !formData[creditRequestConfig.execute_departman_id] &&
@@ -235,6 +236,14 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                       </FormHelperText>
                     )}
                 </FormControl>
+              </Grid> */}
+              <Grid xs={12} xl={6}>
+                <BudgetSepratorCreaditorInput
+                  setter={setFormData}
+                  value={
+                    formData[creditRequestConfig.execute_departman_id] as any
+                  }
+                />
               </Grid>
               <Grid xs={12} xl={6}>
                 <TextField
