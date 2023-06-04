@@ -5,6 +5,8 @@ import * as yup from "yup";
 import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { ReactNode, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
@@ -43,6 +45,7 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
   const handleDoneTask = () => {
     setIsOpenCreaditModal(false);
     setIsOpenUpdateModal(false);
+    setActiveIdUpdate(null);
 
     sepratorModal1Mutation.mutate({
       ...formData,
@@ -72,22 +75,99 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
       name: "actions",
     },
   ];
+  //   update
+  const [activeIdUpdate, setActiveIdUpdate] = useState<null | number>(null);
+  const [editMosavab, setEditMosavab] = useState<number>(0);
+
+  const openEditFunctionality = (row: any) => {
+    setEditMosavab(row.mosavabDepartman);
+    setActiveIdUpdate(row.id);
+  };
+
+  const closeEditFunctionality = () => {
+    setActiveIdUpdate(null);
+  };
+
+  const editMutation = useMutation(sepratorCreaditorBudgetApi.updateOne, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+      handleDoneTask();
+    },
+  });
+
+  const onSubmitEditFunctionality = () => {
+    editMutation.mutate({
+      id: activeIdUpdate,
+      [sepratorCreaditorBudgetConfig.mosavab_creaditor]: editMosavab,
+    });
+  };
+
+  const renderMosavabDepartman = (row: any) => {
+    if (row.id === activeIdUpdate) {
+      return (
+        <TextField
+          id="code-input"
+          label="مصوب"
+          variant="outlined"
+          type="number"
+          size="small"
+          //   {...register(sepratorCreaditorBudgetConfig.mosavab_creaditor)}
+          //   error={!!errors[sepratorCreaditorBudgetConfig.mosavab_creaditor]}
+          //   helperText={
+          //     (errors[sepratorCreaditorBudgetConfig.mosavab_creaditor]?.message ||
+          //       "") as any
+          //   }
+          //   defaultValue={initialData?.mosavab || 0}
+          value={editMosavab}
+          onChange={(e) => setEditMosavab(+e.target.value)}
+          autoComplete="off"
+          fullWidth
+        />
+      );
+    } else {
+      return row.mosavabDepartman;
+    }
+  };
+
   // actions
   const actionButtons = (row: any) => (
     <Box display={"flex"} justifyContent={"center"}>
-      <IconButton
-        color="primary"
-        size="small"
-        onClick={() => handleClickUpdateModal(row)}
-      >
-        <EditIcon />
-      </IconButton>
+      {activeIdUpdate === row.id ? (
+        <>
+          <IconButton
+            color="success"
+            size="small"
+            onClick={onSubmitEditFunctionality}
+          >
+            <CheckIcon />
+          </IconButton>
+
+          <IconButton
+            color="error"
+            size="small"
+            onClick={closeEditFunctionality}
+          >
+            <CloseIcon />
+          </IconButton>
+        </>
+      ) : (
+        <IconButton
+          color="primary"
+          size="small"
+          onClick={() => openEditFunctionality(row)}
+        >
+          <EditIcon />
+        </IconButton>
+      )}
     </Box>
   );
 
   const formatTableData = (unFormatData: any[]): any[] => {
     const formatedData: any[] | any = unFormatData.map((item, i) => ({
       ...item,
+      mosavabDepartman: () => renderMosavabDepartman(item),
       number: i + 1,
       actions: actionButtons,
     }));
