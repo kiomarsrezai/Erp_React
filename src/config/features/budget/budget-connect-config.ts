@@ -8,6 +8,6 @@ export const budgetConnectConfig = {
 };
 
 export const budgetConnectUrls = {
-  getData: "Budget/BudgetConnectRead",
-  updateItem: "Budget/BudgetConnectUpdate",
+  getData: "BudgetApi/BudgetConnectRead",
+  updateItem: "BudgetApi/BudgetConnectUpdate",
 };

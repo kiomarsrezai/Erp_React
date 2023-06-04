@@ -13,8 +13,8 @@ export const codingBudgetConfig = {
 };
 
 export const codingBudgetUrls = {
-  getData: "Budget/GetCodingList",
-  insert: "Budget/CodingInsert",
-  edit: "Budget/CodingUpdate",
-  delete: "Budget/CodingDelete",
+  getData: "BudgetApi/GetCodingList",
+  insert: "BudgetApi/CodingInsert",
+  edit: "BudgetApi/CodingUpdate",
+  delete: "BudgetApi/CodingDelete",
 };

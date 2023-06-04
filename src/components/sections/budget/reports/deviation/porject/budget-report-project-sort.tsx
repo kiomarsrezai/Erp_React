@@ -29,15 +29,18 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
     {
       title: "ردیف",
       name: "number",
+      width: "80px",
     },
     {
       title: "کد بودجه",
       name: "code",
+      width: "120px",
     },
     {
       title: "شرح ردیف",
       name: "description",
       align: "left",
+      width: "600px",
     },
 
     {
@@ -45,18 +48,20 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
       name: "mosavab",
       split: true,
       align: "left",
+      width: "150px",
     },
     {
       title: "عملکرد",
       name: "expense",
       split: true,
       align: "left",
-      width: "100px",
+      width: "150px",
     },
     {
-      title: "درصد جذب",
+      title: "% جذب",
       name: "jazb",
       percent: true,
+      width: "80px",
     },
     {
       title: "منطقه",
@@ -157,6 +162,7 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
       headGroups={tableHeadGroups}
       footer={tableFooter}
       data={tableData}
+      tableLayout="auto"
       enableVirtual
     />
   );
