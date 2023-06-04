@@ -3,6 +3,7 @@ import {
   budgetKindDeviationItems,
   budgetKindItems,
   budgetMethodItems,
+  budgetSortKindItems,
   generalFieldsConfig,
   numbersItems,
   organItems,
@@ -79,6 +80,14 @@ export const getGeneralFieldItemProjectScale = (formData: any) => {
 export const getGeneralFieldItemBudgetKindDeviation = (formData: any) => {
   return (
     budgetKindDeviationItems.find(
+      (item) => item.value === formData[generalFieldsConfig.kind]
+    )?.label || ""
+  );
+};
+
+export const getGeneralFieldItemBudgetKindSort = (formData: any) => {
+  return (
+    budgetSortKindItems.find(
       (item) => item.value === formData[generalFieldsConfig.kind]
     )?.label || ""
   );

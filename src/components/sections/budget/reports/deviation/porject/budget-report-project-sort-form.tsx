@@ -6,8 +6,9 @@ import userStore from "hooks/store/user-store";
 import LoadingButton from "@mui/lab/LoadingButton";
 import PrintIcon from "@mui/icons-material/Print";
 import IconButton from "@mui/material/IconButton";
+import CheckIcon from "@mui/icons-material/Check";
 
-import { FormEvent, ReactNode, useEffect, useState } from "react";
+import { FormEvent, ReactNode, useEffect, useState, MouseEvent } from "react";
 import { revenueChartFormConfig } from "config/features/revenue-chart-config";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
@@ -28,6 +29,7 @@ import { budgetDivationStimul } from "stimul/budget/report/divation/budget-divat
 import {
   getGeneralFieldItemArea,
   getGeneralFieldItemBudgetKindDeviation,
+  getGeneralFieldItemBudgetKindSort,
   getGeneralFieldItemProjectScale,
   getGeneralFieldItemYear,
 } from "helper/export-utils";
@@ -39,6 +41,8 @@ import BudgetSortKindInput from "components/sections/inputs/budget-sort-kind-inp
 import { budgetReportShareStimul } from "stimul/budget/report/share/budget-share-stimul";
 import { budgetProjectSortApi } from "api/report/budget-project-sort-api";
 import { budgetProjectSortConfig } from "config/features/budget/report/budget-project-sort-config";
+import { InputAdornment, Popover, TextField } from "@mui/material";
+import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
 
 interface BudgetReportProjectSortFormProps {
   tabRender?: ReactNode;
@@ -103,12 +107,27 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
   // print
   const handlePrintForm = () => {
     if (printData.data.length) {
+      const filteredData = [...printData.data].splice(0, rowPrintCount);
+      const sumMosavab = sumFieldsInSingleItemData(filteredData, "mosavab");
+      const sumExpense = sumFieldsInSingleItemData(filteredData, "expense");
+
+      const tableFooter: any = {
+        number: "جمع",
+        "colspan-number": 3,
+        code: null,
+        areaName: "",
+        jazb: getPercent(sumExpense, sumMosavab),
+        description: null,
+        mosavab: sumMosavab,
+        expense: sumExpense,
+      };
+
       const yearLabel = getGeneralFieldItemYear(formData, 1);
       const areaLabel = getGeneralFieldItemArea(formData, 3);
-      const budgetKindLabel = getGeneralFieldItemProjectScale(formData);
+      const budgetKindLabel = getGeneralFieldItemBudgetKindSort(formData);
       budgetReportShareStimul({
-        data: printData.data,
-        footer: printData.footer,
+        data: filteredData,
+        footer: tableFooter,
         year: yearLabel,
         area: areaLabel,
         kind: budgetKindLabel,
@@ -116,6 +135,20 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
       });
     }
   };
+
+  // archor
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+  const handlePrintClick = (event: MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const openAnchorEl = Boolean(anchorEl);
+  const [rowPrintCount, setRowPrintCount] = useState(0);
 
   return (
     <Box
@@ -185,9 +218,49 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
             نمایش
           </LoadingButton>
 
-          {/* <IconButton color="primary" onClick={handlePrintForm}>
+          <IconButton color="primary" onClick={handlePrintClick}>
             <PrintIcon />
-          </IconButton> */}
+          </IconButton>
+
+          <Popover
+            open={openAnchorEl}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+          >
+            <Box sx={{ py: 1, px: 2, width: 150 }}>
+              <TextField
+                id="code-input"
+                label="تعداد چاپ"
+                variant="outlined"
+                size="small"
+                value={rowPrintCount}
+                onChange={(e) => setRowPrintCount(+e.target.value)}
+                autoComplete="off"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={handlePrintForm}
+                        color="primary"
+                        size="small"
+                      >
+                        <CheckIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                fullWidth
+              />
+            </Box>
+          </Popover>
         </Grid>
       </Grid>
     </Box>

@@ -3,7 +3,7 @@ import { generalFieldsConfig } from "config/features/general-fields-config";
 export const budgetProjectSortConfig = {
   year: generalFieldsConfig.YEAR,
   area: generalFieldsConfig.AREA,
-  kind: "kindId",
+  kind: generalFieldsConfig.kind,
 };
 
 export const budgetProjectSortUrls = {
