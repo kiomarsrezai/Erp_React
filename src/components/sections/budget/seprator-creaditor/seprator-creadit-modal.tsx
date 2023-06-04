@@ -28,14 +28,16 @@ function SepratorCreaditModal(props: SepratorCreaditModalprops) {
 
   const updateMutation = useMutation(sepratorCreaditorBudgetApi.connectOne, {
     onSuccess: () => {
-      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
-        variant: "success",
-      });
-      onDoneTask();
+      // enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+      //   variant: "success",
+      // });
+      console.log("item Done");
+
+      // onDoneTask();
     },
   });
 
-  const handleSaveClick = () => {
+  const handleSaveClick = async () => {
     let shouldUpdateItems: any = [];
 
     for (const key in modalFormData[
@@ -47,14 +49,14 @@ function SepratorCreaditModal(props: SepratorCreaditModalprops) {
         shouldUpdateItems.push(+key);
       }
     }
-
-    shouldUpdateItems.forEach((item: any) => {
+    /*
+        shouldUpdateItems.forEach(async (item: any) => {
       // console.log({
       //   [sepratorCreaditorBudgetConfig.projectAreaId]: baseInitialValue,
       //   [sepratorCreaditorBudgetConfig.creaditorId]: item,
       // });
 
-      updateMutation.mutate({
+      await updateMutation.mutateAsync({
         [sepratorCreaditorBudgetConfig.coding]: baseInitialValue?.codingId,
         [sepratorCreaditorBudgetConfig.project]: baseInitialValue?.projectId,
         [sepratorCreaditorBudgetConfig.creaditorId]: item,
@@ -64,6 +66,27 @@ function SepratorCreaditModal(props: SepratorCreaditModalprops) {
           formData[sepratorCreaditorBudgetConfig.AREA],
       });
     });
+    */
+    try {
+      await Promise.all(
+        shouldUpdateItems.map((item: any) => {
+          return updateMutation.mutateAsync({
+            [sepratorCreaditorBudgetConfig.coding]: baseInitialValue?.codingId,
+            [sepratorCreaditorBudgetConfig.project]:
+              baseInitialValue?.projectId,
+            [sepratorCreaditorBudgetConfig.creaditorId]: item,
+            [sepratorCreaditorBudgetConfig.YEAR]:
+              formData[sepratorCreaditorBudgetConfig.YEAR],
+            [sepratorCreaditorBudgetConfig.AREA]:
+              formData[sepratorCreaditorBudgetConfig.AREA],
+          });
+        })
+      );
+    } catch {
+      onDoneTask();
+    }
+
+    onDoneTask();
   };
 
   const [filterText, setFilterText] = useState("");
