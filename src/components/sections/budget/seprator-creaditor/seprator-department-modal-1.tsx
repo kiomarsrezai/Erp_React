@@ -58,7 +58,11 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
   // actions
   const actionButtons = (row: any) => (
     <Box display={"flex"} justifyContent={"center"}>
-      <IconButton color="primary" size="small" onClick={handleClickUpdateModal}>
+      <IconButton
+        color="primary"
+        size="small"
+        onClick={() => handleClickUpdateModal(row)}
+      >
         <EditIcon />
       </IconButton>
     </Box>
@@ -90,7 +94,7 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
   const sepratorProjectMutation = useMutation(sepratorBudgetApi.areaProject);
   const [activeInitialData, setActiveInitialData] = useState<null | any>(null);
   const [isOpenCreaditModal, setIsOpenCreaditModal] = useState(false);
-  const [detailModalTitle, setDetailModalTitle] = useState("");
+  const [detailModalTitle, setDetailModalTitle] = useState<ReactNode>("");
 
   const handleClickCraditModal = () => {
     // setActiveInitialData(row);
@@ -103,7 +107,12 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
 
   const handleClickUpdateModal = (row: any) => {
     setActiveInitialData(row);
-    setDetailModalTitle(`${row.code} - ${row.description}`);
+    setDetailModalTitle(
+      <>
+        {baseTitle}
+        <div>{row.departmanName}</div>
+      </>
+    );
     setIsOpenUpdateModal(true);
   };
 
@@ -146,6 +155,7 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
           onDoneTask={() => {}}
           baseInitialValue={baseInitialValue}
           formData={formData}
+          modal1Data={data}
         />
       </FixedModal>
 
@@ -153,7 +163,7 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
       <FixedModal
         open={isOpenUpdateModal}
         handleClose={() => setIsOpenUpdateModal(false)}
-        // title={detailModalTitle}
+        title={detailModalTitle}
         loading={sepratorProjectMutation.isLoading}
         maxWidth="sm"
         maxHeight="70%"

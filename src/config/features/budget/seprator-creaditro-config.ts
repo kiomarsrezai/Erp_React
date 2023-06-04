@@ -2,7 +2,7 @@ import { generalFieldsConfig } from "../general-fields-config";
 
 export const sepratorCreaditorBudgetConfig = {
   projectAreaId: "budgetDetailProjectAreaId",
-  creaditorId: "creaditorId",
+  creaditorId: "departmanId",
   mosavab_creaditor: "mosavabCreaditor",
   coding: "codingId",
   project: "projectId",

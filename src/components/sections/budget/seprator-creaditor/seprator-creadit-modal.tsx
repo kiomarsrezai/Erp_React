@@ -8,16 +8,19 @@ import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import { sepratorCreaditorBudgetApi } from "api/budget/seprator-creaditor-api";
 import { sepratorCreaditorBudgetConfig } from "config/features/budget/seprator-creaditro-config";
+import { TextField } from "@mui/material";
 
 interface SepratorCreaditModalprops {
   onDoneTask: () => void;
   initialData: any;
   baseInitialValue: any;
   formData: any;
+  modal1Data: any[];
 }
 
 function SepratorCreaditModal(props: SepratorCreaditModalprops) {
-  const { onDoneTask, initialData, baseInitialValue, formData } = props;
+  const { onDoneTask, initialData, baseInitialValue, formData, modal1Data } =
+    props;
 
   const [modalFormData, setModalFormData] = useState<any>({
     [sepratorCreaditorBudgetConfig.creaditorId]: {},
@@ -54,7 +57,7 @@ function SepratorCreaditModal(props: SepratorCreaditModalprops) {
       updateMutation.mutate({
         [sepratorCreaditorBudgetConfig.coding]: baseInitialValue?.codingId,
         [sepratorCreaditorBudgetConfig.project]: baseInitialValue?.projectId,
-        departmanId: item,
+        [sepratorCreaditorBudgetConfig.creaditorId]: item,
         [sepratorCreaditorBudgetConfig.YEAR]:
           formData[sepratorCreaditorBudgetConfig.YEAR],
         [sepratorCreaditorBudgetConfig.AREA]:
@@ -63,16 +66,30 @@ function SepratorCreaditModal(props: SepratorCreaditModalprops) {
     });
   };
 
+  const [filterText, setFilterText] = useState("");
+
   return (
     <Box sx={{ width: "80%", mx: "auto", p: 2 }}>
+      <TextField
+        size="small"
+        sx={{ mb: 2 }}
+        label="جستجو"
+        value={filterText}
+        variant="filled"
+        onChange={(e) => setFilterText(e.target.value)}
+        fullWidth
+      />
+
       <BudgetSepratorCreaditorInput
         setter={setModalFormData}
         value={modalFormData[sepratorCreaditorBudgetConfig.creaditorId] as any}
+        filterText={filterText}
+        ignoreItems={modal1Data.map((item) => item.departmanName) as any}
       />
 
       <LoadingButton
         variant="contained"
-        sx={{ mt: 1 }}
+        sx={{ mt: 1, mb: 3 }}
         onClick={handleSaveClick}
         loading={updateMutation.isLoading}
       >

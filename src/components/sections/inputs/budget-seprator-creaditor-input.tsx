@@ -17,12 +17,15 @@ interface BudgetSepratorCreaditorInputProps {
   value: any;
   permissionForm?: string;
   showError?: boolean;
+  filterText: string;
+  ignoreItems: string[];
 }
 
 function BudgetSepratorCreaditorInput(
   props: BudgetSepratorCreaditorInputProps
 ) {
-  const { setter, value, permissionForm, showError } = props;
+  const { setter, value, permissionForm, showError, filterText, ignoreItems } =
+    props;
   const userLicenses = userStore((state) => state.permissions);
 
   const kindQuery = useQuery(
@@ -71,18 +74,23 @@ function BudgetSepratorCreaditorInput(
     //   showError={showError}
     // />
     <FormGroup>
-      {inputItems.map((item) => (
-        <FormControlLabel
-          control={
-            <Checkbox
-              value={item.value}
-              checked={value?.[item.value] === true}
-              onChange={toggleItem}
-            />
-          }
-          label={item.label}
-        />
-      ))}
+      {inputItems
+        .filter(
+          (item) =>
+            item.label.includes(filterText) && !ignoreItems.includes(item.label)
+        )
+        .map((item) => (
+          <FormControlLabel
+            control={
+              <Checkbox
+                value={item.value}
+                checked={value?.[item.value] === true}
+                onChange={toggleItem}
+              />
+            }
+            label={item.label}
+          />
+        ))}
     </FormGroup>
   );
 }
