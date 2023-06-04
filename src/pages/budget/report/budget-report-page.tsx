@@ -55,7 +55,7 @@ function BudgetReportsPage() {
         return accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE;
 
       case 7:
-        return accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE;
+        return accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SORT;
 
       default:
         return "";

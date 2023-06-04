@@ -157,6 +157,7 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
       headGroups={tableHeadGroups}
       footer={tableFooter}
       data={tableData}
+      enableVirtual
     />
   );
 }

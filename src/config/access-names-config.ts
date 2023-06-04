@@ -41,6 +41,8 @@ export const accessNamesConfig = {
 
   BUDGET__REPORT_PAGE_DEVIATION: "budget-deviation",
 
+  BUDGET__REPORT_PAGE_PROJECT_SORT: "budget-report-sort",
+
   BUDGET__REPORT_PAGE_PROJECT_SCALE: "budget-report-scale",
 
   // contracts

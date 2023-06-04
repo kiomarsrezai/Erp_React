@@ -53,6 +53,8 @@ interface BudgetReportProjectSortFormProps {
 function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
   const { tabRender, formData, setFormData, printData } = props;
 
+  const userLicenses = userStore((state) => state.permissions);
+
   const [haveSubmitedForm, setHaveSubmitedForm] = useState(false);
 
   const queryClient = useQueryClient();
@@ -71,35 +73,31 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     // permission
-    // const havePermission = checkHavePermission(
-    //   userLicenses,
-    //   [accessNamesConfig.FIELD_AREA, accessNamesConfig.FIELD_YEAR],
-    //   joinPermissions([
-    //     accessNamesConfig.BUDGET__REPORT_PAGE,
-    //     accessNamesConfig.BUDGET__REPORT_PAGE_DEVIATION,
-    //   ])
-    // );
+    const havePermission = checkHavePermission(
+      userLicenses,
+      [accessNamesConfig.FIELD_AREA, accessNamesConfig.FIELD_YEAR],
+      joinPermissions([
+        accessNamesConfig.BUDGET__REPORT_PAGE,
+        accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SORT,
+      ])
+    );
 
-    // if (!havePermission) {
-    //   return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
-    //     variant: "error",
-    //   });
-    // }
+    if (!havePermission) {
+      return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
+        variant: "error",
+      });
+    }
 
-    // setHaveSubmitedForm(true);
+    setHaveSubmitedForm(true);
 
-    // if (
-    //   checkHaveValue(formData, [
-    //     budgetDeviationConfig.area,
-    //     budgetDeviationConfig.year,
-    //   ])
-    // ) {
-    submitMutation.mutate(formData);
-    // queryClient.setQueryData(reactQueryKeys.budget.sort.getData, {
-    //   data: [],
-    // });
-
-    // }
+    if (
+      checkHaveValue(formData, [
+        budgetDeviationConfig.area,
+        budgetDeviationConfig.year,
+      ])
+    ) {
+      submitMutation.mutate(formData);
+    }
   };
 
   // print
@@ -129,46 +127,46 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
       <Grid container spacing={2}>
         {tabRender && <Grid xs={12}>{tabRender}</Grid>}
 
-        {/* <SectionGuard
+        <SectionGuard
           permission={joinPermissions([
             accessNamesConfig.BUDGET__REPORT_PAGE,
-            accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE,
+            accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SORT,
             accessNamesConfig.FIELD_YEAR,
           ])}
-        > */}
-        <Grid xs={2}>
-          <YearInput
-            setter={setFormData}
-            value={formData[budgetProjectSortConfig.year] as number}
-            // permissionForm={joinPermissions([
-            //   accessNamesConfig.BUDGET__REPORT_PAGE,
-            //   accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE,
-            // ])}
-            showError={false}
-          />
-        </Grid>
-        {/* </SectionGuard> */}
+        >
+          <Grid xs={2}>
+            <YearInput
+              setter={setFormData}
+              value={formData[budgetProjectSortConfig.year] as number}
+              permissionForm={joinPermissions([
+                accessNamesConfig.BUDGET__REPORT_PAGE,
+                accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SORT,
+              ])}
+              showError={false}
+            />
+          </Grid>
+        </SectionGuard>
 
-        {/* <SectionGuard
+        <SectionGuard
           permission={joinPermissions([
             accessNamesConfig.BUDGET__REPORT_PAGE,
-            accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE,
+            accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SORT,
             accessNamesConfig.FIELD_AREA,
           ])}
-        > */}
-        <Grid lg={2}>
-          <AreaInput
-            setter={setFormData}
-            value={formData[budgetProjectSortConfig.area]}
-            // permissionForm={joinPermissions([
-            //   accessNamesConfig.BUDGET__REPORT_PAGE,
-            //   accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE,
-            // ])}
-            level={3}
-            showError={haveSubmitedForm}
-          />
-        </Grid>
-        {/* </SectionGuard> */}
+        >
+          <Grid lg={2}>
+            <AreaInput
+              setter={setFormData}
+              value={formData[budgetProjectSortConfig.area]}
+              permissionForm={joinPermissions([
+                accessNamesConfig.BUDGET__REPORT_PAGE,
+                accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SORT,
+              ])}
+              level={3}
+              showError={haveSubmitedForm}
+            />
+          </Grid>
+        </SectionGuard>
 
         <Grid xs={2}>
           <BudgetSortKindInput

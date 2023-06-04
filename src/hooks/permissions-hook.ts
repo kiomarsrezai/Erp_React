@@ -190,6 +190,12 @@ function usePermissions() {
       [yearLevel1Field, areaNumber3Field]
     ),
 
+    [accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SORT]: formatLocalFields(
+      "سهم ردیف های بودجه",
+      accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SORT,
+      [yearLevel1Field, areaNumber3Field]
+    ),
+
     [accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE]: formatLocalFields(
       "مقیاس پروژه",
       accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE,
