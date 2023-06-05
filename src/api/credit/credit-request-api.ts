@@ -65,6 +65,24 @@ export const creditRequestApi = new (class extends BaseApi {
     return response.data;
   };
 
+  budgetRowReadInserted = async (params: any) => {
+    const url =
+      creditRequestConfigURLS.budgetRowTableRead + this.joinFilterData(params);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<CreditReadRequestBudgetRowShape[]>
+    >(url);
+    return response.data;
+  };
+
+  budgetRowInsert = async (params: any) => {
+    const url = creditRequestConfigURLS.budgetInsert;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      params
+    );
+    return response.data;
+  };
+
   // supliets
   suplliersRead = async () => {
     const response = await clientAxios.get<

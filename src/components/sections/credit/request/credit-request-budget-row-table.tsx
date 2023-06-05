@@ -142,6 +142,7 @@ function CreditRequestBudgetRowTable(props: CreditRequestBudgetRowTableProps) {
       >
         <CreditRequestBudgetInsertRowModal
           data={modalDataMutation.data?.data || []}
+          formData={formData}
         />
       </FixedModal>
     </>

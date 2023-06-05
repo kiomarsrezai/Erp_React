@@ -1,12 +1,15 @@
 import FixedTable from "components/data/table/fixed-table";
 import IconButton from "@mui/material/IconButton";
 import FixedModal from "components/ui/modal/fixed-modal";
-import CheckIcon from "@mui/icons-material/Check";
+import AddIcon from "@mui/icons-material/Add";
 
 import { TableHeadShape } from "types/table-type";
 import { ReactNode } from "react";
 import { CreditReadRequestBudgetRowShape } from "types/data/credit/credit-request-type";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
+import { useMutation } from "@tanstack/react-query";
+import { creditRequestApi } from "api/credit/credit-request-api";
+import { creditRequestConfig } from "config/features/credit/credit-request-config";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -21,12 +24,13 @@ interface TableDataItemShape {
 
 interface CreditRequestBudgetInsertRowModalProps {
   data: CreditReadRequestBudgetRowShape[];
+  formData: any;
 }
 
 function CreditRequestBudgetInsertRowModal(
   props: CreditRequestBudgetInsertRowModalProps
 ) {
-  const { data } = props;
+  const { data, formData } = props;
 
   // heads
   const tableHeads: TableHeadShape = [
@@ -76,9 +80,16 @@ function CreditRequestBudgetInsertRowModal(
   ];
 
   // table data
-  const actionBtn = () => (
-    <IconButton color="primary" onClick={() => {}}>
-      <CheckIcon />
+  const insertMutation = useMutation(creditRequestApi.budgetRowInsert);
+  const handleInsertClick = (row: CreditReadRequestBudgetRowShape) => {
+    insertMutation.mutate({
+      RequestId: formData.id,
+      BudgetDetailProjectAreaDepartmentId: row.id,
+    });
+  };
+  const actionBtn = (row: CreditReadRequestBudgetRowShape) => (
+    <IconButton color="primary" onClick={() => handleInsertClick(row)}>
+      <AddIcon />
     </IconButton>
   );
 
@@ -89,7 +100,7 @@ function CreditRequestBudgetInsertRowModal(
       (item, i) => ({
         ...item,
         number: i + 1,
-        actions: actionBtn,
+        actions: () => actionBtn(item),
       })
     );
 
