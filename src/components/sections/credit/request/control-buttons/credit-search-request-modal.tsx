@@ -72,8 +72,6 @@ function CreditSearchRequestModal(props: CreditSearchRequestModalProps) {
     creditRequestApi.budgetRowReadInserted,
     {
       onSuccess: (data) => {
-        console.log("salamalslam");
-
         quertClient.setQueryData(reactQueryKeys.request.budgetRow.list, {
           data: data.data,
         });
@@ -81,10 +79,19 @@ function CreditSearchRequestModal(props: CreditSearchRequestModalProps) {
     }
   );
 
+  const requestTableMutation = useMutation(creditRequestApi.requestTableRead, {
+    onSuccess: (data) => {
+      quertClient.setQueryData(reactQueryKeys.request.table.list, {
+        data: data.data,
+      });
+    },
+  });
+
   const readMutation = useMutation(creditRequestApi.readRequest, {
     onSuccess: async (data) => {
       try {
         await budgetRowMutation.mutateAsync({ requestId: data.data.id });
+        await requestTableMutation.mutateAsync({ id: data.data.id });
       } catch {}
 
       onDoneTask(data.data);

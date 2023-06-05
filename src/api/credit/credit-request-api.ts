@@ -12,6 +12,7 @@ import {
   CreditReadRequestBudgetRowShape,
   CreditReadRequestShape,
   CreditReadRequestSuppliersShape,
+  CreditReadRequestTableShape,
   SearchCreditRequestShape,
 } from "types/data/credit/credit-request-type";
 
@@ -124,6 +125,16 @@ export const creditRequestApi = new (class extends BaseApi {
       creditRequestConfigURLS.updateTableItem,
       formData
     );
+    return response.data;
+  };
+
+  requestTableRead = async (formData: any) => {
+    const url =
+      creditRequestConfigURLS.requestTableRead + this.joinFilterData(formData);
+
+    const response = await clientAxios.get<
+      BaseApiResponseShape<CreditReadRequestTableShape[]>
+    >(url);
     return response.data;
   };
 })();

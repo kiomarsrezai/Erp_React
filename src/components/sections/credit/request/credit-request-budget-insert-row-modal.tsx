@@ -27,12 +27,13 @@ interface CreditRequestBudgetInsertRowModalProps {
   data: CreditReadRequestBudgetRowShape[];
   formData: any;
   onDoneTask: () => void;
+  baseData: any[];
 }
 
 function CreditRequestBudgetInsertRowModal(
   props: CreditRequestBudgetInsertRowModalProps
 ) {
-  const { data, formData, onDoneTask } = props;
+  const { data, formData, onDoneTask, baseData } = props;
 
   // heads
   const tableHeads: TableHeadShape = [
@@ -101,6 +102,10 @@ function CreditRequestBudgetInsertRowModal(
     </IconButton>
   );
 
+  const filteredData = data.filter(
+    (item) => !baseData.find((baseItem) => baseItem.code === item.code)
+  );
+
   const formatTableData = (
     unFormatData: CreditReadRequestBudgetRowShape[]
   ): TableDataItemShape[] => {
@@ -115,7 +120,7 @@ function CreditRequestBudgetInsertRowModal(
     return formatedData;
   };
 
-  const tableData = formatTableData(data);
+  const tableData = formatTableData(filteredData);
 
   // footer
   const sumMosavab = sumFieldsInSingleItemData(data, "mosavabDepartment");

@@ -26,6 +26,9 @@ import { Alert, AlertTitle, FormHelperText } from "@mui/material";
 import { globalConfig } from "config/global-config";
 import { red } from "@mui/material/colors";
 import BudgetSepratorCreaditorInput from "components/sections/inputs/budget-seprator-creaditor-input";
+import { useQuery } from "@tanstack/react-query";
+import { reactQueryKeys } from "config/react-query-keys-config";
+import { creditRequestApi } from "api/credit/credit-request-api";
 
 interface CreditRequestFormProps {
   formData: any;
@@ -154,6 +157,15 @@ function CreditRequestForm(props: CreditRequestFormProps) {
       [creditRequestConfig.contractorName]: name,
     }));
   };
+
+  // request table
+  const requestTableQuery = useQuery(
+    reactQueryKeys.request.table.list,
+    () => creditRequestApi.requestTableRead({}),
+    {
+      enabled: false,
+    }
+  );
 
   return (
     <>
@@ -452,6 +464,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   <CreidtRequestTable
                     formData={formData}
                     firstStepCrossed={firstStepCrossed}
+                    data={requestTableQuery.data?.data || []}
                   />
                 </Grid>
               )}

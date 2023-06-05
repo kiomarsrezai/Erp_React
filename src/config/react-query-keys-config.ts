@@ -42,6 +42,9 @@ export const reactQueryKeys = {
     suppliers: {
       list: ["suppliers-list"],
     },
+    table: {
+      list: ["request-table-list"],
+    },
   },
   traz: {
     getData: ["data-traz"],

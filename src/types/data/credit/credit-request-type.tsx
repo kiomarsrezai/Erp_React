@@ -55,3 +55,14 @@ export interface CreditReadRequestBudgetRowInsertedShape {
   project: string;
   yearName: string;
 }
+
+// request table
+export interface CreditReadRequestTableShape {
+  id: number;
+  description: string;
+  quantity: number;
+  scale: string;
+  price: number;
+  amount: number;
+  othersDescription: string;
+}

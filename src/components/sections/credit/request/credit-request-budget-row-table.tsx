@@ -51,7 +51,7 @@ function CreditRequestBudgetRowTable(props: CreditRequestBudgetRowTableProps) {
   };
   // head group
   const headGroupBtn = (
-    <IconButton color="primary" onClick={handleClickAdd}>
+    <IconButton color="primary" onClick={handleClickAdd} size="small">
       <AddIcon />
     </IconButton>
   );
@@ -74,7 +74,12 @@ function CreditRequestBudgetRowTable(props: CreditRequestBudgetRowTableProps) {
       name: "yearName",
     },
     {
-      title: "کد بودجه",
+      title: (
+        <div>
+          کد بودجه
+          {headGroupBtn}
+        </div>
+      ),
       name: "code",
     },
     {
@@ -224,12 +229,17 @@ function CreditRequestBudgetRowTable(props: CreditRequestBudgetRowTableProps) {
         <>
           <IconButton
             color="primary"
+            size="small"
             onClick={() => openEditFunctionality(row)}
           >
             <EditIcon />
           </IconButton>
 
-          <IconButton color="error" onClick={() => handleClickDelete(row)}>
+          <IconButton
+            color="error"
+            onClick={() => handleClickDelete(row)}
+            size="small"
+          >
             <DeleteIcon />
           </IconButton>
         </>
@@ -257,7 +267,7 @@ function CreditRequestBudgetRowTable(props: CreditRequestBudgetRowTableProps) {
   return (
     <>
       <FixedTable
-        headGroups={tableHeadGroup}
+        // headGroups={tableHeadGroup}
         heads={tableHeads}
         data={tableData}
         notFixed
@@ -273,6 +283,7 @@ function CreditRequestBudgetRowTable(props: CreditRequestBudgetRowTableProps) {
           data={modalDataMutation.data?.data || []}
           formData={formData}
           onDoneTask={handleDoneTask}
+          baseData={data}
         />
       </FixedModal>
 

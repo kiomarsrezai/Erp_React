@@ -14,23 +14,28 @@ import { creditRequestApi } from "api/credit/credit-request-api";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import CreditRequestTableActionModal from "./credit-request-table-action-modal";
+import { sumFieldsInSingleItemData } from "helper/calculate-utils";
+import { CreditReadRequestTableShape } from "types/data/credit/credit-request-type";
 
 interface TableDataItemShape {
   number: ReactNode;
-  description: ReactNode;
-  organ: ReactNode;
-  rate: ReactNode;
-  price: ReactNode;
+  description: string;
+  quantity: number;
+  scale: string;
+  price: number;
+  amount: number;
+  othersDescription: string;
   actions: ((data: TableDataItemShape) => ReactNode) | ReactNode;
 }
 
 interface CreidtRequestFormTableProps {
   formData: any;
   firstStepCrossed: boolean;
+  data: any[];
 }
 
 function CreidtRequestTable(props: CreidtRequestFormTableProps) {
-  const { formData, firstStepCrossed } = props;
+  const { formData, firstStepCrossed, data } = props;
 
   // head group
   const [isOpenAddItemModal, setIsOpenAddItemModal] = useState(false);
@@ -68,7 +73,7 @@ function CreidtRequestTable(props: CreidtRequestFormTableProps) {
           <AddIcon />
         </IconButton>
       ),
-      colspan: 6,
+      colspan: 8,
     },
   ];
 
@@ -79,26 +84,36 @@ function CreidtRequestTable(props: CreidtRequestFormTableProps) {
       name: "number",
     },
     {
-      title: "شرح",
+      title: "شرح کوتاه",
       align: "left",
       name: "description",
     },
     {
+      title: "تعداد / مقدار",
+      name: "quantity",
+      align: "left",
+    },
+    {
       title: "واحد",
-      name: "organ",
+      name: "scale",
       align: "left",
     },
     {
       title: "نرخ",
       align: "left",
       split: true,
-      name: "rate",
+      name: "price",
     },
     {
       title: "مبلغ",
-      name: "price",
+      name: "amount",
       split: true,
       align: "left",
+    },
+    {
+      title: "شرح",
+      align: "left",
+      name: "othersDescription",
     },
     {
       title: "عملیات",
@@ -144,7 +159,7 @@ function CreidtRequestTable(props: CreidtRequestFormTableProps) {
   };
 
   // data
-  const ActionButtons = (row: TableDataItemShape) => {
+  const ActionButtons = (row: CreditReadRequestTableShape) => {
     return (
       <>
         <IconButton
@@ -166,63 +181,33 @@ function CreidtRequestTable(props: CreidtRequestFormTableProps) {
     );
   };
 
-  const data: TableDataItemShape[] = [
-    {
-      description: "تست",
-      number: "1",
-      organ: "تست",
-      price: 12462314,
-      rate: 12462314,
-      actions: ActionButtons,
-    },
-    {
-      description: "تست",
-      number: "2",
-      organ: "تست",
-      price: 12462314,
-      rate: 12462314,
-      actions: ActionButtons,
-    },
-    {
-      description: "تست",
-      number: "3",
-      organ: "تست",
-      price: 12462314,
-      rate: 12462314,
-      actions: ActionButtons,
-    },
-    {
-      description: "تست",
-      number: "4",
-      organ: "تست",
-      price: 12462314,
-      rate: 12462314,
-      actions: ActionButtons,
-    },
-    {
-      description: "تست",
-      number: "1",
-      organ: "تست",
-      price: 12462314,
-      rate: 12462314,
-      actions: ActionButtons,
-    },
-    {
-      description: "تست",
-      number: "2",
-      organ: "تست",
-      price: 12462314,
-      rate: 12462314,
-      actions: ActionButtons,
-    },
-  ];
+  const formatTableData = (
+    unFormatData: CreditReadRequestTableShape[]
+  ): TableDataItemShape[] => {
+    const formatedData: TableDataItemShape[] | any = unFormatData.map(
+      (item, i) => ({
+        ...item,
+        number: i + 1,
+        actions: () => ActionButtons(item),
+      })
+    );
+
+    return formatedData;
+  };
+
+  const tableData = formatTableData(data);
+
   //   footer
-  const tableFooter: TableDataItemShape = {
-    description: "",
-    number: "",
-    organ: "",
-    price: 12462314,
-    rate: 12462314,
+  const sumAmount = sumFieldsInSingleItemData(data, "amount");
+  const tableFooter: TableDataItemShape | any = {
+    number: "جمع",
+    "colspan-number": 5,
+    description: null,
+    quantity: null,
+    scale: null,
+    price: null,
+    amount: sumAmount,
+    othersDescription: "",
     actions: <></>,
   };
 
@@ -231,7 +216,7 @@ function CreidtRequestTable(props: CreidtRequestFormTableProps) {
       <FixedTable
         heads={tableHeads}
         topHeadGroups={firstStepCrossed ? headGroup : undefined}
-        data={data}
+        data={tableData}
         footer={tableFooter}
         notFixed
       />

@@ -12,7 +12,7 @@ export type TableHeadGroupShape = TableSingleHeadGroupShape[];
 
 // head
 export interface TableSingleHeadShape {
-  title: string;
+  title: ReactNode;
   align?: "center" | "right" | "left";
   name: string;
   split?: boolean;
