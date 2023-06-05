@@ -6,6 +6,9 @@ import AddIcon from "@mui/icons-material/Add";
 import { TableHeadShape } from "types/table-type";
 import { ReactNode, useState } from "react";
 import CreditRequestBudgetInsertRowModal from "./credit-request-budget-insert-row-modal";
+import { useMutation } from "@tanstack/react-query";
+import { creditRequestApi } from "api/credit/credit-request-api";
+import { creditRequestConfig } from "config/features/credit/credit-request-config";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -15,13 +18,29 @@ interface TableDataItemShape {
   price: ReactNode;
 }
 
-function CreditRequestBudgetRowTable() {
+interface CreditRequestBudgetRowTableProps {
+  formData: any;
+}
+
+function CreditRequestBudgetRowTable(props: CreditRequestBudgetRowTableProps) {
+  const { formData } = props;
   // select user modal
   const [isOpenAddBudgetModal, setIsOpenAddBudgetModal] = useState(false);
 
+  const modalDataMutation = useMutation(creditRequestApi.budgetRowRead);
+
+  const handleClickAdd = () => {
+    modalDataMutation.mutate({
+      [creditRequestConfig.year]: formData[creditRequestConfig.year],
+      [creditRequestConfig.area]: formData[creditRequestConfig.area],
+      [creditRequestConfig.execute_departman_id]:
+        formData[creditRequestConfig.execute_departman_id],
+    });
+    setIsOpenAddBudgetModal(true);
+  };
   // head group
   const headGroupBtn = (
-    <IconButton color="primary" onClick={() => setIsOpenAddBudgetModal(true)}>
+    <IconButton color="primary" onClick={handleClickAdd}>
       <AddIcon />
     </IconButton>
   );
@@ -119,8 +138,11 @@ function CreditRequestBudgetRowTable() {
         open={isOpenAddBudgetModal}
         handleClose={() => setIsOpenAddBudgetModal(false)}
         title="افزودن ردیف بودجه"
+        loading={modalDataMutation.isLoading}
       >
-        <CreditRequestBudgetInsertRowModal />
+        <CreditRequestBudgetInsertRowModal
+          data={modalDataMutation.data?.data || []}
+        />
       </FixedModal>
     </>
   );

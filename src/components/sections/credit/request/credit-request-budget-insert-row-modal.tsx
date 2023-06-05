@@ -5,6 +5,8 @@ import CheckIcon from "@mui/icons-material/Check";
 
 import { TableHeadShape } from "types/table-type";
 import { ReactNode } from "react";
+import { CreditReadRequestBudgetRowShape } from "types/data/credit/credit-request-type";
+import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -17,7 +19,15 @@ interface TableDataItemShape {
   actions: (row: any) => ReactNode;
 }
 
-function CreditRequestBudgetInsertRowModal() {
+interface CreditRequestBudgetInsertRowModalProps {
+  data: CreditReadRequestBudgetRowShape[];
+}
+
+function CreditRequestBudgetInsertRowModal(
+  props: CreditRequestBudgetInsertRowModalProps
+) {
+  const { data } = props;
+
   // heads
   const tableHeads: TableHeadShape = [
     {
@@ -35,26 +45,30 @@ function CreditRequestBudgetInsertRowModal() {
     },
     {
       title: "سال",
-      name: "year",
+      name: "yearName",
+    },
+    {
+      title: "پروژه",
+      name: "project",
     },
     {
       title: "مبلغ",
-      name: "price",
+      name: "mosavabDepartment",
       align: "left",
       split: true,
     },
-    {
-      title: "تعدیلات",
-      name: "tadilat",
-      align: "left",
-      split: true,
-    },
-    {
-      title: "نهایی",
-      name: "final",
-      align: "left",
-      split: true,
-    },
+    // {
+    //   title: "تعدیلات",
+    //   name: "tadilat",
+    //   align: "left",
+    //   split: true,
+    // },
+    // {
+    //   title: "نهایی",
+    //   name: "final",
+    //   align: "left",
+    //   split: true,
+    // },
     {
       title: "عملیات",
       name: "actions",
@@ -68,60 +82,43 @@ function CreditRequestBudgetInsertRowModal() {
     </IconButton>
   );
 
-  const data: TableDataItemShape[] = [
-    {
-      number: "1",
-      description: "تست",
-      code: "2134",
-      tadilat: 723864238,
-      final: 723864238,
-      price: 723864238,
-      year: "1400/01/01",
-      actions: actionBtn,
-    },
-    {
-      number: "1",
-      description: "تست",
-      code: "2134",
-      tadilat: 723864238,
-      final: 723864238,
-      price: 723864238,
-      year: "1400/01/01",
-      actions: actionBtn,
-    },
-    {
-      number: "1",
-      description: "تست",
-      code: "2134",
-      tadilat: 723864238,
-      final: 723864238,
-      price: 723864238,
-      year: "1400/01/01",
-      actions: actionBtn,
-    },
-    {
-      number: "1",
-      description: "تست",
-      code: "2134",
-      tadilat: 723864238,
-      final: 723864238,
-      price: 723864238,
-      year: "1400/01/01",
-      actions: actionBtn,
-    },
-    {
-      number: "1",
-      description: "تست",
-      code: "2134",
-      tadilat: 723864238,
-      final: 723864238,
-      price: 723864238,
-      year: "1400/01/01",
-      actions: actionBtn,
-    },
-  ];
+  const formatTableData = (
+    unFormatData: CreditReadRequestBudgetRowShape[]
+  ): TableDataItemShape[] => {
+    const formatedData: TableDataItemShape[] | any = unFormatData.map(
+      (item, i) => ({
+        ...item,
+        number: i + 1,
+        actions: actionBtn,
+      })
+    );
 
-  return <FixedTable heads={tableHeads} data={data} notFixed />;
+    return formatedData;
+  };
+
+  const tableData = formatTableData(data);
+
+  // footer
+  const sumMosavab = sumFieldsInSingleItemData(data, "mosavabDepartment");
+  const tableFooter: TableDataItemShape | any = {
+    number: "جمع",
+    "colspan-number": 5,
+    code: null,
+    description: null,
+    project: null,
+    yearName: null,
+    mosavabDepartment: sumMosavab,
+    actions: "",
+  };
+
+  return (
+    <FixedTable
+      heads={tableHeads}
+      data={tableData}
+      footer={tableFooter}
+      notFixed
+    />
+  );
 }
 
 export default CreditRequestBudgetInsertRowModal;

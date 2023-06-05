@@ -51,4 +51,6 @@ export const creditRequestConfigURLS = {
   updateTableItem: "RequestApi/RequestTableUpdate",
   // suppliets
   readSuppliets: "RequestApi/RequestSuppliersSearch",
+  // budget row
+  budgetRow: "RequestApi/RequestBudgetSearchModal",
 };

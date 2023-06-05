@@ -37,3 +37,12 @@ export interface CreditReadRequestSuppliersShape {
   id: number;
   suppliersName: string;
 }
+
+export interface CreditReadRequestBudgetRowShape {
+  code: string;
+  description: string;
+  id: number;
+  mosavabDepartment: number;
+  project: string;
+  yearName: string;
+}

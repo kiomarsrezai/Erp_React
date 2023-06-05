@@ -66,7 +66,7 @@ function RequestCreditPage() {
               <CreditRequestConfrimUsersTable />
             </TabPanel>
             <TabPanel value={tabValue} index={1}>
-              <CreditRequestBudgetRowTable />
+              <CreditRequestBudgetRowTable formData={formData} />
             </TabPanel>
           </>
         )}
