@@ -22,7 +22,9 @@ export const creditRequestTableConfig = {
   requestId: "requestId",
   quantity: "quantity",
   price: "price",
+  amount: "amount",
   description: "description",
+  scale: "scale",
   others_description: "othersDescription",
 };
 
@@ -47,7 +49,7 @@ export const creditRequestConfigURLS = {
   searchRequest: "RequestApi/RequestSearch",
   updateRequest: "RequestApi/RequestUpdate",
   readRequest: "RequestApi/RequestRead",
-  insertToTable: "RequestApi/RequestTableCreate",
+  insertToTable: "RequestApi/RequestTableInsert",
   updateTableItem: "RequestApi/RequestTableUpdate",
 
   // suppliets

@@ -21,6 +21,7 @@ function CreditRequestTableActionModal(
   const editFormSchema = yup.object({
     [creditRequestTableConfig.description]: yup.string().required(),
     [creditRequestTableConfig.others_description]: yup.string().required(),
+    [creditRequestTableConfig.scale]: yup.string().required(),
     [creditRequestTableConfig.price]: yup.number().required(),
     [creditRequestTableConfig.quantity]: yup.number().required(),
   });
@@ -43,13 +44,13 @@ function CreditRequestTableActionModal(
         <Grid item sm={6}>
           <TextField
             id="price-input"
-            label="هزینه"
+            label="واحد"
             variant="outlined"
             size="small"
-            {...register(creditRequestTableConfig.price)}
-            error={!!errors[creditRequestTableConfig.price]}
+            {...register(creditRequestTableConfig.scale)}
+            error={!!errors[creditRequestTableConfig.scale]}
             helperText={
-              (errors[creditRequestTableConfig.price]?.message || "") as any
+              (errors[creditRequestTableConfig.scale]?.message || "") as any
             }
             fullWidth
           />
@@ -57,7 +58,7 @@ function CreditRequestTableActionModal(
         <Grid item sm={6}>
           <TextField
             id="price-input"
-            label="تعداد"
+            label="تعداد / مقدار"
             variant="outlined"
             size="small"
             {...register(creditRequestTableConfig.quantity)}
@@ -68,11 +69,25 @@ function CreditRequestTableActionModal(
             fullWidth
           />
         </Grid>
+        <Grid item sm={6}>
+          <TextField
+            id="price-input"
+            label="نرخ"
+            variant="outlined"
+            size="small"
+            {...register(creditRequestTableConfig.price)}
+            error={!!errors[creditRequestTableConfig.price]}
+            helperText={
+              (errors[creditRequestTableConfig.price]?.message || "") as any
+            }
+            fullWidth
+          />
+        </Grid>
 
-        <Grid item sm={12}>
+        <Grid item sm={6}>
           <TextField
             id="description-input"
-            label="توضیحات"
+            label="شرح کوتاه"
             variant="outlined"
             size="small"
             {...register(creditRequestTableConfig.description)}
@@ -87,7 +102,7 @@ function CreditRequestTableActionModal(
         <Grid item sm={12}>
           <TextField
             id="more-description-input"
-            label="توضیحات دیگر"
+            label="شرح"
             variant="outlined"
             size="small"
             {...register(creditRequestTableConfig.others_description)}
