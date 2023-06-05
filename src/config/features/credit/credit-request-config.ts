@@ -49,10 +49,13 @@ export const creditRequestConfigURLS = {
   readRequest: "RequestApi/RequestRead",
   insertToTable: "RequestApi/RequestTableCreate",
   updateTableItem: "RequestApi/RequestTableUpdate",
+
   // suppliets
   readSuppliets: "RequestApi/RequestSuppliersSearch",
+
   // budget row
   budgetRow: "RequestApi/RequestBudgetSearchModal",
   budgetRowTableRead: "RequestApi/RequestBudgetReadTab",
   budgetInsert: "RequestApi/RequestBudgetInsertTab",
+  budgetRowDelete: "RequestApi/RequestBudgetDelete",
 };

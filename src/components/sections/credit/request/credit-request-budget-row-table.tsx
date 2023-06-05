@@ -2,17 +2,21 @@ import FixedTable from "components/data/table/fixed-table";
 import IconButton from "@mui/material/IconButton";
 import FixedModal from "components/ui/modal/fixed-modal";
 import EditIcon from "@mui/icons-material/Edit";
-import AddIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import { TableHeadShape } from "types/table-type";
 import { ReactNode, useState } from "react";
 import CreditRequestBudgetInsertRowModal from "./credit-request-budget-insert-row-modal";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { creditRequestApi } from "api/credit/credit-request-api";
 import { creditRequestConfig } from "config/features/credit/credit-request-config";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { Box } from "@mui/material";
+import { CreditReadRequestBudgetRowInsertedShape } from "types/data/credit/credit-request-type";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -64,6 +68,10 @@ function CreditRequestBudgetRowTable(props: CreditRequestBudgetRowTableProps) {
       name: "number",
     },
     {
+      title: "سال",
+      name: "yearName",
+    },
+    {
       title: "کد بودجه",
       name: "code",
     },
@@ -72,10 +80,7 @@ function CreditRequestBudgetRowTable(props: CreditRequestBudgetRowTableProps) {
       name: "description",
       align: "left",
     },
-    {
-      title: "سال",
-      name: "yearName",
-    },
+
     {
       title: "پروژه",
       name: "project",
@@ -92,20 +97,72 @@ function CreditRequestBudgetRowTable(props: CreditRequestBudgetRowTableProps) {
     },
   ];
 
+  // reload data
+  const quertClient = useQueryClient();
+  const budgetRowMutation = useMutation(
+    creditRequestApi.budgetRowReadInserted,
+    {
+      onSuccess: (data) => {
+        quertClient.setQueryData(reactQueryKeys.request.budgetRow.list, {
+          data: data.data,
+        });
+      },
+    }
+  );
+
+  const handleDoneTask = () => {
+    budgetRowMutation.mutate({ requestId: formData.id });
+    setIsOpenAddBudgetModal(false);
+    setIsOpenConfrimDelete(false);
+  };
+
+  // delete
+  const [isOpenConfrimDelete, setIsOpenConfrimDelete] = useState(false);
+  const [idItemForDelete, setIdItemForDelete] = useState(0);
+  const [titleItemForDelete, setTitleItemForDelete] = useState("");
+
+  const handleConfrimDelete = () => {
+    budgetRowDeleteMutation.mutate({
+      id: idItemForDelete,
+    });
+  };
+
+  const budgetRowDeleteMutation = useMutation(
+    creditRequestApi.budgetRowDelete,
+    {
+      onSuccess: () => {
+        handleDoneTask();
+        enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+          variant: "success",
+        });
+      },
+    }
+  );
+  const handleClickDelete = (row: CreditReadRequestBudgetRowInsertedShape) => {
+    setTitleItemForDelete(
+      `آیا مایل به حذف ردیف ${row.code} - ${row.description}`
+    );
+    setIdItemForDelete(row.id);
+    setIsOpenConfrimDelete(true);
+  };
+
   // table data
-  const actionBtn = (row: any) => (
+
+  const actionBtn = (row: CreditReadRequestBudgetRowInsertedShape) => (
     <Box display={"flex"} justifyContent={"center"}>
       <IconButton color="primary">
         <EditIcon />
       </IconButton>
 
-      <IconButton color="error">
+      <IconButton color="error" onClick={() => handleClickDelete(row)}>
         <DeleteIcon />
       </IconButton>
     </Box>
   );
 
-  const formatTableData = (unFormatData: any[]): TableDataItemShape[] => {
+  const formatTableData = (
+    unFormatData: CreditReadRequestBudgetRowInsertedShape[]
+  ): TableDataItemShape[] => {
     const formatedData: TableDataItemShape[] | any = unFormatData.map(
       (item, i) => ({
         ...item,
@@ -115,10 +172,6 @@ function CreditRequestBudgetRowTable(props: CreditRequestBudgetRowTableProps) {
     );
 
     return formatedData;
-  };
-
-  const handleDoneTask = () => {
-    setIsOpenAddBudgetModal(false);
   };
 
   const tableData: any = formatTableData(data);
@@ -131,6 +184,7 @@ function CreditRequestBudgetRowTable(props: CreditRequestBudgetRowTableProps) {
         data={tableData}
         notFixed
       />
+
       <FixedModal
         open={isOpenAddBudgetModal}
         handleClose={() => setIsOpenAddBudgetModal(false)}
@@ -143,6 +197,13 @@ function CreditRequestBudgetRowTable(props: CreditRequestBudgetRowTableProps) {
           onDoneTask={handleDoneTask}
         />
       </FixedModal>
+
+      <ConfrimProcessModal
+        onCancel={() => setIsOpenConfrimDelete(false)}
+        onConfrim={handleConfrimDelete}
+        text={titleItemForDelete}
+        open={isOpenConfrimDelete}
+      />
     </>
   );
 }

@@ -75,6 +75,15 @@ export const creditRequestApi = new (class extends BaseApi {
     return response.data;
   };
 
+  budgetRowDelete = async (params: any) => {
+    const url = creditRequestConfigURLS.budgetRowDelete;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      params
+    );
+    return response.data;
+  };
+
   budgetRowInsert = async (params: any) => {
     const url = creditRequestConfigURLS.budgetInsert;
     const response = await clientAxios.post<BaseApiResponseShape<boolean>>(

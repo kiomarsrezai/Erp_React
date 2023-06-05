@@ -41,6 +41,10 @@ function CreditRequestBudgetInsertRowModal(
       name: "number",
     },
     {
+      title: "سال",
+      name: "yearName",
+    },
+    {
       title: "کد بودجه",
       name: "code",
     },
@@ -49,10 +53,7 @@ function CreditRequestBudgetInsertRowModal(
       name: "description",
       align: "left",
     },
-    {
-      title: "سال",
-      name: "yearName",
-    },
+
     {
       title: "پروژه",
       name: "project",
@@ -82,22 +83,10 @@ function CreditRequestBudgetInsertRowModal(
   ];
 
   // table data
-  const quertClient = useQueryClient();
-  const budgetRowMutation = useMutation(
-    creditRequestApi.budgetRowReadInserted,
-    {
-      onSuccess: (data) => {
-        quertClient.setQueryData(reactQueryKeys.request.budgetRow.list, {
-          data: data.data,
-        });
-        onDoneTask();
-      },
-    }
-  );
 
   const insertMutation = useMutation(creditRequestApi.budgetRowInsert, {
     onSuccess: () => {
-      budgetRowMutation.mutate({ requestId: formData.id });
+      onDoneTask();
     },
   });
   const handleInsertClick = (row: CreditReadRequestBudgetRowShape) => {
