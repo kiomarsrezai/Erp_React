@@ -7,8 +7,11 @@ import CreditRequestForm from "components/sections/credit/request/credit-request
 import CreditRequestConfrimUsersTable from "components/sections/credit/request/credit-request-confrim-users-table";
 import CreditRequestBudgetRowTable from "components/sections/credit/request/credit-request-budget-row-table";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { creditRequestFormDefaultValue } from "config/features/credit/credit-request-config";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { creditRequestApi } from "api/credit/credit-request-api";
+import { reactQueryKeys } from "config/react-query-keys-config";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -35,6 +38,15 @@ function RequestCreditPage() {
   const [formData, setFormData] = useState(creditRequestFormDefaultValue);
 
   const [firstStepCrossed, setFirstStepCrossed] = useState(false);
+
+  // budget row data
+  const budgetRowQuery = useQuery(
+    reactQueryKeys.request.budgetRow.list,
+    () => creditRequestApi.budgetRowReadInserted({}),
+    {
+      enabled: false,
+    }
+  );
 
   // tabs
   const [tabValue, setTabValue] = useState(0);
@@ -66,7 +78,10 @@ function RequestCreditPage() {
               <CreditRequestConfrimUsersTable />
             </TabPanel>
             <TabPanel value={tabValue} index={1}>
-              <CreditRequestBudgetRowTable formData={formData} />
+              <CreditRequestBudgetRowTable
+                formData={formData}
+                data={budgetRowQuery.data?.data || []}
+              />
             </TabPanel>
           </>
         )}

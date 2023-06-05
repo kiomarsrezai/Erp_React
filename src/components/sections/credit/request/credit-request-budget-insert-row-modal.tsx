@@ -7,9 +7,10 @@ import { TableHeadShape } from "types/table-type";
 import { ReactNode } from "react";
 import { CreditReadRequestBudgetRowShape } from "types/data/credit/credit-request-type";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { creditRequestApi } from "api/credit/credit-request-api";
 import { creditRequestConfig } from "config/features/credit/credit-request-config";
+import { reactQueryKeys } from "config/react-query-keys-config";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -25,12 +26,13 @@ interface TableDataItemShape {
 interface CreditRequestBudgetInsertRowModalProps {
   data: CreditReadRequestBudgetRowShape[];
   formData: any;
+  onDoneTask: () => void;
 }
 
 function CreditRequestBudgetInsertRowModal(
   props: CreditRequestBudgetInsertRowModalProps
 ) {
-  const { data, formData } = props;
+  const { data, formData, onDoneTask } = props;
 
   // heads
   const tableHeads: TableHeadShape = [
@@ -80,7 +82,24 @@ function CreditRequestBudgetInsertRowModal(
   ];
 
   // table data
-  const insertMutation = useMutation(creditRequestApi.budgetRowInsert);
+  const quertClient = useQueryClient();
+  const budgetRowMutation = useMutation(
+    creditRequestApi.budgetRowReadInserted,
+    {
+      onSuccess: (data) => {
+        quertClient.setQueryData(reactQueryKeys.request.budgetRow.list, {
+          data: data.data,
+        });
+        onDoneTask();
+      },
+    }
+  );
+
+  const insertMutation = useMutation(creditRequestApi.budgetRowInsert, {
+    onSuccess: () => {
+      budgetRowMutation.mutate({ requestId: formData.id });
+    },
+  });
   const handleInsertClick = (row: CreditReadRequestBudgetRowShape) => {
     insertMutation.mutate({
       RequestId: formData.id,

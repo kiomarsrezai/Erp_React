@@ -36,6 +36,9 @@ export const reactQueryKeys = {
     projectOpration: ["budget-project-opration"],
   },
   request: {
+    budgetRow: {
+      list: ["request-budget-row"],
+    },
     suppliers: {
       list: ["suppliers-list"],
     },

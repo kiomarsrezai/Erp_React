@@ -196,6 +196,7 @@ function CreditRequestFormControlsButtons(
       [creditRequestConfig.why_leave_ceremonies]: data.resonDoingMethod,
       [creditRequestConfig.employee]: data.employee,
       [creditRequestConfig.request_id]: data.id,
+      id: data.id,
     }));
     setIsOpenSelectRequestModal(false);
     setFirstStepCrossed(true);

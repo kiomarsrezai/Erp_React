@@ -8,9 +8,10 @@ import {
   CreditReadRequestShape,
   SearchCreditRequestShape,
 } from "types/data/credit/credit-request-type";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { creditRequestApi } from "api/credit/credit-request-api";
 import { convertToJalaliDate } from "helper/date-utils";
+import { reactQueryKeys } from "config/react-query-keys-config";
 
 interface TableDataItemShape {
   rowNumber: ReactNode;
@@ -66,8 +67,26 @@ function CreditSearchRequestModal(props: CreditSearchRequestModalProps) {
   ];
 
   // read request
+  const quertClient = useQueryClient();
+  const budgetRowMutation = useMutation(
+    creditRequestApi.budgetRowReadInserted,
+    {
+      onSuccess: (data) => {
+        console.log("salamalslam");
+
+        quertClient.setQueryData(reactQueryKeys.request.budgetRow.list, {
+          data: data.data,
+        });
+      },
+    }
+  );
+
   const readMutation = useMutation(creditRequestApi.readRequest, {
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
+      try {
+        await budgetRowMutation.mutateAsync({ requestId: data.data.id });
+      } catch {}
+
       onDoneTask(data.data);
     },
   });

@@ -8,6 +8,7 @@ import {
 } from "config/features/credit/credit-request-config";
 import {
   CreateCreditRequestShape,
+  CreditReadRequestBudgetRowInsertedShape,
   CreditReadRequestBudgetRowShape,
   CreditReadRequestShape,
   CreditReadRequestSuppliersShape,
@@ -69,7 +70,7 @@ export const creditRequestApi = new (class extends BaseApi {
     const url =
       creditRequestConfigURLS.budgetRowTableRead + this.joinFilterData(params);
     const response = await clientAxios.get<
-      BaseApiResponseShape<CreditReadRequestBudgetRowShape[]>
+      BaseApiResponseShape<CreditReadRequestBudgetRowInsertedShape[]>
     >(url);
     return response.data;
   };
