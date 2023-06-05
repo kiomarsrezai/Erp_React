@@ -9,34 +9,15 @@ import {
 import {
   CreateCreditRequestShape,
   CreditReadRequestShape,
+  CreditReadRequestSuppliersShape,
   SearchCreditRequestShape,
 } from "types/data/credit/credit-request-type";
 
 export const creditRequestApi = new (class extends BaseApi {
   createRequest = async (formdata: any) => {
-    const filterData = {
-      [creditRequestConfig.year]: formdata[creditRequestConfig.year],
-      [creditRequestConfig.area]: formdata[creditRequestConfig.area],
-      [creditRequestConfig.user_id]: formdata[creditRequestConfig.user_id],
-      [creditRequestConfig.execute_departman_id]:
-        formdata[creditRequestConfig.execute_departman_id],
-      [creditRequestConfig.request_type]:
-        formdata[creditRequestConfig.request_type],
-      [creditRequestConfig.doing_method]:
-        formdata[creditRequestConfig.doing_method],
-      [creditRequestConfig.request_description]:
-        formdata[creditRequestConfig.request_description],
-      [creditRequestConfig.approximate_price]:
-        +formdata[creditRequestConfig.approximate_price],
-      [creditRequestConfig.contractor]:
-        formdata[creditRequestConfig.contractor],
-      [creditRequestConfig.why_leave_ceremonies]:
-        formdata[creditRequestConfig.why_leave_ceremonies],
-    };
-
     const response = await clientAxios.post<
       BaseApiResponseShape<CreateCreditRequestShape>
-    >(creditRequestConfigURLS.createRequest, filterData);
+    >(creditRequestConfigURLS.createRequest, formdata);
     return response.data;
   };
 
@@ -61,6 +42,14 @@ export const creditRequestApi = new (class extends BaseApi {
     const response = await clientAxios.get<
       BaseApiResponseShape<CreditReadRequestShape>
     >(url);
+    return response.data;
+  };
+
+  // supliets
+  suplliersRead = async () => {
+    const response = await clientAxios.get<
+      BaseApiResponseShape<CreditReadRequestSuppliersShape[]>
+    >(creditRequestConfigURLS.readSuppliets);
     return response.data;
   };
 

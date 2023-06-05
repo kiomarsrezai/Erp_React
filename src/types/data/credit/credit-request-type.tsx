@@ -33,3 +33,8 @@ export interface CreditReadRequestShape {
   estimateAmount: string;
   resonDoingMethod: string;
 }
+
+export interface CreditReadRequestSuppliersShape {
+  id: number;
+  suppliersName: string;
+}

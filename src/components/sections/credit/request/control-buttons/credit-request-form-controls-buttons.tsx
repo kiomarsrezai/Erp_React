@@ -107,7 +107,7 @@ function CreditRequestFormControlsButtons(
           creditRequestConfig.execute_departman_id,
           creditRequestConfig.area,
           creditRequestConfig.request_type,
-          creditRequestConfig.approximate_price,
+          // creditRequestConfig.approximate_price,
           creditRequestConfig.doing_method,
         ])
       ) {

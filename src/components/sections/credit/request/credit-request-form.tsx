@@ -240,9 +240,11 @@ function CreditRequestForm(props: CreditRequestFormProps) {
               <Grid xs={12} xl={6}>
                 <BudgetSepratorCreaditorInput
                   setter={setFormData}
+                  name={creditRequestConfig.execute_departman_id}
                   value={
                     formData[creditRequestConfig.execute_departman_id] as any
                   }
+                  showError={haveSubmitedForm}
                 />
               </Grid>
               <Grid xs={12} xl={6}>
@@ -327,15 +329,15 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   name={creditRequestConfig.approximate_price}
                   onChange={handleChangeTextFields}
                   fullWidth
-                  error={
-                    !formData[creditRequestConfig.approximate_price] &&
-                    haveSubmitedForm
-                  }
-                  helperText={
-                    !formData[creditRequestConfig.approximate_price] &&
-                    haveSubmitedForm &&
-                    globalConfig.ERROR_NO_EMPTY
-                  }
+                  // error={
+                  //   !formData[creditRequestConfig.approximate_price] &&
+                  //   haveSubmitedForm
+                  // }
+                  // helperText={
+                  //   !formData[creditRequestConfig.approximate_price] &&
+                  //   haveSubmitedForm &&
+                  //   globalConfig.ERROR_NO_EMPTY
+                  // }
                 />
               </Grid>
               {formData[creditRequestConfig.doing_method] === 5 && (
@@ -470,6 +472,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
           open={isOpenSelectUserModal}
           handleClose={() => setIsOpenSelectUserModal(false)}
           title="انتخاب پیمانکار"
+          maxWidth="sm"
         >
           <SuppliersModalCreditRequest onDoneTask={onDoneSelectSupplier} />
         </FixedModal>

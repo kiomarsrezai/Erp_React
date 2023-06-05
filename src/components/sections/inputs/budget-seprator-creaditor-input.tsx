@@ -20,6 +20,7 @@ interface BudgetSepratorCreaditorInputProps {
   filterText?: string;
   ignoreItems?: string[];
   isCheckboxed?: boolean;
+  name?: string;
 }
 
 function BudgetSepratorCreaditorInput(
@@ -33,6 +34,7 @@ function BudgetSepratorCreaditorInput(
     filterText,
     ignoreItems,
     isCheckboxed,
+    name,
   } = props;
 
   const userLicenses = userStore((state) => state.permissions);
@@ -100,7 +102,7 @@ function BudgetSepratorCreaditorInput(
   return (
     <FlotingLabelSelect
       label="واحد درخواست کننده"
-      name={sepratorCreaditorBudgetConfig.creaditorId}
+      name={name || sepratorCreaditorBudgetConfig.creaditorId}
       items={inputItems}
       value={value}
       setter={setter}

@@ -2,7 +2,7 @@ import { generalFieldsConfig } from "../general-fields-config";
 
 export const creditRequestConfig = {
   request_id: "requestId",
-  execute_departman_id: "executeDepartmanId",
+  execute_departman_id: "departmentId",
   year: generalFieldsConfig.YEAR,
   area: generalFieldsConfig.AREA,
   user_id: "userId",
@@ -47,4 +47,6 @@ export const creditRequestConfigURLS = {
   readRequest: "RequestApi/RequestRead",
   insertToTable: "RequestApi/RequestTableCreate",
   updateTableItem: "RequestApi/RequestTableUpdate",
+  // suppliets
+  readSuppliets: "RequestApi/RequestSuppliersSearch",
 };
