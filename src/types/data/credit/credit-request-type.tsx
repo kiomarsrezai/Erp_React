@@ -42,7 +42,7 @@ export interface CreditReadRequestBudgetRowShape {
   code: string;
   description: string;
   id: number;
-  mosavabDepartment: number;
+  requestBudgetAmount: number;
   project: string;
   yearName: string;
 }
@@ -51,7 +51,7 @@ export interface CreditReadRequestBudgetRowInsertedShape {
   code: string;
   description: string;
   id: number;
-  mosavabDepartment: number;
+  requestBudgetAmount: number;
   project: string;
   yearName: string;
 }

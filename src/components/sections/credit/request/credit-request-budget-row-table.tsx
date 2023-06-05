@@ -4,6 +4,8 @@ import FixedModal from "components/ui/modal/fixed-modal";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { TableHeadShape } from "types/table-type";
 import { ReactNode, useState } from "react";
@@ -12,7 +14,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { creditRequestApi } from "api/credit/credit-request-api";
 import { creditRequestConfig } from "config/features/credit/credit-request-config";
 import { reactQueryKeys } from "config/react-query-keys-config";
-import { Box } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import { CreditReadRequestBudgetRowInsertedShape } from "types/data/credit/credit-request-type";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
@@ -87,9 +89,10 @@ function CreditRequestBudgetRowTable(props: CreditRequestBudgetRowTableProps) {
     },
     {
       title: "مبلغ",
-      name: "mosavabDepartment",
+      name: "requestBudgetAmount",
       align: "left",
       split: true,
+      width: "150px",
     },
     {
       title: "عملیات",
@@ -114,6 +117,7 @@ function CreditRequestBudgetRowTable(props: CreditRequestBudgetRowTableProps) {
     budgetRowMutation.mutate({ requestId: formData.id });
     setIsOpenAddBudgetModal(false);
     setIsOpenConfrimDelete(false);
+    setActiveIdUpdate(null);
   };
 
   // delete
@@ -146,17 +150,90 @@ function CreditRequestBudgetRowTable(props: CreditRequestBudgetRowTableProps) {
     setIsOpenConfrimDelete(true);
   };
 
-  // table data
+  //   update
+  const [activeIdUpdate, setActiveIdUpdate] = useState<null | number>(null);
+  const [editMosavab, setEditMosavab] = useState<number>(0);
 
+  const openEditFunctionality = (row: any) => {
+    setEditMosavab(row.requestBudgetAmount);
+    setActiveIdUpdate(row.id);
+  };
+
+  const closeEditFunctionality = () => {
+    setActiveIdUpdate(null);
+  };
+
+  const editMutation = useMutation(creditRequestApi.budgetRowUpdate, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+      handleDoneTask();
+    },
+  });
+
+  const onSubmitEditFunctionality = () => {
+    editMutation.mutate({
+      id: activeIdUpdate,
+      requestBudgetAmount: editMosavab,
+    });
+  };
+
+  const renderMosavabDepartman = (row: any) => {
+    if (row.id === activeIdUpdate) {
+      return (
+        <TextField
+          id="code-input"
+          label="مبلغ"
+          variant="outlined"
+          type="number"
+          size="small"
+          value={editMosavab}
+          onChange={(e) => setEditMosavab(+e.target.value)}
+          autoComplete="off"
+          fullWidth
+        />
+      );
+    } else {
+      return row.requestBudgetAmount;
+    }
+  };
+
+  // table data
   const actionBtn = (row: CreditReadRequestBudgetRowInsertedShape) => (
     <Box display={"flex"} justifyContent={"center"}>
-      <IconButton color="primary">
-        <EditIcon />
-      </IconButton>
+      {activeIdUpdate === row.id ? (
+        <>
+          <IconButton
+            color="success"
+            size="small"
+            onClick={onSubmitEditFunctionality}
+          >
+            <CheckIcon />
+          </IconButton>
 
-      <IconButton color="error" onClick={() => handleClickDelete(row)}>
-        <DeleteIcon />
-      </IconButton>
+          <IconButton
+            color="error"
+            size="small"
+            onClick={closeEditFunctionality}
+          >
+            <CloseIcon />
+          </IconButton>
+        </>
+      ) : (
+        <>
+          <IconButton
+            color="primary"
+            onClick={() => openEditFunctionality(row)}
+          >
+            <EditIcon />
+          </IconButton>
+
+          <IconButton color="error" onClick={() => handleClickDelete(row)}>
+            <DeleteIcon />
+          </IconButton>
+        </>
+      )}
     </Box>
   );
 
@@ -167,6 +244,7 @@ function CreditRequestBudgetRowTable(props: CreditRequestBudgetRowTableProps) {
       (item, i) => ({
         ...item,
         number: i + 1,
+        requestBudgetAmount: () => renderMosavabDepartman(item),
         actions: () => actionBtn(item),
       })
     );
