@@ -10,12 +10,13 @@ import {
 } from "types/data/credit/credit-request-type";
 import { useMutation } from "@tanstack/react-query";
 import { creditRequestApi } from "api/credit/credit-request-api";
+import { convertToJalaliDate } from "helper/date-utils";
 
 interface TableDataItemShape {
   rowNumber: ReactNode;
   employee: ReactNode;
   number: ReactNode;
-  dateS: ReactNode;
+  date: ReactNode;
   description: ReactNode;
   estimateAmount: ReactNode;
   actions: (row: any) => ReactNode;
@@ -42,7 +43,7 @@ function CreditSearchRequestModal(props: CreditSearchRequestModalProps) {
     },
     {
       title: "تاریخ",
-      name: "dateS",
+      name: "date",
     },
     {
       title: "ثبت کننده",
@@ -93,11 +94,13 @@ function CreditSearchRequestModal(props: CreditSearchRequestModalProps) {
   const formatTableData = (
     unFormatData: SearchCreditRequestShape[]
   ): TableDataItemShape[] => {
-    const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
-      ...item,
-      rowNumber: i + 1,
-      actions: actionButtons,
-    }));
+    const formatedData: TableDataItemShape[] | any = unFormatData.map(
+      (item, i) => ({
+        ...item,
+        rowNumber: i + 1,
+        actions: actionButtons,
+      })
+    );
 
     return formatedData;
   };

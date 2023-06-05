@@ -75,13 +75,14 @@ function CreditRequestFormControlsButtons(
     }
   };
 
-  // create request
+  // create and update request
   const createRequestMutation = useMutation(creditRequestApi.createRequest, {
     onSuccess(data) {
       setFormData((state: any) => ({
         ...state,
-        [creditRequestConfig.request_date]: data.data.dateS,
+        [creditRequestConfig.request_date]: data.data.date,
         [creditRequestConfig.request_number]: data.data.number,
+        id: data.data.id,
       }));
 
       setFirstStepCrossed(true);
@@ -94,6 +95,46 @@ function CreditRequestFormControlsButtons(
       //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
       //variant: "error",
       //});
+    },
+  });
+
+  const readRequest = useMutation(creditRequestApi.readRequest, {
+    onSuccess: (data) => {
+      setFormData((state: any) => ({
+        ...state,
+        [creditRequestConfig.request_number]: data.data.number,
+        [creditRequestConfig.request_date]: data.data.date,
+        [creditRequestConfig.approximate_price]: data.data.estimateAmount,
+        [creditRequestConfig.doing_method]: data.data.doingMethodId,
+        [creditRequestConfig.request_description]: data.data.description,
+        [creditRequestConfig.why_leave_ceremonies]: data.data.resonDoingMethod,
+        [creditRequestConfig.employee]: data.data.employee,
+        [creditRequestConfig.request_id]: data.data.id,
+      }));
+    },
+  });
+
+  const updateRequestMutation = useMutation(creditRequestApi.updateRequest, {
+    onSuccess() {
+      // setFormData((state: any) => ({
+      //   ...state,
+      //   [creditRequestConfig.request_date]: data.data.dateS,
+      //   [creditRequestConfig.request_number]: data.data.number,
+      // }));
+
+      // setFirstStepCrossed(true);
+
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+    },
+    onError() {
+      //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+      //variant: "error",
+      //});
+    },
+    onSettled: () => {
+      readRequest.mutate(formData.id);
     },
   });
 
@@ -127,11 +168,19 @@ function CreditRequestFormControlsButtons(
         createRequestMutation.mutate({
           ...formData,
           [creditRequestConfig.user_id]: userId,
+          [creditRequestConfig.approximate_price]:
+            +formData[creditRequestConfig.approximate_price],
         });
       }
     } else {
       // update request
-      alert("should update");
+      updateRequestMutation.mutate({
+        ...formData,
+        [creditRequestConfig.contractor]: null,
+        [creditRequestConfig.approximate_price]:
+          +formData[creditRequestConfig.approximate_price],
+      });
+      // alert("should update");
     }
   };
 
@@ -140,7 +189,7 @@ function CreditRequestFormControlsButtons(
     setFormData((state: any) => ({
       ...state,
       [creditRequestConfig.request_number]: data.number,
-      [creditRequestConfig.request_date]: data.dateS,
+      [creditRequestConfig.request_date]: data.date,
       [creditRequestConfig.approximate_price]: data.estimateAmount,
       [creditRequestConfig.doing_method]: data.doingMethodId,
       [creditRequestConfig.request_description]: data.description,

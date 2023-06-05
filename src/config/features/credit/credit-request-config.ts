@@ -27,6 +27,7 @@ export const creditRequestTableConfig = {
 };
 
 export const creditRequestFormDefaultValue = {
+  id: undefined,
   [creditRequestConfig.doing_method]: 1,
   [creditRequestConfig.request_type]: 1,
   [creditRequestConfig.request_date]: "",
@@ -43,7 +44,8 @@ export const creditRequestFormDefaultValue = {
 
 export const creditRequestConfigURLS = {
   createRequest: "RequestApi/RequestCreate",
-  searchRequest: "RequestApi/GetRequestList",
+  searchRequest: "RequestApi/RequestSearch",
+  updateRequest: "RequestApi/RequestUpdate",
   readRequest: "RequestApi/RequestRead",
   insertToTable: "RequestApi/RequestTableCreate",
   updateTableItem: "RequestApi/RequestTableUpdate",

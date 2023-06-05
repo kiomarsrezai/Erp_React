@@ -244,7 +244,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   value={
                     formData[creditRequestConfig.execute_departman_id] as any
                   }
-                  showError={haveSubmitedForm}
+                  showError={haveSubmitedForm || haveClickedSearch}
                 />
               </Grid>
               <Grid xs={12} xl={6}>

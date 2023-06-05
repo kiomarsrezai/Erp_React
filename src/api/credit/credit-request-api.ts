@@ -45,6 +45,16 @@ export const creditRequestApi = new (class extends BaseApi {
     return response.data;
   };
 
+  updateRequest = async (formData: any) => {
+    const url = creditRequestConfigURLS.updateRequest;
+
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      formData
+    );
+    return response.data;
+  };
+
   // supliets
   suplliersRead = async () => {
     const response = await clientAxios.get<

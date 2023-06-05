@@ -6,16 +6,16 @@ export interface CreateCreditRequestShape {
   users: string;
   doingMethodId: number;
   number: string;
-  dateS: string;
+  date: string;
 }
 
 export interface SearchCreditRequestShape {
   id: number;
   employee: string;
   number: string;
-  dateS: string;
   description: string;
   estimateAmount: number;
+  date: string;
 }
 
 export interface CreditReadRequestShape {
@@ -28,7 +28,6 @@ export interface CreditReadRequestShape {
   users: null;
   number: string;
   date: string;
-  dateS: string;
   description: string;
   estimateAmount: string;
   resonDoingMethod: string;
