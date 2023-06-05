@@ -43,14 +43,15 @@ function CreditRequestTableActionModal(
       <Grid container columnSpacing={1} rowSpacing={2}>
         <Grid item sm={6}>
           <TextField
-            id="price-input"
-            label="واحد"
+            id="description-input"
+            label="شرح"
             variant="outlined"
             size="small"
-            {...register(creditRequestTableConfig.scale)}
-            error={!!errors[creditRequestTableConfig.scale]}
+            {...register(creditRequestTableConfig.description)}
+            error={!!errors[creditRequestTableConfig.description]}
             helperText={
-              (errors[creditRequestTableConfig.scale]?.message || "") as any
+              (errors[creditRequestTableConfig.description]?.message ||
+                "") as any
             }
             fullWidth
           />
@@ -72,6 +73,21 @@ function CreditRequestTableActionModal(
         <Grid item sm={6}>
           <TextField
             id="price-input"
+            label="واحد"
+            variant="outlined"
+            size="small"
+            {...register(creditRequestTableConfig.scale)}
+            error={!!errors[creditRequestTableConfig.scale]}
+            helperText={
+              (errors[creditRequestTableConfig.scale]?.message || "") as any
+            }
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item sm={6}>
+          <TextField
+            id="price-input"
             label="نرخ"
             variant="outlined"
             size="small"
@@ -84,25 +100,10 @@ function CreditRequestTableActionModal(
           />
         </Grid>
 
-        <Grid item sm={6}>
-          <TextField
-            id="description-input"
-            label="شرح کوتاه"
-            variant="outlined"
-            size="small"
-            {...register(creditRequestTableConfig.description)}
-            error={!!errors[creditRequestTableConfig.description]}
-            helperText={
-              (errors[creditRequestTableConfig.description]?.message ||
-                "") as any
-            }
-            fullWidth
-          />
-        </Grid>
         <Grid item sm={12}>
           <TextField
             id="more-description-input"
-            label="شرح"
+            label="سایر توضیحات"
             variant="outlined"
             size="small"
             {...register(creditRequestTableConfig.others_description)}
