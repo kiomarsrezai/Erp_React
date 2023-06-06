@@ -82,18 +82,18 @@ export const sidenavsLayout: SidenavShape[] = [
           accessNamesConfig.BUDGET__SEPRATOR_PAGE_TAMIN_BTN,
         ],
       },
-      {
-        title: "تفکیک اعتبار دهنده",
-        path: "/budget/seprator-creaditor",
-        icon: PointOfSaleIcon,
-        licenseName: accessNamesConfig.BUDGET__SEPRATOR_CREADITOR_PAGE,
-        element: BudgetSepratorCreaditorPage,
-        permissionItems: [
-          getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
-          getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 2),
-          accessNamesConfig.FIELD_BUDGET_METHOD,
-        ],
-      },
+      // {
+      //   title: "تفکیک اعتبار دهنده",
+      //   path: "/budget/seprator-creaditor",
+      //   icon: PointOfSaleIcon,
+      //   licenseName: accessNamesConfig.BUDGET__SEPRATOR_CREADITOR_PAGE,
+      //   element: BudgetSepratorCreaditorPage,
+      //   permissionItems: [
+      //     getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
+      //     getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 2),
+      //     accessNamesConfig.FIELD_BUDGET_METHOD,
+      //   ],
+      // },
       {
         title: "کدینگ بودجه",
         path: "/budget/coding",

@@ -61,12 +61,22 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
     },
   ];
 
+  const [modalTitle, setModalTitle] = useState<ReactNode>("");
+
   // modal project
   const sepratorAreaMutation = useMutation(sepratorBudgetApi.areaArea);
   const [isOpenAreaModal, setIsOpenAreaModal] = useState(false);
   const [modal1ProjectId, setModal1ProjectId] = useState<null | number>(null);
 
   const handleClickAreaModal = (row: any) => {
+    setModalTitle(
+      <>
+        {baseModal1Title}
+        <div>
+          {row.projectCode} - {row.projectName}
+        </div>
+      </>
+    );
     setModal1ProjectId(row?.projectId as any);
     sepratorAreaMutation.mutate(formData);
     setIsOpenAreaModal(true);
@@ -177,7 +187,7 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
         open={isOpenAreaModal}
         handleClose={() => setIsOpenAreaModal(false)}
         loading={sepratorAreaMutation.isLoading}
-        title={baseModal1Title}
+        title={modalTitle}
         maxWidth="sm"
         maxHeight="70%"
       >
@@ -194,14 +204,14 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
       <FixedModal
         open={isOpenModal1}
         handleClose={() => setIsOpenModal1(false)}
-        title={baseModal1Title}
+        title={modalTitle}
         loading={sepratorModal1Mutation.isLoading}
         maxWidth="sm"
         maxHeight="70%"
       >
         <SepratorDepratmentModal1
           data={sepratorModal1Mutation.data?.data || []}
-          baseTitle={baseModal1Title}
+          baseTitle={modalTitle}
           baseInitialValue={activeInitialData}
           formData={formData}
           codingId={baseCodingId}
