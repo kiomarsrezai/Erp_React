@@ -14,7 +14,7 @@ function OrganizationPosts(props: OrganizationPostsProps) {
   const orgRender = (item: any, otherProps: any) => (
     <OrganizationPostsOrgCard
       {...otherProps}
-      title={item.orgName}
+      title={item.departmentName}
       area={area}
       id={item.id}
       parentId={item.motherId || 0}
