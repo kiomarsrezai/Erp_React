@@ -51,7 +51,7 @@ function FlotingLabelSelect(props: FlotingLabelTextfieldProps) {
       <Select
         labelId={`${name}-floting-select-label`}
         id={`${name}-floting-select-input`}
-        value={String(value === undefined ? "" : value)}
+        value={String(value === undefined || value === null ? "" : value)}
         label={label}
         onChange={handleChange}
         MenuProps={{ PaperProps: { sx: { maxHeight: 350 } } }}

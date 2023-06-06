@@ -44,7 +44,7 @@ function ProgramOperationProjectPage() {
     },
     {
       title: "مقیاس پروژه",
-      name: "projectScaleName",
+      name: "projectScaleNameRender",
     },
     {
       title: "عملیات",
@@ -89,7 +89,8 @@ function ProgramOperationProjectPage() {
       (item, i) => ({
         ...item,
         number: i + 1,
-        projectScaleName: (
+        projectScaleName: "item.projectScaleName",
+        projectScaleNameRender: () => (
           <span style={{ whiteSpace: "nowrap" }}>{item.projectScaleName}</span>
         ),
         actions: actionButtons,
@@ -117,7 +118,7 @@ function ProgramOperationProjectPage() {
     "colspan-number": 4,
     projectCode: null,
     projectName: null,
-    projectScaleName: null,
+    projectScaleNameRender: null,
   };
 
   // head group
