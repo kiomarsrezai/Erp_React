@@ -6,6 +6,8 @@ import YearInput from "components/sections/inputs/year-input";
 import AreaInput from "components/sections/inputs/area-input";
 import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 import SectionGuard from "components/auth/section-guard";
+import PrintIcon from "@mui/icons-material/Print";
+import IconButton from "@mui/material/IconButton";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
@@ -19,13 +21,24 @@ import { checkHaveValue } from "helper/form-utils";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import userStore from "hooks/store/user-store";
+import {
+  getGeneralFieldItemArea,
+  getGeneralFieldItemBudgetMethod,
+  getGeneralFieldItemYear,
+} from "helper/export-utils";
+import { budgetSepratorStimul } from "stimul/budget/seprator/budget-seprator-stimul";
 
 interface SepratoeBudgetFormProps {
   formData: any;
   setFormData: any;
+  printData: {
+    data: any[];
+    footer: any[];
+    bottomFooter: any[];
+  };
 }
 function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
-  const { formData, setFormData } = props;
+  const { formData, setFormData, printData } = props;
   const userLicenses = userStore((state) => state.permissions);
 
   // submit
@@ -86,6 +99,25 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
 
   const handleRefeshForm = () => {
     refeshFormMutation.mutate(formData);
+  };
+
+  // print
+  const handlePrintForm = () => {
+    if (printData.data.length) {
+      const yearLabel = getGeneralFieldItemYear(formData, 1);
+      const areaLabel = getGeneralFieldItemArea(formData, 2);
+      const budgetKindLabel = getGeneralFieldItemBudgetMethod(formData);
+      // const numberLabel = getGeneralFieldItemNumber(formData);
+      budgetSepratorStimul({
+        data: printData.data,
+        footer: printData.footer,
+        bottomFooter: printData.bottomFooter,
+        year: yearLabel,
+        area: areaLabel,
+        kind: budgetKindLabel,
+        numberShow: "ریال",
+      });
+    }
   };
 
   return (
@@ -154,6 +186,9 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
             >
               به روز آوری
             </Button>
+            <IconButton color="primary" onClick={handlePrintForm}>
+              <PrintIcon />
+            </IconButton>
           </Grid>
         </Grid>
       </Box>

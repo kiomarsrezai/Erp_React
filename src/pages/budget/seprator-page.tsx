@@ -94,15 +94,6 @@ function BudgetSepratorPage() {
     },
   ];
 
-  const tableHeadGroup = [
-    {
-      title: (
-        <SepratoeBudgetForm formData={formData} setFormData={setFormData} />
-      ),
-      colspan: tableHeads.filter((item) => !item.hidden).length,
-    },
-  ];
-
   // data
   const sepratorDetailDataQuery = useQuery(
     reactQueryKeys.report.proctor.getDetailData,
@@ -305,6 +296,24 @@ function BudgetSepratorPage() {
   const handleCloseDetailModal = () => {
     setDetailModal(false);
   };
+
+  // head group
+  const tableHeadGroup = [
+    {
+      title: (
+        <SepratoeBudgetForm
+          formData={formData}
+          setFormData={setFormData}
+          printData={{
+            data: tableData,
+            footer: [tableFooter],
+            bottomFooter: [tableBottomFooter],
+          }}
+        />
+      ),
+      colspan: tableHeads.filter((item) => !item.hidden).length,
+    },
+  ];
 
   return (
     <AdminLayout>
