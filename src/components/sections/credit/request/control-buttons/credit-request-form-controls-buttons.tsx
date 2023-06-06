@@ -11,7 +11,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import { grey } from "@mui/material/colors";
 import { creditRequestApi } from "api/credit/credit-request-api";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import {
@@ -23,6 +23,7 @@ import { BsEraserFill } from "react-icons/bs";
 import { checkHaveValue } from "helper/form-utils";
 import { CreditReadRequestShape } from "types/data/credit/credit-request-type";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+import { reactQueryKeys } from "config/react-query-keys-config";
 
 interface CreditRequestFormControlsButtonsProps {
   formData: any;
@@ -211,7 +212,11 @@ function CreditRequestFormControlsButtons(
     setShowConfrimClearForm(true);
   };
 
+  const quertClient = useQueryClient();
   const onConfrimClearForm = () => {
+    quertClient.setQueryData(reactQueryKeys.request.table.list, {
+      data: [],
+    });
     setFormData(creditRequestFormDefaultValue);
     setFirstStepCrossed(false);
     onClearCallback();
