@@ -1,7 +1,10 @@
 import FixedTable from "components/data/table/fixed-table";
 import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
 import FixedModal from "components/ui/modal/fixed-modal";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import PersonIcon from "@mui/icons-material/Person";
+import Box from "@mui/material/Box";
+import SearchIcon from "@mui/icons-material/Search";
 import SepratorProjectModal2 from "./seprator-project-modal-2";
 
 import { TableHeadShape } from "types/table-type";
@@ -11,6 +14,9 @@ import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { GetSingleSepratorProjectItemShape } from "types/data/budget/seprator-type";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
+import SepratorDepratmentModal1 from "../../seprator-creaditor/seprator-department-modal-1";
+import { sepratorCreaditorBudgetApi } from "api/budget/seprator-creaditor-api";
+import { sepratorCreaditorBudgetConfig } from "config/features/budget/seprator-creaditro-config";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -60,23 +66,43 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
   const [isOpenAreaModal, setIsOpenAreaModal] = useState(false);
   const [modal1ProjectId, setModal1ProjectId] = useState<null | number>(null);
 
-  const handleClickAreaModal = (
-    row: TableDataItemShape & GetSingleSepratorProjectItemShape
-  ) => {
-    setModal1ProjectId(row.id);
+  const handleClickAreaModal = (row: any) => {
+    setModal1ProjectId(row?.projectId as any);
     sepratorAreaMutation.mutate(formData);
     setIsOpenAreaModal(true);
   };
 
   // actions
+  // <IconButton
+  //   color="primary"
+  //   size="small"
+  //   onClick={() => handleClickAreaModal(row)}
+  // >
+  {
+    /* <FormatListBulletedIcon /> */
+  }
+  // </IconButton>
   const actionButtons = (row: TableDataItemShape | any) => (
-    <IconButton
-      color="primary"
-      size="small"
-      onClick={() => handleClickAreaModal(row)}
-    >
-      <FormatListBulletedIcon />
-    </IconButton>
+    <Box display={"flex"} justifyContent={"center"} gap={1}>
+      <Button
+        color="primary"
+        variant="outlined"
+        size="small"
+        onClick={() => handleClickAreaModal(row)}
+        sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
+        // startIcon={}
+      >
+        <SearchIcon sx={{ fontSize: 17 }} />p
+      </Button>
+
+      <IconButton
+        color="primary"
+        size="small"
+        onClick={() => handleClickOpenModal1(row)}
+      >
+        <PersonIcon />
+      </IconButton>
+    </Box>
   );
 
   // data
@@ -118,6 +144,25 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
     actions: "",
   };
 
+  // modal 1
+  const [isOpenModal1, setIsOpenModal1] = useState(false);
+  const [activeInitialData, setActiveInitialData] = useState<null | any>(null);
+
+  const sepratorModal1Mutation = useMutation(
+    sepratorCreaditorBudgetApi.getModalData
+  );
+
+  const handleClickOpenModal1 = (row: any) => {
+    setActiveInitialData(row);
+    // setDetailModalTitle(`${row.code} - ${row.description}`);
+    sepratorModal1Mutation.mutate({
+      ...formData,
+      [sepratorCreaditorBudgetConfig.coding]: baseCodingId,
+      [sepratorCreaditorBudgetConfig.project]: row.projectId,
+    });
+    setIsOpenModal1(true);
+  };
+
   return (
     <>
       <FixedTable
@@ -142,6 +187,24 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
           baseCodingId={baseCodingId}
           formData={formData}
           onClose={() => setIsOpenAreaModal(false)}
+        />
+      </FixedModal>
+
+      {/* modal 1 */}
+      <FixedModal
+        open={isOpenModal1}
+        handleClose={() => setIsOpenModal1(false)}
+        title={baseModal1Title}
+        loading={sepratorModal1Mutation.isLoading}
+        maxWidth="sm"
+        maxHeight="70%"
+      >
+        <SepratorDepratmentModal1
+          data={sepratorModal1Mutation.data?.data || []}
+          baseTitle={baseModal1Title}
+          baseInitialValue={activeInitialData}
+          formData={formData}
+          codingId={baseCodingId}
         />
       </FixedModal>
     </>

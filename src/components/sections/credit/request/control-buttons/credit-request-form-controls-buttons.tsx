@@ -177,7 +177,8 @@ function CreditRequestFormControlsButtons(
       // update request
       updateRequestMutation.mutate({
         ...formData,
-        [creditRequestConfig.contractor]: null,
+        [creditRequestConfig.contractor]:
+          formData[creditRequestConfig.contractor],
         [creditRequestConfig.approximate_price]:
           +formData[creditRequestConfig.approximate_price],
       });

@@ -16,11 +16,18 @@ interface SepratorCreaditModalprops {
   baseInitialValue: any;
   formData: any;
   modal1Data: any[];
+  codingId: number;
 }
 
 function SepratorCreaditModal(props: SepratorCreaditModalprops) {
-  const { onDoneTask, initialData, baseInitialValue, formData, modal1Data } =
-    props;
+  const {
+    onDoneTask,
+    initialData,
+    baseInitialValue,
+    formData,
+    modal1Data,
+    codingId,
+  } = props;
 
   const [modalFormData, setModalFormData] = useState<any>({
     [sepratorCreaditorBudgetConfig.creaditorId]: {},
@@ -53,7 +60,7 @@ function SepratorCreaditModal(props: SepratorCreaditModalprops) {
       await Promise.all(
         shouldUpdateItems.map((item: any) => {
           return updateMutation.mutateAsync({
-            [sepratorCreaditorBudgetConfig.coding]: baseInitialValue?.codingId,
+            [sepratorCreaditorBudgetConfig.coding]: codingId,
             [sepratorCreaditorBudgetConfig.project]:
               baseInitialValue?.projectId,
             [sepratorCreaditorBudgetConfig.creaditorId]: item,
@@ -92,7 +99,7 @@ function SepratorCreaditModal(props: SepratorCreaditModalprops) {
         setter={setModalFormData}
         value={modalFormData[sepratorCreaditorBudgetConfig.creaditorId] as any}
         filterText={filterText}
-        ignoreItems={modal1Data.map((item) => item.departmanName) as any}
+        ignoreItems={modal1Data.map((item) => item.departmentName) as any}
         isCheckboxed
       />
 

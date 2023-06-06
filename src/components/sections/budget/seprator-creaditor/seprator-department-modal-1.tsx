@@ -31,10 +31,17 @@ interface SepratorDepratmentModal1props {
   baseTitle: ReactNode;
   baseInitialValue: any;
   formData: any;
+  codingId?: number;
 }
 
 function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
-  const { data: initData, baseTitle, baseInitialValue, formData } = props;
+  const {
+    data: initData,
+    baseTitle,
+    baseInitialValue,
+    formData,
+    codingId,
+  } = props;
 
   const sepratorModal1Mutation = useMutation(
     sepratorCreaditorBudgetApi.getModalData
@@ -49,7 +56,7 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
 
     sepratorModal1Mutation.mutate({
       ...formData,
-      [sepratorCreaditorBudgetConfig.coding]: baseInitialValue.codingId,
+      [sepratorCreaditorBudgetConfig.coding]: codingId,
       [sepratorCreaditorBudgetConfig.project]: baseInitialValue.projectId,
     });
   };
@@ -61,18 +68,20 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
     },
     {
       title: "نام",
-      name: "departmanName",
+      name: "departmentName",
       align: "left",
     },
     {
       title: "مصوب",
-      name: "mosavabDepartman",
+      name: "mosavabDepartment",
       split: true,
       align: "left",
+      width: "150px",
     },
     {
       title: "عملیات",
       name: "actions",
+      width: "100px",
     },
   ];
   //   update
@@ -80,7 +89,7 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
   const [editMosavab, setEditMosavab] = useState<number>(0);
 
   const openEditFunctionality = (row: any) => {
-    setEditMosavab(row.mosavabDepartman);
+    setEditMosavab(row.mosavabDepartment);
     setActiveIdUpdate(row.id);
   };
 
@@ -127,7 +136,7 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
         />
       );
     } else {
-      return row.mosavabDepartman;
+      return row.mosavabDepartment;
     }
   };
 
@@ -167,7 +176,7 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
   const formatTableData = (unFormatData: any[]): any[] => {
     const formatedData: any[] | any = unFormatData.map((item, i) => ({
       ...item,
-      mosavabDepartman: () => renderMosavabDepartman(item),
+      mosavabDepartment: () => renderMosavabDepartman(item),
       number: i + 1,
       actions: actionButtons,
     }));
@@ -177,13 +186,13 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
 
   const tableData = formatTableData(data);
 
-  const sumMosavab = sumFieldsInSingleItemData(data, "mosavabDepartman");
+  const sumMosavab = sumFieldsInSingleItemData(data, "mosavabDepartment");
 
   const tableFooter: any = {
     number: "جمع",
     "colspan-number": 2,
-    departmanName: null,
-    mosavabDepartman: sumMosavab,
+    departmentName: null,
+    mosavabDepartment: sumMosavab,
     actions: () => "",
   };
 
@@ -245,7 +254,7 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
         title={baseTitle}
         loading={sepratorProjectMutation.isLoading}
         maxWidth="sm"
-        maxHeight="70%"
+        maxHeight="50%"
       >
         <SepratorCreaditModal
           initialData={activeInitialData as any}
@@ -253,6 +262,7 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
           baseInitialValue={baseInitialValue}
           formData={formData}
           modal1Data={data}
+          codingId={codingId as number}
         />
       </FixedModal>
 

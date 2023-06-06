@@ -66,7 +66,12 @@ function CreditRequestBudgetRowTable(props: CreditRequestBudgetRowTableProps) {
   // heads
   const tableHeads: TableHeadShape = [
     {
-      title: "ردیف",
+      title: (
+        <div>
+          ردیف
+          {headGroupBtn}
+        </div>
+      ),
       name: "number",
     },
     {
@@ -74,12 +79,7 @@ function CreditRequestBudgetRowTable(props: CreditRequestBudgetRowTableProps) {
       name: "yearName",
     },
     {
-      title: (
-        <div>
-          کد بودجه
-          {headGroupBtn}
-        </div>
-      ),
+      title: "کد بودجه",
       name: "code",
     },
     {
