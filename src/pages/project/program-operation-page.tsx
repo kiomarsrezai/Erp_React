@@ -152,9 +152,10 @@ function ProgramOperationProjectPage() {
       <FixedModal
         open={isOpenEditModal}
         handleClose={() => setIsOpenEditModal(false)}
-        maxWidth="md"
+        maxWidth="sm"
         maxHeight="30%"
         title={`${activeItem?.projectCode} - ${activeItem?.projectName}`}
+        minHeight={"400px"}
       >
         <ProgramOprationModal
           initialData={activeItem}

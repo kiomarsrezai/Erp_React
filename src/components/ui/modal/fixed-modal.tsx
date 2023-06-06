@@ -39,6 +39,7 @@ interface FixedModalProps {
   isNested?: boolean;
   isBig?: boolean;
   isBiger?: boolean;
+  minHeight?: string;
 }
 
 function FixedModal(props: FixedModalProps) {
@@ -54,6 +55,7 @@ function FixedModal(props: FixedModalProps) {
     maxWidth,
     maxHeight,
     topTitle,
+    minHeight,
   } = props;
 
   // loading
@@ -73,7 +75,7 @@ function FixedModal(props: FixedModalProps) {
           height:
             maxHeight ||
             (isBiger ? "90%" : isBig ? "80%" : isNested ? "70%" : "60%"),
-          minHeight: "500px",
+          minHeight: minHeight || "500px",
           width: "100%",
           maxWidth: maxWidth || (isNested ? "md" : "lg"),
         },

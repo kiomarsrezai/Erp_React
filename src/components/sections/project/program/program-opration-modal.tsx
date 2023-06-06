@@ -12,6 +12,7 @@ import ProjectScaleInput from "components/sections/inputs/project-scale-input";
 import { GetSingleProgramDataShape } from "types/data/project/program-project-type";
 import { programProjectConfig } from "config/features/project/program-project-config";
 import { programProjectApi } from "api/project/programs-project-api";
+import { Stack, TextField } from "@mui/material";
 
 interface BudgetConnectEditModalProps {
   initialData: GetSingleProgramDataShape | null;
@@ -23,6 +24,7 @@ function ProgramOprationModal(props: BudgetConnectEditModalProps) {
 
   const [modalFormData, setModalFormData] = useState({
     [programProjectConfig.scale]: initialData?.projectScaleId,
+    projectName: initialData?.projectName,
   });
 
   const updateMutation = useMutation(programProjectApi.updateItem, {
@@ -41,26 +43,49 @@ function ProgramOprationModal(props: BudgetConnectEditModalProps) {
 
   const handleSaveClick = () => {
     updateMutation.mutate({
-      id: initialData?.id,
+      projectId: initialData?.id,
       [programProjectConfig.scale]: modalFormData[programProjectConfig.scale],
+      projectName: modalFormData["projectName"],
     });
   };
 
   return (
     <Box sx={{ width: "80%", mx: "auto", p: 2 }}>
-      <ProjectScaleInput
-        setter={setModalFormData}
-        value={modalFormData[programProjectConfig.scale] as any}
-      />
+      <Stack direction={"column"} spacing={2}>
+        <ProjectScaleInput
+          setter={setModalFormData}
+          value={modalFormData[programProjectConfig.scale] as any}
+        />
 
-      <LoadingButton
-        variant="contained"
-        sx={{ mt: 1 }}
-        onClick={handleSaveClick}
-        loading={updateMutation.isLoading}
-      >
-        ثبت
-      </LoadingButton>
+        <TextField
+          id="username-input"
+          label="شرح"
+          variant="outlined"
+          size="small"
+          // {...register(changePasswordConfig.password)}
+          // error={!!errors[changePasswordConfig.password]}
+          // helperText={
+          //   (errors[changePasswordConfig.password]?.message || "") as any
+          // }
+          onChange={(e) =>
+            setModalFormData((state: any) => ({
+              ...state,
+              projectName: e.target.value,
+            }))
+          }
+          value={modalFormData["projectName"] as any}
+          fullWidth
+        />
+        <Box>
+          <LoadingButton
+            variant="contained"
+            onClick={handleSaveClick}
+            loading={updateMutation.isLoading}
+          >
+            ثبت
+          </LoadingButton>
+        </Box>
+      </Stack>
     </Box>
   );
 }

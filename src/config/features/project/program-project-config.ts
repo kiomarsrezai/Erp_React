@@ -10,5 +10,5 @@ export const programProjectUrls = {
   list: "ProgramApi/ProgramList",
   data: "ProgramApi/ProgramOperation",
   scale: "ProjectApi/ProjectScaleCom",
-  update: "ProjectApi/ProgramOperationUpdate",
+  update: "ProgramApi/ProgramOperationUpdate",
 };
