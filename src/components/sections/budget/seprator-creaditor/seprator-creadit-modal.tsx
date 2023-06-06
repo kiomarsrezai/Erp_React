@@ -85,32 +85,42 @@ function SepratorCreaditModal(props: SepratorCreaditModalprops) {
 
   return (
     <Box sx={{ width: "80%", mx: "auto", p: 2 }}>
-      <TextField
-        size="small"
-        sx={{ mb: 2 }}
-        label="جستجو"
-        value={filterText}
-        variant="filled"
-        onChange={(e) => setFilterText(e.target.value)}
-        fullWidth
-      />
-
-      <BudgetSepratorCreaditorInput
-        setter={setModalFormData}
-        value={modalFormData[sepratorCreaditorBudgetConfig.creaditorId] as any}
-        filterText={filterText}
-        ignoreItems={modal1Data.map((item) => item.departmentName) as any}
-        isCheckboxed
-      />
-
-      <LoadingButton
-        variant="contained"
-        sx={{ mt: 1, mb: 3 }}
-        onClick={handleSaveClick}
-        loading={updateMutation.isLoading}
+      <Box
+        sx={{
+          height: "calc(100% - 55px) !important",
+          overflow: "auto",
+        }}
       >
-        ثبت
-      </LoadingButton>
+        <TextField
+          size="small"
+          sx={{ mb: 2 }}
+          label="جستجو"
+          value={filterText}
+          variant="filled"
+          onChange={(e) => setFilterText(e.target.value)}
+          fullWidth
+        />
+
+        <BudgetSepratorCreaditorInput
+          setter={setModalFormData}
+          value={
+            modalFormData[sepratorCreaditorBudgetConfig.creaditorId] as any
+          }
+          filterText={filterText}
+          ignoreItems={modal1Data.map((item) => item.departmentName) as any}
+          isCheckboxed
+        />
+      </Box>
+      <Box sx={{ height: "55px !important" }}>
+        <LoadingButton
+          variant="contained"
+          sx={{ mt: 1, mb: 3 }}
+          onClick={handleSaveClick}
+          loading={updateMutation.isLoading}
+        >
+          ثبت
+        </LoadingButton>
+      </Box>
     </Box>
   );
 }

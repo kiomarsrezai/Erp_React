@@ -32,6 +32,7 @@ interface SepratorDepratmentModal1props {
   baseInitialValue: any;
   formData: any;
   codingId?: number;
+  baseMosavab?: number;
 }
 
 function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
@@ -41,6 +42,7 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
     baseInitialValue,
     formData,
     codingId,
+    baseMosavab,
   } = props;
 
   const sepratorModal1Mutation = useMutation(
@@ -196,6 +198,16 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
     actions: () => "",
   };
 
+  const bottomFooterMosavab = (baseMosavab || 0) - sumMosavab;
+  const tableBottomFooter: any = {
+    number: "مانده",
+    "colspan-number": 2,
+    departmentName: null,
+    mosavabDepartment: bottomFooterMosavab,
+    "textcolor-mosavabDepartment": bottomFooterMosavab < 0 ? "red" : "black",
+    actions: () => "",
+  };
+
   // modal creadit
   const sepratorProjectMutation = useMutation(sepratorBudgetApi.areaProject);
   const [activeInitialData, setActiveInitialData] = useState<null | any>(null);
@@ -243,6 +255,7 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
         heads={tableHeads}
         data={tableData}
         footer={tableFooter}
+        bottomFooter={tableBottomFooter}
         headGroups={tableHeadGroup}
         notFixed
       />

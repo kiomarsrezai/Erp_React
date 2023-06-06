@@ -205,6 +205,7 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
           baseInitialValue={activeInitialData}
           formData={formData}
           codingId={baseCodingId}
+          baseMosavab={sumMosavab}
         />
       </FixedModal>
     </>
