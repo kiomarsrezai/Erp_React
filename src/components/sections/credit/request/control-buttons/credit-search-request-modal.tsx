@@ -44,7 +44,7 @@ function CreditSearchRequestModal(props: CreditSearchRequestModalProps) {
     },
     {
       title: "تاریخ",
-      name: "date",
+      name: "dateShamsi",
     },
     {
       title: "ثبت کننده",

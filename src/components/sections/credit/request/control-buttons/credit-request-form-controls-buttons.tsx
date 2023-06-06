@@ -80,7 +80,7 @@ function CreditRequestFormControlsButtons(
     onSuccess(data) {
       setFormData((state: any) => ({
         ...state,
-        [creditRequestConfig.request_date]: data.data.date,
+        [creditRequestConfig.request_date]: data.data.dateShamsi,
         [creditRequestConfig.request_number]: data.data.number,
         id: data.data.id,
       }));
@@ -189,7 +189,7 @@ function CreditRequestFormControlsButtons(
     setFormData((state: any) => ({
       ...state,
       [creditRequestConfig.request_number]: data.number,
-      [creditRequestConfig.request_date]: data.date,
+      [creditRequestConfig.request_date]: data.dateShamsi,
       [creditRequestConfig.approximate_price]: data.estimateAmount,
       [creditRequestConfig.doing_method]: data.doingMethodId,
       [creditRequestConfig.request_description]: data.description,

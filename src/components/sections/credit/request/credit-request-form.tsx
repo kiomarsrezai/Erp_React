@@ -127,6 +127,8 @@ function CreditRequestForm(props: CreditRequestFormProps) {
       setFormData((state: any) => ({
         ...state,
         [creditRequestConfig.doing_method]: +value,
+        [creditRequestConfig.contractor]: undefined,
+        [creditRequestConfig.contractorName]: undefined,
       }));
     }
   };
@@ -401,6 +403,9 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                         },
                       }}
                       disabled
+                      InputLabelProps={{
+                        shrink: !!formData[creditRequestConfig.contractorName],
+                      }}
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">

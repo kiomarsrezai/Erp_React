@@ -7,6 +7,7 @@ export interface CreateCreditRequestShape {
   doingMethodId: number;
   number: string;
   date: string;
+  dateShamsi: string;
 }
 
 export interface SearchCreditRequestShape {
@@ -33,6 +34,7 @@ export interface CreditReadRequestShape {
   resonDoingMethod: string;
   suppliersId: number;
   suppliersName: string;
+  dateShamsi: string;
 }
 
 export interface CreditReadRequestSuppliersShape {
