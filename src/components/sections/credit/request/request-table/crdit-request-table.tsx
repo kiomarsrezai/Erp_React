@@ -34,10 +34,11 @@ interface CreidtRequestFormTableProps {
   formData: any;
   firstStepCrossed: boolean;
   data: any[];
+  mainDescriptionField: any;
 }
 
 function CreidtRequestTable(props: CreidtRequestFormTableProps) {
-  const { formData, firstStepCrossed, data } = props;
+  const { formData, firstStepCrossed, data, mainDescriptionField } = props;
 
   // head group
   const [isOpenAddItemModal, setIsOpenAddItemModal] = useState(false);
@@ -83,15 +84,7 @@ function CreidtRequestTable(props: CreidtRequestFormTableProps) {
   // };
   const headGroup: TableHeadGroupShape = [
     {
-      title: (
-        <IconButton
-          color="primary"
-          size="small"
-          onClick={() => setIsOpenAddItemModal(true)}
-        >
-          <AddIcon />
-        </IconButton>
-      ),
+      title: mainDescriptionField,
       colspan: 8,
     },
   ];
@@ -99,7 +92,20 @@ function CreidtRequestTable(props: CreidtRequestFormTableProps) {
   // heads
   const tableHeads: TableHeadShape = [
     {
-      title: "ردیف",
+      title: (
+        <div>
+          ردیف
+          {firstStepCrossed && (
+            <IconButton
+              color="primary"
+              size="small"
+              onClick={() => setIsOpenAddItemModal(true)}
+            >
+              <AddIcon />
+            </IconButton>
+          )}
+        </div>
+      ),
       name: "number",
     },
     {
@@ -327,9 +333,10 @@ function CreidtRequestTable(props: CreidtRequestFormTableProps) {
     <>
       <FixedTable
         heads={tableHeads}
-        topHeadGroups={firstStepCrossed ? headGroup : undefined}
+        topHeadGroups={headGroup}
         data={tableData}
         // data={finalyTableData}
+        bgcolor="#eee"
         footer={tableFooter}
         notFixed
       />

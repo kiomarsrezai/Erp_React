@@ -31,6 +31,8 @@ export interface CreditReadRequestShape {
   description: string;
   estimateAmount: string;
   resonDoingMethod: string;
+  suppliersId: number;
+  suppliersName: string;
 }
 
 export interface CreditReadRequestSuppliersShape {

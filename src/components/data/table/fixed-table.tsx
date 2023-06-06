@@ -54,10 +54,12 @@ interface FixedTableProps {
   canSort?: boolean;
   enableVirtual?: boolean;
   tableLayout?: "fixed" | "auto";
+  bgcolor?: string;
 }
 function FixedTable(props: FixedTableProps) {
   const {
     heads,
+    bgcolor,
     headGroups,
     data,
     footer,
@@ -390,6 +392,7 @@ function FixedTable(props: FixedTableProps) {
     <Paper
       style={{
         width: "100%",
+        background: bgcolor || "transparent",
         height: !notFixed
           ? `calc(100vh - ${globalConfig.headerHeight}px)`
           : "100%",

@@ -167,13 +167,35 @@ function CreditRequestForm(props: CreditRequestFormProps) {
     }
   );
 
+  // main description
+  const mainDescriptionField = (
+    <TextField
+      id="description-request-input"
+      label="شرح اصلی درخواست"
+      variant="outlined"
+      size="small"
+      name={creditRequestConfig.request_description}
+      onChange={handleChangeTextFields}
+      fullWidth
+      value={formData[creditRequestConfig.request_description]}
+      error={
+        !formData[creditRequestConfig.request_description] && haveSubmitedForm
+      }
+      helperText={
+        !formData[creditRequestConfig.request_description] &&
+        haveSubmitedForm &&
+        globalConfig.ERROR_NO_EMPTY
+      }
+    />
+  );
+
   return (
     <>
       <Box>
         <Grid container rowSpacing={2} columnSpacing={1} alignItems="start">
-          <Grid xs={6} xl={4} ref={controlFormRef}>
+          <Grid xs={4} xl={4} ref={controlFormRef}>
             <Grid container rowSpacing={2} columnSpacing={1}>
-              <Grid xs={12} xl={6}>
+              <Grid xs={12}>
                 <CreditRequestFormControlsButtons
                   formData={formData}
                   setFormData={setFormData}
@@ -185,7 +207,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                 />
               </Grid>
 
-              <Grid xs={12} xl={6}>
+              {/* <Grid xs={12} xl={6}>
                 <FlotingLabelSelect
                   items={requestTypeItems}
                   label="نوع درخواست"
@@ -194,9 +216,9 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   setter={setFormData}
                   showError={haveSubmitedForm}
                 />
-              </Grid>
+              </Grid> */}
 
-              <Grid xs={12} xl={6}>
+              <Grid xs={6} xl={6}>
                 <TextField
                   id="user-input"
                   label="کاربر"
@@ -249,7 +271,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                     )}
                 </FormControl>
               </Grid> */}
-              <Grid xs={12} xl={6}>
+              <Grid xs={6} xl={6}>
                 <BudgetSepratorCreaditorInput
                   setter={setFormData}
                   name={creditRequestConfig.execute_departman_id}
@@ -259,7 +281,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   showError={haveSubmitedForm || haveClickedSearch}
                 />
               </Grid>
-              <Grid xs={12} xl={6}>
+              <Grid xs={6} xl={6}>
                 <TextField
                   id="request-number-input"
                   label="شماره درخواست"
@@ -270,7 +292,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   fullWidth
                 />
               </Grid>
-              <Grid xs={12} xl={6}>
+              <Grid xs={6} xl={6}>
                 <AreaInput
                   setter={setFormData}
                   value={formData[creditRequestConfig.area]}
@@ -278,7 +300,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   showError={haveSubmitedForm || haveClickedSearch}
                 />
               </Grid>
-              <Grid xs={12} xl={6}>
+              <Grid xs={6} xl={6}>
                 <TextField
                   id="date-request-input"
                   label="تاریخ"
@@ -289,7 +311,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   fullWidth
                 />
               </Grid>
-              <Grid xs={12} xl={6}>
+              <Grid xs={6} xl={6}>
                 <YearInput
                   setter={setFormData}
                   value={formData[creditRequestConfig.year]}
@@ -297,7 +319,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   showError={haveSubmitedForm || haveClickedSearch}
                 />
               </Grid>
-              <Grid xs={12} xl={6}>
+              <Grid xs={6} xl={6}>
                 <FormControl
                   fullWidth
                   size="small"
@@ -330,7 +352,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                     )}
                 </FormControl>
               </Grid>
-              <Grid xs={12} xl={6}>
+              <Grid xs={6} xl={6}>
                 <TextField
                   id="price-request-input"
                   label="برآورد مبلغ"
@@ -419,17 +441,17 @@ function CreditRequestForm(props: CreditRequestFormProps) {
               )}
             </Grid>
           </Grid>
-          <Grid xs={6} xl={8}>
+          <Grid xs={8} xl={8}>
             <Paper
               sx={{
                 width: "100%",
-                height: paperHeight,
+                // height: paperHeight,
+                height: "400px",
                 overflow: "auto",
-                bgcolor: "grey.50",
               }}
               elevation={0}
             >
-              {formData[creditRequestConfig.request_type] === 1 && (
+              {/* {formData[creditRequestConfig.request_type] === 1 && (
                 <Grid xs={12}>
                   <TextField
                     id="description-request-input"
@@ -451,23 +473,24 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                     }
                   />
                 </Grid>
-              )}
+              )} */}
 
-              {formData[creditRequestConfig.request_type] === 2 && (
-                <Grid xs={12}>
-                  {!firstStepCrossed && (
-                    <Alert severity="info" icon={false}>
-                      <AlertTitle>درخواست جدولی</AlertTitle>
-                      بعد از ذخیره کردن درخواست میتوانید به جدول آیتم اضافه کنید
-                    </Alert>
-                  )}
-                  <CreidtRequestTable
-                    formData={formData}
-                    firstStepCrossed={firstStepCrossed}
-                    data={requestTableQuery.data?.data || []}
-                  />
-                </Grid>
-              )}
+              {/* {formData[creditRequestConfig.request_type] === 2 && ( */}
+              {/* <Grid xs={12}> */}
+              {/* {!firstStepCrossed && (
+                  <Alert severity="info" icon={false}>
+                    <AlertTitle>درخواست جدولی</AlertTitle>
+                    بعد از ذخیره کردن درخواست میتوانید به جدول آیتم اضافه کنید
+                  </Alert>
+                )} */}
+              <CreidtRequestTable
+                formData={formData}
+                firstStepCrossed={firstStepCrossed}
+                data={requestTableQuery.data?.data || []}
+                mainDescriptionField={mainDescriptionField}
+              />
+              {/* </Grid> */}
+              {/* )} */}
             </Paper>
           </Grid>
         </Grid>
