@@ -313,7 +313,10 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
           commiteDetailItem?.[mettingsProjectConfig.row] || maxRow
         }`}
       >
-        <CommiteWbsModal1 data={wbsDataMutation.data?.data || []} />
+        <CommiteWbsModal1
+          data={wbsDataMutation.data?.data || []}
+          commiteDetailItem={commiteDetailItem}
+        />
       </FixedModal>
 
       {/* delete */}
