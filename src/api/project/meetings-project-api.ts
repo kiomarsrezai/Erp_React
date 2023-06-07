@@ -12,6 +12,7 @@ import {
   COMMITE_MEETINGS_MODAL_PROJECT_URL,
   COMMITE_METTINGS_COMBO_PROJECT_URL,
   mettingsProjectConfig,
+  mettingsProjectUrl,
 } from "config/features/project/meetings-project-config";
 
 export const mettingsProjectApi = new (class extends BaseApi {
@@ -46,6 +47,16 @@ export const mettingsProjectApi = new (class extends BaseApi {
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleCommiteModalShape[]>
     >(url);
+
+    return response.data;
+  };
+
+  insertCommiteDetail = async (formdata: any) => {
+    const url = mettingsProjectUrl.insertDetail;
+
+    const response = await clientAxios.post<
+      BaseApiResponseShape<GetSingleCommiteModalShape[]>
+    >(url, formdata);
 
     return response.data;
   };

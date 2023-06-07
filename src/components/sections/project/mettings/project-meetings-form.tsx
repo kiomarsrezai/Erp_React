@@ -1,8 +1,11 @@
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 import FixedModal from "components/ui/modal/fixed-modal";
 import SearchIcon from "@mui/icons-material/Search";
+import AddIcon from "@mui/icons-material/Add";
+import ClearIcon from "@mui/icons-material/Clear";
 import TextField from "@mui/material/TextField";
 import ProjectMettingsModal from "components/sections/project/mettings/project-meetings-modal";
 import WindowLoading from "components/ui/loading/window-loading";
@@ -15,10 +18,12 @@ import { mettingsProjectApi } from "api/project/meetings-project-api";
 interface ProjectMeetingsFormProps {
   formData: any;
   setFormData: any;
+  setInsertMode: (state: any) => void;
+  insertMode: boolean;
 }
 
 function ProjectMeetingsForm(props: ProjectMeetingsFormProps) {
-  const { formData, setFormData } = props;
+  const { formData, setFormData, setInsertMode, insertMode } = props;
 
   // submit
   const queryClient = useQueryClient();
@@ -52,9 +57,15 @@ function ProjectMeetingsForm(props: ProjectMeetingsFormProps) {
       date,
       code,
       commite,
+      id,
     });
     handleCloseMeetingsModal();
     commiteDetailModalMutation.mutate(id);
+  };
+
+  // insert
+  const handleInsertClick = () => {
+    setInsertMode((state: boolean) => !state);
   };
 
   return (
@@ -103,6 +114,13 @@ function ProjectMeetingsForm(props: ProjectMeetingsFormProps) {
             >
               <SearchIcon />
             </Button>
+            <IconButton
+              onClick={handleInsertClick}
+              color="primary"
+              sx={{ mx: 1 }}
+            >
+              {insertMode ? <ClearIcon /> : <AddIcon />}
+            </IconButton>
           </Grid>
         </Grid>
       </Box>

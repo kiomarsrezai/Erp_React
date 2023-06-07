@@ -14,6 +14,7 @@ function MeetingsProjectPage() {
     date: "",
     code: "",
     commite: "",
+    id: undefined,
   });
 
   // data
@@ -25,16 +26,37 @@ function MeetingsProjectPage() {
     }
   );
 
+  // insert
+  const [insertMode, setInsertMode] = useState(false);
+
   return (
     <AdminLayout>
-      <ProjectMeetingsForm formData={formData} setFormData={setFormData} />
+      <ProjectMeetingsForm
+        formData={formData}
+        setFormData={setFormData}
+        setInsertMode={setInsertMode}
+        insertMode={insertMode}
+      />
       <Stack p={2} spacing={2}>
+        {insertMode && (
+          <ProjectMeetingsEditorCard
+            number={1}
+            projectName={""}
+            data={""}
+            formData={formData}
+            setInsertMode={setInsertMode}
+            insertMode
+          />
+        )}
         {commiteMettingsDetailQuery.data?.data.map((item, i) => (
           <ProjectMeetingsEditorCard
             number={i + 1}
             key={i}
             projectName={item.projectName}
             data={item.description}
+            setInsertMode={setInsertMode}
+            insertMode={false}
+            formData={formData}
           />
         ))}
       </Stack>

@@ -12,15 +12,59 @@ import SearchIcon from "@mui/icons-material/Search";
 import { grey, blue, red } from "@mui/material/colors";
 import TextField from "@mui/material/TextField";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { mettingsProjectApi } from "api/project/meetings-project-api";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
+import { mettingsProjectConfig } from "config/features/project/meetings-project-config";
+import { reactQueryKeys } from "config/react-query-keys-config";
 
 interface ProjectMeetingsEditorCardProps {
   number: number;
   data: string;
   projectName: string;
+  insertMode: boolean;
+  setInsertMode: (state: any) => void;
+  formData: any;
 }
 
 function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
-  const { number, data, projectName } = props;
+  const { number, data, projectName, insertMode, formData, setInsertMode } =
+    props;
+
+  const queryClient = useQueryClient();
+  const commiteDetailModalMutation = useMutation(
+    mettingsProjectApi.getCommiteDetail,
+    {
+      onSuccess: (data) => {
+        queryClient.setQueryData(
+          reactQueryKeys.project.mettings.getCommitesDetailModal,
+          data
+        );
+      },
+    }
+  );
+
+  const insertMutation = useMutation(mettingsProjectApi.insertCommiteDetail, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+      setInsertMode(false);
+      commiteDetailModalMutation.mutate(formData.id);
+    },
+  });
+  const handleSaveClick = () => {
+    if (insertMode) {
+      // insert
+      insertMutation.mutate({
+        row: 5,
+        commiteId: formData.id,
+        description: "salam",
+        projectId: 6,
+      });
+    }
+  };
 
   return (
     <Card sx={{ bgcolor: grey[100] }} elevation={0}>
@@ -75,19 +119,35 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
                   ),
                 }}
               />
-              <Button variant="contained" color="primary" fullWidth>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSaveClick}
+                fullWidth
+              >
                 ثبت
               </Button>
-              <Button variant="contained" color="primary" fullWidth>
+              <Button
+                variant="contained"
+                color="primary"
+                disabled={insertMode}
+                fullWidth
+              >
                 WBS
               </Button>
-              <Button variant="contained" color="primary" fullWidth>
+              <Button
+                variant="contained"
+                color="primary"
+                disabled={insertMode}
+                fullWidth
+              >
                 تایید کنندگان
               </Button>
               <Button
                 variant="contained"
                 color="error"
                 sx={{ bgcolor: red[400] }}
+                disabled={insertMode}
                 fullWidth
               >
                 حذف
