@@ -27,6 +27,7 @@ import {
   getGeneralFieldItemYear,
 } from "helper/export-utils";
 import { budgetSepratorStimul } from "stimul/budget/seprator/budget-seprator-stimul";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 interface SepratoeBudgetFormProps {
   formData: any;
@@ -91,14 +92,20 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
   }, [formData, queryClient]);
 
   // refesh form
+  const [isOpenConfrimRefresh, setIsOpenConfrimRefresh] = useState(false);
   const refeshFormMutation = useMutation(sepratorBudgetApi.refeshForm, {
     onSuccess: () => {
       submitMutation.mutate(formData);
     },
   });
 
-  const handleRefeshForm = () => {
+  const handleConfrimRefresh = () => {
+    setIsOpenConfrimRefresh(false);
     refeshFormMutation.mutate(formData);
+  };
+
+  const handleRefeshForm = () => {
+    setIsOpenConfrimRefresh(true);
   };
 
   // print
@@ -194,6 +201,13 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
       </Box>
 
       <WindowLoading active={refeshFormMutation.isLoading} />
+
+      <ConfrimProcessModal
+        onCancel={() => setIsOpenConfrimRefresh(false)}
+        onConfrim={handleConfrimRefresh}
+        open={isOpenConfrimRefresh}
+        text="آیا مایل به به روز آوری اطلاعات هستید؟"
+      />
     </>
   );
 }
