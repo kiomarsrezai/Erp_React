@@ -14,6 +14,8 @@ export const mettingsProjectUrl = {
   updateDetail: "CommiteApi/CommiteDetailUpdate",
   deleteDetail: "CommiteApi/CommiteDetailDelete",
   projectDetail: "CommiteApi/CommiteDetailProjectModal",
+  // wbs
+  wbsData: "CommiteApi/CommiteDetailWbsRead",
 };
 
 export const COMMITE_METTINGS_COMBO_PROJECT_URL = "CommiteApi/CommiteKindCombo";

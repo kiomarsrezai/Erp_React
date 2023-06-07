@@ -24,3 +24,14 @@ export interface GetSingleCommiteDetailProjectModalShape {
   projectCode: string;
   projectName: string;
 }
+
+// wbs
+export interface GetSingleCommiteDetailWbsModalShape {
+  id: number;
+  firstName: string;
+  description: null;
+  lastName: string;
+  responsibility: string;
+  dateStart: string;
+  dateEnd: string;
+}

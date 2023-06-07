@@ -93,7 +93,7 @@ function CreditRequestBudgetInsertRowModal(
   const handleInsertClick = (row: CreditReadRequestBudgetRowShape) => {
     insertMutation.mutate({
       RequestId: formData.id,
-      BudgetDetailProjectAreaDepartmentId: row.id,
+      budgetDetailProjectAreatId: row.id,
     });
   };
   const actionBtn = (row: CreditReadRequestBudgetRowShape) => (

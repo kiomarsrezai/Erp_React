@@ -29,6 +29,7 @@ import { useState } from "react";
 import FixedModal from "components/ui/modal/fixed-modal";
 import CommiteMettingsProject from "./commite-mettings-project";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+import CommiteWbsModal1 from "./wbs/commite-wbs-modal1";
 
 interface ProjectMeetingsEditorCardProps {
   commiteDetailItem?: GetSingleCommiteDetailModalShape | any;
@@ -175,6 +176,15 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
     setIsOpenConfrimDelete(true);
   };
 
+  // wbs
+  const [isOpenWbsModal, setIsOpenWbsModal] = useState(false);
+  const handleClickWbs = () => {
+    wbsDataMutation.mutate({ commiteDetailId: commiteDetailItem.id });
+    setIsOpenWbsModal(true);
+  };
+
+  const wbsDataMutation = useMutation(mettingsProjectApi.wbsDataModal);
+
   return (
     <>
       <Card
@@ -263,6 +273,7 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
                   color="primary"
                   disabled={insertMode}
                   fullWidth
+                  onClick={handleClickWbs}
                 >
                   WBS
                 </Button>
@@ -290,6 +301,22 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
         </CardContent>
       </Card>
 
+      {/* wbs */}
+      <FixedModal
+        handleClose={() => setIsOpenWbsModal(false)}
+        // maxWidth="sm"
+        // maxHeight="70%"
+        // loading={projectDataMutation.isLoading}
+        open={isOpenWbsModal}
+        loading={wbsDataMutation.isLoading}
+        title={`wbs - بند ${
+          commiteDetailItem?.[mettingsProjectConfig.row] || maxRow
+        }`}
+      >
+        <CommiteWbsModal1 data={wbsDataMutation.data?.data || []} />
+      </FixedModal>
+
+      {/* delete */}
       <ConfrimProcessModal
         onCancel={() => setIsOpenConfrimDelete(false)}
         onConfrim={handleConfrimDelete}

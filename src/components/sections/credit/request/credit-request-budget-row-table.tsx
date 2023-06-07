@@ -149,7 +149,7 @@ function CreditRequestBudgetRowTable(props: CreditRequestBudgetRowTableProps) {
   );
   const handleClickDelete = (row: CreditReadRequestBudgetRowInsertedShape) => {
     setTitleItemForDelete(
-      `آیا مایل به حذف ردیف ${row.code} - ${row.description}`
+      `آیا مایل به حذف ردیف ${row.code} - ${row.description} هستید؟`
     );
     setIdItemForDelete(row.id);
     setIsOpenConfrimDelete(true);
@@ -189,7 +189,7 @@ function CreditRequestBudgetRowTable(props: CreditRequestBudgetRowTableProps) {
       return (
         <TextField
           id="code-input"
-          label="مبلغ"
+          label=""
           variant="outlined"
           type="number"
           size="small"
