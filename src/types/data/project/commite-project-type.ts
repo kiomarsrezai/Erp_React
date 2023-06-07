@@ -18,3 +18,9 @@ export interface GetSingleCommiteDetailModalShape {
   description: string;
   row: number;
 }
+
+export interface GetSingleCommiteDetailProjectModalShape {
+  id: number;
+  projectCode: string;
+  projectName: string;
+}

@@ -34,6 +34,12 @@ function MeetingsProjectPage() {
       (a, b) => b.row - a.row
     )?.[0]?.row || 0) + 1;
 
+  // const checkUnickRow = (row: number) => {
+  //   return !!commiteMettingsDetailQuery.data?.data.find(
+  //     (item) => item.row === row
+  //   );
+  // };
+
   return (
     <AdminLayout>
       <ProjectMeetingsForm

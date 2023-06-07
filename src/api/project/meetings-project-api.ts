@@ -4,6 +4,7 @@ import { BaseApi } from "api/base-api";
 import { BaseApiResponseShape } from "types/base-type";
 import {
   GetSingleCommiteDetailModalShape,
+  GetSingleCommiteDetailProjectModalShape,
   GetSingleCommiteListShape,
   GetSingleCommiteModalShape,
 } from "types/data/project/commite-project-type";
@@ -79,6 +80,16 @@ export const mettingsProjectApi = new (class extends BaseApi {
       url,
       formdata
     );
+
+    return response.data;
+  };
+
+  dataProjectCommiteDetail = async () => {
+    const url = mettingsProjectUrl.projectDetail;
+
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleCommiteDetailProjectModalShape[]>
+    >(url);
 
     return response.data;
   };

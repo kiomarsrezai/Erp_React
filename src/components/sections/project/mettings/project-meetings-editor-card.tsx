@@ -18,11 +18,16 @@ import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import { mettingsProjectConfig } from "config/features/project/meetings-project-config";
 import { reactQueryKeys } from "config/react-query-keys-config";
-import { GetSingleCommiteDetailModalShape } from "types/data/project/commite-project-type";
+import {
+  GetSingleCommiteDetailModalShape,
+  GetSingleCommiteDetailProjectModalShape,
+} from "types/data/project/commite-project-type";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
+import FixedModal from "components/ui/modal/fixed-modal";
+import CommiteMettingsProject from "./commite-mettings-project";
 
 interface ProjectMeetingsEditorCardProps {
   commiteDetailItem?: GetSingleCommiteDetailModalShape | any;
@@ -36,6 +41,7 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
   const { commiteDetailItem, insertMode, formData, setInsertMode, maxRow } =
     props;
 
+  // refresh base data mutation
   const queryClient = useQueryClient();
   const commiteDetailModalMutation = useMutation(
     mettingsProjectApi.getCommiteDetail,
@@ -47,6 +53,68 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
         );
       },
     }
+  );
+
+  // form manage
+  const formSchema = yup.object({
+    [mettingsProjectConfig.row]: yup.number().required(),
+  });
+
+  const [description, setDescription] = useState(
+    commiteDetailItem?.description || ""
+  );
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(formSchema),
+  });
+
+  const onSubmitHandler = (values: any) => {
+    if (insertMode) {
+      // insert
+      insertMutation.mutate({
+        row: values.row,
+        commiteId: formData.id,
+        description: description,
+        projectId: activeProjectId,
+      });
+    } else {
+      updateMutation.mutate({
+        row: values.row,
+        id: commiteDetailItem.id,
+        description: description,
+        projectId: activeProjectId,
+      });
+    }
+  };
+
+  // project
+  const [isOpenProjectList, setIsOpenProjectList] = useState(false);
+  const [activeProjectId, setActiveProjectId] = useState(
+    commiteDetailItem?.projectId || null
+  );
+  const [activeProjectName, setActiveProjectName] = useState(
+    commiteDetailItem?.projectName || ""
+  );
+
+  const handleClickSearchProject = () => {
+    projectDataMutation.mutate();
+    setIsOpenProjectList(true);
+  };
+
+  const handleDoneSelectProject = (
+    project: GetSingleCommiteDetailProjectModalShape
+  ) => {
+    setIsOpenProjectList(false);
+    setActiveProjectId(project.id);
+    setActiveProjectName(project.projectName);
+  };
+
+  const projectDataMutation = useMutation(
+    mettingsProjectApi.dataProjectCommiteDetail
   );
 
   // insert
@@ -80,42 +148,6 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
     },
   });
 
-  // form manage
-  const formSchema = yup.object({
-    [mettingsProjectConfig.row]: yup.number().required(),
-  });
-
-  const [description, setDescription] = useState(
-    commiteDetailItem?.description || ""
-  );
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(formSchema),
-  });
-
-  const onSubmitHandler = (values: any) => {
-    if (insertMode) {
-      // insert
-      insertMutation.mutate({
-        row: values.row,
-        commiteId: formData.id,
-        description: description,
-        projectId: 6,
-      });
-    } else {
-      updateMutation.mutate({
-        row: values.row,
-        id: commiteDetailItem.id,
-        description: description,
-        projectId: 6,
-      });
-    }
-  };
-
   const handleDeleteClick = () => {
     deleteMutation.mutate({
       id: commiteDetailItem.id,
@@ -123,118 +155,133 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
   };
 
   return (
-    <Card
-      sx={{ bgcolor: grey[100] }}
-      elevation={0}
-      component={"form"}
-      onSubmit={handleSubmit(onSubmitHandler)}
-    >
-      <CardContent>
-        <Grid container spacing={2}>
-          <Grid lg={8}>
-            <CKEditor
-              editor={ClassicEditor}
-              config={{
-                toolbar: [
-                  "heading",
-                  "|",
-                  "bold",
-                  "italic",
-                  "|",
-                  "numberedList",
-                  "|",
-                  "undo",
-                  "redo",
-                ],
-                language: "fa",
-              }}
-              data={description}
-              onChange={(event, editor) => {
-                const data = editor.getData();
-                // console.log({ event, editor, data });
-                setDescription(data);
-              }}
-            />
-          </Grid>
-
-          <Grid lg={4}>
-            <Stack spacing={1}>
-              <TextField
-                id="row-input"
-                label="بند"
-                variant="outlined"
-                size="small"
-                fullWidth
-                {...register(mettingsProjectConfig.row)}
-                error={!!errors[mettingsProjectConfig.row]}
-                helperText={
-                  (errors[mettingsProjectConfig.row]?.message || "") as any
-                }
-                defaultValue={
-                  (commiteDetailItem?.[mettingsProjectConfig.row] ||
-                    maxRow) as any
-                }
-                autoComplete="off"
-              />
-
-              <TextField
-                id="username-input"
-                label="پروژه"
-                variant="outlined"
-                size="small"
-                fullWidth
-                disabled
-                value={commiteDetailItem?.projectName || ""}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton>
-                        <SearchIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
+    <>
+      <Card
+        sx={{ bgcolor: grey[100] }}
+        elevation={0}
+        component={"form"}
+        onSubmit={handleSubmit(onSubmitHandler)}
+      >
+        <CardContent>
+          <Grid container spacing={2}>
+            <Grid lg={8}>
+              <CKEditor
+                editor={ClassicEditor}
+                config={{
+                  toolbar: [
+                    "heading",
+                    "|",
+                    "bold",
+                    "italic",
+                    "|",
+                    "numberedList",
+                    "|",
+                    "undo",
+                    "redo",
+                  ],
+                  language: "fa",
+                }}
+                data={description}
+                onChange={(event, editor) => {
+                  const data = editor.getData();
+                  // console.log({ event, editor, data });
+                  setDescription(data);
                 }}
               />
-              <Button
-                variant="contained"
-                color="primary"
-                // onClick={handleSaveClick}
-                fullWidth
-                type="submit"
-              >
-                ثبت
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                disabled={insertMode}
-                fullWidth
-              >
-                WBS
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                disabled={insertMode}
-                fullWidth
-              >
-                تایید کنندگان
-              </Button>
-              <Button
-                variant="contained"
-                color="error"
-                sx={{ bgcolor: red[400] }}
-                disabled={insertMode}
-                onClick={handleDeleteClick}
-                fullWidth
-              >
-                حذف
-              </Button>
-            </Stack>
+            </Grid>
+
+            <Grid lg={4}>
+              <Stack spacing={1}>
+                <TextField
+                  id="row-input"
+                  label="بند"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  {...register(mettingsProjectConfig.row)}
+                  error={!!errors[mettingsProjectConfig.row]}
+                  helperText={
+                    (errors[mettingsProjectConfig.row]?.message || "") as any
+                  }
+                  defaultValue={
+                    (commiteDetailItem?.[mettingsProjectConfig.row] ||
+                      maxRow) as any
+                  }
+                  autoComplete="off"
+                />
+
+                <TextField
+                  id="username-input"
+                  label="پروژه"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  disabled
+                  value={activeProjectName}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleClickSearchProject}>
+                          <SearchIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  // onClick={handleSaveClick}
+                  fullWidth
+                  type="submit"
+                >
+                  ثبت
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  disabled={insertMode}
+                  fullWidth
+                >
+                  WBS
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  disabled={insertMode}
+                  fullWidth
+                >
+                  تایید کنندگان
+                </Button>
+                <Button
+                  variant="contained"
+                  color="error"
+                  sx={{ bgcolor: red[400] }}
+                  disabled={insertMode}
+                  onClick={handleDeleteClick}
+                  fullWidth
+                >
+                  حذف
+                </Button>
+              </Stack>
+            </Grid>
           </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+
+      <FixedModal
+        handleClose={() => setIsOpenProjectList(false)}
+        maxWidth="sm"
+        maxHeight="70%"
+        loading={projectDataMutation.isLoading}
+        open={isOpenProjectList}
+      >
+        <CommiteMettingsProject
+          data={projectDataMutation.data?.data || []}
+          onDoneTask={handleDoneSelectProject}
+        />
+      </FixedModal>
+    </>
   );
 }
 

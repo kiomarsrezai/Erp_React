@@ -6,17 +6,19 @@ export const mettingsProjectConfig = {
   year: generalFieldsConfig.YEAR,
   desciption: "desciption",
   row: "row",
+  project_id: "projectId",
 };
 
 export const mettingsProjectUrl = {
-  insertDetail: "ProjectApi/CommiteDetailInsert",
-  updateDetail: "ProjectApi/CommiteDetailUpdate",
-  deleteDetail: "ProjectApi/CommiteDetailDelete",
+  insertDetail: "CommiteApi/CommiteDetailInsert",
+  updateDetail: "CommiteApi/CommiteDetailUpdate",
+  deleteDetail: "CommiteApi/CommiteDetailDelete",
+  projectDetail: "CommiteApi/CommiteDetailProjectModal",
 };
 
-export const COMMITE_METTINGS_COMBO_PROJECT_URL = "ProjectApi/CommiteKindCombo";
+export const COMMITE_METTINGS_COMBO_PROJECT_URL = "CommiteApi/CommiteKindCombo";
 
-export const COMMITE_MEETINGS_MODAL_PROJECT_URL = "ProjectApi/CommiteModal";
+export const COMMITE_MEETINGS_MODAL_PROJECT_URL = "CommiteApi/CommiteModal";
 
 export const COMMITE_MEETINGS_MODAL_DETAIL_PROJECT_URL =
-  "ProjectApi/CommiteDetailRead";
+  "CommiteApi/CommiteDetailRead";
