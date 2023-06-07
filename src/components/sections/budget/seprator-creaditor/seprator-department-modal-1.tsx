@@ -120,7 +120,7 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
       return (
         <TextField
           id="code-input"
-          label="مصوب"
+          label=""
           variant="outlined"
           type="number"
           size="small"

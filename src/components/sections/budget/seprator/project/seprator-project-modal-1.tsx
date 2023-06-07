@@ -58,6 +58,7 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
     {
       title: "عملیات",
       name: "actions",
+      width: "100px",
     },
   ];
 
@@ -99,7 +100,11 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
         variant="outlined"
         size="small"
         onClick={() => handleClickAreaModal(row)}
-        sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 0.5,
+        }}
         // startIcon={}
       >
         <SearchIcon sx={{ fontSize: 17 }} />p
