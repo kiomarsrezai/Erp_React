@@ -60,4 +60,26 @@ export const mettingsProjectApi = new (class extends BaseApi {
 
     return response.data;
   };
+
+  updateCommiteDetail = async (formdata: any) => {
+    const url = mettingsProjectUrl.updateDetail;
+
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      formdata
+    );
+
+    return response.data;
+  };
+
+  deleteCommiteDetail = async (formdata: any) => {
+    const url = mettingsProjectUrl.deleteDetail;
+
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      formdata
+    );
+
+    return response.data;
+  };
 })();

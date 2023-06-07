@@ -10,6 +10,8 @@ export const mettingsProjectConfig = {
 
 export const mettingsProjectUrl = {
   insertDetail: "ProjectApi/CommiteDetailInsert",
+  updateDetail: "ProjectApi/CommiteDetailUpdate",
+  deleteDetail: "ProjectApi/CommiteDetailDelete",
 };
 
 export const COMMITE_METTINGS_COMBO_PROJECT_URL = "ProjectApi/CommiteKindCombo";

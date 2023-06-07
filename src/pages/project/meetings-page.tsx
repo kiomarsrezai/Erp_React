@@ -6,7 +6,7 @@ import { reactQueryKeys } from "config/react-query-keys-config";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { mettingsProjectApi } from "api/project/meetings-project-api";
-import { Stack } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 
 function MeetingsProjectPage() {
   // forms
@@ -60,6 +60,12 @@ function MeetingsProjectPage() {
             formData={formData}
           />
         ))}
+
+        {!commiteMettingsDetailQuery.data?.data.length && !insertMode && (
+          <Typography align="center" variant="caption" mt={30}>
+            هیچ بندی یافت نشد
+          </Typography>
+        )}
       </Stack>
     </AdminLayout>
   );

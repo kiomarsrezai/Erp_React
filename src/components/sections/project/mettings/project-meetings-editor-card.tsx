@@ -49,12 +49,33 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
     }
   );
 
+  // insert
   const insertMutation = useMutation(mettingsProjectApi.insertCommiteDetail, {
     onSuccess: () => {
       enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
         variant: "success",
       });
       setInsertMode(false);
+      commiteDetailModalMutation.mutate(formData.id);
+    },
+  });
+
+  // update
+  const updateMutation = useMutation(mettingsProjectApi.updateCommiteDetail, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+      commiteDetailModalMutation.mutate(formData.id);
+    },
+  });
+
+  // delete
+  const deleteMutation = useMutation(mettingsProjectApi.deleteCommiteDetail, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
       commiteDetailModalMutation.mutate(formData.id);
     },
   });
@@ -85,7 +106,20 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
         description: description,
         projectId: 6,
       });
+    } else {
+      updateMutation.mutate({
+        row: values.row,
+        id: commiteDetailItem.id,
+        description: description,
+        projectId: 6,
+      });
     }
+  };
+
+  const handleDeleteClick = () => {
+    deleteMutation.mutate({
+      id: commiteDetailItem.id,
+    });
   };
 
   return (
@@ -191,6 +225,7 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
                 color="error"
                 sx={{ bgcolor: red[400] }}
                 disabled={insertMode}
+                onClick={handleDeleteClick}
                 fullWidth
               >
                 حذف
