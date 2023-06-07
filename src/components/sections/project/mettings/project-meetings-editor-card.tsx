@@ -28,6 +28,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import FixedModal from "components/ui/modal/fixed-modal";
 import CommiteMettingsProject from "./commite-mettings-project";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 interface ProjectMeetingsEditorCardProps {
   commiteDetailItem?: GetSingleCommiteDetailModalShape | any;
@@ -35,11 +36,18 @@ interface ProjectMeetingsEditorCardProps {
   setInsertMode: (state: any) => void;
   formData: any;
   maxRow?: number;
+  checkUnickRow: (row: number) => boolean;
 }
 
 function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
-  const { commiteDetailItem, insertMode, formData, setInsertMode, maxRow } =
-    props;
+  const {
+    commiteDetailItem,
+    insertMode,
+    formData,
+    setInsertMode,
+    maxRow,
+    checkUnickRow,
+  } = props;
 
   // refresh base data mutation
   const queryClient = useQueryClient();
@@ -73,6 +81,13 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
   });
 
   const onSubmitHandler = (values: any) => {
+    const isUnick = checkUnickRow(values.row as any);
+    if (!isUnick) {
+      return enqueueSnackbar("بند انتخاب شده تکراری است", {
+        variant: "error",
+      });
+    }
+
     if (insertMode) {
       // insert
       insertMutation.mutate({
@@ -139,6 +154,8 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
   });
 
   // delete
+  const [isOpenConfrimDelete, setIsOpenConfrimDelete] = useState(false);
+
   const deleteMutation = useMutation(mettingsProjectApi.deleteCommiteDetail, {
     onSuccess: () => {
       enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
@@ -148,10 +165,14 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
     },
   });
 
-  const handleDeleteClick = () => {
+  const handleConfrimDelete = () => {
     deleteMutation.mutate({
       id: commiteDetailItem.id,
     });
+  };
+
+  const handleDeleteClick = () => {
+    setIsOpenConfrimDelete(true);
   };
 
   return (
@@ -269,6 +290,16 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
         </CardContent>
       </Card>
 
+      <ConfrimProcessModal
+        onCancel={() => setIsOpenConfrimDelete(false)}
+        onConfrim={handleConfrimDelete}
+        open={isOpenConfrimDelete}
+        text={`آیا مایل به حذف بند ${
+          commiteDetailItem?.[mettingsProjectConfig.row] || maxRow
+        } هستید ؟`}
+      />
+
+      {/* select project */}
       <FixedModal
         handleClose={() => setIsOpenProjectList(false)}
         maxWidth="sm"

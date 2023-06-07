@@ -20,10 +20,17 @@ interface ProjectMeetingsFormProps {
   setFormData: any;
   setInsertMode: (state: any) => void;
   insertMode: boolean;
+  isSelectedComiite: boolean;
 }
 
 function ProjectMeetingsForm(props: ProjectMeetingsFormProps) {
-  const { formData, setFormData, setInsertMode, insertMode } = props;
+  const {
+    formData,
+    setFormData,
+    setInsertMode,
+    insertMode,
+    isSelectedComiite,
+  } = props;
 
   // submit
   const queryClient = useQueryClient();
@@ -114,13 +121,15 @@ function ProjectMeetingsForm(props: ProjectMeetingsFormProps) {
             >
               <SearchIcon />
             </Button>
-            <IconButton
-              onClick={handleInsertClick}
-              color="primary"
-              sx={{ mx: 1 }}
-            >
-              {insertMode ? <ClearIcon /> : <AddIcon />}
-            </IconButton>
+            {isSelectedComiite && (
+              <IconButton
+                onClick={handleInsertClick}
+                color="primary"
+                sx={{ mx: 1 }}
+              >
+                {insertMode ? <ClearIcon /> : <AddIcon />}
+              </IconButton>
+            )}
           </Grid>
         </Grid>
       </Box>

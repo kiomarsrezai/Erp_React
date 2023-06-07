@@ -34,11 +34,11 @@ function MeetingsProjectPage() {
       (a, b) => b.row - a.row
     )?.[0]?.row || 0) + 1;
 
-  // const checkUnickRow = (row: number) => {
-  //   return !!commiteMettingsDetailQuery.data?.data.find(
-  //     (item) => item.row === row
-  //   );
-  // };
+  const checkUnickRow = (row: number) => {
+    return !commiteMettingsDetailQuery.data?.data.find(
+      (item) => item.row === row
+    );
+  };
 
   return (
     <AdminLayout>
@@ -47,6 +47,7 @@ function MeetingsProjectPage() {
         setFormData={setFormData}
         setInsertMode={setInsertMode}
         insertMode={insertMode}
+        isSelectedComiite={!!formData.commite}
       />
       <Stack p={2} spacing={2}>
         {insertMode && (
@@ -54,6 +55,7 @@ function MeetingsProjectPage() {
             formData={formData}
             setInsertMode={setInsertMode}
             maxRow={maxRow}
+            checkUnickRow={checkUnickRow}
             insertMode
           />
         )}
@@ -62,16 +64,19 @@ function MeetingsProjectPage() {
             key={item.id}
             commiteDetailItem={item}
             setInsertMode={setInsertMode}
+            checkUnickRow={checkUnickRow}
             insertMode={false}
             formData={formData}
           />
         ))}
 
-        {!commiteMettingsDetailQuery.data?.data.length && !insertMode && (
-          <Typography align="center" variant="caption" mt={30}>
-            هیچ بندی یافت نشد
-          </Typography>
-        )}
+        {!commiteMettingsDetailQuery.data?.data.length &&
+          !insertMode &&
+          !!formData.commite && (
+            <Typography align="center" variant="caption" mt={30}>
+              هیچ بندی یافت نشد
+            </Typography>
+          )}
       </Stack>
     </AdminLayout>
   );
