@@ -12,6 +12,7 @@ import { creditRequestFormDefaultValue } from "config/features/credit/credit-req
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { creditRequestApi } from "api/credit/credit-request-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
+import { globalConfig } from "config/global-config";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -57,7 +58,13 @@ function RequestCreditPage() {
 
   return (
     <AdminLayout>
-      <Box padding={4}>
+      <Box
+        padding={4}
+        sx={{
+          maxHeight: `calc(100vh - ${globalConfig.headerHeight}px)`,
+          overflow: "auto",
+        }}
+      >
         <CreditRequestForm
           formData={formData}
           setFormData={setFormData}

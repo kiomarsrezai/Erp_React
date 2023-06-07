@@ -173,7 +173,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
   const mainDescriptionField = (
     <TextField
       id="description-request-input"
-      label="شرح اصلی درخواست"
+      label="شرح درخواست"
       variant="outlined"
       size="small"
       name={creditRequestConfig.request_description}
