@@ -37,28 +37,29 @@ function CreditSearchRequestModal(props: CreditSearchRequestModalProps) {
       title: "ردیف",
       name: "rowNumber",
     },
+
     {
-      title: "شرح",
-      align: "left",
-      name: "description",
+      title: "شماره",
+      name: "number",
     },
     {
       title: "تاریخ",
       name: "dateShamsi",
     },
     {
-      title: "ثبت کننده",
-      name: "employee",
+      title: "شرح",
+      align: "left",
+      name: "description",
     },
     {
-      title: "شماره",
-      name: "number",
-    },
-    {
-      title: "براورد مبلغ",
+      title: "برآورد مبلغ",
       name: "estimateAmount",
       split: true,
       align: "left",
+    },
+    {
+      title: "ثبت کننده",
+      name: "employee",
     },
     {
       title: "عملیات",
