@@ -29,6 +29,11 @@ function MeetingsProjectPage() {
   // insert
   const [insertMode, setInsertMode] = useState(false);
 
+  const maxRow =
+    ([...(commiteMettingsDetailQuery.data?.data || [])].sort(
+      (a, b) => b.row - a.row
+    )?.[0]?.row || 0) + 1;
+
   return (
     <AdminLayout>
       <ProjectMeetingsForm
@@ -40,20 +45,16 @@ function MeetingsProjectPage() {
       <Stack p={2} spacing={2}>
         {insertMode && (
           <ProjectMeetingsEditorCard
-            number={1}
-            projectName={""}
-            data={""}
             formData={formData}
             setInsertMode={setInsertMode}
+            maxRow={maxRow}
             insertMode
           />
         )}
         {commiteMettingsDetailQuery.data?.data.map((item, i) => (
           <ProjectMeetingsEditorCard
-            number={i + 1}
-            key={i}
-            projectName={item.projectName}
-            data={item.description}
+            key={item.id}
+            commiteDetailItem={item}
             setInsertMode={setInsertMode}
             insertMode={false}
             formData={formData}

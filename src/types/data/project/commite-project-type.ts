@@ -16,4 +16,5 @@ export interface GetSingleCommiteDetailModalShape {
   commiteName: string;
   commiteKindId: number;
   description: string;
+  row: number;
 }

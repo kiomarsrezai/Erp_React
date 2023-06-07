@@ -18,18 +18,22 @@ import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import { mettingsProjectConfig } from "config/features/project/meetings-project-config";
 import { reactQueryKeys } from "config/react-query-keys-config";
+import { GetSingleCommiteDetailModalShape } from "types/data/project/commite-project-type";
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
 
 interface ProjectMeetingsEditorCardProps {
-  number: number;
-  data: string;
-  projectName: string;
+  commiteDetailItem?: GetSingleCommiteDetailModalShape | any;
   insertMode: boolean;
   setInsertMode: (state: any) => void;
   formData: any;
+  maxRow?: number;
 }
 
 function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
-  const { number, data, projectName, insertMode, formData, setInsertMode } =
+  const { commiteDetailItem, insertMode, formData, setInsertMode, maxRow } =
     props;
 
   const queryClient = useQueryClient();
@@ -54,20 +58,43 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
       commiteDetailModalMutation.mutate(formData.id);
     },
   });
-  const handleSaveClick = () => {
+
+  // form manage
+  const formSchema = yup.object({
+    [mettingsProjectConfig.row]: yup.number().required(),
+  });
+
+  const [description, setDescription] = useState(
+    commiteDetailItem?.description || ""
+  );
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(formSchema),
+  });
+
+  const onSubmitHandler = (values: any) => {
     if (insertMode) {
       // insert
       insertMutation.mutate({
-        row: 5,
+        row: values.row,
         commiteId: formData.id,
-        description: "salam",
+        description: description,
         projectId: 6,
       });
     }
   };
 
   return (
-    <Card sx={{ bgcolor: grey[100] }} elevation={0}>
+    <Card
+      sx={{ bgcolor: grey[100] }}
+      elevation={0}
+      component={"form"}
+      onSubmit={handleSubmit(onSubmitHandler)}
+    >
       <CardContent>
         <Grid container spacing={2}>
           <Grid lg={8}>
@@ -87,19 +114,34 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
                 ],
                 language: "fa",
               }}
-              data={data}
-
-              // onChange={(event, editor) => {
-              //   const data = editor.getData();
-              //   console.log({ event, editor, data });
-              // }}
+              data={description}
+              onChange={(event, editor) => {
+                const data = editor.getData();
+                // console.log({ event, editor, data });
+                setDescription(data);
+              }}
             />
           </Grid>
+
           <Grid lg={4}>
             <Stack spacing={1}>
-              <Typography variant="h6" color="GrayText" align="center">
-                ردیف {number}
-              </Typography>
+              <TextField
+                id="row-input"
+                label="بند"
+                variant="outlined"
+                size="small"
+                fullWidth
+                {...register(mettingsProjectConfig.row)}
+                error={!!errors[mettingsProjectConfig.row]}
+                helperText={
+                  (errors[mettingsProjectConfig.row]?.message || "") as any
+                }
+                defaultValue={
+                  (commiteDetailItem?.[mettingsProjectConfig.row] ||
+                    maxRow) as any
+                }
+                autoComplete="off"
+              />
 
               <TextField
                 id="username-input"
@@ -108,7 +150,7 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
                 size="small"
                 fullWidth
                 disabled
-                value={projectName}
+                value={commiteDetailItem?.projectName || ""}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -122,8 +164,9 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={handleSaveClick}
+                // onClick={handleSaveClick}
                 fullWidth
+                type="submit"
               >
                 ثبت
               </Button>

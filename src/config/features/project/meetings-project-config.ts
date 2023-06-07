@@ -4,6 +4,8 @@ export const mettingsProjectConfig = {
   ID: "id",
   commiteType: "commiteKindId",
   year: generalFieldsConfig.YEAR,
+  desciption: "desciption",
+  row: "row",
 };
 
 export const mettingsProjectUrl = {
