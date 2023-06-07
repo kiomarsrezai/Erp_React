@@ -34,12 +34,8 @@ export const abstructProctorApi = new (class extends BaseApi {
     return response.data;
   };
 
-  getModalData = async (id: number) => {
-    const filterData = {
-      [abstructProctorConfig.ID]: id,
-    };
-
-    const url = ABSTRACT_PROCTOR_MODAL_URL + this.joinFilterData(filterData);
+  getModalData = async (formData: any) => {
+    const url = ABSTRACT_PROCTOR_MODAL_URL + this.joinFilterData(formData);
 
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleAbstructProctorModalDataItemShape[]>

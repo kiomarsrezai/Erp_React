@@ -42,7 +42,7 @@ function BudgetReportDeviation(props: BudgetReportDeviationProps) {
     },
     {
       title: "منطقه",
-      name: "areaname",
+      name: "areaName",
       align: "left",
     },
     {
@@ -111,7 +111,7 @@ function BudgetReportDeviation(props: BudgetReportDeviationProps) {
     number: "جمع",
     "colspan-number": 4,
     code: null,
-    areaname: null,
+    areaName: null,
     description: null,
     mosavab: sumMosavab,
     expense: sumExpense,

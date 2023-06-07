@@ -155,7 +155,10 @@ function ReportProctorAbstructPage(props: ReportProctorAbstructProps) {
   const [recordId, setRecordId] = useState(0);
   const handleListClicked = (row: any) => {
     setRecordId(row.id);
-    dataModalMutation.mutate(row.id);
+    dataModalMutation.mutate({
+      [abstructProctorConfig.ID]: row.id,
+      [abstructProctorConfig.YEAR]: formData[abstructProctorConfig.YEAR],
+    });
     setTitleModal(row["proctorName"]);
 
     handleOpenModal();
