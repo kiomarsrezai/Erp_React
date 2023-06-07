@@ -37,7 +37,10 @@ interface ProjectMeetingsEditorCardProps {
   setInsertMode: (state: any) => void;
   formData: any;
   maxRow?: number;
-  checkUnickRow: (row: number) => boolean;
+  checkUnickRow: (
+    row: number,
+    commiteDetailItem: GetSingleCommiteDetailModalShape
+  ) => boolean;
 }
 
 function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
@@ -82,7 +85,7 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
   });
 
   const onSubmitHandler = (values: any) => {
-    const isUnick = checkUnickRow(values.row as any);
+    const isUnick = checkUnickRow(values.row, commiteDetailItem);
     if (!isUnick) {
       return enqueueSnackbar("بند انتخاب شده تکراری است", {
         variant: "error",
