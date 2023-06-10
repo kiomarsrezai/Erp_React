@@ -27,7 +27,7 @@ function App() {
           <SnackbarProvider
             maxSnack={3}
             anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
-            autoHideDuration={1000}
+            autoHideDuration={2500}
             classes={{ containerRoot: "z-alert" }}
           >
             <CssBaseline />

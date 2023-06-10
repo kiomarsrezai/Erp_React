@@ -89,6 +89,11 @@ function CreidtRequestTable(props: CreidtRequestFormTableProps) {
     },
   ];
 
+  const handleAddClick = () => {
+    setActiveItem(null);
+    setIsOpenAddItemModal(true);
+  };
+
   // heads
   const tableHeads: TableHeadShape = [
     {
@@ -96,11 +101,7 @@ function CreidtRequestTable(props: CreidtRequestFormTableProps) {
         <div>
           ردیف
           {firstStepCrossed && (
-            <IconButton
-              color="primary"
-              size="small"
-              onClick={() => setIsOpenAddItemModal(true)}
-            >
+            <IconButton color="primary" size="small" onClick={handleAddClick}>
               <AddIcon />
             </IconButton>
           )}
@@ -109,7 +110,7 @@ function CreidtRequestTable(props: CreidtRequestFormTableProps) {
       name: "number",
     },
     {
-      title: "شرح کوتاه",
+      title: "شرح",
       align: "left",
       name: "description",
     },
@@ -136,7 +137,7 @@ function CreidtRequestTable(props: CreidtRequestFormTableProps) {
       align: "left",
     },
     {
-      title: "شرح",
+      title: "سایر توضیحات",
       align: "left",
       name: "othersDescription",
     },
@@ -153,6 +154,10 @@ function CreidtRequestTable(props: CreidtRequestFormTableProps) {
     {
       onSuccess: () => {
         setIsOpenEditModal(false);
+        requestTableMutation.mutate({
+          id: formData[creditRequestConfig.request_id],
+        });
+        setActiveItem(null);
         enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
           variant: "success",
         });
@@ -165,10 +170,15 @@ function CreidtRequestTable(props: CreidtRequestFormTableProps) {
     }
   );
 
+  const handleOpenEditModal = (row: CreditReadRequestTableShape) => {
+    setActiveItem(row);
+    setIsOpenEditModal(true);
+  };
+
   const handleDoneUpdateTask = (values: any) => {
     updateTableItemMutation.mutate({
       ...values,
-      // id:
+      id: activeItem?.id,
     });
   };
 
@@ -214,7 +224,7 @@ function CreidtRequestTable(props: CreidtRequestFormTableProps) {
         <IconButton
           size="small"
           color="primary"
-          onClick={() => setIsOpenEditModal(true)}
+          onClick={() => handleOpenEditModal(row)}
         >
           <EditIcon />
         </IconButton>
@@ -372,7 +382,10 @@ function CreidtRequestTable(props: CreidtRequestFormTableProps) {
         handleClose={() => setIsOpenEditModal(false)}
         title="ویرایش آیتم"
       >
-        <CreditRequestTableActionModal onDoneTask={handleDoneUpdateTask} />
+        <CreditRequestTableActionModal
+          onDoneTask={handleDoneUpdateTask}
+          initialData={activeItem}
+        />
       </FixedModal>
 
       {/* confrim delete */}

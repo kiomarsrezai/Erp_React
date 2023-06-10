@@ -7,15 +7,17 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextField } from "@mui/material";
 import { creditRequestTableConfig } from "config/features/credit/credit-request-config";
+import { CreditReadRequestTableShape } from "types/data/credit/credit-request-type";
 
 interface CreditRequestTableActionModalProps {
   onDoneTask: (data: any) => void;
+  initialData?: CreditReadRequestTableShape | null;
 }
 
 function CreditRequestTableActionModal(
   props: CreditRequestTableActionModalProps
 ) {
-  const { onDoneTask } = props;
+  const { onDoneTask, initialData } = props;
 
   // form manage
   const editFormSchema = yup.object({
@@ -53,6 +55,11 @@ function CreditRequestTableActionModal(
               (errors[creditRequestTableConfig.description]?.message ||
                 "") as any
             }
+            defaultValue={
+              initialData?.description === undefined
+                ? ""
+                : initialData?.description
+            }
             fullWidth
           />
         </Grid>
@@ -66,6 +73,9 @@ function CreditRequestTableActionModal(
             error={!!errors[creditRequestTableConfig.quantity]}
             helperText={
               (errors[creditRequestTableConfig.quantity]?.message || "") as any
+            }
+            defaultValue={
+              initialData?.quantity === undefined ? "" : initialData?.quantity
             }
             fullWidth
           />
@@ -81,6 +91,9 @@ function CreditRequestTableActionModal(
             helperText={
               (errors[creditRequestTableConfig.scale]?.message || "") as any
             }
+            defaultValue={
+              initialData?.scale === undefined ? "" : initialData?.scale
+            }
             fullWidth
           />
         </Grid>
@@ -95,6 +108,9 @@ function CreditRequestTableActionModal(
             error={!!errors[creditRequestTableConfig.price]}
             helperText={
               (errors[creditRequestTableConfig.price]?.message || "") as any
+            }
+            defaultValue={
+              initialData?.price === undefined ? "" : initialData?.price
             }
             fullWidth
           />
@@ -112,13 +128,18 @@ function CreditRequestTableActionModal(
               (errors[creditRequestTableConfig.others_description]?.message ||
                 "") as any
             }
+            defaultValue={
+              initialData?.othersDescription === undefined
+                ? ""
+                : initialData?.othersDescription
+            }
             fullWidth
           />
         </Grid>
 
         <Grid item lg={12}>
           <Button variant="contained" type="submit">
-            افزودن
+            {initialData ? "ویرایش" : "افزودن"}
           </Button>
         </Grid>
       </Grid>

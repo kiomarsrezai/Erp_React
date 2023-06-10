@@ -50,7 +50,7 @@ export const creditRequestConfigURLS = {
   updateRequest: "RequestApi/RequestUpdate",
   readRequest: "RequestApi/RequestRead",
   insertToTable: "RequestApi/RequestTableInsert",
-  updateTableItem: "RequestApi/RequestTableUpdate",
+  updateTableItem: "RequestApi/RequestTableUpdatet",
 
   // suppliets
   readSuppliets: "RequestApi/RequestSuppliersSearch",
