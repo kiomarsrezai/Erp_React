@@ -156,8 +156,9 @@ function ReportProctorAbstructPage(props: ReportProctorAbstructProps) {
   const handleListClicked = (row: any) => {
     setRecordId(row.id);
     dataModalMutation.mutate({
-      [abstructProctorConfig.ID]: row.id,
-      [abstructProctorConfig.YEAR]: formData[abstructProctorConfig.YEAR],
+      ...formData,
+      proctorId: row.id,
+      // [abstructProctorConfig.YEAR]: formData[abstructProctorConfig.YEAR],
     });
     setTitleModal(row["proctorName"]);
 

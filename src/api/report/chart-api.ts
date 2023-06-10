@@ -1,6 +1,7 @@
 import clientAxios from "config/axios-config";
 
 import {
+  DETAIL2_REVENUE_CHART_URL,
   DETAIL_REVENUE_CHART_URL,
   REVENUE_CHART_URL,
   revenueChartFormConfig,
@@ -50,6 +51,17 @@ export const revenueChartApi = new (class extends BaseApi {
     const filterData = this.getFormData(formdata);
 
     const url = DETAIL_REVENUE_CHART_URL + this.joinFilterData(filterData);
+
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleDetailRevenueChartShape[]>
+    >(url);
+    return response.data;
+  };
+
+  chartDetail2 = async (formdata: any) => {
+    const filterData = this.getFormData(formdata);
+
+    const url = DETAIL2_REVENUE_CHART_URL + this.joinFilterData(filterData);
 
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleDetailRevenueChartShape[]>

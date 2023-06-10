@@ -34,6 +34,7 @@ import {
   getGeneralFieldItemBudgetMethod,
   getGeneralFieldItemYear,
 } from "helper/export-utils";
+import RevenueChartModalDetail from "./revenue-chart-modal-detail";
 
 interface RevenueChartFormProps {
   formData: any;
@@ -152,6 +153,59 @@ function RevenueChartForm(props: RevenueChartFormProps) {
         return;
       }
       dataTableMutation.mutate(formData);
+      handleOpenModal();
+    }
+  };
+
+  // modal 2
+  const [isOpenModal2, setIsOpenModal2] = useState(false);
+  const handleCloseModal2 = () => {
+    setIsOpenModal(false);
+  };
+
+  const handleOpenModal2 = () => {
+    setIsOpenModal(true);
+  };
+
+  const dataTable2Mutation = useMutation(revenueChartApi.chartDetail2);
+
+  const handleClickDetail2Modal = () => {
+    // permission
+    const havePermission = checkHavePermission(
+      userLicenses,
+      [
+        accessNamesConfig.FIELD_YEAR,
+        accessNamesConfig.FIELD_BUDGET_METHOD,
+        accessNamesConfig.FIELD_ORGAN,
+      ],
+      joinPermissions([
+        accessNamesConfig.BUDGET__REPORT_PAGE,
+        accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
+      ])
+    );
+
+    if (!havePermission) {
+      return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
+        variant: "error",
+      });
+    }
+
+    setHaveSubmitedForm(true);
+
+    if (
+      checkHaveValue(formData, [
+        revenueChartFormConfig.YEAR,
+        revenueChartFormConfig.BUDGET_METHOD,
+        revenueChartFormConfig.ORGAN,
+      ])
+    ) {
+      if (
+        !(formData[revenueChartFormConfig.ORGAN] === 4) &&
+        !formData[revenueChartFormConfig.CENTER]
+      ) {
+        return;
+      }
+      dataTable2Mutation.mutate(formData);
       handleOpenModal();
     }
   };
@@ -318,6 +372,9 @@ function RevenueChartForm(props: RevenueChartFormProps) {
               <Button variant="contained" onClick={handleClickDetailValues}>
                 ریز مقادیر
               </Button>
+              <Button variant="contained" onClick={handleClickDetail2Modal}>
+                ریز مقادیر 2
+              </Button>
               <IconButton color="primary" onClick={handlePrintForm}>
                 <PrintIcon />
               </IconButton>
@@ -326,6 +383,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
         </Grid>
       </Box>
 
+      {/* modal detail 1 */}
       <FixedModal
         open={isOpenModal}
         handleClose={handleCloseModal}
@@ -334,6 +392,18 @@ function RevenueChartForm(props: RevenueChartFormProps) {
         <RevenueChartModal1
           formData={formData}
           data={dataTableMutation.data?.data || []}
+        />
+      </FixedModal>
+
+      {/* modal detail 2 */}
+      <FixedModal
+        open={isOpenModal2}
+        handleClose={handleCloseModal2}
+        loading={dataTable2Mutation.isLoading}
+      >
+        <RevenueChartModalDetail
+          formData={formData}
+          data={dataTable2Mutation.data?.data || []}
         />
       </FixedModal>
     </>
