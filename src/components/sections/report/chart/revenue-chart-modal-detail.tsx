@@ -50,6 +50,7 @@ function RevenueChartModalDetail(props: RevenueChartModalDetailProps) {
   const handlePrintForm = () => {
     const yearLabel = getGeneralFieldItemYear(formData, 1);
     const budgetKindLabel = getGeneralFieldItemBudgetMethod(formData);
+    const numberLabel = getGeneralFieldItemNumber(filterFormData);
 
     if (tableData.length) {
       revenueModalDetailStimul({
@@ -57,7 +58,7 @@ function RevenueChartModalDetail(props: RevenueChartModalDetailProps) {
         footer: tableFooter,
         year: yearLabel,
         budgetKind: budgetKindLabel,
-        number: "ریال",
+        number: numberLabel,
       });
     }
   };

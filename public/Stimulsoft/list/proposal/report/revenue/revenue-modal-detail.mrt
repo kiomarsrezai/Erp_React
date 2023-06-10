@@ -161,6 +161,7 @@
               <Name>Text6</Name>
               <Page isRef="6" />
               <Parent isRef="7" />
+              <Text>نوع : {budgetKind}</Text>
               <TextBrush>[158:158:158]</TextBrush>
               <TextOptions>,,RightToLeft=True,,WordWrap=True,A=0</TextOptions>
               <Type>Expression</Type>
@@ -1439,11 +1440,11 @@
   </ReferencedAssemblies>
   <ReportAlias>SimpleList</ReportAlias>
   <ReportAuthor>Stimulsoft</ReportAuthor>
-  <ReportChanged>6/10/2023 5:04:02 PM</ReportChanged>
+  <ReportChanged>6/10/2023 5:23:14 PM</ReportChanged>
   <ReportCreated>5/29/2004 10:59:00 AM</ReportCreated>
   <ReportDescription>This sample demonstrates how to create a simple list report.</ReportDescription>
   <ReportFile>D:\Profiles\akasir\Desktop\stimul\revenue-modal-detail.mrt</ReportFile>
-  <ReportGuid>2259549b44d14efbbc80721b7d487b70</ReportGuid>
+  <ReportGuid>58310c67c6d44be1b4f3d69060ae1cb2</ReportGuid>
   <ReportImage>iVBORw0KGgoAAAANSUhEUgAAASAAAAGWCAMAAADvzq7aAAAABGdBTUEAALGPC/xhBQAAAYBQTFRF
 S7asucbHqba33/Hx8vr56fb1paqq+v394fPx1N3i5/X1nKan7/n52+zryOfl8/T0s77B7ezt4/b1
 /f7+0+Tj29vcu7u9kZSV09PTsby8uMK+4vXzzN3d0+LewsPD0s3Iy8vMws3M5OTkys3S4t3Zw9PU
