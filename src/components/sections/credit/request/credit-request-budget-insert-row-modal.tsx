@@ -4,13 +4,16 @@ import FixedModal from "components/ui/modal/fixed-modal";
 import AddIcon from "@mui/icons-material/Add";
 
 import { TableHeadShape } from "types/table-type";
-import { ReactNode } from "react";
+import { ChangeEvent, ReactNode, useState } from "react";
 import { CreditReadRequestBudgetRowShape } from "types/data/credit/credit-request-type";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { creditRequestApi } from "api/credit/credit-request-api";
 import { creditRequestConfig } from "config/features/credit/credit-request-config";
 import { reactQueryKeys } from "config/react-query-keys-config";
+import { Checkbox } from "@mui/material";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -35,10 +38,125 @@ function CreditRequestBudgetInsertRowModal(
 ) {
   const { data, formData, onDoneTask, baseData } = props;
 
+  // table data
+  const [addItemsList, setAddItemsList] = useState<any>({});
+
+  const insertMutation = useMutation(creditRequestApi.budgetRowInsert, {
+    onSuccess: () => {
+      // onDoneTask();
+    },
+  });
+  const handleInsertClick = (row: CreditReadRequestBudgetRowShape) => {
+    insertMutation.mutate({
+      RequestId: formData.id,
+      budgetDetailProjectAreatId: row.id,
+    });
+  };
+
+  const handleSaveClick = async () => {
+    let shouldUpdateItems: any = [];
+
+    for (const key in addItemsList) {
+      const value = addItemsList?.[key];
+      if (value === true) {
+        shouldUpdateItems.push(+key);
+      }
+    }
+    try {
+      await Promise.all(
+        shouldUpdateItems.map((item: any) => {
+          return insertMutation.mutateAsync({
+            requestId: formData.id,
+            budgetDetailProjectAreatId: item,
+          });
+        })
+      );
+    } catch {
+      return onDoneTask();
+    }
+
+    enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+      variant: "success",
+    });
+    onDoneTask();
+  };
+
+  const toggleItem = (e: ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked;
+    const value = e.target.value;
+
+    setAddItemsList((prevState: any) => {
+      // let itemValue = prevState[sepratorCreaditorBudgetConfig.creaditorId];
+      // itemValue[value] = checked;
+      // if (itemValue.find(value)) {
+      // } else {
+      //   itemValue = [...itemValue, value];
+      // }
+
+      const result = {
+        ...prevState,
+        [value]: checked,
+      };
+
+      return result;
+    });
+  };
+
+  const actionBtn = (row: CreditReadRequestBudgetRowShape) => (
+    // <IconButton color="primary" onClick={() => handleInsertClick(row)}>
+    //   <AddIcon />
+    // </IconButton>
+    <Checkbox
+      value={row.id}
+      checked={addItemsList[row.id]}
+      onChange={toggleItem}
+    />
+  );
+
+  const filteredData = data.filter(
+    (item) => !baseData.find((baseItem) => baseItem.code === item.code)
+  );
+
+  const formatTableData = (
+    unFormatData: CreditReadRequestBudgetRowShape[]
+  ): TableDataItemShape[] => {
+    const formatedData: TableDataItemShape[] | any = unFormatData.map(
+      (item, i) => ({
+        ...item,
+        number: i + 1,
+        actions: () => actionBtn(item),
+      })
+    );
+
+    return formatedData;
+  };
+
+  const tableData = formatTableData(filteredData);
+
+  // footer
+  const sumMosavab = sumFieldsInSingleItemData(data, "mosavabDepartment");
+  const tableFooter: TableDataItemShape | any = {
+    number: "جمع",
+    "colspan-number": 5,
+    code: null,
+    description: null,
+    project: null,
+    yearName: null,
+    mosavabDepartment: sumMosavab,
+    actions: "",
+  };
+
   // heads
   const tableHeads: TableHeadShape = [
     {
-      title: "ردیف",
+      title: (
+        <div>
+          ردیف
+          <IconButton color="primary" onClick={handleSaveClick}>
+            <AddIcon />
+          </IconButton>
+        </div>
+      ),
       name: "number",
     },
     {
@@ -82,58 +200,6 @@ function CreditRequestBudgetInsertRowModal(
       name: "actions",
     },
   ];
-
-  // table data
-
-  const insertMutation = useMutation(creditRequestApi.budgetRowInsert, {
-    onSuccess: () => {
-      onDoneTask();
-    },
-  });
-  const handleInsertClick = (row: CreditReadRequestBudgetRowShape) => {
-    insertMutation.mutate({
-      RequestId: formData.id,
-      budgetDetailProjectAreatId: row.id,
-    });
-  };
-  const actionBtn = (row: CreditReadRequestBudgetRowShape) => (
-    <IconButton color="primary" onClick={() => handleInsertClick(row)}>
-      <AddIcon />
-    </IconButton>
-  );
-
-  const filteredData = data.filter(
-    (item) => !baseData.find((baseItem) => baseItem.code === item.code)
-  );
-
-  const formatTableData = (
-    unFormatData: CreditReadRequestBudgetRowShape[]
-  ): TableDataItemShape[] => {
-    const formatedData: TableDataItemShape[] | any = unFormatData.map(
-      (item, i) => ({
-        ...item,
-        number: i + 1,
-        actions: () => actionBtn(item),
-      })
-    );
-
-    return formatedData;
-  };
-
-  const tableData = formatTableData(filteredData);
-
-  // footer
-  const sumMosavab = sumFieldsInSingleItemData(data, "mosavabDepartment");
-  const tableFooter: TableDataItemShape | any = {
-    number: "جمع",
-    "colspan-number": 5,
-    code: null,
-    description: null,
-    project: null,
-    yearName: null,
-    mosavabDepartment: sumMosavab,
-    actions: "",
-  };
 
   return (
     <FixedTable
