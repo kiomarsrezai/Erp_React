@@ -64,65 +64,175 @@ function RevenueChartModalDetail(props: RevenueChartModalDetailProps) {
           <PrintIcon />
         </IconButton>
       ),
-      colspan: 9,
+      colspan: 11,
     },
   ];
 
   // heads
+  const tableHeadGroups: TableHeadGroupShape = [
+    {
+      title: "ردیف",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "مناطق/سازمانها",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "درآمد",
+      colspan: 3,
+      align: "center",
+    },
+    {
+      title: "فروش",
+      colspan: 3,
+      align: "center",
+    },
+    {
+      title: "وام",
+      colspan: 3,
+      align: "center",
+    },
+    {
+      title: "کل",
+      colspan: 3,
+      align: "center",
+    },
+    {
+      title: "دریافت از خزانه",
+      colspan: 3,
+      align: "center",
+    },
+  ];
+
   const tableHeads: TableHeadShape = [
     {
       title: "ردیف",
       name: "number",
+      hiddenSelf: true,
     },
     {
       title: "منطقه",
-      name: "area",
-      canSort: true,
+      name: "areaName",
+      // canSort: true,
+      hiddenSelf: true,
+      align: "left",
     },
     {
       title: "مصوب",
-      name: "mosavab",
+      name: "mosavabRevenue",
       split: true,
       align: "left",
-      canSort: true,
-    },
-    {
-      title: "مصوب روزانه",
-      name: "mosavabDaily",
-      split: true,
-      align: "left",
-      canSort: true,
+      // canSort: true,
     },
     {
       title: "عملکرد",
-      name: "expense",
+      name: "expenseRevenue",
       split: true,
       align: "left",
-      canSort: true,
+      // canSort: true,
     },
     {
-      title: "محقق نشده",
-      name: "notDoneValue",
+      title: "% جذب",
+      name: "percentRevenue",
+      percent: true,
+      // canSort: true,
+    },
+    {
+      title: "مصوب",
+      name: "mosavabSale",
       split: true,
       align: "left",
-      canSort: true,
+      // canSort: true,
     },
     {
-      title: "جذب روزانه %",
-      name: "dailyJazb",
+      title: "عملکرد",
+      name: "expenseSale",
+      split: true,
+      align: "left",
+      // canSort: true,
+    },
+    {
+      title: "% جذب",
+      name: "percentSale",
       percent: true,
-      canSort: true,
+      // canSort: true,
     },
     {
-      title: "جذب به مصوب %",
-      name: "mosavabJazb",
+      title: "مصوب",
+      name: "mosavabLoan",
+      split: true,
+      align: "left",
+      // canSort: true,
+    },
+    {
+      title: "عملکرد",
+      name: "expenseLoan",
+      split: true,
+      align: "left",
+      // canSort: true,
+    },
+    {
+      title: "% جذب",
+      name: "percentLoan",
       percent: true,
-      canSort: true,
+      // canSort: true,
     },
     {
-      title: "عملیات",
-      name: "actions",
+      title: "مصوب",
+      name: "mosavabKol",
+      split: true,
+      align: "left",
+      // canSort: true,
     },
+    {
+      title: "عملکرد",
+      name: "expenseKol",
+      split: true,
+      align: "left",
+      // canSort: true,
+    },
+    {
+      title: "% جذب",
+      name: "percentKol",
+      percent: true,
+      // canSort: true,
+    },
+    {
+      title: "مصوب",
+      name: "mosavabDaryaftAzKhazane",
+      split: true,
+      align: "left",
+      // canSort: true,
+    },
+    {
+      title: "عملکرد",
+      name: "expenseDaryaftAzKhazane",
+      split: true,
+      align: "left",
+      // canSort: true,
+    },
+    {
+      title: "% جذب",
+      name: "percentDaryaftAzKhazane",
+      percent: true,
+      // canSort: true,
+    },
+    // {
+    //   title: "مصوب فروش",
+    //   name: "mosavabSale",
+    //   split: true,
+    //   align: "left",
+    //   // canSort: true,
+    // },
+    // {
+    //   title: "عملیات",
+    //   name: "actions",
+    // },
   ];
 
   // body
@@ -151,16 +261,16 @@ function RevenueChartModalDetail(props: RevenueChartModalDetailProps) {
       (item, i) => ({
         ...item,
         number: i + 1,
-        area: item.areaName,
-        dailyJazb: item.percentMosavabDaily,
-        expense: item.expense,
-        "textcolor-expense": item.expense < 0 ? "red" : "",
-        mosavab: item.mosavab,
-        mosavabDaily: item.mosavabDaily,
-        mosavabJazb: item.percentMosavab,
-        notDoneValue: item.notGet,
-        actions: actionButtons,
-        "textcolor-notDoneValue": () => getNotDoneColor(item),
+        // area: item.areaName,
+        // dailyJazb: item.percentMosavabDaily,
+        // expense: item.expense,
+        // "textcolor-expense": item.expense < 0 ? "red" : "",
+        // mosavab: item.mosavab,
+        // mosavabDaily: item.mosavabDaily,
+        // mosavabJazb: item.percentMosavab,
+        // notDoneValue: item.notGet,
+        // actions: actionButtons,
+        // "textcolor-notDoneValue": () => getNotDoneColor(item),
       })
     );
 
@@ -170,25 +280,18 @@ function RevenueChartModalDetail(props: RevenueChartModalDetailProps) {
   const tableData = data ? formatTableData(data) : [];
 
   // table footer
+  const sum_expenseDaryaftAzKhazane = sumFieldsInSingleItemData(
+    data,
+    "expenseDaryaftAzKhazane"
+  );
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
     "colspan-number": 2,
-    area: null,
-    dailyJazb: Math.round(
-      (sumFieldsInSingleItemData(data, "expense") /
-        sumFieldsInSingleItemData(data, "mosavabDaily")) *
-        100
-    ),
-    expense: sumFieldsInSingleItemData(data, "expense"),
-    mosavab: sumFieldsInSingleItemData(data, "mosavab"),
-    mosavabDaily: sumFieldsInSingleItemData(data, "mosavabDaily"),
-    mosavabJazb: Math.round(
-      (sumFieldsInSingleItemData(data, "expense") /
-        sumFieldsInSingleItemData(data, "mosavab")) *
-        100
-    ),
-    notDoneValue: sumFieldsInSingleItemData(data, "notGet"),
-    actions: "",
+    areaName: null,
+    // expenseDaryaftAzKhazane: sum_expenseDaryaftAzKhazane,
+    // expenseDaryaftAzKhazane: sum_expenseDaryaftAzKhazane,
+    // expenseKol: sum_expenseDaryaftAzKhazane,
+    // expenseDaryaftAzKhazane: sum_expenseDaryaftAzKhazane,
   };
 
   // modal
@@ -234,12 +337,12 @@ function RevenueChartModalDetail(props: RevenueChartModalDetailProps) {
         heads={tableHeads}
         data={tableData}
         footer={tableFooter}
-        headGroups={tableHeadGroup}
+        headGroups={tableHeadGroups}
         notFixed
         canSort
       />
 
-      <FixedModal
+      {/* <FixedModal
         open={isOpenMoreDetailModal}
         handleClose={handleCloseMoreContentModal}
         loading={dataTableMutation.isLoading}
@@ -252,7 +355,7 @@ function RevenueChartModalDetail(props: RevenueChartModalDetailProps) {
           formData={formData}
           area={areaId}
         />
-      </FixedModal>
+      </FixedModal> */}
     </>
   );
 }

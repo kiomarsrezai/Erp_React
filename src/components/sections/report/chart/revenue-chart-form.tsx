@@ -160,11 +160,11 @@ function RevenueChartForm(props: RevenueChartFormProps) {
   // modal 2
   const [isOpenModal2, setIsOpenModal2] = useState(false);
   const handleCloseModal2 = () => {
-    setIsOpenModal(false);
+    setIsOpenModal2(false);
   };
 
   const handleOpenModal2 = () => {
-    setIsOpenModal(true);
+    setIsOpenModal2(true);
   };
 
   const dataTable2Mutation = useMutation(revenueChartApi.chartDetail2);
@@ -195,18 +195,11 @@ function RevenueChartForm(props: RevenueChartFormProps) {
     if (
       checkHaveValue(formData, [
         revenueChartFormConfig.YEAR,
-        revenueChartFormConfig.BUDGET_METHOD,
         revenueChartFormConfig.ORGAN,
       ])
     ) {
-      if (
-        !(formData[revenueChartFormConfig.ORGAN] === 4) &&
-        !formData[revenueChartFormConfig.CENTER]
-      ) {
-        return;
-      }
       dataTable2Mutation.mutate(formData);
-      handleOpenModal();
+      handleOpenModal2();
     }
   };
 
@@ -400,6 +393,8 @@ function RevenueChartForm(props: RevenueChartFormProps) {
         open={isOpenModal2}
         handleClose={handleCloseModal2}
         loading={dataTable2Mutation.isLoading}
+        maxWidth="100%"
+        maxHeight="90%"
       >
         <RevenueChartModalDetail
           formData={formData}
