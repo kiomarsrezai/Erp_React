@@ -108,7 +108,7 @@ function CreditRequestBudgetInsertRowModal(
     // </IconButton>
     <Checkbox
       value={row.id}
-      checked={addItemsList[row.id]}
+      checked={!!addItemsList[row.id]}
       onChange={toggleItem}
     />
   );

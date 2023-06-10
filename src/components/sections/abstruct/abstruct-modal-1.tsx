@@ -143,7 +143,7 @@ function AbstructModal1(props: AbstructModal1Props) {
       ...formdata,
       [abstructProctorConfig.BUDGETPROCESS]: 2,
       [abstructProctorConfig.PROCTOR]: recordId,
-      [abstructProctorConfig.AREA]: row.id,
+      [abstructProctorConfig.AREA]: row.areaId,
     });
     setAreaName(`${row.areaName} - اعتبارات هزینه ای`);
     handleOpenBudgetRowModal();
@@ -154,7 +154,7 @@ function AbstructModal1(props: AbstructModal1Props) {
       ...formdata,
       [abstructProctorConfig.BUDGETPROCESS]: 3,
       [abstructProctorConfig.PROCTOR]: recordId,
-      [abstructProctorConfig.AREA]: row.id,
+      [abstructProctorConfig.AREA]: row.areaId,
     });
     setAreaName(`${row.areaName} - تملک دارایی های سرمایه ای`);
     handleOpenBudgetRowModal();
