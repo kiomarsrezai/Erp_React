@@ -204,7 +204,7 @@
               <ClientRectangle>1050,0,59,80</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
-              <Font>B Yekan,10</Font>
+              <Font>B Yekan,9</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text2</Name>
@@ -224,7 +224,7 @@
               <ClientRectangle>840,0,209,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
-              <Font>B Yekan,10</Font>
+              <Font>B Yekan,9</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text4</Name>
@@ -238,10 +238,10 @@
             <Text7 Ref="16" type="Text" isKey="true">
               <Border>Top, Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>970,40,79,40</ClientRectangle>
+              <ClientRectangle>960,40,89,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
-              <Font>B Yekan,10</Font>
+              <Font>B Yekan,9</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text7</Name>
@@ -255,10 +255,10 @@
             <Text15 Ref="17" type="Text" isKey="true">
               <Border>Top, Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>890,40,79,40</ClientRectangle>
+              <ClientRectangle>870,40,89,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
-              <Font>B Yekan,10</Font>
+              <Font>B Yekan,9</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text15</Name>
@@ -272,16 +272,17 @@
             <Text16 Ref="18" type="Text" isKey="true">
               <Border>Top, Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>840,40,49,40</ClientRectangle>
+              <ClientRectangle>840,40,29,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
-              <Font>B Yekan,10</Font>
+              <Font>B Yekan,9</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text16</Name>
               <Page isRef="6" />
               <Parent isRef="13" />
-              <Text>جذب %</Text>
+              <Text>%
+جذب</Text>
               <TextBrush>[221:0:0:0]</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -292,7 +293,7 @@
               <ClientRectangle>630,0,209,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
-              <Font>B Yekan,10</Font>
+              <Font>B Yekan,9</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text38</Name>
@@ -306,10 +307,10 @@
             <Text1 Ref="20" type="Text" isKey="true">
               <Border>Top, Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>760,40,79,40</ClientRectangle>
+              <ClientRectangle>750,40,89,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
-              <Font>B Yekan,10</Font>
+              <Font>B Yekan,9</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text1</Name>
@@ -323,10 +324,10 @@
             <Text3 Ref="21" type="Text" isKey="true">
               <Border>Top, Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>680,40,79,40</ClientRectangle>
+              <ClientRectangle>660,40,89,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
-              <Font>B Yekan,10</Font>
+              <Font>B Yekan,9</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text3</Name>
@@ -340,16 +341,17 @@
             <Text33 Ref="22" type="Text" isKey="true">
               <Border>Top, Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>630,40,49,40</ClientRectangle>
+              <ClientRectangle>630,40,29,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
-              <Font>B Yekan,10</Font>
+              <Font>B Yekan,9</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text33</Name>
               <Page isRef="6" />
               <Parent isRef="13" />
-              <Text>جذب %</Text>
+              <Text>%
+جذب</Text>
               <TextBrush>[221:0:0:0]</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -360,7 +362,7 @@
               <ClientRectangle>1110,0,39,80</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
-              <Font>B Yekan,10</Font>
+              <Font>B Yekan,9</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text19</Name>
@@ -378,7 +380,7 @@
               <ClientRectangle>210,0,209,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
-              <Font>B Yekan,10</Font>
+              <Font>B Yekan,9</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text14</Name>
@@ -395,7 +397,7 @@
               <ClientRectangle>420,0,209,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
-              <Font>B Yekan,10</Font>
+              <Font>B Yekan,9</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text26</Name>
@@ -409,7 +411,7 @@
             <Text27 Ref="26" type="Text" isKey="true">
               <Border>Top, Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>550,40,79,40</ClientRectangle>
+              <ClientRectangle>540,40,89,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,10</Font>
@@ -426,7 +428,7 @@
             <Text28 Ref="27" type="Text" isKey="true">
               <Border>Top, Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>470,40,79,40</ClientRectangle>
+              <ClientRectangle>450,40,89,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,10</Font>
@@ -443,16 +445,17 @@
             <Text29 Ref="28" type="Text" isKey="true">
               <Border>Top, Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>420,40,49,40</ClientRectangle>
+              <ClientRectangle>420,40,29,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
-              <Font>B Yekan,10</Font>
+              <Font>B Yekan,9</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text29</Name>
               <Page isRef="6" />
               <Parent isRef="13" />
-              <Text>جذب %</Text>
+              <Text>%
+جذب</Text>
               <TextBrush>[221:0:0:0]</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -460,10 +463,10 @@
             <Text30 Ref="29" type="Text" isKey="true">
               <Border>Top, Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>340,40,79,40</ClientRectangle>
+              <ClientRectangle>330,40,89,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
-              <Font>B Yekan,10</Font>
+              <Font>B Yekan,9</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text30</Name>
@@ -477,10 +480,10 @@
             <Text31 Ref="30" type="Text" isKey="true">
               <Border>Top, Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>260,40,79,40</ClientRectangle>
+              <ClientRectangle>240,40,89,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
-              <Font>B Yekan,10</Font>
+              <Font>B Yekan,9</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text31</Name>
@@ -494,16 +497,17 @@
             <Text34 Ref="31" type="Text" isKey="true">
               <Border>Top, Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>210,40,49,40</ClientRectangle>
+              <ClientRectangle>210,40,29,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
-              <Font>B Yekan,10</Font>
+              <Font>B Yekan,9</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text34</Name>
               <Page isRef="6" />
               <Parent isRef="13" />
-              <Text>جذب %</Text>
+              <Text>%
+جذب</Text>
               <TextBrush>[221:0:0:0]</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -514,7 +518,7 @@
               <ClientRectangle>0,0,209,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
-              <Font>B Yekan,10</Font>
+              <Font>B Yekan,9</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text49</Name>
@@ -528,16 +532,17 @@
             <Text52 Ref="33" type="Text" isKey="true">
               <Border>Top, Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>0,40,49,40</ClientRectangle>
+              <ClientRectangle>0,40,29,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
-              <Font>B Yekan,10</Font>
+              <Font>B Yekan,9</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text52</Name>
               <Page isRef="6" />
               <Parent isRef="13" />
-              <Text>جذب %</Text>
+              <Text>%
+جذب</Text>
               <TextBrush>[221:0:0:0]</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -545,10 +550,10 @@
             <Text53 Ref="34" type="Text" isKey="true">
               <Border>Top, Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>50,40,79,40</ClientRectangle>
+              <ClientRectangle>30,40,89,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
-              <Font>B Yekan,10</Font>
+              <Font>B Yekan,9</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text53</Name>
@@ -562,10 +567,10 @@
             <Text54 Ref="35" type="Text" isKey="true">
               <Border>Top, Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>130,40,79,40</ClientRectangle>
+              <ClientRectangle>120,40,89,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
-              <Font>B Yekan,10</Font>
+              <Font>B Yekan,9</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text54</Name>
@@ -633,7 +638,7 @@
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>970,0,80,30</ClientRectangle>
+              <ClientRectangle>960,0,90,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -660,7 +665,7 @@
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>840,0,50,30</ClientRectangle>
+              <ClientRectangle>840,0,30,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -680,7 +685,7 @@
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>890,0,80,30</ClientRectangle>
+              <ClientRectangle>870,0,90,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -707,7 +712,7 @@
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>760,0,80,30</ClientRectangle>
+              <ClientRectangle>750,0,90,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -734,7 +739,7 @@
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>680,0,80,30</ClientRectangle>
+              <ClientRectangle>660,0,90,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -761,7 +766,7 @@
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>630,0,50,30</ClientRectangle>
+              <ClientRectangle>630,0,30,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -781,7 +786,7 @@
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>550,0,80,30</ClientRectangle>
+              <ClientRectangle>540,0,90,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -808,7 +813,7 @@
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>340,0,80,30</ClientRectangle>
+              <ClientRectangle>330,0,90,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -835,7 +840,7 @@
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>470,0,80,30</ClientRectangle>
+              <ClientRectangle>450,0,90,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -862,7 +867,7 @@
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>260,0,80,30</ClientRectangle>
+              <ClientRectangle>240,0,90,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -889,7 +894,7 @@
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>420,0,50,30</ClientRectangle>
+              <ClientRectangle>420,0,30,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -909,7 +914,7 @@
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>210,0,50,30</ClientRectangle>
+              <ClientRectangle>210,0,30,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -929,7 +934,7 @@
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>130,0,80,30</ClientRectangle>
+              <ClientRectangle>120,0,90,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -956,7 +961,7 @@
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>50,0,80,30</ClientRectangle>
+              <ClientRectangle>30,0,90,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -983,7 +988,7 @@
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>0,0,50,30</ClientRectangle>
+              <ClientRectangle>0,0,30,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -1040,7 +1045,7 @@
               <Border>Top, Left;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>970,0,79,30</ClientRectangle>
+              <ClientRectangle>960,0,89,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -1068,7 +1073,7 @@
               <Border>Top, Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>840,0,50,30</ClientRectangle>
+              <ClientRectangle>840,0,30,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -1088,7 +1093,7 @@
               <Border>Top, Left;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>890,0,79,30</ClientRectangle>
+              <ClientRectangle>870,0,89,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -1116,7 +1121,7 @@
               <Border>Top, Left;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>760,0,79,30</ClientRectangle>
+              <ClientRectangle>750,0,89,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -1144,7 +1149,7 @@
               <Border>Top, Left;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>550,0,79,30</ClientRectangle>
+              <ClientRectangle>540,0,89,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -1172,7 +1177,7 @@
               <Border>Top, Left;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>340,0,79,30</ClientRectangle>
+              <ClientRectangle>330,0,89,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -1200,7 +1205,7 @@
               <Border>Top, Left;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>680,0,79,30</ClientRectangle>
+              <ClientRectangle>660,0,89,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -1228,7 +1233,7 @@
               <Border>Top, Left;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>470,0,79,30</ClientRectangle>
+              <ClientRectangle>450,0,89,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -1256,7 +1261,7 @@
               <Border>Top, Left;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>260,0,79,30</ClientRectangle>
+              <ClientRectangle>240,0,89,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -1284,7 +1289,7 @@
               <Border>Top, Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>630,0,50,30</ClientRectangle>
+              <ClientRectangle>630,0,30,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -1304,7 +1309,7 @@
               <Border>Top, Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>420,0,50,30</ClientRectangle>
+              <ClientRectangle>420,0,30,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -1324,7 +1329,7 @@
               <Border>Top, Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>210,0,50,30</ClientRectangle>
+              <ClientRectangle>210,0,30,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -1344,7 +1349,7 @@
               <Border>Top, Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>130,0,80,30</ClientRectangle>
+              <ClientRectangle>120,0,90,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -1364,7 +1369,7 @@
               <Border>Top, Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>50,0,80,30</ClientRectangle>
+              <ClientRectangle>30,0,90,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -1384,7 +1389,7 @@
               <Border>Top, Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>0,0,50,30</ClientRectangle>
+              <ClientRectangle>0,0,30,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -1440,11 +1445,11 @@
   </ReferencedAssemblies>
   <ReportAlias>SimpleList</ReportAlias>
   <ReportAuthor>Stimulsoft</ReportAuthor>
-  <ReportChanged>6/10/2023 5:23:14 PM</ReportChanged>
+  <ReportChanged>6/10/2023 5:35:40 PM</ReportChanged>
   <ReportCreated>5/29/2004 10:59:00 AM</ReportCreated>
   <ReportDescription>This sample demonstrates how to create a simple list report.</ReportDescription>
   <ReportFile>D:\Profiles\akasir\Desktop\stimul\revenue-modal-detail.mrt</ReportFile>
-  <ReportGuid>58310c67c6d44be1b4f3d69060ae1cb2</ReportGuid>
+  <ReportGuid>342aadcc6a274c5a89ed6f14b24a2892</ReportGuid>
   <ReportImage>iVBORw0KGgoAAAANSUhEUgAAASAAAAGWCAMAAADvzq7aAAAABGdBTUEAALGPC/xhBQAAAYBQTFRF
 S7asucbHqba33/Hx8vr56fb1paqq+v394fPx1N3i5/X1nKan7/n52+zryOfl8/T0s77B7ezt4/b1
 /f7+0+Tj29vcu7u9kZSV09PTsby8uMK+4vXzzN3d0+LewsPD0s3Iy8vMws3M5OTkys3S4t3Zw9PU
