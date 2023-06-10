@@ -1,6 +1,7 @@
 import FixedTable from "components/data/table/fixed-table";
 import IconButton from "@mui/material/IconButton";
 import green from "@mui/material/colors/green";
+import Grid from "@mui/material/Unstable_Grid2";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import FixedModal from "components/ui/modal/fixed-modal";
 import RevenueChartModal2 from "./revenue-chart-modal-2";
@@ -21,6 +22,10 @@ import {
   getGeneralFieldItemNumber,
   getGeneralFieldItemYear,
 } from "helper/export-utils";
+import { revenueModalDetailStimul } from "stimul/budget/report/revenue/revenue-modal-detail-stimul";
+import NumbersInput from "components/sections/inputs/numbers-input";
+import { generalFieldsConfig } from "config/features/general-fields-config";
+import { convertNumbers } from "helper/number-utils";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -47,7 +52,7 @@ function RevenueChartModalDetail(props: RevenueChartModalDetailProps) {
     const budgetKindLabel = getGeneralFieldItemBudgetMethod(formData);
 
     if (tableData.length) {
-      revenueModal1Stimul({
+      revenueModalDetailStimul({
         data: tableData,
         footer: tableFooter,
         year: yearLabel,
@@ -65,6 +70,32 @@ function RevenueChartModalDetail(props: RevenueChartModalDetailProps) {
         </IconButton>
       ),
       colspan: 11,
+    },
+  ];
+
+  // top head group
+  const [filterFormData, setFilterFormData] = useState({
+    [generalFieldsConfig.numbers]: 1,
+  });
+  const tableTopHeadGroups: TableHeadGroupShape = [
+    {
+      title: (
+        <Grid container>
+          <Grid sm={2}>
+            <NumbersInput
+              setter={setFilterFormData}
+              value={filterFormData[generalFieldsConfig.numbers] as number}
+            />
+          </Grid>
+
+          <Grid sm={2}>
+            <IconButton color="primary" onClick={handlePrintForm}>
+              <PrintIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
+      ),
+      colspan: 17,
     },
   ];
 
@@ -277,7 +308,24 @@ function RevenueChartModalDetail(props: RevenueChartModalDetailProps) {
     return formatedData;
   };
 
-  const tableData = data ? formatTableData(data) : [];
+  const formatedData = convertNumbers(
+    data,
+    [
+      "mosavabRevenue",
+      "expenseRevenue",
+      "mosavabSale",
+      "expenseSale",
+      "mosavabLoan",
+      "expenseLoan",
+      "mosavabKol",
+      "expenseKol",
+      "mosavabDaryaftAzKhazane",
+      "expenseDaryaftAzKhazane",
+    ],
+    filterFormData[generalFieldsConfig.numbers]
+  );
+
+  const tableData = formatTableData(formatedData);
   /*
       "areaId": 1,
       "areaName": "01",
@@ -298,27 +346,45 @@ function RevenueChartModalDetail(props: RevenueChartModalDetailProps) {
       "percentKol": 0
  */
   // table footer
-  const sum_mosavabRevenue = sumFieldsInSingleItemData(data, "mosavabRevenue");
-  const sum_expenseRevenue = sumFieldsInSingleItemData(data, "expenseRevenue");
-  const sum_mosavabSale = sumFieldsInSingleItemData(data, "mosavabSale");
-  const sum_expenseSale = sumFieldsInSingleItemData(data, "expenseSale");
-  const sum_mosavabLoan = sumFieldsInSingleItemData(data, "mosavabLoan");
+  const sum_mosavabRevenue = sumFieldsInSingleItemData(
+    formatedData,
+    "mosavabRevenue"
+  );
+  const sum_expenseRevenue = sumFieldsInSingleItemData(
+    formatedData,
+    "expenseRevenue"
+  );
+  const sum_mosavabSale = sumFieldsInSingleItemData(
+    formatedData,
+    "mosavabSale"
+  );
+  const sum_expenseSale = sumFieldsInSingleItemData(
+    formatedData,
+    "expenseSale"
+  );
+  const sum_mosavabLoan = sumFieldsInSingleItemData(
+    formatedData,
+    "mosavabLoan"
+  );
 
-  const sum_expenseLoan = sumFieldsInSingleItemData(data, "expenseLoan");
+  const sum_expenseLoan = sumFieldsInSingleItemData(
+    formatedData,
+    "expenseLoan"
+  );
 
   const sum_mosavabDaryaftAzKhazane = sumFieldsInSingleItemData(
-    data,
+    formatedData,
     "mosavabDaryaftAzKhazane"
   );
 
   const sum_expenseDaryaftAzKhazane = sumFieldsInSingleItemData(
-    data,
+    formatedData,
     "expenseDaryaftAzKhazane"
   );
 
-  const sum_mosavabKol = sumFieldsInSingleItemData(data, "mosavabKol");
+  const sum_mosavabKol = sumFieldsInSingleItemData(formatedData, "mosavabKol");
 
-  const sum_expenseKol = sumFieldsInSingleItemData(data, "expenseKol");
+  const sum_expenseKol = sumFieldsInSingleItemData(formatedData, "expenseKol");
 
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
@@ -389,6 +455,7 @@ function RevenueChartModalDetail(props: RevenueChartModalDetailProps) {
         data={tableData}
         footer={tableFooter}
         headGroups={tableHeadGroups}
+        topHeadGroups={tableTopHeadGroups}
         notFixed
         canSort
       />
