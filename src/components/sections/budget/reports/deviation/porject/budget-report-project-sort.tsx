@@ -21,6 +21,7 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
   const [formData, setFormData] = useState({
     [budgetProjectSortConfig.year]: undefined,
     [budgetProjectSortConfig.area]: undefined,
+    [budgetProjectSortConfig.budget]: undefined,
     [budgetProjectSortConfig.kind]: 1,
   });
 

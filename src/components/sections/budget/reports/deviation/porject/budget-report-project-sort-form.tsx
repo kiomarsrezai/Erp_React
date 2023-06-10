@@ -201,6 +201,26 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
           </Grid>
         </SectionGuard>
 
+        {/* <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.BUDGET__REPORT_PAGE,
+            accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SORT,
+            accessNamesConfig.FIELD_AREA,
+          ])}
+        > */}
+        <Grid lg={2}>
+          <BudgetMethodInput
+            setter={setFormData}
+            value={formData[budgetProjectSortConfig.budget]}
+            // permissionForm={joinPermissions([
+            //   accessNamesConfig.BUDGET__REPORT_PAGE,
+            //   accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
+            // ])}
+            showError={haveSubmitedForm}
+          />
+        </Grid>
+        {/* </SectionGuard> */}
+
         <Grid xs={2}>
           <BudgetSortKindInput
             setter={setFormData}

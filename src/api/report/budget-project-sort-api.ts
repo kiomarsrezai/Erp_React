@@ -6,9 +6,12 @@ import { budgetProjectSortUrls } from "config/features/budget/report/budget-proj
 
 export const budgetProjectSortApi = new (class extends BaseApi {
   getData = async (formdata: any) => {
-    const url = budgetProjectSortUrls.getData + this.joinFilterData(formdata);
+    const url = budgetProjectSortUrls.getData; //+ this.joinFilterData(formdata);
 
-    const response = await clientAxios.get<BaseApiResponseShape<any[]>>(url);
+    const response = await clientAxios.get<BaseApiResponseShape<any[]>>(
+      url,
+      formdata
+    );
     return response.data;
   };
 })();

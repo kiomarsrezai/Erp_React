@@ -4,6 +4,7 @@ export const budgetProjectSortConfig = {
   year: generalFieldsConfig.YEAR,
   area: generalFieldsConfig.AREA,
   kind: generalFieldsConfig.kind,
+  budget: generalFieldsConfig.BUDGET_METHOD,
 };
 
 export const budgetProjectSortUrls = {
