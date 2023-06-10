@@ -6,7 +6,7 @@ import FixedModal from "components/ui/modal/fixed-modal";
 import RevenueChartModal2 from "./revenue-chart-modal-2";
 import PrintIcon from "@mui/icons-material/Print";
 
-import { sumFieldsInSingleItemData } from "helper/calculate-utils";
+import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { ReactNode, useState } from "react";
 import { GetSingleDetailRevenueChartShape } from "types/data/report/chart/revenue-chart-type";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
@@ -278,20 +278,71 @@ function RevenueChartModalDetail(props: RevenueChartModalDetailProps) {
   };
 
   const tableData = data ? formatTableData(data) : [];
-
+  /*
+      "areaId": 1,
+      "areaName": "01",
+      "mosavabRevenue": 3027485000000,
+      "expenseRevenue": 0,
+      "mosavabSale": 60000000000,
+      "expenseSale": 0,
+      "mosavabLoan": 0,
+      "expenseLoan": 0,
+      "mosavabDaryaftAzKhazane": 0,
+      "expenseDaryaftAzKhazane": 0,
+      "mosavabKol": 3087485000000,
+      "expenseKol": 0,
+      "percentRevenue": 0,
+      "percentSale": 0,
+      "percentLoan": 0,
+      "percentDaryaftAzKhazane": 0,
+      "percentKol": 0
+ */
   // table footer
+  const sum_mosavabRevenue = sumFieldsInSingleItemData(data, "mosavabRevenue");
+  const sum_expenseRevenue = sumFieldsInSingleItemData(data, "expenseRevenue");
+  const sum_mosavabSale = sumFieldsInSingleItemData(data, "mosavabSale");
+  const sum_expenseSale = sumFieldsInSingleItemData(data, "expenseSale");
+  const sum_mosavabLoan = sumFieldsInSingleItemData(data, "mosavabLoan");
+
+  const sum_expenseLoan = sumFieldsInSingleItemData(data, "expenseLoan");
+
+  const sum_mosavabDaryaftAzKhazane = sumFieldsInSingleItemData(
+    data,
+    "mosavabDaryaftAzKhazane"
+  );
+
   const sum_expenseDaryaftAzKhazane = sumFieldsInSingleItemData(
     data,
     "expenseDaryaftAzKhazane"
   );
+
+  const sum_mosavabKol = sumFieldsInSingleItemData(data, "mosavabKol");
+
+  const sum_expenseKol = sumFieldsInSingleItemData(data, "expenseKol");
+
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
     "colspan-number": 2,
     areaName: null,
-    // expenseDaryaftAzKhazane: sum_expenseDaryaftAzKhazane,
-    // expenseDaryaftAzKhazane: sum_expenseDaryaftAzKhazane,
-    // expenseKol: sum_expenseDaryaftAzKhazane,
-    // expenseDaryaftAzKhazane: sum_expenseDaryaftAzKhazane,
+    mosavabRevenue: sum_mosavabRevenue,
+    expenseRevenue: sum_expenseRevenue,
+    mosavabSale: sum_mosavabSale,
+    expenseSale: sum_expenseSale,
+    mosavabLoan: sum_mosavabLoan,
+    expenseLoan: sum_expenseLoan,
+    mosavabKol: sum_mosavabKol,
+    expenseKol: sum_expenseKol,
+    mosavabDaryaftAzKhazane: sum_mosavabDaryaftAzKhazane,
+    expenseDaryaftAzKhazane: sum_expenseDaryaftAzKhazane,
+
+    percentRevenue: getPercent(sum_expenseRevenue, sum_mosavabRevenue),
+    percentSale: getPercent(sum_expenseSale, sum_mosavabSale),
+    percentLoan: getPercent(sum_expenseLoan, sum_mosavabLoan),
+    percentKol: getPercent(sum_expenseKol, sum_mosavabKol),
+    percentDaryaftAzKhazane: getPercent(
+      sum_mosavabDaryaftAzKhazane,
+      sum_expenseDaryaftAzKhazane
+    ),
   };
 
   // modal
