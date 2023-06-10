@@ -279,6 +279,7 @@ function ReportProctorAbstructPage(props: ReportProctorAbstructProps) {
         handleClose={handleCloseModal}
         loading={dataModalMutation.isLoading}
         title={titleModal}
+        maxHeight="90%"
       >
         <AbstructModal1
           data={dataModalMutation.data?.data || []}

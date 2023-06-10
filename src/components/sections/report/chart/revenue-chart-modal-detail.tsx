@@ -88,12 +88,12 @@ function RevenueChartModalDetail(props: RevenueChartModalDetailProps) {
       align: "center",
     },
     {
-      title: "فروش",
+      title: "فروش اموال منقول و غیر منقول",
       colspan: 3,
       align: "center",
     },
     {
-      title: "وام",
+      title: "وام و اوراق مشارکت",
       colspan: 3,
       align: "center",
     },

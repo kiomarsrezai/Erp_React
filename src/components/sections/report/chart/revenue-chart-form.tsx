@@ -106,11 +106,17 @@ function RevenueChartForm(props: RevenueChartFormProps) {
 
   // modal
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
   const handleCloseModal = () => {
     setIsOpenModal(false);
   };
 
   const handleOpenModal = () => {
+    const yearLabel = getGeneralFieldItemYear(formData, 1);
+    const budgetKindLabel = getGeneralFieldItemBudgetMethod(formData);
+
+    const title = `سال ${yearLabel} - نوع ${budgetKindLabel}`;
+    setModalTitle(title);
     setIsOpenModal(true);
   };
 
@@ -164,6 +170,11 @@ function RevenueChartForm(props: RevenueChartFormProps) {
   };
 
   const handleOpenModal2 = () => {
+    const yearLabel = getGeneralFieldItemYear(formData, 1);
+    const budgetKindLabel = getGeneralFieldItemBudgetMethod(formData);
+
+    const title = `سال ${yearLabel} - نوع ${budgetKindLabel}`;
+    setModalTitle(title);
     setIsOpenModal2(true);
   };
 
@@ -382,6 +393,8 @@ function RevenueChartForm(props: RevenueChartFormProps) {
         open={isOpenModal}
         handleClose={handleCloseModal}
         loading={dataTableMutation.isLoading}
+        maxHeight="90%"
+        title={modalTitle}
       >
         <RevenueChartModal1
           formData={formData}
@@ -396,6 +409,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
         loading={dataTable2Mutation.isLoading}
         maxWidth="100%"
         maxHeight="90%"
+        title={modalTitle}
       >
         <RevenueChartModalDetail
           formData={formData}
