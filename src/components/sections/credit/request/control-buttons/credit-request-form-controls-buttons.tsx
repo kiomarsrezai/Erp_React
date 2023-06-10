@@ -218,7 +218,13 @@ function CreditRequestFormControlsButtons(
     quertClient.setQueryData(reactQueryKeys.request.table.list, {
       data: [],
     });
-    setFormData(creditRequestFormDefaultValue);
+    setFormData({
+      ...creditRequestFormDefaultValue,
+      [creditRequestConfig.execute_departman_id]:
+        formData[creditRequestConfig.execute_departman_id],
+      [creditRequestConfig.year]: formData[creditRequestConfig.year],
+      [creditRequestConfig.area]: formData[creditRequestConfig.area],
+    });
     setFirstStepCrossed(false);
     onClearCallback();
     setShowConfrimClearForm(false);

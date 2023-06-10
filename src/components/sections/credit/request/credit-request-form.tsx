@@ -176,6 +176,8 @@ function CreditRequestForm(props: CreditRequestFormProps) {
       label="شرح درخواست"
       variant="outlined"
       size="small"
+      multiline
+      rows={2}
       name={creditRequestConfig.request_description}
       onChange={handleChangeTextFields}
       fullWidth
