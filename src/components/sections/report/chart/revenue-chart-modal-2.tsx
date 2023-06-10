@@ -256,7 +256,7 @@ function RevenueChartModal2(props: RevenueChartMoreDetailModalProps) {
       <FixedTable
         heads={tableHeads}
         data={tableData}
-        headGroups={tableHeadGroup}
+        // headGroups={tableHeadGroup}
         footer={tableFooter}
         canSort
         notFixed

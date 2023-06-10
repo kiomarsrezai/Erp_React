@@ -273,34 +273,35 @@ function RevenueChartForm(props: RevenueChartFormProps) {
               />
             </Grid>
           </SectionGuard>
-          {!(formData[revenueChartFormConfig.ORGAN] === 4) && (
-            <SectionGuard
-              permission={joinPermissions([
-                accessNamesConfig.BUDGET__REPORT_PAGE,
-                accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
-                accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE_CENTER,
-              ])}
-            >
-              <Grid xs={2}>
-                <FlotingLabelSelect
-                  label="مرکز"
-                  name={revenueChartFormConfig.CENTER}
-                  items={filedItemsGuard(
-                    centerItems,
-                    userLicenses,
-                    joinPermissions([
-                      accessNamesConfig.BUDGET__REPORT_PAGE,
-                      accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
-                      accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE_CENTER,
-                    ])
-                  )}
-                  value={formData[revenueChartFormConfig.CENTER]}
-                  setter={setFormData}
-                  showError={haveSubmitedForm}
-                />
-              </Grid>
-            </SectionGuard>
-          )}
+          {/* {!(formData[revenueChartFormConfig.ORGAN] === 4) && ( */}
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.BUDGET__REPORT_PAGE,
+              accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
+              accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE_CENTER,
+            ])}
+          >
+            <Grid xs={2}>
+              <FlotingLabelSelect
+                label="مرکز"
+                name={revenueChartFormConfig.CENTER}
+                disabled={formData[revenueChartFormConfig.ORGAN] === 4}
+                items={filedItemsGuard(
+                  centerItems,
+                  userLicenses,
+                  joinPermissions([
+                    accessNamesConfig.BUDGET__REPORT_PAGE,
+                    accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
+                    accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE_CENTER,
+                  ])
+                )}
+                value={formData[revenueChartFormConfig.CENTER]}
+                setter={setFormData}
+                showError={haveSubmitedForm}
+              />
+            </Grid>
+          </SectionGuard>
+          {/* )} */}
 
           <SectionGuard
             permission={joinPermissions([
@@ -323,7 +324,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
           </SectionGuard>
           <Grid xs>
             <Stack direction="row" flexWrap="wrap" gap={1}>
-              <CheckboxLabeled
+              {/* <CheckboxLabeled
                 label="درآمد"
                 name={revenueChartFormConfig.REVENUE}
                 value={formData[revenueChartFormConfig.REVENUE]}
@@ -345,7 +346,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
                 value={formData[revenueChartFormConfig.LAON]}
                 setter={setFormData}
                 disabled={formData[revenueChartFormConfig.BUDGET_METHOD] !== 1}
-              />
+              /> */}
 
               {/* <CheckboxLabeled
                 label="نیابتی"
@@ -363,10 +364,10 @@ function RevenueChartForm(props: RevenueChartFormProps) {
                 نمایش
               </LoadingButton>
               <Button variant="contained" onClick={handleClickDetailValues}>
-                ریز مقادیر
+                مقادیر
               </Button>
               <Button variant="contained" onClick={handleClickDetail2Modal}>
-                ریز مقادیر 2
+                تفکیک درآمد
               </Button>
               <IconButton color="primary" onClick={handlePrintForm}>
                 <PrintIcon />

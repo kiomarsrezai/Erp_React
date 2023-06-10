@@ -40,7 +40,7 @@ function BulletChart(props: BulletChartProps) {
 
   const barColor = "#cbd5e1";
   const innerBarColor = blue[300];
-  const lineColor = green[700];
+  const lineColor = "rgb(90 211 112 / 50%)";
 
   // bar
   const CustomBarWithTarget = (barProps: any) => {

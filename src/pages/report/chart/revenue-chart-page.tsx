@@ -53,7 +53,7 @@ function ReportRevenueChartPage(props: ReportRevenueChartPageProps) {
     [revenueChartFormConfig.REVENUE]: true,
     [revenueChartFormConfig.SALE]: true,
     [revenueChartFormConfig.LAON]: true,
-    [revenueChartFormConfig.NIABATI]: false,
+    [revenueChartFormConfig.NIABATI]: true,
   });
 
   // get data
