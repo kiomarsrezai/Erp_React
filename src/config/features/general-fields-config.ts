@@ -120,7 +120,7 @@ export const budgetReportItems: FlotingLabelTextfieldItemsShape = [
     value: 7,
   },
   {
-    label: "مقیاس پروژه",
+    label: "ابعاد اجرای پروژه",
     value: 6,
   },
 ];
