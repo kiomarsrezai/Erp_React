@@ -3,6 +3,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CloseIcon from "@mui/icons-material/Close";
+import CheckIcon from "@mui/icons-material/Check";
 import FixedModal from "components/ui/modal/fixed-modal";
 import ProposalModal3Edit from "./proposal-modal-3-edit";
 import ProposalModal3Search from "./proposal-modal-3-search";
@@ -21,6 +23,7 @@ import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import { proposalBudgetApi } from "api/budget/proposal-api";
 import { globalConfig } from "config/global-config";
 import { enqueueSnackbar } from "notistack";
+import { Box, TextField } from "@mui/material";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -36,7 +39,7 @@ interface ProposalModal3Props {
   data: any[];
   formData: any;
   modal1CodingId: number;
-  baseRowData: GetSingleMoreDetailProposalItemShape;
+  baseRowData: GetSingleMoreDetailProposalItemShape | any;
   baseTitle: ReactNode;
 }
 function ProposalModal3(props: ProposalModal3Props) {
@@ -64,6 +67,7 @@ function ProposalModal3(props: ProposalModal3Props) {
     });
     setIsOpenSearchModal(false);
     setIsOpenEditModal(false);
+    setActiveIdUpdate(null);
   };
 
   // heads
@@ -92,6 +96,7 @@ function ProposalModal3(props: ProposalModal3Props) {
       name: "mosavab",
       align: "left",
       split: true,
+      width: "150px",
     },
     {
       title: "اصلاح",
@@ -120,6 +125,7 @@ function ProposalModal3(props: ProposalModal3Props) {
     {
       title: "عملیات",
       name: "actions",
+      width: "120px",
     },
   ];
 
@@ -180,43 +186,121 @@ function ProposalModal3(props: ProposalModal3Props) {
   };
 
   // data
+  const editMutation = useMutation(proposalBudgetApi.editModal3, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+      handleDoneModal3Task();
+    },
+    onError: () => {
+      //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+      //variant: "error",
+      //});
+    },
+  });
+
+  const onSubmitEditFunctionality = () => {
+    // editMutation.mutate({
+    //   mosavab: editMosavab,
+    //   id: activeIdUpdate,
+    // });
+    editMutation.mutate({
+      mosavab: editMosavab,
+      id: activeIdUpdate,
+    });
+  };
+
+  const [activeIdUpdate, setActiveIdUpdate] = useState<null | number>(null);
+  const [editMosavab, setEditMosavab] = useState(0);
+
+  const openEditRowInline = (row: GetSingleLevel5DetailProposalItemShape) => {
+    setEditMosavab(row.mosavab);
+    setActiveIdUpdate(row.id);
+  };
+
   const actionButtons = (
     row: TableDataItemShape & GetSingleLevel5DetailProposalItemShape
   ) => (
-    <>
-      <IconButton
-        size="small"
-        color="error"
-        onClick={() => handleDeleteBtnClick(row)}
-      >
-        <DeleteIcon />
-      </IconButton>
+    <Box display={"flex"} justifyContent={"center"}>
+      {activeIdUpdate !== row.id ? (
+        <>
+          <IconButton
+            size="small"
+            color="error"
+            onClick={() => handleDeleteBtnClick(row)}
+          >
+            <DeleteIcon />
+          </IconButton>
 
-      <IconButton
-        size="small"
-        color="primary"
-        onClick={() => handleEditBtnClick(row)}
-      >
-        <EditIcon />
-      </IconButton>
-    </>
+          <IconButton
+            size="small"
+            color="primary"
+            onClick={() => openEditRowInline(row)}
+          >
+            <EditIcon />
+          </IconButton>
+        </>
+      ) : (
+        <>
+          <IconButton
+            color="success"
+            size="small"
+            onClick={onSubmitEditFunctionality}
+          >
+            <CheckIcon />
+          </IconButton>
+
+          <IconButton
+            color="error"
+            size="small"
+            onClick={() => setActiveIdUpdate(null)}
+          >
+            <CloseIcon />
+          </IconButton>
+        </>
+      )}
+    </Box>
   );
+
+  const renderMosavabDepartman = (row: any) => {
+    if (row.id === activeIdUpdate) {
+      return (
+        <TextField
+          id="code-input"
+          label=""
+          variant="outlined"
+          type="number"
+          size="small"
+          value={editMosavab}
+          onChange={(e) => setEditMosavab(+e.target.value)}
+          autoComplete="off"
+          fullWidth
+        />
+      );
+    } else {
+      return row.mosavab;
+    }
+  };
 
   const formatTableData = (
     unFormatData: GetSingleLevel5DetailProposalItemShape[]
   ): TableDataItemShape[] => {
-    const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
-      ...item,
-      number: i + 1,
-      area: item.areaNameShort,
-      creditAmount: 0,
-      mosavab: item.mosavab,
-      expense: item.expense,
-      "textcolor-expense": item.expense < 0 ? "red" : "",
-      percent: item.percentBud,
-      edit: item.edit,
-      actions: actionButtons,
-    }));
+    const formatedData: TableDataItemShape[] | any = unFormatData.map(
+      (item, i) => ({
+        ...item,
+        number: i + 1,
+        area: item.areaNameShort,
+        creditAmount: 0,
+        mosavab: () => renderMosavabDepartman(item),
+        // mosavab: item.mosavab,
+        expense: item.expense,
+        "textcolor-expense": item.expense < 0 ? "red" : "",
+        percent: item.percentBud,
+        edit: item.edit,
+        actions: actionButtons,
+      })
+    );
 
     return formatedData;
   };
@@ -250,8 +334,9 @@ function ProposalModal3(props: ProposalModal3Props) {
     "colspan-number": 2,
     area: null,
     creditAmount: 0,
-    mosavab: baseRowData.mosavab - sumMosavab,
-    "textcolor-mosavab": baseRowData.mosavab - sumMosavab < 0 ? "red" : "blue",
+    mosavab: baseRowData.mosavab() - sumMosavab,
+    "textcolor-mosavab":
+      baseRowData.mosavab() - sumMosavab < 0 ? "red" : "blue",
     edit: "",
     percent: "",
     expense: "",
