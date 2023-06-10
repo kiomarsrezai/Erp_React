@@ -49,6 +49,7 @@ export interface CreditReadRequestBudgetRowShape {
   requestBudgetAmount: number;
   project: string;
   yearName: string;
+  budgetProcessId: number;
 }
 
 export interface CreditReadRequestBudgetRowInsertedShape {

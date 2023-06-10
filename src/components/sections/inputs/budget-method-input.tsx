@@ -13,10 +13,11 @@ interface BudgetMethodInputProps {
   value: number;
   permissionForm?: string;
   showError?: boolean;
+  ignoreItems?: number[];
 }
 
 function BudgetMethodInput(props: BudgetMethodInputProps) {
-  const { setter, value, permissionForm, showError } = props;
+  const { setter, value, permissionForm, showError, ignoreItems } = props;
   const userLicenses = userStore((state) => state.permissions);
 
   const inputItems = permissionForm
@@ -30,11 +31,15 @@ function BudgetMethodInput(props: BudgetMethodInputProps) {
       )
     : budgetMethodItems;
 
+  const filteredInputItems = ignoreItems
+    ? inputItems.filter((item) => !ignoreItems?.includes(item.value as any))
+    : inputItems;
+
   return (
     <FlotingLabelSelect
       label="نوع بودجه"
       name={generalFieldsConfig.BUDGET_METHOD}
-      items={inputItems}
+      items={filteredInputItems}
       value={value}
       setter={setter}
       showError={showError}

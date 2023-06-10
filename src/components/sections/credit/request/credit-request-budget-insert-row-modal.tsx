@@ -3,7 +3,7 @@ import IconButton from "@mui/material/IconButton";
 import FixedModal from "components/ui/modal/fixed-modal";
 import AddIcon from "@mui/icons-material/Add";
 
-import { TableHeadShape } from "types/table-type";
+import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { ChangeEvent, ReactNode, useState } from "react";
 import { CreditReadRequestBudgetRowShape } from "types/data/credit/credit-request-type";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
@@ -11,9 +11,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { creditRequestApi } from "api/credit/credit-request-api";
 import { creditRequestConfig } from "config/features/credit/credit-request-config";
 import { reactQueryKeys } from "config/react-query-keys-config";
-import { Checkbox } from "@mui/material";
+import { Box, Checkbox } from "@mui/material";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
+import BudgetMethodInput from "components/sections/inputs/budget-method-input";
+import { generalFieldsConfig } from "config/features/general-fields-config";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -110,11 +112,39 @@ function CreditRequestBudgetInsertRowModal(
       value={row.id}
       checked={!!addItemsList[row.id]}
       onChange={toggleItem}
+      size="small"
     />
   );
 
+  // head group
+  const [budgetProccedId, setBudgetProccedId] = useState({
+    [generalFieldsConfig.BUDGET_METHOD]: 2,
+  });
+
+  const tableHeadGroup: TableHeadGroupShape = [
+    {
+      title: (
+        <Box sx={{ width: "200px" }}>
+          {" "}
+          <BudgetMethodInput
+            setter={setBudgetProccedId}
+            value={budgetProccedId[generalFieldsConfig.BUDGET_METHOD]}
+            ignoreItems={[1, 8, 9]}
+          />
+        </Box>
+      ),
+      colspan: 7,
+    },
+  ];
+
+  // data
   const filteredData = data.filter(
-    (item) => !baseData.find((baseItem) => baseItem.code === item.code)
+    (item) =>
+      !baseData.find((baseItem) => {
+        return baseItem.code === item.code;
+      }) &&
+      item.budgetProcessId ===
+        budgetProccedId[generalFieldsConfig.BUDGET_METHOD]
   );
 
   const formatTableData = (
@@ -204,6 +234,7 @@ function CreditRequestBudgetInsertRowModal(
   return (
     <FixedTable
       heads={tableHeads}
+      headGroups={tableHeadGroup}
       data={tableData}
       footer={tableFooter}
       notFixed
