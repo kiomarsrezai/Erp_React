@@ -174,13 +174,29 @@ function CreidtRequestTable(props: CreidtRequestFormTableProps) {
 
   // delete item
   const [isShowConfrimDelete, setIsShowConfrimDelete] = useState(false);
+  const [activeItem, setActiveItem] =
+    useState<CreditReadRequestTableShape | null>(null);
+
+  const deleteMutation = useMutation(creditRequestApi.requestTableDelete, {
+    onSuccess: () => {
+      requestTableMutation.mutate({
+        id: formData[creditRequestConfig.request_id],
+      });
+      setIsShowConfrimDelete(false);
+    },
+  });
 
   const onConfrimDelete = () => {
-    alert("shoud delete");
+    deleteMutation.mutate({ id: activeItem?.id });
   };
 
   const onCancelDelete = () => {
     setIsShowConfrimDelete(false);
+  };
+
+  const handleOpenDelete = (row: CreditReadRequestTableShape) => {
+    setActiveItem(row);
+    setIsShowConfrimDelete(true);
   };
 
   // data
@@ -190,7 +206,7 @@ function CreidtRequestTable(props: CreidtRequestFormTableProps) {
         <IconButton
           size="small"
           color="error"
-          onClick={() => setIsShowConfrimDelete(true)}
+          onClick={() => handleOpenDelete(row)}
         >
           <DeleteIcon />
         </IconButton>
@@ -364,6 +380,7 @@ function CreidtRequestTable(props: CreidtRequestFormTableProps) {
         onCancel={onCancelDelete}
         onConfrim={onConfrimDelete}
         open={isShowConfrimDelete}
+        text={`آیا مایل به حذف ${activeItem?.description} هستید ؟`}
         title="حذف آیتم"
       />
     </>

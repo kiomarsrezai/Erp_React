@@ -137,4 +137,13 @@ export const creditRequestApi = new (class extends BaseApi {
     >(url);
     return response.data;
   };
+
+  requestTableDelete = async (formData: any) => {
+    const url = creditRequestConfigURLS.requestTableDelete;
+
+    const response = await clientAxios.post<
+      BaseApiResponseShape<CreditReadRequestTableShape[]>
+    >(url, formData);
+    return response.data;
+  };
 })();

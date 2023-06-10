@@ -64,4 +64,5 @@ export const creditRequestConfigURLS = {
 
   // request table
   requestTableRead: "RequestApi/RequestTableRead",
+  requestTableDelete: "RequestApi/RequestTableDelete",
 };

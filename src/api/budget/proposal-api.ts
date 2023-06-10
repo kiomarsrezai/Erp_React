@@ -105,8 +105,11 @@ export const proposalBudgetApi = new (class extends BaseApi {
   };
 
   deleteModal1 = async (id: number) => {
-    const url = propsalBudgetUrls.deleteModal1 + id;
-    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(url);
+    const url = propsalBudgetUrls.deleteModal1;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      { id }
+    );
     return response.data;
   };
 
@@ -137,8 +140,11 @@ export const proposalBudgetApi = new (class extends BaseApi {
   };
 
   deleteModal2 = async (id: number) => {
-    const url = propsalBudgetUrls.deleteModal2 + id;
-    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(url);
+    const url = propsalBudgetUrls.deleteModal2;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      { id }
+    );
     return response.data;
   };
 
@@ -160,8 +166,11 @@ export const proposalBudgetApi = new (class extends BaseApi {
   };
 
   deleteModal3 = async (id: number) => {
-    const url = propsalBudgetUrls.deleteModal3 + id;
-    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(url);
+    const url = propsalBudgetUrls.deleteModal3;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      { id }
+    );
     return response.data;
   };
 })();
