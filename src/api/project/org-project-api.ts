@@ -81,4 +81,13 @@ export const orgProjectApi = new (class extends BaseApi {
     );
     return response.data;
   };
+
+  updateProjectTable = async (formdata: any) => {
+    const url = orgProjectUrls.updateTable;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      formdata
+    );
+    return response.data;
+  };
 })();

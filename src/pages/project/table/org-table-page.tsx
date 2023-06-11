@@ -5,6 +5,10 @@ import Draggable from "react-draggable";
 import ProjectOrgTools from "components/sections/project/project-org-tools";
 import AddIcon from "@mui/icons-material/Add";
 import CheckIcon from "@mui/icons-material/Check";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import CloseIcon from "@mui/icons-material/Close";
+import ClearIcon from "@mui/icons-material/Clear";
 
 import { grey } from "@mui/material/colors";
 import { Tree, TreeNode } from "react-organizational-chart";
@@ -35,17 +39,26 @@ function OrgProjectTablePage() {
     },
   });
 
-  // insert mode
+  // action mode
   const [isInsertMode, setIsInsertMode] = useState(false);
 
   const insertMutation = useMutation(orgProjectApi.insertProjectTable, {
     onSuccess: () => {
       getDataMutation.mutate(formData);
       setIsInsertMode(false);
+      setActiveIdUpdate(null);
     },
   });
 
-  const [actionFormData, setActionFormData] = useState({
+  const updateMutation = useMutation(orgProjectApi.updateProjectTable, {
+    onSuccess: () => {
+      getDataMutation.mutate(formData);
+      setIsInsertMode(false);
+      setActiveIdUpdate(null);
+    },
+  });
+
+  const [actionFormData, setActionFormData] = useState<any>({
     projectCode: "",
     projectName: "",
     dateFrom: "",
@@ -60,21 +73,34 @@ function OrgProjectTablePage() {
         ...actionFormData,
         areaArray: `-${formData[orgProjectConfig.area]}-`,
       });
+    } else {
+      updateMutation.mutate({
+        ...actionFormData,
+        id: activeIdUpdate,
+        areaArray: `-${formData[orgProjectConfig.area]}-`,
+      });
     }
   };
 
   //   heads
+  const addClick = () => {
+    setActionFormData({
+      projectCode: "",
+      projectName: "",
+      dateFrom: new Date(),
+      dateEnd: new Date(),
+      projectScaleId: "",
+    });
+    setIsInsertMode((state) => !state);
+    setActiveIdUpdate(null);
+  };
   const tableHeads: TableHeadShape = [
     {
       title: (
         <div>
           ردیف
           {formData[orgProjectConfig.area] && (
-            <IconButton
-              onClick={() => setIsInsertMode((state) => !state)}
-              color="primary"
-              size="small"
-            >
+            <IconButton onClick={addClick} color="primary" size="small">
               <AddIcon />
             </IconButton>
           )}
@@ -102,13 +128,13 @@ function OrgProjectTablePage() {
     {
       title: "از تاریخ",
       align: "left",
-      name: "dateFrom",
+      name: "dateFromShamsi",
       width: "180px",
     },
     {
       title: "تا تاریخ",
       align: "left",
-      name: "dateEnd",
+      name: "dateEndShamsi",
       width: "180px",
     },
     {
@@ -128,13 +154,71 @@ function OrgProjectTablePage() {
     },
   ];
 
+  /*
+  <IconButton
+            color="success"
+            size="small"
+            onClick={onSubmitEditFunctionality}
+          >
+            <CheckIcon />
+          </IconButton>
+
+          <IconButton
+            color="error"
+            size="small"
+            onClick={closeEditFunctionality}
+          >
+            <CloseIcon />
+          </IconButton>
+  */
+
+  // delete
+  const handleClickDelete = (row: GetSingleOrgProjectTableItemShape) => {
+    // setTitleItemForDelete(
+    //   `آیا مایل به حذف  ${row.firstName} ${row.lastName} هستید؟`
+    // );
+    // setIdItemForDelete(row.id);
+    // setIsOpenConfrimDelete(true);
+  };
+
+  // action btn
+  const [activeIdUpdate, setActiveIdUpdate] = useState<null | number>(null);
+
+  const openEditFunctionality = (row: GetSingleOrgProjectTableItemShape) => {
+    // setEditFormData({
+    //   description: row.description,
+    //   dateStart: row.dateStart,
+    //   dateEnd: row.dateEnd,
+    // });
+    setActionFormData({
+      projectCode: row.projectCode,
+      projectName: row.projectName,
+      dateFrom: row.dateFrom,
+      dateEnd: row.dateEnd,
+      projectScaleId: row.projectScaleId,
+    });
+    setActiveIdUpdate(row.id);
+  };
+
+  const closeEditFunctionality = () => {
+    setActiveIdUpdate(null);
+    setIsInsertMode(false);
+  };
+
+  const onSubmitEditFunctionality = () => {
+    // updateWbsMutation.mutate({
+    //   id: activeIdUpdate,
+    //   ...editFormData,
+    // });
+  };
+
   // action item
   const onChange = (e: any) => {
     changeInputHandler(e, setActionFormData);
   };
   const actionItem = {
-    number: "افزودن",
-    code: "",
+    number: isInsertMode ? "افزودن" : "ویرایش",
+    projectCode: actionFormData.projectCode,
     projectName: (
       <TextField
         id="project-name-input"
@@ -156,7 +240,7 @@ function OrgProjectTablePage() {
         name={"projectScaleId"}
       />
     ),
-    dateFrom: (
+    dateFromShamsi: (
       <DatePicker
         // label="Date Picker"
         // editFormData.dateStart
@@ -166,7 +250,7 @@ function OrgProjectTablePage() {
         }
       />
     ),
-    dateEnd: (
+    dateEndShamsi: (
       <DatePicker
         // label="Date Picker"
         // editFormData.dateStart
@@ -177,24 +261,60 @@ function OrgProjectTablePage() {
       />
     ),
     actions: (
-      <IconButton onClick={clickActionDone} color="primary" size="small">
-        <CheckIcon />
-      </IconButton>
+      <>
+        <IconButton onClick={clickActionDone} color="primary" size="small">
+          <CheckIcon />
+        </IconButton>
+
+        <IconButton
+          onClick={closeEditFunctionality}
+          color="primary"
+          size="small"
+        >
+          <ClearIcon />
+        </IconButton>
+      </>
     ),
   };
+
+  const actionBtn = (row: GetSingleOrgProjectTableItemShape) => (
+    <Box display={"flex"} justifyContent={"center"}>
+      <IconButton
+        color="primary"
+        size="small"
+        onClick={() => openEditFunctionality(row)}
+      >
+        <EditIcon />
+      </IconButton>
+
+      <IconButton
+        color="error"
+        onClick={() => handleClickDelete(row)}
+        size="small"
+      >
+        <DeleteIcon />
+      </IconButton>
+    </Box>
+  );
 
   //   data
   const formatTableData = (
     unFormatData: GetSingleOrgProjectTableItemShape[]
   ): any[] => {
-    const formatedData: any[] = unFormatData.map((item, i) => ({
-      ...item,
-      number: i + 1,
-      // proctorName: (
-      //   <span style={{ whiteSpace: "nowrap" }}>{item.proctorName}</span>
-      // ),
-      actions: "actionButtons",
-    }));
+    const formatedData: any[] = unFormatData.map((item, i) => {
+      if (activeIdUpdate === item.id) {
+        return actionItem;
+      } else {
+        return {
+          ...item,
+          number: i + 1,
+          // proctorName: (
+          //   <span style={{ whiteSpace: "nowrap" }}>{item.proctorName}</span>
+          // ),
+          actions: () => actionBtn(item),
+        };
+      }
+    });
 
     return formatedData;
   };
