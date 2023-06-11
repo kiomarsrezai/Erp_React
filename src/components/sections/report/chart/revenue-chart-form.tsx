@@ -56,6 +56,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
   });
 
   const [haveSubmitedForm, setHaveSubmitedForm] = useState(false);
+  const [haveSubmitedForm2, setHaveSubmitedForm2] = useState(false);
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
@@ -80,7 +81,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
     }
 
     setHaveSubmitedForm(true);
-
+    setHaveSubmitedForm2(false);
     if (
       checkHaveValue(formData, [
         revenueChartFormConfig.YEAR,
@@ -167,6 +168,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
   const [isOpenModal2, setIsOpenModal2] = useState(false);
   const handleCloseModal2 = () => {
     setIsOpenModal2(false);
+    // setHaveSubmitedForm2(false);
   };
 
   const handleOpenModal2 = () => {
@@ -175,7 +177,6 @@ function RevenueChartForm(props: RevenueChartFormProps) {
 
     const title = `سال ${yearLabel} - نوع ${budgetKindLabel}`;
     setModalTitle(title);
-    setIsOpenModal2(true);
   };
 
   const dataTable2Mutation = useMutation(revenueChartApi.chartDetail2);
@@ -186,7 +187,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
       userLicenses,
       [
         accessNamesConfig.FIELD_YEAR,
-        accessNamesConfig.FIELD_BUDGET_METHOD,
+        // accessNamesConfig.FIELD_BUDGET_METHOD,
         accessNamesConfig.FIELD_ORGAN,
       ],
       joinPermissions([
@@ -201,7 +202,8 @@ function RevenueChartForm(props: RevenueChartFormProps) {
       });
     }
 
-    setHaveSubmitedForm(true);
+    setHaveSubmitedForm(false);
+    setHaveSubmitedForm2(true);
 
     if (
       checkHaveValue(formData, [
@@ -209,6 +211,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
         revenueChartFormConfig.ORGAN,
       ])
     ) {
+      alert("salam");
       dataTable2Mutation.mutate(formData);
       handleOpenModal2();
     }
@@ -261,7 +264,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
                 )}
                 value={formData[revenueChartFormConfig.ORGAN]}
                 setter={setFormData}
-                showError={haveSubmitedForm}
+                showError={haveSubmitedForm || haveSubmitedForm2}
               />
             </Grid>
           </SectionGuard>
@@ -280,7 +283,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
                   accessNamesConfig.BUDGET__REPORT_PAGE,
                   accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
                 ])}
-                showError={haveSubmitedForm}
+                showError={haveSubmitedForm || haveSubmitedForm2}
               />
             </Grid>
           </SectionGuard>
@@ -308,7 +311,10 @@ function RevenueChartForm(props: RevenueChartFormProps) {
                 )}
                 value={formData[revenueChartFormConfig.CENTER]}
                 setter={setFormData}
-                showError={haveSubmitedForm}
+                showError={
+                  haveSubmitedForm &&
+                  formData[revenueChartFormConfig.ORGAN] !== 4
+                }
               />
             </Grid>
           </SectionGuard>
