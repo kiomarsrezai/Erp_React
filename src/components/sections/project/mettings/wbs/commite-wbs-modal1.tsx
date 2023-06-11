@@ -62,12 +62,7 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
   const [isOpenSearchUserModal, setIsOpenSearchUserModal] = useState(false);
 
   const commiteWbsInsertMutation = useMutation(mettingsProjectApi.wbsInsert, {
-    onSuccess: () => {
-      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
-        variant: "success",
-      });
-      wbsDataMutation.mutate({ commiteDetailId: commiteDetailItem.id });
-    },
+    onSuccess: () => {},
   });
 
   const tableHeadGroup: TableHeadGroupShape = [
@@ -84,12 +79,41 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
     },
   ];
 
-  const handleSelectUser = (user: any) => {
-    commiteWbsInsertMutation.mutate({
-      commiteDetailId: commiteDetailItem.id,
-      userId: user.id,
+  const onDoneTask = () => {
+    enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+      variant: "success",
     });
+    wbsDataMutation.mutate({ commiteDetailId: commiteDetailItem.id });
     setIsOpenSearchUserModal(false);
+  };
+
+  const handleSelectUser = async (users: any) => {
+    // commiteWbsInsertMutation.mutate({
+    //   commiteDetailId: commiteDetailItem.id,
+    //   userId: user.id,
+    // });
+    // setIsOpenSearchUserModal(false);
+
+    let shouldUpdateItems: any = [];
+    for (const key in users) {
+      const value = users?.[key];
+      if (value === true) {
+        shouldUpdateItems.push(+key);
+      }
+    }
+    try {
+      await Promise.all(
+        shouldUpdateItems.map((item: any) => {
+          return commiteWbsInsertMutation.mutateAsync({
+            commiteDetailId: commiteDetailItem.id,
+            userId: item,
+          });
+        })
+      );
+    } catch {
+      return onDoneTask();
+    }
+    onDoneTask();
   };
 
   //   data
@@ -126,7 +150,10 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
         maxWidth="md"
         maxHeight="70%"
       >
-        <CommiteWbsModal2 onSelectUser={handleSelectUser} />
+        <CommiteWbsModal2
+          onSelectUser={handleSelectUser}
+          ignoreItems={wbsDataMutation.data?.data || data}
+        />
       </FixedModal>
     </>
   );
