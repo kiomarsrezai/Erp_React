@@ -14,10 +14,11 @@ interface BudgetMethodInputProps {
   value: number;
   permissionForm?: string;
   showError?: boolean;
+  name?: string;
 }
 
 function ProjectScaleInput(props: BudgetMethodInputProps) {
-  const { setter, value, permissionForm, showError } = props;
+  const { setter, value, permissionForm, showError, name } = props;
   // const userLicenses = userStore((state) => state.permissions);
 
   const scaleQuery = useQuery(
@@ -52,7 +53,7 @@ function ProjectScaleInput(props: BudgetMethodInputProps) {
   return (
     <FlotingLabelSelect
       label="مقیاس پروژه"
-      name={programProjectConfig.scale}
+      name={name || programProjectConfig.scale}
       items={inputItems}
       value={value}
       setter={setter}
