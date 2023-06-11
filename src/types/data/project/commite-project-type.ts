@@ -34,6 +34,8 @@ export interface GetSingleCommiteDetailWbsModalShape {
   responsibility: string;
   dateStart: string;
   dateEnd: string;
+  dateStartShamsi: string;
+  datteEndShamsi: string;
 }
 
 export interface GetSingleWbsUserListShape {

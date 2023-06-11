@@ -52,8 +52,11 @@ export const orgProjectApi = new (class extends BaseApi {
       [orgProjectConfig.ID]: formdata[orgProjectConfig.ID],
     };
 
-    const url = DELETE_ORG_PROJECT_URL + this.joinFilterData(filterData);
-    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(url);
+    const url = DELETE_ORG_PROJECT_URL;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      filterData
+    );
     return response.data;
   };
 })();

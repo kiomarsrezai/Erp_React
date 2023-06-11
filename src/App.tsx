@@ -13,6 +13,7 @@ import "assets/styles/font.css";
 import "assets/styles/global.css";
 import "react-medium-image-zoom/dist/styles.css";
 import { reactQueryClient } from "config/react-query-keys-config";
+import Localization from "components/layout/localization";
 
 // material ui theme
 const theme = createTheme({
@@ -24,15 +25,17 @@ function App() {
     <QueryClientProvider client={reactQueryClient}>
       <ThemeProvider theme={theme}>
         <RightToLeft>
-          <SnackbarProvider
-            maxSnack={3}
-            anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
-            autoHideDuration={2500}
-            classes={{ containerRoot: "z-alert" }}
-          >
-            <CssBaseline />
-            <RouterProvider router={router} />
-          </SnackbarProvider>
+          <Localization>
+            <SnackbarProvider
+              maxSnack={3}
+              anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
+              autoHideDuration={2500}
+              classes={{ containerRoot: "z-alert" }}
+            >
+              <CssBaseline />
+              <RouterProvider router={router} />
+            </SnackbarProvider>
+          </Localization>
         </RightToLeft>
       </ThemeProvider>
     </QueryClientProvider>

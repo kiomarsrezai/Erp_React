@@ -21,6 +21,8 @@ import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import { changeInputHandler } from "helper/form-utils";
+import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 
 interface CommiteWbsModal1Props {
   data: GetSingleCommiteDetailWbsModalShape[];
@@ -179,9 +181,7 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
   const onSubmitEditFunctionality = () => {
     updateWbsMutation.mutate({
       id: activeIdUpdate,
-      description: "string",
-      dateStart: "",
-      dateEnd: "",
+      ...editFormData,
     });
   };
 
@@ -240,20 +240,30 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
   const renderDateStart = (item: GetSingleCommiteDetailWbsModalShape) => {
     if (activeIdUpdate === item.id) {
       return (
-        <TextField
-          id="date-start-input"
-          label=""
-          variant="outlined"
-          size="small"
-          name={"dateStart"}
-          value={editFormData.dateStart}
-          onChange={handleChange}
-          autoComplete="off"
-          fullWidth
+        // <TextField
+        //   id="date-start-input"
+        //   label=""
+        //   variant="outlined"
+        //   size="small"
+        //   name={"dateStart"}
+        //   value={editFormData.dateStart}
+        //   onChange={handleChange}
+        //   autoComplete="off"
+        //   fullWidth
+        // />
+        // <DemoContainer components={["DatePicker"]}>
+        <DatePicker
+          // label="Date Picker"
+          // editFormData.dateStart
+          value={new Date(editFormData.dateStart)}
+          onChange={(newValue) =>
+            setEditFormData((state: any) => ({ ...state, dateStart: newValue }))
+          }
         />
+        // </DemoContainer>
       );
     } else {
-      return item.dateStart;
+      return item.dateStartShamsi;
     }
   };
 
@@ -273,7 +283,7 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
         />
       );
     } else {
-      return item.dateStart;
+      return item.dateStartShamsi;
     }
   };
 
@@ -290,6 +300,7 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
           onChange={handleChange}
           autoComplete="off"
           fullWidth
+          multiline
         />
       );
     } else {
