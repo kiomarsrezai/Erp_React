@@ -8,6 +8,7 @@ import {
   GetSingleCommiteDetailWbsModalShape,
   GetSingleCommiteListShape,
   GetSingleCommiteModalShape,
+  GetSingleWbsUserListShape,
 } from "types/data/project/commite-project-type";
 import {
   COMMITE_MEETINGS_MODAL_DETAIL_PROJECT_URL,
@@ -95,6 +96,7 @@ export const mettingsProjectApi = new (class extends BaseApi {
     return response.data;
   };
 
+  // wbs
   wbsDataModal = async (formdata: any) => {
     const url = mettingsProjectUrl.wbsData + this.joinFilterData(formdata);
 
@@ -112,6 +114,14 @@ export const mettingsProjectApi = new (class extends BaseApi {
       url,
       formdata
     );
+
+    return response.data;
+  };
+
+  getWbsUserList = async () => {
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleWbsUserListShape[]>
+    >(mettingsProjectUrl.wbsUserList);
 
     return response.data;
   };

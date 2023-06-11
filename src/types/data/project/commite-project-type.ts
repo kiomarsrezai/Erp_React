@@ -35,3 +35,10 @@ export interface GetSingleCommiteDetailWbsModalShape {
   dateStart: string;
   dateEnd: string;
 }
+
+export interface GetSingleWbsUserListShape {
+  id: 1;
+  firstName: "کیومرث";
+  lastName: "رضایی";
+  bio: "مدیر پروژه";
+}

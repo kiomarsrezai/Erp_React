@@ -14,6 +14,7 @@ import { useMutation } from "@tanstack/react-query";
 import { mettingsProjectApi } from "api/project/meetings-project-api";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
+import CommiteWbsModal2 from "./commite-wbs-modal2";
 
 interface CommiteWbsModal1Props {
   data: GetSingleCommiteDetailWbsModalShape[];
@@ -125,9 +126,7 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
         maxWidth="md"
         maxHeight="70%"
       >
-        <Box p={3}>
-          <SelectUser onSelectUser={handleSelectUser} />
-        </Box>
+        <CommiteWbsModal2 onSelectUser={handleSelectUser} />
       </FixedModal>
     </>
   );

@@ -18,6 +18,7 @@ export const mettingsProjectUrl = {
   // wbs
   wbsData: "CommiteApi/CommiteDetailWbsRead",
   wbsInsert: "CommiteApi/CommiteDetailWbsInsert",
+  wbsUserList: "CommiteApi/CommiteEmployee",
 };
 
 export const COMMITE_METTINGS_COMBO_PROJECT_URL = "CommiteApi/CommiteKindCombo";
