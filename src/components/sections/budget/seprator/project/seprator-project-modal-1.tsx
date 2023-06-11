@@ -18,6 +18,9 @@ import SepratorDepratmentModal1 from "../../seprator-creaditor/seprator-departme
 import { sepratorCreaditorBudgetApi } from "api/budget/seprator-creaditor-api";
 import { sepratorCreaditorBudgetConfig } from "config/features/budget/seprator-creaditro-config";
 import { Stack, TextField } from "@mui/material";
+import SectionGuard from "components/auth/section-guard";
+import { joinPermissions } from "helper/auth-utils";
+import { accessNamesConfig } from "config/access-names-config";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -105,28 +108,42 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
   // </IconButton>
   const actionButtons = (row: TableDataItemShape | any) => (
     <Box display={"flex"} justifyContent={"center"} gap={1}>
-      <Button
-        color="primary"
-        variant="outlined"
-        size="small"
-        onClick={() => handleClickAreaModal(row)}
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          gap: 0.5,
-        }}
-        // startIcon={}
+      <SectionGuard
+        permission={joinPermissions([
+          accessNamesConfig.BUDGET__SEPRATOR_PAGE,
+          accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_SEARCH_BTN,
+        ])}
       >
-        <SearchIcon sx={{ fontSize: 17 }} />p
-      </Button>
+        <Button
+          color="primary"
+          variant="outlined"
+          size="small"
+          onClick={() => handleClickAreaModal(row)}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 0.5,
+          }}
+          // startIcon={}
+        >
+          <SearchIcon sx={{ fontSize: 17 }} />p
+        </Button>
+      </SectionGuard>
 
-      <IconButton
-        color="primary"
-        size="small"
-        onClick={() => handleClickOpenModal1(row)}
+      <SectionGuard
+        permission={joinPermissions([
+          accessNamesConfig.BUDGET__SEPRATOR_PAGE,
+          accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_BTN,
+        ])}
       >
-        <PersonIcon />
-      </IconButton>
+        <IconButton
+          color="primary"
+          size="small"
+          onClick={() => handleClickOpenModal1(row)}
+        >
+          <PersonIcon />
+        </IconButton>
+      </SectionGuard>
     </Box>
   );
 
@@ -223,14 +240,23 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
             }))
           }
         />
-        <LoadingButton
-          variant="contained"
-          size="small"
-          onClick={handleClickEditCoding}
-          loading={codingUpdateMutation.isLoading || baseDataMutation.isLoading}
+        <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.BUDGET__SEPRATOR_PAGE,
+            accessNamesConfig.BUDGET__SEPRATOR_PAGE_EDIT_CODING_BTN,
+          ])}
         >
-          ویرایش
-        </LoadingButton>
+          <LoadingButton
+            variant="contained"
+            size="small"
+            onClick={handleClickEditCoding}
+            loading={
+              codingUpdateMutation.isLoading || baseDataMutation.isLoading
+            }
+          >
+            ویرایش
+          </LoadingButton>
+        </SectionGuard>
       </Stack>
     ),
     "colspan-number": 5,

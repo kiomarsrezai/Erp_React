@@ -127,7 +127,7 @@ function SepratorModal1(props: SepratorModal1props) {
     <SectionGuard
       permission={joinPermissions([
         accessNamesConfig.BUDGET__SEPRATOR_PAGE,
-        accessNamesConfig.BUDGET__SEPRATOR_PAGE_TAMIN_BTN,
+        accessNamesConfig.BUDGET__SEPRATOR_PAGE_INNER_TAMIN_BTN,
       ])}
     >
       <Button

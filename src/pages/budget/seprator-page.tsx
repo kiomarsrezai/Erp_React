@@ -20,6 +20,9 @@ import { GetSingleSepratorItemShape } from "types/data/budget/seprator-type";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { getBgColorBudget } from "helper/get-color-utils";
 import { formatExpenseName } from "helper/data-utils";
+import SectionGuard from "components/auth/section-guard";
+import { joinPermissions } from "helper/auth-utils";
+import { accessNamesConfig } from "config/access-names-config";
 
 interface TableDataItemShape {
   id: ReactNode;
@@ -172,30 +175,49 @@ function BudgetSepratorPage() {
     <Box display={"flex"} justifyContent={"center"}>
       {row.crud && (
         <>
-          <Button
-            color="primary"
-            variant="outlined"
-            size="small"
-            onClick={() => handleClickProjectModal(row)}
-            sx={{ fontSize: 10, minWidth: "15px" }}
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.BUDGET__SEPRATOR_PAGE,
+              accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_BTN,
+            ])}
           >
-            p
-          </Button>
+            <Button
+              color="primary"
+              variant="outlined"
+              size="small"
+              onClick={() => handleClickProjectModal(row)}
+              sx={{ fontSize: 10, minWidth: "15px" }}
+            >
+              p
+            </Button>
+          </SectionGuard>
 
-          <Button
-            variant="outlined"
-            size="small"
-            color="primary"
-            onClick={() => handleClickAccModal(row)}
-            sx={{ fontSize: 10, minWidth: "15px", ml: 1 }}
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.BUDGET__SEPRATOR_PAGE,
+              accessNamesConfig.BUDGET__SEPRATOR_PAGE_ACC_BTN,
+            ])}
           >
-            acc
-          </Button>
+            <Button
+              variant="outlined"
+              size="small"
+              color="primary"
+              onClick={() => handleClickAccModal(row)}
+              sx={{ fontSize: 10, minWidth: "15px", ml: 1 }}
+            >
+              acc
+            </Button>
+          </SectionGuard>
         </>
       )}
 
       {formData[sepratorBudgetConfig.BUDGET_METHOD] === 3 && row.crud && (
-        <>
+        <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.BUDGET__SEPRATOR_PAGE,
+            accessNamesConfig.BUDGET__SEPRATOR_PAGE_TAMIN_BTN,
+          ])}
+        >
           <IconButton
             color="primary"
             size="small"
@@ -203,7 +225,7 @@ function BudgetSepratorPage() {
           >
             <CreditCardIcon />
           </IconButton>
-        </>
+        </SectionGuard>
       )}
     </Box>
   );

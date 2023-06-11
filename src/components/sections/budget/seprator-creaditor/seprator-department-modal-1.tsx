@@ -25,6 +25,9 @@ import FixedModal from "components/ui/modal/fixed-modal";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import SepratorCreaditModal from "./seprator-creadit-modal";
 import SepratorUpdateModal from "./seprator-update-modal";
+import SectionGuard from "components/auth/section-guard";
+import { joinPermissions } from "helper/auth-utils";
+import { accessNamesConfig } from "config/access-names-config";
 
 interface SepratorDepratmentModal1props {
   data: any[];
@@ -164,13 +167,20 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
           </IconButton>
         </>
       ) : (
-        <IconButton
-          color="primary"
-          size="small"
-          onClick={() => openEditFunctionality(row)}
+        <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.BUDGET__SEPRATOR_PAGE,
+            accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_EDIT_BTN,
+          ])}
         >
-          <EditIcon />
-        </IconButton>
+          <IconButton
+            color="primary"
+            size="small"
+            onClick={() => openEditFunctionality(row)}
+          >
+            <EditIcon />
+          </IconButton>
+        </SectionGuard>
       )}
     </Box>
   );
@@ -237,13 +247,20 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
   const tableHeadGroup: TableHeadGroupShape = [
     {
       title: (
-        <IconButton
-          color="primary"
-          size="small"
-          onClick={handleClickCraditModal}
+        <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.BUDGET__SEPRATOR_PAGE,
+            accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_ADD_BTN,
+          ])}
         >
-          <PersonAddIcon />
-        </IconButton>
+          <IconButton
+            color="primary"
+            size="small"
+            onClick={handleClickCraditModal}
+          >
+            <PersonAddIcon />
+          </IconButton>
+        </SectionGuard>
       ),
       colspan: 4,
     },

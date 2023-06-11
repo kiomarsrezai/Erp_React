@@ -213,6 +213,46 @@ function usePermissions() {
       name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_TAMIN_BTN,
     },
 
+    [accessNamesConfig.BUDGET__SEPRATOR_PAGE_INNER_TAMIN_BTN]: {
+      label: "دکمه تامین اعتبار مودال",
+      name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_INNER_TAMIN_BTN,
+    },
+
+    [accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_BTN]: {
+      label: "دکمه پروژه",
+      name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_BTN,
+    },
+
+    [accessNamesConfig.BUDGET__SEPRATOR_PAGE_ACC_BTN]: {
+      label: "دکمه حسابداری",
+      name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_ACC_BTN,
+    },
+
+    [accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_BTN]: {
+      label: "دکمه مجری",
+      name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_BTN,
+    },
+
+    [accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_SEARCH_BTN]: {
+      label: "دکمه جستجوی پروژه",
+      name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_SEARCH_BTN,
+    },
+
+    [accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_ADD_BTN]: {
+      label: "دکمه لیست مجریان",
+      name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_ADD_BTN,
+    },
+
+    [accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_EDIT_BTN]: {
+      label: "دکمه ویرایش مجریان",
+      name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_EDIT_BTN,
+    },
+
+    [accessNamesConfig.BUDGET__SEPRATOR_PAGE_EDIT_CODING_BTN]: {
+      label: "دکمه ویرایش کدینگ",
+      name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_EDIT_CODING_BTN,
+    },
+
     // report
 
     [accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER]: centerField,

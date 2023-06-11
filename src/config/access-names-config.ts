@@ -7,6 +7,14 @@ export const accessNamesConfig = {
 
   BUDGET__SEPRATOR_PAGE: "budget-seprator",
   BUDGET__SEPRATOR_PAGE_TAMIN_BTN: "tamin-btn",
+  BUDGET__SEPRATOR_PAGE_INNER_TAMIN_BTN: "innser-tamin-btn",
+  BUDGET__SEPRATOR_PAGE_PROJECT_BTN: "project-btn",
+  BUDGET__SEPRATOR_PAGE_ACC_BTN: "acc-btn",
+  BUDGET__SEPRATOR_PAGE_PROJECT_USER_BTN: "project-user-btn",
+  BUDGET__SEPRATOR_PAGE_PROJECT_SEARCH_BTN: "project-search-btn",
+  BUDGET__SEPRATOR_PAGE_PROJECT_USER_ADD_BTN: "project-user-add-btn",
+  BUDGET__SEPRATOR_PAGE_PROJECT_USER_EDIT_BTN: "project-user-edit-btn",
+  BUDGET__SEPRATOR_PAGE_EDIT_CODING_BTN: "coding-edit-btn",
 
   BUDGET__SEPRATOR_CREADITOR_PAGE: "budget-seprator-creditor",
 
