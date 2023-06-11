@@ -37,6 +37,7 @@ import SuppliersPage from "pages/base/suppliers-page";
 import BudgetReportsPage from "pages/budget/report/budget-report-page";
 import BudgetConnectPage from "pages/budget/budget-connect-page";
 import BudgetSepratorCreaditorPage from "pages/budget/seprator-creaditor-page";
+import OrgProjectTablePage from "pages/project/table/org-table-page";
 
 export const sidenavsLayout: SidenavShape[] = [
   // report
@@ -333,6 +334,13 @@ export const sidenavsLayout: SidenavShape[] = [
         icon: AccountTreeIcon,
         licenseName: accessNamesConfig.PROJECT__ORG_PAGE,
         element: OrgProjectPage,
+      },
+      {
+        title: "پروژه ها",
+        path: "/project/org-table",
+        icon: AccountTreeIcon,
+        licenseName: accessNamesConfig.PROJECT__ORG_PAGE,
+        element: OrgProjectTablePage,
       },
       {
         title: "جلسات",

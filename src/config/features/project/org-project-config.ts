@@ -3,8 +3,12 @@ export const orgProjectConfig = {
   parent_ID: "motherId",
   title: "projectName",
   code: "projectCode",
+  area: "areaId",
 };
 
+export const orgProjectUrls = {
+  getTable: "ProjectApi/ProjectTableRead",
+};
 export const ORG_PROJECT_URL = "ProjectApi/ProjectOrgRead";
 export const INSERT_ORG_PROJECT_URL = "ProjectApi/ProjectOrgInsert";
 export const UPDATE_ORG_PROJECT_URL = "ProjectApi/ProjectOrgUpdate";

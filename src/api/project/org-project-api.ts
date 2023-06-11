@@ -2,13 +2,17 @@ import clientAxios from "config/axios-config";
 
 import { BaseApi } from "api/base-api";
 import { BaseApiResponseShape } from "types/base-type";
-import { GetSingleOrgProjectItemShape } from "types/data/project/org-project-type";
+import {
+  GetSingleOrgProjectItemShape,
+  GetSingleOrgProjectTableItemShape,
+} from "types/data/project/org-project-type";
 import {
   DELETE_ORG_PROJECT_URL,
   INSERT_ORG_PROJECT_URL,
   ORG_PROJECT_URL,
   UPDATE_ORG_PROJECT_URL,
   orgProjectConfig,
+  orgProjectUrls,
 } from "config/features/project/org-project-config";
 
 export const orgProjectApi = new (class extends BaseApi {
@@ -57,6 +61,15 @@ export const orgProjectApi = new (class extends BaseApi {
       url,
       filterData
     );
+    return response.data;
+  };
+
+  // table
+  getProjectTable = async (formdata: any) => {
+    const url = orgProjectUrls.getTable + this.joinFilterData(formdata);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleOrgProjectTableItemShape[]>
+    >(url);
     return response.data;
   };
 })();
