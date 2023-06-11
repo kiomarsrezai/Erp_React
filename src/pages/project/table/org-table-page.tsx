@@ -26,6 +26,8 @@ import { IconButton, TextField } from "@mui/material";
 import ProjectScaleInput from "components/sections/inputs/project-scale-input";
 import { DatePicker } from "@mui/x-date-pickers";
 import { changeInputHandler } from "helper/form-utils";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+import { enqueueSnackbar } from "notistack";
 
 function OrgProjectTablePage() {
   const [formData, setFormData] = useState({
@@ -173,12 +175,32 @@ function OrgProjectTablePage() {
   */
 
   // delete
+  const [idItemForDelete, setIdItemForDelete] = useState(0);
+  const [titleItemForDelete, setTitleItemForDelete] = useState("");
+  const [isOpenConfrimDelete, setIsOpenConfrimDelete] = useState(false);
+
   const handleClickDelete = (row: GetSingleOrgProjectTableItemShape) => {
-    // setTitleItemForDelete(
-    //   `آیا مایل به حذف  ${row.firstName} ${row.lastName} هستید؟`
-    // );
-    // setIdItemForDelete(row.id);
-    // setIsOpenConfrimDelete(true);
+    setTitleItemForDelete(
+      `آیا مایل به حذف  ${row.projectCode} - ${row.projectName} هستید؟`
+    );
+    setIdItemForDelete(row.id);
+    setIsOpenConfrimDelete(true);
+  };
+
+  const projectDeleteMutation = useMutation(orgProjectApi.deleteProjectTable, {
+    onSuccess: () => {
+      getDataMutation.mutate(formData);
+      setIsOpenConfrimDelete(false);
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+    },
+  });
+
+  const handleConfrimDelete = () => {
+    projectDeleteMutation.mutate({
+      id: idItemForDelete,
+    });
   };
 
   // action btn
@@ -334,14 +356,24 @@ function OrgProjectTablePage() {
   const filteredData = [...(isInsertMode ? [actionItem] : []), ...tableData];
 
   return (
-    <AdminLayout>
-      <FixedTable
-        heads={tableHeads}
-        headGroups={tableHeadGroups}
-        data={filteredData}
-        // footer={tableFooter}
+    <>
+      <AdminLayout>
+        <FixedTable
+          heads={tableHeads}
+          headGroups={tableHeadGroups}
+          data={filteredData}
+          // footer={tableFooter}
+        />
+      </AdminLayout>
+
+      {/* delete  */}
+      <ConfrimProcessModal
+        onCancel={() => setIsOpenConfrimDelete(false)}
+        onConfrim={handleConfrimDelete}
+        text={titleItemForDelete}
+        open={isOpenConfrimDelete}
       />
-    </AdminLayout>
+    </>
   );
 }
 

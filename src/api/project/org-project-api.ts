@@ -90,4 +90,13 @@ export const orgProjectApi = new (class extends BaseApi {
     );
     return response.data;
   };
+
+  deleteProjectTable = async (formdata: any) => {
+    const url = orgProjectUrls.updateDelete;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      formdata
+    );
+    return response.data;
+  };
 })();
