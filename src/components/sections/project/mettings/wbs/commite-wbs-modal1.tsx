@@ -15,6 +15,11 @@ import { mettingsProjectApi } from "api/project/meetings-project-api";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import CommiteWbsModal2 from "./commite-wbs-modal2";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 interface CommiteWbsModal1Props {
   data: GetSingleCommiteDetailWbsModalShape[];
@@ -56,6 +61,10 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
       name: "dateEnd",
       split: true,
     },
+    {
+      title: "عملیات",
+      name: "actions",
+    },
   ];
 
   //   modal
@@ -75,16 +84,17 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
           <AddIcon />
         </IconButton>
       ),
-      colspan: 6,
+      colspan: 7,
     },
   ];
 
   const onDoneTask = () => {
+    wbsDataMutation.mutate({ commiteDetailId: commiteDetailItem.id });
     enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
       variant: "success",
     });
-    wbsDataMutation.mutate({ commiteDetailId: commiteDetailItem.id });
     setIsOpenSearchUserModal(false);
+    setIsOpenConfrimDelete(false);
   };
 
   const handleSelectUser = async (users: any) => {
@@ -116,7 +126,85 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
     onDoneTask();
   };
 
+  // edit
+  const [isOpenConfrimDelete, setIsOpenConfrimDelete] = useState(false);
+  const [idItemForDelete, setIdItemForDelete] = useState(0);
+  const [titleItemForDelete, setTitleItemForDelete] = useState("");
+  const [activeIdUpdate, setActiveIdUpdate] = useState<null | number>(null);
+
+  const handleClickDelete = (row: GetSingleCommiteDetailWbsModalShape) => {
+    setTitleItemForDelete(
+      `آیا مایل به حذف  ${row.firstName} ${row.lastName} هستید؟`
+    );
+    setIdItemForDelete(row.id);
+    setIsOpenConfrimDelete(true);
+  };
+
+  const openEditFunctionality = (row: any) => {
+    setActiveIdUpdate(row.id);
+  };
+
+  const closeEditFunctionality = () => {
+    setActiveIdUpdate(null);
+  };
+
   //   data
+  const wbsDeleteMutation = useMutation(mettingsProjectApi.wbsDelete, {
+    onSuccess: () => {
+      onDoneTask();
+    },
+  });
+
+  const handleConfrimDelete = () => {
+    wbsDeleteMutation.mutate({
+      id: idItemForDelete,
+    });
+  };
+
+  const onSubmitEditFunctionality = () => {};
+
+  const actionBtn = (row: GetSingleCommiteDetailWbsModalShape) => (
+    <Box display={"flex"} justifyContent={"center"}>
+      {activeIdUpdate === row.id ? (
+        <>
+          <IconButton
+            color="success"
+            size="small"
+            onClick={onSubmitEditFunctionality}
+          >
+            <CheckIcon />
+          </IconButton>
+
+          <IconButton
+            color="error"
+            size="small"
+            onClick={closeEditFunctionality}
+          >
+            <CloseIcon />
+          </IconButton>
+        </>
+      ) : (
+        <>
+          <IconButton
+            color="primary"
+            size="small"
+            onClick={() => openEditFunctionality(row)}
+          >
+            <EditIcon />
+          </IconButton>
+
+          <IconButton
+            color="error"
+            onClick={() => handleClickDelete(row)}
+            size="small"
+          >
+            <DeleteIcon />
+          </IconButton>
+        </>
+      )}
+    </Box>
+  );
+
   const formatTableData = (
     unFormatData: GetSingleCommiteDetailWbsModalShape[]
   ): any[] => {
@@ -124,7 +212,7 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
       ...item,
       name: `${item.firstName} ${item.lastName}`,
       number: i + 1,
-      // actions: () => actionButtons(item),
+      actions: () => actionBtn(item),
     }));
 
     return formatedData;
@@ -143,6 +231,7 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
         notFixed
       />
 
+      {/* add user modal */}
       <FixedModal
         open={isOpenSearchUserModal}
         handleClose={() => setIsOpenSearchUserModal(false)}
@@ -155,6 +244,14 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
           ignoreItems={wbsDataMutation.data?.data || data}
         />
       </FixedModal>
+
+      {/* delete  */}
+      <ConfrimProcessModal
+        onCancel={() => setIsOpenConfrimDelete(false)}
+        onConfrim={handleConfrimDelete}
+        text={titleItemForDelete}
+        open={isOpenConfrimDelete}
+      />
     </>
   );
 }
