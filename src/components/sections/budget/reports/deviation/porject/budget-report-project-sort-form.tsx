@@ -62,11 +62,25 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
   const [haveSubmitedForm, setHaveSubmitedForm] = useState(false);
 
   const queryClient = useQueryClient();
+  const [submitedData, setSubmitedData] = useState<any[]>([]);
   const submitMutation = useMutation(budgetProjectSortApi.getData, {
     onSuccess: (data) => {
-      queryClient.setQueryData(reactQueryKeys.budget.sort.getData, data);
+      // queryClient.setQueryData(reactQueryKeys.budget.sort.getData, data);
+      setSubmitedData(data.data);
     },
   });
+
+  const [filterText, setFilterText] = useState("");
+
+  useEffect(() => {
+    const filteredData = submitedData.filter(
+      (item) =>
+        item.description.includes(filterText) || item.code.includes(filterText)
+    );
+    queryClient?.setQueryData(reactQueryKeys.budget.sort.getData, {
+      data: filteredData,
+    });
+  }, [submitedData, filterText]);
 
   useEffect(() => {
     queryClient?.setQueryData(reactQueryKeys.budget.sort.getData, {
@@ -228,7 +242,7 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
           />
         </Grid>
 
-        <Grid xs={2}>
+        <Grid xs>
           <LoadingButton
             variant="contained"
             type="submit"
@@ -281,6 +295,16 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
               />
             </Box>
           </Popover>
+
+          <TextField
+            size="small"
+            label="جستجو"
+            sx={{ width: "250px" }}
+            value={filterText}
+            variant="outlined"
+            onChange={(e) => setFilterText(e.target.value)}
+            fullWidth
+          />
         </Grid>
       </Grid>
     </Box>
