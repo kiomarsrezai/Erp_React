@@ -389,6 +389,10 @@ function BudgetSepratorPage() {
           baseModal1Title={detailModalTitle}
           baseCodingId={codingId}
           baseInitialItem={baseInitialItem}
+          onCloseModal={() => {
+            setIsOpenProjectModal(false);
+            afterCloseAnyModal();
+          }}
         />
       </FixedModal>
     </AdminLayout>

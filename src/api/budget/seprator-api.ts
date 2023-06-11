@@ -116,6 +116,16 @@ export const sepratorBudgetApi = new (class extends BaseApi {
     return response.data;
   };
 
+  updateCoding = async (formdata: any) => {
+    const url = sepratorBudgetUrl.codingUpdate;
+
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      formdata
+    );
+    return response.data;
+  };
+
   // area
   areaArea = async (formdata: any) => {
     const url =

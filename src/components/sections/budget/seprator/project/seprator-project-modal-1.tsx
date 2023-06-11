@@ -6,7 +6,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import Box from "@mui/material/Box";
 import SearchIcon from "@mui/icons-material/Search";
 import SepratorProjectModal2 from "./seprator-project-modal-2";
-
+import LoadingButton from "@mui/lab/LoadingButton";
 import { TableHeadShape } from "types/table-type";
 import { ReactNode, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -33,10 +33,17 @@ interface SepratorProjectModal1props {
   baseModal1Title: string;
   baseCodingId: number;
   baseInitialItem: any;
+  onCloseModal: () => void;
 }
 function SepratorProjectModal1(props: SepratorProjectModal1props) {
-  const { data, formData, baseModal1Title, baseCodingId, baseInitialItem } =
-    props;
+  const {
+    data,
+    formData,
+    baseModal1Title,
+    baseCodingId,
+    baseInitialItem,
+    onCloseModal,
+  } = props;
 
   const tableHeads: TableHeadShape = [
     {
@@ -162,6 +169,29 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
     actions: "",
   };
 
+  // bottom footer
+  const [editCodingFormData, setEditCodingFormData] = useState({
+    codingId: baseInitialItem.codingId,
+    code: baseInitialItem.code,
+    description: baseInitialItem.description,
+  });
+
+  const queryClient = useQueryClient();
+  const baseDataMutation = useMutation(sepratorBudgetApi.getData, {
+    onSuccess: (data) => {
+      queryClient.setQueryData(reactQueryKeys.budget.seprator.getData, data);
+      onCloseModal();
+    },
+  });
+
+  const codingUpdateMutation = useMutation(sepratorBudgetApi.updateCoding, {
+    onSuccess: () => {
+      baseDataMutation.mutate(formData);
+    },
+  });
+  const handleClickEditCoding = () => {
+    codingUpdateMutation.mutate(editCodingFormData);
+  };
   const tableBottomFooter = {
     "bgcolor-row": "rgb(255,255,153)",
     number: (
@@ -169,11 +199,14 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
         <TextField
           size="small"
           label="کد"
-          // value={filterText}
           variant="outlined"
-          // onChange={(e) => setFilterText(e.target.value)}
-          // fullWidth
-          defaultValue={baseInitialItem.code}
+          value={editCodingFormData.code}
+          onChange={(e) =>
+            setEditCodingFormData((state: any) => ({
+              ...state,
+              code: e.target.value,
+            }))
+          }
         />
         <TextField
           size="small"
@@ -182,11 +215,22 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
           variant="outlined"
           // onChange={(e) => setFilterText(e.target.value)}
           fullWidth
-          defaultValue={baseInitialItem.description}
+          value={editCodingFormData.description}
+          onChange={(e) =>
+            setEditCodingFormData((state: any) => ({
+              ...state,
+              description: e.target.value,
+            }))
+          }
         />
-        <Button variant="contained" size="small">
+        <LoadingButton
+          variant="contained"
+          size="small"
+          onClick={handleClickEditCoding}
+          loading={codingUpdateMutation.isLoading || baseDataMutation.isLoading}
+        >
           ویرایش
-        </Button>
+        </LoadingButton>
       </Stack>
     ),
     "colspan-number": 5,
