@@ -35,10 +35,12 @@ function BudgetConnectPage() {
     {
       title: "ردیف",
       name: "number",
+      width: "50px",
     },
     {
       title: "کد",
       name: "code",
+      width: "150px",
     },
     {
       title: "شرح",
@@ -49,21 +51,25 @@ function BudgetConnectPage() {
       title: "دسته بندی",
       align: "left",
       name: "codingNatureName",
+      width: "150px",
     },
     {
       title: "متولی",
       align: "left",
       name: "proctorName",
+      width: "150px",
     },
     {
       title: "مصوب",
       align: "left",
       name: "mosavab",
       split: true,
+      width: "150px",
     },
     {
       title: "عملیات",
       name: "actions",
+      width: "80px",
     },
   ];
 

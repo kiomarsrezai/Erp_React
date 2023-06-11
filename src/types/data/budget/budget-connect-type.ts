@@ -7,6 +7,7 @@ export interface GetSingleBudgetConnectItemShape {
   proctorName: string;
   show: boolean;
   mosavab: number;
+  codingNatureId: string;
 }
 
 export interface GetSingleProjectNatureComShape {
