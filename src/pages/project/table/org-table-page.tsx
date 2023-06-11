@@ -15,6 +15,7 @@ import { reactQueryKeys } from "config/react-query-keys-config";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import FixedTable from "components/data/table/fixed-table";
 import OrgProjectTableForm from "./org-table-form";
+import { GetSingleOrgProjectTableItemShape } from "types/data/project/org-project-type";
 
 function OrgProjectTablePage() {
   const [formData, setFormData] = useState({
@@ -29,22 +30,22 @@ function OrgProjectTablePage() {
     },
     {
       title: "کد پروژه",
-      name: "code",
+      name: "projectCode",
     },
     {
       title: "نام پروژه",
       align: "left",
-      name: "description",
+      name: "projectName",
     },
     {
       title: "از تاریخ",
       align: "left",
-      name: "proctorName",
+      name: "dateFrom",
     },
     {
       title: "تا تاریخ",
       align: "left",
-      name: "mosavab",
+      name: "dateEnd",
       split: true,
     },
     {
@@ -63,12 +64,40 @@ function OrgProjectTablePage() {
     },
   ];
 
+  //   data
+  const formatTableData = (
+    unFormatData: GetSingleOrgProjectTableItemShape[]
+  ): any[] => {
+    const formatedData: any[] = unFormatData.map((item, i) => ({
+      ...item,
+      number: i + 1,
+      // proctorName: (
+      //   <span style={{ whiteSpace: "nowrap" }}>{item.proctorName}</span>
+      // ),
+      actions: "actionButtons",
+    }));
+
+    return formatedData;
+  };
+
+  const orgTableQuery = useQuery(
+    reactQueryKeys.project.org.getTable,
+    () => orgProjectApi.getProjectTable({}),
+    {
+      enabled: false,
+    }
+  );
+
+  const tableData = orgTableQuery.data
+    ? formatTableData(orgTableQuery.data?.data)
+    : [];
+
   return (
     <AdminLayout>
       <FixedTable
         heads={tableHeads}
         headGroups={tableHeadGroups}
-        data={[]}
+        data={tableData}
         // footer={tableFooter}
       />
     </AdminLayout>
