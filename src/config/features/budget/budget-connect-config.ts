@@ -5,9 +5,11 @@ export const budgetConnectConfig = {
   AREA: generalFieldsConfig.AREA,
   BUDGET_METHOD: generalFieldsConfig.BUDGET_METHOD,
   proctor: generalFieldsConfig.PROCTOR,
+  coding_nature: "codingNatureId",
 };
 
 export const budgetConnectUrls = {
   getData: "BudgetApi/BudgetConnectRead",
+  getNature: "BudgetApi/CodingNatureCom",
   updateItem: "BudgetApi/BudgetConnectUpdate",
 };

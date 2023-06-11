@@ -46,6 +46,11 @@ function BudgetConnectPage() {
       name: "description",
     },
     {
+      title: "دسته بندی",
+      align: "left",
+      name: "codingNatureName",
+    },
+    {
       title: "متولی",
       align: "left",
       name: "proctorName",

@@ -8,3 +8,8 @@ export interface GetSingleBudgetConnectItemShape {
   show: boolean;
   mosavab: number;
 }
+
+export interface GetSingleProjectNatureComShape {
+  id: 1;
+  codingNatureName: "مطالعات و طراحی";
+}
