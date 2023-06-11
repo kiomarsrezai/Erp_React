@@ -1,3 +1,5 @@
+import { ChangeEvent } from "react";
+
 export const checkHaveValue = (formData: any, names: string[]) => {
   let haveValue = true;
   names.forEach((name) => {
@@ -7,4 +9,14 @@ export const checkHaveValue = (formData: any, names: string[]) => {
   });
 
   return haveValue;
+};
+
+export const changeInputHandler = (
+  e: ChangeEvent<HTMLInputElement>,
+  setFormData: (state: any) => void
+) => {
+  const name = e.target.name;
+  const value = e.target.value;
+
+  if (name) setFormData((state: any) => ({ ...state, [name]: value }));
 };

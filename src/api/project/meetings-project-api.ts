@@ -118,6 +118,17 @@ export const mettingsProjectApi = new (class extends BaseApi {
     return response.data;
   };
 
+  wbsUpdate = async (formdata: any) => {
+    const url = mettingsProjectUrl.wbsUpdate;
+
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      formdata
+    );
+
+    return response.data;
+  };
+
   wbsDelete = async (formdata: any) => {
     const url = mettingsProjectUrl.wbsDelete;
 

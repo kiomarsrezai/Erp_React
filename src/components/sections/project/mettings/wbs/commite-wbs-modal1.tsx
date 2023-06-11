@@ -1,4 +1,4 @@
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import FixedTable from "components/data/table/fixed-table";
 import { TableHeadGroupShape } from "types/table-type";
@@ -9,7 +9,7 @@ import {
 } from "types/data/project/commite-project-type";
 import FixedModal from "components/ui/modal/fixed-modal";
 import SelectUser from "components/sections/select-user";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { mettingsProjectApi } from "api/project/meetings-project-api";
 import { enqueueSnackbar } from "notistack";
@@ -20,6 +20,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+import { changeInputHandler } from "helper/form-utils";
 
 interface CommiteWbsModal1Props {
   data: GetSingleCommiteDetailWbsModalShape[];
@@ -43,6 +44,7 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
       name: "description",
       split: true,
       align: "left",
+      width: "250px",
     },
     {
       title: "مسولیت",
@@ -54,12 +56,14 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
       title: "تاریخ شروع",
       name: "dateStart",
       percent: true,
+      width: "150px",
     },
     {
       title: "تاریخ پایان",
       align: "left",
       name: "dateEnd",
       split: true,
+      width: "150px",
     },
     {
       title: "عملیات",
@@ -95,6 +99,7 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
     });
     setIsOpenSearchUserModal(false);
     setIsOpenConfrimDelete(false);
+    setActiveIdUpdate(null);
   };
 
   const handleSelectUser = async (users: any) => {
@@ -141,6 +146,11 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
   };
 
   const openEditFunctionality = (row: any) => {
+    setEditFormData({
+      description: row.description,
+      dateStart: row.dateStart,
+      dateEnd: row.dateEnd,
+    });
     setActiveIdUpdate(row.id);
   };
 
@@ -161,7 +171,19 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
     });
   };
 
-  const onSubmitEditFunctionality = () => {};
+  const updateWbsMutation = useMutation(mettingsProjectApi.wbsUpdate, {
+    onSuccess: () => {
+      onDoneTask();
+    },
+  });
+  const onSubmitEditFunctionality = () => {
+    updateWbsMutation.mutate({
+      id: activeIdUpdate,
+      description: "string",
+      dateStart: "",
+      dateEnd: "",
+    });
+  };
 
   const actionBtn = (row: GetSingleCommiteDetailWbsModalShape) => (
     <Box display={"flex"} justifyContent={"center"}>
@@ -205,11 +227,84 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
     </Box>
   );
 
+  const [editFormData, setEditFormData] = useState<any>({
+    description: "",
+    dateStart: "",
+    dateEnd: "",
+  });
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    changeInputHandler(e, setEditFormData);
+  };
+
+  const renderDateStart = (item: GetSingleCommiteDetailWbsModalShape) => {
+    if (activeIdUpdate === item.id) {
+      return (
+        <TextField
+          id="date-start-input"
+          label=""
+          variant="outlined"
+          size="small"
+          name={"dateStart"}
+          value={editFormData.dateStart}
+          onChange={handleChange}
+          autoComplete="off"
+          fullWidth
+        />
+      );
+    } else {
+      return item.dateStart;
+    }
+  };
+
+  const renderDateEnd = (item: GetSingleCommiteDetailWbsModalShape) => {
+    if (activeIdUpdate === item.id) {
+      return (
+        <TextField
+          id="date-end-input"
+          label=""
+          variant="outlined"
+          size="small"
+          name={"dateEnd"}
+          value={editFormData.dateEnd}
+          onChange={handleChange}
+          autoComplete="off"
+          fullWidth
+        />
+      );
+    } else {
+      return item.dateStart;
+    }
+  };
+
+  const renderDescription = (item: GetSingleCommiteDetailWbsModalShape) => {
+    if (activeIdUpdate === item.id) {
+      return (
+        <TextField
+          id="description-input"
+          label=""
+          variant="outlined"
+          size="small"
+          name={"description"}
+          value={editFormData.description}
+          onChange={handleChange}
+          autoComplete="off"
+          fullWidth
+        />
+      );
+    } else {
+      return item.description;
+    }
+  };
+
   const formatTableData = (
     unFormatData: GetSingleCommiteDetailWbsModalShape[]
   ): any[] => {
     const formatedData: any[] | any = unFormatData.map((item, i) => ({
       ...item,
+      dateStart: () => renderDateStart(item),
+      dateEnd: () => renderDateEnd(item),
+      description: () => renderDescription(item),
       name: `${item.firstName} ${item.lastName}`,
       number: i + 1,
       actions: () => actionBtn(item),
