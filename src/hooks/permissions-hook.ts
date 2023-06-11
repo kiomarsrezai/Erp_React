@@ -169,7 +169,20 @@ function usePermissions() {
     [accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE]: formatLocalFields(
       "عملکرد",
       accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
-      [yearLevel1Field, budgetMethodField, centerField, organField]
+      [
+        yearLevel1Field,
+        budgetMethodField,
+        centerField,
+        organField,
+        {
+          label: "دکمه مقادیر",
+          name: accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE_DETAIL,
+        },
+        {
+          label: "دکمه تفکیک درآمد",
+          name: accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE_SEP_DETAIL,
+        },
+      ]
     ),
 
     [accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT]: formatLocalFields(

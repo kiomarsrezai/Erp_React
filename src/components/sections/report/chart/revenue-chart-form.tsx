@@ -380,12 +380,28 @@ function RevenueChartForm(props: RevenueChartFormProps) {
               >
                 نمایش
               </LoadingButton>
-              <Button variant="contained" onClick={handleClickDetailValues}>
-                مقادیر
-              </Button>
-              <Button variant="contained" onClick={handleClickDetail2Modal}>
-                تفکیک درآمد
-              </Button>
+              <SectionGuard
+                permission={joinPermissions([
+                  accessNamesConfig.BUDGET__REPORT_PAGE,
+                  accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
+                  accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE_DETAIL,
+                ])}
+              >
+                <Button variant="contained" onClick={handleClickDetailValues}>
+                  مقادیر
+                </Button>
+              </SectionGuard>
+              <SectionGuard
+                permission={joinPermissions([
+                  accessNamesConfig.BUDGET__REPORT_PAGE,
+                  accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
+                  accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE_SEP_DETAIL,
+                ])}
+              >
+                <Button variant="contained" onClick={handleClickDetail2Modal}>
+                  تفکیک درآمد
+                </Button>
+              </SectionGuard>
               <IconButton color="primary" onClick={handlePrintForm}>
                 <PrintIcon />
               </IconButton>
