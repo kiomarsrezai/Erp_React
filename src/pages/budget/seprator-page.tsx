@@ -170,41 +170,40 @@ function BudgetSepratorPage() {
   // actions
   const actionButtons = (row: TableDataItemShape | any) => (
     <Box display={"flex"} justifyContent={"center"}>
-      {[2, 3, 4, 5].includes(
-        formData[sepratorBudgetConfig.BUDGET_METHOD] as any
-      ) &&
-        row.crud && (
-          <>
-            <Button
-              color="primary"
-              variant="outlined"
-              size="small"
-              onClick={() => handleClickProjectModal(row)}
-              sx={{ fontSize: 10, minWidth: "15px" }}
-            >
-              p
-            </Button>
+      {row.crud && (
+        <>
+          <Button
+            color="primary"
+            variant="outlined"
+            size="small"
+            onClick={() => handleClickProjectModal(row)}
+            sx={{ fontSize: 10, minWidth: "15px" }}
+          >
+            p
+          </Button>
 
-            <Button
-              variant="outlined"
-              size="small"
-              color="primary"
-              onClick={() => handleClickAccModal(row)}
-              sx={{ fontSize: 10, minWidth: "15px", ml: 1 }}
-            >
-              acc
-            </Button>
-          </>
-        )}
+          <Button
+            variant="outlined"
+            size="small"
+            color="primary"
+            onClick={() => handleClickAccModal(row)}
+            sx={{ fontSize: 10, minWidth: "15px", ml: 1 }}
+          >
+            acc
+          </Button>
+        </>
+      )}
 
       {formData[sepratorBudgetConfig.BUDGET_METHOD] === 3 && row.crud && (
-        <IconButton
-          color="primary"
-          size="small"
-          onClick={() => handleClickDetailIcon(row)}
-        >
-          <CreditCardIcon />
-        </IconButton>
+        <>
+          <IconButton
+            color="primary"
+            size="small"
+            onClick={() => handleClickDetailIcon(row)}
+          >
+            <CreditCardIcon />
+          </IconButton>
+        </>
       )}
     </Box>
   );
