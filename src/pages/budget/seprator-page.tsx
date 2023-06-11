@@ -141,12 +141,14 @@ function BudgetSepratorPage() {
   // modal project
   const sepratorProjectMutation = useMutation(sepratorBudgetApi.areaProject);
   const [isOpenProjectModal, setIsOpenProjectModal] = useState(false);
+  const [baseInitialItem, setBaseInitialItem] = useState<any>(null);
 
   const handleClickProjectModal = (row: any) => {
     sepratorProjectMutation.mutate({
       ...formData,
       [sepratorBudgetConfig.CODING]: row[sepratorBudgetConfig.CODING],
     });
+    setBaseInitialItem(row);
     setCodingId(row[sepratorBudgetConfig.CODING]);
     setDetailModalTitle(`${row.code} - ${row.description}`);
     setIsOpenProjectModal(true);
@@ -364,6 +366,7 @@ function BudgetSepratorPage() {
           formData={formData}
           baseModal1Title={detailModalTitle}
           baseCodingId={codingId}
+          baseInitialItem={baseInitialItem}
         />
       </FixedModal>
     </AdminLayout>

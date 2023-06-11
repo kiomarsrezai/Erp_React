@@ -17,6 +17,7 @@ import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import SepratorDepratmentModal1 from "../../seprator-creaditor/seprator-department-modal-1";
 import { sepratorCreaditorBudgetApi } from "api/budget/seprator-creaditor-api";
 import { sepratorCreaditorBudgetConfig } from "config/features/budget/seprator-creaditro-config";
+import { Stack, TextField } from "@mui/material";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -31,9 +32,11 @@ interface SepratorProjectModal1props {
   formData: any;
   baseModal1Title: string;
   baseCodingId: number;
+  baseInitialItem: any;
 }
 function SepratorProjectModal1(props: SepratorProjectModal1props) {
-  const { data, formData, baseModal1Title, baseCodingId } = props;
+  const { data, formData, baseModal1Title, baseCodingId, baseInitialItem } =
+    props;
 
   const tableHeads: TableHeadShape = [
     {
@@ -159,6 +162,40 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
     actions: "",
   };
 
+  const tableBottomFooter = {
+    "bgcolor-row": "rgb(255,255,153)",
+    number: (
+      <Stack direction={"row"} spacing={1}>
+        <TextField
+          size="small"
+          label="کد"
+          // value={filterText}
+          variant="outlined"
+          // onChange={(e) => setFilterText(e.target.value)}
+          // fullWidth
+          defaultValue={baseInitialItem.code}
+        />
+        <TextField
+          size="small"
+          label="شرح"
+          // value={filterText}
+          variant="outlined"
+          // onChange={(e) => setFilterText(e.target.value)}
+          fullWidth
+          defaultValue={baseInitialItem.description}
+        />
+        <Button variant="contained" size="small">
+          ویرایش
+        </Button>
+      </Stack>
+    ),
+    "colspan-number": 5,
+    projectCode: null,
+    projectName: null,
+    mosavab: null,
+    actions: null,
+  };
+
   // modal 1
   const [isOpenModal1, setIsOpenModal1] = useState(false);
   const [activeInitialData, setActiveInitialData] = useState<null | any>(null);
@@ -184,6 +221,7 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
         heads={tableHeads}
         data={tableData}
         footer={tableFooter}
+        bottomFooter={tableBottomFooter}
         notFixed
       />
 

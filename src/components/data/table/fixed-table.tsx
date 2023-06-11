@@ -367,7 +367,7 @@ function FixedTable(props: FixedTableProps) {
                 borderRight: 1,
                 borderTop: 1,
                 borderColor: grey[borderColor],
-                bgcolor: grey[200],
+                bgcolor: bottomFooter[`bgcolor-row`] || grey[200],
                 fontWeight: 500,
                 whiteSpace: "nowrap",
                 p: 1,
