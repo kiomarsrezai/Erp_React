@@ -15,7 +15,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { GetSingleSepratorItemShape } from "types/data/budget/seprator-type";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { getBgColorBudget } from "helper/get-color-utils";
@@ -42,6 +42,18 @@ function BudgetSepratorPage() {
   });
 
   const [codingId, setCodingId] = useState(0);
+
+  const activeTimeOut = useRef<any>(null);
+
+  useEffect(() => {
+    return () => clearTimeout(activeTimeOut.current);
+  }, []);
+
+  const afterCloseAnyModal = () => {
+    activeTimeOut.current = setTimeout(() => {
+      setCodingId(0);
+    }, 3000);
+  };
 
   // heads
   const tableHeads: TableHeadShape = [
@@ -134,6 +146,7 @@ function BudgetSepratorPage() {
       ...formData,
       [sepratorBudgetConfig.CODING]: row[sepratorBudgetConfig.CODING],
     });
+    setCodingId(row[sepratorBudgetConfig.CODING]);
     setDetailModalTitle(`${row.code} - ${row.description}`);
     setIsOpenAccModal(true);
   };
@@ -212,10 +225,13 @@ function BudgetSepratorPage() {
         "textcolor-expense": item.expense < 0 ? "red" : "",
         percentBud: item.percentBud,
         actions: actionButtons,
-        bgcolor: getBgColorBudget(
-          item.levelNumber,
-          formData[sepratorBudgetConfig.BUDGET_METHOD] || 0
-        ),
+        bgcolor:
+          codingId === item.codingId
+            ? "#ffb1b1"
+            : getBgColorBudget(
+                item.levelNumber,
+                formData[sepratorBudgetConfig.BUDGET_METHOD] || 0
+              ),
 
         "bgcolor-creditAmount": item.creditAmount > item.mosavab && "#d7a2a2",
         "bgcolor-expense": item.expense > item.mosavab && "#d7a2a2",
@@ -297,6 +313,7 @@ function BudgetSepratorPage() {
 
   const handleCloseDetailModal = () => {
     setDetailModal(false);
+    afterCloseAnyModal();
   };
 
   // head group
@@ -345,7 +362,10 @@ function BudgetSepratorPage() {
       {/* acc modal */}
       <FixedModal
         open={isOpenAccModal}
-        handleClose={() => setIsOpenAccModal(false)}
+        handleClose={() => {
+          setIsOpenAccModal(false);
+          afterCloseAnyModal();
+        }}
         title={detailModalTitle}
         loading={sepratorAccMutation.isLoading}
         maxWidth="md"
@@ -356,7 +376,10 @@ function BudgetSepratorPage() {
       {/* project modal */}
       <FixedModal
         open={isOpenProjectModal}
-        handleClose={() => setIsOpenProjectModal(false)}
+        handleClose={() => {
+          setIsOpenProjectModal(false);
+          afterCloseAnyModal();
+        }}
         title={detailModalTitle}
         loading={sepratorProjectMutation.isLoading}
         maxWidth="md"
