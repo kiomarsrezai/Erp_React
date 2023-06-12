@@ -1,4 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
+import { Box, IconButton } from "@mui/material";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { budgetEditApi } from "api/budget/budget-edit-api";
 import FixedTable from "components/data/table/fixed-table";
 import AdminLayout from "components/layout/admin-layout";
@@ -8,6 +9,7 @@ import { reactQueryKeys } from "config/react-query-keys-config";
 import { useState } from "react";
 import { GetSingleBudgetEditItemShape } from "types/data/budget/budget-edit-type";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
+import AddIocn from "@mui/icons-material/Add";
 
 function BudgetEditPage() {
   const [formData, setFormData] = useState({
@@ -69,12 +71,47 @@ function BudgetEditPage() {
   ];
 
   //   data
+  const queryClient = useQueryClient();
+  const getDataMutation = useMutation(budgetEditApi.getData, {
+    onSuccess: (data) => {
+      queryClient.setQueryData(reactQueryKeys.budget.edit.getData, data);
+    },
+  });
+
+  const handleDoneTask = () => {
+    getDataMutation.mutate(formData);
+  };
+  const insertMutation = useMutation(budgetEditApi.insertItem, {
+    onSuccess: () => {
+      handleDoneTask();
+    },
+  });
+
+  const handleAddClick = (item: GetSingleBudgetEditItemShape) => {
+    insertMutation.mutate({
+      budgetDetailId: item.budgetDetailId,
+    });
+  };
+
   const formatTableData = (
     unFormatData: GetSingleBudgetEditItemShape[]
   ): any[] => {
     const formatedData: any[] = unFormatData.map((item, i) => ({
       ...item,
-      number: i + 1,
+      number: (
+        <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
+          {i + 1}
+          {!item.id && (
+            <IconButton
+              color="primary"
+              size="small"
+              onClick={() => handleAddClick(item)}
+            >
+              <AddIocn />
+            </IconButton>
+          )}
+        </Box>
+      ),
       "textcolor-description": item.id === null ? "blue" : "",
       "textcolor-code": item.id === null ? "blue" : "",
       "textcolor-mosavabPublic": item.id === null ? "blue" : "",

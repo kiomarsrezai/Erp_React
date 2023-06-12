@@ -13,4 +13,13 @@ export const budgetEditApi = new (class extends BaseApi {
     >(url);
     return response.data;
   };
+
+  insertItem = async (formdata: any) => {
+    const url = budgetEditUrls.insertItem;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      formdata
+    );
+    return response.data;
+  };
 })();
