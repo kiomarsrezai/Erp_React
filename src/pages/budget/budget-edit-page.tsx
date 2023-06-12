@@ -17,6 +17,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { changeInputHandler } from "helper/form-utils";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 function BudgetEditPage() {
   const [formData, setFormData] = useState({
@@ -106,19 +107,30 @@ function BudgetEditPage() {
   };
 
   //   delete
+  const [activeDeleteItem, setActiveDeleteItem] =
+    useState<null | GetSingleBudgetEditItemShape>(null);
   const deleteMutation = useMutation(budgetEditApi.deleteItem, {
     onSuccess: () => {
       handleDoneTask();
+      setActiveDeleteItem(null);
       enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
         variant: "success",
       });
     },
   });
 
-  const handleDeleteClick = (item: GetSingleBudgetEditItemShape) => {
+  const handleConfrimDeleteProccess = () => {
     deleteMutation.mutate({
-      id: item.id,
+      id: activeDeleteItem?.id as number,
     });
+  };
+
+  const handleCancelDeleteProccess = () => {
+    setActiveDeleteItem(null);
+  };
+
+  const handleDeleteClick = (item: GetSingleBudgetEditItemShape) => {
+    setActiveDeleteItem(item);
   };
 
   //   update
@@ -293,14 +305,23 @@ function BudgetEditPage() {
     : [];
 
   return (
-    <AdminLayout>
-      <FixedTable
-        heads={tableHeads}
-        headGroups={tableHeadGroups}
-        data={tableData}
-        // footer={tableFooter}
+    <>
+      <AdminLayout>
+        <FixedTable
+          heads={tableHeads}
+          headGroups={tableHeadGroups}
+          data={tableData}
+          // footer={tableFooter}
+        />
+      </AdminLayout>
+
+      <ConfrimProcessModal
+        onCancel={handleCancelDeleteProccess}
+        onConfrim={handleConfrimDeleteProccess}
+        open={Boolean(activeDeleteItem)}
+        text={`آیا مایل به حذف ردیف ${activeDeleteItem?.id} - ${activeDeleteItem?.description} هستید؟`}
       />
-    </AdminLayout>
+    </>
   );
 }
 
