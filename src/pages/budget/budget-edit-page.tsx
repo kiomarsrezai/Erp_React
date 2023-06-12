@@ -15,6 +15,8 @@ import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import { changeInputHandler } from "helper/form-utils";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
 
 function BudgetEditPage() {
   const [formData, setFormData] = useState({
@@ -91,6 +93,9 @@ function BudgetEditPage() {
   const insertMutation = useMutation(budgetEditApi.insertItem, {
     onSuccess: () => {
       handleDoneTask();
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
     },
   });
 
@@ -104,6 +109,9 @@ function BudgetEditPage() {
   const deleteMutation = useMutation(budgetEditApi.deleteItem, {
     onSuccess: () => {
       handleDoneTask();
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
     },
   });
 
@@ -113,7 +121,7 @@ function BudgetEditPage() {
     });
   };
 
-  //   edit
+  //   update
   const [activeIdUpdate, setActiveIdUpdate] = useState<false | number>(false);
   const [editFormData, setEditFormData] = useState({
     decrease: 0,
@@ -123,6 +131,9 @@ function BudgetEditPage() {
   const updateMutation = useMutation(budgetEditApi.updateItem, {
     onSuccess: () => {
       handleDoneTask();
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
       setActiveIdUpdate(false);
     },
   });
