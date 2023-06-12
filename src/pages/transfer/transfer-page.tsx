@@ -18,7 +18,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { transferApi } from "api/transfer/transfer-api";
 import { GetSingleTransferItemShape } from "types/data/transfer/transfer-type";
 import { reactQueryKeys } from "config/react-query-keys-config";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { globalConfig } from "config/global-config";
 import { transferConfig } from "config/features/transfer/transfer-config";
@@ -44,6 +44,7 @@ function TransferPage() {
   const [openModal, setOpenModal] = useState(false);
   const handleCloseModal = () => {
     setOpenModal(false);
+    afterCloseAnyModal();
   };
 
   const handleOpenModal = () => {
@@ -139,12 +140,12 @@ function TransferPage() {
 
   const dataTableMutation = useMutation(transferApi.getModalData);
 
-  const handleClickBalanceIcon = (row: TableDataItemShape) => {
+  const handleClickBalanceIcon = (row: TableDataItemShape | any) => {
     dataTableMutation.mutate({ ...row, ...formData });
 
     const title = `${row.description} (${row.code})`;
     setModalTitle(title);
-
+    setActiveID(row.id);
     handleOpenModal();
   };
 
@@ -201,6 +202,20 @@ function TransferPage() {
   };
 
   // table data
+  const [activeID, setActiveID] = useState(0);
+
+  const activeTimeOut = useRef<any>(null);
+
+  useEffect(() => {
+    return () => clearTimeout(activeTimeOut.current);
+  }, []);
+
+  const afterCloseAnyModal = () => {
+    activeTimeOut.current = setTimeout(() => {
+      setActiveID(0);
+    }, 3000);
+  };
+
   let prevRowColor = "#fff";
   let nextRowColor = "rgba(224,224,224,var(--hover-color))";
   const getBgColor = (
@@ -210,7 +225,7 @@ function TransferPage() {
     if (item.code !== previtem?.code) {
       [prevRowColor, nextRowColor] = [nextRowColor, prevRowColor];
     }
-    return prevRowColor;
+    return activeID === item.id ? "#ffb1b1" : prevRowColor;
   };
   const formatTableData = (
     unFormatData: GetSingleTransferItemShape[]

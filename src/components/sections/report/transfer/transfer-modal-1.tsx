@@ -11,6 +11,7 @@ import { transferApi } from "api/transfer/transfer-api";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import { transferConfig } from "config/features/transfer/transfer-config";
+import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 
 interface TableDataItemShape {
   markazHazine: ReactNode;
@@ -18,6 +19,7 @@ interface TableDataItemShape {
   idMoein: ReactNode;
   idKol: ReactNode;
   name: ReactNode;
+  number: ReactNode;
   expense: ReactNode;
   actions: (row: any) => ReactNode;
 }
@@ -34,6 +36,10 @@ function TransferModal1(props: TransferModal1Props) {
 
   // heads
   const tableHeads: TableHeadShape = [
+    {
+      title: "ردیف",
+      name: "number",
+    },
     {
       title: "عنوان مرکز هزینه",
       name: "markazHazine",
@@ -94,7 +100,7 @@ function TransferModal1(props: TransferModal1Props) {
     }`;
     linkCodeAccMutation.mutate({
       ...row,
-      [transferConfig.TITLE_ACC]: row.name,
+      [transferConfig.TITLE_ACC]: `${row.name} --- ${row.markazHazine}`,
       [transferConfig.CODE_ACC]: codeAcc,
     });
   };
@@ -115,6 +121,7 @@ function TransferModal1(props: TransferModal1Props) {
   ): TableDataItemShape[] => {
     const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
       ...item,
+      number: i + 1,
       markazHazine: item.markazHazine,
       idTafsily5: item.idTafsily5,
       idMoein: item.idMoein,
@@ -130,9 +137,28 @@ function TransferModal1(props: TransferModal1Props) {
 
   const tableData = data ? formatTableData(data) : [];
 
+  // table footer
+  const tableFooter: TableDataItemShape | any = {
+    number: "جمع",
+    "colspan-number": 7,
+    markazHazine: null,
+    idTafsily5: null,
+    idTafsily: null,
+    idMoein: null,
+    idKol: null,
+    name: null,
+    expense: sumFieldsInSingleItemData(data, "expense"),
+    actions: "",
+  };
+
   return (
     <>
-      <FixedTable heads={tableHeads} data={tableData} notFixed />
+      <FixedTable
+        heads={tableHeads}
+        data={tableData}
+        footer={tableFooter}
+        notFixed
+      />
       <WindowLoading active={linkCodeAccMutation.isLoading} />
     </>
   );
