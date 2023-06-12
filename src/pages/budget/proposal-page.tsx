@@ -38,7 +38,6 @@ function BudgetProposalPage() {
   });
 
   // form heads
-
   const tableHeads: TableHeadShape = [
     {
       title: "ردیف",

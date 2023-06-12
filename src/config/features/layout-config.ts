@@ -38,6 +38,7 @@ import BudgetReportsPage from "pages/budget/report/budget-report-page";
 import BudgetConnectPage from "pages/budget/budget-connect-page";
 import BudgetSepratorCreaditorPage from "pages/budget/seprator-creaditor-page";
 import OrgProjectTablePage from "pages/project/table/org-table-page";
+import BudgetEditPage from "pages/budget/budget-edit-page";
 
 export const sidenavsLayout: SidenavShape[] = [
   // report
@@ -113,9 +114,15 @@ export const sidenavsLayout: SidenavShape[] = [
       },
       {
         title: "اصلاح بودجه",
-        path: "/",
+        path: "/budget-edit",
         icon: EditIcon,
         licenseName: accessNamesConfig.BUDGET__EDIT_PAGE,
+        element: BudgetEditPage,
+        permissionItems: [
+          getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
+          getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 1),
+          accessNamesConfig.FIELD_BUDGET_METHOD,
+        ],
       },
       {
         title: "تفریغ بودجه",
