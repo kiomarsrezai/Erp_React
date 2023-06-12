@@ -1,4 +1,4 @@
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, TextField } from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { budgetEditApi } from "api/budget/budget-edit-api";
 import FixedTable from "components/data/table/fixed-table";
@@ -6,12 +6,15 @@ import AdminLayout from "components/layout/admin-layout";
 import BudgetEditForm from "components/sections/budget/edit/budget-edit-form";
 import { budgetEditConfig } from "config/features/budget/budget-edit-config";
 import { reactQueryKeys } from "config/react-query-keys-config";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { GetSingleBudgetEditItemShape } from "types/data/budget/budget-edit-type";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
+import { changeInputHandler } from "helper/form-utils";
 
 function BudgetEditPage() {
   const [formData, setFormData] = useState({
@@ -110,18 +113,126 @@ function BudgetEditPage() {
     });
   };
 
+  //   edit
+  const [activeIdUpdate, setActiveIdUpdate] = useState<false | number>(false);
+  const [editFormData, setEditFormData] = useState({
+    decrease: 0,
+    increase: 0,
+  });
+
+  const updateMutation = useMutation(budgetEditApi.updateItem, {
+    onSuccess: () => {
+      handleDoneTask();
+      setActiveIdUpdate(false);
+    },
+  });
+
+  const onChangeEdit = (e: ChangeEvent<HTMLInputElement>) => {
+    changeInputHandler(e, setEditFormData);
+  };
+
+  const handleEditClick = (item: GetSingleBudgetEditItemShape) => {
+    setEditFormData({
+      decrease: Number(item.decrease),
+      increase: Number(item.increase),
+    });
+    setActiveIdUpdate(item.id);
+  };
+
+  const onSubmitEditFunctionality = () => {
+    updateMutation.mutate({
+      decrease: Number(editFormData.decrease),
+      increase: Number(editFormData.increase),
+      id: activeIdUpdate,
+    });
+  };
+
+  const renderIncrease = (item: GetSingleBudgetEditItemShape) => {
+    if (item.id === activeIdUpdate) {
+      return (
+        <TextField
+          id="increase-input"
+          label=""
+          variant="outlined"
+          type="number"
+          size="small"
+          name="increase"
+          value={editFormData.increase}
+          onChange={onChangeEdit}
+          autoComplete="off"
+          fullWidth
+        />
+      );
+    } else {
+      return item.increase;
+    }
+  };
+
+  const renderDecrease = (item: GetSingleBudgetEditItemShape) => {
+    if (item.id === activeIdUpdate) {
+      return (
+        <TextField
+          id="decrease-input"
+          label=""
+          variant="outlined"
+          type="number"
+          name="decrease"
+          size="small"
+          value={editFormData.decrease}
+          onChange={onChangeEdit}
+          autoComplete="off"
+          fullWidth
+        />
+      );
+    } else {
+      return item.increase;
+    }
+  };
+
   //   actions
   const actionButtons = (item: GetSingleBudgetEditItemShape) => {
     return (
       <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
         {item.id && (
-          <IconButton
-            color="error"
-            size="small"
-            onClick={() => handleDeleteClick(item)}
-          >
-            <DeleteIcon />
-          </IconButton>
+          <>
+            {activeIdUpdate !== item.id ? (
+              <>
+                <IconButton
+                  color="error"
+                  size="small"
+                  onClick={() => handleDeleteClick(item)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+
+                <IconButton
+                  color="primary"
+                  size="small"
+                  onClick={() => handleEditClick(item)}
+                >
+                  <EditIcon />
+                </IconButton>
+              </>
+            ) : (
+              <>
+                <IconButton
+                  color="success"
+                  size="small"
+                  onClick={onSubmitEditFunctionality}
+                >
+                  <CheckIcon />
+                </IconButton>
+
+                <IconButton
+                  color="error"
+                  size="small"
+                  onClick={() => setActiveIdUpdate(false)}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </>
+            )}
+          </>
         )}
       </Box>
     );
@@ -147,6 +258,8 @@ function BudgetEditPage() {
           )}
         </Box>
       ),
+      increase: () => renderIncrease(item),
+      decrease: () => renderDecrease(item),
       "textcolor-description": item.id === null ? "blue" : "",
       "textcolor-code": item.id === null ? "blue" : "",
       "textcolor-mosavabPublic": item.id === null ? "blue" : "",

@@ -31,4 +31,13 @@ export const budgetEditApi = new (class extends BaseApi {
     );
     return response.data;
   };
+
+  updateItem = async (formdata: any) => {
+    const url = budgetEditUrls.updateItem;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      formdata
+    );
+    return response.data;
+  };
 })();

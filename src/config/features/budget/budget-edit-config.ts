@@ -14,4 +14,5 @@ export const budgetEditUrls = {
   getData: "BudgetEditApi/BudgetEditRead",
   insertItem: "BudgetEditApi/BudgetEditInsert",
   deleteItem: "BudgetEditApi/BudgetEditDelete",
+  updateItem: "BudgetEditApi/BudgetEditUpdate",
 };
