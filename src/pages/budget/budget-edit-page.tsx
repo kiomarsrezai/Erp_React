@@ -18,6 +18,8 @@ import { changeInputHandler } from "helper/form-utils";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+import { calculateNewValue } from "@testing-library/user-event/dist/utils";
+import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 
 function BudgetEditPage() {
   const [formData, setFormData] = useState({
@@ -300,9 +302,23 @@ function BudgetEditPage() {
     }
   );
 
-  const tableData = budgetEditQuery.data
-    ? formatTableData(budgetEditQuery.data?.data)
-    : [];
+  const data = budgetEditQuery.data ? budgetEditQuery.data?.data : [];
+  const tableData = formatTableData(data);
+
+  // footer
+  const sumMosavabPublic = sumFieldsInSingleItemData(data, "mosavabPublic");
+  const sumIncrease = sumFieldsInSingleItemData(data, "increase");
+  const sumDecrease = sumFieldsInSingleItemData(data, "decrease");
+  const tableFooter = {
+    number: "جمع",
+    "colspan-number": 3,
+    code: null,
+    description: null,
+    mosavabPublic: sumMosavabPublic,
+    increase: sumIncrease,
+    decrease: sumDecrease,
+    actions: "",
+  };
 
   return (
     <>
@@ -311,7 +327,7 @@ function BudgetEditPage() {
           heads={tableHeads}
           headGroups={tableHeadGroups}
           data={tableData}
-          // footer={tableFooter}
+          footer={tableFooter}
         />
       </AdminLayout>
 
