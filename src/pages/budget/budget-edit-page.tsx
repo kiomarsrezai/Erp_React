@@ -9,7 +9,9 @@ import { reactQueryKeys } from "config/react-query-keys-config";
 import { useState } from "react";
 import { GetSingleBudgetEditItemShape } from "types/data/budget/budget-edit-type";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
-import AddIocn from "@mui/icons-material/Add";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 function BudgetEditPage() {
   const [formData, setFormData] = useState({
@@ -70,7 +72,7 @@ function BudgetEditPage() {
     },
   ];
 
-  //   data
+  //   refresh
   const queryClient = useQueryClient();
   const getDataMutation = useMutation(budgetEditApi.getData, {
     onSuccess: (data) => {
@@ -81,6 +83,8 @@ function BudgetEditPage() {
   const handleDoneTask = () => {
     getDataMutation.mutate(formData);
   };
+
+  //   insert
   const insertMutation = useMutation(budgetEditApi.insertItem, {
     onSuccess: () => {
       handleDoneTask();
@@ -93,6 +97,37 @@ function BudgetEditPage() {
     });
   };
 
+  //   delete
+  const deleteMutation = useMutation(budgetEditApi.deleteItem, {
+    onSuccess: () => {
+      handleDoneTask();
+    },
+  });
+
+  const handleDeleteClick = (item: GetSingleBudgetEditItemShape) => {
+    deleteMutation.mutate({
+      id: item.id,
+    });
+  };
+
+  //   actions
+  const actionButtons = (item: GetSingleBudgetEditItemShape) => {
+    return (
+      <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
+        {item.id && (
+          <IconButton
+            color="error"
+            size="small"
+            onClick={() => handleDeleteClick(item)}
+          >
+            <DeleteIcon />
+          </IconButton>
+        )}
+      </Box>
+    );
+  };
+
+  //   data
   const formatTableData = (
     unFormatData: GetSingleBudgetEditItemShape[]
   ): any[] => {
@@ -107,7 +142,7 @@ function BudgetEditPage() {
               size="small"
               onClick={() => handleAddClick(item)}
             >
-              <AddIocn />
+              <AddIcon />
             </IconButton>
           )}
         </Box>
@@ -115,7 +150,7 @@ function BudgetEditPage() {
       "textcolor-description": item.id === null ? "blue" : "",
       "textcolor-code": item.id === null ? "blue" : "",
       "textcolor-mosavabPublic": item.id === null ? "blue" : "",
-      actions: "actionButtons",
+      actions: () => actionButtons(item),
     }));
 
     return formatedData;

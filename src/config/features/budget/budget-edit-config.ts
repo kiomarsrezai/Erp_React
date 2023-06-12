@@ -13,4 +13,5 @@ export const proposalModal1EditConfig = {
 export const budgetEditUrls = {
   getData: "BudgetEditApi/BudgetEditRead",
   insertItem: "BudgetEditApi/BudgetEditInsert",
+  deleteItem: "BudgetEditApi/BudgetEditDelete",
 };

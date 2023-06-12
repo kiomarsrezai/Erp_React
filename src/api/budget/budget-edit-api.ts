@@ -22,4 +22,13 @@ export const budgetEditApi = new (class extends BaseApi {
     );
     return response.data;
   };
+
+  deleteItem = async (formdata: any) => {
+    const url = budgetEditUrls.deleteItem;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      formdata
+    );
+    return response.data;
+  };
 })();
