@@ -177,6 +177,7 @@ function RevenueChartForm(props: RevenueChartFormProps) {
 
     const title = `سال ${yearLabel} - نوع ${budgetKindLabel}`;
     setModalTitle(title);
+    setIsOpenModal2(true);
   };
 
   const dataTable2Mutation = useMutation(revenueChartApi.chartDetail2);
@@ -211,7 +212,6 @@ function RevenueChartForm(props: RevenueChartFormProps) {
         revenueChartFormConfig.ORGAN,
       ])
     ) {
-      alert("salam");
       dataTable2Mutation.mutate(formData);
       handleOpenModal2();
     }
