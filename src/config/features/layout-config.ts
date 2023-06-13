@@ -120,7 +120,7 @@ export const sidenavsLayout: SidenavShape[] = [
         element: BudgetEditPage,
         permissionItems: [
           getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
-          getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 2),
+          getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 1),
           accessNamesConfig.FIELD_BUDGET_METHOD,
         ],
       },

@@ -110,7 +110,7 @@ function BudgetEditForm(props: BudgetEditFormProps) {
               setter={setFormData}
               value={formData[proposalConfig.AREA]}
               permissionForm={accessNamesConfig.BUDGET__EDIT_PAGE}
-              level={2}
+              level={1}
               showError={haveSubmitedForm}
             />
           </Grid>
