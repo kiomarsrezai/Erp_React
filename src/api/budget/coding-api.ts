@@ -40,13 +40,12 @@ export const codingBudgetApi = new (class extends BaseApi {
   };
 
   deleteItem = async (id: number) => {
-    const url =
-      codingBudgetUrls.delete +
-      this.joinFilterData({
-        [codingBudgetConfig.id_coding_delete]: id,
-      });
+    const url = codingBudgetUrls.delete;
 
-    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(url);
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      { id }
+    );
 
     return response.data;
   };
