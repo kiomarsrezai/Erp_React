@@ -23,6 +23,7 @@ import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import { changeInputHandler } from "helper/form-utils";
 import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { convertToCalenderDate } from "helper/date-utils";
 
 interface CommiteWbsModal1Props {
   data: GetSingleCommiteDetailWbsModalShape[];
@@ -150,8 +151,8 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
   const openEditFunctionality = (row: any) => {
     setEditFormData({
       description: row.description,
-      dateStart: row.dateStart,
-      dateEnd: row.dateEnd,
+      dateStart: convertToCalenderDate(row.dateStart),
+      dateEnd: convertToCalenderDate(row.dateEnd),
     });
     setActiveIdUpdate(row.id);
   };
@@ -259,6 +260,7 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
           onChange={(newValue) =>
             setEditFormData((state: any) => ({ ...state, dateStart: newValue }))
           }
+          slotProps={{ textField: { size: "small" } }}
         />
         // </DemoContainer>
       );
@@ -270,20 +272,33 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
   const renderDateEnd = (item: GetSingleCommiteDetailWbsModalShape) => {
     if (activeIdUpdate === item.id) {
       return (
-        <TextField
-          id="date-end-input"
-          label=""
-          variant="outlined"
-          size="small"
-          name={"dateEnd"}
-          value={editFormData.dateEnd}
-          onChange={handleChange}
-          autoComplete="off"
-          fullWidth
+        // <TextField
+        //   id="date-end-input"
+        //   label=""
+        //   variant="outlined"
+        //   size="small"
+        //   name={"dateEnd"}
+        //   value={editFormData.dateEnd}
+        //   onChange={handleChange}
+        //   autoComplete="off"
+        //   fullWidth
+        // />
+        <DatePicker
+          // label="Date Picker"
+          // editFormData.dateStart
+          value={new Date(editFormData.dateEnd)}
+          onChange={(newValue) =>
+            setEditFormData((state: any) => ({ ...state, dateEnd: newValue }))
+          }
+          slotProps={{
+            textField: {
+              size: "small",
+            },
+          }}
         />
       );
     } else {
-      return item.dateStartShamsi;
+      return item.datteEndShamsi;
     }
   };
 
@@ -299,6 +314,11 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
           value={editFormData.description}
           onChange={handleChange}
           autoComplete="off"
+          inputProps={{
+            sx: {
+              height: "17px",
+            },
+          }}
           fullWidth
           multiline
         />
