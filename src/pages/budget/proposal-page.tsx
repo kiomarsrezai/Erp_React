@@ -165,6 +165,7 @@ function BudgetProposalPage() {
         percent: item.percentBud,
         expense: item.expense,
         "textcolor-expense": item.expense < 0 ? "red" : "",
+        "bgcolor-expense": item.expense > item.edit && "#d7a2a2",
         bgcolor: getBgColorBudget(
           item.levelNumber,
           formData[proposalConfig.BUDGET_METHOD] || 0
@@ -217,7 +218,7 @@ function BudgetProposalPage() {
     edit: footerEditSum,
     creditAmount: 0,
     expense: footerExpenseSum,
-    percent: "",
+    percent: getPercent(footerExpenseSum, footerEditSum),
     actions: "",
   };
 

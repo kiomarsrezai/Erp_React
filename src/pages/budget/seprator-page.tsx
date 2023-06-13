@@ -260,8 +260,8 @@ function BudgetSepratorPage() {
                 formData[sepratorBudgetConfig.BUDGET_METHOD] || 0
               ),
 
-        "bgcolor-creditAmount": item.creditAmount > item.mosavab && "#d7a2a2",
-        "bgcolor-expense": item.expense > item.mosavab && "#d7a2a2",
+        "bgcolor-creditAmount": item.creditAmount > item.edit && "#d7a2a2",
+        "bgcolor-expense": item.expense > item.edit && "#d7a2a2",
       })
     );
 
@@ -299,6 +299,11 @@ function BudgetSepratorPage() {
     (item: GetSingleSepratorItemShape) => item.levelNumber === 1
   );
 
+  const sumEdit = sumFieldsInSingleItemData(
+    sepratorQuery.data?.data,
+    "edit",
+    (item: GetSingleSepratorItemShape) => item.levelNumber === 1
+  );
   const tableFooter: TableDataItemShape | any = {
     id: "جمع",
     "colspan-id": 3,
@@ -306,11 +311,7 @@ function BudgetSepratorPage() {
     code: null,
     description: null,
     mosavab: sumMosavab,
-    edit: sumFieldsInSingleItemData(
-      sepratorQuery.data?.data,
-      "edit",
-      (item: GetSingleSepratorItemShape) => item.levelNumber === 1
-    ),
+    edit: sumEdit,
     creditAmount: sumCreditAmount,
     expense: sumExpense,
     percentBud: "",
@@ -323,8 +324,8 @@ function BudgetSepratorPage() {
     description: null,
     mosavab: "-",
     edit: "-",
-    creditAmount: `${getPercent(sumCreditAmount, sumMosavab)}%`,
-    expense: `${getPercent(sumExpense, sumMosavab)}%`,
+    creditAmount: `${getPercent(sumCreditAmount, sumEdit)}%`,
+    expense: `${getPercent(sumExpense, sumEdit)}%`,
     "align-creditAmount": "center",
     "align-expense": "center",
     percentBud: "",

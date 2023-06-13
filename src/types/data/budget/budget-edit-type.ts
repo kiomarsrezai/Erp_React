@@ -7,4 +7,5 @@ export interface GetSingleBudgetEditItemShape {
   decrease: 0;
   increase: 0;
   edit: number;
+  expense: number;
 }
