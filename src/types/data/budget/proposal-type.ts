@@ -16,7 +16,7 @@ export interface GetSingleProposalItemShape {
 export interface GetSingleDetailProposalItemShape {
   code: string;
   description: string;
-  edit: number;
+  editPublic: number;
   expense: number;
   id: number;
   mosavab: number;
@@ -28,7 +28,7 @@ export interface GetSingleMoreDetailProposalItemShape {
   id: number;
   projectId: number;
   mosavab: number;
-  edit: number;
+  editProject: number;
   expense: number;
   percentBud: number;
   projectCode: number;

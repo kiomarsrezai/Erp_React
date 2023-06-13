@@ -6,7 +6,7 @@ import FixedModal from "components/ui/modal/fixed-modal";
 import ProposalBudgetForm from "components/sections/budget/proposal/proposal-budget-form";
 
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { proposalConfig } from "config/features/budget/proposal-config";
 import { GetSingleProposalItemShape } from "types/data/budget/proposal-type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -36,6 +36,20 @@ function BudgetProposalPage() {
     [proposalConfig.AREA]: undefined,
     [proposalConfig.BUDGET_METHOD]: undefined,
   });
+
+  const [codingId, setCodingId] = useState<any>(0);
+
+  const activeTimeOut = useRef<any>(null);
+
+  useEffect(() => {
+    return () => clearTimeout(activeTimeOut.current);
+  }, []);
+
+  const afterCloseAnyModal = () => {
+    activeTimeOut.current = setTimeout(() => {
+      setCodingId(0);
+    }, 3000);
+  };
 
   // form heads
   const tableHeads: TableHeadShape = [
@@ -118,6 +132,8 @@ function BudgetProposalPage() {
     if (isModal1Changed) {
       getDataMutation.mutate(formData);
     }
+
+    afterCloseAnyModal();
     setIsOpenDetailModal(false);
   };
 
@@ -133,6 +149,8 @@ function BudgetProposalPage() {
       ...formData,
       [proposalConfig.coding]: row.codingId,
     });
+
+    setCodingId(row.codingId);
 
     setIsOpenDetailModal(true);
   };
@@ -164,12 +182,16 @@ function BudgetProposalPage() {
         creditAmount: 0,
         percent: item.percentBud,
         expense: item.expense,
+        bgcolor_pulse: codingId === item.codingId,
         "textcolor-expense": item.expense < 0 ? "red" : "",
         "bgcolor-expense": item.expense > item.edit && "#d7a2a2",
-        bgcolor: getBgColorBudget(
-          item.levelNumber,
-          formData[proposalConfig.BUDGET_METHOD] || 0
-        ),
+        bgcolor:
+          codingId === item.codingId
+            ? "#ffb1b1"
+            : getBgColorBudget(
+                item.levelNumber,
+                formData[proposalConfig.BUDGET_METHOD] || 0
+              ),
         actions: actionButtons,
       })
     );
@@ -198,7 +220,7 @@ function BudgetProposalPage() {
 
   const footerEditSum = sumFieldsInSingleItemData(
     proposalQuery.data?.data,
-    "edit",
+    "editPublic",
     (item: GetSingleProposalItemShape) => item.levelNumber === 1
   );
 

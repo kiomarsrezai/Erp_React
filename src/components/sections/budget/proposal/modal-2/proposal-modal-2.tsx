@@ -79,6 +79,7 @@ function ProposalModal2(props: ProposalModal2Props) {
       name: "edit",
       align: "left",
       split: true,
+      width: "150px",
     },
     {
       title: "ت اعتبار",
@@ -231,6 +232,7 @@ function ProposalModal2(props: ProposalModal2Props) {
 
   const [activeIdUpdate, setActiveIdUpdate] = useState<null | number>(null);
   const [editMosavab, setEditMosavab] = useState(0);
+  const [editProjectEdit, setEditProjectEdit] = useState(0);
 
   const renderMosavabDepartman = (row: any) => {
     if (row.id === activeIdUpdate) {
@@ -257,8 +259,34 @@ function ProposalModal2(props: ProposalModal2Props) {
     }
   };
 
+  const renderEditDepartman = (row: any) => {
+    if (row.id === activeIdUpdate) {
+      return (
+        <TextField
+          id="edit-input"
+          label=""
+          variant="outlined"
+          type="number"
+          size="small"
+          value={editProjectEdit}
+          onChange={(e) => setEditProjectEdit(+e.target.value)}
+          autoComplete="off"
+          inputProps={{
+            sx: {
+              height: "17px",
+            },
+          }}
+          fullWidth
+        />
+      );
+    } else {
+      return row.editProject;
+    }
+  };
+
   const openEditRowInline = (row: GetSingleMoreDetailProposalItemShape) => {
     setEditMosavab(row.mosavab);
+    setEditProjectEdit(row.editProject);
     setActiveIdUpdate(row.id);
   };
 
@@ -284,6 +312,7 @@ function ProposalModal2(props: ProposalModal2Props) {
 
     editMutation.mutate({
       mosavab: editMosavab,
+      editProject: editProjectEdit,
       id: activeIdUpdate,
     });
   };
@@ -351,10 +380,10 @@ function ProposalModal2(props: ProposalModal2Props) {
         creditAmount: 0,
         project_name: item.projectName,
         mosavab: () => renderMosavabDepartman(item),
+        edit: () => renderEditDepartman(item),
         expense: item.expense,
         "textcolor-expense": item.expense < 0 ? "red" : "",
         percent: item.percentBud,
-        edit: item.edit,
         actions: actionButtons,
       })
     );
@@ -380,7 +409,10 @@ function ProposalModal2(props: ProposalModal2Props) {
     project_name: null,
     mosavab: sumMosavab,
     creditAmount: 0,
-    edit: sumFieldsInSingleItemData(dataMutation.data?.data || data, "edit"),
+    edit: sumFieldsInSingleItemData(
+      dataMutation.data?.data || data,
+      "editProject"
+    ),
     percent: "",
     expense: sumFieldsInSingleItemData(
       dataMutation.data?.data || data,
@@ -422,7 +454,7 @@ function ProposalModal2(props: ProposalModal2Props) {
         handleClose={() => setIsOpenDetailModal(false)}
         title={modalTitle}
         loading={getDetailMutation.isLoading}
-        maxHeight="80%"
+        maxHeight="70%"
         maxWidth="sm"
       >
         <ProposalModal3

@@ -107,13 +107,14 @@ function ProposalModal1(props: ProposalModal1Props) {
       name: "mosavab",
       align: "left",
       split: true,
-      width: "200px",
+      width: "150px",
     },
     {
       title: "اصلاح",
       name: "edit",
       align: "left",
       split: true,
+      width: "150px",
     },
     {
       title: "ت اعتبار",
@@ -121,12 +122,14 @@ function ProposalModal1(props: ProposalModal1Props) {
       split: true,
       align: "left",
       hidden: formData[proposalConfig.BUDGET_METHOD] === 1,
+      width: "150px",
     },
     {
       title: "هزینه",
       name: "expense",
       align: "left",
       split: true,
+      width: "150px",
     },
     {
       title: "% جذب",
@@ -136,6 +139,7 @@ function ProposalModal1(props: ProposalModal1Props) {
     {
       title: "عملیات",
       name: "actions",
+      width: "120px",
     },
   ];
 
@@ -304,10 +308,10 @@ function ProposalModal1(props: ProposalModal1Props) {
   };
 
   const formatTableData = (
-    unFormatData: GetSingleDetailProposalItemShape[]
+    unFormatData: GetSingleDetailProposalItemShape[] | any
   ): TableDataItemShape[] => {
     const formatedData: TableDataItemShape[] | any = unFormatData.map(
-      (item, i) => ({
+      (item: any, i: any) => ({
         ...item,
         number: i + 1,
         code: item.code,
@@ -317,7 +321,7 @@ function ProposalModal1(props: ProposalModal1Props) {
         "textcolor-expense": item.expense < 0 ? "red" : "",
         expense: item.expense,
         percent: item.percentBud,
-        edit: item.edit,
+        edit: item.editPublic,
         actions: actionButtons,
       })
     );
@@ -334,6 +338,11 @@ function ProposalModal1(props: ProposalModal1Props) {
     getDataMutation.data?.data || data,
     "mosavab"
   );
+
+  const sumEditPublic = sumFieldsInSingleItemData(
+    getDataMutation.data?.data || data,
+    "editPublic"
+  );
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
     "colspan-number": 3,
@@ -341,7 +350,7 @@ function ProposalModal1(props: ProposalModal1Props) {
     description: null,
     creditAmount: "",
     mosavab: sumMosavab,
-    edit: "",
+    edit: sumEditPublic,
     percent: "",
     actions: "",
     expense: "",
@@ -355,7 +364,8 @@ function ProposalModal1(props: ProposalModal1Props) {
     creditAmount: "",
     mosavab: baseRowData.mosavab - sumMosavab,
     "textcolor-mosavab": baseRowData.mosavab - sumMosavab < 0 ? "red" : "blue",
-    edit: "",
+    edit: baseRowData.edit - sumEditPublic,
+    "textcolor-edit": baseRowData.edit - sumEditPublic < 0 ? "red" : "blue",
     percent: "",
     actions: "",
     expense: "",
@@ -409,7 +419,7 @@ function ProposalModal1(props: ProposalModal1Props) {
         loading={getMoreDetailMutation.isLoading}
         title={modalTitle}
         maxWidth="md"
-        maxHeight="70%"
+        maxHeight="65%"
       >
         <ProposalModal2
           data={getMoreDetailMutation.data?.data || []}
