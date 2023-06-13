@@ -401,6 +401,11 @@ function ProposalModal2(props: ProposalModal2Props) {
     "mosavab"
   );
 
+  const sumEditPublic = sumFieldsInSingleItemData(
+    dataMutation.data?.data || data,
+    "editProject"
+  );
+
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
     "colspan-number": 4,
@@ -409,10 +414,7 @@ function ProposalModal2(props: ProposalModal2Props) {
     project_name: null,
     mosavab: sumMosavab,
     creditAmount: 0,
-    edit: sumFieldsInSingleItemData(
-      dataMutation.data?.data || data,
-      "editProject"
-    ),
+    edit: sumEditPublic,
     percent: "",
     expense: sumFieldsInSingleItemData(
       dataMutation.data?.data || data,
@@ -431,7 +433,9 @@ function ProposalModal2(props: ProposalModal2Props) {
     "textcolor-mosavab":
       baseRowData.mosavab() - sumMosavab < 0 ? "red" : "blue",
     creditAmount: "",
-    edit: "",
+    edit: baseRowData.editPublic - sumEditPublic,
+    "textcolor-edit":
+      baseRowData.editPublic - sumEditPublic < 0 ? "red" : "blue",
     percent: "",
     expense: "",
     actions: "",
@@ -455,7 +459,7 @@ function ProposalModal2(props: ProposalModal2Props) {
         title={modalTitle}
         loading={getDetailMutation.isLoading}
         maxHeight="70%"
-        maxWidth="sm"
+        maxWidth="40%"
       >
         <ProposalModal3
           data={getDetailMutation.data?.data || []}

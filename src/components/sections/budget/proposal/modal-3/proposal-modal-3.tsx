@@ -103,6 +103,7 @@ function ProposalModal3(props: ProposalModal3Props) {
       name: "edit",
       align: "left",
       split: true,
+      width: "150px",
     },
     {
       title: "ت اعتبار",
@@ -207,15 +208,18 @@ function ProposalModal3(props: ProposalModal3Props) {
     // });
     editMutation.mutate({
       mosavab: editMosavab,
+      editArea: editAreaEdit,
       id: activeIdUpdate,
     });
   };
 
   const [activeIdUpdate, setActiveIdUpdate] = useState<null | number>(null);
   const [editMosavab, setEditMosavab] = useState(0);
+  const [editAreaEdit, setEditAreaEdit] = useState(0);
 
   const openEditRowInline = (row: GetSingleLevel5DetailProposalItemShape) => {
     setEditMosavab(row.mosavab);
+    setEditAreaEdit(row.editArea);
     setActiveIdUpdate(row.id);
   };
 
@@ -288,6 +292,31 @@ function ProposalModal3(props: ProposalModal3Props) {
     }
   };
 
+  const renderEditDepartman = (row: any) => {
+    if (row.id === activeIdUpdate) {
+      return (
+        <TextField
+          id="edit-input"
+          label=""
+          variant="outlined"
+          type="number"
+          size="small"
+          value={editAreaEdit}
+          onChange={(e) => setEditAreaEdit(+e.target.value)}
+          autoComplete="off"
+          inputProps={{
+            sx: {
+              height: "17px",
+            },
+          }}
+          fullWidth
+        />
+      );
+    } else {
+      return row.editArea;
+    }
+  };
+
   const formatTableData = (
     unFormatData: GetSingleLevel5DetailProposalItemShape[]
   ): TableDataItemShape[] => {
@@ -295,14 +324,14 @@ function ProposalModal3(props: ProposalModal3Props) {
       (item, i) => ({
         ...item,
         number: i + 1,
-        area: item.areaNameShort,
+        area: item.areaName,
         creditAmount: 0,
         mosavab: () => renderMosavabDepartman(item),
-        // mosavab: item.mosavab,
+        edit: () => renderEditDepartman(item),
         expense: item.expense,
         "textcolor-expense": item.expense < 0 ? "red" : "",
         percent: item.percentBud,
-        edit: item.edit,
+
         actions: actionButtons,
       })
     );
@@ -320,13 +349,18 @@ function ProposalModal3(props: ProposalModal3Props) {
     "mosavab"
   );
 
+  const sumEdit = sumFieldsInSingleItemData(
+    dataMutation.data?.data || data,
+    "editArea"
+  );
+
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
     "colspan-number": 2,
     area: null,
     creditAmount: 0,
     mosavab: sumMosavab,
-    edit: sumFieldsInSingleItemData(dataMutation.data?.data || data, "edit"),
+    edit: sumEdit,
     percent: "",
     expense: sumFieldsInSingleItemData(
       dataMutation.data?.data || data,
@@ -340,9 +374,10 @@ function ProposalModal3(props: ProposalModal3Props) {
     area: null,
     creditAmount: 0,
     mosavab: baseRowData.mosavab() - sumMosavab,
+    edit: baseRowData.editProject - sumEdit,
     "textcolor-mosavab":
       baseRowData.mosavab() - sumMosavab < 0 ? "red" : "blue",
-    edit: "",
+    "textcolor-edit": baseRowData.editProject - sumEdit < 0 ? "red" : "blue",
     percent: "",
     expense: "",
   };
