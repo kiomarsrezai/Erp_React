@@ -32,7 +32,7 @@ function BudgetEditPage() {
   const tableHeadGroups: TableHeadGroupShape = [
     {
       title: <BudgetEditForm formData={formData} setFormData={setFormData} />,
-      colspan: 7,
+      colspan: 8,
     },
   ];
   //   heads
@@ -70,6 +70,13 @@ function BudgetEditPage() {
       title: "افزایش",
       align: "left",
       name: "increase",
+      split: true,
+      width: "150px",
+    },
+    {
+      title: "اصلاح بودجه",
+      align: "left",
+      name: "edit",
       split: true,
       width: "150px",
     },
@@ -210,7 +217,7 @@ function BudgetEditPage() {
         />
       );
     } else {
-      return item.increase;
+      return item.decrease;
     }
   };
 
@@ -309,6 +316,7 @@ function BudgetEditPage() {
   const sumMosavabPublic = sumFieldsInSingleItemData(data, "mosavabPublic");
   const sumIncrease = sumFieldsInSingleItemData(data, "increase");
   const sumDecrease = sumFieldsInSingleItemData(data, "decrease");
+  const sumEdit = sumFieldsInSingleItemData(data, "edit");
   const tableFooter = {
     number: "جمع",
     "colspan-number": 3,
@@ -317,6 +325,7 @@ function BudgetEditPage() {
     mosavabPublic: sumMosavabPublic,
     increase: sumIncrease,
     decrease: sumDecrease,
+    edit: sumEdit,
     actions: "",
   };
 

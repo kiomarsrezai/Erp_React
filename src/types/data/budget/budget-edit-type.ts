@@ -6,4 +6,5 @@ export interface GetSingleBudgetEditItemShape {
   mosavabPublic: 0;
   decrease: 0;
   increase: 0;
+  edit: number;
 }

@@ -65,6 +65,11 @@ function BudgetSepratorPage() {
       name: "id",
     },
     {
+      title: "#",
+      name: "levelNumber",
+      width: "40px",
+    },
+    {
       title: "کد",
       name: "code",
     },
