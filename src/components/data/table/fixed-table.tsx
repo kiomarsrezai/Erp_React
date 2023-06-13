@@ -16,6 +16,7 @@ import { ReactNode, useState } from "react";
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { numberWithCommas } from "helper/calculate-utils";
 import { globalConfig } from "config/global-config";
+import classNames from "classnames";
 
 const formatDataCell = (
   nameCell: (
@@ -431,6 +432,9 @@ function FixedTable(props: FixedTableProps) {
             <TableBody>
               {sortedData.map((row: any, i: number) => (
                 <TableRow
+                  className={classNames({
+                    "pulse-many-animation": row.bgcolor_pulse,
+                  })}
                   sx={{
                     transition: "background ease 0.1s",
                     "&:last-child td, &:last-child th": { border: 0 },

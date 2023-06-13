@@ -251,6 +251,7 @@ function BudgetSepratorPage() {
         "textcolor-expense": item.expense < 0 ? "red" : "",
         percentBud: item.percentBud,
         actions: actionButtons,
+        bgcolor_pulse: codingId === item.codingId,
         bgcolor:
           codingId === item.codingId
             ? "#ffb1b1"
