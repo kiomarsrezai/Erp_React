@@ -30,6 +30,7 @@ function AhadisProvider(props: AhadisProviderProps) {
         open={isOpenHadisModal}
         handleClose={() => setIsOpenHandisModal(false)}
         title="حدیت امروز"
+        dontCloseWithBox
       >
         <Box sx={{ width: "100%", height: "100%", overflow: "hidden" }}>
           <Box
@@ -37,7 +38,12 @@ function AhadisProvider(props: AhadisProviderProps) {
             src={`/Ahadis/810 Hadis ${
               generateNumber.toString().length === 2 ? "0" : ""
             }${generateNumber}.jpg`}
-            sx={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
+            sx={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "top",
+            }}
           />
         </Box>
       </FixedModal>

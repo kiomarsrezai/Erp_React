@@ -40,6 +40,7 @@ interface FixedModalProps {
   isBig?: boolean;
   isBiger?: boolean;
   minHeight?: string;
+  dontCloseWithBox?: boolean;
 }
 
 function FixedModal(props: FixedModalProps) {
@@ -56,6 +57,7 @@ function FixedModal(props: FixedModalProps) {
     maxHeight,
     topTitle,
     minHeight,
+    dontCloseWithBox,
   } = props;
 
   // loading
@@ -68,7 +70,7 @@ function FixedModal(props: FixedModalProps) {
   return createPortal(
     <BootstrapDialog
       open={open}
-      onClose={handleClose}
+      onClose={(!dontCloseWithBox && handleClose) || undefined}
       sx={{
         "& .MuiDialogContent-root": {},
         "& .MuiDialog-container>.MuiPaper-root": {
