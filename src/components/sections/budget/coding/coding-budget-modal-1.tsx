@@ -236,7 +236,7 @@ function CodingBudgetModal1(props: CodingBudgetModal1Props) {
         description: item.description,
         crudCell: getDataItemIcon(item.crud),
         level: item.levelNumber,
-        revenueType: item.codingRevenueKind,
+        revenueType: item.codingKindId,
         showCell: getDataItemIcon(item.show),
         actions: actionButtons,
         bgcolor: rowMotherId === item.id ? "rgba(187,222,251)" : "",
@@ -289,6 +289,7 @@ function CodingBudgetModal1(props: CodingBudgetModal1Props) {
           initialData={modalFormInitialData}
           level={4}
           motherId={motherId}
+          formData={formData}
         />
       </FixedModal>
 

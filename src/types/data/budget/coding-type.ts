@@ -6,5 +6,5 @@ export interface GetSingleCodingItemShape {
   levelNumber: number;
   crud: boolean;
   show: boolean;
-  codingRevenueKind: number;
+  codingKindId: number;
 }

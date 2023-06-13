@@ -20,10 +20,11 @@ interface CodingBudgetActionModalProps {
   initialData?: any;
   level?: number;
   motherId?: number;
+  formData: any;
 }
 
 function CodingBudgetActionModal(props: CodingBudgetActionModalProps) {
-  const { onDoneTask, initialData, level, motherId } = props;
+  const { onDoneTask, initialData, level, motherId, formData } = props;
 
   // form manage
   const [checkData, setCheckData] = useState({
@@ -92,6 +93,8 @@ function CodingBudgetActionModal(props: CodingBudgetActionModalProps) {
         ...checkData,
         [codingBudgetConfig.mother_id]: motherId,
         [codingBudgetConfig.level]: level,
+        [codingBudgetConfig.BUDGET_METHOD]:
+          formData[codingBudgetConfig.BUDGET_METHOD],
       };
 
       insertCodingMutation.mutate({

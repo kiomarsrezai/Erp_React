@@ -246,7 +246,7 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
         description: item.description,
         crudCell: getDataItemIcon(item.crud),
         level: item.levelNumber,
-        revenueType: item.codingRevenueKind,
+        revenueType: item.codingKindId,
         showCell: getDataItemIcon(item.show),
         actions: actionButtons,
       })
@@ -307,6 +307,7 @@ function CodingBudgetModal2(props: CodingBudgetModal2Props) {
           initialData={modalFormInitialData}
           motherId={motherId}
           level={5}
+          formData={formData}
         />
       </FixedModal>
 

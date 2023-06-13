@@ -226,7 +226,7 @@ function BudgetCodingPage() {
         description: item.description,
         crudCell: getDataItemIcon(item.crud),
         level: item.levelNumber,
-        revenueType: item.codingRevenueKind,
+        revenueType: item.codingKindId,
         showCell: getDataItemIcon(item.show),
         bgcolor: getBgColor(item.levelNumber),
         actions: actionButtons,
@@ -291,6 +291,7 @@ function BudgetCodingPage() {
           level={actionLevelNumber}
           motherId={actionMotherId}
           initialData={actionModaInitialData}
+          formData={formData}
         />
       </FixedModal>
 
