@@ -6,7 +6,9 @@ export const convertToJalaliDate = (date: string, full: boolean = false) => {
 };
 
 export const convertToCalenderDate = (date: string) => {
-  console.log({ date });
+  if (date === null) {
+    return new Date();
+  }
 
   let format = date.split(" ");
   if (format.length > 1) {

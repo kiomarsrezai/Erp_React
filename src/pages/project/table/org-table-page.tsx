@@ -28,6 +28,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { changeInputHandler } from "helper/form-utils";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import { enqueueSnackbar } from "notistack";
+import { convertToCalenderDate } from "helper/date-utils";
 
 function OrgProjectTablePage() {
   const [formData, setFormData] = useState({
@@ -215,8 +216,8 @@ function OrgProjectTablePage() {
     setActionFormData({
       projectCode: row.projectCode,
       projectName: row.projectName,
-      dateFrom: row.dateFrom,
-      dateEnd: row.dateEnd,
+      dateFrom: convertToCalenderDate(row.dateFrom),
+      dateEnd: convertToCalenderDate(row.dateEnd),
       projectScaleId: row.projectScaleId,
     });
     setActiveIdUpdate(row.id);
@@ -270,6 +271,7 @@ function OrgProjectTablePage() {
         onChange={(newValue) =>
           setActionFormData((state: any) => ({ ...state, dateFrom: newValue }))
         }
+        slotProps={{ textField: { size: "small" } }}
       />
     ),
     dateEndShamsi: (
@@ -280,6 +282,7 @@ function OrgProjectTablePage() {
         onChange={(newValue) =>
           setActionFormData((state: any) => ({ ...state, dateEnd: newValue }))
         }
+        slotProps={{ textField: { size: "small" } }}
       />
     ),
     actions: (
