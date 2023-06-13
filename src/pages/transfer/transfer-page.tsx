@@ -240,6 +240,7 @@ function TransferPage() {
       titleAcc: item.titleAcc,
       actions: actionButtons,
       bgcolor: getBgColor(item, unFormatData[i - 1]),
+      bgcolor_pulse: activeID === item.id,
     }));
 
     return formatedData;

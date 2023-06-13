@@ -127,6 +127,11 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
           variant="outlined"
           type="number"
           size="small"
+          inputProps={{
+            sx: {
+              height: "17px",
+            },
+          }}
           //   {...register(sepratorCreaditorBudgetConfig.mosavab_creaditor)}
           //   error={!!errors[sepratorCreaditorBudgetConfig.mosavab_creaditor]}
           //   helperText={

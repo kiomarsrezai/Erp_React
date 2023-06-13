@@ -25,7 +25,7 @@ import { useMutation } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
-import { TextField } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -123,13 +123,18 @@ function ProposalModal2(props: ProposalModal2Props) {
   const tableHeadGroup: TableHeadGroupShape = [
     {
       title: (
-        <IconButton
-          color="primary"
-          size="small"
-          onClick={() => setIsOpenSearchModal(true)}
-        >
-          <SearchIcon />
-        </IconButton>
+        <Box>
+          <IconButton
+            color="primary"
+            size="small"
+            onClick={() => setIsOpenSearchModal(true)}
+          >
+            <SearchIcon />
+          </IconButton>
+          <Typography variant="caption">
+            اتصال پروژه و خدمات به ردیف بودجه
+          </Typography>
+        </Box>
       ),
       colspan: tableHeads.filter((item) => !item.hidden).length,
     },
@@ -239,6 +244,11 @@ function ProposalModal2(props: ProposalModal2Props) {
           value={editMosavab}
           onChange={(e) => setEditMosavab(+e.target.value)}
           autoComplete="off"
+          inputProps={{
+            sx: {
+              height: "17px",
+            },
+          }}
           fullWidth
         />
       );

@@ -290,6 +290,11 @@ function ProposalModal1(props: ProposalModal1Props) {
           value={editMosavab}
           onChange={(e) => setEditMosavab(+e.target.value)}
           autoComplete="off"
+          inputProps={{
+            sx: {
+              height: "17px",
+            },
+          }}
           fullWidth
         />
       );
