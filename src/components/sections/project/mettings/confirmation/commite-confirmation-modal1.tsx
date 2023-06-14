@@ -9,7 +9,7 @@ import {
 } from "types/data/project/commite-project-type";
 import FixedModal from "components/ui/modal/fixed-modal";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { mettingsProjectApi } from "api/project/meetings-project-api";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
@@ -18,6 +18,7 @@ import ApprovalIcon from "@mui/icons-material/Approval";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import CommiteConfirmationModal2 from "./commite-confirmation-modal2";
 import userStore from "hooks/store/user-store";
+import { reactQueryKeys } from "config/react-query-keys-config";
 
 interface CommiteConfirmationModal1Props {
   data: GetSingleCommiteDetailConfirmationModalShape[];
@@ -201,12 +202,32 @@ function CommiteConfirmationModal1(props: CommiteConfirmationModal1Props) {
     return formatedData;
   };
 
+  const queryClient = useQueryClient();
   const confirmationDataMutation = useMutation(
-    mettingsProjectApi.confirmationDataModal
+    mettingsProjectApi.confirmationDataModal,
+    {
+      onSuccess(data) {
+        console.log(data);
+
+        queryClient.setQueryData(
+          reactQueryKeys.project.mettings.getCommitesConfirmationModal,
+          data
+        );
+      },
+    }
   );
-  const tableData = formatTableData(
-    confirmationDataMutation.data?.data || data
+
+  const confirmationDataQuery = useQuery(
+    reactQueryKeys.project.mettings.getCommitesConfirmationModal,
+    mettingsProjectApi.confirmationDataModal,
+    {
+      enabled: false,
+    }
   );
+
+  const formatedData = confirmationDataQuery.data?.data || data;
+
+  const tableData = formatTableData(formatedData);
 
   return (
     <>

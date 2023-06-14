@@ -12,7 +12,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { grey, blue, red } from "@mui/material/colors";
 import TextField from "@mui/material/TextField";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { mettingsProjectApi } from "api/project/meetings-project-api";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
@@ -369,7 +369,7 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
         open={isOpenProjectList}
       >
         <CommiteMettingsProject
-          data={projectDataMutation.data?.data || []}
+          data={confirmationDataMutation.data?.data || []}
           onDoneTask={handleDoneSelectProject}
         />
       </FixedModal>
