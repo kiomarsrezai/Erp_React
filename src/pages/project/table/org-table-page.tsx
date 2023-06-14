@@ -22,13 +22,14 @@ import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import FixedTable from "components/data/table/fixed-table";
 import OrgProjectTableForm from "./org-table-form";
 import { GetSingleOrgProjectTableItemShape } from "types/data/project/org-project-type";
-import { IconButton, TextField } from "@mui/material";
+import { Chip, IconButton, TextField } from "@mui/material";
 import ProjectScaleInput from "components/sections/inputs/project-scale-input";
 import { DatePicker } from "@mui/x-date-pickers";
 import { changeInputHandler } from "helper/form-utils";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import { enqueueSnackbar } from "notistack";
 import { convertToCalenderDate } from "helper/date-utils";
+import { areaGeneralApi } from "api/general/area-general-api";
 
 function OrgProjectTablePage() {
   const [formData, setFormData] = useState({
@@ -66,7 +67,7 @@ function OrgProjectTablePage() {
     projectName: "",
     dateFrom: "",
     dateEnd: "",
-    // areaArray: "",
+    areaArray: "",
     projectScaleId: undefined,
   });
 
@@ -90,6 +91,7 @@ function OrgProjectTablePage() {
     setActionFormData({
       projectCode: "",
       projectName: "",
+      areaArray: "",
       dateFrom: new Date(),
       dateEnd: new Date(),
       projectScaleId: "",
@@ -139,6 +141,12 @@ function OrgProjectTablePage() {
       align: "left",
       name: "dateEndShamsi",
       width: "180px",
+    },
+    {
+      title: "مناطق",
+      align: "left",
+      name: "areas",
+      hidden: formData[orgProjectConfig.area] !== 10,
     },
     {
       title: "عملیات",
@@ -219,6 +227,7 @@ function OrgProjectTablePage() {
       dateFrom: convertToCalenderDate(row.dateFrom),
       dateEnd: convertToCalenderDate(row.dateEnd),
       projectScaleId: row.projectScaleId,
+      areaArray: row.areaArray,
     });
     setActiveIdUpdate(row.id);
   };
@@ -236,6 +245,28 @@ function OrgProjectTablePage() {
   };
 
   // action item
+  const areaData = useQuery(["area-data"], () => areaGeneralApi.getData(3));
+
+  const renderAreas = (item: GetSingleOrgProjectTableItemShape) => {
+    return (
+      <Box display={"flex"} flexWrap={"wrap"} gap={0.5}>
+        {item.areaArray
+          .split("-")
+          .filter((areaItem) => Boolean(areaItem))
+          .map((areaItem, i) => (
+            <Chip
+              size="small"
+              label={
+                areaData.data?.data.find((a) => a.id === Number(areaItem))
+                  ?.areaNameShort
+              }
+              key={i}
+            />
+          ))}
+      </Box>
+    );
+  };
+
   const onChange = (e: any) => {
     changeInputHandler(e, setActionFormData);
   };
@@ -285,6 +316,7 @@ function OrgProjectTablePage() {
         slotProps={{ textField: { size: "small" } }}
       />
     ),
+    areas: () => renderAreas(actionFormData),
     actions: (
       <>
         <IconButton onClick={clickActionDone} color="primary" size="small">
@@ -336,6 +368,7 @@ function OrgProjectTablePage() {
           // proctorName: (
           //   <span style={{ whiteSpace: "nowrap" }}>{item.proctorName}</span>
           // ),
+          areas: () => renderAreas(item),
           actions: () => actionBtn(item),
         };
       }
