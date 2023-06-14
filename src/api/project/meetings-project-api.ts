@@ -160,4 +160,15 @@ export const mettingsProjectApi = new (class extends BaseApi {
 
     return response.data;
   };
+
+  confirmationDelete = async (formdata: any) => {
+    const url = mettingsProjectUrl.confirmationDelete;
+
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      formdata
+    );
+
+    return response.data;
+  };
 })();

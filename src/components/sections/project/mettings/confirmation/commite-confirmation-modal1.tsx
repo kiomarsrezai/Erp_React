@@ -119,10 +119,19 @@ function CommiteConfirmationModal1(props: CommiteConfirmationModal1Props) {
   const [titleItemForDelete, setTitleItemForDelete] = useState("");
   const [activeIdUpdate, setActiveIdUpdate] = useState<null | number>(null);
 
+  const confirmationDeleteMutation = useMutation(
+    mettingsProjectApi.confirmationDelete,
+    {
+      onSuccess: () => {
+        onDoneTask();
+      },
+    }
+  );
+
   const handleConfrimDelete = () => {
-    // wbsDeleteMutation.mutate({
-    //   id: idItemForDelete,
-    // });
+    confirmationDeleteMutation.mutate({
+      id: idItemForDelete,
+    });
   };
 
   const handleClickDelete = (
