@@ -44,3 +44,13 @@ export interface GetSingleWbsUserListShape {
   lastName: "رضایی";
   bio: "مدیر پروژه";
 }
+
+// wbs
+export interface GetSingleCommiteDetailConfirmationModalShape {
+  id: number;
+  firstName: string;
+  lastName: string;
+  resposibility: string;
+  dateAccept: string;
+  dateAcceptShamsi: string;
+}

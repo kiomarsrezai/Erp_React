@@ -105,7 +105,6 @@ function MeetingsProjectPage() {
           </Stack>
         </Box>
       </Box>
-      {/* </Box> */}
     </AdminLayout>
   );
 }

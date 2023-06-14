@@ -220,7 +220,7 @@ function BudgetProposalPage() {
 
   const footerEditSum = sumFieldsInSingleItemData(
     proposalQuery.data?.data,
-    "editPublic",
+    "edit",
     (item: GetSingleProposalItemShape) => item.levelNumber === 1
   );
 

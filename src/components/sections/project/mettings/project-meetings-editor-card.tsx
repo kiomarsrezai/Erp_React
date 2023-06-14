@@ -30,6 +30,7 @@ import FixedModal from "components/ui/modal/fixed-modal";
 import CommiteMettingsProject from "./commite-mettings-project";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import CommiteWbsModal1 from "./wbs/commite-wbs-modal1";
+import CommiteConfirmationModal1 from "./confirmation/commite-confirmation-modal1";
 
 interface ProjectMeetingsEditorCardProps {
   commiteDetailItem?: GetSingleCommiteDetailModalShape | any;
@@ -188,6 +189,17 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
 
   const wbsDataMutation = useMutation(mettingsProjectApi.wbsDataModal);
 
+  // confirmation
+  const [isOpenConfirmationModal, setIsOpenConfirmationModal] = useState(false);
+  const handleClickConfirmation = () => {
+    confirmationDataMutation.mutate({ commiteDetailId: commiteDetailItem.id });
+    setIsOpenConfirmationModal(true);
+  };
+
+  const confirmationDataMutation = useMutation(
+    mettingsProjectApi.confirmationDataModal
+  );
+
   return (
     <>
       <Card
@@ -285,6 +297,7 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
                   color="primary"
                   disabled={insertMode}
                   fullWidth
+                  onClick={handleClickConfirmation}
                 >
                   تایید کنندگان
                 </Button>
@@ -318,6 +331,21 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
       >
         <CommiteWbsModal1
           data={wbsDataMutation.data?.data || []}
+          commiteDetailItem={commiteDetailItem}
+        />
+      </FixedModal>
+
+      {/* confrmition */}
+      <FixedModal
+        handleClose={() => setIsOpenConfirmationModal(false)}
+        open={isOpenConfirmationModal}
+        loading={confirmationDataMutation.isLoading}
+        title={`تاییدکنندگان - بند ${
+          commiteDetailItem?.[mettingsProjectConfig.row] || maxRow
+        }`}
+      >
+        <CommiteConfirmationModal1
+          data={confirmationDataMutation.data?.data || []}
           commiteDetailItem={commiteDetailItem}
         />
       </FixedModal>

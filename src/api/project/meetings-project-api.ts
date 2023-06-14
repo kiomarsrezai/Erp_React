@@ -3,6 +3,7 @@ import clientAxios from "config/axios-config";
 import { BaseApi } from "api/base-api";
 import { BaseApiResponseShape } from "types/base-type";
 import {
+  GetSingleCommiteDetailConfirmationModalShape,
   GetSingleCommiteDetailModalShape,
   GetSingleCommiteDetailProjectModalShape,
   GetSingleCommiteDetailWbsModalShape,
@@ -144,6 +145,18 @@ export const mettingsProjectApi = new (class extends BaseApi {
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleWbsUserListShape[]>
     >(mettingsProjectUrl.wbsUserList);
+
+    return response.data;
+  };
+
+  // confirmation
+  confirmationDataModal = async (formdata: any) => {
+    const url =
+      mettingsProjectUrl.confirmationData + this.joinFilterData(formdata);
+
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleCommiteDetailConfirmationModalShape[]>
+    >(url);
 
     return response.data;
   };
