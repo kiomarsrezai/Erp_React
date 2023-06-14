@@ -1,19 +1,14 @@
 import AdminLayout from "components/layout/admin-layout";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import ProjectOrgCard from "components/sections/project/project-org-card";
-import Draggable from "react-draggable";
-import ProjectOrgTools from "components/sections/project/project-org-tools";
 import AddIcon from "@mui/icons-material/Add";
 import CheckIcon from "@mui/icons-material/Check";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import CloseIcon from "@mui/icons-material/Close";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
+import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 
-import { grey } from "@mui/material/colors";
-import { Tree, TreeNode } from "react-organizational-chart";
 import { globalConfig } from "config/global-config";
 import { orgProjectApi } from "api/project/org-project-api";
 import { orgProjectConfig } from "config/features/project/org-project-config";
@@ -35,6 +30,7 @@ import { areaGeneralApi } from "api/general/area-general-api";
 import FixedModal from "components/ui/modal/fixed-modal";
 import OrgTableAreaModal from "components/sections/project/org-table/org-table-area-modal";
 import { GetSingleAreaShape } from "types/data/general/area-type";
+import ChartOrgTable from "components/sections/project/org-table/chart-org-table";
 
 function OrgProjectTablePage() {
   const [formData, setFormData] = useState({
@@ -370,8 +366,26 @@ function OrgProjectTablePage() {
     ),
   };
 
+  // org
+  const [isOpenOrgId, setIsOpenOrgId] = useState(false);
+  const [activeOrgRow, setActiveOrgRow] =
+    useState<GetSingleOrgProjectTableItemShape | null>(null);
+  const handleOpenOrg = (item: GetSingleOrgProjectTableItemShape) => {
+    setActiveOrgRow(item);
+    setIsOpenOrgId(true);
+  };
+
+  // action
   const actionBtn = (row: GetSingleOrgProjectTableItemShape) => (
     <Box display={"flex"} justifyContent={"center"}>
+      <IconButton
+        color="primary"
+        onClick={() => handleOpenOrg(row)}
+        size="small"
+      >
+        <OpenInFullIcon />
+      </IconButton>
+
       <IconButton
         color="primary"
         size="small"
@@ -447,6 +461,20 @@ function OrgProjectTablePage() {
           areaArray={activeAreaArray}
           allAreas={areaData.data?.data as GetSingleAreaShape[]}
           onDone={handleDoneAreaSelect}
+        />
+      </FixedModal>
+
+      {/* org modal */}
+      <FixedModal
+        open={isOpenOrgId}
+        handleClose={() => setIsOpenOrgId(false)}
+        maxWidth="97%"
+        maxHeight="97%"
+        dontCloseWithBox
+        title={`${activeOrgRow?.projectCode} - ${activeOrgRow?.projectName}`}
+      >
+        <ChartOrgTable
+          activeItem={activeOrgRow as GetSingleOrgProjectTableItemShape}
         />
       </FixedModal>
 
