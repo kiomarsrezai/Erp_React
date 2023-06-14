@@ -10,6 +10,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CloseIcon from "@mui/icons-material/Close";
 import ClearIcon from "@mui/icons-material/Clear";
+import SearchIcon from "@mui/icons-material/Search";
 
 import { grey } from "@mui/material/colors";
 import { Tree, TreeNode } from "react-organizational-chart";
@@ -77,15 +78,19 @@ function OrgProjectTablePage() {
 
   const clickActionDone = () => {
     if (isInsertMode) {
+      const newAreaId =
+        formData[orgProjectConfig.area] === 10
+          ? actionFormData.areaArray
+          : `-${formData[orgProjectConfig.area]}-`;
       insertMutation.mutate({
         ...actionFormData,
-        areaArray: `-${formData[orgProjectConfig.area]}-`,
+        areaArray: newAreaId,
       });
     } else {
       updateMutation.mutate({
         ...actionFormData,
         id: activeIdUpdate,
-        areaArray: `-${formData[orgProjectConfig.area]}-`,
+        areaArray: actionFormData.areaArray,
       });
     }
   };
@@ -291,7 +296,7 @@ function OrgProjectTablePage() {
             size="small"
             onClick={() => handleClickAreaModal(filteredAreasArray)}
           >
-            <EditIcon sx={{ fontSize: 16 }} />
+            <SearchIcon sx={{ fontSize: 16 }} />
           </Button>
         )}
       </Box>
