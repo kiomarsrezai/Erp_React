@@ -286,12 +286,14 @@ function OrgProjectTablePage() {
             key={i}
           />
         ))}
-        <Button
-          size="small"
-          onClick={() => handleClickAreaModal(filteredAreasArray)}
-        >
-          <EditIcon sx={{ fontSize: 16 }} />
-        </Button>
+        {!item.id && (
+          <Button
+            size="small"
+            onClick={() => handleClickAreaModal(filteredAreasArray)}
+          >
+            <EditIcon sx={{ fontSize: 16 }} />
+          </Button>
+        )}
       </Box>
     );
   };
