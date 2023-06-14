@@ -1,5 +1,6 @@
 import AdminLayout from "components/layout/admin-layout";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import ProjectOrgCard from "components/sections/project/project-org-card";
 import Draggable from "react-draggable";
 import ProjectOrgTools from "components/sections/project/project-org-tools";
@@ -20,7 +21,7 @@ import { useState } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import FixedTable from "components/data/table/fixed-table";
-import OrgProjectTableForm from "./org-table-form";
+import OrgProjectTableForm from "../../../components/sections/project/org-table/org-table-form";
 import { GetSingleOrgProjectTableItemShape } from "types/data/project/org-project-type";
 import { Chip, IconButton, TextField } from "@mui/material";
 import ProjectScaleInput from "components/sections/inputs/project-scale-input";
@@ -30,6 +31,9 @@ import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import { enqueueSnackbar } from "notistack";
 import { convertToCalenderDate } from "helper/date-utils";
 import { areaGeneralApi } from "api/general/area-general-api";
+import FixedModal from "components/ui/modal/fixed-modal";
+import OrgTableAreaModal from "components/sections/project/org-table/org-table-area-modal";
+import { GetSingleAreaShape } from "types/data/general/area-type";
 
 function OrgProjectTablePage() {
   const [formData, setFormData] = useState({
@@ -244,25 +248,50 @@ function OrgProjectTablePage() {
     // });
   };
 
+  // area modal
+  const [isOpenAreaModal, setIsOpenAreaModal] = useState(false);
+  const [activeAreaArray, setActiveAreaArray] = useState<string[]>([]);
+
+  const handleClickAreaModal = (areaArray: string[]) => {
+    setActiveAreaArray(areaArray);
+    setIsOpenAreaModal(true);
+  };
+
+  const handleDoneAreaSelect = (newAreas: string) => {
+    setIsOpenAreaModal(false);
+
+    setActionFormData((state: any) => ({
+      ...state,
+      areaArray: newAreas,
+    }));
+  };
+
   // action item
   const areaData = useQuery(["area-data"], () => areaGeneralApi.getData(3));
 
   const renderAreas = (item: GetSingleOrgProjectTableItemShape) => {
+    const filteredAreasArray = item.areaArray
+      .split("-")
+      .filter((areaItem) => Boolean(areaItem));
+
     return (
       <Box display={"flex"} flexWrap={"wrap"} gap={0.5}>
-        {item.areaArray
-          .split("-")
-          .filter((areaItem) => Boolean(areaItem))
-          .map((areaItem, i) => (
-            <Chip
-              size="small"
-              label={
-                areaData.data?.data.find((a) => a.id === Number(areaItem))
-                  ?.areaNameShort
-              }
-              key={i}
-            />
-          ))}
+        {filteredAreasArray.map((areaItem, i) => (
+          <Chip
+            size="small"
+            label={
+              areaData.data?.data.find((a) => a.id === Number(areaItem))
+                ?.areaNameShort
+            }
+            key={i}
+          />
+        ))}
+        <Button
+          size="small"
+          onClick={() => handleClickAreaModal(filteredAreasArray)}
+        >
+          <EditIcon sx={{ fontSize: 16 }} />
+        </Button>
       </Box>
     );
   };
@@ -401,6 +430,18 @@ function OrgProjectTablePage() {
           // footer={tableFooter}
         />
       </AdminLayout>
+
+      {/* area modal */}
+      <FixedModal
+        open={isOpenAreaModal}
+        handleClose={() => setIsOpenAreaModal(false)}
+      >
+        <OrgTableAreaModal
+          areaArray={activeAreaArray}
+          allAreas={areaData.data?.data as GetSingleAreaShape[]}
+          onDone={handleDoneAreaSelect}
+        />
+      </FixedModal>
 
       {/* delete  */}
       <ConfrimProcessModal
