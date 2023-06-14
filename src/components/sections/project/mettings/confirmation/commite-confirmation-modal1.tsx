@@ -207,8 +207,6 @@ function CommiteConfirmationModal1(props: CommiteConfirmationModal1Props) {
     mettingsProjectApi.confirmationDataModal,
     {
       onSuccess(data) {
-        console.log(data);
-
         queryClient.setQueryData(
           reactQueryKeys.project.mettings.getCommitesConfirmationModal,
           data

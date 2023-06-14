@@ -10,7 +10,7 @@ import {
 import FixedModal from "components/ui/modal/fixed-modal";
 import SelectUser from "components/sections/select-user";
 import { ChangeEvent, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { mettingsProjectApi } from "api/project/meetings-project-api";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
@@ -24,6 +24,7 @@ import { changeInputHandler } from "helper/form-utils";
 import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { convertToCalenderDate } from "helper/date-utils";
+import { reactQueryKeys } from "config/react-query-keys-config";
 
 interface CommiteWbsModal1Props {
   data: GetSingleCommiteDetailWbsModalShape[];
@@ -162,6 +163,7 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
   };
 
   //   data
+
   const wbsDeleteMutation = useMutation(mettingsProjectApi.wbsDelete, {
     onSuccess: () => {
       onDoneTask();
@@ -344,9 +346,25 @@ function CommiteWbsModal1(props: CommiteWbsModal1Props) {
     return formatedData;
   };
 
-  const wbsDataMutation = useMutation(mettingsProjectApi.wbsDataModal);
+  const queryClient = useQueryClient();
+  const wbsDataMutation = useMutation(mettingsProjectApi.wbsDataModal, {
+    onSuccess(data) {
+      queryClient.setQueryData(
+        reactQueryKeys.project.mettings.getCommitesWbsModal,
+        data
+      );
+    },
+  });
 
-  const tableData = formatTableData(wbsDataMutation.data?.data || data);
+  const wbsDataQuery = useQuery(
+    reactQueryKeys.project.mettings.getCommitesWbsModal,
+    mettingsProjectApi.wbsDataModal,
+    {
+      enabled: false,
+    }
+  );
+
+  const tableData = formatTableData(wbsDataQuery.data?.data || data);
 
   return (
     <>
