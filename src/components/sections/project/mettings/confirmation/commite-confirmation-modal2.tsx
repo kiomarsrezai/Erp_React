@@ -20,19 +20,20 @@ import defaultProfileImg from "assets/images/default-profile.png";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import FixedTable from "components/data/table/fixed-table";
 import {
+  GetSingleCommiteDetailConfirmationModalShape,
   GetSingleCommiteDetailWbsModalShape,
   GetSingleWbsUserListShape,
 } from "types/data/project/commite-project-type";
 
-interface CommiteWbsModal2Props {
+interface CommiteConfirmationModal2Props {
   onSelectUser: (users: number[]) => void;
-  ignoreItems: GetSingleCommiteDetailWbsModalShape[];
+  ignoreItems: GetSingleCommiteDetailConfirmationModalShape[];
 }
-function CommiteWbsModal2(props: CommiteWbsModal2Props) {
+function CommiteConfirmationModal2(props: CommiteConfirmationModal2Props) {
   const { onSelectUser, ignoreItems } = props;
 
   const usersQuery = useQuery(
-    ["wbs-user-list"],
+    ["confirmation-user-list"],
     mettingsProjectApi.getWbsUserList
   );
   const [searchText, setSearchText] = useState("");
@@ -181,4 +182,4 @@ function CommiteWbsModal2(props: CommiteWbsModal2Props) {
   );
 }
 
-export default CommiteWbsModal2;
+export default CommiteConfirmationModal2;

@@ -171,4 +171,15 @@ export const mettingsProjectApi = new (class extends BaseApi {
 
     return response.data;
   };
+
+  confirmationInsert = async (formdata: any) => {
+    const url = mettingsProjectUrl.confirmationInsert;
+
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      formdata
+    );
+
+    return response.data;
+  };
 })();

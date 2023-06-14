@@ -25,6 +25,7 @@ export const mettingsProjectUrl = {
   // confirmation
   confirmationData: "CommiteApi/CommiteDetailAcceptRead",
   confirmationDelete: "CommiteApi/CommiteDetailAcceptDelete",
+  confirmationInsert: "CommiteApi/CommiteDetailAcceptInsert",
 };
 
 export const COMMITE_METTINGS_COMBO_PROJECT_URL = "CommiteApi/CommiteKindCombo";

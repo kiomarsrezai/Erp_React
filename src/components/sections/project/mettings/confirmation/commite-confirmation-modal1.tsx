@@ -6,25 +6,16 @@ import { TableHeadShape } from "types/table-type";
 import {
   GetSingleCommiteDetailConfirmationModalShape,
   GetSingleCommiteDetailModalShape,
-  GetSingleCommiteDetailWbsModalShape,
 } from "types/data/project/commite-project-type";
 import FixedModal from "components/ui/modal/fixed-modal";
-import SelectUser from "components/sections/select-user";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { mettingsProjectApi } from "api/project/meetings-project-api";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
-import CommiteWbsModal2 from "./commite-wbs-modal2";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
-import { changeInputHandler } from "helper/form-utils";
-import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { convertToCalenderDate } from "helper/date-utils";
+import CommiteConfirmationModal2 from "./commite-confirmation-modal2";
 
 interface CommiteConfirmationModal1Props {
   data: GetSingleCommiteDetailConfirmationModalShape[];
@@ -62,9 +53,12 @@ function CommiteConfirmationModal1(props: CommiteConfirmationModal1Props) {
   //   modal
   const [isOpenSearchUserModal, setIsOpenSearchUserModal] = useState(false);
 
-  const commiteWbsInsertMutation = useMutation(mettingsProjectApi.wbsInsert, {
-    onSuccess: () => {},
-  });
+  const commiteConfirmationInsertMutation = useMutation(
+    mettingsProjectApi.confirmationInsert,
+    {
+      onSuccess: () => {},
+    }
+  );
 
   const tableHeadGroup: TableHeadGroupShape = [
     {
@@ -101,7 +95,7 @@ function CommiteConfirmationModal1(props: CommiteConfirmationModal1Props) {
     try {
       await Promise.all(
         shouldUpdateItems.map((item: any) => {
-          return commiteWbsInsertMutation.mutateAsync({
+          return commiteConfirmationInsertMutation.mutateAsync({
             commiteDetailId: commiteDetailItem.id,
             userId: item,
           });
@@ -194,10 +188,10 @@ function CommiteConfirmationModal1(props: CommiteConfirmationModal1Props) {
         maxWidth="md"
         maxHeight="70%"
       >
-        {/* <CommiteWbsModal2
+        <CommiteConfirmationModal2
           onSelectUser={handleSelectUser}
           ignoreItems={confirmationDataMutation.data?.data || data}
-        /> */}
+        />
       </FixedModal>
 
       {/* delete  */}
