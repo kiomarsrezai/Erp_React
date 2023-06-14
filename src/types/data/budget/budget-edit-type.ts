@@ -1,5 +1,5 @@
 export interface GetSingleBudgetEditItemShape {
-  id: 0;
+  id: number;
   budgetDetailId: 0;
   code: "string";
   description: "string";

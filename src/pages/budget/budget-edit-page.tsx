@@ -303,6 +303,7 @@ function BudgetEditPage() {
       "textcolor-code": item.id === null ? "blue" : "",
       "textcolor-mosavabPublic": item.id === null ? "blue" : "",
       "bgcolor-expense": item.expense > item.mosavabPublic && "#d7a2a2",
+      bgcolor: item.id === 1000 && "rgb(255,255,153,var(--hover-color))",
       actions: () => actionButtons(item),
     }));
 
@@ -321,11 +322,31 @@ function BudgetEditPage() {
   const tableData = formatTableData(data);
 
   // footer
-  const sumMosavabPublic = sumFieldsInSingleItemData(data, "mosavabPublic");
-  const sumIncrease = sumFieldsInSingleItemData(data, "increase");
-  const sumDecrease = sumFieldsInSingleItemData(data, "decrease");
-  const sumEdit = sumFieldsInSingleItemData(data, "edit");
-  const sumExpense = sumFieldsInSingleItemData(data, "expense");
+  const sumMosavabPublic = sumFieldsInSingleItemData(
+    data,
+    "mosavabPublic",
+    (item: GetSingleBudgetEditItemShape) => item.id !== 1000
+  );
+  const sumIncrease = sumFieldsInSingleItemData(
+    data,
+    "increase",
+    (item: GetSingleBudgetEditItemShape) => item.id !== 1000
+  );
+  const sumDecrease = sumFieldsInSingleItemData(
+    data,
+    "decrease",
+    (item: GetSingleBudgetEditItemShape) => item.id !== 1000
+  );
+  const sumEdit = sumFieldsInSingleItemData(
+    data,
+    "edit",
+    (item: GetSingleBudgetEditItemShape) => item.id !== 1000
+  );
+  const sumExpense = sumFieldsInSingleItemData(
+    data,
+    "expense",
+    (item: GetSingleBudgetEditItemShape) => item.id !== 1000
+  );
   const tableFooter = {
     number: "جمع",
     "colspan-number": 3,
