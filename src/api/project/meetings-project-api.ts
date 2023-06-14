@@ -182,4 +182,15 @@ export const mettingsProjectApi = new (class extends BaseApi {
 
     return response.data;
   };
+
+  confirmationApprove = async (formdata: any) => {
+    const url = mettingsProjectUrl.confirmationApprove;
+
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      formdata
+    );
+
+    return response.data;
+  };
 })();

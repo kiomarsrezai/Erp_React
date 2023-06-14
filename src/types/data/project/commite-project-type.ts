@@ -48,6 +48,7 @@ export interface GetSingleWbsUserListShape {
 // wbs
 export interface GetSingleCommiteDetailConfirmationModalShape {
   id: number;
+  userId: number;
   firstName: string;
   lastName: string;
   resposibility: string;

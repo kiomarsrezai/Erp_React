@@ -14,8 +14,10 @@ import { mettingsProjectApi } from "api/project/meetings-project-api";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ApprovalIcon from "@mui/icons-material/Approval";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import CommiteConfirmationModal2 from "./commite-confirmation-modal2";
+import userStore from "hooks/store/user-store";
 
 interface CommiteConfirmationModal1Props {
   data: GetSingleCommiteDetailConfirmationModalShape[];
@@ -138,16 +140,50 @@ function CommiteConfirmationModal1(props: CommiteConfirmationModal1Props) {
     setIsOpenConfrimDelete(true);
   };
 
+  // aprove
+  const confirmationApproveMutation = useMutation(
+    mettingsProjectApi.confirmationApprove,
+    {
+      onSuccess: () => {
+        onDoneTask();
+      },
+    }
+  );
+
+  const handleClickApprove = (
+    item: GetSingleCommiteDetailConfirmationModalShape
+  ) => {
+    confirmationApproveMutation.mutate({
+      id: item.id,
+    });
+  };
+
   //   actions
-  const actionBtn = (row: GetSingleCommiteDetailConfirmationModalShape) => (
+  const userState = userStore();
+
+  const actionBtn = (item: GetSingleCommiteDetailConfirmationModalShape) => (
     <Box display={"flex"} justifyContent={"center"}>
-      <IconButton
-        color="error"
-        onClick={() => handleClickDelete(row)}
-        size="small"
-      >
-        <DeleteIcon />
-      </IconButton>
+      {!item.dateAccept && (
+        <>
+          <IconButton
+            color="error"
+            onClick={() => handleClickDelete(item)}
+            size="small"
+          >
+            <DeleteIcon />
+          </IconButton>
+
+          {userState.id === item.userId && (
+            <IconButton
+              color="primary"
+              onClick={() => handleClickApprove(item)}
+              size="small"
+            >
+              <ApprovalIcon />
+            </IconButton>
+          )}
+        </>
+      )}
     </Box>
   );
 
@@ -158,6 +194,7 @@ function CommiteConfirmationModal1(props: CommiteConfirmationModal1Props) {
       ...item,
       number: i + 1,
       name: `${item.firstName} ${item.lastName}`,
+      dateAcceptShamsi: item.dateAccept ? item.dateAcceptShamsi : "",
       actions: () => actionBtn(item),
     }));
 
