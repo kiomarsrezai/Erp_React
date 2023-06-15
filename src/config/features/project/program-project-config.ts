@@ -11,4 +11,5 @@ export const programProjectUrls = {
   data: "ProgramApi/ProgramOperation",
   scale: "ProjectApi/ProjectScaleCom",
   update: "ProgramApi/ProgramOperationUpdate",
+  delete: "ProgramApi/ProgramOperationDelete",
 };

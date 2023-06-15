@@ -52,4 +52,13 @@ export const programProjectApi = new (class extends BaseApi {
 
     return response.data;
   };
+
+  deleteItem = async (formData: any) => {
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      programProjectUrls.delete,
+      formData
+    );
+
+    return response.data;
+  };
 })();

@@ -7,12 +7,16 @@ import ProgramOprationModal from "components/sections/project/program/program-op
 import FixedModal from "components/ui/modal/fixed-modal";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
-
+import DeleteIcon from "@mui/icons-material/Delete";
 import { programProjectConfig } from "config/features/project/program-project-config";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { useState, ReactNode } from "react";
 import { GetSingleProgramDataShape } from "types/data/project/program-project-type";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
+import { Box } from "@mui/material";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -71,14 +75,53 @@ function ProgramOperationProjectPage() {
 
   const handleDoneTask = () => {
     setIsOpenEditModal(false);
+    setIsOpenDeleteConfrim(false);
     getDataMutation.mutate(formData);
+  };
+
+  // delete
+  const [isOpenDeleteConfrim, setIsOpenDeleteConfrim] = useState(false);
+  const [activeDeleteItem, setActiveDeleteItem] =
+    useState<null | GetSingleProgramDataShape>(null);
+
+  const onConfrimDelete = () => {
+    deleteMutation.mutate({
+      id: activeDeleteItem?.id,
+    });
+  };
+
+  const deleteMutation = useMutation(programProjectApi.deleteItem, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+      handleDoneTask();
+    },
+  });
+
+  const handleOpenDeleteConfrim = (item: GetSingleProgramDataShape) => {
+    setIsOpenDeleteConfrim(true);
+    setActiveDeleteItem(item);
   };
 
   // actions
   const actionButtons = (row: GetSingleProgramDataShape) => (
-    <IconButton size="small" color="primary" onClick={() => openEditModal(row)}>
-      <EditIcon />
-    </IconButton>
+    <Box display={"flex"} justifyContent={"center"}>
+      <IconButton
+        size="small"
+        color="error"
+        onClick={() => handleOpenDeleteConfrim(row)}
+      >
+        <DeleteIcon />
+      </IconButton>
+      <IconButton
+        size="small"
+        color="primary"
+        onClick={() => openEditModal(row)}
+      >
+        <EditIcon />
+      </IconButton>
+    </Box>
   );
 
   // data
@@ -148,6 +191,14 @@ function ProgramOperationProjectPage() {
           footer={tableFooter}
         />
       </AdminLayout>
+
+      {/* confrim delete */}
+      <ConfrimProcessModal
+        onCancel={() => setIsOpenDeleteConfrim(false)}
+        onConfrim={onConfrimDelete}
+        open={isOpenDeleteConfrim}
+        text={`آیا مایل به حذف ${activeDeleteItem?.projectCode} - ${activeDeleteItem?.projectName} هستید ؟`}
+      />
 
       {/* modal */}
       <FixedModal
