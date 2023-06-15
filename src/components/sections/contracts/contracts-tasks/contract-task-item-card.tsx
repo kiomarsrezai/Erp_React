@@ -11,6 +11,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
 import { contractsTasksConfig } from "config/features/contracts/conreacts-tasks-config";
 import { changeInputHandler } from "helper/form-utils";
+import { DatePicker } from "@mui/x-date-pickers";
 
 interface ContractTaskItemCardProps {
   formData: any;
@@ -49,7 +50,7 @@ function ContractTaskItemCard(props: ContractTaskItemCardProps) {
               />
             </Grid>
             <Grid sm={3}>
-              <TextField
+              {/* <TextField
                 id="date-from-input"
                 label="تاریخ شروع"
                 variant="outlined"
@@ -58,10 +59,23 @@ function ContractTaskItemCard(props: ContractTaskItemCardProps) {
                 name={contractsTasksConfig.date_from}
                 // onChange={handleChangeTextFields}
                 fullWidth
+              /> */}
+              <DatePicker
+                // label="Date Picker"
+                // editFormData.dateStart
+                value={new Date(formData[contractsTasksConfig.date_from])}
+                label="تاریخ شروع"
+                onChange={(newValue) =>
+                  setFormData((state: any) => ({
+                    ...state,
+                    [contractsTasksConfig.date_from]: newValue,
+                  }))
+                }
+                slotProps={{ textField: { size: "small", fullWidth: true } }}
               />
             </Grid>
             <Grid sm={3}>
-              <TextField
+              {/* <TextField
                 id="date-end-input"
                 label="تاریخ پایان"
                 variant="outlined"
@@ -69,6 +83,19 @@ function ContractTaskItemCard(props: ContractTaskItemCardProps) {
                 value={formData[contractsTasksConfig.date_end]}
                 name={contractsTasksConfig.date_end}
                 fullWidth
+              /> */}
+              <DatePicker
+                // label="Date Picker"
+                // editFormData.dateStart
+                label="تاریخ پایان"
+                value={new Date(formData[contractsTasksConfig.date_end])}
+                onChange={(newValue) =>
+                  setFormData((state: any) => ({
+                    ...state,
+                    [contractsTasksConfig.date_end]: newValue,
+                  }))
+                }
+                slotProps={{ textField: { size: "small", fullWidth: true } }}
               />
             </Grid>
             <Grid sm={3}>

@@ -27,7 +27,10 @@ import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import { checkHaveValue } from "helper/form-utils";
 import { proposalConfig } from "config/features/budget/proposal-config";
-import { contractsTasksConfig } from "config/features/contracts/conreacts-tasks-config";
+import {
+  contractsTasksConfig,
+  contractsTasksFormDefaultValue,
+} from "config/features/contracts/conreacts-tasks-config";
 import { contractsTasksApi } from "api/contracts/contracts-tasks-api";
 import ContractsSearchModal from "./contracts-search-modal";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
@@ -84,17 +87,12 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
   };
 
   const onConfrimClearForm = () => {
-    // setFormData({
-    //   ...creditRequestFormDefaultValue,
-    //   [creditRequestConfig.execute_departman_id]:
-    //     formData[creditRequestConfig.execute_departman_id],
-    //   [creditRequestConfig.year]: formData[creditRequestConfig.year],
-    //   [creditRequestConfig.area]: formData[creditRequestConfig.area],
-    // });
-    // setFirstStepCrossed(false);
-    // onClearCallback();
+    setFormData({
+      ...contractsTasksFormDefaultValue,
+      [contractsTasksConfig.area]: formData[contractsTasksConfig.area],
+    });
+
     setShowConfrimClearForm(false);
-    alert("should clear");
   };
 
   const onCancelClearForm = () => {
