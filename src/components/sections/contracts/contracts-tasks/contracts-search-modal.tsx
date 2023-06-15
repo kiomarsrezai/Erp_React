@@ -3,12 +3,16 @@ import IconButton from "@mui/material/IconButton";
 import CheckIcon from "@mui/icons-material/Check";
 import { GetSingleSearchContractTaskItemShape } from "types/data/contracts/contracts-tasks-type";
 import { TableHeadShape } from "types/table-type";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { contractsTasksApi } from "api/contracts/contracts-tasks-api";
+import { reactQueryKeys } from "config/react-query-keys-config";
 
 interface ContractsSearchModalProps {
   data: GetSingleSearchContractTaskItemShape[];
+  onClose: () => void;
 }
 function ContractsSearchModal(props: ContractsSearchModalProps) {
-  const { data } = props;
+  const { data, onClose } = props;
 
   const tableHeads: TableHeadShape = [
     {
@@ -38,13 +42,17 @@ function ContractsSearchModal(props: ContractsSearchModalProps) {
   ];
 
   // table data
-  const handleClickCheckIcon = (row: any) => {
-    // onSelectItem({
-    //   date: row.dates,
-    //   code: row.code,
-    //   commite: "test",
-    //   id: row.id,
-    // });
+  const queryClient = useQueryClient();
+  const baseDataMutation = useMutation(contractsTasksApi.getData, {
+    onSuccess(data) {
+      queryClient.setQueryData(reactQueryKeys.contracts.tasks.getData, data);
+      onClose();
+    },
+  });
+  const handleClickCheckIcon = (item: GetSingleSearchContractTaskItemShape) => {
+    baseDataMutation.mutate({
+      id: item.id,
+    });
   };
 
   const actionButtons = (row: GetSingleSearchContractTaskItemShape) => (

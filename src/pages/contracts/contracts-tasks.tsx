@@ -52,6 +52,7 @@ function ContractsTasks() {
             overflow: "auto",
           }}
         >
+          {JSON.stringify(contractsQuery.data?.data)}
           {/* <Stack p={2} spacing={2}>
             {insertMode && (
               <ProjectMeetingsEditorCard

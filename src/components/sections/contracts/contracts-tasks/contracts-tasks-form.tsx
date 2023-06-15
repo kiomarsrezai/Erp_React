@@ -100,7 +100,10 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
         title="انتخاب قرارداد"
         loading={submitMutation.isLoading}
       >
-        <ContractsSearchModal data={submitMutation.data?.data || []} />
+        <ContractsSearchModal
+          data={submitMutation.data?.data || []}
+          onClose={() => setIsOpenSearchModal(false)}
+        />
       </FixedModal>
     </>
   );
