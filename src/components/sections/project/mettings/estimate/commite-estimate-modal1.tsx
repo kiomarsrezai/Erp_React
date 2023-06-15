@@ -25,6 +25,7 @@ import { changeInputHandler } from "helper/form-utils";
 import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";
 import { convertToCalenderDate } from "helper/date-utils";
 import { reactQueryKeys } from "config/react-query-keys-config";
+import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 
 interface CommiteEstimateModal1Props {
   data: GetSingleCommiteDetailEstimateModalShape[];
@@ -39,39 +40,35 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
       name: "number",
     },
     {
-      title: "اسم",
-      name: "name",
-      align: "left",
-    },
-    {
       title: "شرح",
       name: "description",
-      split: true,
-      align: "left",
-      width: "250px",
-    },
-    {
-      title: "مسولیت",
-      name: "responsibility",
-      split: true,
       align: "left",
     },
     {
-      title: "تاریخ شروع",
-      name: "dateStart",
-      percent: true,
+      title: "تعداد",
+      name: "quantity",
+      split: true,
+      width: "150px",
+      align: "left",
+    },
+    {
+      title: "نرخ",
+      name: "price",
+      split: true,
+      align: "left",
       width: "150px",
     },
     {
-      title: "تاریخ پایان",
+      title: "قیمت",
       align: "left",
-      name: "dateEnd",
+      name: "amount",
       split: true,
       width: "150px",
     },
     {
       title: "عملیات",
       name: "actions",
+      width: "150px",
     },
   ];
 
@@ -97,7 +94,7 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
   ];
 
   const onDoneTask = () => {
-    wbsDataMutation.mutate({ commiteDetailId: commiteDetailItem.id });
+    estimateDataMutation.mutate({ commiteDetailId: commiteDetailItem.id });
     enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
       variant: "success",
     });
@@ -142,9 +139,7 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
   const [activeIdUpdate, setActiveIdUpdate] = useState<null | number>(null);
 
   const handleClickDelete = (row: GetSingleCommiteDetailEstimateModalShape) => {
-    setTitleItemForDelete(
-      `آیا مایل به حذف  ${"row.firstName"} ${"row.lastName"} هستید؟`
-    );
+    setTitleItemForDelete(`آیا مایل به حذف  ${row.description} هستید؟`);
     setIdItemForDelete(row.id);
     setIsOpenConfrimDelete(true);
   };
@@ -163,15 +158,17 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
   };
 
   //   data
-
-  const wbsDeleteMutation = useMutation(mettingsProjectApi.wbsDelete, {
-    onSuccess: () => {
-      onDoneTask();
-    },
-  });
+  const estimateDeleteMutation = useMutation(
+    mettingsProjectApi.estimateDelete,
+    {
+      onSuccess: () => {
+        onDoneTask();
+      },
+    }
+  );
 
   const handleConfrimDelete = () => {
-    wbsDeleteMutation.mutate({
+    estimateDeleteMutation.mutate({
       id: idItemForDelete,
     });
   };
@@ -341,7 +338,7 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
       // dateEnd: () => renderDateEnd(item),
       // description: () => renderDescription(item),
       // name: `${item.firstName} ${item.lastName}`,
-      // number: i + 1,
+      number: i + 1,
       actions: () => actionBtn(item),
     }));
 
@@ -349,14 +346,17 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
   };
 
   const queryClient = useQueryClient();
-  const wbsDataMutation = useMutation(mettingsProjectApi.wbsDataModal, {
-    onSuccess(data) {
-      queryClient.setQueryData(
-        reactQueryKeys.project.mettings.getCommitesWbsModal,
-        data
-      );
-    },
-  });
+  const estimateDataMutation = useMutation(
+    mettingsProjectApi.estimateDataModal,
+    {
+      onSuccess(data) {
+        queryClient.setQueryData(
+          reactQueryKeys.project.mettings.getCommitesEstimateModal,
+          data
+        );
+      },
+    }
+  );
 
   const estimateDataQuery = useQuery(
     reactQueryKeys.project.mettings.getCommitesEstimateModal,
@@ -368,12 +368,26 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
 
   const tableData = formatTableData(estimateDataQuery.data?.data || data);
 
+  // footer
+  const sumAmount = sumFieldsInSingleItemData(data, "amount");
+
+  const tableFooter: any = {
+    number: "جمع",
+    "colspan-number": 4,
+    description: null,
+    quantity: null,
+    price: null,
+    amount: sumAmount,
+    actions: <></>,
+  };
+
   return (
     <>
       <FixedTable
         heads={tableHeads}
         headGroups={tableHeadGroup}
         data={tableData}
+        footer={tableFooter}
         notFixed
       />
 
