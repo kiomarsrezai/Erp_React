@@ -40,6 +40,7 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
       description: "",
       price: "",
       quantity: "",
+      amount: "",
     });
     setIsInsertMode((state) => !state);
     setActiveIdUpdate(null);
@@ -56,6 +57,7 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
         </div>
       ),
       name: "number",
+      width: "150px",
     },
     {
       title: "شرح",
@@ -91,63 +93,13 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
   ];
 
   //   modal
-  const [isOpenSearchUserModal, setIsOpenSearchUserModal] = useState(false);
-
-  const commiteWbsInsertMutation = useMutation(mettingsProjectApi.wbsInsert, {
-    onSuccess: () => {},
-  });
-
-  const tableHeadGroup: TableHeadGroupShape = [
-    {
-      title: (
-        <IconButton
-          color="primary"
-          onClick={() => setIsOpenSearchUserModal(true)}
-        >
-          <AddIcon />
-        </IconButton>
-      ),
-      colspan: 7,
-    },
-  ];
-
   const onDoneTask = () => {
     estimateDataMutation.mutate({ commiteDetailId: commiteDetailItem.id });
     enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
       variant: "success",
     });
-    setIsOpenSearchUserModal(false);
     setIsOpenConfrimDelete(false);
     setActiveIdUpdate(null);
-  };
-
-  const handleSelectUser = async (users: any) => {
-    // commiteWbsInsertMutation.mutate({
-    //   commiteDetailId: commiteDetailItem.id,
-    //   userId: user.id,
-    // });
-    // setIsOpenSearchUserModal(false);
-
-    let shouldUpdateItems: any = [];
-    for (const key in users) {
-      const value = users?.[key];
-      if (value === true) {
-        shouldUpdateItems.push(+key);
-      }
-    }
-    try {
-      await Promise.all(
-        shouldUpdateItems.map((item: any) => {
-          return commiteWbsInsertMutation.mutateAsync({
-            commiteDetailId: commiteDetailItem.id,
-            userId: item,
-          });
-        })
-      );
-    } catch {
-      return onDoneTask();
-    }
-    onDoneTask();
   };
 
   // edit
@@ -163,10 +115,11 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
   };
 
   const openEditFunctionality = (row: any) => {
-    setEditFormData({
+    setActionFormData({
       description: row.description,
-      dateStart: convertToCalenderDate(row.dateStart),
-      dateEnd: convertToCalenderDate(row.dateEnd),
+      price: row.price,
+      quantity: row.quantity,
+      amount: row.amount,
     });
     setActiveIdUpdate(row.id);
   };
@@ -197,12 +150,6 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
       onDoneTask();
     },
   });
-  const onSubmitEditFunctionality = () => {
-    updateWbsMutation.mutate({
-      id: activeIdUpdate,
-      ...editFormData,
-    });
-  };
 
   // action mode
   const [isInsertMode, setIsInsertMode] = useState(false);
@@ -227,6 +174,7 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
     description: "",
     price: "",
     quantity: "",
+    amount: "",
   });
 
   const clickActionDone = () => {
@@ -260,6 +208,11 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
         value={actionFormData.description}
         onChange={onChange}
         autoComplete="off"
+        inputProps={{
+          sx: {
+            height: "17px",
+          },
+        }}
         fullWidth
       />
     ),
@@ -274,6 +227,11 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
         value={actionFormData.quantity}
         onChange={onChange}
         autoComplete="off"
+        inputProps={{
+          sx: {
+            height: "17px",
+          },
+        }}
         fullWidth
       />
     ),
@@ -288,9 +246,15 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
         value={actionFormData.price}
         onChange={onChange}
         autoComplete="off"
+        inputProps={{
+          sx: {
+            height: "17px",
+          },
+        }}
         fullWidth
       />
     ),
+    amount: actionFormData.amount,
     actions: (
       <>
         <IconButton onClick={clickActionDone} color="primary" size="small">
@@ -329,28 +293,20 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
     </Box>
   );
 
-  const [editFormData, setEditFormData] = useState<any>({
-    description: "",
-    dateStart: "",
-    dateEnd: "",
-  });
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    changeInputHandler(e, setEditFormData);
-  };
-
   const formatTableData = (
     unFormatData: GetSingleCommiteDetailEstimateModalShape[]
   ): any[] => {
-    const formatedData: any[] | any = unFormatData.map((item, i) => ({
-      ...item,
-      // dateStart: () => renderDateStart(item),
-      // dateEnd: () => renderDateEnd(item),
-      // description: () => renderDescription(item),
-      // name: `${item.firstName} ${item.lastName}`,
-      number: i + 1,
-      actions: () => actionBtn(item),
-    }));
+    const formatedData: any[] = unFormatData.map((item, i) => {
+      if (activeIdUpdate === item.id) {
+        return actionItem;
+      } else {
+        return {
+          ...item,
+          number: i + 1,
+          actions: () => actionBtn(item),
+        };
+      }
+    });
 
     return formatedData;
   };
