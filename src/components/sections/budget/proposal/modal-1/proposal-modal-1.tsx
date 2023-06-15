@@ -216,17 +216,21 @@ function ProposalModal1(props: ProposalModal1Props) {
   });
 
   const [activeIdUpdate, setActiveIdUpdate] = useState<null | number>(null);
+  const [activeRowUpdate, setActiveRowUpdate] =
+    useState<null | GetSingleProposalItemShape>(null);
   const [editMosavab, setEditMosavab] = useState(0);
 
   const onSubmitEditFunctionality = () => {
     editMutation.mutate({
       mosavabPublic: editMosavab,
       [proposalConfig.ID]: activeIdUpdate,
+      code: activeRowUpdate?.code,
     });
   };
 
   const openEditRowInline = (row: GetSingleProposalItemShape) => {
     setEditMosavab(row.mosavab);
+    setActiveRowUpdate(row);
     setActiveIdUpdate(row.id);
   };
 
