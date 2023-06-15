@@ -219,17 +219,19 @@ function ProposalModal1(props: ProposalModal1Props) {
   const [activeRowUpdate, setActiveRowUpdate] =
     useState<null | GetSingleProposalItemShape>(null);
   const [editMosavab, setEditMosavab] = useState(0);
+  const [editCode, setEditCode] = useState("0");
 
   const onSubmitEditFunctionality = () => {
     editMutation.mutate({
       mosavabPublic: editMosavab,
       [proposalConfig.ID]: activeIdUpdate,
-      code: activeRowUpdate?.code,
+      code: editCode,
     });
   };
 
   const openEditRowInline = (row: GetSingleProposalItemShape) => {
     setEditMosavab(row.mosavab);
+    setEditCode(row.code);
     setActiveRowUpdate(row);
     setActiveIdUpdate(row.id);
   };
@@ -311,6 +313,31 @@ function ProposalModal1(props: ProposalModal1Props) {
     }
   };
 
+  const renderCodeDepartman = (row: any) => {
+    if (row.id === activeIdUpdate) {
+      return (
+        <TextField
+          id="code-input"
+          label=""
+          variant="outlined"
+          type="number"
+          size="small"
+          value={editCode}
+          onChange={(e) => setEditCode(e.target.value)}
+          autoComplete="off"
+          inputProps={{
+            sx: {
+              height: "17px",
+            },
+          }}
+          fullWidth
+        />
+      );
+    } else {
+      return row.code;
+    }
+  };
+
   const formatTableData = (
     unFormatData: GetSingleDetailProposalItemShape[] | any
   ): TableDataItemShape[] => {
@@ -318,7 +345,7 @@ function ProposalModal1(props: ProposalModal1Props) {
       (item: any, i: any) => ({
         ...item,
         number: i + 1,
-        code: item.code,
+        code: () => renderCodeDepartman(item),
         description: item.description,
         creditAmount: 0,
         mosavab: () => renderMosavabDepartman(item),
