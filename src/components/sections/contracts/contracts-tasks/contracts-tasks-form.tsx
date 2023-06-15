@@ -22,6 +22,7 @@ import { checkHaveValue } from "helper/form-utils";
 import { proposalConfig } from "config/features/budget/proposal-config";
 import { contractsTasksConfig } from "config/features/contracts/conreacts-tasks-config";
 import { contractsTasksApi } from "api/contracts/contracts-tasks-api";
+import ContractsSearchModal from "./contracts-search-modal";
 
 interface ContractsTasksFormProps {
   formData: any;
@@ -31,6 +32,9 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
   const { formData, setFormData } = props;
 
   const userLicenses = userStore((state) => state.permissions);
+
+  // modal
+  const [isOpenSearchModal, setIsOpenSearchModal] = useState(false);
 
   // submit
   const submitMutation = useMutation(contractsTasksApi.search, {});
@@ -57,39 +61,48 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
 
     if (checkHaveValue(formData, [contractsTasksConfig.AREA])) {
       submitMutation.mutate(formData);
+      setIsOpenSearchModal(true);
     }
   };
 
   return (
-    <Box component="form" onSubmit={handleFormSubmit} p={2}>
-      <Grid container spacing={2}>
-        <SectionGuard
-          permission={joinPermissions([
-            accessNamesConfig.CONTRACT__REPORT_PAGE,
-            accessNamesConfig.FIELD_AREA,
-          ])}
-        >
-          <Grid lg={2}>
-            <AreaInput
-              setter={setFormData}
-              value={formData[proposalConfig.AREA]}
-              permissionForm={accessNamesConfig.CONTRACT__REPORT_PAGE}
-              level={3}
-              showError={haveSubmitedForm}
-            />
-          </Grid>
-        </SectionGuard>
-        <Grid lg={4}>
-          <LoadingButton
-            variant="contained"
-            type="submit"
-            loading={submitMutation.isLoading}
+    <>
+      <Box component="form" onSubmit={handleFormSubmit} p={2}>
+        <Grid container spacing={2}>
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.CONTRACT__REPORT_PAGE,
+              accessNamesConfig.FIELD_AREA,
+            ])}
           >
-            <SearchIcon />
-          </LoadingButton>
+            <Grid lg={2}>
+              <AreaInput
+                setter={setFormData}
+                value={formData[proposalConfig.AREA]}
+                permissionForm={accessNamesConfig.CONTRACT__REPORT_PAGE}
+                level={3}
+                showError={haveSubmitedForm}
+              />
+            </Grid>
+          </SectionGuard>
+          <Grid lg={4}>
+            <Button variant="contained" type="submit">
+              <SearchIcon />
+            </Button>
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+
+      {/* search modal */}
+      <FixedModal
+        open={isOpenSearchModal}
+        handleClose={() => setIsOpenSearchModal(false)}
+        title="انتخاب قرارداد"
+        loading={submitMutation.isLoading}
+      >
+        <ContractsSearchModal data={submitMutation.data?.data || []} />
+      </FixedModal>
+    </>
   );
 }
 
