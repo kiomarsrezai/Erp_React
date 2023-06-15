@@ -45,7 +45,7 @@ export interface GetSingleWbsUserListShape {
   bio: "مدیر پروژه";
 }
 
-// wbs
+// confirmation
 export interface GetSingleCommiteDetailConfirmationModalShape {
   id: number;
   userId: number;
@@ -54,4 +54,13 @@ export interface GetSingleCommiteDetailConfirmationModalShape {
   resposibility: string;
   dateAccept: string;
   dateAcceptShamsi: string;
+}
+
+// estimate
+export interface GetSingleCommiteDetailEstimateModalShape {
+  id: 1;
+  description: "string";
+  quantity: 0;
+  price: 0;
+  amount: 0;
 }

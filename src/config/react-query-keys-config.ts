@@ -86,6 +86,7 @@ export const reactQueryKeys = {
       getCommitesDetailModal: ["project-mettings-detail-modals"],
       getCommitesConfirmationModal: ["project-mettings-confirmation"],
       getCommitesWbsModal: ["project-mettings-confirmation"],
+      getCommitesEstimateModal: ["project-mettings-estimate"],
     },
     program: {
       data: ["project-program-data"],

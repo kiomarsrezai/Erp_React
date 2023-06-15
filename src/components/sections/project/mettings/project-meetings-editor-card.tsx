@@ -31,6 +31,7 @@ import CommiteMettingsProject from "./commite-mettings-project";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import CommiteWbsModal1 from "./wbs/commite-wbs-modal1";
 import CommiteConfirmationModal1 from "./confirmation/commite-confirmation-modal1";
+import CommiteEstimateModal1 from "./estimate/commite-estimate-modal1";
 
 interface ProjectMeetingsEditorCardProps {
   commiteDetailItem?: GetSingleCommiteDetailModalShape | any;
@@ -200,6 +201,17 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
     mettingsProjectApi.confirmationDataModal
   );
 
+  // estimate
+  const [isOpenEstimateModal, setIsOpenEstimateModal] = useState(false);
+  const handleClickEstimate = () => {
+    estimateDataMutation.mutate({ commiteDetailId: commiteDetailItem.id });
+    setIsOpenEstimateModal(true);
+  };
+
+  const estimateDataMutation = useMutation(
+    mettingsProjectApi.estimateDataModal
+  );
+
   return (
     <>
       <Card
@@ -297,6 +309,15 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
                   color="primary"
                   disabled={insertMode}
                   fullWidth
+                  onClick={handleClickEstimate}
+                >
+                  ثبت برآورد
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  disabled={insertMode}
+                  fullWidth
                   onClick={handleClickConfirmation}
                 >
                   تایید کنندگان
@@ -346,6 +367,21 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
       >
         <CommiteConfirmationModal1
           data={confirmationDataMutation.data?.data || []}
+          commiteDetailItem={commiteDetailItem}
+        />
+      </FixedModal>
+
+      {/* estimate */}
+      <FixedModal
+        handleClose={() => setIsOpenEstimateModal(false)}
+        open={isOpenEstimateModal}
+        loading={estimateDataMutation.isLoading}
+        title={`ثبت برآورد - بند ${
+          commiteDetailItem?.[mettingsProjectConfig.row] || maxRow
+        }`}
+      >
+        <CommiteEstimateModal1
+          data={estimateDataMutation.data?.data || []}
           commiteDetailItem={commiteDetailItem}
         />
       </FixedModal>
