@@ -49,7 +49,7 @@ function ContractTaskItemCard(props: ContractTaskItemCardProps) {
                 size="small"
                 value={formData[contractsTasksConfig.number]}
                 name={contractsTasksConfig.number}
-                disabled
+                onChange={onChange}
                 fullWidth
               />
             </Grid>

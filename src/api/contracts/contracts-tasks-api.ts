@@ -7,6 +7,7 @@ import { contractsTasksUrls } from "config/features/contracts/conreacts-tasks-co
 import {
   GetSingleContractTaskItemShape,
   GetSingleSearchContractTaskItemShape,
+  InsertContractTaskItemShape,
 } from "types/data/contracts/contracts-tasks-type";
 
 export const contractsTasksApi = new (class extends BaseApi {
@@ -28,10 +29,9 @@ export const contractsTasksApi = new (class extends BaseApi {
 
   insert = async (filterData: any) => {
     const url = contractsTasksUrls.insert;
-    const response = await clientAxios.post<BaseApiResponseShape<any>>(
-      url,
-      filterData
-    );
+    const response = await clientAxios.post<
+      BaseApiResponseShape<InsertContractTaskItemShape>
+    >(url, filterData);
     return response.data;
   };
 

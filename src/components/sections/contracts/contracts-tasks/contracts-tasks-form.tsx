@@ -82,6 +82,12 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
       enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
         variant: "success",
       });
+
+      setFormData({
+        ...contractsTasksFormDefaultValue,
+        [contractsTasksConfig.number]: data.data.number,
+        id: data.data.id,
+      });
     },
   });
 

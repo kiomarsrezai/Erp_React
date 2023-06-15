@@ -23,3 +23,20 @@ export interface GetSingleSearchContractTaskItemShape {
   description: "string";
   suppliersName: "string";
 }
+
+export interface InsertContractTaskItemShape {
+  amount: 9999999999999;
+  date: "06/06/2023 12:00:00 ق.ظ";
+  dateEnd: "29/05/2023 12:00:00 ق.ظ";
+  dateEndShamsi: "۱۴۰۲/۰۳/۰۸";
+  dateFrom: "22/05/2023 12:00:00 ق.ظ";
+  dateFromShamsi: "۱۴۰۲/۰۳/۰۱";
+  dateShamsi: "۱۴۰۲/۰۳/۱۶";
+  description: "قرارداد علیرضا";
+  final: false;
+  id: 1;
+  number: "111";
+  suppliersId: 2264;
+  suppliersName: "خطیبی";
+  surplus: 0;
+}
