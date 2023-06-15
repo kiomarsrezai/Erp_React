@@ -18,6 +18,7 @@ import { globalConfig } from "config/global-config";
 // import CommiteWbsModal2 from "./commite-wbs-modal2";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ClearIcon from "@mui/icons-material/Clear";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
@@ -34,9 +35,26 @@ interface CommiteEstimateModal1Props {
 function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
   const { data, commiteDetailItem } = props;
 
+  const addClick = () => {
+    setActionFormData({
+      description: "",
+      price: "",
+      quantity: "",
+    });
+    setIsInsertMode((state) => !state);
+    setActiveIdUpdate(null);
+  };
+
   const tableHeads: TableHeadShape = [
     {
-      title: "ردیف",
+      title: (
+        <div>
+          ردیف
+          <IconButton onClick={addClick} color="primary" size="small">
+            <AddIcon />
+          </IconButton>
+        </div>
+      ),
       name: "number",
     },
     {
@@ -155,9 +173,10 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
 
   const closeEditFunctionality = () => {
     setActiveIdUpdate(null);
+    setIsInsertMode(false);
   };
 
-  //   data
+  //   delete
   const estimateDeleteMutation = useMutation(
     mettingsProjectApi.estimateDelete,
     {
@@ -185,45 +204,128 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
     });
   };
 
+  // action mode
+  const [isInsertMode, setIsInsertMode] = useState(false);
+
+  const insertMutation = useMutation(mettingsProjectApi.estimateInsert, {
+    onSuccess: () => {
+      estimateDataMutation.mutate({ commiteDetailId: commiteDetailItem.id });
+      setIsInsertMode(false);
+      setActiveIdUpdate(null);
+    },
+  });
+
+  const updateMutation = useMutation(mettingsProjectApi.estimateUpdate, {
+    onSuccess: () => {
+      estimateDataMutation.mutate({ commiteDetailId: commiteDetailItem.id });
+      setIsInsertMode(false);
+      setActiveIdUpdate(null);
+    },
+  });
+
+  const [actionFormData, setActionFormData] = useState<any>({
+    description: "",
+    price: "",
+    quantity: "",
+  });
+
+  const clickActionDone = () => {
+    if (isInsertMode) {
+      insertMutation.mutate({
+        ...actionFormData,
+        commiteDetailId: commiteDetailItem.id,
+      });
+    } else {
+      updateMutation.mutate({
+        ...actionFormData,
+        id: activeIdUpdate,
+      });
+    }
+  };
+
+  const onChange = (e: any) => {
+    changeInputHandler(e, setActionFormData);
+  };
+
+  const actionItem = {
+    number: isInsertMode ? "افزودن" : "ویرایش",
+    description: (
+      <TextField
+        id="project-name-input"
+        label=""
+        variant="outlined"
+        // type="number"
+        size="small"
+        name="description"
+        value={actionFormData.description}
+        onChange={onChange}
+        autoComplete="off"
+        fullWidth
+      />
+    ),
+    quantity: (
+      <TextField
+        id="quantity-input"
+        label=""
+        variant="outlined"
+        type="number"
+        size="small"
+        name="quantity"
+        value={actionFormData.quantity}
+        onChange={onChange}
+        autoComplete="off"
+        fullWidth
+      />
+    ),
+    price: (
+      <TextField
+        id="price-input"
+        label=""
+        variant="outlined"
+        type="number"
+        size="small"
+        name="price"
+        value={actionFormData.price}
+        onChange={onChange}
+        autoComplete="off"
+        fullWidth
+      />
+    ),
+    actions: (
+      <>
+        <IconButton onClick={clickActionDone} color="primary" size="small">
+          <CheckIcon />
+        </IconButton>
+
+        <IconButton
+          onClick={closeEditFunctionality}
+          color="primary"
+          size="small"
+        >
+          <ClearIcon />
+        </IconButton>
+      </>
+    ),
+  };
+
+  // actions
   const actionBtn = (row: GetSingleCommiteDetailEstimateModalShape) => (
     <Box display={"flex"} justifyContent={"center"}>
-      {activeIdUpdate === row.id ? (
-        <>
-          <IconButton
-            color="success"
-            size="small"
-            onClick={onSubmitEditFunctionality}
-          >
-            <CheckIcon />
-          </IconButton>
+      <IconButton
+        color="primary"
+        size="small"
+        onClick={() => openEditFunctionality(row)}
+      >
+        <EditIcon />
+      </IconButton>
 
-          <IconButton
-            color="error"
-            size="small"
-            onClick={closeEditFunctionality}
-          >
-            <CloseIcon />
-          </IconButton>
-        </>
-      ) : (
-        <>
-          <IconButton
-            color="primary"
-            size="small"
-            onClick={() => openEditFunctionality(row)}
-          >
-            <EditIcon />
-          </IconButton>
-
-          <IconButton
-            color="error"
-            onClick={() => handleClickDelete(row)}
-            size="small"
-          >
-            <DeleteIcon />
-          </IconButton>
-        </>
-      )}
+      <IconButton
+        color="error"
+        onClick={() => handleClickDelete(row)}
+        size="small"
+      >
+        <DeleteIcon />
+      </IconButton>
     </Box>
   );
 
@@ -235,98 +337,6 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     changeInputHandler(e, setEditFormData);
-  };
-
-  // const renderDateStart = (item: GetSingleCommiteDetailEstimateModalShape) => {
-  //   if (activeIdUpdate === item.id) {
-  //     return (
-  //       // <TextField
-  //       //   id="date-start-input"
-  //       //   label=""
-  //       //   variant="outlined"
-  //       //   size="small"
-  //       //   name={"dateStart"}
-  //       //   value={editFormData.dateStart}
-  //       //   onChange={handleChange}
-  //       //   autoComplete="off"
-  //       //   fullWidth
-  //       // />
-  //       // <DemoContainer components={["DatePicker"]}>
-  //       <DatePicker
-  //         // label="Date Picker"
-  //         // editFormData.dateStart
-  //         value={new Date(editFormData.dateStart)}
-  //         onChange={(newValue) =>
-  //           setEditFormData((state: any) => ({ ...state, dateStart: newValue }))
-  //         }
-  //         slotProps={{ textField: { size: "small" } }}
-  //       />
-  //       // </DemoContainer>
-  //     );
-  //   } else {
-  //     return item.dateStartShamsi;
-  //   }
-  // };
-
-  // const renderDateEnd = (item: GetSingleCommiteDetailEstimateModalShape) => {
-  //   if (activeIdUpdate === item.id) {
-  //     return (
-  //       // <TextField
-  //       //   id="date-end-input"
-  //       //   label=""
-  //       //   variant="outlined"
-  //       //   size="small"
-  //       //   name={"dateEnd"}
-  //       //   value={editFormData.dateEnd}
-  //       //   onChange={handleChange}
-  //       //   autoComplete="off"
-  //       //   fullWidth
-  //       // />
-  //       <DatePicker
-  //         // label="Date Picker"
-  //         // editFormData.dateStart
-  //         value={new Date(editFormData.dateEnd)}
-  //         onChange={(newValue) =>
-  //           setEditFormData((state: any) => ({ ...state, dateEnd: newValue }))
-  //         }
-  //         slotProps={{
-  //           textField: {
-  //             size: "small",
-  //           },
-  //         }}
-  //       />
-  //     );
-  //   } else {
-  //     return item.datteEndShamsi;
-  //   }
-  // };
-
-  const renderDescription = (
-    item: GetSingleCommiteDetailEstimateModalShape
-  ) => {
-    if (activeIdUpdate === item.id) {
-      return (
-        <TextField
-          id="description-input"
-          label=""
-          variant="outlined"
-          size="small"
-          name={"description"}
-          value={editFormData.description}
-          onChange={handleChange}
-          autoComplete="off"
-          inputProps={{
-            sx: {
-              height: "17px",
-            },
-          }}
-          fullWidth
-          multiline
-        />
-      );
-    } else {
-      return item.description;
-    }
   };
 
   const formatTableData = (
@@ -367,6 +377,7 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
   );
 
   const tableData = formatTableData(estimateDataQuery.data?.data || data);
+  const filteredData = [...(isInsertMode ? [actionItem] : []), ...tableData];
 
   // footer
   const sumAmount = sumFieldsInSingleItemData(data, "amount");
@@ -385,8 +396,8 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
     <>
       <FixedTable
         heads={tableHeads}
-        headGroups={tableHeadGroup}
-        data={tableData}
+        // headGroups={tableHeadGroup}
+        data={filteredData}
         footer={tableFooter}
         notFixed
       />

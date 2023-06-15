@@ -16,7 +16,8 @@ export const changeInputHandler = (
   setFormData: (state: any) => void
 ) => {
   const name = e.target.name;
-  const value = e.target.value;
+  const type = e.target.type;
+  const value = type === "number" ? Number(e.target.value) : e.target.value;
 
   if (name) setFormData((state: any) => ({ ...state, [name]: value }));
 };

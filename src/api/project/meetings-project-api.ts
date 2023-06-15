@@ -216,4 +216,26 @@ export const mettingsProjectApi = new (class extends BaseApi {
 
     return response.data;
   };
+
+  estimateInsert = async (formdata: any) => {
+    const url = mettingsProjectUrl.estimateInsert;
+
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      formdata
+    );
+
+    return response.data;
+  };
+
+  estimateUpdate = async (formdata: any) => {
+    const url = mettingsProjectUrl.estimateUpdate;
+
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      formdata
+    );
+
+    return response.data;
+  };
 })();
