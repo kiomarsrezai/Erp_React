@@ -6,13 +6,17 @@ import { TableHeadShape } from "types/table-type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { contractsTasksApi } from "api/contracts/contracts-tasks-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
+import { contractsTasksConfig } from "config/features/contracts/conreacts-tasks-config";
 
 interface ContractsSearchModalProps {
   data: GetSingleSearchContractTaskItemShape[];
   onClose: () => void;
+  setFormData: (state: any) => void;
+  formData: any;
 }
+
 function ContractsSearchModal(props: ContractsSearchModalProps) {
-  const { data, onClose } = props;
+  const { data, onClose, setFormData, formData } = props;
 
   const tableHeads: TableHeadShape = [
     {
@@ -42,10 +46,20 @@ function ContractsSearchModal(props: ContractsSearchModalProps) {
   ];
 
   // table data
-  const queryClient = useQueryClient();
   const baseDataMutation = useMutation(contractsTasksApi.getData, {
     onSuccess(data) {
-      queryClient.setQueryData(reactQueryKeys.contracts.tasks.getData, data);
+      const value = data.data[0];
+      setFormData({
+        id: value.id,
+        [contractsTasksConfig.area]: formData[contractsTasksConfig.area],
+        [contractsTasksConfig.date]: value.date,
+        [contractsTasksConfig.description]: value.description,
+        [contractsTasksConfig.suppliers_id]: value.suppliersId,
+        [contractsTasksConfig.date_from]: value.dateFrom,
+        [contractsTasksConfig.date_end]: value.dateEnd,
+        [contractsTasksConfig.amount]: value.amount,
+        [contractsTasksConfig.number]: value.number,
+      });
       onClose();
     },
   });

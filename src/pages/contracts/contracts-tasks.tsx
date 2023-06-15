@@ -9,25 +9,17 @@ import { mettingsProjectApi } from "api/project/meetings-project-api";
 import { Box, Stack, Typography } from "@mui/material";
 import { globalConfig } from "config/global-config";
 import { GetSingleCommiteDetailModalShape } from "types/data/project/commite-project-type";
-import { contractsTasksConfig } from "config/features/contracts/conreacts-tasks-config";
+import {
+  contractsTasksConfig,
+  contractsTasksFormDefaultValue,
+} from "config/features/contracts/conreacts-tasks-config";
 import { contractsTasksApi } from "api/contracts/contracts-tasks-api";
 import ContractsTasksForm from "components/sections/contracts/contracts-tasks/contracts-tasks-form";
 import ContractTaskItemCard from "components/sections/contracts/contracts-tasks/contract-task-item-card";
 
 function ContractsTasks() {
   // forms
-  const [formData, setFormData] = useState({
-    [contractsTasksConfig.AREA]: undefined,
-  });
-
-  // data
-  const contractsQuery = useQuery(
-    reactQueryKeys.contracts.tasks.getData,
-    () => contractsTasksApi.getData({}),
-    {
-      enabled: false,
-    }
-  );
+  const [formData, setFormData] = useState(contractsTasksFormDefaultValue);
 
   //   ui
   const [formHeight, setFormHeight] = useState(0);
@@ -53,18 +45,12 @@ function ContractsTasks() {
             overflow: "auto",
           }}
         >
-          <Stack p={2} spacing={2}>
-            {contractsQuery.data?.data.map((item, i) => (
-              <ContractTaskItemCard key={item.id} contract={item} />
-            ))}
-
-            {!contractsQuery.data?.data.length &&
-              Boolean(formData[contractsTasksConfig.AREA]) && (
-                <Typography align="center" variant="caption" mt={30}>
-                  هیچ ردیفی یافت نشد
-                </Typography>
-              )}
-          </Stack>
+          <Box p={2}>
+            <ContractTaskItemCard
+              formData={formData}
+              setFormData={setFormData}
+            />
+          </Box>
         </Box>
       </Box>
     </AdminLayout>

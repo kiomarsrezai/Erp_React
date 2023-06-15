@@ -10,6 +10,13 @@ import userStore from "hooks/store/user-store";
 import FixedModal from "components/ui/modal/fixed-modal";
 import SearchIcon from "@mui/icons-material/Search";
 
+import ButtonGroup from "@mui/material/ButtonGroup";
+import CheckIcon from "@mui/icons-material/Check";
+import SendIcon from "@mui/icons-material/Send";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { BsEraserFill } from "react-icons/bs";
+import { grey } from "@mui/material/colors";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FormEvent, useEffect, useState } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
@@ -23,6 +30,7 @@ import { proposalConfig } from "config/features/budget/proposal-config";
 import { contractsTasksConfig } from "config/features/contracts/conreacts-tasks-config";
 import { contractsTasksApi } from "api/contracts/contracts-tasks-api";
 import ContractsSearchModal from "./contracts-search-modal";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 interface ContractsTasksFormProps {
   formData: any;
@@ -59,10 +67,54 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
 
     setHaveSubmitedForm(true);
 
-    if (checkHaveValue(formData, [contractsTasksConfig.AREA])) {
+    if (checkHaveValue(formData, [contractsTasksConfig.area])) {
       submitMutation.mutate(formData);
       setIsOpenSearchModal(true);
     }
+  };
+
+  // check
+  const handleCheckClick = () => {};
+
+  // clear
+  const [showConfrimClearForm, setShowConfrimClearForm] = useState(false);
+
+  const handleClearForm = () => {
+    setShowConfrimClearForm(true);
+  };
+
+  const onConfrimClearForm = () => {
+    // setFormData({
+    //   ...creditRequestFormDefaultValue,
+    //   [creditRequestConfig.execute_departman_id]:
+    //     formData[creditRequestConfig.execute_departman_id],
+    //   [creditRequestConfig.year]: formData[creditRequestConfig.year],
+    //   [creditRequestConfig.area]: formData[creditRequestConfig.area],
+    // });
+    // setFirstStepCrossed(false);
+    // onClearCallback();
+    setShowConfrimClearForm(false);
+    alert("should clear");
+  };
+
+  const onCancelClearForm = () => {
+    setShowConfrimClearForm(false);
+  };
+
+  // delete
+  const [showConfrimDeleteForm, setShowConfrimDeleteForm] = useState(false);
+
+  const handleDeleteClick = () => {
+    setShowConfrimDeleteForm(true);
+  };
+
+  const onConfrimDeleteForm = () => {
+    setShowConfrimDeleteForm(false);
+    alert("should delete");
+  };
+
+  const onCancelDeleteForm = () => {
+    setShowConfrimDeleteForm(false);
   };
 
   return (
@@ -85,9 +137,30 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
               />
             </Grid>
           </SectionGuard>
-          <Grid lg={4}>
-            <Button variant="contained" type="submit">
+          <Grid lg={10}>
+            <Button variant="contained" type="submit" sx={{ mx: 1 }}>
               <SearchIcon />
+            </Button>
+            <Button
+              variant="contained"
+              onClick={handleCheckClick}
+              sx={{ mx: 1 }}
+            >
+              <CheckIcon />
+            </Button>
+            <Button
+              variant="contained"
+              onClick={handleClearForm}
+              sx={{ mx: 1 }}
+            >
+              <BsEraserFill fontSize={24} />
+            </Button>
+            <Button
+              variant="contained"
+              onClick={handleDeleteClick}
+              sx={{ mx: 1 }}
+            >
+              <DeleteIcon />
             </Button>
           </Grid>
         </Grid>
@@ -103,8 +176,26 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
         <ContractsSearchModal
           data={submitMutation.data?.data || []}
           onClose={() => setIsOpenSearchModal(false)}
+          setFormData={setFormData}
+          formData={formData}
         />
       </FixedModal>
+
+      {/* confrim clear form */}
+      <ConfrimProcessModal
+        onCancel={onCancelClearForm}
+        onConfrim={onConfrimClearForm}
+        open={showConfrimClearForm}
+        title="خالی کردن فرم"
+      />
+
+      {/* confrim delete form */}
+      <ConfrimProcessModal
+        onCancel={onCancelDeleteForm}
+        onConfrim={onConfrimDeleteForm}
+        open={showConfrimDeleteForm}
+        title="حذف کردن قرارداد"
+      />
     </>
   );
 }

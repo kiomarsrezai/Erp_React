@@ -5,22 +5,30 @@ import Grid from "@mui/material/Unstable_Grid2";
 import TextField from "@mui/material/TextField";
 import SuppliersModalCreditRequest from "components/sections/credit/request/supplier/suppliers-modal";
 import FixedModal from "components/ui/modal/fixed-modal";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
+import { contractsTasksConfig } from "config/features/contracts/conreacts-tasks-config";
+import { changeInputHandler } from "helper/form-utils";
 
 interface ContractTaskItemCardProps {
-  contract: GetSingleContractTaskItemShape;
+  formData: any;
+  setFormData: any;
 }
 function ContractTaskItemCard(props: ContractTaskItemCardProps) {
-  const { contract } = props;
+  const { formData, setFormData } = props;
 
   //   supplier
   const [isOpenSuppliersModal, setIsOpenSuppliersModal] = useState(false);
 
   const handleSelectSupplier = () => {
     setIsOpenSuppliersModal(false);
+  };
+
+  //   form
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    changeInputHandler(e, setFormData);
   };
 
   return (
@@ -34,7 +42,9 @@ function ContractTaskItemCard(props: ContractTaskItemCardProps) {
                 label="شماره"
                 variant="outlined"
                 size="small"
-                value={contract.number}
+                value={formData[contractsTasksConfig.number]}
+                name={contractsTasksConfig.number}
+                disabled
                 fullWidth
               />
             </Grid>
@@ -44,7 +54,9 @@ function ContractTaskItemCard(props: ContractTaskItemCardProps) {
                 label="تاریخ شروع"
                 variant="outlined"
                 size="small"
-                value={contract.dateFromShamsi}
+                value={formData[contractsTasksConfig.date_from]}
+                name={contractsTasksConfig.date_from}
+                // onChange={handleChangeTextFields}
                 fullWidth
               />
             </Grid>
@@ -54,7 +66,8 @@ function ContractTaskItemCard(props: ContractTaskItemCardProps) {
                 label="تاریخ پایان"
                 variant="outlined"
                 size="small"
-                value={contract.dateEndShamsi}
+                value={formData[contractsTasksConfig.date_end]}
+                name={contractsTasksConfig.date_end}
                 fullWidth
               />
             </Grid>
@@ -64,7 +77,7 @@ function ContractTaskItemCard(props: ContractTaskItemCardProps) {
                 label="پیمانکار"
                 variant="outlined"
                 size="small"
-                value={contract.suppliersName}
+                value={formData[contractsTasksConfig.suppliers_id]}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -86,7 +99,10 @@ function ContractTaskItemCard(props: ContractTaskItemCardProps) {
                 label="مبلغ"
                 variant="outlined"
                 size="small"
-                value={contract.amount}
+                type="number"
+                value={formData[contractsTasksConfig.amount]}
+                name={contractsTasksConfig.amount}
+                onChange={onChange}
                 fullWidth
               />
             </Grid>
@@ -96,7 +112,9 @@ function ContractTaskItemCard(props: ContractTaskItemCardProps) {
                 label="شرح"
                 variant="outlined"
                 size="small"
-                value={contract.description}
+                value={formData[contractsTasksConfig.description]}
+                name={contractsTasksConfig.description}
+                onChange={onChange}
                 fullWidth
               />
             </Grid>
