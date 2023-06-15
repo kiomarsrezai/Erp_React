@@ -14,16 +14,19 @@ export const contractsTasksConfig = {
 export const contractsTasksUrls = {
   getData: "ContractApi/ContractRead",
   search: "ContractApi/ContractSearch",
+  insert: "ContractApi/ContractInsert",
+  update: "ContractApi/ContractUpdate",
+  delete: "ContractApi/ContractDelete",
 };
 
 export const contractsTasksFormDefaultValue = {
   id: undefined,
-  [contractsTasksConfig.area]: undefined,
+  [contractsTasksConfig.area]: null,
   [contractsTasksConfig.date]: "",
   [contractsTasksConfig.description]: "",
   [contractsTasksConfig.suppliers_id]: undefined,
   [contractsTasksConfig.number]: "",
-  [contractsTasksConfig.date_from]: "",
-  [contractsTasksConfig.date_end]: "",
+  [contractsTasksConfig.date_from]: null,
+  [contractsTasksConfig.date_end]: null,
   [contractsTasksConfig.amount]: "",
 };

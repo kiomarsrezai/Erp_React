@@ -77,7 +77,58 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
   };
 
   // check
-  const handleCheckClick = () => {};
+  const insertMutation = useMutation(contractsTasksApi.insert, {
+    onSuccess(data) {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+    },
+  });
+
+  const updateMutation = useMutation(contractsTasksApi.update, {
+    onSuccess(data) {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+    },
+  });
+
+  const handleCheckClick = () => {
+    if (!formData.id) {
+      // insert
+      insertMutation.mutate({
+        [contractsTasksConfig.area]: formData[contractsTasksConfig.area],
+        [contractsTasksConfig.date]: formData[contractsTasksConfig.date],
+        [contractsTasksConfig.description]:
+          formData[contractsTasksConfig.description],
+        [contractsTasksConfig.suppliers_id]:
+          formData[contractsTasksConfig.suppliers_id],
+        [contractsTasksConfig.number]: formData[contractsTasksConfig.number],
+        [contractsTasksConfig.date_from]:
+          formData[contractsTasksConfig.date_from],
+        [contractsTasksConfig.date_end]:
+          formData[contractsTasksConfig.date_end],
+        [contractsTasksConfig.amount]: formData[contractsTasksConfig.amount],
+      });
+    } else {
+      // update
+      updateMutation.mutate({
+        id: formData.id,
+        [contractsTasksConfig.area]: formData[contractsTasksConfig.area],
+        [contractsTasksConfig.date]: formData[contractsTasksConfig.date],
+        [contractsTasksConfig.description]:
+          formData[contractsTasksConfig.description],
+        [contractsTasksConfig.suppliers_id]:
+          formData[contractsTasksConfig.suppliers_id],
+        [contractsTasksConfig.number]: formData[contractsTasksConfig.number],
+        [contractsTasksConfig.date_from]:
+          formData[contractsTasksConfig.date_from],
+        [contractsTasksConfig.date_end]:
+          formData[contractsTasksConfig.date_end],
+        [contractsTasksConfig.amount]: formData[contractsTasksConfig.amount],
+      });
+    }
+  };
 
   // clear
   const [showConfrimClearForm, setShowConfrimClearForm] = useState(false);
@@ -102,13 +153,26 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
   // delete
   const [showConfrimDeleteForm, setShowConfrimDeleteForm] = useState(false);
 
+  const deleteMutation = useMutation(contractsTasksApi.delete, {
+    onSuccess(data) {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+
+      setFormData({
+        ...contractsTasksFormDefaultValue,
+        [contractsTasksConfig.area]: formData[contractsTasksConfig.area],
+      });
+    },
+  });
+
   const handleDeleteClick = () => {
     setShowConfrimDeleteForm(true);
   };
 
   const onConfrimDeleteForm = () => {
     setShowConfrimDeleteForm(false);
-    alert("should delete");
+    deleteMutation.mutate({ id: formData.id });
   };
 
   const onCancelDeleteForm = () => {

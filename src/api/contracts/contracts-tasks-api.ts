@@ -25,4 +25,31 @@ export const contractsTasksApi = new (class extends BaseApi {
     >(url);
     return response.data;
   };
+
+  insert = async (filterData: any) => {
+    const url = contractsTasksUrls.insert;
+    const response = await clientAxios.post<BaseApiResponseShape<any>>(
+      url,
+      filterData
+    );
+    return response.data;
+  };
+
+  update = async (filterData: any) => {
+    const url = contractsTasksUrls.update;
+    const response = await clientAxios.post<BaseApiResponseShape<any>>(
+      url,
+      filterData
+    );
+    return response.data;
+  };
+
+  delete = async (filterData: any) => {
+    const url = contractsTasksUrls.delete;
+    const response = await clientAxios.post<BaseApiResponseShape<any>>(
+      url,
+      filterData
+    );
+    return response.data;
+  };
 })();

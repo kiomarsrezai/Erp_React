@@ -23,7 +23,11 @@ function ContractTaskItemCard(props: ContractTaskItemCardProps) {
   //   supplier
   const [isOpenSuppliersModal, setIsOpenSuppliersModal] = useState(false);
 
-  const handleSelectSupplier = () => {
+  const handleSelectSupplier = (id: number, name: string) => {
+    setFormData((state: any) => ({
+      ...state,
+      [contractsTasksConfig.suppliers_id]: id,
+    }));
     setIsOpenSuppliersModal(false);
   };
 
@@ -40,13 +44,26 @@ function ContractTaskItemCard(props: ContractTaskItemCardProps) {
             <Grid sm={3}>
               <TextField
                 id="number-input"
-                label="شماره"
+                label="شماره قرارداد"
                 variant="outlined"
                 size="small"
                 value={formData[contractsTasksConfig.number]}
                 name={contractsTasksConfig.number}
                 disabled
                 fullWidth
+              />
+            </Grid>
+            <Grid sm={3}>
+              <DatePicker
+                value={new Date(formData[contractsTasksConfig.date])}
+                label="تاریخ قرارداد"
+                onChange={(newValue) =>
+                  setFormData((state: any) => ({
+                    ...state,
+                    [contractsTasksConfig.date]: newValue,
+                  }))
+                }
+                slotProps={{ textField: { size: "small", fullWidth: true } }}
               />
             </Grid>
             <Grid sm={3}>
@@ -133,7 +150,7 @@ function ContractTaskItemCard(props: ContractTaskItemCardProps) {
                 fullWidth
               />
             </Grid>
-            <Grid sm={9}>
+            <Grid sm={6}>
               <TextField
                 id="description-input"
                 label="شرح"
