@@ -12,6 +12,7 @@ import { GetSingleCommiteDetailModalShape } from "types/data/project/commite-pro
 import { contractsTasksConfig } from "config/features/contracts/conreacts-tasks-config";
 import { contractsTasksApi } from "api/contracts/contracts-tasks-api";
 import ContractsTasksForm from "components/sections/contracts/contracts-tasks/contracts-tasks-form";
+import ContractTaskItemCard from "components/sections/contracts/contracts-tasks/contract-task-item-card";
 
 function ContractsTasks() {
   // forms
@@ -52,36 +53,18 @@ function ContractsTasks() {
             overflow: "auto",
           }}
         >
-          {JSON.stringify(contractsQuery.data?.data)}
-          {/* <Stack p={2} spacing={2}>
-            {insertMode && (
-              <ProjectMeetingsEditorCard
-                formData={formData}
-                setInsertMode={setInsertMode}
-                maxRow={maxRow}
-                checkUnickRow={checkUnickRow}
-                insertMode
-              />
-            )}
+          <Stack p={2} spacing={2}>
             {contractsQuery.data?.data.map((item, i) => (
-              <ProjectMeetingsEditorCard
-                key={item.id}
-                commiteDetailItem={item}
-                setInsertMode={setInsertMode}
-                checkUnickRow={checkUnickRow}
-                insertMode={false}
-                formData={formData}
-              />
+              <ContractTaskItemCard key={item.id} contract={item} />
             ))}
 
             {!contractsQuery.data?.data.length &&
-              !insertMode &&
-              !!formData.commite && (
+              Boolean(formData[contractsTasksConfig.AREA]) && (
                 <Typography align="center" variant="caption" mt={30}>
-                  هیچ بندی یافت نشد
+                  هیچ ردیفی یافت نشد
                 </Typography>
               )}
-          </Stack> */}
+          </Stack>
         </Box>
       </Box>
     </AdminLayout>
