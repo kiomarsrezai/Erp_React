@@ -39,6 +39,7 @@ import BudgetConnectPage from "pages/budget/budget-connect-page";
 import BudgetSepratorCreaditorPage from "pages/budget/seprator-creaditor-page";
 import OrgProjectTablePage from "pages/project/table/org-table-page";
 import BudgetEditPage from "pages/budget/budget-edit-page";
+import ContractsTasks from "pages/contracts/contracts-tasks";
 
 export const sidenavsLayout: SidenavShape[] = [
   // report
@@ -191,7 +192,7 @@ export const sidenavsLayout: SidenavShape[] = [
   },
   // contracts
   {
-    title: "امور قراردادها",
+    title: "قراردادها",
     icon: CircleIcon,
     items: [
       {
@@ -201,10 +202,14 @@ export const sidenavsLayout: SidenavShape[] = [
         licenseName: accessNamesConfig.CONTRACT__MANAGE_PAGE,
       },
       {
-        title: "گزارش قرارداد ها",
+        title: "امور قرارداد ها",
         icon: SummarizeIcon,
-        path: "/",
+        path: "/contracts/tasks",
         licenseName: accessNamesConfig.CONTRACT__REPORT_PAGE,
+        element: ContractsTasks,
+        permissionItems: [
+          getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 3),
+        ],
       },
     ],
   },

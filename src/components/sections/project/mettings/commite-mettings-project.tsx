@@ -1,30 +1,11 @@
 import FixedTable from "components/data/table/fixed-table";
-import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
-import WindowLoading from "components/ui/loading/window-loading";
-import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
-import FixedModal from "components/ui/modal/fixed-modal";
-import SectionGuard from "components/auth/section-guard";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import CheckIcon from "@mui/icons-material/Check";
 
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { ReactNode, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { sepratorBudgetApi } from "api/budget/seprator-api";
-import { joinPermissions } from "helper/auth-utils";
-import { accessNamesConfig } from "config/access-names-config";
-import {
-  GetSingleDetailSepratorItemShape,
-  GetSingleSepratorAreaItemShape,
-} from "types/data/budget/seprator-type";
-import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
-import { reactQueryKeys } from "config/react-query-keys-config";
-import { enqueueSnackbar } from "notistack";
-import { globalConfig } from "config/global-config";
-import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { GetSingleCommiteDetailProjectModalShape } from "types/data/project/commite-project-type";
 
 interface TableDataItemShape {

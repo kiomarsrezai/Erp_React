@@ -92,6 +92,11 @@ export const reactQueryKeys = {
       data: ["project-program-data"],
     },
   },
+  contracts: {
+    tasks: {
+      getData: ["contracts-tasks-data"],
+    },
+  },
   // globals
   generals: {
     year: ["general-year"],
