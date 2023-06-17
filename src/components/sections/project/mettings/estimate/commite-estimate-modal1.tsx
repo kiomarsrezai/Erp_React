@@ -57,7 +57,7 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
         </div>
       ),
       name: "number",
-      width: "150px",
+      width: "100px",
     },
     {
       title: "شرح",
@@ -68,7 +68,7 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
       title: "تعداد",
       name: "quantity",
       split: true,
-      width: "150px",
+      width: "100px",
       align: "left",
     },
     {
@@ -79,7 +79,7 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
       width: "150px",
     },
     {
-      title: "قیمت",
+      title: "مبلغ برآورد",
       align: "left",
       name: "amount",
       split: true,
@@ -203,6 +203,7 @@ function CommiteEstimateModal1(props: CommiteEstimateModal1Props) {
         label=""
         variant="outlined"
         // type="number"
+        multiline
         size="small"
         name="description"
         value={actionFormData.description}

@@ -45,7 +45,7 @@ function ProposalBudgetBaseModal(props: ProposalBudgetBaseModalProps) {
           />
         </Box>
       ),
-      colspan: 4,
+      colspan: 5,
     },
   ];
 
@@ -54,10 +54,17 @@ function ProposalBudgetBaseModal(props: ProposalBudgetBaseModalProps) {
     {
       title: "ردیف",
       name: "number",
+      width: "80px",
+    },
+    {
+      title: "سطح",
+      name: "levelNumber",
+      width: "100px",
     },
     {
       title: "کد",
       name: "code",
+      width: "150px",
     },
     {
       title: "شرح",
@@ -67,6 +74,7 @@ function ProposalBudgetBaseModal(props: ProposalBudgetBaseModalProps) {
     {
       title: "عملیات",
       name: "actions",
+      width: "90px",
     },
   ];
 
@@ -130,6 +138,7 @@ function ProposalBudgetBaseModal(props: ProposalBudgetBaseModalProps) {
       data={tableData}
       heads={tableHeads}
       headGroups={headGroup}
+      tableLayout="auto"
       enableVirtual
       notFixed
     />

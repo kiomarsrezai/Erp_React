@@ -348,7 +348,7 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
         loading={wbsDataMutation.isLoading}
         title={`wbs - بند ${
           commiteDetailItem?.[mettingsProjectConfig.row] || maxRow
-        }`}
+        } - پروژه ${activeProjectName}`}
       >
         <CommiteWbsModal1
           data={wbsDataMutation.data?.data || []}
@@ -363,7 +363,7 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
         loading={confirmationDataMutation.isLoading}
         title={`تاییدکنندگان - بند ${
           commiteDetailItem?.[mettingsProjectConfig.row] || maxRow
-        }`}
+        } - پروژه ${activeProjectName}`}
       >
         <CommiteConfirmationModal1
           data={confirmationDataMutation.data?.data || []}
@@ -378,7 +378,7 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
         loading={estimateDataMutation.isLoading}
         title={`ثبت برآورد - بند ${
           commiteDetailItem?.[mettingsProjectConfig.row] || maxRow
-        }`}
+        } - پروژه ${activeProjectName}`}
       >
         <CommiteEstimateModal1
           data={estimateDataMutation.data?.data || []}
