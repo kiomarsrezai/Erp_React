@@ -184,7 +184,8 @@ function BudgetProposalPage() {
         percent: item.percentBud,
         expense: item.expense,
         bgcolor_pulse: codingId === item.codingId,
-        "textcolor-expense": item.expense < 0 ? "red" : "",
+        "textcolor-expense":
+          item.expense < 0 || item.expense > item.creditAmount ? "red" : "",
         "bgcolor-expense": item.expense > item.edit && "#d7a2a2",
         "bgcolor-creditAmount": item.creditAmount > item.edit && "#d7a2a2",
         bgcolor:
