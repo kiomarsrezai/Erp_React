@@ -5,6 +5,7 @@ export const sepratorBudgetConfig = {
   AREA: generalFieldsConfig.AREA,
   BUDGET_METHOD: generalFieldsConfig.BUDGET_METHOD,
   CODING: "codingId",
+  kind: "kindId",
   REQUEST_REF_STR: "requestRefStr",
   REQUEST_DATE: "requestDate",
   REQUEST_PRICE: "requestPrice",

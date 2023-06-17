@@ -146,14 +146,9 @@ function BudgetSepratorPage() {
   };
 
   // modal acc
-  const sepratorAccMutation = useMutation(sepratorBudgetApi.areaAcc);
   const [isOpenAccModal, setIsOpenAccModal] = useState(false);
 
   const handleClickAccModal = (row: any) => {
-    sepratorAccMutation.mutate({
-      ...formData,
-      [sepratorBudgetConfig.CODING]: row[sepratorBudgetConfig.CODING],
-    });
     setCodingId(row[sepratorBudgetConfig.CODING]);
     setDetailModalTitle(`${row.code} - ${row.description}`);
     setIsOpenAccModal(true);
@@ -416,10 +411,9 @@ function BudgetSepratorPage() {
           afterCloseAnyModal();
         }}
         title={detailModalTitle}
-        loading={sepratorAccMutation.isLoading}
         maxWidth="md"
       >
-        <SepratorAccModal data={sepratorAccMutation.data?.data || []} />
+        <SepratorAccModal formData={formData} coding={codingId as any} />
       </FixedModal>
 
       {/* project modal */}

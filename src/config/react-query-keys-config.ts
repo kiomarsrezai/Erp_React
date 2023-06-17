@@ -22,6 +22,7 @@ export const reactQueryKeys = {
     },
     proposal: {
       getData: ["budget-propsal"],
+      getAccData: ["budget-propsal-acc"],
     },
     connect: {
       getData: ["budget-connect"],
