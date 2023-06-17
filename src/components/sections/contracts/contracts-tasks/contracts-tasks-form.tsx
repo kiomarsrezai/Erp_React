@@ -128,7 +128,9 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
             formData[contractsTasksConfig.description],
           [contractsTasksConfig.suppliers_id]:
             formData[contractsTasksConfig.suppliers_id],
-          [contractsTasksConfig.number]: formData[contractsTasksConfig.number],
+          [contractsTasksConfig.number]: String(
+            formData[contractsTasksConfig.number]
+          ),
           [contractsTasksConfig.date_from]:
             formData[contractsTasksConfig.date_from],
           [contractsTasksConfig.date_end]:
@@ -145,7 +147,9 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
             formData[contractsTasksConfig.description],
           [contractsTasksConfig.suppliers_id]:
             formData[contractsTasksConfig.suppliers_id],
-          [contractsTasksConfig.number]: formData[contractsTasksConfig.number],
+          [contractsTasksConfig.number]: String(
+            formData[contractsTasksConfig.number]
+          ),
           [contractsTasksConfig.date_from]:
             formData[contractsTasksConfig.date_from],
           [contractsTasksConfig.date_end]:

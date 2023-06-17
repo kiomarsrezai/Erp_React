@@ -118,7 +118,7 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
       budgetSepratorStimul({
         data: printData.data,
         footer: printData.footer,
-        bottomFooter: printData.bottomFooter,
+        bottomFooter: [], //printData.bottomFooter,
         year: yearLabel,
         area: areaLabel,
         kind: budgetKindLabel,

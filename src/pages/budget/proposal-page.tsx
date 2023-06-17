@@ -356,6 +356,7 @@ function BudgetProposalPage() {
         loading={getInfoDataMutation.isLoading}
         title={modalTitle}
         maxWidth="md"
+        maxHeight="70%"
       >
         <ProposalModalInfo
           data={getInfoDataMutation.data?.data || []}

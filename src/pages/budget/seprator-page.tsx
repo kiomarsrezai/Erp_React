@@ -411,7 +411,8 @@ function BudgetSepratorPage() {
           afterCloseAnyModal();
         }}
         title={detailModalTitle}
-        maxWidth="md"
+        maxWidth="60%"
+        maxHeight="70%"
       >
         <SepratorAccModal formData={formData} coding={codingId as any} />
       </FixedModal>
