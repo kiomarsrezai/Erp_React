@@ -162,6 +162,8 @@ function TransferPage() {
   const handleIconClick = (
     row: GetSingleTransferItemShape & TableDataItemShape
   ) => {
+    DeleteCodeAccMutation.mutate(row.id);
+    return;
     const text = `آیا مایل به حذف کردن ردیف ${row.titleAcc} هستید ؟`;
     setConfrimRemoveText(text);
     setRemoveItemId(row.id);
