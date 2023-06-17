@@ -23,12 +23,12 @@ export const contractsTasksUrls = {
 export const contractsTasksFormDefaultValue = {
   id: undefined,
   [contractsTasksConfig.area]: null,
-  [contractsTasksConfig.date]: "",
+  [contractsTasksConfig.date]: new Date(),
   [contractsTasksConfig.description]: "",
   [contractsTasksConfig.suppliers_id]: undefined,
   [contractsTasksConfig.suppliers_name]: "",
   [contractsTasksConfig.number]: "",
-  [contractsTasksConfig.date_from]: null,
-  [contractsTasksConfig.date_end]: null,
+  [contractsTasksConfig.date_from]: new Date(),
+  [contractsTasksConfig.date_end]: new Date(),
   [contractsTasksConfig.amount]: "",
 };

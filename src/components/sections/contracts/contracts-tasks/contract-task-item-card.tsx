@@ -12,13 +12,15 @@ import IconButton from "@mui/material/IconButton";
 import { contractsTasksConfig } from "config/features/contracts/conreacts-tasks-config";
 import { changeInputHandler } from "helper/form-utils";
 import { DatePicker } from "@mui/x-date-pickers";
+import { globalConfig } from "config/global-config";
 
 interface ContractTaskItemCardProps {
   formData: any;
   setFormData: any;
+  haveSubmitedForm: boolean;
 }
 function ContractTaskItemCard(props: ContractTaskItemCardProps) {
-  const { formData, setFormData } = props;
+  const { formData, setFormData, haveSubmitedForm } = props;
 
   //   supplier
   const [isOpenSuppliersModal, setIsOpenSuppliersModal] = useState(false);
@@ -53,6 +55,15 @@ function ContractTaskItemCard(props: ContractTaskItemCardProps) {
                     value={formData[contractsTasksConfig.number]}
                     name={contractsTasksConfig.number}
                     onChange={onChange}
+                    type="number"
+                    error={
+                      !formData[contractsTasksConfig.number] && haveSubmitedForm
+                    }
+                    helperText={
+                      !formData[contractsTasksConfig.number] &&
+                      haveSubmitedForm &&
+                      globalConfig.ERROR_NO_EMPTY
+                    }
                     fullWidth
                   />
                 </Grid>
@@ -131,6 +142,15 @@ function ContractTaskItemCard(props: ContractTaskItemCardProps) {
                     variant="outlined"
                     size="small"
                     value={formData[contractsTasksConfig.suppliers_name]}
+                    error={
+                      !formData[contractsTasksConfig.suppliers_name] &&
+                      haveSubmitedForm
+                    }
+                    helperText={
+                      !formData[contractsTasksConfig.suppliers_name] &&
+                      haveSubmitedForm &&
+                      globalConfig.ERROR_NO_EMPTY
+                    }
                     disabled
                     InputProps={{
                       endAdornment: (
@@ -157,6 +177,14 @@ function ContractTaskItemCard(props: ContractTaskItemCardProps) {
                     value={formData[contractsTasksConfig.amount]}
                     name={contractsTasksConfig.amount}
                     onChange={onChange}
+                    error={
+                      !formData[contractsTasksConfig.amount] && haveSubmitedForm
+                    }
+                    helperText={
+                      !formData[contractsTasksConfig.amount] &&
+                      haveSubmitedForm &&
+                      globalConfig.ERROR_NO_EMPTY
+                    }
                     fullWidth
                   />
                 </Grid>
@@ -174,6 +202,15 @@ function ContractTaskItemCard(props: ContractTaskItemCardProps) {
                     //     minHeight: "170px",
                     //   },
                     // }}
+                    error={
+                      !formData[contractsTasksConfig.description] &&
+                      haveSubmitedForm
+                    }
+                    helperText={
+                      !formData[contractsTasksConfig.description] &&
+                      haveSubmitedForm &&
+                      globalConfig.ERROR_NO_EMPTY
+                    }
                     rows={7}
                     variant="outlined"
                     size="small"

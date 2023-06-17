@@ -38,9 +38,14 @@ import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 interface ContractsTasksFormProps {
   formData: any;
   setFormData: any;
+  setHaveSubmitedForm: (state: any) => void;
 }
 function ContractsTasksForm(props: ContractsTasksFormProps) {
-  const { formData, setFormData } = props;
+  const {
+    formData,
+    setFormData,
+    setHaveSubmitedForm: setHaveSubmitedCardForm,
+  } = props;
 
   const userLicenses = userStore((state) => state.permissions);
 
@@ -100,40 +105,54 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
   });
 
   const handleCheckClick = () => {
-    if (!formData.id) {
-      // insert
-      insertMutation.mutate({
-        [contractsTasksConfig.area]: formData[contractsTasksConfig.area],
-        [contractsTasksConfig.date]: formData[contractsTasksConfig.date],
-        [contractsTasksConfig.description]:
-          formData[contractsTasksConfig.description],
-        [contractsTasksConfig.suppliers_id]:
-          formData[contractsTasksConfig.suppliers_id],
-        [contractsTasksConfig.number]: formData[contractsTasksConfig.number],
-        [contractsTasksConfig.date_from]:
-          formData[contractsTasksConfig.date_from],
-        [contractsTasksConfig.date_end]:
-          formData[contractsTasksConfig.date_end],
-        [contractsTasksConfig.amount]: formData[contractsTasksConfig.amount],
-      });
-    } else {
-      // update
-      updateMutation.mutate({
-        id: formData.id,
-        [contractsTasksConfig.area]: formData[contractsTasksConfig.area],
-        [contractsTasksConfig.date]: formData[contractsTasksConfig.date],
-        [contractsTasksConfig.description]:
-          formData[contractsTasksConfig.description],
-        [contractsTasksConfig.suppliers_id]:
-          formData[contractsTasksConfig.suppliers_id],
-        [contractsTasksConfig.number]: formData[contractsTasksConfig.number],
-        [contractsTasksConfig.date_from]:
-          formData[contractsTasksConfig.date_from],
-        [contractsTasksConfig.date_end]:
-          formData[contractsTasksConfig.date_end],
-        [contractsTasksConfig.amount]: formData[contractsTasksConfig.amount],
-      });
-    }
+    setHaveSubmitedCardForm(true);
+    setHaveSubmitedForm(true);
+    if (
+      checkHaveValue(formData, [
+        contractsTasksConfig.area,
+        contractsTasksConfig.date,
+        contractsTasksConfig.description,
+        contractsTasksConfig.suppliers_id,
+        contractsTasksConfig.number,
+        contractsTasksConfig.date_from,
+        contractsTasksConfig.date_end,
+        contractsTasksConfig.amount,
+      ])
+    )
+      if (!formData.id) {
+        // insert
+        insertMutation.mutate({
+          [contractsTasksConfig.area]: formData[contractsTasksConfig.area],
+          [contractsTasksConfig.date]: formData[contractsTasksConfig.date],
+          [contractsTasksConfig.description]:
+            formData[contractsTasksConfig.description],
+          [contractsTasksConfig.suppliers_id]:
+            formData[contractsTasksConfig.suppliers_id],
+          [contractsTasksConfig.number]: formData[contractsTasksConfig.number],
+          [contractsTasksConfig.date_from]:
+            formData[contractsTasksConfig.date_from],
+          [contractsTasksConfig.date_end]:
+            formData[contractsTasksConfig.date_end],
+          [contractsTasksConfig.amount]: formData[contractsTasksConfig.amount],
+        });
+      } else {
+        // update
+        updateMutation.mutate({
+          id: formData.id,
+          [contractsTasksConfig.area]: formData[contractsTasksConfig.area],
+          [contractsTasksConfig.date]: formData[contractsTasksConfig.date],
+          [contractsTasksConfig.description]:
+            formData[contractsTasksConfig.description],
+          [contractsTasksConfig.suppliers_id]:
+            formData[contractsTasksConfig.suppliers_id],
+          [contractsTasksConfig.number]: formData[contractsTasksConfig.number],
+          [contractsTasksConfig.date_from]:
+            formData[contractsTasksConfig.date_from],
+          [contractsTasksConfig.date_end]:
+            formData[contractsTasksConfig.date_end],
+          [contractsTasksConfig.amount]: formData[contractsTasksConfig.amount],
+        });
+      }
   };
 
   // clear
@@ -144,6 +163,7 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
   };
 
   const onConfrimClearForm = () => {
+    setHaveSubmitedCardForm(false);
     setFormData({
       ...contractsTasksFormDefaultValue,
       [contractsTasksConfig.area]: formData[contractsTasksConfig.area],

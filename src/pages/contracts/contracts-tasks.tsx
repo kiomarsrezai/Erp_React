@@ -20,6 +20,7 @@ import ContractTaskItemCard from "components/sections/contracts/contracts-tasks/
 function ContractsTasks() {
   // forms
   const [formData, setFormData] = useState(contractsTasksFormDefaultValue);
+  const [haveSubmitedForm, setHaveSubmitedForm] = useState(false);
 
   //   ui
   const [formHeight, setFormHeight] = useState(0);
@@ -37,7 +38,11 @@ function ContractsTasks() {
         }}
       >
         <Box ref={boxElement}>
-          <ContractsTasksForm formData={formData} setFormData={setFormData} />
+          <ContractsTasksForm
+            formData={formData}
+            setFormData={setFormData}
+            setHaveSubmitedForm={setHaveSubmitedForm}
+          />
         </Box>
         <Box
           sx={{
@@ -49,6 +54,7 @@ function ContractsTasks() {
             <ContractTaskItemCard
               formData={formData}
               setFormData={setFormData}
+              haveSubmitedForm={haveSubmitedForm}
             />
           </Box>
         </Box>

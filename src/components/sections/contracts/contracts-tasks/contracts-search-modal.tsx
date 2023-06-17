@@ -7,6 +7,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { contractsTasksApi } from "api/contracts/contracts-tasks-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { contractsTasksConfig } from "config/features/contracts/conreacts-tasks-config";
+import { convertToCalenderDate } from "helper/date-utils";
 
 interface ContractsSearchModalProps {
   data: GetSingleSearchContractTaskItemShape[];
@@ -52,11 +53,12 @@ function ContractsSearchModal(props: ContractsSearchModalProps) {
       setFormData({
         id: value.id,
         [contractsTasksConfig.area]: formData[contractsTasksConfig.area],
-        [contractsTasksConfig.date]: value.date,
+        [contractsTasksConfig.date]: convertToCalenderDate(value.date),
         [contractsTasksConfig.description]: value.description,
         [contractsTasksConfig.suppliers_id]: value.suppliersId,
-        [contractsTasksConfig.date_from]: value.dateFrom,
-        [contractsTasksConfig.date_end]: value.dateEnd,
+        [contractsTasksConfig.suppliers_name]: value.suppliersName,
+        [contractsTasksConfig.date_from]: convertToCalenderDate(value.dateFrom),
+        [contractsTasksConfig.date_end]: convertToCalenderDate(value.dateEnd),
         [contractsTasksConfig.amount]: value.amount,
         [contractsTasksConfig.number]: value.number,
       });
