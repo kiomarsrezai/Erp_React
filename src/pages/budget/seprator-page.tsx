@@ -248,7 +248,6 @@ function BudgetSepratorPage() {
         edit: item.edit,
         creditAmount: item.creditAmount,
         expense: item.expense,
-        "textcolor-expense": item.expense < 0 ? "red" : "",
         percentBud: item.percentBud,
         actions: actionButtons,
         bgcolor_pulse: codingId === item.codingId,
@@ -262,6 +261,8 @@ function BudgetSepratorPage() {
 
         "bgcolor-creditAmount": item.creditAmount > item.edit && "#d7a2a2",
         "bgcolor-expense": item.expense > item.edit && "#d7a2a2",
+        "textcolor-expense":
+          item.expense < 0 || item.expense > item.creditAmount ? "red" : "",
       })
     );
 
@@ -324,8 +325,28 @@ function BudgetSepratorPage() {
     description: null,
     mosavab: "-",
     edit: "-",
-    creditAmount: `${getPercent(sumCreditAmount, sumEdit)}%`,
-    expense: `${getPercent(sumExpense, sumEdit)}%`,
+    creditAmount: (
+      <Box
+        display={"flex"}
+        justifyContent={"space-between"}
+        width={"100%"}
+        dir="ltr"
+      >
+        <div>{getPercent(sumCreditAmount, sumEdit) + "%"}</div>
+        <div>{getPercent(sumCreditAmount, sumMosavab) + "%"}</div>
+      </Box>
+    ),
+    expense: (
+      <Box
+        display={"flex"}
+        justifyContent={"space-between"}
+        width={"100%"}
+        dir="ltr"
+      >
+        <div>{getPercent(sumExpense, sumEdit) + "%"}</div>
+        <div>{getPercent(sumExpense, sumMosavab) + "%"}</div>
+      </Box>
+    ),
     "align-creditAmount": "center",
     "align-expense": "center",
     percentBud: "",

@@ -412,10 +412,8 @@ function ProposalModal1(props: ProposalModal1Props) {
   const getMoreDetailMutation = useMutation(
     proposalBudgetApi.getMoreDetailData
   );
-  const handleOpenDetailModal = (
-    row: TableDataItemShape & GetSingleProposalItemShape
-  ) => {
-    const title = `${row.code} - ${row.description}`;
+  const handleOpenDetailModal = (row: any) => {
+    const title = `${row.code(row)} - ${row.description}`;
     setModalTitle(
       <>
         <div>{baseTitle}</div>

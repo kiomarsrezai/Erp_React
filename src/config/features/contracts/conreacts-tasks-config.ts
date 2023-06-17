@@ -9,6 +9,7 @@ export const contractsTasksConfig = {
   date_from: "dateFrom",
   date_end: "dateEnd",
   amount: "amount",
+  suppliers_name: "suppliersName",
 };
 
 export const contractsTasksUrls = {
@@ -25,6 +26,7 @@ export const contractsTasksFormDefaultValue = {
   [contractsTasksConfig.date]: "",
   [contractsTasksConfig.description]: "",
   [contractsTasksConfig.suppliers_id]: undefined,
+  [contractsTasksConfig.suppliers_name]: "",
   [contractsTasksConfig.number]: "",
   [contractsTasksConfig.date_from]: null,
   [contractsTasksConfig.date_end]: null,

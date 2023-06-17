@@ -27,6 +27,7 @@ function ContractTaskItemCard(props: ContractTaskItemCardProps) {
     setFormData((state: any) => ({
       ...state,
       [contractsTasksConfig.suppliers_id]: id,
+      [contractsTasksConfig.suppliers_name]: name,
     }));
     setIsOpenSuppliersModal(false);
   };
@@ -41,33 +42,37 @@ function ContractTaskItemCard(props: ContractTaskItemCardProps) {
       <Card sx={{ bgcolor: "grey.200", "&:hover": { bgcolor: "grey.300" } }}>
         <CardContent sx={{ padding: "16px !important" }}>
           <Grid spacing={3} container>
-            <Grid sm={3}>
-              <TextField
-                id="number-input"
-                label="شماره قرارداد"
-                variant="outlined"
-                size="small"
-                value={formData[contractsTasksConfig.number]}
-                name={contractsTasksConfig.number}
-                onChange={onChange}
-                fullWidth
-              />
-            </Grid>
-            <Grid sm={3}>
-              <DatePicker
-                value={new Date(formData[contractsTasksConfig.date])}
-                label="تاریخ قرارداد"
-                onChange={(newValue) =>
-                  setFormData((state: any) => ({
-                    ...state,
-                    [contractsTasksConfig.date]: newValue,
-                  }))
-                }
-                slotProps={{ textField: { size: "small", fullWidth: true } }}
-              />
-            </Grid>
-            <Grid sm={3}>
-              {/* <TextField
+            <Grid sm={6}>
+              <Grid spacing={3} container>
+                <Grid sm={6}>
+                  <TextField
+                    id="number-input"
+                    label="شماره قرارداد"
+                    variant="outlined"
+                    size="small"
+                    value={formData[contractsTasksConfig.number]}
+                    name={contractsTasksConfig.number}
+                    onChange={onChange}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid sm={6}>
+                  <DatePicker
+                    value={new Date(formData[contractsTasksConfig.date])}
+                    label="تاریخ قرارداد"
+                    onChange={(newValue) =>
+                      setFormData((state: any) => ({
+                        ...state,
+                        [contractsTasksConfig.date]: newValue,
+                      }))
+                    }
+                    slotProps={{
+                      textField: { size: "small", fullWidth: true },
+                    }}
+                  />
+                </Grid>
+                <Grid sm={6}>
+                  {/* <TextField
                 id="date-from-input"
                 label="تاریخ شروع"
                 variant="outlined"
@@ -77,22 +82,24 @@ function ContractTaskItemCard(props: ContractTaskItemCardProps) {
                 // onChange={handleChangeTextFields}
                 fullWidth
               /> */}
-              <DatePicker
-                // label="Date Picker"
-                // editFormData.dateStart
-                value={new Date(formData[contractsTasksConfig.date_from])}
-                label="تاریخ شروع"
-                onChange={(newValue) =>
-                  setFormData((state: any) => ({
-                    ...state,
-                    [contractsTasksConfig.date_from]: newValue,
-                  }))
-                }
-                slotProps={{ textField: { size: "small", fullWidth: true } }}
-              />
-            </Grid>
-            <Grid sm={3}>
-              {/* <TextField
+                  <DatePicker
+                    // label="Date Picker"
+                    // editFormData.dateStart
+                    value={new Date(formData[contractsTasksConfig.date_from])}
+                    label="تاریخ شروع"
+                    onChange={(newValue) =>
+                      setFormData((state: any) => ({
+                        ...state,
+                        [contractsTasksConfig.date_from]: newValue,
+                      }))
+                    }
+                    slotProps={{
+                      textField: { size: "small", fullWidth: true },
+                    }}
+                  />
+                </Grid>
+                <Grid sm={6}>
+                  {/* <TextField
                 id="date-end-input"
                 label="تاریخ پایان"
                 variant="outlined"
@@ -101,66 +108,82 @@ function ContractTaskItemCard(props: ContractTaskItemCardProps) {
                 name={contractsTasksConfig.date_end}
                 fullWidth
               /> */}
-              <DatePicker
-                // label="Date Picker"
-                // editFormData.dateStart
-                label="تاریخ پایان"
-                value={new Date(formData[contractsTasksConfig.date_end])}
-                onChange={(newValue) =>
-                  setFormData((state: any) => ({
-                    ...state,
-                    [contractsTasksConfig.date_end]: newValue,
-                  }))
-                }
-                slotProps={{ textField: { size: "small", fullWidth: true } }}
-              />
-            </Grid>
-            <Grid sm={3}>
-              <TextField
-                id="suppliersName-input"
-                label="پیمانکار"
-                variant="outlined"
-                size="small"
-                value={formData[contractsTasksConfig.suppliers_id]}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => setIsOpenSuppliersModal(true)}
-                        size="small"
-                      >
-                        <SearchIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-                fullWidth
-              />
-            </Grid>
-            <Grid sm={3}>
-              <TextField
-                id="amount-input"
-                label="مبلغ"
-                variant="outlined"
-                size="small"
-                type="number"
-                value={formData[contractsTasksConfig.amount]}
-                name={contractsTasksConfig.amount}
-                onChange={onChange}
-                fullWidth
-              />
+                  <DatePicker
+                    // label="Date Picker"
+                    // editFormData.dateStart
+                    label="تاریخ پایان"
+                    value={new Date(formData[contractsTasksConfig.date_end])}
+                    onChange={(newValue) =>
+                      setFormData((state: any) => ({
+                        ...state,
+                        [contractsTasksConfig.date_end]: newValue,
+                      }))
+                    }
+                    slotProps={{
+                      textField: { size: "small", fullWidth: true },
+                    }}
+                  />
+                </Grid>
+                <Grid sm={6}>
+                  <TextField
+                    id="suppliersName-input"
+                    label="پیمانکار"
+                    variant="outlined"
+                    size="small"
+                    value={formData[contractsTasksConfig.suppliers_name]}
+                    disabled
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => setIsOpenSuppliersModal(true)}
+                            size="small"
+                          >
+                            <SearchIcon />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid sm={6}>
+                  <TextField
+                    id="amount-input"
+                    label="مبلغ"
+                    variant="outlined"
+                    size="small"
+                    type="number"
+                    value={formData[contractsTasksConfig.amount]}
+                    name={contractsTasksConfig.amount}
+                    onChange={onChange}
+                    fullWidth
+                  />
+                </Grid>
+              </Grid>
             </Grid>
             <Grid sm={6}>
-              <TextField
-                id="description-input"
-                label="شرح"
-                variant="outlined"
-                size="small"
-                value={formData[contractsTasksConfig.description]}
-                name={contractsTasksConfig.description}
-                onChange={onChange}
-                fullWidth
-              />
+              <Grid spacing={3} container>
+                <Grid sm={12}>
+                  <TextField
+                    id="description-input"
+                    label="شرح"
+                    multiline
+                    // InputProps={{
+                    //   sx: {
+                    //     minHeight: "170px",
+                    //   },
+                    // }}
+                    rows={7}
+                    variant="outlined"
+                    size="small"
+                    value={formData[contractsTasksConfig.description]}
+                    name={contractsTasksConfig.description}
+                    onChange={onChange}
+                    fullWidth
+                  />
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </CardContent>
