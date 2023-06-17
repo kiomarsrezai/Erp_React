@@ -9,6 +9,7 @@ import {
   GetSearchPropsalModal2Data,
   GetSingleLevel5DetailProposalItemShape,
   GetSingleMoreDetailProposalItemShape,
+  GetSingleProposalInfoItemShape,
   GetSingleProposalItemShape,
 } from "types/data/budget/proposal-type";
 import {
@@ -171,6 +172,15 @@ export const proposalBudgetApi = new (class extends BaseApi {
       url,
       { id }
     );
+    return response.data;
+  };
+
+  // info modal
+  getInfoData = async (formdata: any) => {
+    const url = propsalBudgetUrls.getInfo + this.joinFilterData(formdata);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleProposalInfoItemShape[]>
+    >(url);
     return response.data;
   };
 })();

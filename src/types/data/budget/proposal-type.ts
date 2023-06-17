@@ -70,3 +70,13 @@ export interface GetSearchPropsalModal2Data {
   projectCode: string;
   projectName: string;
 }
+
+// modal info
+export interface GetSingleProposalInfoItemShape {
+  structureId: number;
+  areaName: "منطقه 01";
+  mosavab: 990000000;
+  editArea: 990000000;
+  creditAmount: 481790912;
+  expense: 0;
+}

@@ -37,4 +37,7 @@ export const propsalBudgetUrls = {
   editModal3: "BudgetApi/BudgetModal3AreaUpdate",
   insertModal3: "BudgetApi/BudgetModal3AreaInsert",
   deleteModal3: "BudgetApi/BudgetModal3AreaDelete",
+
+  // info modal
+  getInfo: "BudgetApi/BudgetCodingInfoModalRead",
 };

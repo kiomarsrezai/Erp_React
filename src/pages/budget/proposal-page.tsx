@@ -18,6 +18,7 @@ import ProposalModal1 from "components/sections/budget/proposal/modal-1/proposal
 import WindowLoading from "components/ui/loading/window-loading";
 import { formatExpenseName } from "helper/data-utils";
 import { Box } from "@mui/material";
+import ProposalModalInfo from "components/sections/budget/proposal/modal-info/proposal-modal-info";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -156,17 +157,49 @@ function BudgetProposalPage() {
     setIsOpenDetailModal(true);
   };
 
+  // detail modal
+  const [isOpenInfoModal, setIsOpenInfoModal] = useState(false);
+
+  const getInfoDataMutation = useMutation(proposalBudgetApi.getInfoData);
+
+  const handleOpenInfoModal = (
+    row: TableDataItemShape & GetSingleProposalItemShape
+  ) => {
+    const title = `${row.code} - ${row.description}`;
+    setModalTitle(title);
+    setActiveRowData(row);
+
+    getInfoDataMutation.mutate({
+      ...formData,
+      [proposalConfig.coding]: row.codingId,
+    });
+
+    setCodingId(row.codingId);
+
+    setIsOpenInfoModal(true);
+  };
+
   // data
   const actionButtons = (
     row: TableDataItemShape & GetSingleProposalItemShape
   ) => (
-    <IconButton
-      size="small"
-      color="primary"
-      onClick={() => handleOpenDetailModal(row)}
-    >
-      <FormatListBulletedIcon />
-    </IconButton>
+    <Box display={"flex"} justifyContent={"center"}>
+      <IconButton
+        size="small"
+        color="primary"
+        onClick={() => handleOpenDetailModal(row)}
+      >
+        <FormatListBulletedIcon />
+      </IconButton>
+
+      <IconButton
+        size="small"
+        color="primary"
+        onClick={() => handleOpenInfoModal(row)}
+      >
+        s
+      </IconButton>
+    </Box>
   );
 
   const formatTableData = (
@@ -298,7 +331,6 @@ function BudgetProposalPage() {
           bottomFooter={tableBottomFooter}
         />
       </AdminLayout>
-
       {/* modal 1 */}
       <FixedModal
         open={isOpenDetailModal}
@@ -312,6 +344,18 @@ function BudgetProposalPage() {
           formData={formData}
           baseRowData={activeRowData as GetSingleProposalItemShape}
           setIsmodal1Changed={setIsmodal1Changed}
+        />
+      </FixedModal>
+      {/* modal info */}
+      <FixedModal
+        open={isOpenInfoModal}
+        handleClose={() => setIsOpenInfoModal(false)}
+        loading={getInfoDataMutation.isLoading}
+        title={modalTitle}
+      >
+        <ProposalModalInfo
+          data={getInfoDataMutation.data?.data || []}
+          formData={formData}
         />
       </FixedModal>
 
