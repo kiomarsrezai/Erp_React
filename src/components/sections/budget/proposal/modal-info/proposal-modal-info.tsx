@@ -1,8 +1,12 @@
+import { Box } from "@mui/material";
 import FixedTable from "components/data/table/fixed-table";
+import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
 import { proposalConfig } from "config/features/budget/proposal-config";
+import { organItems, organItems2 } from "config/features/general-fields-config";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
+import { useState } from "react";
 import { GetSingleProposalInfoItemShape } from "types/data/budget/proposal-type";
-import { TableHeadShape } from "types/table-type";
+import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 
 interface ProposalModalInfoProps {
   data: GetSingleProposalInfoItemShape[];
@@ -11,6 +15,27 @@ interface ProposalModalInfoProps {
 
 function ProposalModalInfo(props: ProposalModalInfoProps) {
   const { data, formData } = props;
+
+  const [modalFormData, setModalFormData] = useState({
+    [proposalConfig.organ]: 1,
+  });
+
+  const tableHeadGroup: TableHeadGroupShape = [
+    {
+      title: (
+        <Box sx={{ width: "200px" }}>
+          <FlotingLabelSelect
+            label="سازمان"
+            name={proposalConfig.organ}
+            items={organItems2}
+            value={modalFormData[proposalConfig.organ]}
+            setter={setModalFormData}
+          />
+        </Box>
+      ),
+      colspan: 6,
+    },
+  ];
 
   // heads
   const tableHeads: TableHeadShape = [
@@ -55,6 +80,9 @@ function ProposalModalInfo(props: ProposalModalInfoProps) {
   ];
 
   //   data
+  const filteredData = data.filter(
+    (item) => item.structureId === modalFormData[proposalConfig.organ]
+  );
   const formatTableData = (
     unFormatData: GetSingleProposalInfoItemShape[]
   ): any[] => {
@@ -66,16 +94,19 @@ function ProposalModalInfo(props: ProposalModalInfoProps) {
     return formatedData;
   };
 
-  const tableData = formatTableData(data);
+  const tableData = formatTableData(filteredData);
 
   // footer
-  const sumMosavab = sumFieldsInSingleItemData(data, "mosavab");
+  const sumMosavab = sumFieldsInSingleItemData(filteredData, "mosavab");
 
-  const sumEdit = sumFieldsInSingleItemData(data, "editArea");
+  const sumEdit = sumFieldsInSingleItemData(filteredData, "editArea");
 
-  const sumExpense = sumFieldsInSingleItemData(data, "expense");
+  const sumExpense = sumFieldsInSingleItemData(filteredData, "expense");
 
-  const sumCreditAmount = sumFieldsInSingleItemData(data, "creditAmount");
+  const sumCreditAmount = sumFieldsInSingleItemData(
+    filteredData,
+    "creditAmount"
+  );
 
   const tableFooter: any = {
     number: "جمع",
@@ -92,6 +123,7 @@ function ProposalModalInfo(props: ProposalModalInfoProps) {
       heads={tableHeads}
       data={tableData}
       footer={tableFooter}
+      headGroups={tableHeadGroup}
       notFixed
     />
   );

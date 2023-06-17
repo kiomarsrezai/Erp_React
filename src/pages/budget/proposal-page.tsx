@@ -1,3 +1,4 @@
+import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 import AdminLayout from "components/layout/admin-layout";
 import FixedTable from "components/data/table/fixed-table";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
@@ -184,20 +185,22 @@ function BudgetProposalPage() {
     row: TableDataItemShape & GetSingleProposalItemShape
   ) => (
     <Box display={"flex"} justifyContent={"center"}>
+      {formData[proposalConfig.AREA] === 10 && (
+        <IconButton
+          size="small"
+          color="primary"
+          onClick={() => handleOpenInfoModal(row)}
+        >
+          <UnfoldMoreIcon />
+        </IconButton>
+      )}
+
       <IconButton
         size="small"
         color="primary"
         onClick={() => handleOpenDetailModal(row)}
       >
         <FormatListBulletedIcon />
-      </IconButton>
-
-      <IconButton
-        size="small"
-        color="primary"
-        onClick={() => handleOpenInfoModal(row)}
-      >
-        s
       </IconButton>
     </Box>
   );
@@ -352,6 +355,7 @@ function BudgetProposalPage() {
         handleClose={() => setIsOpenInfoModal(false)}
         loading={getInfoDataMutation.isLoading}
         title={modalTitle}
+        maxWidth="md"
       >
         <ProposalModalInfo
           data={getInfoDataMutation.data?.data || []}

@@ -33,6 +33,17 @@ export const organItems: FlotingLabelTextfieldItemsShape = [
   },
 ];
 
+export const organItems2: FlotingLabelTextfieldItemsShape = [
+  {
+    label: "شهرداری",
+    value: 1,
+  },
+  {
+    label: "سازمانها",
+    value: 2,
+  },
+];
+
 export const numbersItems: FlotingLabelTextfieldItemsShape = [
   {
     label: "ریال",

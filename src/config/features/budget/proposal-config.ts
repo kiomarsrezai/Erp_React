@@ -4,6 +4,7 @@ export const proposalConfig = {
   YEAR: generalFieldsConfig.YEAR,
   AREA: generalFieldsConfig.AREA,
   BUDGET_METHOD: generalFieldsConfig.BUDGET_METHOD,
+  organ: "structureId",
   coding: "codingId",
   project: "projectId",
   ID: "id",
