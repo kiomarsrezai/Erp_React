@@ -96,6 +96,7 @@ function ProposalModal1(props: ProposalModal1Props) {
     {
       title: "کد",
       name: "code",
+      width: "150px",
     },
     {
       title: "شرح",

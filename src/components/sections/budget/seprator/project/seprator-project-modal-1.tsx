@@ -217,6 +217,7 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
           size="small"
           label="کد"
           variant="outlined"
+          style={{ width: "300px" }}
           value={editCodingFormData.code}
           onChange={(e) =>
             setEditCodingFormData((state: any) => ({
@@ -233,6 +234,7 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
           // onChange={(e) => setFilterText(e.target.value)}
           fullWidth
           value={editCodingFormData.description}
+          multiline
           onChange={(e) =>
             setEditCodingFormData((state: any) => ({
               ...state,

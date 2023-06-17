@@ -11,6 +11,7 @@ export interface GetSingleProposalItemShape {
   show: boolean;
   totalMosavab: number;
   totalExpense: number;
+  creditAmount: number;
 }
 
 export interface GetSingleDetailProposalItemShape {

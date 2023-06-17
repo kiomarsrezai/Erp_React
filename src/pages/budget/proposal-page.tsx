@@ -17,6 +17,7 @@ import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
 import ProposalModal1 from "components/sections/budget/proposal/modal-1/proposal-modal-1";
 import WindowLoading from "components/ui/loading/window-loading";
 import { formatExpenseName } from "helper/data-utils";
+import { Box } from "@mui/material";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -179,12 +180,13 @@ function BudgetProposalPage() {
         description: item.description,
         mosavab: item.mosavab,
         edit: item.edit,
-        creditAmount: 0,
+        creditAmount: item.creditAmount,
         percent: item.percentBud,
         expense: item.expense,
         bgcolor_pulse: codingId === item.codingId,
         "textcolor-expense": item.expense < 0 ? "red" : "",
         "bgcolor-expense": item.expense > item.edit && "#d7a2a2",
+        "bgcolor-creditAmount": item.creditAmount > item.edit && "#d7a2a2",
         bgcolor:
           codingId === item.codingId
             ? "#ffb1b1"
@@ -230,6 +232,12 @@ function BudgetProposalPage() {
     (item: GetSingleProposalItemShape) => item.levelNumber === 1
   );
 
+  const footerCreaditAmount = sumFieldsInSingleItemData(
+    proposalQuery.data?.data,
+    "creditAmount",
+    (item: GetSingleProposalItemShape) => item.levelNumber === 1
+  );
+
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
     "colspan-number": 3,
@@ -238,9 +246,9 @@ function BudgetProposalPage() {
     description: null,
     mosavab: footerMosavabSum,
     edit: footerEditSum,
-    creditAmount: 0,
+    creditAmount: footerCreaditAmount,
     expense: footerExpenseSum,
-    percent: getPercent(footerExpenseSum, footerEditSum),
+    // percent: getPercent(footerExpenseSum, footerEditSum),
     actions: "",
   };
 
@@ -248,12 +256,32 @@ function BudgetProposalPage() {
     number: null,
     code: null,
     description: null,
-    mosavab: `${getPercent(footerExpenseSum, footerMosavabSum)}%`,
-    creditAmount: 0,
+    mosavab: "",
+    creditAmount: (
+      <Box
+        display={"flex"}
+        justifyContent={"space-between"}
+        width={"100%"}
+        dir="ltr"
+      >
+        <div>{getPercent(footerCreaditAmount, footerEditSum) + "%"}</div>
+        <div>{getPercent(footerCreaditAmount, footerMosavabSum) + "%"}</div>
+      </Box>
+    ),
     "align-mosavab": "center",
-    edit: `${getPercent(footerExpenseSum, footerEditSum)}%`,
+    edit: "-",
     "align-edit": "center",
-    expense: "",
+    expense: (
+      <Box
+        display={"flex"}
+        justifyContent={"space-between"}
+        width={"100%"}
+        dir="ltr"
+      >
+        <div>{getPercent(footerExpenseSum, footerEditSum) + "%"}</div>
+        <div>{getPercent(footerExpenseSum, footerMosavabSum) + "%"}</div>
+      </Box>
+    ),
     percent: "",
     actions: "",
   };
