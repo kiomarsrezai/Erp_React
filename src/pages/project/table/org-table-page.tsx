@@ -7,6 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
+import CollectionsIcon from "@mui/icons-material/Collections";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 
 import { globalConfig } from "config/global-config";
@@ -31,6 +32,7 @@ import FixedModal from "components/ui/modal/fixed-modal";
 import OrgTableAreaModal from "components/sections/project/org-table/org-table-area-modal";
 import { GetSingleAreaShape } from "types/data/general/area-type";
 import ChartOrgTable from "components/sections/project/org-table/chart-org-table";
+import ProjectOrgMediaModal from "components/sections/project/project-org-media-modal";
 
 function OrgProjectTablePage() {
   const [formData, setFormData] = useState({
@@ -388,6 +390,14 @@ function OrgProjectTablePage() {
 
       <IconButton
         color="primary"
+        onClick={() => handleOpenMediaModal(row)}
+        size="small"
+      >
+        <CollectionsIcon />
+      </IconButton>
+
+      <IconButton
+        color="primary"
         size="small"
         onClick={() => openEditFunctionality(row)}
       >
@@ -441,6 +451,17 @@ function OrgProjectTablePage() {
 
   const filteredData = [...(isInsertMode ? [actionItem] : []), ...tableData];
 
+  // media
+  const [mediaModal, setMediaModal] = useState(false);
+  const handleCloseMediaModal = () => {
+    setMediaModal(false);
+  };
+
+  const handleOpenMediaModal = (item: GetSingleOrgProjectTableItemShape) => {
+    setActiveOrgRow(item);
+    setMediaModal(true);
+  };
+
   return (
     <>
       <AdminLayout>
@@ -476,6 +497,15 @@ function OrgProjectTablePage() {
         <ChartOrgTable
           activeItem={activeOrgRow as GetSingleOrgProjectTableItemShape}
         />
+      </FixedModal>
+
+      {/* media */}
+      <FixedModal
+        handleClose={handleCloseMediaModal}
+        open={mediaModal}
+        title="رسانه های پروژه"
+      >
+        <ProjectOrgMediaModal project={activeOrgRow as any} />
       </FixedModal>
 
       {/* delete  */}

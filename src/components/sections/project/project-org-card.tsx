@@ -252,7 +252,7 @@ function ProjectOrgCard(props: ProjectOrgCardProps) {
         open={mediaModal}
         title="رسانه های پروژه"
       >
-        <ProjectOrgMediaModal />
+        {/* <ProjectOrgMediaModal /> */}
       </FixedModal>
 
       {/* loading */}

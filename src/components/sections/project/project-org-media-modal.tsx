@@ -7,8 +7,17 @@ import Tab from "@mui/material/Tab";
 
 import { useState } from "react";
 import UploadFileDrop from "components/ui/inputs/upload-file-drop";
+import { useMutation } from "@tanstack/react-query";
+import { uploadApi } from "api/general/upload-general-api";
+import { GetSingleOrgProjectTableItemShape } from "types/data/project/org-project-type";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
 
-function ProjectOrgMediaModal() {
+interface ProjectOrgMediaModalProps {
+  project: GetSingleOrgProjectTableItemShape;
+}
+function ProjectOrgMediaModal(props: ProjectOrgMediaModalProps) {
+  const { project } = props;
   // tabs
   const [tabValue, setTabValue] = useState(0);
 
@@ -164,6 +173,22 @@ function ProjectOrgMediaModal() {
     },
   ];
 
+  // upload
+  const uploadMutation = useMutation(uploadApi.upload, {
+    onSuccess() {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+    },
+  });
+
+  const handleChangeFile = (file: any) => {
+    uploadMutation.mutate({
+      formFile: file,
+      projectId: project.id,
+    });
+  };
+
   return (
     <Box p={2}>
       <Tabs value={tabValue} onChange={handleTabChange}>
@@ -196,7 +221,7 @@ function ProjectOrgMediaModal() {
         p={2}
         sx={{ height: "max-content !important" }}
       >
-        <UploadFileDrop />
+        <UploadFileDrop onChangeFile={handleChangeFile} />
       </Box>
     </Box>
   );
