@@ -1,5 +1,6 @@
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import * as yup from "yup";
@@ -21,7 +22,7 @@ import { reactQueryKeys } from "config/react-query-keys-config";
 
 interface SepratorFixCodeModalProos {
   initialData: GetSingleSepratorItemShape;
-  onDoneTask: (code: string) => void;
+  onDoneTask: () => void;
   formData: any;
   coding: any;
 }
@@ -47,9 +48,8 @@ function SepratorFixCodeModal(props: SepratorFixCodeModalProos) {
   const queryClient = useQueryClient();
   const baseDataMutation = useMutation(sepratorBudgetApi.getData, {
     onSuccess: (data) => {
-      const values = getValues();
       queryClient.setQueryData(reactQueryKeys.budget.seprator.getData, data);
-      onDoneTask(String(values.code));
+      onDoneTask();
     },
   });
 
@@ -114,9 +114,13 @@ function SepratorFixCodeModal(props: SepratorFixCodeModalProos) {
         </Grid>
 
         <Grid item lg={12}>
-          <Button variant="contained" type="submit">
+          <LoadingButton
+            variant="contained"
+            type="submit"
+            loading={editMutation.isLoading || baseDataMutation.isLoading}
+          >
             ویرایش
-          </Button>
+          </LoadingButton>
         </Grid>
       </Grid>
     </Box>

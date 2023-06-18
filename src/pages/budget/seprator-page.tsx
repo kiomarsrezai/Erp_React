@@ -184,21 +184,22 @@ document.querySelector('#table-container').scrollTo
   // fix code
   const [isOpenCodeFixModal, setIsOpenCodeFixModal] = useState(false);
 
-  const handleDoneTask = (newCodingId: string) => {
+  const handleDoneTask = () => {
     enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
       variant: "success",
     });
     setIsOpenCodeFixModal(false);
-    afterCloseAnyModal();
-    // setTimeout(() => {
-    //   const top =
-    //     (document.querySelector("#table-container") as any).scrollTop +
-    //     (
-    //       document.querySelector(`#c-${newCodingId}`) as any
-    //     ).getBoundingClientRect().top;
+    setTimeout(() => {
+      afterCloseAnyModal();
+      const top =
+        (document.querySelector("#table-container") as any)?.scrollTop +
+        (
+          document.querySelector(`#c-${codingId}`) as any
+        ).getBoundingClientRect()?.top -
+        500;
 
-    //   (document.querySelector("#table-container") as any).scrollTo(0, top);
-    // }, 1000);
+      (document.querySelector("#table-container") as any)?.scrollTo?.(0, top);
+    }, 500);
   };
 
   const handleClickFixCodeModal = (item: any) => {
@@ -221,7 +222,7 @@ document.querySelector('#table-container').scrollTo
   // actions
   const actionButtons = (row: TableDataItemShape | any) => (
     <Box display={"flex"} justifyContent={"center"}>
-      <Button
+      {/* <Button
         variant="outlined"
         size="small"
         color="primary"
@@ -229,7 +230,7 @@ document.querySelector('#table-container').scrollTo
         sx={{ fontSize: 10, minWidth: "15px", ml: 1 }}
       >
         ms
-      </Button>
+      </Button> */}
 
       <Button
         variant="outlined"
@@ -238,7 +239,7 @@ document.querySelector('#table-container').scrollTo
         onClick={() => handleClickFixCodeModal(row)}
         sx={{ fontSize: 10, minWidth: "15px", ml: 1 }}
       >
-        cs
+        c
       </Button>
 
       {row.crud && (
@@ -518,7 +519,9 @@ document.querySelector('#table-container').scrollTo
           afterCloseAnyModal();
         }}
         title={detailModalTitle}
-        maxWidth="md"
+        maxWidth="sm"
+        maxHeight="40%"
+        minHeight="40%"
       >
         <SepratorFixCodeModal
           initialData={baseInitialItem}
