@@ -23,6 +23,9 @@ import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { globalConfig } from "config/global-config";
 import { transferConfig } from "config/features/transfer/transfer-config";
 import { BsEraserFill } from "react-icons/bs";
+import SectionGuard from "components/auth/section-guard";
+import { joinPermissions } from "helper/auth-utils";
+import { accessNamesConfig } from "config/access-names-config";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -194,39 +197,67 @@ function TransferPage() {
   ) => {
     return (
       <Box display="flex" justifyContent="end">
-        <IconButton
-          color="error"
-          size="small"
-          onClick={() => handleDeleteClick(row)}
+        <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.FINANCIAL__CODING_PAGE,
+            accessNamesConfig.FINANCIAL__CODING_PAGE_DELETE_ROW,
+          ])}
         >
-          <DeleteIcon />
-        </IconButton>
+          <IconButton
+            color="error"
+            size="small"
+            onClick={() => handleDeleteClick(row)}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </SectionGuard>
 
         {/* {(!!row.titleAcc || !!row.codeAcc) && ( */}
-        <IconButton
-          color="error"
-          size="small"
-          onClick={() => handleIconClick(row)}
+        <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.FINANCIAL__CODING_PAGE,
+            accessNamesConfig.FINANCIAL__CODING_PAGE_DELETE_CODE,
+          ])}
         >
-          <BsEraserFill />
-        </IconButton>
+          <IconButton
+            color="error"
+            size="small"
+            onClick={() => handleIconClick(row)}
+          >
+            <BsEraserFill />
+          </IconButton>
+        </SectionGuard>
         {/* )} */}
 
-        <IconButton
-          color="success"
-          size="small"
-          onClick={() => insertCodeAccMutation.mutate(row.id)}
+        <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.FINANCIAL__CODING_PAGE,
+            accessNamesConfig.FINANCIAL__CODING_PAGE_ADD,
+          ])}
         >
-          <AddIcon />
-        </IconButton>
+          <IconButton
+            color="success"
+            size="small"
+            onClick={() => insertCodeAccMutation.mutate(row.id)}
+          >
+            <AddIcon />
+          </IconButton>
+        </SectionGuard>
 
-        <IconButton
-          color="primary"
-          size="small"
-          onClick={() => handleClickBalanceIcon(row)}
+        <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.FINANCIAL__CODING_PAGE,
+            accessNamesConfig.FINANCIAL__CODING_PAGE_BALANCE,
+          ])}
         >
-          <BalanceIcon />
-        </IconButton>
+          <IconButton
+            color="primary"
+            size="small"
+            onClick={() => handleClickBalanceIcon(row)}
+          >
+            <BalanceIcon />
+          </IconButton>
+        </SectionGuard>
       </Box>
     );
   };

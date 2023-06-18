@@ -215,6 +215,28 @@ function usePermissions() {
       [yearLevel1Field, areaNumber3Field]
     ),
 
+    // transfer page
+
+    [accessNamesConfig.FINANCIAL__CODING_PAGE_DELETE_ROW]: {
+      label: "دکمه حذف ردیف",
+      name: accessNamesConfig.FINANCIAL__CODING_PAGE_DELETE_ROW,
+    },
+
+    [accessNamesConfig.FINANCIAL__CODING_PAGE_DELETE_CODE]: {
+      label: "دکمه حذف کد حسابداری",
+      name: accessNamesConfig.FINANCIAL__CODING_PAGE_DELETE_CODE,
+    },
+
+    [accessNamesConfig.FINANCIAL__CODING_PAGE_ADD]: {
+      label: "دکمه افزودن",
+      name: accessNamesConfig.FINANCIAL__CODING_PAGE_ADD,
+    },
+
+    [accessNamesConfig.FINANCIAL__CODING_PAGE_BALANCE]: {
+      label: "دکمه ترازو",
+      name: accessNamesConfig.FINANCIAL__CODING_PAGE_BALANCE,
+    },
+
     // abstruct
     [accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE_KIND]:
       budgetKindField,

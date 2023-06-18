@@ -77,6 +77,10 @@ export const accessNamesConfig = {
   FINANCIAL__TARAZ_PAGE_KIND: "kind",
 
   FINANCIAL__CODING_PAGE: "financial-coding",
+  FINANCIAL__CODING_PAGE_DELETE_ROW: "delete-row",
+  FINANCIAL__CODING_PAGE_DELETE_CODE: "delete-code",
+  FINANCIAL__CODING_PAGE_ADD: "add",
+  FINANCIAL__CODING_PAGE_BALANCE: "balance",
 
   // treasury
   TREASURY__REQUEST_PAGE: "treasury-request",
