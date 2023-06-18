@@ -15,19 +15,21 @@ import {
   proposalModal1EditConfig,
 } from "config/features/budget/proposal-config";
 import { proposalBudgetApi } from "api/budget/proposal-api";
-import { GetSingleSepratorItemShape } from "types/data/budget/seprator-type";
+import {
+  GetSingleSepratorItemShape,
+  GetSingleSepratorMosavabItemShape,
+} from "types/data/budget/seprator-type";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 
-interface SepratorFixMosavabModalProos {
-  initialData: GetSingleSepratorItemShape;
+interface SepratorFixMosavabModal2Proos {
+  initialData: GetSingleSepratorMosavabItemShape;
   onDoneTask: (code: string) => void;
   formData: any;
-  coding: any;
 }
 
-function SepratorFixMosavabModal(props: SepratorFixMosavabModalProos) {
-  const { initialData, onDoneTask, formData, coding } = props;
+function SepratorFixMosavabModal2(props: SepratorFixMosavabModal2Proos) {
+  const { initialData, onDoneTask, formData } = props;
 
   // form manage
   const editFormSchema = yup.object({
@@ -65,8 +67,9 @@ function SepratorFixMosavabModal(props: SepratorFixMosavabModalProos) {
 
   const onSubmitHandler = (values: any) => {
     editMutation.mutate({
-      ...formData,
-      codingId: coding,
+      budgetDetailId: initialData.budgetDetailId,
+      budgetDetailProjectId: initialData.budgetDetailProjectId,
+      budgetDetailProjectAreaId: initialData.budgetDetailProjectAreaId,
       mosavab: values.mosavab,
     });
   };
@@ -89,7 +92,7 @@ function SepratorFixMosavabModal(props: SepratorFixMosavabModalProos) {
             {...register("mosavab")}
             error={!!errors.mosavab}
             helperText={(errors.mosavab?.message || "") as any}
-            defaultValue={initialData.mosavab}
+            defaultValue={initialData.mosavabPublic}
             autoComplete="off"
             fullWidth
           />
@@ -105,4 +108,4 @@ function SepratorFixMosavabModal(props: SepratorFixMosavabModalProos) {
   );
 }
 
-export default SepratorFixMosavabModal;
+export default SepratorFixMosavabModal2;

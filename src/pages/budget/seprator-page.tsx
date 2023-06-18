@@ -26,7 +26,6 @@ import { accessNamesConfig } from "config/access-names-config";
 import SepratorFixCodeModal from "components/sections/budget/seprator/fix/seprator-fix-code-modal";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
-import SepratorFixMosavabModal from "components/sections/budget/seprator/fix/seprator-fix-mosavab-modal copy";
 
 interface TableDataItemShape {
   id: ReactNode;
@@ -537,23 +536,6 @@ document.querySelector('#table-container').scrollTo
         minHeight="40%"
       >
         <SepratorFixCodeModal
-          initialData={baseInitialItem}
-          onDoneTask={handleDoneTask}
-          formData={formData}
-          coding={codingId}
-        />
-      </FixedModal>
-
-      <FixedModal
-        open={isOpenMosavabFixModal}
-        handleClose={() => {
-          setIsOpenMosavabFixModal(false);
-          afterCloseAnyModal();
-        }}
-        title={detailModalTitle}
-        maxWidth="md"
-      >
-        <SepratorFixMosavabModal
           initialData={baseInitialItem}
           onDoneTask={handleDoneTask}
           formData={formData}

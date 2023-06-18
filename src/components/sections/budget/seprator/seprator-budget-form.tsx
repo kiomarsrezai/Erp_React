@@ -261,7 +261,10 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
         loading={mosavabMutation.isLoading}
         handleClose={() => setIsOpenMosavabModal(false)}
       >
-        <SepratorFixMosavabModal1 data={mosavabMutation.data?.data || []} />
+        <SepratorFixMosavabModal1
+          data={mosavabMutation.data?.data || []}
+          formData={formData}
+        />
       </FixedModal>
 
       <WindowLoading active={refeshFormMutation.isLoading} />
