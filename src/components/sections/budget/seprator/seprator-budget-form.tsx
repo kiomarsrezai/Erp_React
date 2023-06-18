@@ -28,6 +28,8 @@ import {
 } from "helper/export-utils";
 import { budgetSepratorStimul } from "stimul/budget/seprator/budget-seprator-stimul";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+import FixedModal from "components/ui/modal/fixed-modal";
+import SepratorFixMosavabModal1 from "./fix/seprator-fix-mosavab-modal-1";
 
 interface SepratoeBudgetFormProps {
   formData: any;
@@ -127,6 +129,43 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
     }
   };
 
+  // mosavab modal
+  const [isOpenMosavabModal, setIsOpenMosavabModal] = useState(false);
+
+  const mosavabMutation = useMutation(sepratorBudgetApi.fixMosavabRead);
+
+  const openMosavabModal = () => {
+    // permission
+    const havePermission = checkHavePermission(
+      userLicenses,
+      [
+        accessNamesConfig.FIELD_YEAR,
+        accessNamesConfig.FIELD_AREA,
+        accessNamesConfig.FIELD_BUDGET_METHOD,
+      ],
+      accessNamesConfig.BUDGET__SEPRATOR_PAGE
+    );
+
+    if (!havePermission) {
+      return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
+        variant: "error",
+      });
+    }
+
+    setHaveSubmitedForm(true);
+
+    if (
+      checkHaveValue(formData, [
+        sepratorBudgetConfig.YEAR,
+        sepratorBudgetConfig.BUDGET_METHOD,
+        sepratorBudgetConfig.AREA,
+      ])
+    ) {
+      mosavabMutation.mutate(formData);
+      setIsOpenMosavabModal(true);
+    }
+  };
+
   return (
     <>
       <Box component="form" onSubmit={handleFormSubmit}>
@@ -196,9 +235,34 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
             <IconButton color="primary" onClick={handlePrintForm}>
               <PrintIcon />
             </IconButton>
+
+            <SectionGuard
+              permission={joinPermissions([
+                accessNamesConfig.BUDGET__SEPRATOR_PAGE,
+                accessNamesConfig.BUDGET__SEPRATOR_PAGE_FIX_MOSAVAB,
+              ])}
+            >
+              <Button
+                variant="outlined"
+                size="small"
+                color="primary"
+                onClick={openMosavabModal}
+                sx={{ fontSize: 10, minWidth: "15px", ml: 1 }}
+              >
+                m
+              </Button>
+            </SectionGuard>
           </Grid>
         </Grid>
       </Box>
+
+      <FixedModal
+        open={isOpenMosavabModal}
+        loading={mosavabMutation.isLoading}
+        handleClose={() => setIsOpenMosavabModal(false)}
+      >
+        <SepratorFixMosavabModal1 data={mosavabMutation.data?.data || []} />
+      </FixedModal>
 
       <WindowLoading active={refeshFormMutation.isLoading} />
 

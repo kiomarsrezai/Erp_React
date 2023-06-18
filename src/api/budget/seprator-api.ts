@@ -7,6 +7,7 @@ import {
   GetSingleSepratorAccItemShape,
   GetSingleSepratorAreaItemShape,
   GetSingleSepratorItemShape,
+  GetSingleSepratorMosavabItemShape,
   GetSingleSepratorProjectItemShape,
   GetSingleSepratorTaminItemShape,
 } from "types/data/budget/seprator-type";
@@ -151,6 +152,14 @@ export const sepratorBudgetApi = new (class extends BaseApi {
       "BudSepApi/CodingManualUpdate",
       formdata
     );
+    return response.data;
+  };
+
+  fixMosavabRead = async (formdata: any) => {
+    const url = "BudSepApi/MosavabManualModal" + this.joinFilterData(formdata);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleSepratorMosavabItemShape[]>
+    >(url);
     return response.data;
   };
 

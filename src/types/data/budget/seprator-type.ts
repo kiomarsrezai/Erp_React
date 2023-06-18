@@ -50,3 +50,15 @@ export interface GetSingleSepratorAreaItemShape {
   projectCode: string;
   id: number;
 }
+
+// fix
+export interface GetSingleSepratorMosavabItemShape {
+  code: "501020000100010001";
+  description: "تعویض بخشی از باطری های U*S";
+  budgetDetailId: 3844;
+  mosavabPublic: 1500000000;
+  budgetDetailProjectId: 3672;
+  mosavabProject: 1500000000;
+  budgetDetailProjectAreaId: 4675;
+  mosavabArea: 1500000000;
+}

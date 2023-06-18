@@ -272,7 +272,7 @@ function usePermissions() {
     },
 
     [accessNamesConfig.BUDGET__SEPRATOR_PAGE_FIX_MOSAVAB]: {
-      label: "دکمه وصوب",
+      label: "دکمه مصوب",
       name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_FIX_MOSAVAB,
     },
 
