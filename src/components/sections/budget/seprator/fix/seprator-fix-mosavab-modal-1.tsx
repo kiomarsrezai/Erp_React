@@ -89,9 +89,12 @@ function SepratorFixMosavabModal1(props: SepratorFixMosavabModal1props) {
         />
       );
     } else {
-      return item.mosavabProject;
+      return mosavabMutation.isLoading ? "" : item.mosavabProject;
     }
   };
+
+  // base data
+  const mosavabMutation = useMutation(sepratorBudgetApi.fixMosavabRead);
 
   // actions
   const [isOpenMosavabFixModal, setIsOpenMosavabFixModal] = useState(false);
@@ -111,9 +114,13 @@ function SepratorFixMosavabModal1(props: SepratorFixMosavabModal1props) {
 
   const editMutation = useMutation(sepratorBudgetApi.fixMosavabUpdate, {
     onSuccess: () => {
+      console.log({ formData });
+
+      mosavabMutation.mutate(formData);
       enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
         variant: "success",
       });
+      setActiveMosavabItem(null);
       // handleDoneActionTask();
     },
     onError: () => {
@@ -192,10 +199,13 @@ function SepratorFixMosavabModal1(props: SepratorFixMosavabModal1props) {
     return formatedData;
   };
 
-  const tableData = formatTableData(data);
+  const tableData = formatTableData(mosavabMutation.data?.data || data);
 
   // footer
-  const sumMosavabPublic = sumFieldsInSingleItemData(data, "mosavabPublic");
+  const sumMosavabPublic = sumFieldsInSingleItemData(
+    mosavabMutation.data?.data || data,
+    "mosavabPublic"
+  );
   const tableFooter: any = {
     number: "جمع",
     "colspan-number": 3,
@@ -227,7 +237,7 @@ function SepratorFixMosavabModal1(props: SepratorFixMosavabModal1props) {
         <SepratorFixMosavabModal2
           initialData={activeMosavabItem as GetSingleSepratorMosavabItemShape}
           onDoneTask={() => {}}
-          formData={formData}
+          formData={{}} // formData
         />
       </FixedModal>
     </>

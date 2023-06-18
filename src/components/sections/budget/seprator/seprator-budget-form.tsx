@@ -166,6 +166,11 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
     }
   };
 
+  const handleCloseModal = () => {
+    setIsOpenMosavabModal(false);
+    submitMutation.mutate(formData);
+  };
+
   return (
     <>
       <Box component="form" onSubmit={handleFormSubmit}>
@@ -259,7 +264,7 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
       <FixedModal
         open={isOpenMosavabModal}
         loading={mosavabMutation.isLoading}
-        handleClose={() => setIsOpenMosavabModal(false)}
+        handleClose={handleCloseModal}
       >
         <SepratorFixMosavabModal1
           data={mosavabMutation.data?.data || []}
