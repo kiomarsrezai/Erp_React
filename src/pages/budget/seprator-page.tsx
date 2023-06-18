@@ -23,6 +23,9 @@ import { formatExpenseName } from "helper/data-utils";
 import SectionGuard from "components/auth/section-guard";
 import { joinPermissions } from "helper/auth-utils";
 import { accessNamesConfig } from "config/access-names-config";
+import SepratorFixCodeModal from "components/sections/budget/seprator/fix/seprator-fix-code-modal";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
 
 interface TableDataItemShape {
   id: ReactNode;
@@ -170,9 +173,47 @@ function BudgetSepratorPage() {
     setIsOpenProjectModal(true);
   };
 
+  // fix code
+  const [isOpenCodeFixModal, setIsOpenCodeFixModal] = useState(false);
+
+  const handleDoneTask = () => {
+    enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+      variant: "success",
+    });
+    setIsOpenCodeFixModal(false);
+    afterCloseAnyModal();
+  };
+
+  const handleClickFixCodeModal = (item: any) => {
+    setDetailModalTitle(`${item.code} - ${item.description}`);
+    setCodingId(item[sepratorBudgetConfig.CODING]);
+    setIsOpenCodeFixModal(true);
+    setBaseInitialItem(item);
+  };
+
   // actions
   const actionButtons = (row: TableDataItemShape | any) => (
     <Box display={"flex"} justifyContent={"center"}>
+      <Button
+        variant="outlined"
+        size="small"
+        color="primary"
+        // onClick={() => handleClickAccModal(row)}
+        sx={{ fontSize: 10, minWidth: "15px", ml: 1 }}
+      >
+        ms
+      </Button>
+
+      <Button
+        variant="outlined"
+        size="small"
+        color="primary"
+        onClick={() => handleClickFixCodeModal(row)}
+        sx={{ fontSize: 10, minWidth: "15px", ml: 1 }}
+      >
+        cs
+      </Button>
+
       {row.crud && (
         <>
           <SectionGuard
@@ -186,7 +227,7 @@ function BudgetSepratorPage() {
               variant="outlined"
               size="small"
               onClick={() => handleClickProjectModal(row)}
-              sx={{ fontSize: 10, minWidth: "15px" }}
+              sx={{ fontSize: 10, minWidth: "15px", ml: 1 }}
             >
               p
             </Button>
@@ -438,6 +479,25 @@ function BudgetSepratorPage() {
             setIsOpenProjectModal(false);
             afterCloseAnyModal();
           }}
+        />
+      </FixedModal>
+
+      {/* fix */}
+      <FixedModal
+        open={isOpenCodeFixModal}
+        handleClose={() => {
+          setIsOpenCodeFixModal(false);
+          afterCloseAnyModal();
+        }}
+        title={detailModalTitle}
+        loading={sepratorProjectMutation.isLoading}
+        maxWidth="md"
+      >
+        <SepratorFixCodeModal
+          initialData={baseInitialItem}
+          onDoneTask={handleDoneTask}
+          formData={formData}
+          coding={codingId}
         />
       </FixedModal>
     </AdminLayout>

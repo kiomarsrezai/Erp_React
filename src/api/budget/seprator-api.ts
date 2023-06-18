@@ -144,4 +144,13 @@ export const sepratorBudgetApi = new (class extends BaseApi {
     );
     return response.data;
   };
+
+  // fix
+  fixCodeUpdate = async (formdata: any) => {
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      "BudSepApi/CodingManualUpdate",
+      formdata
+    );
+    return response.data;
+  };
 })();
