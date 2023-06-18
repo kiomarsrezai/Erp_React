@@ -414,6 +414,7 @@ function FixedTable(props: FixedTableProps) {
         />
       ) : (
         <TableContainer
+          id="table-container"
           sx={{
             maxHeight: !notFixed
               ? `calc(100vh - ${globalConfig.headerHeight}px)`
@@ -435,6 +436,7 @@ function FixedTable(props: FixedTableProps) {
                   className={classNames({
                     "pulse-many-animation": row.bgcolor_pulse,
                   })}
+                  id={row.row_id || undefined}
                   sx={{
                     transition: "background ease 0.1s",
                     "&:last-child td, &:last-child th": { border: 0 },

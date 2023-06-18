@@ -19,20 +19,19 @@ import { GetSingleSepratorItemShape } from "types/data/budget/seprator-type";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 
-interface SepratorFixCodeModalProos {
+interface SepratorFixMosavabModalProos {
   initialData: GetSingleSepratorItemShape;
   onDoneTask: (code: string) => void;
   formData: any;
   coding: any;
 }
 
-function SepratorFixCodeModal(props: SepratorFixCodeModalProos) {
+function SepratorFixMosavabModal(props: SepratorFixMosavabModalProos) {
   const { initialData, onDoneTask, formData, coding } = props;
 
   // form manage
   const editFormSchema = yup.object({
-    code: yup.number().required(),
-    description: yup.string().required(),
+    mosavab: yup.number().required(),
   });
 
   const {
@@ -53,7 +52,7 @@ function SepratorFixCodeModal(props: SepratorFixCodeModalProos) {
     },
   });
 
-  const editMutation = useMutation(sepratorBudgetApi.fixCodeUpdate, {
+  const editMutation = useMutation(sepratorBudgetApi.fixMosavabUpdate, {
     onSuccess: () => {
       baseDataMutation.mutate(formData);
     },
@@ -68,8 +67,7 @@ function SepratorFixCodeModal(props: SepratorFixCodeModalProos) {
     editMutation.mutate({
       ...formData,
       codingId: coding,
-      code: String(values.code),
-      description: values.description,
+      mosavab: values.mosavab,
     });
   };
 
@@ -84,30 +82,14 @@ function SepratorFixCodeModal(props: SepratorFixCodeModalProos) {
         <Grid item sm={12}>
           <TextField
             id="code-input"
-            label="کد بودجه"
+            label="مصوب"
             variant="outlined"
             size="small"
             type="number"
-            {...register("code")}
-            error={!!errors.code}
-            helperText={(errors.code?.message || "") as any}
-            defaultValue={initialData.code}
-            autoComplete="off"
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item sm={12}>
-          <TextField
-            id="description-input"
-            label="شرح بودجه"
-            variant="outlined"
-            multiline
-            size="small"
-            {...register("description")}
-            error={!!errors["description"]}
-            helperText={(errors.description?.message || "") as any}
-            defaultValue={initialData.description}
+            {...register("mosavab")}
+            error={!!errors.mosavab}
+            helperText={(errors.mosavab?.message || "") as any}
+            defaultValue={initialData.mosavab}
             autoComplete="off"
             fullWidth
           />
@@ -123,4 +105,4 @@ function SepratorFixCodeModal(props: SepratorFixCodeModalProos) {
   );
 }
 
-export default SepratorFixCodeModal;
+export default SepratorFixMosavabModal;

@@ -26,6 +26,7 @@ import { accessNamesConfig } from "config/access-names-config";
 import SepratorFixCodeModal from "components/sections/budget/seprator/fix/seprator-fix-code-modal";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
+import SepratorFixMosavabModal from "components/sections/budget/seprator/fix/seprator-fix-mosavab-modal copy";
 
 interface TableDataItemShape {
   id: ReactNode;
@@ -56,6 +57,13 @@ function BudgetSepratorPage() {
   }, []);
 
   const afterCloseAnyModal = () => {
+    /*
+window.pageYOffset + document.querySelector('#c-2719').getBoundingClientRect().top
+
+document.querySelector('#table-container').scrollTop
+document.querySelector('#table-container').scrollTo
+    */
+
     activeTimeOut.current = setTimeout(() => {
       setCodingId(0);
     }, 3000);
@@ -176,18 +184,37 @@ function BudgetSepratorPage() {
   // fix code
   const [isOpenCodeFixModal, setIsOpenCodeFixModal] = useState(false);
 
-  const handleDoneTask = () => {
+  const handleDoneTask = (newCodingId: string) => {
     enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
       variant: "success",
     });
     setIsOpenCodeFixModal(false);
     afterCloseAnyModal();
+    // setTimeout(() => {
+    //   const top =
+    //     (document.querySelector("#table-container") as any).scrollTop +
+    //     (
+    //       document.querySelector(`#c-${newCodingId}`) as any
+    //     ).getBoundingClientRect().top;
+
+    //   (document.querySelector("#table-container") as any).scrollTo(0, top);
+    // }, 1000);
   };
 
   const handleClickFixCodeModal = (item: any) => {
     setDetailModalTitle(`${item.code} - ${item.description}`);
     setCodingId(item[sepratorBudgetConfig.CODING]);
     setIsOpenCodeFixModal(true);
+    setBaseInitialItem(item);
+  };
+
+  // fix mosavab
+  const [isOpenMosavabFixModal, setIsOpenMosavabFixModal] = useState(false);
+
+  const handleClickFixMosavabModal = (item: any) => {
+    setDetailModalTitle(`${item.code} - ${item.description}`);
+    setCodingId(item[sepratorBudgetConfig.CODING]);
+    setIsOpenMosavabFixModal(true);
     setBaseInitialItem(item);
   };
 
@@ -198,7 +225,7 @@ function BudgetSepratorPage() {
         variant="outlined"
         size="small"
         color="primary"
-        // onClick={() => handleClickAccModal(row)}
+        onClick={() => handleClickFixMosavabModal(row)}
         sx={{ fontSize: 10, minWidth: "15px", ml: 1 }}
       >
         ms
@@ -285,6 +312,7 @@ function BudgetSepratorPage() {
         creditAmount: item.creditAmount,
         expense: item.expense,
         percentBud: item.percentBud,
+        row_id: `c-${item.codingId}`,
         actions: actionButtons,
         bgcolor_pulse: codingId === item.codingId,
         bgcolor:
@@ -490,10 +518,26 @@ function BudgetSepratorPage() {
           afterCloseAnyModal();
         }}
         title={detailModalTitle}
-        loading={sepratorProjectMutation.isLoading}
         maxWidth="md"
       >
         <SepratorFixCodeModal
+          initialData={baseInitialItem}
+          onDoneTask={handleDoneTask}
+          formData={formData}
+          coding={codingId}
+        />
+      </FixedModal>
+
+      <FixedModal
+        open={isOpenMosavabFixModal}
+        handleClose={() => {
+          setIsOpenMosavabFixModal(false);
+          afterCloseAnyModal();
+        }}
+        title={detailModalTitle}
+        maxWidth="md"
+      >
+        <SepratorFixMosavabModal
           initialData={baseInitialItem}
           onDoneTask={handleDoneTask}
           formData={formData}

@@ -153,4 +153,12 @@ export const sepratorBudgetApi = new (class extends BaseApi {
     );
     return response.data;
   };
+
+  fixMosavabUpdate = async (formdata: any) => {
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      "BudSepApi/MosavabManualUpdate",
+      formdata
+    );
+    return response.data;
+  };
 })();
