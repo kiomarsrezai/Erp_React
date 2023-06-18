@@ -266,6 +266,16 @@ function usePermissions() {
       name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_EDIT_CODING_BTN,
     },
 
+    [accessNamesConfig.BUDGET__SEPRATOR_PAGE_FIX_CODE]: {
+      label: "دکمه کد",
+      name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_FIX_CODE,
+    },
+
+    [accessNamesConfig.BUDGET__SEPRATOR_PAGE_FIX_MOSAVAB]: {
+      label: "دکمه وصوب",
+      name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_FIX_MOSAVAB,
+    },
+
     // report
 
     [accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER]: centerField,

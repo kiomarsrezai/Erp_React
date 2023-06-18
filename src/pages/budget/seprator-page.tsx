@@ -183,7 +183,6 @@ document.querySelector('#table-container').scrollTo
 
   // fix code
   const [isOpenCodeFixModal, setIsOpenCodeFixModal] = useState(false);
-
   const handleDoneTask = () => {
     enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
       variant: "success",
@@ -222,25 +221,39 @@ document.querySelector('#table-container').scrollTo
   // actions
   const actionButtons = (row: TableDataItemShape | any) => (
     <Box display={"flex"} justifyContent={"center"}>
-      {/* <Button
-        variant="outlined"
-        size="small"
-        color="primary"
-        onClick={() => handleClickFixMosavabModal(row)}
-        sx={{ fontSize: 10, minWidth: "15px", ml: 1 }}
+      {/* <SectionGuard
+        permission={joinPermissions([
+          accessNamesConfig.BUDGET__SEPRATOR_PAGE,
+          accessNamesConfig.BUDGET__SEPRATOR_PAGE_FIX_MOSAVAB,
+        ])}
       >
-        ms
-      </Button> */}
+        <Button
+          variant="outlined"
+          size="small"
+          color="primary"
+          onClick={() => handleClickFixMosavabModal(row)}
+          sx={{ fontSize: 10, minWidth: "15px", ml: 1 }}
+        >
+          ms
+        </Button>
+      </SectionGuard> */}
 
-      <Button
-        variant="outlined"
-        size="small"
-        color="primary"
-        onClick={() => handleClickFixCodeModal(row)}
-        sx={{ fontSize: 10, minWidth: "15px", ml: 1 }}
+      <SectionGuard
+        permission={joinPermissions([
+          accessNamesConfig.BUDGET__SEPRATOR_PAGE,
+          accessNamesConfig.BUDGET__SEPRATOR_PAGE_FIX_CODE,
+        ])}
       >
-        c
-      </Button>
+        <Button
+          variant="outlined"
+          size="small"
+          color="primary"
+          onClick={() => handleClickFixCodeModal(row)}
+          sx={{ fontSize: 10, minWidth: "15px", ml: 1 }}
+        >
+          c
+        </Button>
+      </SectionGuard>
 
       {row.crud && (
         <>

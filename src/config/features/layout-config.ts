@@ -91,6 +91,8 @@ export const sidenavsLayout: SidenavShape[] = [
           accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_ADD_BTN,
           accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_EDIT_BTN,
           accessNamesConfig.BUDGET__SEPRATOR_PAGE_EDIT_CODING_BTN,
+          accessNamesConfig.BUDGET__SEPRATOR_PAGE_FIX_CODE,
+          accessNamesConfig.BUDGET__SEPRATOR_PAGE_FIX_MOSAVAB,
         ],
       },
       // {

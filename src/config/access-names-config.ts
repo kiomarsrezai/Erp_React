@@ -15,6 +15,8 @@ export const accessNamesConfig = {
   BUDGET__SEPRATOR_PAGE_PROJECT_USER_ADD_BTN: "project-user-add-btn",
   BUDGET__SEPRATOR_PAGE_PROJECT_USER_EDIT_BTN: "project-user-edit-btn",
   BUDGET__SEPRATOR_PAGE_EDIT_CODING_BTN: "coding-edit-btn",
+  BUDGET__SEPRATOR_PAGE_FIX_CODE: "project-fix-code",
+  BUDGET__SEPRATOR_PAGE_FIX_MOSAVAB: "project-fix-mosavab",
 
   BUDGET__SEPRATOR_CREADITOR_PAGE: "budget-seprator-creditor",
 
