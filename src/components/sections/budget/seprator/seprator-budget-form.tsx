@@ -237,9 +237,6 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
             >
               به روز آوری
             </Button>
-            <IconButton color="primary" onClick={handlePrintForm}>
-              <PrintIcon />
-            </IconButton>
 
             <SectionGuard
               permission={joinPermissions([
@@ -248,15 +245,18 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
               ])}
             >
               <Button
-                variant="outlined"
-                size="small"
+                variant="contained"
                 color="primary"
                 onClick={openMosavabModal}
-                sx={{ fontSize: 10, minWidth: "15px", ml: 1 }}
+                sx={{ marginLeft: 1 }}
               >
-                m
+                ویرایش بودجه مصوب
               </Button>
             </SectionGuard>
+
+            <IconButton color="primary" onClick={handlePrintForm}>
+              <PrintIcon />
+            </IconButton>
           </Grid>
         </Grid>
       </Box>

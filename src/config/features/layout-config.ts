@@ -145,52 +145,64 @@ export const sidenavsLayout: SidenavShape[] = [
           accessNamesConfig.FIELD_BUDGET_METHOD,
         ],
       },
-      {
-        title: "گزارشات بودجه",
-        icon: SummarizeIcon,
-        items: [
-          {
-            title: "گزارشات",
-            path: "/budget/report",
-            icon: AssessmentIcon,
-            licenseName: accessNamesConfig.BUDGET__REPORT_PAGE,
-            element: BudgetReportsPage,
-            permissionItems: [
-              accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND,
-              accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
-              accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT,
-              accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY,
-              accessNamesConfig.BUDGET__REPORT_PAGE_DEVIATION,
-              accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SORT,
-              accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE,
-            ],
-          },
-
-          // {
-          //   title: "گزارش متولی",
-          //   path: "/report/abstract-proctor",
-          //   icon: MonitorHeartIcon,
-          //   licenseName: accessNamesConfig.BUDGET__REPORT__ABSTRUCT_PAGE,
-          //   element: ReportProctorAbstructPage,
-          //   permissionItems: [
-          //     getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
-          //   ],
-          // },
-          // {
-          //   title: "گزارش خلاصه بودجه",
-          //   path: "/report/abstract-budget",
-          //   icon: MonitorHeartIcon,
-          //   licenseName: accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE,
-          //   element: AbstructBudgetPage,
-          //   permissionItems: [
-          //     getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
-          //     accessNamesConfig.FIELD_ORGAN,
-          //     accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE_KIND,
-          //   ],
-          // },
-        ],
-      },
     ],
+  },
+  {
+    title: "گزارشات بودجه",
+    path: "/budget/report",
+    icon: AssessmentIcon,
+    licenseName: accessNamesConfig.BUDGET__REPORT_PAGE,
+    element: BudgetReportsPage,
+    permissionItems: [
+      accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND,
+      accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
+      accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT,
+      accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY,
+      accessNamesConfig.BUDGET__REPORT_PAGE_DEVIATION,
+      accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SORT,
+      accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE,
+    ],
+    // items: [
+    // {
+    //   title: "گزارشات",
+    //   path: "/budget/report",
+    //   icon: AssessmentIcon,
+    //   licenseName: accessNamesConfig.BUDGET__REPORT_PAGE,
+    //   element: BudgetReportsPage,
+    //   permissionItems: [
+    //     accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND,
+    //     accessNamesConfig.BUDGET__REPORT_PAGE_REVENUE,
+    //     accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT,
+    //     accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY,
+    //     accessNamesConfig.BUDGET__REPORT_PAGE_DEVIATION,
+    //     accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SORT,
+    //     accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE,
+    //   ],
+    // },
+
+    // {
+    //   title: "گزارش متولی",
+    //   path: "/report/abstract-proctor",
+    //   icon: MonitorHeartIcon,
+    //   licenseName: accessNamesConfig.BUDGET__REPORT__ABSTRUCT_PAGE,
+    //   element: ReportProctorAbstructPage,
+    //   permissionItems: [
+    //     getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
+    //   ],
+    // },
+    // {
+    //   title: "گزارش خلاصه بودجه",
+    //   path: "/report/abstract-budget",
+    //   icon: MonitorHeartIcon,
+    //   licenseName: accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE,
+    //   element: AbstructBudgetPage,
+    //   permissionItems: [
+    //     getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
+    //     accessNamesConfig.FIELD_ORGAN,
+    //     accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE_KIND,
+    //   ],
+    // },
+    // ],
   },
   // contracts
   {
