@@ -22,6 +22,7 @@ import { ReactNode, useEffect, useRef, useState } from "react";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { globalConfig } from "config/global-config";
 import { transferConfig } from "config/features/transfer/transfer-config";
+import { BsEraserFill } from "react-icons/bs";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -149,22 +150,41 @@ function TransferPage() {
     handleOpenModal();
   };
 
+  const handleIconClick = (
+    row: GetSingleTransferItemShape & TableDataItemShape
+  ) => {
+    DeleteCodeAccMutation.mutate(row.id);
+  };
+
+  // delete row
   const [removeItemId, setRemoveItemId] = useState<null | number>(null);
   const [confrimRemoveText, setConfrimRemoveText] = useState<string>("");
 
   const onConfrimDeleteModal = () => {
-    DeleteCodeAccMutation.mutate(removeItemId as number);
+    DeleteRowMutation.mutate(removeItemId as number);
     onCancelDeleteModal();
   };
   const onCancelDeleteModal = () => {
     setRemoveItemId(null);
   };
-  const handleIconClick = (
+
+  const DeleteRowMutation = useMutation(transferApi.deleteRow, {
+    onSuccess: () => {
+      getDataMutation.mutate(formData);
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+    },
+    onError: () => {
+      //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+      //variant: "error",
+      //});
+    },
+  });
+  const handleDeleteClick = (
     row: GetSingleTransferItemShape & TableDataItemShape
   ) => {
-    DeleteCodeAccMutation.mutate(row.id);
-    return;
-    const text = `آیا مایل به حذف کردن ردیف ${row.titleAcc} هستید ؟`;
+    const text = `آیا مایل به حذف کردن ردیف ${row.description} هستید ؟`;
     setConfrimRemoveText(text);
     setRemoveItemId(row.id);
   };
@@ -174,15 +194,23 @@ function TransferPage() {
   ) => {
     return (
       <Box display="flex" justifyContent="end">
-        {(!!row.titleAcc || !!row.codeAcc) && (
-          <IconButton
-            color="error"
-            size="small"
-            onClick={() => handleIconClick(row)}
-          >
-            <DeleteIcon />
-          </IconButton>
-        )}
+        <IconButton
+          color="error"
+          size="small"
+          onClick={() => handleDeleteClick(row)}
+        >
+          <DeleteIcon />
+        </IconButton>
+
+        {/* {(!!row.titleAcc || !!row.codeAcc) && ( */}
+        <IconButton
+          color="error"
+          size="small"
+          onClick={() => handleIconClick(row)}
+        >
+          <BsEraserFill />
+        </IconButton>
+        {/* )} */}
 
         <IconButton
           color="success"
