@@ -24,10 +24,12 @@ import { proposalConfig } from "config/features/budget/proposal-config";
 interface ProposalBudgetFormProps {
   formData: any;
   setFormData: any;
+  setCodingId: any;
+  afterCloseAnyModal: any;
 }
 
 function ProposalBudgetForm(props: ProposalBudgetFormProps) {
-  const { formData, setFormData } = props;
+  const { formData, setFormData, setCodingId, afterCloseAnyModal } = props;
 
   const userLicenses = userStore((state) => state.permissions);
 
@@ -119,9 +121,21 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
     }
   };
 
-  const handleDoneTaskBaseModal = () => {
+  const handleDoneTaskBaseModal = (coding: string | number) => {
+    setCodingId(coding);
     setIsOpenBaseModal(false);
     submitMutation.mutate(formData);
+
+    setTimeout(() => {
+      afterCloseAnyModal();
+      const top =
+        (document.querySelector("#table-container") as any)?.scrollTop +
+        (document.querySelector(`#c-${coding}`) as any).getBoundingClientRect()
+          ?.top -
+        500;
+
+      (document.querySelector("#table-container") as any)?.scrollTo?.(0, top);
+    }, 500);
   };
 
   return (

@@ -23,7 +23,7 @@ interface TableDataItemShape {
 interface ProposalBudgetBaseModalProps {
   data: GetModalBaseData[];
   formData: any;
-  onDoneTask: () => void;
+  onDoneTask: (coding: string | number) => void;
 }
 
 function ProposalBudgetBaseModal(props: ProposalBudgetBaseModalProps) {
@@ -79,12 +79,13 @@ function ProposalBudgetBaseModal(props: ProposalBudgetBaseModalProps) {
   ];
 
   // insert
+  const [codingId, setCodingId] = useState<number | string>("");
   const insertMutation = useMutation(proposalBudgetApi.insertModal1, {
     onSuccess: () => {
       enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
         variant: "success",
       });
-      onDoneTask();
+      onDoneTask(codingId);
     },
     onError: () => {
       //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
@@ -95,6 +96,7 @@ function ProposalBudgetBaseModal(props: ProposalBudgetBaseModalProps) {
 
   // data
   const handleAddClick = (row: GetModalBaseData & TableDataItemShape) => {
+    setCodingId(row.id);
     insertMutation.mutate({
       ...formData,
       [proposalConfig.coding]: row.id,

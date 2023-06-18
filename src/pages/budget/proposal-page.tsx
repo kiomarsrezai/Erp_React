@@ -108,7 +108,12 @@ function BudgetProposalPage() {
   const tableHeadGroups: TableHeadGroupShape = [
     {
       title: (
-        <ProposalBudgetForm formData={formData} setFormData={setFormData} />
+        <ProposalBudgetForm
+          formData={formData}
+          setFormData={setFormData}
+          setCodingId={setCodingId}
+          afterCloseAnyModal={afterCloseAnyModal}
+        />
       ),
       colspan: tableHeads.filter((item) => !item.hidden).length,
     },
@@ -218,6 +223,7 @@ function BudgetProposalPage() {
         edit: item.edit,
         creditAmount: item.creditAmount,
         percent: item.percentBud,
+        row_id: `c-${item.codingId}`,
         expense: item.expense,
         bgcolor_pulse: codingId === item.codingId,
         "textcolor-expense":
