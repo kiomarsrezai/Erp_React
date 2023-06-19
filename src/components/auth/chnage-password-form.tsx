@@ -18,7 +18,13 @@ import userStore from "hooks/store/user-store";
 import { globalConfig } from "config/global-config";
 import { enqueueSnackbar } from "notistack";
 
-function ChnagePasswordForm() {
+interface ChnagePasswordFormProps {
+  onClose: () => void;
+}
+
+function ChnagePasswordForm(props: ChnagePasswordFormProps) {
+  const { onClose } = props;
+
   const [showPasswordMain, setShowPasswordMain] = useState(false);
   const [showPasswordRepeat, setShowPasswordRepeat] = useState(false);
 
@@ -50,10 +56,12 @@ function ChnagePasswordForm() {
       enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
         variant: "success",
       });
+
+      onClose();
     },
     onError: () => {
       //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
-        //variant: "error",
+      //variant: "error",
       //});
     },
   });
@@ -74,9 +82,9 @@ function ChnagePasswordForm() {
   return (
     <Box component="form" padding={3} onSubmit={handleSubmit(submitHandler)}>
       <Grid container justifyContent="center" spacing={2}>
-        <Grid lg={7}>
+        <Grid sm={9}>
           <TextField
-            id="username-input"
+            id="password-input"
             label="رمز ورود"
             variant="outlined"
             {...register(changePasswordConfig.password)}
@@ -87,9 +95,9 @@ function ChnagePasswordForm() {
             fullWidth
           />
         </Grid>
-        <Grid lg={7}>
+        <Grid sm={9}>
           <TextField
-            id="password-input"
+            id="new-password-input"
             label="رمز ورود جدید"
             variant="outlined"
             {...register(changePasswordConfig.new_password)}
@@ -116,7 +124,7 @@ function ChnagePasswordForm() {
             }}
           />
         </Grid>
-        <Grid lg={7}>
+        <Grid sm={9}>
           <TextField
             id="repeat-password-input"
             label="تکرار رمز جدید"
@@ -146,7 +154,7 @@ function ChnagePasswordForm() {
             }}
           />
         </Grid>
-        <Grid lg={7}>
+        <Grid sm={9}>
           <Button variant="contained" color="primary" type="submit">
             تایید
           </Button>

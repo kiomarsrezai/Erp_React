@@ -154,8 +154,10 @@ function AdminHeader() {
         open={isOpenChangePasswordModal}
         handleClose={handleCloseChangePasswordModal}
         title="تغییر رمز ورود"
+        maxWidth="sm"
+        maxHeight="50%"
       >
-        <ChnagePasswordForm />
+        <ChnagePasswordForm onClose={handleCloseChangePasswordModal} />
       </FixedModal>
     </>
   );
