@@ -175,6 +175,8 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
         <SectionGuard
           permission={joinPermissions([
             accessNamesConfig.BUDGET__SEPRATOR_PAGE,
+            accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_BTN,
+            accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_BTN,
             accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_EDIT_BTN,
           ])}
         >
@@ -255,6 +257,8 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
         <SectionGuard
           permission={joinPermissions([
             accessNamesConfig.BUDGET__SEPRATOR_PAGE,
+            accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_BTN,
+            accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_BTN,
             accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_ADD_BTN,
           ])}
         >

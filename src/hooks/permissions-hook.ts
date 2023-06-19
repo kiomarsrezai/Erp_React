@@ -159,6 +159,49 @@ function usePermissions() {
     areaNumber3Query.data?.data || []
   );
 
+  // seprator
+  const sepratorTaminBtn = formatLocalFields(
+    "دکمه تامین اعتبار",
+    accessNamesConfig.BUDGET__SEPRATOR_PAGE_TAMIN_BTN,
+    [
+      formatLocalFields(
+        "دکمه تامین اعتبار مودال",
+        accessNamesConfig.BUDGET__SEPRATOR_PAGE_INNER_TAMIN_BTN
+      ),
+    ]
+  );
+
+  const sepratorProjectBtn = formatLocalFields(
+    "دکمه پروژه",
+    accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_BTN,
+    [
+      formatLocalFields(
+        "دکمه جستجوی پروژه",
+        accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_SEARCH_BTN
+      ),
+
+      formatLocalFields(
+        "دکمه مجری",
+        accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_BTN,
+        [
+          formatLocalFields(
+            "دکمه لیست مجریان",
+            accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_ADD_BTN
+          ),
+          formatLocalFields(
+            "دکمه ویرایش مجریان",
+            accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_EDIT_BTN
+          ),
+        ]
+      ),
+
+      formatLocalFields(
+        "دکمه ویرایش کدینگ",
+        accessNamesConfig.BUDGET__SEPRATOR_PAGE_EDIT_CODING_BTN
+      ),
+    ]
+  );
+
   const accessValues = {
     // propsal
     [accessNamesConfig.BUDGET__REPORT_PAGE_RAVAND]: formatLocalFields(
@@ -243,50 +286,53 @@ function usePermissions() {
 
     [accessNamesConfig.BUDGET__REPORT_PAGE_COMBO]: budgetField,
     // seprator
-    [accessNamesConfig.BUDGET__SEPRATOR_PAGE_TAMIN_BTN]: {
-      label: "دکمه تامین اعتبار",
-      name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_TAMIN_BTN,
-    },
+    // [accessNamesConfig.BUDGET__SEPRATOR_PAGE_TAMIN_BTN]: {
+    //   label: "دکمه تامین اعتبار",
+    //   name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_TAMIN_BTN,
+    // },
 
-    [accessNamesConfig.BUDGET__SEPRATOR_PAGE_INNER_TAMIN_BTN]: {
-      label: "دکمه تامین اعتبار مودال",
-      name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_INNER_TAMIN_BTN,
-    },
+    [accessNamesConfig.BUDGET__SEPRATOR_PAGE_TAMIN_BTN]: sepratorTaminBtn,
+    [accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_BTN]: sepratorProjectBtn,
 
-    [accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_BTN]: {
-      label: "دکمه پروژه",
-      name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_BTN,
-    },
+    // [accessNamesConfig.BUDGET__SEPRATOR_PAGE_INNER_TAMIN_BTN]: {
+    //   label: "دکمه تامین اعتبار مودال",
+    //   name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_INNER_TAMIN_BTN,
+    // },
+
+    // [accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_BTN]: {
+    //   label: "دکمه پروژه",
+    //   name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_BTN,
+    // },
 
     [accessNamesConfig.BUDGET__SEPRATOR_PAGE_ACC_BTN]: {
       label: "دکمه حسابداری",
       name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_ACC_BTN,
     },
 
-    [accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_BTN]: {
-      label: "دکمه مجری",
-      name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_BTN,
-    },
+    // [accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_BTN]: {
+    //   label: "دکمه مجری",
+    //   name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_BTN,
+    // },
 
-    [accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_SEARCH_BTN]: {
-      label: "دکمه جستجوی پروژه",
-      name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_SEARCH_BTN,
-    },
+    // [accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_SEARCH_BTN]: {
+    //   label: "دکمه جستجوی پروژه",
+    //   name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_SEARCH_BTN,
+    // },
 
-    [accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_ADD_BTN]: {
-      label: "دکمه لیست مجریان",
-      name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_ADD_BTN,
-    },
+    // [accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_ADD_BTN]: {
+    //   label: "دکمه لیست مجریان",
+    //   name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_ADD_BTN,
+    // },
 
-    [accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_EDIT_BTN]: {
-      label: "دکمه ویرایش مجریان",
-      name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_EDIT_BTN,
-    },
+    // [accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_EDIT_BTN]: {
+    //   label: "دکمه ویرایش مجریان",
+    //   name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_EDIT_BTN,
+    // },
 
-    [accessNamesConfig.BUDGET__SEPRATOR_PAGE_EDIT_CODING_BTN]: {
-      label: "دکمه ویرایش کدینگ",
-      name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_EDIT_CODING_BTN,
-    },
+    // [accessNamesConfig.BUDGET__SEPRATOR_PAGE_EDIT_CODING_BTN]: {
+    //   label: "دکمه ویرایش کدینگ",
+    //   name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_EDIT_CODING_BTN,
+    // },
 
     [accessNamesConfig.BUDGET__SEPRATOR_PAGE_FIX_CODE]: {
       label: "دکمه کد",
