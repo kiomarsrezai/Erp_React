@@ -339,7 +339,13 @@ document.querySelector('#table-container').scrollTo
         "bgcolor-creditAmount": item.creditAmount > item.edit && "#d7a2a2",
         "bgcolor-expense": item.expense > item.edit && "#d7a2a2",
         "textcolor-expense":
-          item.expense < 0 || item.expense > item.creditAmount ? "red" : "",
+          item.expense < 0 ||
+          (item.expense > item.creditAmount &&
+            [2, 3, 4, 5].includes(
+              formData[sepratorBudgetConfig.BUDGET_METHOD] as any
+            ))
+            ? "red"
+            : "",
       })
     );
 

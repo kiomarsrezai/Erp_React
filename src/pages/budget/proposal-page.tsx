@@ -227,7 +227,13 @@ function BudgetProposalPage() {
         expense: item.expense,
         bgcolor_pulse: codingId === item.codingId,
         "textcolor-expense":
-          item.expense < 0 || item.expense > item.creditAmount ? "red" : "",
+          item.expense < 0 ||
+          (item.expense > item.creditAmount &&
+            [2, 3, 4, 5].includes(
+              formData[proposalConfig.BUDGET_METHOD] as any
+            ))
+            ? "red"
+            : "",
         "bgcolor-expense": item.expense > item.edit && "#d7a2a2",
         "bgcolor-creditAmount": item.creditAmount > item.edit && "#d7a2a2",
         bgcolor:
