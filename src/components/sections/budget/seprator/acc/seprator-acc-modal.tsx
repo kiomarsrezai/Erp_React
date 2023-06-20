@@ -44,7 +44,6 @@ function SepratorAccModal(props: SepratorModal1props) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = (event.target as HTMLInputElement).value;
     const name = (event.target as HTMLInputElement).name;
-    console.log(name, value);
 
     setModalFormData((state: any) => ({ ...state, [name]: +value }));
   };

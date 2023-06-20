@@ -148,6 +148,7 @@ function BudgetProposalPage() {
   const handleOpenDetailModal = (
     row: TableDataItemShape & GetSingleProposalItemShape
   ) => {
+    clearTimeout(activeTimeOut.current);
     setIsmodal1Changed(false);
     const title = `${row.code} - ${row.description}`;
     setModalTitle(title);
@@ -171,6 +172,7 @@ function BudgetProposalPage() {
   const handleOpenInfoModal = (
     row: TableDataItemShape & GetSingleProposalItemShape
   ) => {
+    clearTimeout(activeTimeOut.current);
     const title = `${row.code} - ${row.description}`;
     setModalTitle(title);
     setActiveRowData(row);
@@ -364,7 +366,10 @@ function BudgetProposalPage() {
       {/* modal info */}
       <FixedModal
         open={isOpenInfoModal}
-        handleClose={() => setIsOpenInfoModal(false)}
+        handleClose={() => {
+          setIsOpenInfoModal(false);
+          afterCloseAnyModal();
+        }}
         loading={getInfoDataMutation.isLoading}
         title={modalTitle}
         maxWidth="md"

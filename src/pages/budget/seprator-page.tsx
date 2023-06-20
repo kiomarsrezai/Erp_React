@@ -159,6 +159,7 @@ document.querySelector('#table-container').scrollTo
   const [isOpenAccModal, setIsOpenAccModal] = useState(false);
 
   const handleClickAccModal = (row: any) => {
+    clearTimeout(activeTimeOut.current);
     setCodingId(row[sepratorBudgetConfig.CODING]);
     setDetailModalTitle(`${row.code} - ${row.description}`);
     setIsOpenAccModal(true);
@@ -201,6 +202,7 @@ document.querySelector('#table-container').scrollTo
   };
 
   const handleClickFixCodeModal = (item: any) => {
+    clearTimeout(activeTimeOut.current);
     setDetailModalTitle(`${item.code} - ${item.description}`);
     setCodingId(item[sepratorBudgetConfig.CODING]);
     setIsOpenCodeFixModal(true);
@@ -440,6 +442,7 @@ document.querySelector('#table-container').scrollTo
   const [detailModal, setDetailModal] = useState(false);
   const [detailModalTitle, setDetailModalTitle] = useState("");
   const handleOpenDetailModal = () => {
+    clearTimeout(activeTimeOut.current);
     setDetailModal(true);
   };
 

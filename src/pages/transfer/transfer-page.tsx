@@ -52,6 +52,7 @@ function TransferPage() {
   };
 
   const handleOpenModal = () => {
+    clearTimeout(activeTimeOut.current);
     setOpenModal(true);
   };
 
