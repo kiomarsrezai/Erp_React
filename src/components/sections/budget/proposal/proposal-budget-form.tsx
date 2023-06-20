@@ -148,7 +148,7 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
               accessNamesConfig.FIELD_YEAR,
             ])}
           >
-            <Grid lg={2}>
+            <Grid sm={2}>
               <YearInput
                 setter={setFormData}
                 value={formData[proposalConfig.YEAR]}
@@ -163,7 +163,7 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
               accessNamesConfig.FIELD_AREA,
             ])}
           >
-            <Grid lg={2}>
+            <Grid sm={2}>
               <AreaInput
                 setter={setFormData}
                 value={formData[proposalConfig.AREA]}
@@ -180,7 +180,7 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
               accessNamesConfig.FIELD_BUDGET_METHOD,
             ])}
           >
-            <Grid lg={2}>
+            <Grid sm={2}>
               <BudgetMethodInput
                 setter={setFormData}
                 value={formData[proposalConfig.BUDGET_METHOD]}
@@ -189,7 +189,7 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
               />
             </Grid>
           </SectionGuard>
-          <Grid lg={4}>
+          <Grid sm>
             <LoadingButton
               variant="contained"
               type="submit"

@@ -131,7 +131,7 @@ function TransferForm(props: TransferFormProps) {
               accessNamesConfig.FIELD_YEAR,
             ])}
           >
-            <Grid lg={2}>
+            <Grid sm={2}>
               <YearInput
                 setter={setFormData}
                 value={formData[transferConfig.YEAR]}
@@ -146,7 +146,7 @@ function TransferForm(props: TransferFormProps) {
               accessNamesConfig.FIELD_AREA,
             ])}
           >
-            <Grid lg={2}>
+            <Grid sm={2}>
               <AreaInput
                 setter={setFormData}
                 value={formData[transferConfig.AREA]}
@@ -161,7 +161,7 @@ function TransferForm(props: TransferFormProps) {
               accessNamesConfig.FIELD_BUDGET_METHOD,
             ])}
           >
-            <Grid lg={2}>
+            <Grid sm={2}>
               <BudgetMethodInput
                 setter={setFormData}
                 value={formData[transferConfig.BUDGET_METHOD]}
@@ -170,7 +170,7 @@ function TransferForm(props: TransferFormProps) {
               />
             </Grid>
           </SectionGuard>
-          <Grid lg={4}>
+          <Grid sm>
             <LoadingButton
               variant="contained"
               type="submit"

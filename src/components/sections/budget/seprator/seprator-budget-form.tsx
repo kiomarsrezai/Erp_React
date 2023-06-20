@@ -181,7 +181,7 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
               accessNamesConfig.FIELD_YEAR,
             ])}
           >
-            <Grid lg={2}>
+            <Grid sm={2}>
               <YearInput
                 setter={setFormData}
                 value={formData[sepratorBudgetConfig.YEAR]}
@@ -196,7 +196,7 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
               accessNamesConfig.FIELD_AREA,
             ])}
           >
-            <Grid lg={2}>
+            <Grid sm={2}>
               <AreaInput
                 setter={setFormData}
                 value={formData[sepratorBudgetConfig.AREA]}
@@ -212,7 +212,7 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
               accessNamesConfig.FIELD_BUDGET_METHOD,
             ])}
           >
-            <Grid lg={2}>
+            <Grid sm={2}>
               <BudgetMethodInput
                 setter={setFormData}
                 value={formData[sepratorBudgetConfig.BUDGET_METHOD]}
@@ -221,7 +221,7 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
               />
             </Grid>
           </SectionGuard>
-          <Grid lg={4}>
+          <Grid sm>
             <LoadingButton
               variant="contained"
               type="submit"

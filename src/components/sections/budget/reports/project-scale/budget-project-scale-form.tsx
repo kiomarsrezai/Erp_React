@@ -173,6 +173,7 @@ function BudgetReportProjectScaleForm(props: BudgetReportDeviationFormProps) {
           <ProjectScaleInput
             setter={setFormData}
             value={formData[budgetProjectOprationConfig.scale] as any}
+            showError={haveSubmitedForm}
           />
         </Grid>
 
