@@ -6,8 +6,15 @@ import PlaqueMotorBox from "components/data/plaque-motor-box";
 function PropertyMotor() {
   return (
     <AdminLayout>
-      <Box display={"flex"} justifyContent={"center"} py={30}>
-        {/* <PlaqueCarBox /> */}
+      <Box
+        display={"flex"}
+        flexDirection={"column"}
+        justifyContent={"center"}
+        alignItems={"center"}
+        gap={20}
+        py={30}
+      >
+        <PlaqueCarBox />
         <PlaqueMotorBox />
       </Box>
     </AdminLayout>

@@ -50,7 +50,7 @@ function PlaqueCarBox() {
           fontSize: 47,
           p: 1,
           //   bgcolor: "yellow",
-          fontWeight: "bold",
+          // fontWeight: "bold",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
