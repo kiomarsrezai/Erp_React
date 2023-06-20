@@ -40,6 +40,7 @@ import BudgetSepratorCreaditorPage from "pages/budget/seprator-creaditor-page";
 import OrgProjectTablePage from "pages/project/table/org-table-page";
 import BudgetEditPage from "pages/budget/budget-edit-page";
 import ContractsTasks from "pages/contracts/contracts-tasks";
+import PropertyMotor from "pages/property/property-motor";
 
 export const sidenavsLayout: SidenavShape[] = [
   // report
@@ -340,7 +341,8 @@ export const sidenavsLayout: SidenavShape[] = [
         title: "وسایل نقلیه موتوری",
         icon: CircleIcon,
         licenseName: accessNamesConfig.PROPERTY__MOTOR_PAGE,
-        path: "/",
+        element: PropertyMotor,
+        path: "/property/motor",
       },
       {
         title: "تاسیسات و تجهیزات",
