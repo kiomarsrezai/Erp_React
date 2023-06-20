@@ -56,9 +56,45 @@ function PlaqueCarBox() {
           justifyContent: "center",
         }}
       >
-        <pre> 52 </pre>
-        <pre> د </pre>
-        <pre> 123 </pre>
+        <input
+          type="number"
+          defaultValue={14}
+          style={{
+            fontSize: "47px",
+            textAlign: "center",
+            color: "rgba(0, 0, 0, 0.87)",
+            width: "100%",
+            height: "100%",
+            border: "none",
+            outline: "none",
+          }}
+        />
+        <input
+          type="text"
+          defaultValue={"د"}
+          style={{
+            fontSize: "47px",
+            textAlign: "center",
+            color: "rgba(0, 0, 0, 0.87)",
+            width: "100%",
+            height: "100%",
+            border: "none",
+            outline: "none",
+          }}
+        />
+        <input
+          type="number"
+          defaultValue={123}
+          style={{
+            fontSize: "47px",
+            textAlign: "center",
+            color: "rgba(0, 0, 0, 0.87)",
+            width: "100%",
+            height: "100%",
+            border: "none",
+            outline: "none",
+          }}
+        />
       </Box>
 
       {/* right */}
@@ -79,7 +115,22 @@ function PlaqueCarBox() {
       >
         <Box>ایران</Box>
 
-        <Box>14</Box>
+        <Box>
+          <input
+            type="number"
+            defaultValue={14}
+            style={{
+              fontSize: "23px",
+              textAlign: "center",
+              color: "rgba(0, 0, 0, 0.87)",
+              width: "100%",
+              height: "100%",
+              border: "none",
+              outline: "none",
+              fontWeight: "bold",
+            }}
+          />
+        </Box>
       </Box>
     </Box>
   );

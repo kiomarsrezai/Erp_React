@@ -1,7 +1,18 @@
 import Box from "@mui/material/Box";
 import iranFlag from "assets/images/logos/iran-flag.png";
+import TextField from "@mui/material/TextField";
 
 function PlaqueMotorBox() {
+  const inputStyle: any = {
+    fontSize: "47px",
+    textAlign: "center",
+    color: "rgba(0, 0, 0, 0.87)",
+    width: "100%",
+    height: "100%",
+    border: "none",
+    outline: "none",
+  };
+
   return (
     <Box
       sx={{
@@ -61,7 +72,7 @@ function PlaqueMotorBox() {
             alignItems: "center",
           }}
         >
-          123
+          <input type="number" defaultValue={312} style={inputStyle} />
         </Box>
       </Box>
       {/* bottom */}
@@ -74,7 +85,7 @@ function PlaqueMotorBox() {
           fontSize: 47,
         }}
       >
-        58786
+        <input type="number" defaultValue={58786} style={inputStyle} />
       </Box>
     </Box>
   );
