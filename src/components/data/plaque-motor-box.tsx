@@ -1,8 +1,17 @@
 import Box from "@mui/material/Box";
 import iranFlag from "assets/images/logos/iran-flag.png";
 import TextField from "@mui/material/TextField";
+import { ChangeEvent, useEffect, useState } from "react";
+import { propertyMotorConfig } from "config/features/property/property-motor-config";
+import { onlyNumberKey } from "helper/form-utils";
 
-function PlaqueMotorBox() {
+interface PlaqueMotorBoxProps {
+  formData: any;
+  setFormData: any;
+}
+function PlaqueMotorBox(props: PlaqueMotorBoxProps) {
+  const { setFormData, formData } = props;
+
   const inputStyle: any = {
     fontSize: "47px",
     textAlign: "center",
@@ -11,6 +20,46 @@ function PlaqueMotorBox() {
     height: "100%",
     border: "none",
     outline: "none",
+  };
+
+  const [state, setState] = useState(
+    formData[propertyMotorConfig.pelak].split("_")
+  );
+
+  useEffect(() => {
+    setFormData((prevState: any) => ({
+      ...prevState,
+      [propertyMotorConfig.pelak]: state.join("_"),
+    }));
+  }, [state]);
+
+  const handleChangeState1 = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setState((prevState: any) => {
+      let newState: any = prevState;
+      if (value.length < 4) {
+        newState = [value, prevState[1]];
+      } else if (prevState[0] === "---") {
+        newState = [value.replaceAll("-", ""), prevState[1]];
+      }
+
+      return newState;
+    });
+  };
+
+  const handleChangeState2 = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setState((prevState: any) => {
+      let newState: any = prevState;
+
+      if (value.length < 6) {
+        newState = [prevState[0], value];
+      } else if (prevState[1] === "-----") {
+        newState = [prevState[0], value.replaceAll("-", "")];
+      }
+
+      return newState;
+    });
   };
 
   return (
@@ -72,7 +121,14 @@ function PlaqueMotorBox() {
             alignItems: "center",
           }}
         >
-          <input type="number" defaultValue={312} style={inputStyle} />
+          <input
+            type="text"
+            defaultValue={312}
+            style={inputStyle}
+            value={state[0]}
+            onChange={handleChangeState1}
+            onKeyPress={onlyNumberKey}
+          />
         </Box>
       </Box>
       {/* bottom */}
@@ -85,7 +141,13 @@ function PlaqueMotorBox() {
           fontSize: 47,
         }}
       >
-        <input type="number" defaultValue={58786} style={inputStyle} />
+        <input
+          type="text"
+          style={inputStyle}
+          value={state[1]}
+          onChange={handleChangeState2}
+          onKeyPress={onlyNumberKey}
+        />
       </Box>
     </Box>
   );

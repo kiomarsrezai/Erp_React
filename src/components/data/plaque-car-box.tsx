@@ -31,7 +31,6 @@ function PlaqueCarBox(props: PlaqueCarBoxProps) {
     }));
   }, [state]);
 
-  // input 1
   const handleChangeState1 = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setState((prevState: any) => {

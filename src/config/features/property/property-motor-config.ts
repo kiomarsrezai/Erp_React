@@ -24,9 +24,14 @@ export const propertyMotorUrls = {
   kindCombo: "CarApi/CarKindCom",
 };
 
+export const defaultPlak = {
+  car: "--_-_---_ایران_--",
+  motor: "---_-----",
+};
+
 export const propertyMotorFormDefaultValue = {
   id: undefined,
-  [propertyMotorConfig.pelak]: "--_-_---_ایران_--",
+  [propertyMotorConfig.pelak]: defaultPlak.car,
   [propertyMotorConfig.kind_motor]: 1,
   [propertyMotorConfig.kind]: undefined,
   [propertyMotorConfig.kind_name]: "",

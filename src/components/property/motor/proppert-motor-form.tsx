@@ -3,6 +3,7 @@ import {
   Card,
   CardContent,
   Unstable_Grid2 as Grid,
+  SelectChangeEvent,
   TextField,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
@@ -12,7 +13,10 @@ import PropertMotorKindInput from "components/sections/inputs/car/property-motor
 import PropertMotorSystemInput from "components/sections/inputs/car/property-motor-system-input";
 import PropertMotorTipInput from "components/sections/inputs/car/property-motor-tip-input";
 import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
-import { propertyMotorConfig } from "config/features/property/property-motor-config";
+import {
+  defaultPlak,
+  propertyMotorConfig,
+} from "config/features/property/property-motor-config";
 import { globalConfig } from "config/global-config";
 import { changeInputHandler } from "helper/form-utils";
 import { ChangeEvent } from "react";
@@ -42,6 +46,17 @@ function PropertyMotorForm(props: PropertyMotorFormProps) {
   //   form
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     changeInputHandler(e, setFormData);
+  };
+
+  const handleKindChange = (value: number) => {
+    setFormData((prevState: any) => {
+      return {
+        ...prevState,
+        [propertyMotorConfig.kind_motor]: value,
+        [propertyMotorConfig.pelak]:
+          value === 1 ? defaultPlak.car : defaultPlak.motor,
+      };
+    });
   };
 
   return (
@@ -76,7 +91,7 @@ function PropertyMotorForm(props: PropertyMotorFormProps) {
                   label="نوع وسیله"
                   name={propertyMotorConfig.kind_motor}
                   value={formData[propertyMotorConfig.kind_motor]}
-                  setter={setFormData}
+                  manualHandleChange={handleKindChange}
                   showError={haveSubmitedForm}
                 />
               </Grid>
@@ -158,7 +173,10 @@ function PropertyMotorForm(props: PropertyMotorFormProps) {
                       setFormData={setFormData}
                     />
                   ) : (
-                    <PlaqueMotorBox />
+                    <PlaqueMotorBox
+                      formData={formData}
+                      setFormData={setFormData}
+                    />
                   )}
                 </Box>
               </Grid>
