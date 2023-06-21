@@ -26,7 +26,7 @@ export const propertyMotorUrls = {
 
 export const propertyMotorFormDefaultValue = {
   id: undefined,
-  [propertyMotorConfig.pelak]: "",
+  [propertyMotorConfig.pelak]: "--_-_---_ایران_--",
   [propertyMotorConfig.kind_motor]: 1,
   [propertyMotorConfig.kind]: undefined,
   [propertyMotorConfig.kind_name]: "",

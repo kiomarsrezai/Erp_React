@@ -45,7 +45,7 @@ function PropertyMotorForm(props: PropertyMotorFormProps) {
   };
 
   return (
-    <Card sx={{ bgcolor: "grey.200", "&:hover": { bgcolor: "grey.300" } }}>
+    <Card sx={{ bgcolor: "grey.200" }}>
       <CardContent sx={{ padding: "16px !important" }}>
         <Grid spacing={3} container>
           <Grid sm={6}>
@@ -144,15 +144,19 @@ function PropertyMotorForm(props: PropertyMotorFormProps) {
             </Grid>
           </Grid>
           <Grid sm={6}>
-            <Grid spacing={3} container>
-              <Grid sm={12}>
+            <Grid spacing={3} container height={"100%"}>
+              <Grid sm={12} height={"100%"}>
                 <Box
                   display={"flex"}
                   justifyContent={"center"}
                   alignItems={"center"}
+                  height={"100%"}
                 >
                   {formData[propertyMotorConfig.kind_motor] === 1 ? (
-                    <PlaqueCarBox />
+                    <PlaqueCarBox
+                      formData={formData}
+                      setFormData={setFormData}
+                    />
                   ) : (
                     <PlaqueMotorBox />
                   )}

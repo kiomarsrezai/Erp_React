@@ -1,7 +1,122 @@
 import Box from "@mui/material/Box";
 import iranFlag from "assets/images/logos/iran-flag.png";
+import {
+  propertyMotorConfig,
+  propertyMotorFormDefaultValue,
+} from "config/features/property/property-motor-config";
+import { onlyNumberKey } from "helper/form-utils";
+import {
+  ChangeEvent,
+  KeyboardEventHandler,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
-function PlaqueCarBox() {
+interface PlaqueCarBoxProps {
+  formData: any;
+  setFormData: any;
+}
+function PlaqueCarBox(props: PlaqueCarBoxProps) {
+  const { setFormData, formData } = props;
+
+  const [state, setState] = useState(
+    formData[propertyMotorConfig.pelak].split("_")
+  );
+
+  useEffect(() => {
+    setFormData((prevState: any) => ({
+      ...prevState,
+      [propertyMotorConfig.pelak]: state.join("_"),
+    }));
+  }, [state]);
+
+  // input 1
+  const handleChangeState1 = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setState((prevState: any) => {
+      let newState: any = prevState;
+      if (value.length < 3) {
+        newState = [value, prevState[1], prevState[2], prevState[3]];
+      } else if (prevState[0] === "--") {
+        newState = [
+          value.replaceAll("-", ""),
+          prevState[1],
+          prevState[2],
+          prevState[3],
+          prevState[4],
+        ];
+      }
+
+      return newState;
+    });
+  };
+
+  const handleChangeState2 = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setState((prevState: any) => {
+      let newState: any = prevState;
+
+      if (value.length < 2) {
+        newState = [prevState[0], value, prevState[2], prevState[3]];
+      } else if (prevState[1] === "-") {
+        newState = [
+          prevState[0],
+          value.replaceAll("-", ""),
+          prevState[2],
+          prevState[3],
+          prevState[4],
+        ];
+      }
+
+      return newState;
+    });
+  };
+
+  const handleChangeState3 = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+
+    setState((prevState: any) => {
+      let newState: any = prevState;
+
+      if (value.length < 4) {
+        newState = [prevState[0], prevState[1], value, prevState[3]];
+      } else if (prevState[2] === "---") {
+        newState = [
+          prevState[0],
+          prevState[1],
+          value.replaceAll("-", ""),
+          prevState[3],
+          prevState[4],
+        ];
+      }
+
+      return newState;
+    });
+  };
+
+  const handleChangeState4 = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+
+    setState((prevState: any) => {
+      let newState: any = prevState;
+
+      if (value.length < 3) {
+        newState = [prevState[0], prevState[1], prevState[2], value];
+      } else if (prevState[4] === "--") {
+        newState = [
+          prevState[0],
+          prevState[1],
+          prevState[2],
+          prevState[3],
+          value.replaceAll("-", ""),
+        ];
+      }
+
+      return newState;
+    });
+  };
+
   return (
     <Box
       sx={{
@@ -57,8 +172,10 @@ function PlaqueCarBox() {
         }}
       >
         <input
-          type="number"
-          defaultValue={14}
+          type="text"
+          value={state[0]}
+          onChange={handleChangeState1}
+          onKeyPress={onlyNumberKey}
           style={{
             fontSize: "47px",
             textAlign: "center",
@@ -71,7 +188,8 @@ function PlaqueCarBox() {
         />
         <input
           type="text"
-          defaultValue={"د"}
+          value={state[1]}
+          onChange={handleChangeState2}
           style={{
             fontSize: "47px",
             textAlign: "center",
@@ -83,8 +201,10 @@ function PlaqueCarBox() {
           }}
         />
         <input
-          type="number"
-          defaultValue={123}
+          type="text"
+          onChange={handleChangeState3}
+          onKeyPress={onlyNumberKey}
+          value={state[2]}
           style={{
             fontSize: "47px",
             textAlign: "center",
@@ -117,8 +237,10 @@ function PlaqueCarBox() {
 
         <Box>
           <input
-            type="number"
-            defaultValue={14}
+            type="text"
+            value={state[4]}
+            onChange={handleChangeState4}
+            onKeyPress={onlyNumberKey}
             style={{
               fontSize: "23px",
               textAlign: "center",
