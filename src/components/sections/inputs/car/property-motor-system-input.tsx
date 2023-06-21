@@ -5,13 +5,13 @@ import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
 import { propertyMotorConfig } from "config/features/property/property-motor-config";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 
-interface propertMotorSystemInputProps {
+interface PropertMotorSystemInputProps {
   setter: (prevData: any) => void;
   value: number;
   showError?: boolean;
 }
 
-function propertMotorSystemInput(props: propertMotorSystemInputProps) {
+function PropertMotorSystemInput(props: PropertMotorSystemInputProps) {
   const { setter, value, showError } = props;
 
   const kindQuery = useQuery(["cat-system"], () =>
@@ -27,8 +27,8 @@ function propertMotorSystemInput(props: propertMotorSystemInputProps) {
 
   return (
     <FlotingLabelSelect
-      label="سیستم ماشین"
-      name={propertyMotorConfig.tip}
+      label="سیستم وسیله"
+      name={propertyMotorConfig.system}
       items={inputItems}
       value={value}
       setter={setter}
@@ -37,4 +37,4 @@ function propertMotorSystemInput(props: propertMotorSystemInputProps) {
   );
 }
 
-export default propertMotorSystemInput;
+export default PropertMotorSystemInput;

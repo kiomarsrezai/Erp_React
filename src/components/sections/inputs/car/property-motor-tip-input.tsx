@@ -5,13 +5,13 @@ import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
 import { propertyMotorConfig } from "config/features/property/property-motor-config";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 
-interface propertMotorTipInputProps {
+interface PropertMotorTipInputProps {
   setter: (prevData: any) => void;
   value: number;
   showError?: boolean;
 }
 
-function propertMotorTipInput(props: propertMotorTipInputProps) {
+function PropertMotorTipInput(props: PropertMotorTipInputProps) {
   const { setter, value, showError } = props;
 
   const kindQuery = useQuery(["cat-tip"], () => propertyMotorApi.tipCombo());
@@ -25,7 +25,7 @@ function propertMotorTipInput(props: propertMotorTipInputProps) {
 
   return (
     <FlotingLabelSelect
-      label="تیپ ماشین"
+      label="تیپ وسیله"
       name={propertyMotorConfig.tip}
       items={inputItems}
       value={value}
@@ -35,4 +35,4 @@ function propertMotorTipInput(props: propertMotorTipInputProps) {
   );
 }
 
-export default propertMotorTipInput;
+export default PropertMotorTipInput;

@@ -8,6 +8,9 @@ import {
 import { DatePicker } from "@mui/x-date-pickers";
 import PlaqueCarBox from "components/data/plaque-car-box";
 import PlaqueMotorBox from "components/data/plaque-motor-box";
+import PropertMotorKindInput from "components/sections/inputs/car/property-motor-kind-input";
+import PropertMotorSystemInput from "components/sections/inputs/car/property-motor-system-input";
+import PropertMotorTipInput from "components/sections/inputs/car/property-motor-tip-input";
 import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
 import { propertyMotorConfig } from "config/features/property/property-motor-config";
 import { globalConfig } from "config/global-config";
@@ -95,11 +98,27 @@ function PropertyMotorForm(props: PropertyMotorFormProps) {
                   }}
                 />
               </Grid>
-              {/* <Grid sm={6}>
-                <
+              <Grid sm={6}>
+                <PropertMotorTipInput
+                  setter={setFormData}
+                  value={formData[propertyMotorConfig.tip] as any}
+                  showError={haveSubmitedForm}
+                />
               </Grid>
-              <Grid sm={6}></Grid>
-              <Grid sm={6}></Grid> */}
+              <Grid sm={6}>
+                <PropertMotorSystemInput
+                  setter={setFormData}
+                  value={formData[propertyMotorConfig.system] as any}
+                  showError={haveSubmitedForm}
+                />
+              </Grid>
+              <Grid sm={6}>
+                <PropertMotorKindInput
+                  setter={setFormData}
+                  value={formData[propertyMotorConfig.kind] as any}
+                  showError={haveSubmitedForm}
+                />
+              </Grid>
 
               {/* <Grid sm={6}>
                 <TextField

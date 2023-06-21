@@ -70,7 +70,7 @@ export const propertyMotorApi = new (class extends BaseApi {
 
   kindCombo = async () => {
     const url = propertyMotorUrls.kindCombo;
-    const response = await clientAxios.post<
+    const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleCarKindComboItemShape[]>
     >(url);
     return response.data;
@@ -78,7 +78,7 @@ export const propertyMotorApi = new (class extends BaseApi {
 
   systemCombo = async () => {
     const url = propertyMotorUrls.systemCombo;
-    const response = await clientAxios.post<
+    const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleCarSystemComboItemShape[]>
     >(url);
     return response.data;
