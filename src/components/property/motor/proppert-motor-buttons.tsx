@@ -9,11 +9,15 @@ import { Box, Button, Grid } from "@mui/material";
 import FixedModal from "components/ui/modal/fixed-modal";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import { FormEvent, useState } from "react";
-import { propertyMotorFormDefaultValue } from "config/features/property/property-motor-config";
+import {
+  propertyMotorConfig,
+  propertyMotorFormDefaultValue,
+} from "config/features/property/property-motor-config";
 import { useMutation } from "@tanstack/react-query";
 import { propertyMotorApi } from "api/property/property-motor-api";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
+import { checkHaveValue } from "helper/form-utils";
 
 interface PropertyMotorButtonsProps {
   formData: any;
@@ -76,7 +80,66 @@ function PropertyMotorButtons(props: PropertyMotorButtonsProps) {
   };
 
   // check
-  const handleCheckClick = () => {};
+  const insertMutation = useMutation(propertyMotorApi.insert, {
+    onSuccess(data) {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+
+      setFormData({
+        ...propertyMotorFormDefaultValue,
+        // id: data.data.,
+      });
+    },
+  });
+
+  const updateMutation = useMutation(propertyMotorApi.update, {
+    onSuccess(data) {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+    },
+  });
+  const handleCheckClick = () => {
+    setHaveSubmitedForm(true);
+    if (
+      checkHaveValue(formData, [
+        propertyMotorConfig.color,
+        propertyMotorConfig.year,
+        propertyMotorConfig.kind_motor,
+        propertyMotorConfig.kind,
+        propertyMotorConfig.pelak,
+        propertyMotorConfig.system,
+        propertyMotorConfig.tip,
+      ])
+    )
+      if (!formData.id) {
+        // insert
+        insertMutation.mutate({
+          [propertyMotorConfig.color]: formData[propertyMotorConfig.color],
+          [propertyMotorConfig.year]: formData[propertyMotorConfig.year],
+          [propertyMotorConfig.kind_motor]:
+            formData[propertyMotorConfig.kind_motor],
+          [propertyMotorConfig.kind]: formData[propertyMotorConfig.kind],
+          [propertyMotorConfig.pelak]: formData[propertyMotorConfig.pelak],
+          [propertyMotorConfig.system]: formData[propertyMotorConfig.system],
+          [propertyMotorConfig.tip]: formData[propertyMotorConfig.tip],
+        });
+      } else {
+        // update
+        updateMutation.mutate({
+          id: formData.id,
+          [propertyMotorConfig.color]: formData[propertyMotorConfig.color],
+          [propertyMotorConfig.year]: formData[propertyMotorConfig.year],
+          [propertyMotorConfig.kind_motor]:
+            formData[propertyMotorConfig.kind_motor],
+          [propertyMotorConfig.kind]: formData[propertyMotorConfig.kind],
+          [propertyMotorConfig.pelak]: formData[propertyMotorConfig.pelak],
+          [propertyMotorConfig.system]: formData[propertyMotorConfig.system],
+          [propertyMotorConfig.tip]: formData[propertyMotorConfig.tip],
+        });
+      }
+  };
 
   return (
     <>

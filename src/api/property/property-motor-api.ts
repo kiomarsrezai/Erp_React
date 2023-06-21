@@ -14,6 +14,7 @@ import {
   GetSingleCarKindComboItemShape,
   GetSingleCarSystemComboItemShape,
   GetSingleCarTipComboItemShape,
+  InsertPopertyMotorItemShape,
 } from "types/data/property/motor/property-motor-type";
 
 export const propertyMotorApi = new (class extends BaseApi {
@@ -33,22 +34,22 @@ export const propertyMotorApi = new (class extends BaseApi {
   //   return response.data;
   // };
 
-  // insert = async (filterData: any) => {
-  //   const url = contractsTasksUrls.insert;
-  //   const response = await clientAxios.post<
-  //     BaseApiResponseShape<InsertContractTaskItemShape>
-  //   >(url, filterData);
-  //   return response.data;
-  // };
+  insert = async (filterData: any) => {
+    const url = propertyMotorUrls.insert;
+    const response = await clientAxios.post<
+      BaseApiResponseShape<InsertPopertyMotorItemShape>
+    >(url, filterData);
+    return response.data;
+  };
 
-  // update = async (filterData: any) => {
-  //   const url = contractsTasksUrls.update;
-  //   const response = await clientAxios.post<BaseApiResponseShape<any>>(
-  //     url,
-  //     filterData
-  //   );
-  //   return response.data;
-  // };
+  update = async (filterData: any) => {
+    const url = propertyMotorUrls.update;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      filterData
+    );
+    return response.data;
+  };
 
   delete = async (filterData: any) => {
     const url = propertyMotorUrls.delete;
