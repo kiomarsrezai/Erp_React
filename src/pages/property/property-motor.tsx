@@ -43,9 +43,9 @@ function PropertyMotor() {
         >
           <Box p={2}>
             <PropertyMotorForm
-            // formData={formData}
-            // setFormData={setFormData}
-            // haveSubmitedForm={haveSubmitedForm}
+              formData={formData}
+              setFormData={setFormData}
+              haveSubmitedForm={haveSubmitedForm}
             />
           </Box>
         </Box>
@@ -58,8 +58,7 @@ function PropertyMotor() {
         gap={20}
         py={30}
       >
-        <PlaqueCarBox />
-        <PlaqueMotorBox />
+        
       </Box> */}
     </AdminLayout>
   );
