@@ -50,16 +50,6 @@ function PropertyMotor() {
           </Box>
         </Box>
       </Box>
-      {/* <Box
-        display={"flex"}
-        flexDirection={"column"}
-        justifyContent={"center"}
-        alignItems={"center"}
-        gap={20}
-        py={30}
-      >
-        
-      </Box> */}
     </AdminLayout>
   );
 }

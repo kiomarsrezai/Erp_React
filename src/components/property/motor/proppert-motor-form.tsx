@@ -134,28 +134,6 @@ function PropertyMotorForm(props: PropertyMotorFormProps) {
                   showError={haveSubmitedForm}
                 />
               </Grid>
-
-              {/* <Grid sm={6}>
-                <TextField
-                  id="amount-input"
-                  label="مبلغ"
-                  variant="outlined"
-                  size="small"
-                  type="number"
-                  value={formData[propertyMotorConfig.amount]}
-                  name={propertyMotorConfig.amount}
-                  onChange={onChange}
-                  error={
-                    !formData[propertyMotorConfig.amount] && haveSubmitedForm
-                  }
-                  helperText={
-                    !formData[propertyMotorConfig.amount] &&
-                    haveSubmitedForm &&
-                    globalConfig.ERROR_NO_EMPTY
-                  }
-                  fullWidth
-                />
-              </Grid> */}
             </Grid>
           </Grid>
           <Grid sm={6}>
@@ -171,11 +149,13 @@ function PropertyMotorForm(props: PropertyMotorFormProps) {
                     <PlaqueCarBox
                       formData={formData}
                       setFormData={setFormData}
+                      haveSubmitedForm={haveSubmitedForm}
                     />
                   ) : (
                     <PlaqueMotorBox
                       formData={formData}
                       setFormData={setFormData}
+                      haveSubmitedForm={haveSubmitedForm}
                     />
                   )}
                 </Box>

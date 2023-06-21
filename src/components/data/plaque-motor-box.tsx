@@ -4,13 +4,15 @@ import TextField from "@mui/material/TextField";
 import { ChangeEvent, useEffect, useState } from "react";
 import { propertyMotorConfig } from "config/features/property/property-motor-config";
 import { onlyNumberKey } from "helper/form-utils";
+import FormHelperText from "@mui/material/FormHelperText";
 
 interface PlaqueMotorBoxProps {
   formData: any;
   setFormData: any;
+  haveSubmitedForm: boolean;
 }
 function PlaqueMotorBox(props: PlaqueMotorBoxProps) {
-  const { setFormData, formData } = props;
+  const { setFormData, formData, haveSubmitedForm } = props;
 
   const inputStyle: any = {
     fontSize: "47px",
@@ -63,92 +65,102 @@ function PlaqueMotorBox(props: PlaqueMotorBoxProps) {
   };
 
   return (
-    <Box
-      sx={{
-        bgcolor: "#ffffff",
-        width: "220px",
-        height: "130px",
-        border: "3px solid #010000",
-        borderRadius: 3,
-        display: "flex",
-        flexDirection: "column",
-        overflow: "hidden",
-      }}
-      dir="ltr"
-    >
-      {/* top */}
+    <Box>
       <Box
         sx={{
+          bgcolor: "#ffffff",
+          width: "220px",
+          height: "130px",
+          border: "3px solid #010000",
+          borderRadius: 3,
           display: "flex",
-          height: "50%",
+          flexDirection: "column",
+          overflow: "hidden",
         }}
+        dir="ltr"
       >
+        {/* top */}
         <Box
           sx={{
-            bgcolor: "#0042ad",
-            width: "20%",
-            p: 0.5,
             display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
+            height: "50%",
           }}
         >
           <Box
-            component={"img"}
-            src={iranFlag}
             sx={{
-              width: "100%",
+              bgcolor: "#0042ad",
+              width: "20%",
+              p: 0.5,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
             }}
-          />
+          >
+            <Box
+              component={"img"}
+              src={iranFlag}
+              sx={{
+                width: "100%",
+              }}
+            />
 
-          <Box>
-            <Box fontSize={12} color={"white"}>
-              I.R.
-            </Box>
-            <Box fontSize={12} color={"white"}>
-              IRAN
+            <Box>
+              <Box fontSize={12} color={"white"}>
+                I.R.
+              </Box>
+              <Box fontSize={12} color={"white"}>
+                IRAN
+              </Box>
             </Box>
           </Box>
-        </Box>
 
+          <Box
+            sx={{
+              width: "80%",
+              fontSize: 47,
+              p: 1,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <input
+              type="text"
+              defaultValue={312}
+              style={inputStyle}
+              value={state[0]}
+              onChange={handleChangeState1}
+              onKeyPress={onlyNumberKey}
+            />
+          </Box>
+        </Box>
+        {/* bottom */}
         <Box
           sx={{
-            width: "80%",
-            fontSize: 47,
-            p: 1,
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            height: "50%",
+            fontSize: 47,
           }}
         >
           <input
             type="text"
-            defaultValue={312}
             style={inputStyle}
-            value={state[0]}
-            onChange={handleChangeState1}
+            value={state[1]}
+            onChange={handleChangeState2}
             onKeyPress={onlyNumberKey}
           />
         </Box>
       </Box>
-      {/* bottom */}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "50%",
-          fontSize: 47,
-        }}
-      >
-        <input
-          type="text"
-          style={inputStyle}
-          value={state[1]}
-          onChange={handleChangeState2}
-          onKeyPress={onlyNumberKey}
-        />
-      </Box>
+
+      {(formData[propertyMotorConfig.pelak].includes("-") ||
+        formData[propertyMotorConfig.pelak].length < 9) &&
+        haveSubmitedForm && (
+          <FormHelperText error sx={{ textAlign: "center", mt: 2 }}>
+            پلاک معتبر نیست
+          </FormHelperText>
+        )}
     </Box>
   );
 }

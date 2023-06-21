@@ -102,6 +102,7 @@ function PropertyMotorButtons(props: PropertyMotorButtonsProps) {
   });
   const handleCheckClick = () => {
     setHaveSubmitedForm(true);
+
     if (
       checkHaveValue(formData, [
         propertyMotorConfig.color,
@@ -113,32 +114,48 @@ function PropertyMotorButtons(props: PropertyMotorButtonsProps) {
         propertyMotorConfig.tip,
       ])
     )
-      if (!formData.id) {
-        // insert
-        insertMutation.mutate({
-          [propertyMotorConfig.color]: formData[propertyMotorConfig.color],
-          [propertyMotorConfig.year]: formData[propertyMotorConfig.year],
-          [propertyMotorConfig.kind_motor]:
-            formData[propertyMotorConfig.kind_motor],
-          [propertyMotorConfig.kind]: formData[propertyMotorConfig.kind],
-          [propertyMotorConfig.pelak]: formData[propertyMotorConfig.pelak],
-          [propertyMotorConfig.system]: formData[propertyMotorConfig.system],
-          [propertyMotorConfig.tip]: formData[propertyMotorConfig.tip],
-        });
-      } else {
-        // update
-        updateMutation.mutate({
-          id: formData.id,
-          [propertyMotorConfig.color]: formData[propertyMotorConfig.color],
-          [propertyMotorConfig.year]: formData[propertyMotorConfig.year],
-          [propertyMotorConfig.kind_motor]:
-            formData[propertyMotorConfig.kind_motor],
-          [propertyMotorConfig.kind]: formData[propertyMotorConfig.kind],
-          [propertyMotorConfig.pelak]: formData[propertyMotorConfig.pelak],
-          [propertyMotorConfig.system]: formData[propertyMotorConfig.system],
-          [propertyMotorConfig.tip]: formData[propertyMotorConfig.tip],
-        });
+      if (formData[propertyMotorConfig.kind_motor] === 1) {
+        if (
+          formData[propertyMotorConfig.pelak].includes("-") ||
+          formData[propertyMotorConfig.pelak].length < 17
+        ) {
+          return false;
+        }
+      } else if (formData[propertyMotorConfig.kind_motor] === 2) {
+        if (
+          formData[propertyMotorConfig.pelak].includes("-") ||
+          formData[propertyMotorConfig.pelak].length < 9
+        ) {
+          return false;
+        }
       }
+
+    if (!formData.id) {
+      // insert
+      insertMutation.mutate({
+        [propertyMotorConfig.color]: formData[propertyMotorConfig.color],
+        [propertyMotorConfig.year]: formData[propertyMotorConfig.year],
+        [propertyMotorConfig.kind_motor]:
+          formData[propertyMotorConfig.kind_motor],
+        [propertyMotorConfig.kind]: formData[propertyMotorConfig.kind],
+        [propertyMotorConfig.pelak]: formData[propertyMotorConfig.pelak],
+        [propertyMotorConfig.system]: formData[propertyMotorConfig.system],
+        [propertyMotorConfig.tip]: formData[propertyMotorConfig.tip],
+      });
+    } else {
+      // update
+      updateMutation.mutate({
+        id: formData.id,
+        [propertyMotorConfig.color]: formData[propertyMotorConfig.color],
+        [propertyMotorConfig.year]: formData[propertyMotorConfig.year],
+        [propertyMotorConfig.kind_motor]:
+          formData[propertyMotorConfig.kind_motor],
+        [propertyMotorConfig.kind]: formData[propertyMotorConfig.kind],
+        [propertyMotorConfig.pelak]: formData[propertyMotorConfig.pelak],
+        [propertyMotorConfig.system]: formData[propertyMotorConfig.system],
+        [propertyMotorConfig.tip]: formData[propertyMotorConfig.tip],
+      });
+    }
   };
 
   return (
