@@ -10,6 +10,11 @@ import {
   InsertContractTaskItemShape,
 } from "types/data/contracts/contracts-tasks-type";
 import { propertyMotorUrls } from "config/features/property/property-motor-config";
+import {
+  GetSingleCarKindComboItemShape,
+  GetSingleCarSystemComboItemShape,
+  GetSingleCarTipComboItemShape,
+} from "types/data/property/motor/property-motor-type";
 
 export const propertyMotorApi = new (class extends BaseApi {
   // getData = async (filterData: any) => {
@@ -51,6 +56,31 @@ export const propertyMotorApi = new (class extends BaseApi {
       url,
       filterData
     );
+    return response.data;
+  };
+
+  // combos
+  tipCombo = async () => {
+    const url = propertyMotorUrls.timCombo;
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleCarTipComboItemShape[]>
+    >(url);
+    return response.data;
+  };
+
+  kindCombo = async () => {
+    const url = propertyMotorUrls.kindCombo;
+    const response = await clientAxios.post<
+      BaseApiResponseShape<GetSingleCarKindComboItemShape[]>
+    >(url);
+    return response.data;
+  };
+
+  systemCombo = async () => {
+    const url = propertyMotorUrls.systemCombo;
+    const response = await clientAxios.post<
+      BaseApiResponseShape<GetSingleCarSystemComboItemShape[]>
+    >(url);
     return response.data;
   };
 })();

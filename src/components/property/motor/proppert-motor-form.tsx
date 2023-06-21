@@ -8,10 +8,12 @@ import {
 import { DatePicker } from "@mui/x-date-pickers";
 import PlaqueCarBox from "components/data/plaque-car-box";
 import PlaqueMotorBox from "components/data/plaque-motor-box";
+import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
 import { propertyMotorConfig } from "config/features/property/property-motor-config";
 import { globalConfig } from "config/global-config";
 import { changeInputHandler } from "helper/form-utils";
 import { ChangeEvent } from "react";
+import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 
 interface PropertyMotorFormProps {
   haveSubmitedForm: boolean;
@@ -21,6 +23,18 @@ interface PropertyMotorFormProps {
 
 function PropertyMotorForm(props: PropertyMotorFormProps) {
   const { haveSubmitedForm, formData, setFormData } = props;
+
+  // combos
+  const kindMotorItems: FlotingLabelTextfieldItemsShape = [
+    {
+      label: "ماشین",
+      value: 1,
+    },
+    {
+      label: "موتور",
+      value: 2,
+    },
+  ];
 
   //   form
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -54,6 +68,16 @@ function PropertyMotorForm(props: PropertyMotorFormProps) {
                 />
               </Grid>
               <Grid sm={6}>
+                <FlotingLabelSelect
+                  items={kindMotorItems}
+                  label="نوع وسیله"
+                  name={propertyMotorConfig.kind_motor}
+                  value={formData[propertyMotorConfig.kind_motor]}
+                  setter={setFormData}
+                  showError={haveSubmitedForm}
+                />
+              </Grid>
+              <Grid sm={6}>
                 <DatePicker
                   value={new Date(formData[propertyMotorConfig.year])}
                   label="مدل"
@@ -71,6 +95,11 @@ function PropertyMotorForm(props: PropertyMotorFormProps) {
                   }}
                 />
               </Grid>
+              {/* <Grid sm={6}>
+                <
+              </Grid>
+              <Grid sm={6}></Grid>
+              <Grid sm={6}></Grid> */}
 
               {/* <Grid sm={6}>
                 <TextField

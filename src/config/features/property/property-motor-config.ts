@@ -1,5 +1,3 @@
-import { generalFieldsConfig } from "../general-fields-config";
-
 export const propertyMotorConfig = {
   pelak: "pelak",
   kind_motor: "kindMotorId",
@@ -19,6 +17,11 @@ export const propertyMotorUrls = {
   insert: "CarApi/CarInsert",
   update: "CarApi/CarUpdate",
   delete: "CarApi/CarDelete",
+
+  // combos
+  timCombo: "CarApi/TipeCom",
+  systemCombo: "CarApi/CarSystemCom",
+  kindCombo: "CarApi/CarKindCom",
 };
 
 export const propertyMotorFormDefaultValue = {
