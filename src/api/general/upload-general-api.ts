@@ -7,6 +7,13 @@ interface UploadProps {
   projectId: any;
   formFile: any;
 }
+
+interface ReadProps {
+  projectCode: number;
+  fileName: string;
+  fileDetailId: number;
+  projectId: number;
+}
 export const uploadApi = new (class extends BaseApi {
   upload = async (formValue: UploadProps) => {
     const url = `GeneralApi/UploadFile?projectId=${formValue.projectId}`;
@@ -17,6 +24,16 @@ export const uploadApi = new (class extends BaseApi {
     const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
       url,
       formData
+    );
+
+    return response.data;
+  };
+
+  read = async (id: number) => {
+    const url = `GeneralApi/GetAttachFiles?projectId=${id}`;
+
+    const response = await clientAxios.get<BaseApiResponseShape<ReadProps[]>>(
+      url
     );
 
     return response.data;
