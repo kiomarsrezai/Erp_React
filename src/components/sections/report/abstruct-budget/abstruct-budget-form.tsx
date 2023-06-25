@@ -52,8 +52,6 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
   const userLicenses = userStore((state) => state.permissions);
 
   const formatAndBindData = (data?: any[]) => {
-    console.log(submitMutation.data?.data);
-
     const formatedData = convertNumbers(
       data || submitMutation.data?.data || [],
       [

@@ -12,6 +12,7 @@ import { budgetProjectOprationConfig } from "config/features/budget/report/budge
 import { budgetReportExpenseConfig } from "config/features/budget/report/budget-report-expense-config";
 import { budgetReportExpenseApi } from "api/report/budget-expense-api";
 import { GetSingleBudgetExpenseReportItemShape } from "types/data/budget/budget-report-expense-type";
+import { generalFieldsConfig } from "config/features/general-fields-config";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -30,6 +31,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
   const [formData, setFormData] = useState({
     [budgetReportExpenseConfig.year]: undefined,
     [budgetReportExpenseConfig.organ]: undefined,
+    [generalFieldsConfig.numbers]: 1,
   });
 
   // head

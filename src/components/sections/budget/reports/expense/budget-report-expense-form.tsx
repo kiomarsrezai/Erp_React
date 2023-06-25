@@ -42,11 +42,14 @@ import { budgetProjectScaleStimul } from "stimul/budget/report/project-scale/bud
 import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
 import {
   centerItems,
+  generalFieldsConfig,
   organItems,
   organItems2,
 } from "config/features/general-fields-config";
 import { budgetReportExpenseConfig } from "config/features/budget/report/budget-report-expense-config";
 import { budgetReportExpenseApi } from "api/report/budget-expense-api";
+import NumbersInput from "components/sections/inputs/numbers-input";
+import { convertNumbers } from "helper/number-utils";
 
 interface BudgetReportExpenseFormProps {
   formData: any;
@@ -63,11 +66,52 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
   const { formData, setFormData, inputRender, tabRender, printData } = props;
 
   const userLicenses = userStore((state) => state.permissions);
+
+  const formatAndBindData = (data?: any[]) => {
+    const formatedData = convertNumbers(
+      data || submitMutation.data?.data || [],
+      [
+        "mosavabRevenue",
+        "expenseRevenue",
+
+        "mosavabCurrent",
+        "expenseCurrent",
+
+        "mosavabCivil",
+        "expenseCivil",
+
+        "mosavabFinancial",
+        "expenseFinancial",
+
+        "mosavabSanavati",
+        "expenseSanavati",
+
+        "mosavabPayMotomarkez",
+        "expensePayMotomarkez",
+
+        "mosavabDar_Khazane",
+        "expenseDar_Khazane",
+
+        "balance",
+      ],
+      formData[generalFieldsConfig.numbers]
+    );
+
+    queryClient.setQueryData(reactQueryKeys.budget.expense, {
+      data: formatedData,
+    });
+  };
+
+  useEffect(() => {
+    formatAndBindData();
+  }, [formData[generalFieldsConfig.numbers]]);
+
   // form
   const queryClient = useQueryClient();
   const submitMutation = useMutation(budgetReportExpenseApi.getData, {
     onSuccess: (data) => {
-      queryClient.setQueryData(reactQueryKeys.budget.expense, data);
+      // queryClient.setQueryData(reactQueryKeys.budget.expense, data);
+      formatAndBindData(data.data);
     },
   });
 
@@ -188,6 +232,13 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
         </SectionGuard>
 
         <Grid xs={2}>
+          <NumbersInput
+            setter={setFormData}
+            value={formData[generalFieldsConfig.numbers] as number}
+          />
+        </Grid>
+
+        <Grid xs>
           <LoadingButton
             variant="contained"
             type="submit"

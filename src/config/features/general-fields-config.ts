@@ -107,11 +107,11 @@ export const budgetSortKindItems: FlotingLabelTextfieldItemsShape = [
 
 export const budgetReportItems: FlotingLabelTextfieldItemsShape = [
   {
-    label: "گزارش عملکرد",
+    label: "نمودار عملکرد",
     value: 1,
   },
   {
-    label: "عملکرد اورگان ها",
+    label: "گزارش عملکرد",
     value: 8,
   },
   {
