@@ -33,35 +33,138 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
   });
 
   // head
-  const tableHeads: TableHeadShape = [
+  const tableHeadGroups: TableHeadGroupShape = [
     {
-      title: "ردیف",
-      name: "number",
+      title: "مناطق/سازمانها",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
     },
     {
-      title: "کد پروژه",
-      name: "projectCode",
+      title: "منابع",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
     },
-    {
-      title: "نام پروژه",
-      name: "projectName",
-      align: "left",
-    },
-
     {
       title: "مصوب",
-      name: "mosavab",
+      colspan: 7,
+      align: "center",
+    },
+    {
+      title: "عملکرد",
+      colspan: 7,
+      align: "center",
+    },
+  ];
+
+  const tableHeads: TableHeadShape = [
+    {
+      title: "عنوان",
+      name: "areaName",
+      align: "left",
+      hiddenSelf: true,
+    },
+    {
+      title: "منابع",
+      name: "resoures",
+      align: "left",
+      hiddenSelf: true,
+    },
+    // mosavab
+    {
+      title: "درآمد",
+      name: "mosavabRevenue",
       split: true,
       align: "left",
     },
     {
-      title: "عملکرد",
-      name: "expense",
+      title: "سهم متمرکز",
+      name: "mosavabPayMotomarkez",
+      split: true,
+      align: "left",
+    },
+    {
+      title: "دریافت از خزانه",
+      name: "mosavabDar_Khazane",
+      split: true,
+      align: "left",
+    },
+    {
+      title: "هزینه ای",
+      name: "mosavabCurrent",
+      split: true,
+      align: "left",
+    },
+
+    {
+      title: "تملک مالی",
+      name: "mosavabFinancial",
+      split: true,
+      align: "left",
+    },
+
+    {
+      title: "سرمایه ای",
+      name: "mosavabCivil",
+      split: true,
+      align: "left",
+    },
+
+    {
+      title: "سنواتی",
+      name: "mosavabSanavati",
+      split: true,
+      align: "left",
+    },
+
+    // expense
+    {
+      title: "درآمد",
+      name: "expenseRevenue",
+      split: true,
+      align: "left",
+    },
+    {
+      title: "سهم متمرکز",
+      name: "expensePayMotomarkez",
+      split: true,
+      align: "left",
+    },
+    {
+      title: "دریافت از خزانه",
+      name: "expenseDar_Khazane",
+      split: true,
+      align: "left",
+    },
+    {
+      title: "هزینه ای",
+      name: "expenseCurrent",
+      split: true,
+      align: "left",
+    },
+
+    {
+      title: "سرمایه ای",
+      name: "expenseCivil",
+      split: true,
+      align: "left",
+    },
+
+    {
+      title: "تملک مالی",
+      name: "expenseFinancial",
+      split: true,
+      align: "left",
+    },
+
+    {
+      title: "سنواتی",
+      name: "expenseSanavati",
       split: true,
       align: "left",
     },
   ];
-
   // data
   const formatTableData = (
     unFormatData: GetSingleBudgetExpenseReportItemShape[]
@@ -99,7 +202,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
   };
 
   // head group
-  const tableHeadGroups: TableHeadGroupShape = [
+  const tableTopHeadGroups: TableHeadGroupShape = [
     {
       title: (
         <BudgetReportExpenseForm
@@ -112,7 +215,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
           }}
         />
       ),
-      colspan: 5,
+      colspan: 16,
     },
   ];
 
@@ -120,7 +223,8 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
     <FixedTable
       heads={tableHeads}
       headGroups={tableHeadGroups}
-      footer={tableFooter}
+      topHeadGroups={tableTopHeadGroups}
+      // footer={tableFooter}
       data={tableData}
     />
   );
