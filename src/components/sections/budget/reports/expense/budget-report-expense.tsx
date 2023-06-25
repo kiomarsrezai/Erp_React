@@ -41,19 +41,52 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
       align: "center",
     },
     {
+      title: "درآمد",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "سهم متمرکز",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "دریافت از خزانه",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+    {
       title: "منابع",
       colspan: 1,
       rowspan: 2,
       align: "center",
     },
     {
-      title: "مصوب",
-      colspan: 7,
+      title: "هزینه ای",
+      colspan: 2,
+      align: "center",
+    },
+    {
+      title: "تملک مالی",
+      colspan: 2,
+      align: "center",
+    },
+    {
+      title: "سرمایه ای",
+      colspan: 2,
+      align: "center",
+    },
+    {
+      title: "سنواتی",
+      colspan: 2,
       align: "center",
     },
     {
       title: "عملکرد",
-      colspan: 7,
+      colspan: 3,
       align: "center",
     },
   ];
@@ -65,55 +98,87 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
       align: "left",
       hiddenSelf: true,
     },
-    {
-      title: "منابع",
-      name: "resoures",
-      align: "left",
-      hiddenSelf: true,
-    },
-    // mosavab
+
     {
       title: "درآمد",
       name: "mosavabRevenue",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "سهم متمرکز",
       name: "mosavabPayMotomarkez",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "دریافت از خزانه",
       name: "mosavabDar_Khazane",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
     {
-      title: "هزینه ای",
+      title: "منابع",
+      name: "resoures",
+      align: "left",
+      split: true,
+      hiddenSelf: true,
+    },
+    // Current
+    {
+      title: "مصوب",
       name: "mosavabCurrent",
       split: true,
       align: "left",
     },
-
     {
-      title: "تملک مالی",
+      title: "عملکرد",
+      name: "expenseCurrent",
+      split: true,
+      align: "left",
+    },
+
+    // Financial
+    {
+      title: "مصوب",
       name: "mosavabFinancial",
       split: true,
       align: "left",
     },
 
     {
-      title: "سرمایه ای",
-      name: "mosavabCivil",
+      title: "عملکرد",
+      name: "expenseFinancial",
       split: true,
       align: "left",
     },
 
+    // Civil
     {
-      title: "سنواتی",
+      title: "مصوب",
+      name: "mosavabCivil",
+      split: true,
+      align: "left",
+    },
+    {
+      title: "عملکرد",
+      name: "expenseCivil",
+      split: true,
+      align: "left",
+    },
+    // Current
+    {
+      title: "مصوب",
       name: "mosavabSanavati",
+      split: true,
+      align: "left",
+    },
+    {
+      title: "عملکرد",
+      name: "expenseSanavati",
       split: true,
       align: "left",
     },
@@ -134,33 +199,6 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
     {
       title: "دریافت از خزانه",
       name: "expenseDar_Khazane",
-      split: true,
-      align: "left",
-    },
-    {
-      title: "هزینه ای",
-      name: "expenseCurrent",
-      split: true,
-      align: "left",
-    },
-
-    {
-      title: "سرمایه ای",
-      name: "expenseCivil",
-      split: true,
-      align: "left",
-    },
-
-    {
-      title: "تملک مالی",
-      name: "expenseFinancial",
-      split: true,
-      align: "left",
-    },
-
-    {
-      title: "سنواتی",
-      name: "expenseSanavati",
       split: true,
       align: "left",
     },
