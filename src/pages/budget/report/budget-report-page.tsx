@@ -16,6 +16,7 @@ import { budgetReportItems } from "config/features/general-fields-config";
 import BudgetReportProjectScaleForm from "components/sections/budget/reports/project-scale/budget-project-scale-form";
 import BudgetReportProjectScale from "components/sections/budget/reports/project-scale/budget-project-scale";
 import BudgetReportProjectSort from "components/sections/budget/reports/deviation/porject/budget-report-project-sort";
+import BudgetReportExpense from "components/sections/budget/reports/expense/budget-report-expense";
 
 function BudgetReportsPage() {
   const [tabValue, setTabValue] = useState(undefined);
@@ -57,6 +58,9 @@ function BudgetReportsPage() {
       case 7:
         return accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SORT;
 
+      case 8:
+        return accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN;
+
       default:
         return "";
     }
@@ -91,6 +95,7 @@ function BudgetReportsPage() {
     5: <BudgetReportDeviation tabRender={budgetTabRender} />,
     6: <BudgetReportProjectScale tabRender={budgetTabRender} />,
     7: <BudgetReportProjectSort tabRender={budgetTabRender} />,
+    8: <BudgetReportExpense tabRender={budgetTabRender} />,
   };
 
   return (

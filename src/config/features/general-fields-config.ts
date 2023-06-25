@@ -111,6 +111,10 @@ export const budgetReportItems: FlotingLabelTextfieldItemsShape = [
     value: 1,
   },
   {
+    label: "عملکرد",
+    value: 8,
+  },
+  {
     label: "روند مناطق و سازمان ها",
     value: 2,
   },

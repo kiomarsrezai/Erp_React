@@ -57,6 +57,8 @@ export const accessNamesConfig = {
 
   BUDGET__REPORT_PAGE_PROJECT_SCALE: "budget-report-scale",
 
+  BUDGET__REPORT_PAGE_EXPENSE_ORGAN: "budget-report-expense-organ",
+
   // contracts
   CONTRACT__MANAGE_PAGE: "contract-manage",
 
