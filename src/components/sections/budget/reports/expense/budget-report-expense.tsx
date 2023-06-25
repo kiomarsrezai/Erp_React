@@ -66,22 +66,22 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
     },
     {
       title: "هزینه ای",
-      colspan: 2,
+      colspan: 3,
       align: "center",
     },
     {
       title: "تملک مالی",
-      colspan: 2,
+      colspan: 3,
       align: "center",
     },
     {
       title: "سرمایه ای",
-      colspan: 2,
+      colspan: 3,
       align: "center",
     },
     {
       title: "سنواتی",
-      colspan: 2,
+      colspan: 3,
       align: "center",
     },
     {
@@ -140,7 +140,11 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
       split: true,
       align: "left",
     },
-
+    {
+      title: "%",
+      name: "percentCurrent",
+      percent: true,
+    },
     // Financial
     {
       title: "مصوب",
@@ -155,7 +159,11 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
       split: true,
       align: "left",
     },
-
+    {
+      title: "%",
+      name: "percentFinancial",
+      percent: true,
+    },
     // Civil
     {
       title: "مصوب",
@@ -168,6 +176,11 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
       name: "expenseCivil",
       split: true,
       align: "left",
+    },
+    {
+      title: "%",
+      name: "percentCivil",
+      percent: true,
     },
     // Current
     {
@@ -182,7 +195,11 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
       split: true,
       align: "left",
     },
-
+    {
+      title: "%",
+      name: "percentSanavati",
+      percent: true,
+    },
     // expense
     {
       title: "درآمد",
@@ -253,7 +270,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
           }}
         />
       ),
-      colspan: 16,
+      colspan: tableHeads.length,
     },
   ];
 
