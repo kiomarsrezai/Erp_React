@@ -205,7 +205,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
       name: "percentFinancial",
       percent: true,
     },
-    // Current
+    // Sanavati
     {
       title: "مصوب",
       name: "mosavabSanavati",
@@ -293,15 +293,116 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
   const tableData = formatTableData(deviationQuery.data?.data || []);
 
   // footer
-  const sumMosavab = sumFieldsInSingleItemData(tableData, "mosavab");
-  const sumExpense = sumFieldsInSingleItemData(tableData, "expense");
+  const sum_mosavabRevenue = sumFieldsInSingleItemData(
+    tableData,
+    "mosavabRevenue"
+  );
+  const sum_expenseRevenue = sumFieldsInSingleItemData(
+    tableData,
+    "expenseRevenue"
+  );
+  const sum_percentRevenue = getPercent(sum_expenseRevenue, sum_mosavabRevenue);
+
+  const sum_mosavabCurrent = sumFieldsInSingleItemData(
+    tableData,
+    "mosavabCurrent"
+  );
+  const sum_expenseCurrent = sumFieldsInSingleItemData(
+    tableData,
+    "expenseCurrent"
+  );
+  const sum_percentCurrent = getPercent(sum_expenseCurrent, sum_mosavabCurrent);
+
+  const sum_mosavabCivil = sumFieldsInSingleItemData(tableData, "mosavabCivil");
+  const sum_expenseCivil = sumFieldsInSingleItemData(tableData, "expenseCivil");
+  const sum_percentCivil = getPercent(sum_expenseCivil, sum_mosavabCivil);
+
+  const sum_mosavabFinancial = sumFieldsInSingleItemData(
+    tableData,
+    "mosavabFinancial"
+  );
+  const sum_expenseFinancial = sumFieldsInSingleItemData(
+    tableData,
+    "expenseFinancial"
+  );
+  const sum_percentFinancial = getPercent(
+    sum_expenseFinancial,
+    sum_mosavabFinancial
+  );
+
+  const sum_mosavabSanavati = sumFieldsInSingleItemData(
+    tableData,
+    "mosavabSanavati"
+  );
+  const sum_expenseSanavati = sumFieldsInSingleItemData(
+    tableData,
+    "expenseSanavati"
+  );
+  const sum_percentSanavati = getPercent(
+    sum_expenseSanavati,
+    sum_mosavabSanavati
+  );
+
+  const sum_mosavabPayMotomarkez = sumFieldsInSingleItemData(
+    tableData,
+    "mosavabPayMotomarkez"
+  );
+  const sum_expensePayMotomarkez = sumFieldsInSingleItemData(
+    tableData,
+    "expensePayMotomarkez"
+  );
+  const sum_percentPayMotomarkez = getPercent(
+    sum_expensePayMotomarkez,
+    sum_mosavabPayMotomarkez
+  );
+
+  const sum_mosavabDar_Khazane = sumFieldsInSingleItemData(
+    tableData,
+    "mosavabDar_Khazane"
+  );
+  const sum_expenseDar_Khazane = sumFieldsInSingleItemData(
+    tableData,
+    "expenseDar_Khazane"
+  );
+  const sum_percentDar_Khazane = getPercent(
+    sum_expenseDar_Khazane,
+    sum_mosavabDar_Khazane
+  );
+
+  const sum_balance = sumFieldsInSingleItemData(tableData, "balance");
+
   const tableFooter: TableDataItemShape | any = {
-    number: "جمع",
-    "colspan-number": 3,
-    projectCode: null,
-    projectName: null,
-    mosavab: sumMosavab,
-    expense: sumExpense,
+    areaName: "جمع",
+
+    mosavabRevenue: sum_mosavabRevenue,
+    expenseRevenue: sum_expenseRevenue,
+    percentRevenue: sum_percentRevenue,
+
+    mosavabCurrent: sum_mosavabCurrent,
+    expenseCurrent: sum_expenseCurrent,
+    percentCurrent: sum_percentCurrent,
+
+    mosavabCivil: sum_mosavabCivil,
+    expenseCivil: sum_expenseCivil,
+    percentCivil: sum_percentCivil,
+
+    mosavabFinancial: sum_mosavabFinancial,
+    expenseFinancial: sum_expenseFinancial,
+    percentFinancial: sum_percentFinancial,
+
+    mosavabSanavati: sum_mosavabSanavati,
+    expenseSanavati: sum_expenseSanavati,
+    percentSanavati: sum_percentSanavati,
+
+    mosavabPayMotomarkez: sum_mosavabPayMotomarkez,
+    expensePayMotomarkez: sum_expensePayMotomarkez,
+    percentPayMotomarkez: sum_percentPayMotomarkez,
+
+    mosavabDar_Khazane: sum_mosavabDar_Khazane,
+    expenseDar_Khazane: sum_expenseDar_Khazane,
+    percentDar_Khazane: sum_percentDar_Khazane,
+
+    balance: sum_balance,
   };
 
   // head group
@@ -327,7 +428,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
       heads={tableHeads}
       headGroups={tableHeadGroups}
       topHeadGroups={tableTopHeadGroups}
-      // footer={tableFooter}
+      footer={tableFooter}
       data={tableData}
     />
   );
