@@ -9,6 +9,7 @@ import {
   budgetReportItems,
   centerItems,
   organItems,
+  organItems2,
   trazKindItems,
 } from "config/features/general-fields-config";
 import { sidenavsLayout } from "config/features/layout-config";
@@ -89,6 +90,12 @@ function usePermissions() {
     "سازمان",
     accessNamesConfig.FIELD_ORGAN,
     organItems
+  );
+
+  const organField2 = formatLocalFields(
+    "سازمان",
+    accessNamesConfig.FIELD_ORGAN,
+    organItems2
   );
 
   //   budget method
@@ -228,6 +235,12 @@ function usePermissions() {
       ]
     ),
 
+    [accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN]: formatLocalFields(
+      "عملکرد اورگان ها",
+      accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
+      [yearLevel1Field, organField2]
+    ),
+
     [accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT]: formatLocalFields(
       "متولی",
       accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT,
@@ -349,6 +362,7 @@ function usePermissions() {
     [accessNamesConfig.BUDGET__REPORT__EXPENSE_PAGE_CENTER]: centerField,
 
     [accessNamesConfig.FIELD_ORGAN]: organField,
+    [getPermissionWithLevel(accessNamesConfig.FIELD_ORGAN, 2)]: organField2,
 
     // taraz
     [accessNamesConfig.FINANCIAL__TARAZ_PAGE_KIND]: trazKindField,

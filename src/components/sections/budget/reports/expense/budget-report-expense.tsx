@@ -9,6 +9,9 @@ import { GetSingleBudgetDeviationItemShape } from "types/data/budget/budget-devi
 import { budgetDeviationConfig } from "config/features/budget/report/budget-deviation-config";
 import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { budgetProjectOprationConfig } from "config/features/budget/report/budget-project-opration-config";
+import { budgetReportExpenseConfig } from "config/features/budget/report/budget-report-expense-config";
+import { budgetReportExpenseApi } from "api/report/budget-expense-api";
+import { GetSingleBudgetExpenseReportItemShape } from "types/data/budget/budget-report-expense-type";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -25,9 +28,8 @@ interface BudgetReportExpenseProps {
 function BudgetReportExpense(props: BudgetReportExpenseProps) {
   const { tabRender } = props;
   const [formData, setFormData] = useState({
-    [budgetProjectOprationConfig.area]: undefined,
-    [budgetProjectOprationConfig.year]: undefined,
-    [budgetProjectOprationConfig.scale]: undefined,
+    [budgetReportExpenseConfig.year]: undefined,
+    [budgetReportExpenseConfig.organ]: undefined,
   });
 
   // head
@@ -62,7 +64,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
 
   // data
   const formatTableData = (
-    unFormatData: GetSingleBudgetDeviationItemShape[]
+    unFormatData: GetSingleBudgetExpenseReportItemShape[]
   ): TableDataItemShape[] => {
     const formatedData: TableDataItemShape[] | any = unFormatData.map(
       (item, i) => ({
@@ -75,8 +77,8 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
   };
 
   const deviationQuery = useQuery(
-    reactQueryKeys.budget.projectOpration,
-    () => budgetDeviationApi.getData({}),
+    reactQueryKeys.budget.expense,
+    () => budgetReportExpenseApi.getData({}),
     {
       enabled: false,
     }

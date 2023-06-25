@@ -40,7 +40,13 @@ import { budgetProjectOprationConfig } from "config/features/budget/report/budge
 import { budgetProjectOprationApi } from "api/report/budget-project-opration-api";
 import { budgetProjectScaleStimul } from "stimul/budget/report/project-scale/budget-project-scale-stimul";
 import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
-import { centerItems, organItems } from "config/features/general-fields-config";
+import {
+  centerItems,
+  organItems,
+  organItems2,
+} from "config/features/general-fields-config";
+import { budgetReportExpenseConfig } from "config/features/budget/report/budget-report-expense-config";
+import { budgetReportExpenseApi } from "api/report/budget-expense-api";
 
 interface BudgetReportExpenseFormProps {
   formData: any;
@@ -59,9 +65,9 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
   const userLicenses = userStore((state) => state.permissions);
   // form
   const queryClient = useQueryClient();
-  const submitMutation = useMutation(budgetProjectOprationApi.getData, {
+  const submitMutation = useMutation(budgetReportExpenseApi.getData, {
     onSuccess: (data) => {
-      queryClient.setQueryData(reactQueryKeys.budget.projectOpration, data);
+      queryClient.setQueryData(reactQueryKeys.budget.expense, data);
     },
   });
 
@@ -71,10 +77,10 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
     // permission
     const havePermission = checkHavePermission(
       userLicenses,
-      [accessNamesConfig.FIELD_AREA, accessNamesConfig.FIELD_YEAR],
+      [accessNamesConfig.FIELD_ORGAN, accessNamesConfig.FIELD_YEAR],
       joinPermissions([
         accessNamesConfig.BUDGET__REPORT_PAGE,
-        accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE,
+        accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
       ])
     );
 
@@ -88,8 +94,8 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
 
     if (
       checkHaveValue(formData, [
-        budgetDeviationConfig.area,
-        budgetDeviationConfig.year,
+        budgetReportExpenseConfig.organ,
+        budgetReportExpenseConfig.year,
       ])
     ) {
       submitMutation.mutate(formData);
@@ -98,12 +104,12 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
 
   // reset
   useEffect(() => {
-    queryClient?.setQueryData(reactQueryKeys.budget.deviation, {
+    queryClient?.setQueryData(reactQueryKeys.budget.expense, {
       data: [],
     });
   }, [
-    formData[budgetDeviationConfig.area],
-    formData[budgetDeviationConfig.year],
+    formData[budgetReportExpenseConfig.organ],
+    formData[budgetReportExpenseConfig.year],
   ]);
 
   // print
@@ -166,7 +172,7 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
               label="سازمان"
               name={revenueChartFormConfig.ORGAN}
               items={filedItemsGuard(
-                organItems,
+                organItems2,
                 userLicenses,
                 joinPermissions([
                   accessNamesConfig.BUDGET__REPORT_PAGE,
@@ -191,9 +197,9 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
             نمایش
           </LoadingButton>
 
-          <IconButton color="primary" onClick={handlePrintForm}>
+          {/* <IconButton color="primary" onClick={handlePrintForm}>
             <PrintIcon />
-          </IconButton>
+          </IconButton> */}
         </Grid>
       </Grid>
     </Box>

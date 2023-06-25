@@ -6,5 +6,5 @@ export const budgetReportExpenseConfig = {
 };
 
 export const budgetReportExpenseUrls = {
-  getData: "ReportApi/ProjectReportScale",
+  getData: "ReportApi/AbstractPerformanceBudget",
 };
