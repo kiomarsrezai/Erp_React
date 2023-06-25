@@ -102,6 +102,7 @@ function PropertyMotorForm(props: PropertyMotorFormProps) {
                   openTo="year"
                   format="yyyy"
                   views={["year"]}
+                  maxDate={new Date()}
                   onChange={(newValue) =>
                     setFormData((state: any) => ({
                       ...state,
