@@ -432,11 +432,18 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
 
   // detail modal
   const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
+  const [modalDetailTitle, setModalDetailTitle] = useState("");
 
   const detailMutation = useMutation(budgetReportExpenseApi.getDetailData);
 
   const handleClickCell = (whichColumn: string, row: any) => {
     setIsOpenDetailModal(true);
+
+    const titleHead = tableHeads.find(
+      (item) => item.name === whichColumn
+    )?.title;
+    const title = `${row.areaName} - ${titleHead}`;
+    setModalDetailTitle(title);
 
     detailMutation.mutate({
       columnName: whichColumn,
@@ -460,6 +467,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
         open={isOpenDetailModal}
         handleClose={() => setIsOpenDetailModal(false)}
         loading={detailMutation.isLoading}
+        title={modalDetailTitle}
       >
         <BudgetReportExpenseModal data={detailMutation.data?.data || []} />
       </FixedModal>
