@@ -50,6 +50,7 @@ import { budgetReportExpenseConfig } from "config/features/budget/report/budget-
 import { budgetReportExpenseApi } from "api/report/budget-expense-api";
 import NumbersInput from "components/sections/inputs/numbers-input";
 import { convertNumbers } from "helper/number-utils";
+import MonthInput from "components/sections/inputs/month-input";
 
 interface BudgetReportExpenseFormProps {
   formData: any;
@@ -140,6 +141,7 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
       checkHaveValue(formData, [
         budgetReportExpenseConfig.organ,
         budgetReportExpenseConfig.year,
+        budgetReportExpenseConfig.month,
       ])
     ) {
       submitMutation.mutate(formData);
@@ -194,7 +196,7 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
           <Grid xs={2}>
             <YearInput
               setter={setFormData}
-              value={formData[budgetDeviationConfig.year] as number}
+              value={formData[budgetReportExpenseConfig.year] as number}
               permissionForm={joinPermissions([
                 accessNamesConfig.BUDGET__REPORT_PAGE,
                 accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
@@ -203,6 +205,14 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
             />
           </Grid>
         </SectionGuard>
+
+        <Grid xs={2}>
+          <MonthInput
+            setter={setFormData}
+            value={formData[budgetReportExpenseConfig.month] as number}
+            showError={haveSubmitedForm}
+          />
+        </Grid>
 
         <SectionGuard
           permission={joinPermissions([
@@ -214,7 +224,7 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
           <Grid xs={2}>
             <FlotingLabelSelect
               label="سازمان"
-              name={revenueChartFormConfig.ORGAN}
+              name={budgetReportExpenseConfig.organ}
               items={filedItemsGuard(
                 organItems2,
                 userLicenses,
@@ -224,7 +234,7 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
                   accessNamesConfig.FIELD_ORGAN,
                 ])
               )}
-              value={formData[revenueChartFormConfig.ORGAN]}
+              value={formData[budgetReportExpenseConfig.organ]}
               setter={setFormData}
               showError={haveSubmitedForm}
             />

@@ -31,6 +31,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
   const [formData, setFormData] = useState({
     [budgetReportExpenseConfig.year]: undefined,
     [budgetReportExpenseConfig.organ]: undefined,
+    [budgetReportExpenseConfig.month]: undefined,
     [generalFieldsConfig.numbers]: 1,
   });
 
