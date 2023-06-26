@@ -363,7 +363,9 @@ document.querySelector('#table-container').scrollTo
   );
 
   const tableData = sepratorQuery.data
-    ? formatTableData(sepratorQuery.data?.data)
+    ? formatTableData(
+        sepratorQuery.data?.data.sort((a, b) => +a.code - +b.code)
+      )
     : [];
 
   // footer
