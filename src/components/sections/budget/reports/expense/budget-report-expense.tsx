@@ -111,6 +111,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
   const tableHeads: TableHeadShape = [
     {
       title: "عنوان",
+      topTitle: "مناطق/سازمانها",
       name: "areaName",
       align: "left",
       hiddenSelf: true,
@@ -120,6 +121,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
     // revenue
     {
       title: "مصوب",
+      topTitle: "درآمد",
       name: "mosavabRevenue",
       split: true,
       align: "left",
@@ -127,12 +129,14 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
     {
       title: "عملکرد",
       name: "expenseRevenue",
+      topTitle: "درآمد",
       split: true,
       align: "left",
     },
     {
       title: "%",
       name: "percentRevenue",
+      topTitle: "درآمد",
       percent: true,
     },
     // {
@@ -160,18 +164,21 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
     {
       title: "مصوب",
       name: "mosavabCurrent",
+      topTitle: "هزینه ای",
       split: true,
       align: "left",
     },
     {
       title: "عملکرد",
       name: "expenseCurrent",
+      topTitle: "هزینه ای",
       split: true,
       align: "left",
     },
     {
       title: "%",
       name: "percentCurrent",
+      topTitle: "هزینه ای",
       percent: true,
     },
 
@@ -179,24 +186,28 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
     {
       title: "مصوب",
       name: "mosavabCivil",
+      topTitle: "تملک سرمایه ای",
       split: true,
       align: "left",
     },
     {
       title: "عملکرد",
       name: "expenseCivil",
+      topTitle: "تملک سرمایه ای",
       split: true,
       align: "left",
     },
     {
       title: "%",
       name: "percentCivil",
+      topTitle: "تملک سرمایه ای",
       percent: true,
     },
     // Financial
     {
       title: "مصوب",
       name: "mosavabFinancial",
+      topTitle: "تملک مالی",
       split: true,
       align: "left",
     },
@@ -204,29 +215,34 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
     {
       title: "عملکرد",
       name: "expenseFinancial",
+      topTitle: "تملک مالی",
       split: true,
       align: "left",
     },
     {
       title: "%",
       name: "percentFinancial",
+      topTitle: "تملک مالی",
       percent: true,
     },
     // Sanavati
     {
       title: "مصوب",
       name: "mosavabSanavati",
+      topTitle: "دیون سنواتی",
       split: true,
       align: "left",
     },
     {
       title: "عملکرد",
       name: "expenseSanavati",
+      topTitle: "دیون سنواتی",
       split: true,
       align: "left",
     },
     {
       title: "%",
+      topTitle: "دیون سنواتی",
       name: "percentSanavati",
       percent: true,
     },
@@ -234,18 +250,21 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
     {
       title: "مصوب",
       name: "mosavabPayMotomarkez",
+      topTitle: "متمرکز",
       split: true,
       align: "left",
     },
     {
       title: "عملکرد",
       name: "expensePayMotomarkez",
+      topTitle: "متمرکز",
       split: true,
       align: "left",
     },
     {
       title: "%",
       name: "percentPayMotomarkez",
+      topTitle: "متمرکز",
       percent: true,
     },
     // khazane
@@ -253,22 +272,26 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
       title: "مصوب",
       name: "mosavabDar_Khazane",
       split: true,
+      topTitle: "دریافت از خزانه",
       align: "left",
     },
     {
       title: "عملکرد",
       name: "expenseDar_Khazane",
+      topTitle: "دریافت از خزانه",
       split: true,
       align: "left",
     },
     {
       title: "%",
       name: "percentDar_Khazane",
+      topTitle: "دریافت از خزانه",
       percent: true,
       forceHaveBorder: true,
     },
     {
       title: "مانده",
+      topTitle: "مانده",
       name: "balance",
       split: true,
       align: "left",
@@ -441,7 +464,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
 
     const titleHead = tableHeads.find(
       (item) => item.name === whichColumn
-    )?.title;
+    )?.topTitle;
     const title = `${row.areaName} - ${titleHead}`;
     setModalDetailTitle(title);
 
@@ -468,6 +491,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
         handleClose={() => setIsOpenDetailModal(false)}
         loading={detailMutation.isLoading}
         title={modalDetailTitle}
+        maxWidth="md"
       >
         <BudgetReportExpenseModal data={detailMutation.data?.data || []} />
       </FixedModal>

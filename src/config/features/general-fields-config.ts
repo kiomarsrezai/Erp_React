@@ -184,51 +184,51 @@ export const trazKindItems: FlotingLabelTextfieldItemsShape = [
 
 export const monthItems: FlotingLabelTextfieldItemsShape = [
   {
-    label: "1",
+    label: "فروردین",
     value: 1,
   },
   {
-    label: "2",
+    label: "اردیبهشت",
     value: 2,
   },
   {
-    label: "3",
+    label: "خرداد",
     value: 3,
   },
   {
-    label: "4",
+    label: "تیر",
     value: 4,
   },
   {
-    label: "5",
+    label: "مرداد",
     value: 5,
   },
   {
-    label: "6",
+    label: "شهریور",
     value: 6,
   },
   {
-    label: "7",
+    label: "مهر",
     value: 7,
   },
   {
-    label: "8",
+    label: "آبان",
     value: 8,
   },
   {
-    label: "9",
+    label: "آذر",
     value: 9,
   },
   {
-    label: "10",
+    label: "دی",
     value: 10,
   },
   {
-    label: "11",
+    label: "بهمن",
     value: 11,
   },
   {
-    label: "12",
+    label: "اسفند",
     value: 12,
   },
 ];

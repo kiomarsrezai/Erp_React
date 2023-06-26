@@ -25,6 +25,7 @@ export interface TableSingleHeadShape {
   canSort?: true;
   width?: string;
   sticky?: boolean;
+  topTitle?: string;
 }
 
 export type TableHeadShape = TableSingleHeadShape[];

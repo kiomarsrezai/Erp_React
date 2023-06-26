@@ -156,6 +156,7 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
   }, [
     formData[budgetReportExpenseConfig.organ],
     formData[budgetReportExpenseConfig.year],
+    formData[budgetReportExpenseConfig.month],
   ]);
 
   // print

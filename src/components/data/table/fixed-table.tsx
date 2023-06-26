@@ -306,7 +306,9 @@ function FixedTable(props: FixedTableProps) {
           key={i}
           dir={typeof row[name] === "number" ? "ltr" : "rtl"}
           onClick={
-            clickCell ? () => clickCell(name as any, row as any) : undefined
+            clickCell
+              ? (e) => e.ctrlKey && clickCell(name as any, row as any)
+              : undefined
           }
           sx={{
             // width: row[`width-${name}`] || null,
