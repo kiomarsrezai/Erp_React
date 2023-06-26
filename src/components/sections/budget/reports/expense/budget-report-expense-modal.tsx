@@ -1,14 +1,17 @@
 import FixedTable from "components/data/table/fixed-table";
+import { generalFieldsConfig } from "config/features/general-fields-config";
 import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
+import { convertNumbers } from "helper/number-utils";
 import { GetSingleBudgetDetailExpenseReportItemShape } from "types/data/budget/budget-report-expense-type";
 import { TableHeadShape } from "types/table-type";
 
 interface BudgetReportExpenseModalProps {
   data: GetSingleBudgetDetailExpenseReportItemShape[];
+  formData: any;
 }
 
 function BudgetReportExpenseModal(props: BudgetReportExpenseModalProps) {
-  const { data } = props;
+  const { data, formData } = props;
 
   const tableHeads: TableHeadShape = [
     {
@@ -44,8 +47,14 @@ function BudgetReportExpenseModal(props: BudgetReportExpenseModalProps) {
   ];
 
   //   data
-  const sumMosavab = sumFieldsInSingleItemData(data, "mosavab");
-  const sumExpense = sumFieldsInSingleItemData(data, "expense");
+  const formatedData = convertNumbers(
+    data,
+    ["mosavab", "expense"],
+    formData[generalFieldsConfig.numbers]
+  );
+
+  const sumMosavab = sumFieldsInSingleItemData(formatedData, "mosavab");
+  const sumExpense = sumFieldsInSingleItemData(formatedData, "expense");
   const percentJazb = getPercent(sumExpense, sumMosavab);
 
   const formatTableData = (
@@ -59,7 +68,7 @@ function BudgetReportExpenseModal(props: BudgetReportExpenseModalProps) {
     return formatedData;
   };
 
-  const tableData = formatTableData(data);
+  const tableData = formatTableData(formatedData);
 
   // footer
   const tableFooter = {

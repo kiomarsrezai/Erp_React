@@ -77,7 +77,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
 
     {
       title: "تملک سرمایه ای",
-      colspan: 3,
+      colspan: 5,
       align: "center",
     },
     {
@@ -190,6 +190,21 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
       split: true,
       align: "left",
     },
+    {
+      title: "تامین اعتبار",
+      name: "creditAmountCivil",
+      topTitle: "تملک سرمایه ای",
+      split: true,
+      align: "left",
+    },
+    {
+      title: "%",
+      name: "percentCreditCivil",
+      topTitle: "تملک سرمایه ای",
+      percent: true,
+      align: "left",
+    },
+
     {
       title: "عملکرد",
       name: "expenseCivil",
@@ -344,6 +359,14 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
   const sum_percentCurrent = getPercent(sum_expenseCurrent, sum_mosavabCurrent);
 
   const sum_mosavabCivil = sumFieldsInSingleItemData(tableData, "mosavabCivil");
+  const sum_creditAmountCivil = sumFieldsInSingleItemData(
+    tableData,
+    "creditAmount"
+  );
+  const sum_percentCreditAmountCivil = getPercent(
+    sum_creditAmountCivil,
+    sum_mosavabCivil
+  );
   const sum_expenseCivil = sumFieldsInSingleItemData(tableData, "expenseCivil");
   const sum_percentCivil = getPercent(sum_expenseCivil, sum_mosavabCivil);
 
@@ -415,6 +438,8 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
     mosavabCivil: sum_mosavabCivil,
     expenseCivil: sum_expenseCivil,
     percentCivil: sum_percentCivil,
+    creditAmountCivil: sum_creditAmountCivil,
+    percentCreditCivil: sum_percentCreditAmountCivil,
 
     mosavabFinancial: sum_mosavabFinancial,
     expenseFinancial: sum_expenseFinancial,
@@ -493,7 +518,10 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
         title={modalDetailTitle}
         maxWidth="md"
       >
-        <BudgetReportExpenseModal data={detailMutation.data?.data || []} />
+        <BudgetReportExpenseModal
+          data={detailMutation.data?.data || []}
+          formData={formData}
+        />
       </FixedModal>
     </>
   );
