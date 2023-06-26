@@ -361,7 +361,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
   const sum_mosavabCivil = sumFieldsInSingleItemData(tableData, "mosavabCivil");
   const sum_creditAmountCivil = sumFieldsInSingleItemData(
     tableData,
-    "creditAmount"
+    "creditAmountCivil"
   );
   const sum_percentCreditAmountCivil = getPercent(
     sum_creditAmountCivil,

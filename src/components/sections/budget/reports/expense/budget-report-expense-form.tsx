@@ -80,6 +80,7 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
 
         "mosavabCivil",
         "expenseCivil",
+        "creditAmountCivil",
 
         "mosavabFinancial",
         "expenseFinancial",
