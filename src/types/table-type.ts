@@ -6,6 +6,7 @@ export interface TableSingleHeadGroupShape {
   colspan?: number;
   rowspan?: number;
   align?: "center" | "right" | "left";
+  sticky?: boolean;
 }
 
 export type TableHeadGroupShape = TableSingleHeadGroupShape[];
@@ -23,6 +24,7 @@ export interface TableSingleHeadShape {
   colspan?: number;
   canSort?: true;
   width?: string;
+  sticky?: boolean;
 }
 
 export type TableHeadShape = TableSingleHeadShape[];

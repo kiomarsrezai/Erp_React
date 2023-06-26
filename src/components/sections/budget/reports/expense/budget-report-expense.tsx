@@ -41,6 +41,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
       colspan: 1,
       rowspan: 2,
       align: "center",
+      sticky: true,
     },
     {
       title: "درآمد",
@@ -110,6 +111,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
       name: "areaName",
       align: "left",
       hiddenSelf: true,
+      sticky: true,
     },
 
     // revenue

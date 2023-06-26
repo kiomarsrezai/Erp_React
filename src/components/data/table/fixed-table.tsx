@@ -208,6 +208,8 @@ function FixedTable(props: FixedTableProps) {
                     borderRight: 0,
                   },
                   p: 1,
+                  position: headGroup.sticky ? "sticky" : "static",
+                  left: 0,
                 }}
                 align={headGroup.align || "left"}
                 colSpan={headGroup.colspan}
@@ -284,7 +286,7 @@ function FixedTable(props: FixedTableProps) {
             key={i}
             dir={typeof row[name] === "number" ? "ltr" : "rtl"}
             sx={{
-              bgcolor: row[`bgcolor-${name}`] || "transparent",
+              bgcolor: row[`bgcolor-${name}`] || "inherit",
               color: row[`textcolor-${name}`] || "#000",
               p: 1,
               textAlign: row[`textAlign-${name}`] || item.align,
@@ -303,11 +305,13 @@ function FixedTable(props: FixedTableProps) {
           dir={typeof row[name] === "number" ? "ltr" : "rtl"}
           sx={{
             // width: row[`width-${name}`] || null,
-            bgcolor: row[`bgcolor-${name}`] || "transparent",
+            bgcolor: row[`bgcolor-${name}`] || "inherit",
             color: row[`textcolor-${name}`] || "#000",
             p: 1,
             textAlign: row[`textAlign-${name}`] || item.align,
             borderRight: `1px solid ${grey[300]} !important`,
+            position: item.sticky ? "sticky" : "static",
+            left: 0,
           }}
         >
           {formatDataCell(row[name], item, row)}
