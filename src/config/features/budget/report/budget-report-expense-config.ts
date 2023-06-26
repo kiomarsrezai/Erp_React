@@ -8,4 +8,5 @@ export const budgetReportExpenseConfig = {
 
 export const budgetReportExpenseUrls = {
   getData: "ReportApi/AbstractPerformanceBudget",
+  getDetailData: "ReportApi/AbstractPerformanceBudgetDetail",
 };

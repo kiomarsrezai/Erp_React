@@ -17,3 +17,11 @@ export interface GetSingleBudgetExpenseReportItemShape {
   mosavabSanavati: number;
   expenseSanavati: number;
 }
+
+export interface GetSingleBudgetDetailExpenseReportItemShape {
+  code: string;
+  description: string;
+  mosavab: number;
+  expense: number;
+  percent: number;
+}

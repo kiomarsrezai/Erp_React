@@ -2,7 +2,7 @@ import FixedTable from "components/data/table/fixed-table";
 import { ReactNode, useState } from "react";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import BudgetReportExpenseForm from "./budget-report-expense-form";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { budgetDeviationApi } from "api/report/budget-deviation-api";
 import { GetSingleBudgetDeviationItemShape } from "types/data/budget/budget-deviation-type";
@@ -13,6 +13,8 @@ import { budgetReportExpenseConfig } from "config/features/budget/report/budget-
 import { budgetReportExpenseApi } from "api/report/budget-expense-api";
 import { GetSingleBudgetExpenseReportItemShape } from "types/data/budget/budget-report-expense-type";
 import { generalFieldsConfig } from "config/features/general-fields-config";
+import FixedModal from "components/ui/modal/fixed-modal";
+import BudgetReportExpenseModal from "./budget-report-expense-modal";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -428,14 +430,40 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
     },
   ];
 
+  // detail modal
+  const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
+
+  const detailMutation = useMutation(budgetReportExpenseApi.getDetailData);
+
+  const handleClickCell = (whichColumn: string, row: any) => {
+    setIsOpenDetailModal(true);
+
+    detailMutation.mutate({
+      columnName: whichColumn,
+      areaId: row.id,
+      yearId: formData[budgetReportExpenseConfig.year],
+    });
+  };
+
   return (
-    <FixedTable
-      heads={tableHeads}
-      headGroups={tableHeadGroups}
-      topHeadGroups={tableTopHeadGroups}
-      footer={tableFooter}
-      data={tableData}
-    />
+    <>
+      <FixedTable
+        heads={tableHeads}
+        headGroups={tableHeadGroups}
+        topHeadGroups={tableTopHeadGroups}
+        footer={tableFooter}
+        data={tableData}
+        clickCell={handleClickCell}
+      />
+
+      <FixedModal
+        open={isOpenDetailModal}
+        handleClose={() => setIsOpenDetailModal(false)}
+        loading={detailMutation.isLoading}
+      >
+        <BudgetReportExpenseModal data={detailMutation.data?.data || []} />
+      </FixedModal>
+    </>
   );
 }
 

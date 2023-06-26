@@ -56,6 +56,7 @@ interface FixedTableProps {
   enableVirtual?: boolean;
   tableLayout?: "fixed" | "auto";
   bgcolor?: string;
+  clickCell?: (whichColumn: string, row: any) => void;
 }
 function FixedTable(props: FixedTableProps) {
   const {
@@ -70,6 +71,7 @@ function FixedTable(props: FixedTableProps) {
     enableVirtual,
     bottomFooter,
     tableLayout,
+    clickCell,
   } = props;
 
   const VirtuosoTableComponents: TableComponents = React.useMemo(
@@ -303,6 +305,9 @@ function FixedTable(props: FixedTableProps) {
           align={item.align || "center"}
           key={i}
           dir={typeof row[name] === "number" ? "ltr" : "rtl"}
+          onClick={
+            clickCell ? () => clickCell(name as any, row as any) : undefined
+          }
           sx={{
             // width: row[`width-${name}`] || null,
             bgcolor: row[`bgcolor-${name}`] || "inherit",
