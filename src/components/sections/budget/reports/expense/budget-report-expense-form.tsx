@@ -31,7 +31,9 @@ import { budgetDeviationApi } from "api/report/budget-deviation-api";
 import { budgetDivationStimul } from "stimul/budget/report/divation/budget-divation-stimul";
 import {
   getGeneralFieldItemArea,
+  getGeneralFieldItemAreaFromId,
   getGeneralFieldItemBudgetKindDeviation,
+  getGeneralFieldItemMonth,
   getGeneralFieldItemProjectScale,
   getGeneralFieldItemYear,
 } from "helper/export-utils";
@@ -171,8 +173,9 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
 
   const handlePrintClick = async () => {
     const areas = [
-      1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
-      23, 24, 25, 26,
+      1,
+      // 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+      // 23, 24, 25, 26,
     ];
 
     areas.forEach((item) => {
@@ -213,17 +216,15 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
     } catch {}
 
     if (printData.data.length) {
-      // const yearLabel = getGeneralFieldItemYear(formData, 1);
-      // const areaLabel = getGeneralFieldItemArea(formData, 3);
-      // const budgetKindLabel = getGeneralFieldItemProjectScale(formData);
+      const yearLabel = getGeneralFieldItemYear(formData, 1);
+      const areaLabel = getGeneralFieldItemAreaFromId(3, areaId);
+      const monthLabel = getGeneralFieldItemMonth(formData);
       budgetExpenseStimul({
         culmnsData: culmnsData,
-        // footer: printData.footer,
-        footer: [],
-        year: "yearLabel",
-        area: "areaLabel",
-        kind: "budgetKindLabel",
+        year: yearLabel,
+        area: areaLabel,
         numberShow: "ریال",
+        month: monthLabel,
       });
     }
   };
@@ -235,6 +236,9 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
       onSubmit={handleSubmit}
       sx={{ bgcolor: "grey.200" }}
     >
+      <Box display={"none"}>
+        <AreaInput setter={() => {}} value={undefined} level={3} />
+      </Box>
       <Grid container spacing={2}>
         {tabRender && <Grid xs={12}>{tabRender}</Grid>}
         {inputRender && <Grid xs={2}>{inputRender}</Grid>}

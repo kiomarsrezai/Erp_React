@@ -1,10 +1,12 @@
 import { budgetProjectOprationConfig } from "config/features/budget/report/budget-project-opration-config";
+import { budgetReportExpenseConfig } from "config/features/budget/report/budget-report-expense-config";
 import {
   budgetKindDeviationItems,
   budgetKindItems,
   budgetMethodItems,
   budgetSortKindItems,
   generalFieldsConfig,
+  monthItems,
   numbersItems,
   organItems,
 } from "config/features/general-fields-config";
@@ -51,10 +53,30 @@ export const getGeneralFieldItemArea = (formData: any, id: number) => {
   return areaLabel;
 };
 
+export const getGeneralFieldItemAreaFromId = (id: number, value: number) => {
+  const areaLabel =
+    (
+      reactQueryClient.getQueryData([
+        ...reactQueryKeys.generals.area,
+        id,
+      ]) as any
+    )?.data.find((item: any) => item?.id === value)?.areaName || "";
+
+  return areaLabel;
+};
+
 export const getGeneralFieldItemBudgetKind = (formData: any) => {
   return (
     budgetKindItems.find(
       (item) => item.value === formData[generalFieldsConfig.kind]
+    )?.label || ""
+  );
+};
+
+export const getGeneralFieldItemMonth = (formData: any) => {
+  return (
+    monthItems.find(
+      (item) => item.value === formData[budgetReportExpenseConfig.month]
     )?.label || ""
   );
 };
