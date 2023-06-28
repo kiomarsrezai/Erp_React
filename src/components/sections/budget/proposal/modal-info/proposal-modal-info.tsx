@@ -81,9 +81,10 @@ function ProposalModalInfo(props: ProposalModalInfoProps) {
   ];
 
   //   data
-  const filteredData = data.filter(
-    (item) => item.structureId === modalFormData[proposalConfig.organ]
-  );
+  // const filteredData = data.filter(
+  //   (item) => item.structureId === modalFormData[proposalConfig.organ]
+  // );
+  const filteredData = data;
   const formatTableData = (
     unFormatData: GetSingleProposalInfoItemShape[]
   ): any[] => {

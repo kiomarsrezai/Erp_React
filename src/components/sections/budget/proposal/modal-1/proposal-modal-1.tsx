@@ -451,8 +451,8 @@ function ProposalModal1(props: ProposalModal1Props) {
         handleClose={() => setIsOpenMoreDetailModal(false)}
         loading={getMoreDetailMutation.isLoading}
         title={modalTitle}
-        maxWidth="md"
-        maxHeight="65%"
+        maxWidth="lg"
+        maxHeight="75%"
       >
         <ProposalModal2
           data={getMoreDetailMutation.data?.data || []}
