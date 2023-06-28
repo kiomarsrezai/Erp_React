@@ -8,7 +8,7 @@ interface StimulOptionsShape {
   numberShow?: string;
   area?: string;
   kind?: string;
-  data: any[];
+  culmnsData: any;
   footer: any[];
 }
 
@@ -30,16 +30,20 @@ export const budgetExpenseStimul = (exportOptions: StimulOptionsShape) => {
   const DataSourceList = [
     {
       name: "data",
-      data: exportOptions.data,
+      data: {
+        data1: exportOptions.culmnsData[1],
+        data2: exportOptions.culmnsData[2],
+        data3: exportOptions.culmnsData[3],
+        data4: exportOptions.culmnsData[4],
+        data5: exportOptions.culmnsData[5],
+      },
     },
-    // {
-    //   name: "footer",
-    //   data: exportOptions.footer,
-    // },
   ];
 
   for (let index = 0; index < DataSourceList.length; index++) {
-    var dsdatas = new Stimulsoft.System.Data.DataSet();
+    var dsdatas = new Stimulsoft.System.Data.DataSet(
+      DataSourceList[index].name
+    );
     dsdatas.readJson(DataSourceList[index].data);
 
     report.regData(DataSourceList[index].name, "", dsdatas);

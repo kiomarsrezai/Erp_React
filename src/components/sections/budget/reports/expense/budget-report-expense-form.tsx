@@ -162,35 +162,34 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
   ]);
 
   // print
-  const getDetailMutation = useMutation(budgetReportExpenseApi.getDetailData);
+  const getExcelManateghMutation = useMutation(
+    budgetReportExpenseApi.getExcelManateghData
+  );
+  const getExcelSazmanMutation = useMutation(
+    budgetReportExpenseApi.getExcelSazmanData
+  );
 
   const handlePrintForm = async () => {
     let culmnsData: any = {
-      mosavabRevenue: [],
-      mosavabCurrent: [],
+      1: [],
+      2: [],
+      3: [],
+      4: [],
+      5: [],
     };
 
     const culmnKeys = Object.keys(culmnsData);
-    // try {
-    //   culmnKeys.forEach(async (item) => {
-    //     const data = await getDetailMutation.mutateAsync({
-    //       columnName: item,
-    //       areaId: 1,
-    //       yearId: formData[budgetReportExpenseConfig.year],
-    //     });
 
-    //     culmnsData = {
-    //       ...culmnsData,
-    //       [item]: data.data,
-    //     };
-    //   });
-    // } catch {}
     try {
       await Promise.all(
         culmnKeys.map(async (item) => {
-          const data = await getDetailMutation.mutateAsync({
-            columnName: item,
+          const data = await (formData[budgetReportExpenseConfig.organ] === 1
+            ? getExcelManateghMutation
+            : getExcelSazmanMutation
+          ).mutateAsync({
+            budgetProcessId: item,
             areaId: 1,
+            monthId: formData[budgetReportExpenseConfig.month],
             yearId: formData[budgetReportExpenseConfig.year],
           });
 
@@ -207,7 +206,7 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
       // const areaLabel = getGeneralFieldItemArea(formData, 3);
       // const budgetKindLabel = getGeneralFieldItemProjectScale(formData);
       budgetExpenseStimul({
-        data: culmnsData.mosavabCurrent,
+        culmnsData: culmnsData,
         // footer: printData.footer,
         footer: [],
         year: "yearLabel",

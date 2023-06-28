@@ -9,4 +9,6 @@ export const budgetReportExpenseConfig = {
 export const budgetReportExpenseUrls = {
   getData: "ReportApi/AbstractPerformanceBudget",
   getDetailData: "ReportApi/AbstractPerformanceBudgetDetail",
+  getExcelManateghData: "ReportApi/AbstractPerformanceShardari_Excel",
+  getExcelSazmanData: "ReportApi/AbstractPerformanceSazman_Excel",
 };
