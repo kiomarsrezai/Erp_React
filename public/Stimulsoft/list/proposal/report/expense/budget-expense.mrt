@@ -119,7 +119,7 @@
   <Key>feb11f1774b141838099ad870da1726f</Key>
   <MetaTags isList="true" count="0" />
   <Pages isList="true" count="5">
-    <Page1 Ref="8" type="Page" isKey="true">
+    <daramad Ref="8" type="Page" isKey="true">
       <Border>None;Black;2;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <Components isList="true" count="4">
@@ -724,17 +724,18 @@
       <Expressions isList="true" count="0" />
       <Guid>4b9908cf75024105a381f9a770452ea4</Guid>
       <Margins>20,20,10,10</Margins>
-      <Name>Page1</Name>
+      <Name>daramad</Name>
       <PageHeight>7000</PageHeight>
       <PaperSize>A4</PaperSize>
       <Report isRef="0" />
       <RightToLeft>True</RightToLeft>
+      <StretchToPrintArea>True</StretchToPrintArea>
       <Watermark Ref="44" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
         <Font>Arial,100,Bold</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
       </Watermark>
-    </Page1>
-    <Page2 Ref="45" type="Page" isKey="true">
+    </daramad>
+    <Salam Ref="45" type="Page" isKey="true">
       <Border>None;Black;2;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <Components isList="true" count="4">
@@ -1339,7 +1340,7 @@
       <Expressions isList="true" count="0" />
       <Guid>5b05b77d76b847a289c942572c2dc28f</Guid>
       <Margins>20,20,10,10</Margins>
-      <Name>Page2</Name>
+      <Name>ss</Name>
       <PageHeight>7000</PageHeight>
       <PaperSize>A4</PaperSize>
       <Report isRef="0" />
@@ -1348,7 +1349,7 @@
         <Font>Arial,100,Bold</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
       </Watermark>
-    </Page2>
+    </Salam>
     <Page3 Ref="82" type="Page" isKey="true">
       <Border>None;Black;2;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
@@ -3209,11 +3210,11 @@
   </ReferencedAssemblies>
   <ReportAlias>SimpleList</ReportAlias>
   <ReportAuthor>Stimulsoft</ReportAuthor>
-  <ReportChanged>6/28/2023 12:59:51 PM</ReportChanged>
+  <ReportChanged>6/28/2023 1:30:23 PM</ReportChanged>
   <ReportCreated>5/29/2004 10:59:00 AM</ReportCreated>
   <ReportDescription>This sample demonstrates how to create a simple list report.</ReportDescription>
   <ReportFile>D:\erp\erp-react\public\Stimulsoft\list\proposal\report\expense\budget-expense.mrt</ReportFile>
-  <ReportGuid>634496fcd88944abba2335924773428a</ReportGuid>
+  <ReportGuid>4505d62a85c04fe894c82f646ab0fc3c</ReportGuid>
   <ReportImage>iVBORw0KGgoAAAANSUhEUgAAASAAAAGWCAMAAADvzq7aAAAABGdBTUEAALGPC/xhBQAAAYBQTFRF
 S7asucbHqba33/Hx8vr56fb1paqq+v394fPx1N3i5/X1nKan7/n52+zryOfl8/T0s77B7ezt4/b1
 /f7+0+Tj29vcu7u9kZSV09PTsby8uMK+4vXzzN3d0+LewsPD0s3Iy8vMws3M5OTkys3S4t3Zw9PU

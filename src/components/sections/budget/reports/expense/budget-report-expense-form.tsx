@@ -169,7 +169,18 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
     budgetReportExpenseApi.getExcelSazmanData
   );
 
-  const handlePrintForm = async () => {
+  const handlePrintClick = async () => {
+    const areas = [
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+      23, 24, 25, 26,
+    ];
+
+    areas.forEach((item) => {
+      handlePrintForm(item);
+    });
+  };
+
+  const handlePrintForm = async (areaId: number) => {
     let culmnsData: any = {
       1: [],
       2: [],
@@ -183,12 +194,12 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
     try {
       await Promise.all(
         culmnKeys.map(async (item) => {
-          const data = await (formData[budgetReportExpenseConfig.organ] === 1
+          const data = await (areaId < 10
             ? getExcelManateghMutation
             : getExcelSazmanMutation
           ).mutateAsync({
             budgetProcessId: item,
-            areaId: 1,
+            areaId: areaId,
             monthId: formData[budgetReportExpenseConfig.month],
             yearId: formData[budgetReportExpenseConfig.year],
           });
@@ -300,7 +311,7 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
             نمایش
           </LoadingButton>
 
-          <IconButton color="primary" onClick={handlePrintForm}>
+          <IconButton color="primary" onClick={handlePrintClick}>
             <PrintIcon />
           </IconButton>
         </Grid>

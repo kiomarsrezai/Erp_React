@@ -63,23 +63,59 @@ export const budgetExpenseStimul = (exportOptions: StimulOptionsShape) => {
       exportOptions.numberShow;
   } catch (err) {}
 
+  // Export to Excel
+
+  report.renderAsync(() => {
+    report.exportDocumentAsync((pdfdata: any) => {
+      try {
+        const ByteArrayesh = Stimulsoft.System.Convert.toBase64String(pdfdata);
+        saveByteArrayToPdf("title", base64ToArrayBuffer(ByteArrayesh));
+        console.log("saved");
+      } catch (error) {
+        debugger;
+      }
+    }, Stimulsoft.Report.StiExportFormat.Excel2007);
+  });
+
   // virewe
   // report.renderAsync(() => {
   // report.print();
-  const options: any = new Stimulsoft.Viewer.StiViewerOptions({
-    PageHeight: 12,
-    MaximumSheetHeight: 12,
-    ExportEachPageToSheet: true,
-  });
-  console.log({ options });
-
-  const viewer: any = new Stimulsoft.Viewer.StiViewer(
-    options,
-    "StiViewer",
-    false
-  );
-  viewer.report = report;
-
-  viewer.renderHtml("viewerContent");
+  // const options: any = new Stimulsoft.Viewer.StiViewerOptions({
+  //   PageHeight: 12,
+  //   MaximumSheetHeight: 12,
+  //   ExportEachPageToSheet: true,
   // });
+  // console.log({ options });
+
+  // const viewer: any = new Stimulsoft.Viewer.StiViewer(
+  //   options,
+  //   "StiViewer",
+  //   false
+  // );
+  // viewer.report = report;
+
+  // viewer.renderHtml("viewerContent");
+  // });
+};
+
+///// Export PDF form stimul
+const saveByteArrayToPdf = (reportName: any, byte: any) => {
+  var blob = new Blob([byte], {
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;",
+  });
+  var link = document.createElement("a");
+  link.href = window.URL.createObjectURL(blob);
+  var fileName = reportName;
+  link.download = fileName;
+  link.click();
+};
+const base64ToArrayBuffer = (base64: any) => {
+  var binaryString = window.atob(base64);
+  var binaryLen = binaryString.length;
+  var bytes = new Uint8Array(binaryLen);
+  for (var i = 0; i < binaryLen; i++) {
+    var ascii = binaryString.charCodeAt(i);
+    bytes[i] = ascii;
+  }
+  return bytes;
 };
