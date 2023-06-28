@@ -38,8 +38,8 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
 
   const [formData, setFormData] = useState({
     [abstructBudgetConfig.YEAR]: undefined,
-    [abstructBudgetConfig.KIND]: undefined,
-    [abstructBudgetConfig.ORGAN]: undefined,
+    [abstructBudgetConfig.KIND]: 1, //undefined,
+    [abstructBudgetConfig.ORGAN]: 1, //undefined,
     [generalFieldsConfig.numbers]: 1,
   });
 
