@@ -61,6 +61,11 @@ function BudgetProposalPage() {
       name: "number",
     },
     {
+      title: "#",
+      name: "levelNumber",
+      width: "40px",
+    },
+    {
       title: "کد",
       name: "code",
     },

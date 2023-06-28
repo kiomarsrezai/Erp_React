@@ -151,7 +151,7 @@ function ProposalModal2(props: ProposalModal2Props) {
   const handleOpenDetailModal = (
     row: TableDataItemShape & GetSingleMoreDetailProposalItemShape
   ) => {
-    const title = `${row.projectCode} - ${row.projectName}`;
+    const title = `${row.areaName} - ${row.projectCode} - ${row.projectName}`;
     setModalTitle(
       <>
         {baseTitle} <div>{title}</div>

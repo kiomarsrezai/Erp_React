@@ -26,6 +26,7 @@ import {
   GetSingleProposalItemShape,
 } from "types/data/budget/proposal-type";
 import { TextField } from "@mui/material";
+import { AmdDependency } from "typescript";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -193,9 +194,11 @@ function ProposalModal1(props: ProposalModal1Props) {
   };
 
   const handleDeleteBtnClick = (
-    row: TableDataItemShape & GetSingleProposalItemShape
+    row: (TableDataItemShape & GetSingleProposalItemShape) | any
   ) => {
-    const deleteText = `آیا مایل به حذف ${row.code} - ${row.description} هستید ؟`;
+    const deleteText = `آیا مایل به حذف ${row.code()} - ${
+      row.description
+    } هستید ؟`;
     setTextDeleteModal(deleteText);
     setIdItemShouldDelete(row.id);
     setIsShowConfrimDelete(true);
