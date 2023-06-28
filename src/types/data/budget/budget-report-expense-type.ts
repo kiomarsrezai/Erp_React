@@ -25,3 +25,14 @@ export interface GetSingleBudgetDetailExpenseReportItemShape {
   expense: number;
   percent: number;
 }
+
+export interface GetSingleBudgetDetailExcelExpenseReportItemShape {
+  code: string;
+  description: string;
+  mosavab: number;
+  edit: number;
+  creditAmount: number;
+  levelNumber: number;
+  expenseMonth: number;
+  percent: number;
+}

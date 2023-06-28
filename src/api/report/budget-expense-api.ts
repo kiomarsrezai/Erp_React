@@ -7,6 +7,7 @@ import { GetSingleBudgetDeviationItemShape } from "types/data/budget/budget-devi
 import { budgetProjectOprationUrls } from "config/features/budget/report/budget-project-opration-config";
 import { GetSingleBudgetProjectOprationItemShape } from "types/data/budget/budget-project-opration-type";
 import {
+  GetSingleBudgetDetailExcelExpenseReportItemShape,
   GetSingleBudgetDetailExpenseReportItemShape,
   GetSingleBudgetExpenseReportItemShape,
 } from "types/data/budget/budget-report-expense-type";
@@ -31,6 +32,28 @@ export const budgetReportExpenseApi = new (class extends BaseApi {
 
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleBudgetDetailExpenseReportItemShape[]>
+    >(url);
+    return response.data;
+  };
+
+  getExcelManateghData = async (formdata: any) => {
+    const url =
+      budgetReportExpenseUrls.getExcelManateghData +
+      this.joinFilterData(formdata);
+
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleBudgetDetailExcelExpenseReportItemShape[]>
+    >(url);
+    return response.data;
+  };
+
+  getExcelSazmanData = async (formdata: any) => {
+    const url =
+      budgetReportExpenseUrls.getExcelSazmanData +
+      this.joinFilterData(formdata);
+
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleBudgetDetailExcelExpenseReportItemShape[]>
     >(url);
     return response.data;
   };
