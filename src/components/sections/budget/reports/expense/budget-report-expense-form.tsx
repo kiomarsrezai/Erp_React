@@ -54,6 +54,7 @@ import NumbersInput from "components/sections/inputs/numbers-input";
 import { convertNumbers } from "helper/number-utils";
 import MonthInput from "components/sections/inputs/month-input";
 import { budgetExpenseStimul } from "stimul/budget/report/expense/budget-expense-stimul";
+import WindowLoading from "components/ui/loading/window-loading";
 
 interface BudgetReportExpenseFormProps {
   formData: any;
@@ -171,16 +172,18 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
     budgetReportExpenseApi.getExcelSazmanData
   );
 
+  const [printLoading, setPrintLoading] = useState(false);
   const handlePrintClick = async () => {
+    setPrintLoading(true);
     const areas = [
-      1,
-      // 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
-      // 23, 24, 25, 26,
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+      23, 24, 25, 26,
     ];
 
     areas.forEach((item) => {
       handlePrintForm(item);
     });
+    setPrintLoading(false);
   };
 
   const handlePrintForm = async (areaId: number) => {
@@ -230,97 +233,107 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
   };
 
   return (
-    <Box
-      component="form"
-      padding={1}
-      onSubmit={handleSubmit}
-      sx={{ bgcolor: "grey.200" }}
-    >
-      <Box display={"none"}>
-        <AreaInput setter={() => {}} value={undefined} level={3} />
-      </Box>
-      <Grid container spacing={2}>
-        {tabRender && <Grid xs={12}>{tabRender}</Grid>}
-        {inputRender && <Grid xs={2}>{inputRender}</Grid>}
+    <>
+      <Box
+        component="form"
+        padding={1}
+        onSubmit={handleSubmit}
+        sx={{ bgcolor: "grey.200" }}
+      >
+        <Box display={"none"}>
+          <AreaInput setter={() => {}} value={undefined} level={3} />
+        </Box>
+        <Grid container spacing={2}>
+          {tabRender && <Grid xs={12}>{tabRender}</Grid>}
+          {inputRender && <Grid xs={2}>{inputRender}</Grid>}
 
-        <SectionGuard
-          permission={joinPermissions([
-            accessNamesConfig.BUDGET__REPORT_PAGE,
-            accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
-            accessNamesConfig.FIELD_YEAR,
-          ])}
-        >
-          <Grid xs={2}>
-            <YearInput
-              setter={setFormData}
-              value={formData[budgetReportExpenseConfig.year] as number}
-              permissionForm={joinPermissions([
-                accessNamesConfig.BUDGET__REPORT_PAGE,
-                accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
-              ])}
-              showError={haveSubmitedForm}
-            />
-          </Grid>
-        </SectionGuard>
-
-        <Grid xs={2}>
-          <MonthInput
-            setter={setFormData}
-            value={formData[budgetReportExpenseConfig.month] as number}
-            showError={haveSubmitedForm}
-          />
-        </Grid>
-
-        <SectionGuard
-          permission={joinPermissions([
-            accessNamesConfig.BUDGET__REPORT_PAGE,
-            accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
-            accessNamesConfig.FIELD_ORGAN,
-          ])}
-        >
-          <Grid xs={2}>
-            <FlotingLabelSelect
-              label="سازمان"
-              name={budgetReportExpenseConfig.organ}
-              items={filedItemsGuard(
-                organItems2,
-                userLicenses,
-                joinPermissions([
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.BUDGET__REPORT_PAGE,
+              accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
+              accessNamesConfig.FIELD_YEAR,
+            ])}
+          >
+            <Grid xs={2}>
+              <YearInput
+                setter={setFormData}
+                value={formData[budgetReportExpenseConfig.year] as number}
+                permissionForm={joinPermissions([
                   accessNamesConfig.BUDGET__REPORT_PAGE,
                   accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
-                  accessNamesConfig.FIELD_ORGAN,
-                ])
-              )}
-              value={formData[budgetReportExpenseConfig.organ]}
+                ])}
+                showError={haveSubmitedForm}
+              />
+            </Grid>
+          </SectionGuard>
+
+          <Grid xs={2}>
+            <MonthInput
               setter={setFormData}
+              value={formData[budgetReportExpenseConfig.month] as number}
               showError={haveSubmitedForm}
             />
           </Grid>
-        </SectionGuard>
 
-        <Grid xs={2}>
-          <NumbersInput
-            setter={setFormData}
-            value={formData[generalFieldsConfig.numbers] as number}
-          />
-        </Grid>
-
-        <Grid xs>
-          <LoadingButton
-            variant="contained"
-            type="submit"
-            loading={submitMutation.isLoading}
-            sx={{ mr: 1 }}
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.BUDGET__REPORT_PAGE,
+              accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
+              accessNamesConfig.FIELD_ORGAN,
+            ])}
           >
-            نمایش
-          </LoadingButton>
+            <Grid xs={2}>
+              <FlotingLabelSelect
+                label="سازمان"
+                name={budgetReportExpenseConfig.organ}
+                items={filedItemsGuard(
+                  organItems2,
+                  userLicenses,
+                  joinPermissions([
+                    accessNamesConfig.BUDGET__REPORT_PAGE,
+                    accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
+                    accessNamesConfig.FIELD_ORGAN,
+                  ])
+                )}
+                value={formData[budgetReportExpenseConfig.organ]}
+                setter={setFormData}
+                showError={haveSubmitedForm}
+              />
+            </Grid>
+          </SectionGuard>
 
-          <IconButton color="primary" onClick={handlePrintClick}>
-            <PrintIcon />
-          </IconButton>
+          <Grid xs={2}>
+            <NumbersInput
+              setter={setFormData}
+              value={formData[generalFieldsConfig.numbers] as number}
+            />
+          </Grid>
+
+          <Grid xs>
+            <LoadingButton
+              variant="contained"
+              type="submit"
+              loading={submitMutation.isLoading}
+              sx={{ mr: 1 }}
+            >
+              نمایش
+            </LoadingButton>
+
+            <IconButton color="primary" onClick={handlePrintClick}>
+              <PrintIcon />
+            </IconButton>
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+
+      <WindowLoading
+        active={
+          getExcelManateghMutation.isLoading ||
+          getExcelSazmanMutation.isLoading ||
+          printLoading
+        }
+      />
+    </>
   );
 }
 
