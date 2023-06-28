@@ -17,7 +17,7 @@ function ProposalModalInfo(props: ProposalModalInfoProps) {
   const { data, formData } = props;
 
   const [modalFormData, setModalFormData] = useState({
-    [proposalConfig.organ]: 1,
+    [proposalConfig.organ]: 1, // 1,
   });
 
   const tableHeadGroup: TableHeadGroupShape = [
@@ -47,6 +47,7 @@ function ProposalModalInfo(props: ProposalModalInfoProps) {
     {
       title: "منطقه",
       name: "areaName",
+      align: "left",
     },
     {
       title: "مصوب",
@@ -123,7 +124,7 @@ function ProposalModalInfo(props: ProposalModalInfoProps) {
       heads={tableHeads}
       data={tableData}
       footer={tableFooter}
-      headGroups={tableHeadGroup}
+      // headGroups={tableHeadGroup}
       notFixed
     />
   );

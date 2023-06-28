@@ -51,6 +51,7 @@ import { budgetReportExpenseApi } from "api/report/budget-expense-api";
 import NumbersInput from "components/sections/inputs/numbers-input";
 import { convertNumbers } from "helper/number-utils";
 import MonthInput from "components/sections/inputs/month-input";
+import { budgetExpenseStimul } from "stimul/budget/report/expense/budget-expense-stimul";
 
 interface BudgetReportExpenseFormProps {
   formData: any;
@@ -161,17 +162,57 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
   ]);
 
   // print
-  const handlePrintForm = () => {
+  const getDetailMutation = useMutation(budgetReportExpenseApi.getDetailData);
+
+  const handlePrintForm = async () => {
+    let culmnsData: any = {
+      mosavabRevenue: [],
+      mosavabCurrent: [],
+    };
+
+    const culmnKeys = Object.keys(culmnsData);
+    // try {
+    //   culmnKeys.forEach(async (item) => {
+    //     const data = await getDetailMutation.mutateAsync({
+    //       columnName: item,
+    //       areaId: 1,
+    //       yearId: formData[budgetReportExpenseConfig.year],
+    //     });
+
+    //     culmnsData = {
+    //       ...culmnsData,
+    //       [item]: data.data,
+    //     };
+    //   });
+    // } catch {}
+    try {
+      await Promise.all(
+        culmnKeys.map(async (item) => {
+          const data = await getDetailMutation.mutateAsync({
+            columnName: item,
+            areaId: 1,
+            yearId: formData[budgetReportExpenseConfig.year],
+          });
+
+          culmnsData = {
+            ...culmnsData,
+            [item]: data.data,
+          };
+        })
+      );
+    } catch {}
+
     if (printData.data.length) {
-      const yearLabel = getGeneralFieldItemYear(formData, 1);
-      const areaLabel = getGeneralFieldItemArea(formData, 3);
-      const budgetKindLabel = getGeneralFieldItemProjectScale(formData);
-      budgetProjectScaleStimul({
-        data: printData.data,
-        footer: printData.footer,
-        year: yearLabel,
-        area: areaLabel,
-        kind: budgetKindLabel,
+      // const yearLabel = getGeneralFieldItemYear(formData, 1);
+      // const areaLabel = getGeneralFieldItemArea(formData, 3);
+      // const budgetKindLabel = getGeneralFieldItemProjectScale(formData);
+      budgetExpenseStimul({
+        data: culmnsData.mosavabCurrent,
+        // footer: printData.footer,
+        footer: [],
+        year: "yearLabel",
+        area: "areaLabel",
+        kind: "budgetKindLabel",
         numberShow: "ریال",
       });
     }
@@ -260,9 +301,9 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
             نمایش
           </LoadingButton>
 
-          {/* <IconButton color="primary" onClick={handlePrintForm}>
+          <IconButton color="primary" onClick={handlePrintForm}>
             <PrintIcon />
-          </IconButton> */}
+          </IconButton>
         </Grid>
       </Grid>
     </Box>

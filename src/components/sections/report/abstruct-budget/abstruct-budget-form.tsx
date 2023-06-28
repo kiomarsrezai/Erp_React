@@ -154,7 +154,7 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
         <Grid container spacing={2}>
           {tabRender && <Grid xs={12}>{tabRender}</Grid>}
 
-          <SectionGuard
+          {/* <SectionGuard
             permission={joinPermissions([
               accessNamesConfig.BUDGET__REPORT_PAGE,
               accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY,
@@ -179,7 +179,7 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
                 showError={haveSubmitedForm}
               />
             </Grid>
-          </SectionGuard>
+          </SectionGuard> */}
           <SectionGuard
             permission={joinPermissions([
               accessNamesConfig.BUDGET__REPORT_PAGE,
@@ -200,7 +200,7 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
             </Grid>
           </SectionGuard>
 
-          <SectionGuard
+          {/* <SectionGuard
             permission={joinPermissions([
               accessNamesConfig.BUDGET__REPORT_PAGE,
               accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY,
@@ -218,7 +218,7 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
                 showError={haveSubmitedForm}
               />
             </Grid>
-          </SectionGuard>
+          </SectionGuard> */}
 
           <Grid xs={2}>
             <NumbersInput
