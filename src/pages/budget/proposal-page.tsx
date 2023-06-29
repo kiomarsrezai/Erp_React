@@ -36,7 +36,7 @@ interface TableDataItemShape {
 function BudgetProposalPage() {
   const [formData, setFormData] = useState({
     [proposalConfig.YEAR]: undefined,
-    [proposalConfig.AREA]: 10, //undefined,
+    [proposalConfig.AREA]: undefined,
     [proposalConfig.BUDGET_METHOD]: undefined,
   });
 

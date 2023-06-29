@@ -157,7 +157,7 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
               />
             </Grid>
           </SectionGuard>
-          {/* <SectionGuard
+          <SectionGuard
             permission={joinPermissions([
               accessNamesConfig.BUDGET__PROPOSAL_PAGE,
               accessNamesConfig.FIELD_AREA,
@@ -172,7 +172,7 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
                 showError={haveSubmitedForm}
               />
             </Grid>
-          </SectionGuard> */}
+          </SectionGuard>
 
           <SectionGuard
             permission={joinPermissions([
