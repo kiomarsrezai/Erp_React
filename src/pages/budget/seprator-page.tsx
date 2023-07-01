@@ -73,6 +73,7 @@ document.querySelector('#table-container').scrollTo
     {
       title: "ردیف",
       name: "id",
+      width: "50px",
     },
     {
       title: "#",
@@ -82,6 +83,7 @@ document.querySelector('#table-container').scrollTo
     {
       title: "کد",
       name: "code",
+      width: "90px",
     },
     {
       title: "شرح",
@@ -93,12 +95,14 @@ document.querySelector('#table-container').scrollTo
       name: "mosavab",
       split: true,
       align: "left",
+      width: "160px",
     },
     {
       title: "اصلاح بودجه",
       name: "edit",
       split: true,
       align: "left",
+      width: "160px",
     },
     {
       title: "ت اعتبار",
@@ -106,21 +110,25 @@ document.querySelector('#table-container').scrollTo
       split: true,
       align: "left",
       hidden: formData[sepratorBudgetConfig.BUDGET_METHOD] === 1,
+      width: "160px",
     },
     {
       title: formatExpenseName(formData[sepratorBudgetConfig.BUDGET_METHOD]),
       name: "expense",
       split: true,
       align: "left",
+      width: "160px",
     },
     {
       title: "% جذب",
       name: "percentBud",
       percent: true,
+      width: "80px",
     },
     {
       title: "عملیات",
       name: "actions",
+      width: "100px",
     },
   ];
 

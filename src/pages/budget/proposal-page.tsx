@@ -59,6 +59,7 @@ function BudgetProposalPage() {
     {
       title: "ردیف",
       name: "number",
+      width: "50px",
     },
     {
       title: "#",
@@ -68,6 +69,7 @@ function BudgetProposalPage() {
     {
       title: "کد",
       name: "code",
+      width: "90px",
     },
     {
       title: "شرح",
@@ -79,12 +81,14 @@ function BudgetProposalPage() {
       align: "left",
       name: "mosavab",
       split: true,
+      width: "160px",
     },
     {
       title: "اصلاح",
       align: "left",
       name: "edit",
       split: true,
+      width: "160px",
     },
     {
       title: "ت اعتبار",
@@ -92,21 +96,25 @@ function BudgetProposalPage() {
       split: true,
       align: "left",
       hidden: formData[proposalConfig.BUDGET_METHOD] === 1,
+      width: "160px",
     },
     {
       title: formatExpenseName(formData[proposalConfig.BUDGET_METHOD]),
       name: "expense",
       align: "left",
       split: true,
+      width: "160px",
     },
     {
       title: "% جذب",
       name: "percent",
       percent: true,
+      width: "80px",
     },
     {
       title: "عملیات",
       name: "actions",
+      width: "100px",
     },
   ];
 
@@ -351,6 +359,8 @@ function BudgetProposalPage() {
           data={tableData}
           footer={tableFooter}
           bottomFooter={tableBottomFooter}
+          enableVirtual
+          tableLayout="auto"
         />
       </AdminLayout>
       {/* modal 1 */}
