@@ -55,6 +55,7 @@ import { convertNumbers } from "helper/number-utils";
 import MonthInput from "components/sections/inputs/month-input";
 import { budgetExpenseStimul } from "stimul/budget/report/expense/budget-expense-stimul";
 import WindowLoading from "components/ui/loading/window-loading";
+import { budgetExpenseXlsx } from "stimul/budget/report/expense/budget-expense-xlsx";
 
 interface BudgetReportExpenseFormProps {
   formData: any;
@@ -222,7 +223,14 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
       const yearLabel = getGeneralFieldItemYear(formData, 1);
       const areaLabel = getGeneralFieldItemAreaFromId(3, areaId);
       const monthLabel = getGeneralFieldItemMonth(formData);
-      budgetExpenseStimul({
+      // budgetExpenseStimul({
+      //   culmnsData: culmnsData,
+      //   year: yearLabel,
+      //   area: areaLabel,
+      //   numberShow: "ریال",
+      //   month: monthLabel,
+      // });
+      budgetExpenseXlsx({
         culmnsData: culmnsData,
         year: yearLabel,
         area: areaLabel,
