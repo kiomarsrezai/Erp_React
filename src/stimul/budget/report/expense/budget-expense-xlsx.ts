@@ -1,6 +1,7 @@
 import { budgetMethodItems } from "config/features/general-fields-config";
 import { globalConfig } from "config/global-config";
 import { createStimulsoftFilePath, stimulDateValue } from "helper/export-utils";
+import { getBgColorBudget } from "helper/get-color-utils";
 import * as XLSX from "xlsx-js-style/dist/xlsx.bundle";
 
 interface StimulOptionsShape {
@@ -9,6 +10,18 @@ interface StimulOptionsShape {
   area?: string;
   culmnsData: any;
   month?: string;
+}
+
+function componentToHex(c: any) {
+  var hex = (+c).toString(16);
+  return hex.length == 1 ? "0" + hex : hex;
+}
+
+function rgbToHex(color: any) {
+  if (color === "#fff") return "ffffff";
+
+  const [r, g, b] = color.replace("rgb(", "").split(",");
+  return componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
 export const ListsToExcel = (Sheets: any, filename: string) => {
@@ -63,7 +76,9 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
         if (a && a.BgColor) {
           style.fill.fgColor = { rgb: a.BgColor.substring(1) };
         } else {
-          style.fill.fgColor = { rgb: "ffffff" };
+          style.fill.fgColor = {
+            rgb: rgbToHex(getBgColorBudget(rowData.levelNumber, 1)),
+          };
         }
         if (!column.Mony) {
           style.alignment = {};
@@ -102,6 +117,7 @@ const createData = (data: any, title: string) => {
       {
         Header: "کد",
         Name: "code",
+        // Width: 90,
       },
       {
         Header: "شرح",
@@ -110,14 +126,20 @@ const createData = (data: any, title: string) => {
       {
         Header: "مصوب",
         Name: "mosavab",
+        // Mony: true,
+        // Width: 360,
       },
       {
         Header: "اصلاح",
         Name: "edit",
+        // Mony: true,
+        // Width: 160,
       },
       {
         Header: "ت اعتبار",
         Name: "creditAmount",
+        // Mony: true,
+        // Width: 160,
       },
       {
         Header: "%",
@@ -126,10 +148,13 @@ const createData = (data: any, title: string) => {
       {
         Header: "عملکرد",
         Name: "expenseMonth",
+        // Mony: true,
+        // Width: 160,
       },
       {
         Header: "%",
         Name: "percent",
+        Percent: true,
       },
     ],
     List: data,
