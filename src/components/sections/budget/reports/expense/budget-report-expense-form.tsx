@@ -184,9 +184,9 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
         onSubmit={handleSubmit}
         sx={{ bgcolor: "grey.200" }}
       >
-        <Box display={"none"}>
+        {/* <Box display={"none"}>
           <AreaInput setter={() => {}} value={undefined} level={3} />
-        </Box>
+        </Box> */}
         <Grid container spacing={2}>
           {tabRender && <Grid xs={12}>{tabRender}</Grid>}
           {inputRender && <Grid xs={2}>{inputRender}</Grid>}
