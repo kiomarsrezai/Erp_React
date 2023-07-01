@@ -84,6 +84,7 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
         if (!column.Mony) {
           style.alignment = {};
           style.alignment.horizontal = "right";
+          style.alignment.vertical = "center";
         }
 
         return {
