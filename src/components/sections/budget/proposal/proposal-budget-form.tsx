@@ -9,6 +9,7 @@ import SectionGuard from "components/auth/section-guard";
 import userStore from "hooks/store/user-store";
 import FixedModal from "components/ui/modal/fixed-modal";
 import ProposalBudgetBaseModal from "./proposal-budget-base-modal";
+import SearchIcon from "@mui/icons-material/Search";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FormEvent, useEffect, useState } from "react";
@@ -20,6 +21,7 @@ import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import { checkHaveValue } from "helper/form-utils";
 import { proposalConfig } from "config/features/budget/proposal-config";
+import { InputAdornment, TextField } from "@mui/material";
 
 interface ProposalBudgetFormProps {
   formData: any;
@@ -34,12 +36,26 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
   const userLicenses = userStore((state) => state.permissions);
 
   // submit
+  const [filterText, setFilterText] = useState("");
+
   const queryClient = useQueryClient();
+  const [submitedData, setSubmitedData] = useState<any[]>([]);
   const submitMutation = useMutation(proposalBudgetApi.getData, {
     onSuccess: (data) => {
-      queryClient.setQueryData(reactQueryKeys.budget.proposal.getData, data);
+      // queryClient.setQueryData(reactQueryKeys.budget.proposal.getData, data);
+      setSubmitedData(data.data);
     },
   });
+
+  useEffect(() => {
+    const filteredData = submitedData.filter(
+      (item) =>
+        item.description.includes(filterText) || item.code.includes(filterText)
+    );
+    queryClient?.setQueryData(reactQueryKeys.budget.proposal.getData, {
+      data: filteredData,
+    });
+  }, [submitedData, filterText]);
 
   const [haveSubmitedForm, setHaveSubmitedForm] = useState(false);
 
@@ -204,6 +220,25 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
             >
               افزودن
             </Button>
+          </Grid>
+
+          <Grid sm={2}>
+            <TextField
+              size="small"
+              label="جستجو"
+              sx={{ width: "250px" }}
+              value={filterText}
+              variant="outlined"
+              onChange={(e) => setFilterText(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+              fullWidth
+            />
           </Grid>
         </Grid>
       </Box>

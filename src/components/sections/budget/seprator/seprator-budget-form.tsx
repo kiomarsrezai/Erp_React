@@ -7,6 +7,7 @@ import AreaInput from "components/sections/inputs/area-input";
 import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 import SectionGuard from "components/auth/section-guard";
 import PrintIcon from "@mui/icons-material/Print";
+import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -30,6 +31,7 @@ import { budgetSepratorStimul } from "stimul/budget/seprator/budget-seprator-sti
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import FixedModal from "components/ui/modal/fixed-modal";
 import SepratorFixMosavabModal1 from "./fix/seprator-fix-mosavab-modal-1";
+import { InputAdornment, TextField } from "@mui/material";
 
 interface SepratoeBudgetFormProps {
   formData: any;
@@ -45,12 +47,25 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
   const userLicenses = userStore((state) => state.permissions);
 
   // submit
+  const [filterText, setFilterText] = useState("");
   const queryClient = useQueryClient();
+  const [submitedData, setSubmitedData] = useState<any[]>([]);
+
   const submitMutation = useMutation(sepratorBudgetApi.getData, {
     onSuccess: (data) => {
-      queryClient.setQueryData(reactQueryKeys.budget.seprator.getData, data);
+      setSubmitedData(data.data);
     },
   });
+
+  useEffect(() => {
+    const filteredData = submitedData.filter(
+      (item) =>
+        item.description.includes(filterText) || item.code.includes(filterText)
+    );
+    queryClient?.setQueryData(reactQueryKeys.budget.seprator.getData, {
+      data: filteredData,
+    });
+  }, [submitedData, filterText]);
 
   const [haveSubmitedForm, setHaveSubmitedForm] = useState(false);
 
@@ -257,6 +272,24 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
             <IconButton color="primary" onClick={handlePrintForm}>
               <PrintIcon />
             </IconButton>
+          </Grid>
+          <Grid sm={2}>
+            <TextField
+              size="small"
+              label="جستجو"
+              sx={{ width: "250px" }}
+              value={filterText}
+              variant="outlined"
+              onChange={(e) => setFilterText(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+              fullWidth
+            />
           </Grid>
         </Grid>
       </Box>
