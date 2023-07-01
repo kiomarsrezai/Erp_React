@@ -236,9 +236,18 @@ function usePermissions() {
     ),
 
     [accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN]: formatLocalFields(
-      "عملکرد اورگان ها",
+      "عملکرد ماهیانه",
       accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
-      [yearLevel1Field, organField2]
+      [
+        yearLevel1Field,
+        organField2,
+        formatApiFields(
+          "اکسل",
+          accessNamesConfig.FIELD_AREA,
+          "areaName",
+          areaNumber3Query.data?.data || []
+        ),
+      ]
     ),
 
     [accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT]: formatLocalFields(

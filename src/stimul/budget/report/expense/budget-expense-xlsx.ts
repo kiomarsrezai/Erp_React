@@ -1,5 +1,6 @@
 import { budgetMethodItems } from "config/features/general-fields-config";
 import { globalConfig } from "config/global-config";
+import { numberWithCommas } from "helper/calculate-utils";
 import { createStimulsoftFilePath, stimulDateValue } from "helper/export-utils";
 import { getBgColorBudget } from "helper/get-color-utils";
 import * as XLSX from "xlsx-js-style/dist/xlsx.bundle";
@@ -30,7 +31,7 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
   wb.Workbook.Views = [{ RTL: true }];
   const headerStyle = {
     font: { name: "Dubai", sz: 12, bold: true },
-    fill: { fgColor: { rgb: "a9a9a9" } },
+    fill: { fgColor: { rgb: "eeeeee" } },
     alignment: {
       // wrapText: true,
       horizontal: "right",
@@ -87,10 +88,14 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
 
         return {
           v:
-            rowData[column.Name] === null
+            rowData[column.Name] === null || rowData[column.Name] === undefined
               ? column.Mony
                 ? 0
                 : ""
+              : column.Percent
+              ? `${rowData[column.Name]} %`
+              : column.Split
+              ? numberWithCommas(rowData[column.Name])
               : rowData[column.Name],
           t: column.Mony ? "n" : "s",
           s: style,
@@ -128,22 +133,26 @@ const createData = (data: any, title: string) => {
         Name: "mosavab",
         // Mony: true,
         // Width: 360,
+        Split: true,
       },
       {
         Header: "اصلاح",
         Name: "edit",
         // Mony: true,
         // Width: 160,
+        Split: true,
       },
       {
         Header: "ت اعتبار",
         Name: "creditAmount",
         // Mony: true,
         // Width: 160,
+        Split: true,
       },
       {
         Header: "%",
         Name: "percentCredit",
+        Percent: true,
       },
       {
         Header: "عملکرد",
@@ -158,7 +167,7 @@ const createData = (data: any, title: string) => {
       },
     ],
     List: data,
-    Title: title.replaceAll("/", " "),
+    Title: title.replaceAll("/", "-"),
     Styles: {
       Styles: {},
       StylesMap: {},

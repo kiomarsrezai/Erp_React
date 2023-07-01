@@ -263,10 +263,18 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
               نمایش
             </LoadingButton>
 
-            <IconButton color="primary" onClick={handlePrintClick}>
-              {/* <PrintIcon /> */}
-              <GetAppIcon />
-            </IconButton>
+            <SectionGuard
+              permission={joinPermissions([
+                accessNamesConfig.BUDGET__REPORT_PAGE,
+                accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
+                accessNamesConfig.FIELD_YEAR,
+              ])}
+            >
+              <IconButton color="primary" onClick={handlePrintClick}>
+                {/* <PrintIcon /> */}
+                <GetAppIcon />
+              </IconButton>
+            </SectionGuard>
           </Grid>
         </Grid>
       </Box>

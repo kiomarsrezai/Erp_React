@@ -36,14 +36,24 @@ function BudgetReportExpenseAreaModal(
   const areaQuery = useQuery(["general-area", 3], () =>
     areaGeneralApi.getData(3)
   );
+  const userLicenses = userStore((state) => state.permissions);
 
-  const areaItems: FlotingLabelTextfieldItemsShape = areaQuery.data
+  const inputItems: FlotingLabelTextfieldItemsShape = areaQuery.data
     ? areaQuery.data.data.map((item) => ({
         label: item.areaName,
         value: item.id,
       }))
     : [];
 
+  const areaItems = filedItemsGuard(
+    inputItems,
+    userLicenses,
+    joinPermissions([
+      accessNamesConfig.BUDGET__REPORT_PAGE,
+      accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
+      accessNamesConfig.FIELD_AREA,
+    ])
+  );
   // form
   const [selectedAreas, setSelectedAreas] = useState<any>({});
   const toggleItem = (e: ChangeEvent<HTMLInputElement>) => {
@@ -56,6 +66,24 @@ function BudgetReportExpenseAreaModal(
       return { ...prevState, [value]: checked };
     });
   };
+
+  const toggleAllItem = () => {
+    setSelectedAreas(() => {
+      let newValue: any = {};
+
+      areaItems.forEach((areaItem) => {
+        newValue[areaItem.value] = !isAllClicked;
+      });
+
+      return newValue;
+    });
+  };
+
+  const isAllClicked = areaItems.reduce((preveius: any, curent: any) => {
+    if (preveius === false) return false;
+
+    return selectedAreas?.[curent.value] === true;
+  }, true);
 
   //   print
   const getExcelManateghMutation = useMutation(
@@ -147,6 +175,16 @@ function BudgetReportExpenseAreaModal(
           }}
         >
           <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value={"isAllClicked"}
+                  checked={isAllClicked}
+                  onChange={toggleAllItem}
+                />
+              }
+              label={"همه"}
+            />
             {areaItems.map((item) => (
               <FormControlLabel
                 control={
