@@ -273,7 +273,7 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
               <PrintIcon />
             </IconButton>
           </Grid>
-          <Grid sm={2}>
+          {/* <Grid sm={2}>
             <TextField
               size="small"
               label="جستجو"
@@ -290,7 +290,7 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
               }}
               fullWidth
             />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Box>
 

@@ -69,7 +69,7 @@ function BudgetProposalPage() {
     {
       title: "کد",
       name: "code",
-      width: "90px",
+      width: "110px",
     },
     {
       title: "شرح",
@@ -359,8 +359,8 @@ function BudgetProposalPage() {
           data={tableData}
           footer={tableFooter}
           bottomFooter={tableBottomFooter}
-          enableVirtual
-          tableLayout="auto"
+          // enableVirtual
+          // tableLayout="auto"
         />
       </AdminLayout>
       {/* modal 1 */}

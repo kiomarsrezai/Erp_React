@@ -222,7 +222,7 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
             </Button>
           </Grid>
 
-          <Grid sm={2}>
+          {/* <Grid sm={2}>
             <TextField
               size="small"
               label="جستجو"
@@ -239,7 +239,7 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
               }}
               fullWidth
             />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Box>
 
