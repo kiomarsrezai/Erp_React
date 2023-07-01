@@ -1,6 +1,10 @@
 import { budgetMethodItems } from "config/features/general-fields-config";
 import { globalConfig } from "config/global-config";
-import { numberWithCommas } from "helper/calculate-utils";
+import {
+  getPercent,
+  numberWithCommas,
+  sumFieldsInSingleItemData,
+} from "helper/calculate-utils";
 import { createStimulsoftFilePath, stimulDateValue } from "helper/export-utils";
 import { getBgColorBudget } from "helper/get-color-utils";
 import * as XLSX from "xlsx-js-style/dist/xlsx.bundle";
@@ -60,6 +64,8 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
         }),
       ],
     ];
+
+    // body
     const body = sheet.List.map((rowData: any, rowIndex: any) => {
       return sheet.Columns.map((column: any) => {
         const a =
@@ -104,7 +110,55 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
         };
       });
     });
-    const data = header.concat(body);
+
+    // footer
+    const footer = sheet.Sum.map((rowData: any, rowIndex: any) => {
+      return sheet.Columns.map((column: any) => {
+        const a =
+          sheet.Styles.Styles?.[
+            sheet.Styles.StylesMap?.[rowIndex + 1]?.[column.Name]
+          ] || {};
+        const style: any = {};
+        style.font = {
+          name: "Dubai",
+        };
+        if (a && a.TextColor) {
+          style.font.color = { rgb: a.TextColor.substring(1) };
+        }
+        style.fill = {};
+        if (a && a.BgColor) {
+          style.fill.fgColor = { rgb: a.BgColor.substring(1) };
+        } else {
+          style.fill.fgColor = {
+            rgb: "eeeeee",
+          };
+        }
+        if (!column.Mony) {
+          style.alignment = {};
+          style.alignment.horizontal = "right";
+          style.alignment.vertical = "center";
+        }
+
+        return {
+          v:
+            rowData[column.Name] === null || rowData[column.Name] === undefined
+              ? column.Mony
+                ? 0
+                : ""
+              : column.Percent
+              ? `${rowData[column.Name]} %`
+              : column.Split
+              ? numberWithCommas(rowData[column.Name])
+              : rowData[column.Name],
+          t: column.Mony ? "n" : "s",
+          s: style,
+          z: column.Mony ? "#,##0" : undefined,
+        };
+      });
+    });
+
+    const data = header.concat(...[body, footer]);
+
     //debugger
     const ws = XLSX.utils.aoa_to_sheet(data);
     ws["!cols"] = fitToColumn(data);
@@ -118,6 +172,29 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
 };
 
 const createData = (data: any, title: string) => {
+  const sumMosavab = sumFieldsInSingleItemData(
+    data,
+    "mosavab",
+    (item: any) => item.levelNumber === 1
+  );
+  const sumEdit = sumFieldsInSingleItemData(
+    data,
+    "edit",
+    (item: any) => item.levelNumber === 1
+  );
+  const sumCreditAmount = sumFieldsInSingleItemData(
+    data,
+    "creditAmount",
+    (item: any) => item.levelNumber === 1
+  );
+  const sumExpenseMonth = sumFieldsInSingleItemData(
+    data,
+    "expenseMonth",
+    (item: any) => item.levelNumber === 1
+  );
+  const percentExpense = getPercent(sumExpenseMonth, sumMosavab);
+  const percentCreditAmount = getPercent(sumCreditAmount, sumMosavab);
+
   return {
     Columns: [
       {
@@ -168,6 +245,18 @@ const createData = (data: any, title: string) => {
       },
     ],
     List: data,
+    Sum: [
+      {
+        code: "",
+        description: "",
+        mosavab: sumMosavab,
+        edit: sumEdit,
+        creditAmount: sumCreditAmount,
+        expenseMonth: sumExpenseMonth,
+        percent: percentExpense,
+        percentCredit: percentCreditAmount,
+      },
+    ],
     Title: title.replaceAll("/", "-"),
     Styles: {
       Styles: {},

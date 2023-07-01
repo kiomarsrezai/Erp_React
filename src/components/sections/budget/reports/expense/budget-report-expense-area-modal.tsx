@@ -211,7 +211,7 @@ function BudgetReportExpenseAreaModal(
               printLoading
             }
           >
-            پرینت
+            تایید
           </LoadingButton>
         </Box>
       </Box>
