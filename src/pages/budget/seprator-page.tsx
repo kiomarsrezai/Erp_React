@@ -83,7 +83,7 @@ document.querySelector('#table-container').scrollTo
     {
       title: "کد",
       name: "code",
-      width: "90px",
+      width: "110px",
     },
     {
       title: "شرح",
