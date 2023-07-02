@@ -13,6 +13,9 @@ import { contractsTasksConfig } from "config/features/contracts/conreacts-tasks-
 import { changeInputHandler } from "helper/form-utils";
 import { DatePicker } from "@mui/x-date-pickers";
 import { globalConfig } from "config/global-config";
+import { FormControl, InputLabel, Select } from "@mui/material";
+import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
+import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 
 interface ContractTaskItemCardProps {
   formData: any;
@@ -38,6 +41,25 @@ function ContractTaskItemCard(props: ContractTaskItemCardProps) {
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     changeInputHandler(e, setFormData);
   };
+
+  const doingMethodItems: FlotingLabelTextfieldItemsShape = [
+    {
+      label: "استعلام",
+      value: 2,
+    },
+    {
+      label: "مناقصه محدود",
+      value: 3,
+    },
+    {
+      label: "مناقصه عمومی",
+      value: 4,
+    },
+    {
+      label: "ترک تشریفات",
+      value: 5,
+    },
+  ];
 
   return (
     <>
@@ -165,6 +187,19 @@ function ContractTaskItemCard(props: ContractTaskItemCardProps) {
                       ),
                     }}
                     fullWidth
+                  />
+                </Grid>
+                <Grid sm={6}>
+                  <FlotingLabelSelect
+                    label="شیوه انجام"
+                    name={contractsTasksConfig.doing_method}
+                    items={doingMethodItems}
+                    value={formData[contractsTasksConfig.doing_method]}
+                    setter={setFormData}
+                    showError={
+                      haveSubmitedForm &&
+                      !formData[contractsTasksConfig.doing_method]
+                    }
                   />
                 </Grid>
                 <Grid sm={6}>

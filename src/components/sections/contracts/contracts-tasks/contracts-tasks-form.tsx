@@ -34,6 +34,7 @@ import {
 import { contractsTasksApi } from "api/contracts/contracts-tasks-api";
 import ContractsSearchModal from "./contracts-search-modal";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 
 interface ContractsTasksFormProps {
   formData: any;
@@ -123,6 +124,8 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
         // insert
         insertMutation.mutate({
           [contractsTasksConfig.area]: formData[contractsTasksConfig.area],
+          [contractsTasksConfig.doing_method]:
+            formData[contractsTasksConfig.doing_method],
           [contractsTasksConfig.date]: formData[contractsTasksConfig.date],
           [contractsTasksConfig.description]:
             formData[contractsTasksConfig.description],
@@ -142,6 +145,8 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
         updateMutation.mutate({
           id: formData.id,
           [contractsTasksConfig.area]: formData[contractsTasksConfig.area],
+          [contractsTasksConfig.doing_method]:
+            formData[contractsTasksConfig.doing_method],
           [contractsTasksConfig.date]: formData[contractsTasksConfig.date],
           [contractsTasksConfig.description]:
             formData[contractsTasksConfig.description],
