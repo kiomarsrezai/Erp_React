@@ -7,7 +7,7 @@ import {
 } from "helper/calculate-utils";
 import { createStimulsoftFilePath, stimulDateValue } from "helper/export-utils";
 import { getBgColorBudget } from "helper/get-color-utils";
-import * as XLSX from "xlsx-js-style/dist/xlsx.bundle";
+const XLSX = require("xlsx-js-style/dist/xlsx.bundle");
 
 interface StimulOptionsShape {
   year?: string;
@@ -34,7 +34,7 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
   wb.Workbook = wb.Workbook || {};
   wb.Workbook.Views = [{ RTL: true }];
   const headerStyle = {
-    font: { name: "Dubai", sz: 12, bold: true },
+    font: { name: "B Nazanin", sz: 12, bold: true },
     fill: { fgColor: { rgb: "eeeeee" } },
     alignment: {
       // wrapText: true,
@@ -84,7 +84,9 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
           style.fill.fgColor = { rgb: a.BgColor.substring(1) };
         } else {
           style.fill.fgColor = {
-            rgb: rgbToHex(getBgColorBudget(rowData.levelNumber, 1)),
+            rgb: rgbToHex(
+              getBgColorBudget(rowData.levelNumber, sheet.proccessId)
+            ),
           };
         }
         if (!column.Mony) {
@@ -98,6 +100,8 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
             rowData[column.Name] === null || rowData[column.Name] === undefined
               ? column.Mony
                 ? 0
+                : column.RowIndex
+                ? rowIndex + 1
                 : ""
               : column.Percent
               ? `${rowData[column.Name]} %`
@@ -171,7 +175,7 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
   XLSX.writeFile(wb, filename + ".xlsx");
 };
 
-const createData = (data: any, title: string) => {
+const createData = (data: any, title: string, proccessId: number) => {
   const sumMosavab = sumFieldsInSingleItemData(
     data,
     "mosavab",
@@ -197,6 +201,12 @@ const createData = (data: any, title: string) => {
 
   return {
     Columns: [
+      {
+        Header: "ردیف",
+        Name: "number",
+        RowIndex: true,
+        // Width: 90,
+      },
       {
         Header: "کد",
         Name: "code",
@@ -237,6 +247,7 @@ const createData = (data: any, title: string) => {
         Name: "expenseMonth",
         // Mony: true,
         // Width: 160,
+        Split: true,
       },
       {
         Header: "%",
@@ -247,6 +258,7 @@ const createData = (data: any, title: string) => {
     List: data,
     Sum: [
       {
+        number: "جمع",
         code: "",
         description: "",
         mosavab: sumMosavab,
@@ -258,6 +270,7 @@ const createData = (data: any, title: string) => {
       },
     ],
     Title: title.replaceAll("/", "-"),
+    proccessId,
     Styles: {
       Styles: {},
       StylesMap: {},
@@ -268,23 +281,28 @@ const createData = (data: any, title: string) => {
 export const budgetExpenseXlsx = (exportOptions: StimulOptionsShape) => {
   const data1 = createData(
     exportOptions.culmnsData[1],
-    budgetMethodItems[0].label
+    budgetMethodItems[0].label,
+    1
   );
   const data2 = createData(
     exportOptions.culmnsData[2],
-    budgetMethodItems[1].label
+    budgetMethodItems[1].label,
+    2
   );
   const data3 = createData(
     exportOptions.culmnsData[3],
-    budgetMethodItems[2].label
+    budgetMethodItems[2].label,
+    3
   );
   const data4 = createData(
     exportOptions.culmnsData[4],
-    budgetMethodItems[3].label
+    budgetMethodItems[3].label,
+    4
   );
   const data5 = createData(
     exportOptions.culmnsData[5],
-    budgetMethodItems[4].label
+    budgetMethodItems[4].label,
+    5
   );
 
   ListsToExcel(
