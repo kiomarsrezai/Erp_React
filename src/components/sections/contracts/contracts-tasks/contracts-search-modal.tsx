@@ -2,12 +2,18 @@ import FixedTable from "components/data/table/fixed-table";
 import IconButton from "@mui/material/IconButton";
 import CheckIcon from "@mui/icons-material/Check";
 import { GetSingleSearchContractTaskItemShape } from "types/data/contracts/contracts-tasks-type";
-import { TableHeadShape } from "types/table-type";
+import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { contractsTasksApi } from "api/contracts/contracts-tasks-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { contractsTasksConfig } from "config/features/contracts/conreacts-tasks-config";
 import { convertToCalenderDate } from "helper/date-utils";
+import SectionGuard from "components/auth/section-guard";
+import { joinPermissions } from "helper/auth-utils";
+import { accessNamesConfig } from "config/access-names-config";
+import { Unstable_Grid2 as Grid } from "@mui/material";
+import AreaInput from "components/sections/inputs/area-input";
+import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
 
 interface ContractsSearchModalProps {
   data: GetSingleSearchContractTaskItemShape[];
@@ -17,7 +23,7 @@ interface ContractsSearchModalProps {
 }
 
 function ContractsSearchModal(props: ContractsSearchModalProps) {
-  const { data, onClose, setFormData, formData } = props;
+  const { onClose, setFormData, formData } = props;
 
   const tableHeads: TableHeadShape = [
     {
@@ -43,6 +49,49 @@ function ContractsSearchModal(props: ContractsSearchModalProps) {
     {
       title: "عملیات",
       name: "actions",
+    },
+  ];
+
+  // top heads
+  const submitMutation = useMutation(contractsTasksApi.search, {});
+
+  const handleClickSearchBtn = () => {
+    submitMutation.mutate(formData);
+  };
+
+  const tableHeadGroup: TableHeadGroupShape = [
+    {
+      title: (
+        <Grid container spacing={2}>
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.CONTRACT__REPORT_PAGE,
+              accessNamesConfig.FIELD_AREA,
+            ])}
+          >
+            <Grid sm={3}>
+              <AreaInput
+                setter={setFormData}
+                value={formData[contractsTasksConfig.area]}
+                permissionForm={accessNamesConfig.CONTRACT__REPORT_PAGE}
+                level={3}
+                // showError={haveSubmitedForm}
+              />
+            </Grid>
+
+            <Grid sm>
+              <LoadingButton
+                onClick={handleClickSearchBtn}
+                loading={submitMutation.isLoading}
+                variant="contained"
+              >
+                جستجو
+              </LoadingButton>
+            </Grid>
+          </SectionGuard>
+        </Grid>
+      ),
+      colspan: 9,
     },
   ];
 
@@ -95,9 +144,16 @@ function ContractsSearchModal(props: ContractsSearchModalProps) {
     return formatedData;
   };
 
-  const tableData = formatTableData(data);
+  const tableData = formatTableData(submitMutation.data?.data || []);
 
-  return <FixedTable heads={tableHeads} data={tableData} notFixed />;
+  return (
+    <FixedTable
+      heads={tableHeads}
+      data={tableData}
+      headGroups={tableHeadGroup}
+      notFixed
+    />
+  );
 }
 
 export default ContractsSearchModal;

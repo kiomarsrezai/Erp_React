@@ -61,24 +61,24 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
     event.preventDefault();
 
     // permission
-    const havePermission = checkHavePermission(
-      userLicenses,
-      [accessNamesConfig.FIELD_AREA],
-      accessNamesConfig.CONTRACT__REPORT_PAGE
-    );
+    // const havePermission = checkHavePermission(
+    //   userLicenses,
+    //   [accessNamesConfig.FIELD_AREA],
+    //   accessNamesConfig.CONTRACT__REPORT_PAGE
+    // );
 
-    if (!havePermission) {
-      return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
-        variant: "error",
-      });
-    }
+    // if (!havePermission) {
+    //   return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
+    //     variant: "error",
+    //   });
+    // }
 
     setHaveSubmitedForm(true);
 
-    if (checkHaveValue(formData, [contractsTasksConfig.area])) {
-      submitMutation.mutate(formData);
-      setIsOpenSearchModal(true);
-    }
+    // if (checkHaveValue(formData, [contractsTasksConfig.area])) {
+    // submitMutation.mutate(formData);
+    setIsOpenSearchModal(true);
+    // }
   };
 
   // check
@@ -213,7 +213,7 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
     <>
       <Box component="form" onSubmit={handleFormSubmit} p={2}>
         <Grid container spacing={2}>
-          <SectionGuard
+          {/* <SectionGuard
             permission={joinPermissions([
               accessNamesConfig.CONTRACT__REPORT_PAGE,
               accessNamesConfig.FIELD_AREA,
@@ -228,7 +228,7 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
                 showError={haveSubmitedForm}
               />
             </Grid>
-          </SectionGuard>
+          </SectionGuard> */}
           <Grid lg={10}>
             <Button variant="contained" type="submit" sx={{ mx: 1 }}>
               <SearchIcon />
