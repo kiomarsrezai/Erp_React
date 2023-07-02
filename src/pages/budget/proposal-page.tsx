@@ -205,15 +205,15 @@ function BudgetProposalPage() {
     row: TableDataItemShape & GetSingleProposalItemShape
   ) => (
     <Box display={"flex"} justifyContent={"center"}>
-      {formData[proposalConfig.AREA] === 10 && (
-        <IconButton
-          size="small"
-          color="primary"
-          onClick={() => handleOpenInfoModal(row)}
-        >
-          <UnfoldMoreIcon />
-        </IconButton>
-      )}
+      {/* {formData[proposalConfig.AREA] === 10 && ( */}
+      <IconButton
+        size="small"
+        color="primary"
+        onClick={() => handleOpenInfoModal(row)}
+      >
+        <UnfoldMoreIcon />
+      </IconButton>
+      {/* )} */}
 
       <IconButton
         size="small"
