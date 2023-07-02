@@ -1,9 +1,11 @@
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, TextField } from "@mui/material";
 import FixedTable from "components/data/table/fixed-table";
 import { useState } from "react";
 import { TableHeadShape } from "types/table-type";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TabAreaContractModal from "./tab-area-contract-modal";
 import FixedModal from "components/ui/modal/fixed-modal";
@@ -104,26 +106,98 @@ function TabAreaContract(props: TabAreaContractProps) {
   };
 
   // edit
-  const handleEditClick = () => {};
+  const [activeEditIdItem, setActiveEditIdItem] = useState<number>();
+  const [shareAmountEditValue, setShareAmountEditValue] = useState<number>();
+
+  const editAreaMutation = useMutation(contractsTasksApi.areaEdit, {
+    onSuccess() {
+      setActiveEditIdItem(undefined);
+      readAreaMutation.mutate({
+        id: formData.id,
+      });
+    },
+  });
+
+  const handleEditClick = (item: GetSingleSearchContractTaskAreaItemShape) => {
+    setShareAmountEditValue(item.shareAmount);
+    setActiveEditIdItem(item.id);
+  };
+
+  const confrimEditClick = () => {
+    editAreaMutation.mutate({
+      id: activeEditIdItem,
+      shareAmount: shareAmountEditValue,
+    });
+  };
+
+  const renderShareAmount = (row: GetSingleSearchContractTaskAreaItemShape) => {
+    if (row.id === activeEditIdItem) {
+      return (
+        <TextField
+          id="code-input"
+          label=""
+          variant="outlined"
+          type="number"
+          size="small"
+          value={shareAmountEditValue}
+          onChange={(e) => setShareAmountEditValue(+e.target.value)}
+          autoComplete="off"
+          inputProps={{
+            sx: {
+              height: "17px",
+            },
+          }}
+          fullWidth
+        />
+      );
+    } else {
+      return row.shareAmount;
+    }
+  };
 
   // actions
   const actionButtons = (item: GetSingleSearchContractTaskAreaItemShape) => {
     return (
       <Box>
-        <IconButton
-          size="small"
-          onClick={() => handleDeleteClick(item)}
-          color="error"
-        >
-          <DeleteIcon />
-        </IconButton>
+        {activeEditIdItem === item.id ? (
+          <>
+            <IconButton color="success" size="small" onClick={confrimEditClick}>
+              <CheckIcon />
+            </IconButton>
 
-        <IconButton size="small" onClick={handleEditClick} color="primary">
-          <EditIcon />
-        </IconButton>
+            <IconButton
+              color="error"
+              size="small"
+              onClick={() => setActiveEditIdItem(undefined)}
+            >
+              <CloseIcon />
+            </IconButton>
+          </>
+        ) : (
+          <>
+            {Number(areaQuery.data?.data?.length) > 1 && (
+              <IconButton
+                size="small"
+                onClick={() => handleDeleteClick(item)}
+                color="error"
+              >
+                <DeleteIcon />
+              </IconButton>
+            )}
+
+            <IconButton
+              size="small"
+              onClick={() => handleEditClick(item)}
+              color="primary"
+            >
+              <EditIcon />
+            </IconButton>
+          </>
+        )}
       </Box>
     );
   };
+
   // data
   const areaQuery = useQuery(
     reactQueryKeys.contracts.tasks.getArea,
@@ -138,6 +212,7 @@ function TabAreaContract(props: TabAreaContractProps) {
   ) => {
     const formatedData: any[] = unFormatData.map((item, i) => ({
       ...item,
+      shareAmount: () => renderShareAmount(item),
       number: i + 1,
       actions: () => actionButtons(item),
     }));

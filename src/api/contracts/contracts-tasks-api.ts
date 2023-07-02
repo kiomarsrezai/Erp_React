@@ -80,4 +80,13 @@ export const contractsTasksApi = new (class extends BaseApi {
     );
     return response.data;
   };
+
+  areaEdit = async (filterData: any) => {
+    const url = contractsTasksUrls.areaEdit;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      filterData
+    );
+    return response.data;
+  };
 })();
