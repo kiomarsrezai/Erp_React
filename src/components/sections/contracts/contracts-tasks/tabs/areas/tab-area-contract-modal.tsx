@@ -25,13 +25,15 @@ import { budgetReportExpenseConfig } from "config/features/budget/report/budget-
 import { contractsTasksApi } from "api/contracts/contracts-tasks-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { contractsTasksConfig } from "config/features/contracts/conreacts-tasks-config";
+import { enqueueSnackbar } from "notistack";
 
 interface BudgetReportExpenseAreaModalProps {
   formData: any;
   onClose: any;
+  setFormData: any;
 }
 function TabAreaContractModal(props: BudgetReportExpenseAreaModalProps) {
-  const { formData, onClose } = props;
+  const { formData, onClose, setFormData } = props;
 
   const areaQuery = useQuery(["general-area", 3], () =>
     areaGeneralApi.getData(3)
@@ -60,7 +62,24 @@ function TabAreaContractModal(props: BudgetReportExpenseAreaModalProps) {
     const value = e.target.value;
 
     setSelectedAreas((prevState: any) => {
-      prevState[value] = checked;
+      // prevState[value] = checked;
+
+      if (!formData.id && checked) {
+        let areas: any = [];
+
+        for (const key in selectedAreas) {
+          const value = selectedAreas?.[key];
+          if (value === true) {
+            areas.push(+key);
+          }
+        }
+        if (areas.length > 0) {
+          enqueueSnackbar("در این مرحله حداکثر یک منطقه مجاز است", {
+            variant: "error",
+          });
+          return { ...prevState };
+        }
+      }
 
       return { ...prevState, [value]: checked };
     });
@@ -111,20 +130,28 @@ function TabAreaContractModal(props: BudgetReportExpenseAreaModalProps) {
       }
     }
 
-    try {
-      await Promise.all(
-        areas.map(async (item: any) => {
-          await areaInsertMutation.mutateAsync({
-            contractId: formData.id,
-            areaId: item,
-          });
-        })
-      );
-    } catch {}
+    if (formData.id) {
+      try {
+        await Promise.all(
+          areas.map(async (item: any) => {
+            await areaInsertMutation.mutateAsync({
+              contractId: formData.id,
+              areaId: item,
+            });
+          })
+        );
+      } catch {}
 
-    readAreaMutation.mutate({
-      id: formData.id,
-    });
+      readAreaMutation.mutate({
+        id: formData.id,
+      });
+    } else {
+      setFormData((prevState: any) => ({
+        ...prevState,
+        [contractsTasksConfig.area]: areas[0],
+      }));
+      onClose();
+    }
   };
 
   return (
@@ -137,16 +164,18 @@ function TabAreaContractModal(props: BudgetReportExpenseAreaModalProps) {
           }}
         >
           <FormGroup>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  value={"isAllClicked"}
-                  checked={isAllClicked}
-                  onChange={toggleAllItem}
-                />
-              }
-              label={"همه"}
-            />
+            {formData.id && (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    value={"isAllClicked"}
+                    checked={isAllClicked}
+                    onChange={toggleAllItem}
+                  />
+                }
+                label={"همه"}
+              />
+            )}
             {areaItems.map((item) => (
               <FormControlLabel
                 control={
@@ -167,7 +196,7 @@ function TabAreaContractModal(props: BudgetReportExpenseAreaModalProps) {
             variant="contained"
             sx={{ mt: 1, mb: 3 }}
             onClick={handleConfrimClick}
-            loading={false}
+            loading={areaInsertMutation.isLoading}
           >
             تایید
           </LoadingButton>

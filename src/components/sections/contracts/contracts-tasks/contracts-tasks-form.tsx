@@ -119,8 +119,14 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
         contractsTasksConfig.date_end,
         contractsTasksConfig.amount,
       ])
-    )
+    ) {
       if (!formData.id) {
+        if (!formData[contractsTasksConfig.area]) {
+          return enqueueSnackbar("ابتدا یک منطقه انتخاب کنید", {
+            variant: "error",
+          });
+        }
+
         // insert
         insertMutation.mutate({
           [contractsTasksConfig.area]: formData[contractsTasksConfig.area],
@@ -162,6 +168,7 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
           [contractsTasksConfig.amount]: formData[contractsTasksConfig.amount],
         });
       }
+    }
   };
 
   // clear

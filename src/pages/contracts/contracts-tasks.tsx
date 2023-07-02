@@ -94,7 +94,7 @@ function ContractsTasks() {
               </Tabs>
             </Box>
             <TabPanel value={tabValue} index={0}>
-              <TabAreaContract formData={formData} />
+              <TabAreaContract formData={formData} setFormData={setFormData} />
             </TabPanel>
           </Box>
         </Box>

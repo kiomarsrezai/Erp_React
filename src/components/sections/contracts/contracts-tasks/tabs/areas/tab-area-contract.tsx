@@ -20,12 +20,14 @@ import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
+import { contractsTasksConfig } from "config/features/contracts/conreacts-tasks-config";
 
 interface TabAreaContractProps {
   formData: any;
+  setFormData: any;
 }
 function TabAreaContract(props: TabAreaContractProps) {
-  const { formData } = props;
+  const { formData, setFormData } = props;
   const [isOpenAreaModal, setIsOpenAreaModal] = useState(false);
 
   const tableHeads: TableHeadShape = [
@@ -175,23 +177,27 @@ function TabAreaContract(props: TabAreaContractProps) {
           </>
         ) : (
           <>
-            {Number(areaQuery.data?.data?.length) > 1 && (
-              <IconButton
-                size="small"
-                onClick={() => handleDeleteClick(item)}
-                color="error"
-              >
-                <DeleteIcon />
-              </IconButton>
-            )}
+            {formData.id && (
+              <>
+                {Number(areaQuery.data?.data?.length) > 1 && (
+                  <IconButton
+                    size="small"
+                    onClick={() => handleDeleteClick(item)}
+                    color="error"
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                )}
 
-            <IconButton
-              size="small"
-              onClick={() => handleEditClick(item)}
-              color="primary"
-            >
-              <EditIcon />
-            </IconButton>
+                <IconButton
+                  size="small"
+                  onClick={() => handleEditClick(item)}
+                  color="primary"
+                >
+                  <EditIcon />
+                </IconButton>
+              </>
+            )}
           </>
         )}
       </Box>
@@ -220,7 +226,12 @@ function TabAreaContract(props: TabAreaContractProps) {
     return formatedData;
   };
 
-  const tableData = areaQuery.data ? formatTableData(areaQuery.data?.data) : [];
+  const interedData = [...(areaQuery.data?.data || [])].concat(
+    (formData.id || !formData[contractsTasksConfig.area]
+      ? []
+      : [{ id: 1, areaName: formData[contractsTasksConfig.area] }]) as any
+  );
+  const tableData = formatTableData(interedData);
 
   // footer
   const sumShareAmount = sumFieldsInSingleItemData(
@@ -256,6 +267,7 @@ function TabAreaContract(props: TabAreaContractProps) {
         <TabAreaContractModal
           formData={formData}
           onClose={() => setIsOpenAreaModal(false)}
+          setFormData={setFormData}
         />
       </FixedModal>
 
