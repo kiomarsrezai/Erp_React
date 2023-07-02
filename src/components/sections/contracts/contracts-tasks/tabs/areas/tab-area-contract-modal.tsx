@@ -5,7 +5,7 @@ import { accessNamesConfig } from "config/access-names-config";
 import { budgetKindItems } from "config/features/general-fields-config";
 import { filedItemsGuard, joinPermissions } from "helper/auth-utils";
 import { abstructBudgetConfig } from "config/features/report/budget/abstruct-budget-config";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { sepratorCreaditorBudgetApi } from "api/budget/seprator-creaditor-api";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 import { sepratorCreaditorBudgetConfig } from "config/features/budget/seprator-creaditro-config";
@@ -22,6 +22,9 @@ import {
 import { budgetExpenseXlsx } from "stimul/budget/report/expense/budget-expense-xlsx";
 import { budgetReportExpenseApi } from "api/report/budget-expense-api";
 import { budgetReportExpenseConfig } from "config/features/budget/report/budget-report-expense-config";
+import { contractsTasksApi } from "api/contracts/contracts-tasks-api";
+import { reactQueryKeys } from "config/react-query-keys-config";
+import { contractsTasksConfig } from "config/features/contracts/conreacts-tasks-config";
 
 interface BudgetReportExpenseAreaModalProps {
   formData: any;
@@ -82,7 +85,49 @@ function TabAreaContractModal(props: BudgetReportExpenseAreaModalProps) {
   }, true);
 
   // confrim
-  const handleConfrimClick = () => {};
+  const queryClient = useQueryClient();
+  const readAreaMutation = useMutation(contractsTasksApi.areaRead, {
+    onSuccess(data) {
+      queryClient.setQueryData(
+        reactQueryKeys.contracts.tasks.getArea,
+        data.data
+      );
+    },
+  });
+
+  const areaInsertMutation = useMutation(contractsTasksApi.areaInsert, {
+    onSuccess(data) {
+      console.log({
+        area: data.data,
+      });
+    },
+  });
+
+  const handleConfrimClick = async () => {
+    let areas: any = [];
+
+    for (const key in selectedAreas) {
+      const value = selectedAreas?.[key];
+      if (value === true) {
+        areas.push(+key);
+      }
+    }
+
+    try {
+      await Promise.all(
+        areas.map(async (item: any) => {
+          await areaInsertMutation.mutateAsync({
+            contractId: formData.id,
+            areaId: item,
+          });
+        })
+      );
+    } catch {}
+
+    readAreaMutation.mutate({
+      id: formData.id,
+    });
+  };
 
   return (
     <>

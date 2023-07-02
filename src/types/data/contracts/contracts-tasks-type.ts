@@ -40,3 +40,11 @@ export interface InsertContractTaskItemShape {
   suppliersName: "خطیبی";
   surplus: 0;
 }
+
+// area
+export interface GetSingleSearchContractTaskAreaItemShape {
+  id: number;
+  areaId: number;
+  shareAmount: number;
+  areaName: string;
+}

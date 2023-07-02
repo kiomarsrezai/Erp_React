@@ -52,4 +52,22 @@ export const contractsTasksApi = new (class extends BaseApi {
     );
     return response.data;
   };
+
+  // area
+  areaRead = async (filterData: any) => {
+    const url = contractsTasksUrls.areaRead + this.joinFilterData(filterData);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleSearchContractTaskItemShape[]>
+    >(url);
+    return response.data;
+  };
+
+  areaInsert = async (filterData: any) => {
+    const url = contractsTasksUrls.areaInsert;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      filterData
+    );
+    return response.data;
+  };
 })();

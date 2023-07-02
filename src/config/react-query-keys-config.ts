@@ -97,6 +97,7 @@ export const reactQueryKeys = {
   contracts: {
     tasks: {
       getData: ["contracts-tasks-data"],
+      getArea: ["contracts-areas-data"],
     },
   },
   // globals

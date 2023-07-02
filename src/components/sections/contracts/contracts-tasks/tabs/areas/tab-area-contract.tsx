@@ -6,7 +6,11 @@ import AddIcon from "@mui/icons-material/Add";
 import TabAreaContractModal from "./tab-area-contract-modal";
 import FixedModal from "components/ui/modal/fixed-modal";
 
-function TabAreaContract() {
+interface TabAreaContractProps {
+  formData: any;
+}
+function TabAreaContract(props: TabAreaContractProps) {
+  const { formData } = props;
   const [isOpenAreaModal, setIsOpenAreaModal] = useState(false);
 
   const tableHeads: TableHeadShape = [
@@ -53,7 +57,7 @@ function TabAreaContract() {
         title="افزودن منطقه"
       >
         <TabAreaContractModal
-          formData={FormData}
+          formData={formData}
           onClose={() => setIsOpenAreaModal(false)}
         />
       </FixedModal>
