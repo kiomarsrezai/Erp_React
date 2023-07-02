@@ -31,7 +31,7 @@ interface BudgetReportExpenseAreaModalProps {
   onClose: any;
 }
 function TabAreaContractModal(props: BudgetReportExpenseAreaModalProps) {
-  const { formData } = props;
+  const { formData, onClose } = props;
 
   const areaQuery = useQuery(["general-area", 3], () =>
     areaGeneralApi.getData(3)
@@ -88,10 +88,8 @@ function TabAreaContractModal(props: BudgetReportExpenseAreaModalProps) {
   const queryClient = useQueryClient();
   const readAreaMutation = useMutation(contractsTasksApi.areaRead, {
     onSuccess(data) {
-      queryClient.setQueryData(
-        reactQueryKeys.contracts.tasks.getArea,
-        data.data
-      );
+      queryClient.setQueryData(reactQueryKeys.contracts.tasks.getArea, data);
+      onClose();
     },
   });
 
