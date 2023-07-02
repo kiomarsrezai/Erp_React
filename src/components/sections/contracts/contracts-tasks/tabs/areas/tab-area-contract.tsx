@@ -7,11 +7,17 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TabAreaContractModal from "./tab-area-contract-modal";
 import FixedModal from "components/ui/modal/fixed-modal";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { contractsTasksApi } from "api/contracts/contracts-tasks-api";
-import { GetSingleSearchContractTaskItemShape } from "types/data/contracts/contracts-tasks-type";
+import {
+  GetSingleSearchContractTaskAreaItemShape,
+  GetSingleSearchContractTaskItemShape,
+} from "types/data/contracts/contracts-tasks-type";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
 
 interface TabAreaContractProps {
   formData: any;
@@ -56,16 +62,48 @@ function TabAreaContract(props: TabAreaContractProps) {
   ];
 
   // delete
-  const handleDeleteClick = () => {};
+  const [isShowConfrimDelete, setIsShowConfrimDelete] =
+    useState<boolean>(false);
+  const [idItemShouldDelete, setIdItemShouldDelete] = useState<number>();
+
+  const [textDeleteModal, setTextDeleteModal] = useState("");
+
+  const deleteMutation = useMutation(contractsTasksApi.areaDelete, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+      setIsShowConfrimDelete(false);
+    },
+  });
+
+  const onConfrimDelete = () => {
+    if (idItemShouldDelete) deleteMutation.mutate(idItemShouldDelete);
+  };
+
+  const onCancelDelete = () => {
+    setIsShowConfrimDelete(false);
+  };
+
+  const handleDeleteClick = (row: GetSingleSearchContractTaskAreaItemShape) => {
+    const deleteText = `آیا مایل به حذف ${row.areaName} هستید ؟`;
+    setTextDeleteModal(deleteText);
+    setIdItemShouldDelete(row.id);
+    setIsShowConfrimDelete(true);
+  };
 
   // edit
   const handleEditClick = () => {};
 
   // actions
-  const actionButtons = () => {
+  const actionButtons = (item: GetSingleSearchContractTaskAreaItemShape) => {
     return (
       <Box>
-        <IconButton size="small" onClick={handleDeleteClick} color="error">
+        <IconButton
+          size="small"
+          onClick={() => handleDeleteClick(item)}
+          color="error"
+        >
           <DeleteIcon />
         </IconButton>
 
@@ -85,12 +123,12 @@ function TabAreaContract(props: TabAreaContractProps) {
   );
 
   const formatTableData = (
-    unFormatData: GetSingleSearchContractTaskItemShape[]
+    unFormatData: GetSingleSearchContractTaskAreaItemShape[]
   ) => {
     const formatedData: any[] = unFormatData.map((item, i) => ({
       ...item,
       number: i + 1,
-      actions: actionButtons,
+      actions: () => actionButtons(item),
     }));
 
     return formatedData;
@@ -122,6 +160,7 @@ function TabAreaContract(props: TabAreaContractProps) {
         />
       </Box>
 
+      {/* area modal */}
       <FixedModal
         open={isOpenAreaModal}
         handleClose={() => setIsOpenAreaModal(false)}
@@ -133,6 +172,15 @@ function TabAreaContract(props: TabAreaContractProps) {
           onClose={() => setIsOpenAreaModal(false)}
         />
       </FixedModal>
+
+      {/* confrim delete */}
+      <ConfrimProcessModal
+        onCancel={onCancelDelete}
+        onConfrim={onConfrimDelete}
+        open={isShowConfrimDelete}
+        title="حذف آیتم"
+        text={textDeleteModal}
+      />
     </>
   );
 }

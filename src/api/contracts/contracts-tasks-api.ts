@@ -6,6 +6,7 @@ import { BaseApiResponseShape } from "types/base-type";
 import { contractsTasksUrls } from "config/features/contracts/conreacts-tasks-config";
 import {
   GetSingleContractTaskItemShape,
+  GetSingleSearchContractTaskAreaItemShape,
   GetSingleSearchContractTaskItemShape,
   InsertContractTaskItemShape,
 } from "types/data/contracts/contracts-tasks-type";
@@ -57,13 +58,22 @@ export const contractsTasksApi = new (class extends BaseApi {
   areaRead = async (filterData: any) => {
     const url = contractsTasksUrls.areaRead + this.joinFilterData(filterData);
     const response = await clientAxios.get<
-      BaseApiResponseShape<GetSingleSearchContractTaskItemShape[]>
+      BaseApiResponseShape<GetSingleSearchContractTaskAreaItemShape[]>
     >(url);
     return response.data;
   };
 
   areaInsert = async (filterData: any) => {
     const url = contractsTasksUrls.areaInsert;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      filterData
+    );
+    return response.data;
+  };
+
+  areaDelete = async (filterData: any) => {
+    const url = contractsTasksUrls.areaDelete;
     const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
       url,
       filterData
