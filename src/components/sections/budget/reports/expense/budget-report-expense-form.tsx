@@ -6,6 +6,7 @@ import userStore from "hooks/store/user-store";
 import LoadingButton from "@mui/lab/LoadingButton";
 import PrintIcon from "@mui/icons-material/Print";
 import IconButton from "@mui/material/IconButton";
+import GetAppIcon from "@mui/icons-material/GetApp";
 
 import { FormEvent, ReactNode, useEffect, useState } from "react";
 import { revenueChartFormConfig } from "config/features/revenue-chart-config";
@@ -55,6 +56,9 @@ import { convertNumbers } from "helper/number-utils";
 import MonthInput from "components/sections/inputs/month-input";
 import { budgetExpenseStimul } from "stimul/budget/report/expense/budget-expense-stimul";
 import WindowLoading from "components/ui/loading/window-loading";
+import { budgetExpenseXlsx } from "stimul/budget/report/expense/budget-expense-xlsx";
+import BudgetReportExpenseAreaModal from "./budget-report-expense-area-modal";
+import FixedModal from "components/ui/modal/fixed-modal";
 
 interface BudgetReportExpenseFormProps {
   formData: any;
@@ -164,72 +168,12 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
     formData[budgetReportExpenseConfig.month],
   ]);
 
+  // area modal
+  const [isOpenAreaModal, setIsOpenAreaModal] = useState(false);
+
   // print
-  const getExcelManateghMutation = useMutation(
-    budgetReportExpenseApi.getExcelManateghData
-  );
-  const getExcelSazmanMutation = useMutation(
-    budgetReportExpenseApi.getExcelSazmanData
-  );
-
-  const [printLoading, setPrintLoading] = useState(false);
-  const handlePrintClick = async () => {
-    setPrintLoading(true);
-    const areas = [
-      1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
-      23, 24, 25, 26,
-    ];
-
-    areas.forEach((item) => {
-      handlePrintForm(item);
-    });
-    setPrintLoading(false);
-  };
-
-  const handlePrintForm = async (areaId: number) => {
-    let culmnsData: any = {
-      1: [],
-      2: [],
-      3: [],
-      4: [],
-      5: [],
-    };
-
-    const culmnKeys = Object.keys(culmnsData);
-
-    try {
-      await Promise.all(
-        culmnKeys.map(async (item) => {
-          const data = await (areaId < 10
-            ? getExcelManateghMutation
-            : getExcelSazmanMutation
-          ).mutateAsync({
-            budgetProcessId: item,
-            areaId: areaId,
-            monthId: formData[budgetReportExpenseConfig.month],
-            yearId: formData[budgetReportExpenseConfig.year],
-          });
-
-          culmnsData = {
-            ...culmnsData,
-            [item]: data.data,
-          };
-        })
-      );
-    } catch {}
-
-    if (printData.data.length) {
-      const yearLabel = getGeneralFieldItemYear(formData, 1);
-      const areaLabel = getGeneralFieldItemAreaFromId(3, areaId);
-      const monthLabel = getGeneralFieldItemMonth(formData);
-      budgetExpenseStimul({
-        culmnsData: culmnsData,
-        year: yearLabel,
-        area: areaLabel,
-        numberShow: "ریال",
-        month: monthLabel,
-      });
-    }
+  const handlePrintClick = () => {
+    setIsOpenAreaModal(true);
   };
 
   return (
@@ -240,9 +184,9 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
         onSubmit={handleSubmit}
         sx={{ bgcolor: "grey.200" }}
       >
-        <Box display={"none"}>
+        {/* <Box display={"none"}>
           <AreaInput setter={() => {}} value={undefined} level={3} />
-        </Box>
+        </Box> */}
         <Grid container spacing={2}>
           {tabRender && <Grid xs={12}>{tabRender}</Grid>}
           {inputRender && <Grid xs={2}>{inputRender}</Grid>}
@@ -319,20 +263,35 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
               نمایش
             </LoadingButton>
 
-            <IconButton color="primary" onClick={handlePrintClick}>
-              <PrintIcon />
-            </IconButton>
+            <SectionGuard
+              permission={joinPermissions([
+                accessNamesConfig.BUDGET__REPORT_PAGE,
+                accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
+                accessNamesConfig.FIELD_YEAR,
+              ])}
+            >
+              <IconButton color="primary" onClick={handlePrintClick}>
+                {/* <PrintIcon /> */}
+                <GetAppIcon />
+              </IconButton>
+            </SectionGuard>
           </Grid>
         </Grid>
       </Box>
 
-      <WindowLoading
-        active={
-          getExcelManateghMutation.isLoading ||
-          getExcelSazmanMutation.isLoading ||
-          printLoading
-        }
-      />
+      {/* print modal */}
+      <FixedModal
+        open={isOpenAreaModal}
+        handleClose={() => setIsOpenAreaModal(false)}
+        maxWidth="sm"
+        title="خروجی اکسل"
+      >
+        <BudgetReportExpenseAreaModal
+          formData={formData}
+          printData={printData}
+          onClose={() => setIsOpenAreaModal(false)}
+        />
+      </FixedModal>
     </>
   );
 }
