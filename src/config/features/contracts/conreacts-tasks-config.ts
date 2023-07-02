@@ -2,6 +2,7 @@ import { generalFieldsConfig } from "../general-fields-config";
 
 export const contractsTasksConfig = {
   area: generalFieldsConfig.AREA,
+  area_name: "areaName",
   number: "number",
   date: "date",
   description: "description",
@@ -29,6 +30,7 @@ export const contractsTasksUrls = {
 export const contractsTasksFormDefaultValue = {
   id: undefined,
   [contractsTasksConfig.area]: null,
+  [contractsTasksConfig.area_name]: "",
   [contractsTasksConfig.doing_method]: null,
   [contractsTasksConfig.date]: undefined, // new Date(),
   [contractsTasksConfig.description]: "",

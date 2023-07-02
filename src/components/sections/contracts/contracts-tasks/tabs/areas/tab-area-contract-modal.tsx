@@ -2,7 +2,10 @@ import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
 import userStore from "hooks/store/user-store";
 
 import { accessNamesConfig } from "config/access-names-config";
-import { budgetKindItems } from "config/features/general-fields-config";
+import {
+  budgetKindItems,
+  generalFieldsConfig,
+} from "config/features/general-fields-config";
 import { filedItemsGuard, joinPermissions } from "helper/auth-utils";
 import { abstructBudgetConfig } from "config/features/report/budget/abstruct-budget-config";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -15,6 +18,7 @@ import { ChangeEvent, useState } from "react";
 import { areaGeneralApi } from "api/general/area-general-api";
 import WindowLoading from "components/ui/loading/window-loading";
 import {
+  getGeneralFieldItemArea,
   getGeneralFieldItemAreaFromId,
   getGeneralFieldItemMonth,
   getGeneralFieldItemYear,
@@ -114,9 +118,9 @@ function TabAreaContractModal(props: BudgetReportExpenseAreaModalProps) {
 
   const areaInsertMutation = useMutation(contractsTasksApi.areaInsert, {
     onSuccess(data) {
-      console.log({
-        area: data.data,
-      });
+      // console.log({
+      //   area: data.data,
+      // });
     },
   });
 
@@ -146,9 +150,14 @@ function TabAreaContractModal(props: BudgetReportExpenseAreaModalProps) {
         id: formData.id,
       });
     } else {
+      const areaLabel = getGeneralFieldItemArea(
+        { [generalFieldsConfig.AREA]: areas[0] },
+        3
+      );
       setFormData((prevState: any) => ({
         ...prevState,
         [contractsTasksConfig.area]: areas[0],
+        [contractsTasksConfig.area_name]: areaLabel,
       }));
       onClose();
     }

@@ -229,7 +229,7 @@ function TabAreaContract(props: TabAreaContractProps) {
   const interedData = [...(areaQuery.data?.data || [])].concat(
     (formData.id || !formData[contractsTasksConfig.area]
       ? []
-      : [{ id: 1, areaName: formData[contractsTasksConfig.area] }]) as any
+      : [{ id: 1, areaName: formData[contractsTasksConfig.area_name] }]) as any
   );
   const tableData = formatTableData(interedData);
 
