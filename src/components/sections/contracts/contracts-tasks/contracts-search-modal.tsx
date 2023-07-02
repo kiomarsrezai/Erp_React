@@ -96,6 +96,14 @@ function ContractsSearchModal(props: ContractsSearchModalProps) {
   ];
 
   // table data
+  const queryClient = useQueryClient();
+  const readAreaMutation = useMutation(contractsTasksApi.areaRead, {
+    onSuccess(data) {
+      queryClient.setQueryData(reactQueryKeys.contracts.tasks.getArea, data);
+      onClose();
+    },
+  });
+
   const baseDataMutation = useMutation(contractsTasksApi.getData, {
     onSuccess(data) {
       const value = data.data[0];
@@ -111,7 +119,10 @@ function ContractsSearchModal(props: ContractsSearchModalProps) {
         [contractsTasksConfig.amount]: value.amount,
         [contractsTasksConfig.number]: value.number,
       });
-      onClose();
+
+      readAreaMutation.mutate({
+        id: value.id,
+      });
     },
   });
   const handleClickCheckIcon = (item: GetSingleSearchContractTaskItemShape) => {

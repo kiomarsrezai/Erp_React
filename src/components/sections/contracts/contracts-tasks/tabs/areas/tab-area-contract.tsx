@@ -7,7 +7,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TabAreaContractModal from "./tab-area-contract-modal";
 import FixedModal from "components/ui/modal/fixed-modal";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { contractsTasksApi } from "api/contracts/contracts-tasks-api";
 import {
@@ -61,6 +61,14 @@ function TabAreaContract(props: TabAreaContractProps) {
     },
   ];
 
+  // read area
+  const queryClient = useQueryClient();
+  const readAreaMutation = useMutation(contractsTasksApi.areaRead, {
+    onSuccess(data) {
+      queryClient.setQueryData(reactQueryKeys.contracts.tasks.getArea, data);
+    },
+  });
+
   // delete
   const [isShowConfrimDelete, setIsShowConfrimDelete] =
     useState<boolean>(false);
@@ -74,11 +82,14 @@ function TabAreaContract(props: TabAreaContractProps) {
         variant: "success",
       });
       setIsShowConfrimDelete(false);
+      readAreaMutation.mutate({
+        id: formData.id,
+      });
     },
   });
 
   const onConfrimDelete = () => {
-    if (idItemShouldDelete) deleteMutation.mutate(idItemShouldDelete);
+    if (idItemShouldDelete) deleteMutation.mutate({ id: idItemShouldDelete });
   };
 
   const onCancelDelete = () => {
