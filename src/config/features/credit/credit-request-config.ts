@@ -65,6 +65,7 @@ export const creditRequestConfigURLS = {
   // contract
   contractInserted: "RequestApi/RequestContractRead",
   contractModal: "RequestApi/RequestContractModal",
+  contractInsert: "RequestApi/RequestContractConnect",
 
   // request table
   requestTableRead: "RequestApi/RequestTableRead",

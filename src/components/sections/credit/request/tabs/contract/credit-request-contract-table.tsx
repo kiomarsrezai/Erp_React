@@ -15,7 +15,10 @@ import { creditRequestApi } from "api/credit/credit-request-api";
 import { creditRequestConfig } from "config/features/credit/credit-request-config";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { Box, TextField } from "@mui/material";
-import { CreditReadRequestBudgetRowInsertedShape } from "types/data/credit/credit-request-type";
+import {
+  CreditReadRequestBudgetRowInsertedShape,
+  CreditRequestReadContractInsertedTableShape,
+} from "types/data/credit/credit-request-type";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
@@ -73,29 +76,22 @@ function CreditRequestContractTable(props: CreditRequestContractTableProps) {
       name: "number",
     },
     {
-      title: "سال",
-      name: "yearName",
+      title: "شماره",
+      name: "contractNumber",
     },
     {
-      title: "کد بودجه",
-      name: "code",
+      title: "تاریخ",
+      name: "dateShamsi",
     },
     {
       title: "شرح",
       name: "description",
       align: "left",
     },
-
     {
-      title: "پروژه",
-      name: "project",
-    },
-    {
-      title: "مبلغ",
-      name: "requestBudgetAmount",
+      title: "پیمانکار",
+      name: "suppliersName",
       align: "left",
-      split: true,
-      width: "150px",
     },
     {
       title: "عملیات",
@@ -105,19 +101,16 @@ function CreditRequestContractTable(props: CreditRequestContractTableProps) {
 
   // reload data
   const quertClient = useQueryClient();
-  const budgetRowMutation = useMutation(
-    creditRequestApi.budgetRowReadInserted,
-    {
-      onSuccess: (data) => {
-        quertClient.setQueryData(reactQueryKeys.request.budgetRow.list, {
-          data: data.data,
-        });
-      },
-    }
-  );
+  const contractReadMutation = useMutation(creditRequestApi.contractInserted, {
+    onSuccess: (data) => {
+      quertClient.setQueryData(reactQueryKeys.request.contract.list, {
+        data: data.data,
+      });
+    },
+  });
 
   const handleDoneTask = () => {
-    budgetRowMutation.mutate({ requestId: formData.id });
+    contractReadMutation.mutate({ id: formData.id });
     setIsOpenAddBudgetModal(false);
     setIsOpenConfrimDelete(false);
     setActiveIdUpdate(null);
@@ -145,9 +138,11 @@ function CreditRequestContractTable(props: CreditRequestContractTableProps) {
       },
     }
   );
-  const handleClickDelete = (row: CreditReadRequestBudgetRowInsertedShape) => {
+  const handleClickDelete = (
+    row: CreditRequestReadContractInsertedTableShape
+  ) => {
     setTitleItemForDelete(
-      `آیا مایل به حذف ردیف ${row.code} - ${row.description} هستید؟`
+      `آیا مایل به حذف ردیف ${row.number} - ${row.description} هستید؟`
     );
     setIdItemForDelete(row.id);
     setIsOpenConfrimDelete(true);
@@ -203,7 +198,7 @@ function CreditRequestContractTable(props: CreditRequestContractTableProps) {
   };
 
   // table data
-  const actionBtn = (row: CreditReadRequestBudgetRowInsertedShape) => (
+  const actionBtn = (row: CreditRequestReadContractInsertedTableShape) => (
     <Box display={"flex"} justifyContent={"center"}>
       {activeIdUpdate === row.id ? (
         <>
@@ -225,13 +220,13 @@ function CreditRequestContractTable(props: CreditRequestContractTableProps) {
         </>
       ) : (
         <>
-          <IconButton
+          {/* <IconButton
             color="primary"
             size="small"
             onClick={() => openEditFunctionality(row)}
           >
             <EditIcon />
-          </IconButton>
+          </IconButton> */}
 
           <IconButton
             color="error"
@@ -246,12 +241,13 @@ function CreditRequestContractTable(props: CreditRequestContractTableProps) {
   );
 
   const formatTableData = (
-    unFormatData: CreditReadRequestBudgetRowInsertedShape[]
+    unFormatData: CreditRequestReadContractInsertedTableShape[]
   ): TableDataItemShape[] => {
     const formatedData: TableDataItemShape[] | any = unFormatData.map(
       (item, i) => ({
         ...item,
         number: i + 1,
+        contractNumber: item.number,
         requestBudgetAmount: () => renderMosavabDepartman(item),
         actions: () => actionBtn(item),
       })

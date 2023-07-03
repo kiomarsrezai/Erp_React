@@ -2,6 +2,7 @@ import FixedTable from "components/data/table/fixed-table";
 import IconButton from "@mui/material/IconButton";
 import FixedModal from "components/ui/modal/fixed-modal";
 import AddIcon from "@mui/icons-material/Add";
+import CheckIcon from "@mui/icons-material/Check";
 
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { ChangeEvent, ReactNode, useState } from "react";
@@ -19,6 +20,8 @@ import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 import { generalFieldsConfig } from "config/features/general-fields-config";
+import AreaInput from "components/sections/inputs/area-input";
+import { LoadingButton } from "@mui/lab";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -46,17 +49,11 @@ function CreditRequestContractInsertRowModal(
   // table data
   const [addItemsList, setAddItemsList] = useState<any>({});
 
-  const insertMutation = useMutation(creditRequestApi.budgetRowInsert, {
+  const insertMutation = useMutation(creditRequestApi.contractInsert, {
     onSuccess: () => {
-      // onDoneTask();
+      onDoneTask();
     },
   });
-  const handleInsertClick = (row: CreditReadRequestBudgetRowShape) => {
-    insertMutation.mutate({
-      RequestId: formData.id,
-      budgetDetailProjectAreatId: row.id,
-    });
-  };
 
   const handleSaveClick = async () => {
     let shouldUpdateItems: any = [];
@@ -70,9 +67,9 @@ function CreditRequestContractInsertRowModal(
     try {
       await Promise.all(
         shouldUpdateItems.map((item: any) => {
-          return insertMutation.mutateAsync({
+          return insertMutation.mutate({
             requestId: formData.id,
-            budgetDetailProjectAreatId: item,
+            contractId: item,
           });
         })
       );
@@ -121,22 +118,35 @@ function CreditRequestContractInsertRowModal(
 
   // head group
   const [budgetProccedId, setBudgetProccedId] = useState({
-    [generalFieldsConfig.BUDGET_METHOD]: 2,
+    [generalFieldsConfig.AREA]: undefined,
   });
+
+  const getDataClick = () => {
+    modalDataMutation.mutate({
+      areaId: budgetProccedId[generalFieldsConfig.AREA],
+    });
+  };
 
   const tableHeadGroup: TableHeadGroupShape = [
     {
       title: (
-        <Box sx={{ width: "200px" }}>
-          {" "}
-          <BudgetMethodInput
-            setter={setBudgetProccedId}
-            value={budgetProccedId[generalFieldsConfig.BUDGET_METHOD]}
-            ignoreItems={[1, 8, 9]}
-          />
+        <Box display={"flex"} gap={1}>
+          <Box sx={{ width: "200px" }}>
+            <AreaInput
+              setter={setBudgetProccedId}
+              value={budgetProccedId[generalFieldsConfig.AREA]}
+            />
+          </Box>
+          <LoadingButton
+            variant="contained"
+            size="small"
+            onClick={getDataClick}
+          >
+            جستجو
+          </LoadingButton>
         </Box>
       ),
-      colspan: 7,
+      colspan: 6,
     },
   ];
 
@@ -160,8 +170,19 @@ function CreditRequestContractInsertRowModal(
     const formatedData: TableDataItemShape[] | any = unFormatData.map(
       (item, i) => ({
         ...item,
-        number: i + 1,
-        actions: () => actionBtn(item),
+        number: (
+          <Box>
+            {i + 1}
+            <Checkbox
+              value={item.id}
+              checked={!!addItemsList[item.id]}
+              onChange={toggleItem}
+              size="small"
+            />
+          </Box>
+        ),
+        contractNumber: item.number,
+        // actions: () => actionBtn(item),
       })
     );
 
@@ -171,19 +192,15 @@ function CreditRequestContractInsertRowModal(
   const tableData = formatTableData(filteredData);
 
   // footer
-  const sumMosavab = sumFieldsInSingleItemData(
-    filteredData,
-    "mosavabDepartment"
-  );
+  const sumShareAmount = sumFieldsInSingleItemData(filteredData, "shareAmount");
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
     "colspan-number": 5,
-    code: null,
+    contractNumber: null,
     description: null,
-    project: null,
-    yearName: null,
-    mosavabDepartment: sumMosavab,
-    actions: "",
+    suppliersName: null,
+    dateShamsi: null,
+    shareAmount: sumShareAmount,
   };
 
   // heads
@@ -193,51 +210,35 @@ function CreditRequestContractInsertRowModal(
         <div>
           ردیف
           <IconButton color="primary" onClick={handleSaveClick}>
-            <AddIcon />
+            <CheckIcon />
           </IconButton>
         </div>
       ),
       name: "number",
     },
     {
-      title: "سال",
-      name: "yearName",
+      title: "شماره",
+      name: "contractNumber",
     },
     {
-      title: "کد بودجه",
-      name: "code",
+      title: "تاریخ",
+      name: "dateShamsi",
     },
     {
-      title: "شرح ردیف",
+      title: "شرح",
       name: "description",
       align: "left",
     },
-
     {
-      title: "پروژه",
-      name: "project",
+      title: "پیمانکار",
+      name: "suppliersName",
+      align: "left",
     },
     {
       title: "مبلغ",
-      name: "mosavabDepartment",
+      name: "shareAmount",
       align: "left",
       split: true,
-    },
-    // {
-    //   title: "تعدیلات",
-    //   name: "tadilat",
-    //   align: "left",
-    //   split: true,
-    // },
-    // {
-    //   title: "نهایی",
-    //   name: "final",
-    //   align: "left",
-    //   split: true,
-    // },
-    {
-      title: "عملیات",
-      name: "actions",
     },
   ];
 

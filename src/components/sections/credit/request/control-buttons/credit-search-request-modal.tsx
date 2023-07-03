@@ -80,6 +80,17 @@ function CreditSearchRequestModal(props: CreditSearchRequestModalProps) {
     }
   );
 
+  const requestContractMutation = useMutation(
+    creditRequestApi.contractInserted,
+    {
+      onSuccess: (data) => {
+        quertClient.setQueryData(reactQueryKeys.request.contract.list, {
+          data: data.data,
+        });
+      },
+    }
+  );
+
   const requestTableMutation = useMutation(creditRequestApi.requestTableRead, {
     onSuccess: (data) => {
       quertClient.setQueryData(reactQueryKeys.request.table.list, {
@@ -93,6 +104,7 @@ function CreditSearchRequestModal(props: CreditSearchRequestModalProps) {
       try {
         await budgetRowMutation.mutateAsync({ requestId: data.data.id });
         await requestTableMutation.mutateAsync({ id: data.data.id });
+        await requestContractMutation.mutateAsync({ id: data.data.id });
       } catch {}
 
       onDoneTask(data.data);
