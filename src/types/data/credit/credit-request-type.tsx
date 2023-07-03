@@ -78,7 +78,6 @@ export interface CreditRequestReadContractInsertedTableShape {
   date: string;
   dateShamsi: string;
   description: string;
-  shareAmount: number;
   suppliersName: string;
 }
 

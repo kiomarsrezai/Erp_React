@@ -39,15 +39,12 @@ function CreditRequestContractTable(props: CreditRequestContractTableProps) {
   // select contract modal
   const [isOpenAddBudgetModal, setIsOpenAddBudgetModal] = useState(false);
 
-  const modalDataMutation = useMutation(creditRequestApi.budgetRowRead);
+  const modalDataMutation = useMutation(creditRequestApi.contractModal);
 
   const handleClickAdd = () => {
-    modalDataMutation.mutate({
-      [creditRequestConfig.year]: formData[creditRequestConfig.year],
-      [creditRequestConfig.area]: formData[creditRequestConfig.area],
-      [creditRequestConfig.execute_departman_id]:
-        formData[creditRequestConfig.execute_departman_id],
-    });
+    // modalDataMutation.mutate({
+    //   [creditRequestConfig.area]: formData[creditRequestConfig.area],
+    // });
     setIsOpenAddBudgetModal(true);
   };
   // head group
@@ -281,7 +278,7 @@ function CreditRequestContractTable(props: CreditRequestContractTableProps) {
         loading={modalDataMutation.isLoading}
       >
         <CreditRequestContractInsertRowModal
-          data={modalDataMutation.data?.data || []}
+          // data={modalDataMutation.data?.data || []}
           formData={formData}
           onDoneTask={handleDoneTask}
           baseData={data}

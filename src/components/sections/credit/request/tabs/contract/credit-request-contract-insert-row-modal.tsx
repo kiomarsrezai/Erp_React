@@ -5,7 +5,10 @@ import AddIcon from "@mui/icons-material/Add";
 
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { ChangeEvent, ReactNode, useState } from "react";
-import { CreditReadRequestBudgetRowShape } from "types/data/credit/credit-request-type";
+import {
+  CreditReadRequestBudgetRowShape,
+  CreditRequestReadContractModalTableShape,
+} from "types/data/credit/credit-request-type";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { creditRequestApi } from "api/credit/credit-request-api";
@@ -29,7 +32,7 @@ interface TableDataItemShape {
 }
 
 interface CreditRequestContractInsertRowModalProps {
-  data: CreditReadRequestBudgetRowShape[];
+  // data: CreditReadRequestBudgetRowShape[];
   formData: any;
   onDoneTask: () => void;
   baseData: any[];
@@ -38,7 +41,7 @@ interface CreditRequestContractInsertRowModalProps {
 function CreditRequestContractInsertRowModal(
   props: CreditRequestContractInsertRowModalProps
 ) {
-  const { data, formData, onDoneTask, baseData } = props;
+  const { formData, onDoneTask, baseData } = props;
 
   // table data
   const [addItemsList, setAddItemsList] = useState<any>({});
@@ -104,7 +107,7 @@ function CreditRequestContractInsertRowModal(
     });
   };
 
-  const actionBtn = (row: CreditReadRequestBudgetRowShape) => (
+  const actionBtn = (row: CreditRequestReadContractModalTableShape) => (
     // <IconButton color="primary" onClick={() => handleInsertClick(row)}>
     //   <AddIcon />
     // </IconButton>
@@ -138,17 +141,21 @@ function CreditRequestContractInsertRowModal(
   ];
 
   // data
-  const filteredData = data.filter(
-    (item) =>
-      !baseData.find((baseItem) => {
-        return baseItem.code === item.code;
-      }) &&
-      item.budgetProcessId ===
-        budgetProccedId[generalFieldsConfig.BUDGET_METHOD]
-  );
+  const modalDataMutation = useMutation(creditRequestApi.contractModal);
+
+  const filteredData = modalDataMutation.data?.data || [];
+  // const filteredData =
+  //  data.filter(
+  //   (item) =>
+  //     !baseData.find((baseItem) => {
+  //       return baseItem.code === item.code;
+  //     }) &&
+  //     item.budgetProcessId ===
+  //       budgetProccedId[generalFieldsConfig.BUDGET_METHOD]
+  // );
 
   const formatTableData = (
-    unFormatData: CreditReadRequestBudgetRowShape[]
+    unFormatData: CreditRequestReadContractModalTableShape[]
   ): TableDataItemShape[] => {
     const formatedData: TableDataItemShape[] | any = unFormatData.map(
       (item, i) => ({
@@ -164,7 +171,10 @@ function CreditRequestContractInsertRowModal(
   const tableData = formatTableData(filteredData);
 
   // footer
-  const sumMosavab = sumFieldsInSingleItemData(data, "mosavabDepartment");
+  const sumMosavab = sumFieldsInSingleItemData(
+    filteredData,
+    "mosavabDepartment"
+  );
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
     "colspan-number": 5,
