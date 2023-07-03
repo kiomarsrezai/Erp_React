@@ -62,6 +62,10 @@ export const creditRequestConfigURLS = {
   budgetRowDelete: "RequestApi/RequestBudgetDelete",
   budgetRowUpdate: "RequestApi/RequestBudgetUpdate",
 
+  // contract
+  contractInserted: "RequestApi/RequestContractModal",
+  contractModal: "RequestApi/RequestContractModal",
+
   // request table
   requestTableRead: "RequestApi/RequestTableRead",
   requestTableDelete: "RequestApi/RequestTableDelete",

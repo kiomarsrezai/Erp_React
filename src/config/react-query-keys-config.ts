@@ -44,6 +44,9 @@ export const reactQueryKeys = {
     budgetRow: {
       list: ["request-budget-row"],
     },
+    contract: {
+      list: ["request-contracts"],
+    },
     suppliers: {
       list: ["suppliers-list"],
     },

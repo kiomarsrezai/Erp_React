@@ -19,6 +19,7 @@ import { CreditReadRequestBudgetRowInsertedShape } from "types/data/credit/credi
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+import CreditRequestContractInsertRowModal from "./credit-request-contract-insert-row-modal";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -35,7 +36,7 @@ interface CreditRequestContractTableProps {
 
 function CreditRequestContractTable(props: CreditRequestContractTableProps) {
   const { formData, data } = props;
-  // select user modal
+  // select contract modal
   const [isOpenAddBudgetModal, setIsOpenAddBudgetModal] = useState(false);
 
   const modalDataMutation = useMutation(creditRequestApi.budgetRowRead);
@@ -276,15 +277,15 @@ function CreditRequestContractTable(props: CreditRequestContractTableProps) {
       <FixedModal
         open={isOpenAddBudgetModal}
         handleClose={() => setIsOpenAddBudgetModal(false)}
-        title="افزودن ردیف بودجه"
+        title="افزودن قرارداد"
         loading={modalDataMutation.isLoading}
       >
-        {/* <CreditRequestBudgetInsertRowModal
+        <CreditRequestContractInsertRowModal
           data={modalDataMutation.data?.data || []}
           formData={formData}
           onDoneTask={handleDoneTask}
           baseData={data}
-        /> */}
+        />
       </FixedModal>
 
       <ConfrimProcessModal

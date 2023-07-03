@@ -61,6 +61,27 @@ export interface CreditReadRequestBudgetRowInsertedShape {
   yearName: string;
 }
 
+// contract
+export interface CreditRequestReadContractModalTableShape {
+  id: number;
+  number: string;
+  date: string;
+  dateShamsi: string;
+  description: string;
+  shareAmount: number;
+  suppliersName: string;
+}
+
+export interface CreditRequestReadContractInsertedTableShape {
+  id: number;
+  number: string;
+  date: string;
+  dateShamsi: string;
+  description: string;
+  shareAmount: number;
+  suppliersName: string;
+}
+
 // request table
 export interface CreditReadRequestTableShape {
   id: number;

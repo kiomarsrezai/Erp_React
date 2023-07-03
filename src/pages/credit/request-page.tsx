@@ -50,6 +50,15 @@ function RequestCreditPage() {
     }
   );
 
+  // contract
+  const contractQuery = useQuery(
+    reactQueryKeys.request.contract.list,
+    () => creditRequestApi.contractInserted({}),
+    {
+      enabled: false,
+    }
+  );
+
   // tabs
   const [tabValue, setTabValue] = useState(0);
 
@@ -95,7 +104,7 @@ function RequestCreditPage() {
             <TabPanel value={tabValue} index={2}>
               <CreditRequestContractTable
                 formData={formData}
-                data={budgetRowQuery.data?.data || []}
+                data={contractQuery.data?.data || []}
               />
             </TabPanel>
           </>

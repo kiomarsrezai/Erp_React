@@ -13,6 +13,8 @@ import {
   CreditReadRequestShape,
   CreditReadRequestSuppliersShape,
   CreditReadRequestTableShape,
+  CreditRequestReadContractInsertedTableShape,
+  CreditRequestReadContractModalTableShape,
   SearchCreditRequestShape,
 } from "types/data/credit/credit-request-type";
 
@@ -100,6 +102,25 @@ export const creditRequestApi = new (class extends BaseApi {
       url,
       params
     );
+    return response.data;
+  };
+
+  // contract
+  contractModal = async (params: any) => {
+    const url =
+      creditRequestConfigURLS.contractModal + this.joinFilterData(params);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<CreditRequestReadContractModalTableShape[]>
+    >(url);
+    return response.data;
+  };
+
+  contractInserted = async (params: any) => {
+    const url =
+      creditRequestConfigURLS.contractInserted + this.joinFilterData(params);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<CreditRequestReadContractInsertedTableShape[]>
+    >(url);
     return response.data;
   };
 
