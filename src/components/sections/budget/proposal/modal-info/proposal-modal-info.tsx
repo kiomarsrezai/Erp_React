@@ -99,33 +99,92 @@ function ProposalModalInfo(props: ProposalModalInfoProps) {
   const tableData = formatTableData(filteredData);
 
   // footer
-  const sumMosavab = sumFieldsInSingleItemData(filteredData, "mosavab");
 
-  const sumEdit = sumFieldsInSingleItemData(filteredData, "editArea");
-
-  const sumExpense = sumFieldsInSingleItemData(filteredData, "expense");
-
-  const sumCreditAmount = sumFieldsInSingleItemData(
+  const sumMosavabShahrdari = sumFieldsInSingleItemData(
     filteredData,
-    "creditAmount"
+    "mosavab",
+    (item: GetSingleProposalInfoItemShape) => item.structureId === 1
   );
 
-  const tableFooter: any = {
-    number: "جمع",
+  const sumEditShahrdari = sumFieldsInSingleItemData(
+    filteredData,
+    "editArea",
+    (item: GetSingleProposalInfoItemShape) => item.structureId === 1
+  );
+
+  const sumExpenseShahrdari = sumFieldsInSingleItemData(
+    filteredData,
+    "expense",
+    (item: GetSingleProposalInfoItemShape) => item.structureId === 1
+  );
+
+  const sumCreditAmountShahrdari = sumFieldsInSingleItemData(
+    filteredData,
+    "creditAmount",
+    (item: GetSingleProposalInfoItemShape) => item.structureId === 1
+  );
+
+  const sumMosavabSazman = sumFieldsInSingleItemData(
+    filteredData,
+    "mosavab",
+    (item: GetSingleProposalInfoItemShape) => item.structureId === 2
+  );
+
+  const sumEditSazman = sumFieldsInSingleItemData(
+    filteredData,
+    "editArea",
+    (item: GetSingleProposalInfoItemShape) => item.structureId === 2
+  );
+
+  const sumExpenseSazman = sumFieldsInSingleItemData(
+    filteredData,
+    "expense",
+    (item: GetSingleProposalInfoItemShape) => item.structureId === 2
+  );
+
+  const sumCreditAmountSazman = sumFieldsInSingleItemData(
+    filteredData,
+    "creditAmount",
+    (item: GetSingleProposalInfoItemShape) => item.structureId === 2
+  );
+
+  const tableFooterShahrdari: any = {
+    number: "جمع شهرداری",
     "colspan-number": 2,
     areaName: null,
-    creditAmount: sumCreditAmount,
-    mosavab: sumMosavab,
-    editArea: sumEdit,
-    expense: sumExpense,
+    creditAmount: sumCreditAmountShahrdari,
+    mosavab: sumMosavabShahrdari,
+    editArea: sumEditShahrdari,
+    expense: sumExpenseShahrdari,
+  };
+
+  const tableFooterSazman: any = {
+    number: "جمع سازمان",
+    "colspan-number": 2,
+    areaName: null,
+    creditAmount: sumCreditAmountSazman,
+    mosavab: sumMosavabSazman,
+    editArea: sumEditSazman,
+    expense: sumExpenseSazman,
+  };
+
+  const tableFooter: any = {
+    number: "جمع کل",
+    "colspan-number": 2,
+    areaName: null,
+    creditAmount: sumCreditAmountShahrdari + sumCreditAmountSazman,
+    mosavab: sumMosavabShahrdari + sumMosavabSazman,
+    editArea: sumEditShahrdari + sumEditSazman,
+    expense: sumExpenseShahrdari + sumExpenseSazman,
   };
 
   return (
     <FixedTable
       heads={tableHeads}
       data={tableData}
-      footer={tableFooter}
-      // headGroups={tableHeadGroup}
+      footer={tableFooterShahrdari}
+      bottomFooter={tableFooterSazman}
+      moreBottomFooter={tableFooter}
       notFixed
     />
   );
