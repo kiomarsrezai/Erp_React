@@ -51,6 +51,7 @@ interface FixedTableProps {
   data: any;
   footer?: any;
   bottomFooter?: any;
+  moreBottomFooter?: any;
   notFixed?: boolean;
   canSort?: boolean;
   enableVirtual?: boolean;
@@ -70,6 +71,7 @@ function FixedTable(props: FixedTableProps) {
     canSort,
     enableVirtual,
     bottomFooter,
+    moreBottomFooter,
     tableLayout,
     clickCell,
   } = props;
@@ -400,6 +402,45 @@ function FixedTable(props: FixedTableProps) {
     </TableRow>
   );
 
+  // more bottom footer
+  const tableMoreBottomFooterContent = moreBottomFooter &&
+    !!sortedData.length && (
+      <TableRow>
+        {visibleHeads.map((item: any, i: any) => {
+          const name = item.name;
+          if (moreBottomFooter[name] === null) {
+            return <React.Fragment key={i}></React.Fragment>;
+          } else {
+            return (
+              <TableCell
+                align={
+                  moreBottomFooter[`align-${name}`] || item.align || "center"
+                }
+                sx={{
+                  borderRight: 1,
+                  borderTop: 1,
+                  borderColor: grey[borderColor],
+                  bgcolor: moreBottomFooter[`bgcolor-row`] || grey[200],
+                  fontWeight: 500,
+                  whiteSpace: "nowrap",
+                  p: 1,
+                  color: moreBottomFooter[`textcolor-${name}`] || "#000",
+                  "&:last-child": {
+                    borderRight: 0,
+                  },
+                }}
+                dir={typeof moreBottomFooter[name] === "number" ? "ltr" : "rtl"}
+                key={i}
+                colSpan={moreBottomFooter[`colspan-${name}`] || 1}
+              >
+                {formatDataCell(moreBottomFooter[name], item, moreBottomFooter)}
+              </TableCell>
+            );
+          }
+        })}
+      </TableRow>
+    );
+
   return (
     <Paper
       style={{
@@ -481,6 +522,7 @@ function FixedTable(props: FixedTableProps) {
             >
               {tableFooterContent}
               {tableBottomFooterContent}
+              {tableMoreBottomFooterContent}
             </TableFooter>
           </Table>
         </TableContainer>

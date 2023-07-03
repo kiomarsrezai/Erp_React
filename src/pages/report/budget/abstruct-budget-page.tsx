@@ -206,68 +206,205 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
     : [];
 
   // footer
-  const sumMosavabCurrent = sumFieldsInSingleItemData(
+  const sumMosavabCurrentShahrdari = sumFieldsInSingleItemData(
     abstractQuery.data?.data,
-    "mosavabCurrent"
+    "mosavabCurrent",
+    (item: GetSingleAbstructBudgetItemShape) => item.id <= 10
   );
 
-  const sumMosavabCivil = sumFieldsInSingleItemData(
+  const sumMosavabCivilShahrdari = sumFieldsInSingleItemData(
     abstractQuery.data?.data,
-    "mosavabCivil"
+    "mosavabCivil",
+    (item: GetSingleAbstructBudgetItemShape) => item.id <= 10
   );
 
-  const sumMosavabFinancial = sumFieldsInSingleItemData(
+  const sumMosavabFinancialShahrdari = sumFieldsInSingleItemData(
     abstractQuery.data?.data,
-    "mosavabFinancial"
+    "mosavabFinancial",
+    (item: GetSingleAbstructBudgetItemShape) => item.id <= 10
   );
 
-  const sumMosavabRevenue = sumFieldsInSingleItemData(
+  const sumMosavabRevenueShahrdari = sumFieldsInSingleItemData(
     abstractQuery.data?.data,
-    "mosavabRevenue"
+    "mosavabRevenue",
+    (item: GetSingleAbstructBudgetItemShape) => item.id <= 10
   );
 
-  const sumMosavabDar_Khazane = sumFieldsInSingleItemData(
+  const sumMosavabDar_KhazaneShahrdari = sumFieldsInSingleItemData(
     abstractQuery.data?.data,
-    "mosavabDar_Khazane"
+    "mosavabDar_Khazane",
+    (item: GetSingleAbstructBudgetItemShape) => item.id <= 10
   );
 
-  const sumMosavabSanavati = sumFieldsInSingleItemData(
+  const sumMosavabSanavatiShahrdari = sumFieldsInSingleItemData(
     abstractQuery.data?.data,
-    "mosavabSanavati"
+    "mosavabSanavati",
+    (item: GetSingleAbstructBudgetItemShape) => item.id <= 10
   );
 
-  const sumMosavabPayMotomarkez = sumFieldsInSingleItemData(
+  const sumMosavabPayMotomarkezShahrdari = sumFieldsInSingleItemData(
     abstractQuery.data?.data,
-    "mosavabPayMotomarkez"
+    "mosavabPayMotomarkez",
+    (item: GetSingleAbstructBudgetItemShape) => item.id <= 10
   );
 
-  const sumBalanceMosavab = sumFieldsInSingleItemData(
+  const sumBalanceMosavabShahrdari = sumFieldsInSingleItemData(
     abstractQuery.data?.data,
-    "balanceMosavab"
+    "balanceMosavab",
+    (item: GetSingleAbstructBudgetItemShape) => item.id <= 10
   );
 
-  const sumResources = sumFieldsInSingleItemData(
+  const sumResourcesShahrdari = sumFieldsInSingleItemData(
     abstractQuery.data?.data,
-    "resoures"
+    "resoures",
+    (item: GetSingleAbstructBudgetItemShape) => item.id <= 10
   );
 
+  const sumMosavabCurrentSazman = sumFieldsInSingleItemData(
+    abstractQuery.data?.data,
+    "mosavabCurrent",
+    (item: GetSingleAbstructBudgetItemShape) => item.id > 10
+  );
+
+  const sumMosavabCivilSazman = sumFieldsInSingleItemData(
+    abstractQuery.data?.data,
+    "mosavabCivil",
+    (item: GetSingleAbstructBudgetItemShape) => item.id > 10
+  );
+
+  const sumMosavabFinancialSazman = sumFieldsInSingleItemData(
+    abstractQuery.data?.data,
+    "mosavabFinancial",
+    (item: GetSingleAbstructBudgetItemShape) => item.id > 10
+  );
+
+  const sumMosavabRevenueSazman = sumFieldsInSingleItemData(
+    abstractQuery.data?.data,
+    "mosavabRevenue",
+    (item: GetSingleAbstructBudgetItemShape) => item.id > 10
+  );
+
+  const sumMosavabDar_KhazaneSazman = sumFieldsInSingleItemData(
+    abstractQuery.data?.data,
+    "mosavabDar_Khazane",
+    (item: GetSingleAbstructBudgetItemShape) => item.id > 10
+  );
+
+  const sumMosavabSanavatiSazman = sumFieldsInSingleItemData(
+    abstractQuery.data?.data,
+    "mosavabSanavati",
+    (item: GetSingleAbstructBudgetItemShape) => item.id > 10
+  );
+
+  const sumMosavabPayMotomarkezSazman = sumFieldsInSingleItemData(
+    abstractQuery.data?.data,
+    "mosavabPayMotomarkez",
+    (item: GetSingleAbstructBudgetItemShape) => item.id > 10
+  );
+
+  const sumBalanceMosavabSazman = sumFieldsInSingleItemData(
+    abstractQuery.data?.data,
+    "balanceMosavab",
+    (item: GetSingleAbstructBudgetItemShape) => item.id > 10
+  );
+
+  const sumResourcesSazman = sumFieldsInSingleItemData(
+    abstractQuery.data?.data,
+    "resoures",
+    (item: GetSingleAbstructBudgetItemShape) => item.id > 10
+  );
+
+  // footer
   const tableFooter: TableDataItemShape | any = {
-    number: "جمع",
+    number: "جمع شهرداری",
     "colspan-number": 2,
     areaName: null,
-    mosavabCurrent: sumMosavabCurrent,
-    percent_mosavabCurrent: getPercent(sumMosavabCurrent, sumResources),
-    mosavabCivil: sumMosavabCivil,
-    percent_mosavabCivil: getPercent(sumMosavabCivil, sumResources),
-    mosavabFinancial: sumMosavabFinancial,
-    percent_mosavabFinancial: getPercent(sumMosavabFinancial, sumResources),
-    mosavabRevenue: sumMosavabRevenue,
-    mosavabDar_Khazane: sumMosavabDar_Khazane,
-    mosavabSanavati: sumMosavabSanavati,
-    percent_mosavabSanavati: getPercent(sumMosavabSanavati, sumResources),
-    mosavabPayMotomarkez: sumMosavabPayMotomarkez,
-    balanceMosavab: sumBalanceMosavab,
-    resoures: sumResources,
+    mosavabCurrent: sumMosavabCurrentShahrdari,
+    percent_mosavabCurrent: getPercent(
+      sumMosavabCurrentShahrdari,
+      sumResourcesShahrdari
+    ),
+    mosavabCivil: sumMosavabCivilShahrdari,
+    percent_mosavabCivil: getPercent(
+      sumMosavabCivilShahrdari,
+      sumResourcesShahrdari
+    ),
+    mosavabFinancial: sumMosavabFinancialShahrdari,
+    percent_mosavabFinancial: getPercent(
+      sumMosavabFinancialShahrdari,
+      sumResourcesShahrdari
+    ),
+    mosavabRevenue: sumMosavabRevenueShahrdari,
+    mosavabDar_Khazane: sumMosavabDar_KhazaneShahrdari,
+    mosavabSanavati: sumMosavabSanavatiShahrdari,
+    percent_mosavabSanavati: getPercent(
+      sumMosavabSanavatiShahrdari,
+      sumResourcesShahrdari
+    ),
+    mosavabPayMotomarkez: sumMosavabPayMotomarkezShahrdari,
+    balanceMosavab: sumBalanceMosavabShahrdari,
+    resoures: sumResourcesShahrdari,
+  };
+
+  const tableBottomFooter: TableDataItemShape | any = {
+    number: "جمع سازمان",
+    "colspan-number": 2,
+    areaName: null,
+    mosavabCurrent: sumMosavabCurrentSazman,
+    percent_mosavabCurrent: getPercent(
+      sumMosavabCurrentSazman,
+      sumResourcesSazman
+    ),
+    mosavabCivil: sumMosavabCivilSazman,
+    percent_mosavabCivil: getPercent(sumMosavabCivilSazman, sumResourcesSazman),
+    mosavabFinancial: sumMosavabFinancialSazman,
+    percent_mosavabFinancial: getPercent(
+      sumMosavabFinancialSazman,
+      sumResourcesSazman
+    ),
+    mosavabRevenue: sumMosavabRevenueSazman,
+    mosavabDar_Khazane: sumMosavabDar_KhazaneSazman,
+    mosavabSanavati: sumMosavabSanavatiSazman,
+    percent_mosavabSanavati: getPercent(
+      sumMosavabSanavatiSazman,
+      sumResourcesSazman
+    ),
+    mosavabPayMotomarkez: sumMosavabPayMotomarkezSazman,
+    balanceMosavab: sumBalanceMosavabSazman,
+    resoures: sumResourcesSazman,
+  };
+
+  const tableMoreBottomFooter: TableDataItemShape | any = {
+    number: "جمع کل",
+    "colspan-number": 2,
+    areaName: null,
+    mosavabCurrent: sumMosavabCurrentShahrdari + sumMosavabCurrentSazman,
+    percent_mosavabCurrent: getPercent(
+      sumMosavabCurrentShahrdari + sumMosavabCurrentSazman,
+      sumResourcesShahrdari + sumResourcesSazman
+    ),
+    mosavabCivil: sumMosavabCivilShahrdari + sumMosavabCivilSazman,
+    percent_mosavabCivil: getPercent(
+      sumMosavabCivilShahrdari + sumMosavabCivilSazman,
+      sumResourcesShahrdari + sumResourcesSazman
+    ),
+    mosavabFinancial: sumMosavabFinancialShahrdari + sumMosavabFinancialSazman,
+    percent_mosavabFinancial: getPercent(
+      sumMosavabFinancialShahrdari + sumMosavabFinancialSazman,
+      sumResourcesShahrdari + sumResourcesSazman
+    ),
+    mosavabRevenue: sumMosavabRevenueShahrdari + sumMosavabRevenueSazman,
+    mosavabDar_Khazane:
+      sumMosavabDar_KhazaneShahrdari + sumMosavabDar_KhazaneSazman,
+    mosavabSanavati: sumMosavabSanavatiShahrdari + sumMosavabSanavatiSazman,
+    percent_mosavabSanavati: getPercent(
+      sumMosavabSanavatiShahrdari + sumMosavabSanavatiSazman,
+      sumResourcesShahrdari + sumResourcesSazman
+    ),
+    mosavabPayMotomarkez:
+      sumMosavabPayMotomarkezShahrdari + sumMosavabPayMotomarkezSazman,
+    balanceMosavab: sumBalanceMosavabShahrdari + sumBalanceMosavabSazman,
+    resoures: sumResourcesShahrdari + sumResourcesSazman,
   };
 
   // head group
@@ -294,6 +431,8 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
       heads={tableHeads}
       headGroups={tableHeadGroups}
       footer={tableFooter}
+      bottomFooter={tableBottomFooter}
+      moreBottomFooter={tableMoreBottomFooter}
       data={tableData}
     />
     // </AdminLayout>
