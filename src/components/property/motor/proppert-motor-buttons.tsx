@@ -90,10 +90,10 @@ function PropertyMotorButtons(props: PropertyMotorButtonsProps) {
         variant: "success",
       });
 
-      setFormData({
-        ...propertyMotorFormDefaultValue,
-        // id: data.data.,
-      });
+      setFormData((prevState: any) => ({
+        ...prevState,
+        id: data.data.id,
+      }));
     },
   });
 

@@ -27,11 +27,15 @@ export interface SearchPopertyMotorItemShape {
 }
 
 export interface InsertPopertyMotorItemShape {
+  id: 0;
   pelak: "string";
   kindMotorId: 0;
   kindId: 0;
+  kindName: "string";
   systemId: 0;
+  systemName: "string";
   tipeId: 0;
+  tipeName: "string";
   productYear: "string";
   color: "string";
 }
