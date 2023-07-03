@@ -212,9 +212,10 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
         variant: "success",
       });
 
-      setFormData({
-        ...contractsTasksFormDefaultValue,
-        [contractsTasksConfig.area]: formData[contractsTasksConfig.area],
+      setFormData(contractsTasksFormDefaultValue);
+
+      queryClient.setQueryData(reactQueryKeys.contracts.tasks.getArea, {
+        data: [],
       });
     },
   });

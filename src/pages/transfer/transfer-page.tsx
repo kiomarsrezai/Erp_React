@@ -350,6 +350,7 @@ function TransferPage() {
           data={dataTableMutation.data?.data || []}
           areaId={formData[transferConfig.AREA] || 0}
           onDoneTask={handleDoneModalTask}
+          formData={formData}
         />
       </FixedModal>
 

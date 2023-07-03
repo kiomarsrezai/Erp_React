@@ -2,6 +2,7 @@ import FixedTable from "components/data/table/fixed-table";
 import IconButton from "@mui/material/IconButton";
 import InsertLinkIcon from "@mui/icons-material/InsertLink";
 import WindowLoading from "components/ui/loading/window-loading";
+import PrintIcon from "@mui/icons-material/Print";
 
 import { TableHeadShape } from "types/table-type";
 import { ReactNode } from "react";
@@ -12,6 +13,13 @@ import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import { transferConfig } from "config/features/transfer/transfer-config";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
+import {
+  getGeneralFieldItemArea,
+  getGeneralFieldItemYear,
+} from "helper/export-utils";
+import { financialTransferStimul } from "stimul/financial/transfer/financial-transfer-stimul";
+import YearInput from "components/sections/inputs/year-input";
+import AreaInput from "components/sections/inputs/area-input";
 
 interface TableDataItemShape {
   markazHazine: ReactNode;
@@ -29,10 +37,11 @@ interface TransferModal1Props {
   areaId: number;
   onDoneTask: () => void;
   disableAction?: boolean;
+  formData: any;
 }
 
 function TransferModal1(props: TransferModal1Props) {
-  const { data, areaId, onDoneTask, disableAction } = props;
+  const { data, areaId, onDoneTask, disableAction, formData } = props;
 
   // heads
   const tableHeads: TableHeadShape = [
@@ -151,14 +160,43 @@ function TransferModal1(props: TransferModal1Props) {
     actions: "",
   };
 
+  // print
+  const handlePrintForm = () => {
+    if (data) {
+      const yearLabel = getGeneralFieldItemYear(formData, 1);
+      const areaLabel = getGeneralFieldItemArea(formData, 2);
+
+      financialTransferStimul({
+        data: data,
+        footer: [tableFooter],
+        year: yearLabel,
+        area: areaLabel,
+        numberShow: "ریال",
+      });
+    }
+  };
+
+  const tableHeadGroup = [
+    {
+      title: (
+        <IconButton color="primary" onClick={handlePrintForm}>
+          <PrintIcon />
+        </IconButton>
+      ),
+      colspan: 9,
+    },
+  ];
+
   return (
     <>
       <FixedTable
         heads={tableHeads}
         data={tableData}
         footer={tableFooter}
+        headGroups={tableHeadGroup}
         notFixed
       />
+
       <WindowLoading active={linkCodeAccMutation.isLoading} />
     </>
   );

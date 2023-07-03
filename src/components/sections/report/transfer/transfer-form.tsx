@@ -200,6 +200,7 @@ function TransferForm(props: TransferFormProps) {
           data={dataTableMutation.data?.data || []}
           areaId={formData[transferConfig.AREA] || 0}
           onDoneTask={() => {}}
+          formData={formData}
           disableAction
         />
       </FixedModal>
