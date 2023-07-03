@@ -133,6 +133,15 @@ export const creditRequestApi = new (class extends BaseApi {
     return response.data;
   };
 
+  contractDelete = async (params: any) => {
+    const url = creditRequestConfigURLS.contractDelete;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      params
+    );
+    return response.data;
+  };
+
   // supliets
   suplliersRead = async () => {
     const response = await clientAxios.get<

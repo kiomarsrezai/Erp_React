@@ -5,5 +5,8 @@ export interface SuppliersComboShape {
 
 export interface SuppliersShape {
   id: number;
-  name: string;
+  suppliersName: string;
+  bank: string;
+  branch: string;
+  numberBank: string;
 }

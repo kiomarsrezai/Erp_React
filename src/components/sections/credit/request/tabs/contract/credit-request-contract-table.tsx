@@ -127,17 +127,14 @@ function CreditRequestContractTable(props: CreditRequestContractTableProps) {
     });
   };
 
-  const budgetRowDeleteMutation = useMutation(
-    creditRequestApi.budgetRowDelete,
-    {
-      onSuccess: () => {
-        handleDoneTask();
-        enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
-          variant: "success",
-        });
-      },
-    }
-  );
+  const budgetRowDeleteMutation = useMutation(creditRequestApi.contractDelete, {
+    onSuccess: () => {
+      handleDoneTask();
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+    },
+  });
   const handleClickDelete = (
     row: CreditRequestReadContractInsertedTableShape
   ) => {

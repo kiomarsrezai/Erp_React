@@ -164,7 +164,10 @@ function CreditRequestBudgetInsertRowModal(
   const tableData = formatTableData(filteredData);
 
   // footer
-  const sumMosavab = sumFieldsInSingleItemData(data, "mosavabDepartment");
+  const sumMosavab = sumFieldsInSingleItemData(
+    filteredData,
+    "mosavabDepartment"
+  );
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
     "colspan-number": 5,

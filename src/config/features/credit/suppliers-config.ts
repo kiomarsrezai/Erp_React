@@ -3,6 +3,6 @@ export const suppliersConfig = {
 };
 
 export const suppliersUrls = {
-  list: "SupplyApi/GetSupplyList",
+  list: "SupplyApi/SuppliersRead",
   combo: "SupplyApi/SuppliersCo_ComList",
 };

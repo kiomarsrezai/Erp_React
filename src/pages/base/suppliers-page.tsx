@@ -21,7 +21,7 @@ function SuppliersPage() {
   const tableHeadGroups: TableHeadGroupShape = [
     {
       title: <SuppliersForm />,
-      colspan: 4,
+      colspan: 6,
     },
   ];
 
@@ -32,10 +32,24 @@ function SuppliersPage() {
     },
     {
       title: "نام",
-      name: "name",
+      name: "suppliersName",
       align: "left",
     },
-
+    {
+      title: "بانک",
+      name: "bank",
+      align: "left",
+    },
+    {
+      title: "شعبه",
+      name: "branch",
+      align: "left",
+    },
+    {
+      title: "شماره حساب",
+      name: "numberBank",
+      align: "left",
+    },
     {
       title: "عملیات",
       name: "actions",
@@ -52,7 +66,7 @@ function SuppliersPage() {
   const formatTableData = (
     unFormatData: SuppliersShape[]
   ): (SuppliersShape & TableDataItemShape)[] | any => {
-    const formatedData: (SuppliersShape & TableDataItemShape)[] =
+    const formatedData: (SuppliersShape & TableDataItemShape)[] | any =
       unFormatData.map((item, i) => ({
         ...item,
         number: i + 1,
