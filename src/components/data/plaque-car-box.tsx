@@ -35,6 +35,10 @@ function PlaqueCarBox(props: PlaqueCarBoxProps) {
     }));
   }, [state]);
 
+  useEffect(() => {
+    setState(formData[propertyMotorConfig.pelak].split("_"));
+  }, [formData[propertyMotorConfig.pelak]]);
+
   const handleChangeState1 = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setState((prevState: any) => {

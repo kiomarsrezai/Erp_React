@@ -95,6 +95,7 @@ function PropertyModalSearchModal(props: PropertyModalSearchModalProps) {
     const formatedData: any[] = unFormatData.map((item, i) => ({
       ...item,
       number: i + 1,
+      pelak: item.pelak.split("_").reverse().join(" "),
       //   code: item.number,
       //   date: item.dates,
       actions: () => actionButtons(item),
