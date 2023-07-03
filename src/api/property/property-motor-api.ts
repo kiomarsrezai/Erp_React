@@ -15,24 +15,26 @@ import {
   GetSingleCarSystemComboItemShape,
   GetSingleCarTipComboItemShape,
   InsertPopertyMotorItemShape,
+  ReadPopertyMotorItemShape,
+  SearchPopertyMotorItemShape,
 } from "types/data/property/motor/property-motor-type";
 
 export const propertyMotorApi = new (class extends BaseApi {
-  // getData = async (filterData: any) => {
-  //   const url = contractsTasksUrls.getData + this.joinFilterData(filterData);
-  //   const response = await clientAxios.get<
-  //     BaseApiResponseShape<GetSingleContractTaskItemShape[]>
-  //   >(url);
-  //   return response.data;
-  // };
+  getData = async (filterData: any) => {
+    const url = propertyMotorUrls.getData + this.joinFilterData(filterData);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<ReadPopertyMotorItemShape[]>
+    >(url);
+    return response.data;
+  };
 
-  // search = async (filterData: any) => {
-  //   const url = contractsTasksUrls.search + this.joinFilterData(filterData);
-  //   const response = await clientAxios.get<
-  //     BaseApiResponseShape<GetSingleSearchContractTaskItemShape[]>
-  //   >(url);
-  //   return response.data;
-  // };
+  search = async () => {
+    const url = propertyMotorUrls.search;
+    const response = await clientAxios.get<
+      BaseApiResponseShape<SearchPopertyMotorItemShape[]>
+    >(url);
+    return response.data;
+  };
 
   insert = async (filterData: any) => {
     const url = propertyMotorUrls.insert;

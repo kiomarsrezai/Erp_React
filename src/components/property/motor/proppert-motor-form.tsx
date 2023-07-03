@@ -66,35 +66,13 @@ function PropertyMotorForm(props: PropertyMotorFormProps) {
           <Grid sm={6}>
             <Grid spacing={3} container>
               <Grid sm={6}>
-                <TextField
-                  id="number-input"
-                  label="رنگ"
-                  variant="outlined"
-                  size="small"
-                  value={formData[propertyMotorConfig.color]}
-                  name={propertyMotorConfig.color}
-                  onChange={onChange}
-                  error={
-                    !formData[propertyMotorConfig.color] && haveSubmitedForm
-                  }
-                  helperText={
-                    !formData[propertyMotorConfig.color] &&
-                    haveSubmitedForm &&
-                    globalConfig.ERROR_NO_EMPTY
-                  }
-                  fullWidth
-                />
-              </Grid>
-              <Grid sm={6}>
-                <FlotingLabelSelect
-                  items={kindMotorItems}
-                  label="نوع وسیله"
-                  name={propertyMotorConfig.kind_motor}
-                  value={formData[propertyMotorConfig.kind_motor]}
-                  manualHandleChange={handleKindChange}
+                <PropertMotorKindInput
+                  setter={setFormData}
+                  value={formData[propertyMotorConfig.kind] as any}
                   showError={haveSubmitedForm}
                 />
               </Grid>
+
               <Grid sm={6}>
                 <DatePicker
                   value={new Date(formData[propertyMotorConfig.year])}
@@ -114,13 +92,7 @@ function PropertyMotorForm(props: PropertyMotorFormProps) {
                   }}
                 />
               </Grid>
-              <Grid sm={6}>
-                <PropertMotorTipInput
-                  setter={setFormData}
-                  value={formData[propertyMotorConfig.tip] as any}
-                  showError={haveSubmitedForm}
-                />
-              </Grid>
+
               <Grid sm={6}>
                 <PropertMotorSystemInput
                   setter={setFormData}
@@ -128,18 +100,67 @@ function PropertyMotorForm(props: PropertyMotorFormProps) {
                   showError={haveSubmitedForm}
                 />
               </Grid>
+
               <Grid sm={6}>
-                <PropertMotorKindInput
+                <TextField
+                  id="number-input"
+                  label="رنگ"
+                  variant="outlined"
+                  size="small"
+                  value={formData[propertyMotorConfig.color]}
+                  name={propertyMotorConfig.color}
+                  onChange={onChange}
+                  error={
+                    !formData[propertyMotorConfig.color] && haveSubmitedForm
+                  }
+                  helperText={
+                    !formData[propertyMotorConfig.color] &&
+                    haveSubmitedForm &&
+                    globalConfig.ERROR_NO_EMPTY
+                  }
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid sm={6}>
+                <PropertMotorTipInput
                   setter={setFormData}
-                  value={formData[propertyMotorConfig.kind] as any}
+                  value={formData[propertyMotorConfig.tip] as any}
                   showError={haveSubmitedForm}
                 />
               </Grid>
+
+              {/* <Grid sm={6}>
+                <FlotingLabelSelect
+                  items={kindMotorItems}
+                  label="نوع وسیله"
+                  name={propertyMotorConfig.kind_motor}
+                  value={formData[propertyMotorConfig.kind_motor]}
+                  manualHandleChange={handleKindChange}
+                  showError={haveSubmitedForm}
+                />
+              </Grid> */}
             </Grid>
           </Grid>
           <Grid sm={6}>
-            <Grid spacing={3} container height={"100%"}>
-              <Grid sm={12} height={"100%"}>
+            <Grid
+              spacing={3}
+              justifyContent={"center"}
+              container
+              height={"100%"}
+            >
+              <Grid sm={6}>
+                <FlotingLabelSelect
+                  items={kindMotorItems}
+                  label="نوع وسیله"
+                  name={propertyMotorConfig.kind_motor}
+                  value={formData[propertyMotorConfig.kind_motor]}
+                  manualHandleChange={handleKindChange}
+                  showError={haveSubmitedForm}
+                />
+              </Grid>
+
+              <Grid sm={12}>
                 <Box
                   display={"flex"}
                   justifyContent={"center"}

@@ -18,6 +18,7 @@ import { propertyMotorApi } from "api/property/property-motor-api";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import { checkHaveValue } from "helper/form-utils";
+import PropertyModalSearchModal from "./property-motor-search-modal";
 
 interface PropertyMotorButtonsProps {
   formData: any;
@@ -76,8 +77,11 @@ function PropertyMotorButtons(props: PropertyMotorButtonsProps) {
 
   const handleFormSubmit = (e: FormEvent) => {
     e.preventDefault();
+    searchDataMutation.mutate();
     setIsOpenSearchModal(true);
   };
+
+  const searchDataMutation = useMutation(propertyMotorApi.search);
 
   // check
   const insertMutation = useMutation(propertyMotorApi.insert, {
@@ -180,8 +184,14 @@ function PropertyMotorButtons(props: PropertyMotorButtonsProps) {
         open={isOpenSearchModal}
         handleClose={() => setIsOpenSearchModal(false)}
         title="انتخاب ماشین"
-        // loading={submitMutation.isLoading}
-      ></FixedModal>
+        loading={searchDataMutation.isLoading}
+      >
+        <PropertyModalSearchModal
+          data={searchDataMutation.data?.data || []}
+          setFormData={setFormData}
+          onClose={() => setIsOpenSearchModal(false)}
+        />
+      </FixedModal>
 
       {/* confrim clear form */}
       <ConfrimProcessModal
