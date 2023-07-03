@@ -13,6 +13,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { creditRequestApi } from "api/credit/credit-request-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { globalConfig } from "config/global-config";
+import CreditRequestContractTable from "components/sections/credit/request/tabs/contract/credit-request-contract-table";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -77,6 +78,7 @@ function RequestCreditPage() {
           <Tabs value={tabValue} onChange={handleTabChange}>
             <Tab label="تایید کنندگان" />
             <Tab label="ردیف های بودجه" />
+            <Tab label="قراردادها" />
           </Tabs>
         </Box>
         {firstStepCrossed && (
@@ -86,6 +88,12 @@ function RequestCreditPage() {
             </TabPanel>
             <TabPanel value={tabValue} index={1}>
               <CreditRequestBudgetRowTable
+                formData={formData}
+                data={budgetRowQuery.data?.data || []}
+              />
+            </TabPanel>
+            <TabPanel value={tabValue} index={2}>
+              <CreditRequestContractTable
                 formData={formData}
                 data={budgetRowQuery.data?.data || []}
               />
