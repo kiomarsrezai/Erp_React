@@ -42,6 +42,8 @@ interface RevenueChartFormProps {
   printData: {
     data: any[];
     footer: any[];
+    bottomFooter: any[];
+    moreBottomFooter: any[];
   };
   setFormData: (prevState: any) => void;
   tabRender?: ReactNode;
@@ -141,6 +143,8 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
       abstructBudgetStimul({
         data: printData.data,
         footer: printData.footer,
+        bottomFooter: printData.bottomFooter,
+        moreBottomFooter: printData.moreBottomFooter,
         year: yearLabel,
         budgetKind: budgetKindLabel,
         numberShow: numberLabel,

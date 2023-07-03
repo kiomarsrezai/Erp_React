@@ -9,6 +9,8 @@ interface StimulOptionsShape {
   data: any[];
   footer: any[];
   numberShow: string;
+  bottomFooter: any[];
+  moreBottomFooter: any[];
 }
 
 export const abstructBudgetStimul = (exportOptions: StimulOptionsShape) => {
@@ -35,6 +37,14 @@ export const abstructBudgetStimul = (exportOptions: StimulOptionsShape) => {
     {
       name: "footer",
       data: exportOptions.footer,
+    },
+    {
+      name: "bottomFooter",
+      data: exportOptions.bottomFooter,
+    },
+    {
+      name: "moreBottomFooter",
+      data: exportOptions.moreBottomFooter,
     },
   ];
 

@@ -418,6 +418,8 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
           printData={{
             data: tableData,
             footer: [tableFooter],
+            bottomFooter: [tableBottomFooter],
+            moreBottomFooter: [tableMoreBottomFooter],
           }}
         />
       ),
