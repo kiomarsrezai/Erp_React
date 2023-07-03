@@ -191,11 +191,11 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
 
   const onConfrimClearForm = () => {
     setHaveSubmitedCardForm(false);
-    setFormData({
-      ...contractsTasksFormDefaultValue,
-      [contractsTasksConfig.area]: formData[contractsTasksConfig.area],
-    });
+    setFormData(contractsTasksFormDefaultValue);
 
+    queryClient.setQueryData(reactQueryKeys.contracts.tasks.getArea, {
+      data: [],
+    });
     setShowConfrimClearForm(false);
   };
 
