@@ -112,6 +112,7 @@ function ContractsSearchModal(props: ContractsSearchModalProps) {
         [contractsTasksConfig.area]: formData[contractsTasksConfig.area],
         [contractsTasksConfig.date]: convertToCalenderDate(value.date),
         [contractsTasksConfig.description]: value.description,
+        [contractsTasksConfig.doing_method]: value.doingMethodId,
         [contractsTasksConfig.suppliers_id]: value.suppliersId,
         [contractsTasksConfig.suppliers_name]: value.suppliersName,
         [contractsTasksConfig.date_from]: convertToCalenderDate(value.dateFrom),

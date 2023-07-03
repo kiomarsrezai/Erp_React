@@ -83,15 +83,26 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
   };
 
   // check
+  const queryClient = useQueryClient();
+  const readAreaMutation = useMutation(contractsTasksApi.areaRead, {
+    onSuccess(data) {
+      queryClient.setQueryData(reactQueryKeys.contracts.tasks.getArea, data);
+    },
+  });
+
   const insertMutation = useMutation(contractsTasksApi.insert, {
     onSuccess(data) {
       enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
         variant: "success",
       });
 
-      setFormData({
-        ...contractsTasksFormDefaultValue,
+      setFormData((prevState: any) => ({
+        ...prevState,
         [contractsTasksConfig.number]: data.data.number,
+        id: data.data.id,
+      }));
+
+      readAreaMutation.mutate({
         id: data.data.id,
       });
     },

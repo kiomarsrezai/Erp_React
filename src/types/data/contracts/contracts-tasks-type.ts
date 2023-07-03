@@ -9,6 +9,7 @@ export interface GetSingleContractTaskItemShape {
   dateFrom: "15/06/2023 12:00:00 ق.ظ";
   dateFromShamsi: "۱۴۰۲/۰۳/۲۵";
   dateEnd: "15/06/2023 12:00:00 ق.ظ";
+  doingMethodId: 1;
   dateEndShamsi: "۱۴۰۲/۰۳/۲۵";
   amount: 9999999999999;
   surplus: 0;
