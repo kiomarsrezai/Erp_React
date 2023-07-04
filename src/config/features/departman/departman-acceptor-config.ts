@@ -7,4 +7,5 @@ export const departmanAcceptorConfig = {
 export const departmanAcceptorUrls = {
   getData: "DepartmentApi/DepartmentAcceptorRead",
   getCombo: "DepartmentApi/DepartmentCom",
+  insertTable1: "DepartmentApi/DepartmentAcceptorInsert",
 };

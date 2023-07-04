@@ -4,10 +4,12 @@ import IconButton from "@mui/material/IconButton";
 import CheckIcon from "@mui/icons-material/Check";
 import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
+import DeleteIcon from "@mui/icons-material/Delete";
 import SuppliersForm from "components/base/suppliers/suppliers-form";
 import { useQuery } from "@tanstack/react-query";
 import { ReactNode, useState } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
+import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { SuppliersShape } from "types/data/credit/suppliers-type";
 import { suppliersApi } from "api/credit/suppliers-api";
@@ -18,6 +20,7 @@ import { globalConfig } from "config/global-config";
 import { generalFieldsConfig } from "config/features/general-fields-config";
 import DepartmanAcceotorInput from "components/sections/inputs/departman/departman-acceptor-input";
 import { departmanAcceptorConfig } from "config/features/departman/departman-acceptor-config";
+import { Box } from "@mui/material";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -74,12 +77,6 @@ function SomethingPage() {
       width: "300px",
     },
     {
-      title: "کد",
-      name: "departmentCode",
-      align: "left",
-      width: "200px",
-    },
-    {
       title: "نام",
       name: "departmentName",
       align: "left",
@@ -116,11 +113,7 @@ function SomethingPage() {
           <CheckIcon />
         </IconButton>
 
-        <IconButton
-          onClick={closeEditFunctionality}
-          color="primary"
-          size="small"
-        >
+        <IconButton onClick={closeEditFunctionality} color="error" size="small">
           <ClearIcon />
         </IconButton>
       </>
@@ -129,9 +122,15 @@ function SomethingPage() {
 
   // data
   const actionButtons = (row: TableDataItemShape & SuppliersShape) => (
-    <IconButton size="small" color="primary" onClick={() => {}}>
-      <CheckIcon />
-    </IconButton>
+    <>
+      <IconButton onClick={closeEditFunctionality} color="error" size="small">
+        <DeleteIcon />
+      </IconButton>
+
+      <IconButton size="small" color="primary" onClick={() => {}}>
+        <ArrowCircleLeftIcon />
+      </IconButton>
+    </>
   );
 
   const formatTableData = (
@@ -141,7 +140,11 @@ function SomethingPage() {
       unFormatData.map((item, i) => ({
         ...item,
         number: i + 1,
-        actions: actionButtons,
+        actions: (
+          <Box justifyContent={"center"} display={"flex"}>
+            {actionButtons(item as any)}
+          </Box>
+        ),
       }));
 
     return formatedData;
