@@ -3,7 +3,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import SuppliersInput from "components/sections/inputs/suppliers-input";
 import CheckIcon from "@mui/icons-material/Check";
 import IconButton from "@mui/material/IconButton";
-import { Box, Checkbox } from "@mui/material";
+import { Box, Checkbox, TextField } from "@mui/material";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
@@ -12,8 +12,9 @@ import { suppliersApi } from "api/credit/suppliers-api";
 import { suppliersConfig } from "config/features/credit/suppliers-config";
 import { checkHaveValue } from "helper/form-utils";
 import FixedTable from "components/data/table/fixed-table";
-import { TableHeadShape } from "types/table-type";
+import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import {
+  GetSingleDepartmanAcceptorEmployeItemShape,
   GetSingleDepartmanAcceptorItemShape,
   GetSingleDepartmanAcceptorTable2ItemShape,
 } from "types/data/departman/departman-acceptor-type";
@@ -23,12 +24,34 @@ import { globalConfig } from "config/global-config";
 import AddIcon from "@mui/icons-material/Add";
 
 interface DepartmanEmployeModalProps {
-  data: GetSingleDepartmanAcceptorTable2ItemShape[];
+  data: GetSingleDepartmanAcceptorEmployeItemShape[];
   baseData: GetSingleDepartmanAcceptorItemShape;
   onDoneTask: any;
 }
 function DepartmanEmployeModal(props: DepartmanEmployeModalProps) {
   const { data, baseData, onDoneTask } = props;
+
+  const [filterText, setFilterText] = useState("");
+
+  const headGroup: TableHeadGroupShape = [
+    {
+      title: (
+        <Box sx={{ width: "50%" }}>
+          <TextField
+            size="small"
+            label="جستجو"
+            value={filterText}
+            variant="outlined"
+            onChange={(e) => setFilterText(e.target.value)}
+            fullWidth
+          />
+        </Box>
+      ),
+      colspan: 5,
+    },
+  ];
+
+  // insert
 
   const [isOpenInsertModal, setIsOpenInsertModal] = useState(false);
 
@@ -94,16 +117,17 @@ function DepartmanEmployeModal(props: DepartmanEmployeModalProps) {
       title: "نام",
       name: "firstName",
       align: "left",
-      width: "300px",
+      width: "200px",
     },
     {
       title: "نام خانوادگی",
       name: "lastName",
       align: "left",
+      width: "200px",
     },
     {
       title: "مسولیت",
-      name: "resposibility",
+      name: "bio",
       align: "left",
     },
     {
@@ -134,7 +158,7 @@ function DepartmanEmployeModal(props: DepartmanEmployeModalProps) {
       return result;
     });
   };
-  const actionBtn = (row: GetSingleDepartmanAcceptorTable2ItemShape) => (
+  const actionBtn = (row: GetSingleDepartmanAcceptorEmployeItemShape) => (
     // <IconButton color="primary" onClick={() => handleInsertClick(row)}>
     //   <AddIcon />
     // </IconButton>
@@ -153,9 +177,8 @@ function DepartmanEmployeModal(props: DepartmanEmployeModalProps) {
   );
 
   // data
-
   const formatTableData = (
-    unFormatData: GetSingleDepartmanAcceptorTable2ItemShape[]
+    unFormatData: GetSingleDepartmanAcceptorEmployeItemShape[]
   ): any[] => {
     const formatedData: any[] = unFormatData.map((item, i) => ({
       ...item,
@@ -166,9 +189,23 @@ function DepartmanEmployeModal(props: DepartmanEmployeModalProps) {
     return formatedData;
   };
 
-  const tableData = formatTableData(data);
+  const filteredData = data.filter(
+    (item) =>
+      item.bio.includes(filterText) ||
+      item.firstName.includes(filterText) ||
+      item.lastName.includes(filterText)
+  );
 
-  return <FixedTable data={tableData} heads={tableHeads} notFixed />;
+  const tableData = formatTableData(filteredData);
+
+  return (
+    <FixedTable
+      data={tableData}
+      heads={tableHeads}
+      headGroups={headGroup}
+      notFixed
+    />
+  );
 }
 
 export default DepartmanEmployeModal;

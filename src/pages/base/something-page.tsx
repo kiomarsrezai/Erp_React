@@ -91,7 +91,7 @@ function SomethingPage() {
       title: "منطقه",
       name: "areaName",
       align: "left",
-      width: "300px",
+      // width: "300px",
     },
     {
       title: "عملیات",
@@ -252,11 +252,11 @@ function SomethingPage() {
     <>
       <AdminLayout>
         <Box display={"flex"}>
-          <Box sx={{ width: "50%" }}>
+          <Box sx={{ width: "40%" }}>
             <FixedTable data={filteredData} heads={tableHeads} notFixed />
           </Box>
 
-          <Box sx={{ width: "50%" }}>
+          <Box sx={{ width: "60%" }}>
             <DepartmanAcceptorTable2
               data={table2Query.data?.data || []}
               baseData={activeBaseData as any}

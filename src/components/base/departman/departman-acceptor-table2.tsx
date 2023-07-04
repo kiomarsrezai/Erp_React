@@ -74,12 +74,13 @@ function DepartmanAcceptorTable2(props: DepartmanAcceptorTable2Props) {
       title: "نام",
       name: "firstName",
       align: "left",
-      width: "300px",
+      width: "150px",
     },
     {
       title: "نام خانوادگی",
       name: "lastName",
       align: "left",
+      width: "150px",
     },
     {
       title: "مسولیت",

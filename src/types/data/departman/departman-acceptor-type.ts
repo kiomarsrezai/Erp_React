@@ -26,6 +26,6 @@ export interface GetSingleDepartmanAcceptorEmployeItemShape {
   id: 1;
   firstName: "string";
   lastName: "string";
-  resposibility: "string";
+  bio: "string";
   userId: 0;
 }
