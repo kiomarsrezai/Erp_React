@@ -6,7 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SuppliersForm from "components/base/suppliers/suppliers-form";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ReactNode, useState } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
@@ -35,22 +35,22 @@ function SomethingPage() {
 
   const [actionFormData, setActionFormData] = useState<any>({
     [generalFieldsConfig.AREA]: undefined,
+    [departmanAcceptorConfig.departman]: undefined,
   });
 
   const addClick = () => {
-    setActionFormData({});
+    setActionFormData({
+      departmanId: undefined,
+      areaId: undefined,
+    });
     setIsInsertMode((state) => !state);
   };
 
+  const insertMutation = useMutation(departmanAcceptorApi.insertTable1, {
+    onSuccess() {},
+  });
   const clickActionDone = () => {
-    // const newAreaId =
-    //   formData[orgProjectConfig.area] === 10
-    //     ? actionFormData.areaArray
-    //     : `-${formData[orgProjectConfig.area]}-`;
-    // insertMutation.mutate({
-    //   ...actionFormData,
-    //   areaArray: newAreaId,
-    // });
+    insertMutation.mutate(actionFormData);
   };
 
   const closeEditFunctionality = () => {
@@ -123,7 +123,23 @@ function SomethingPage() {
   };
 
   // table 2
-  const table2Data = useMutation(departmanAcceptorApi.table2GetData);
+  const quertClient = useQueryClient();
+  const table2Data = useMutation(departmanAcceptorApi.table2GetData, {
+    onSuccess(data) {
+      quertClient.setQueryData(reactQueryKeys.departman.aceptor.getEmploye, {
+        data: data.data,
+      });
+    },
+  });
+
+  const table2Query = useQuery(
+    reactQueryKeys.departman.aceptor.getEmploye,
+    () => departmanAcceptorApi.table2GetData({}),
+    {
+      enabled: false,
+    }
+  );
+
   const [activeBaseData, setActiveBaseData] = useState({});
   const openTable2 = (item: GetSingleDepartmanAcceptorItemShape) => {
     setActiveBaseData(item);
@@ -186,7 +202,7 @@ function SomethingPage() {
 
         <Box sx={{ width: "50%" }}>
           <DepartmanAcceptorTable2
-            data={table2Data.data?.data || []}
+            data={table2Query.data?.data || []}
             baseData={activeBaseData as any}
           />
         </Box>

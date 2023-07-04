@@ -39,6 +39,20 @@ function DepartmanAcceptorTable2(props: DepartmanAcceptorTable2Props) {
     setIsOpenInsertModal(true);
   };
 
+  const quertClient = useQueryClient();
+  const contractReadMutation = useMutation(departmanAcceptorApi.table2GetData, {
+    onSuccess: (data) => {
+      quertClient.setQueryData(reactQueryKeys.departman.aceptor.getEmploye, {
+        data: data.data,
+      });
+    },
+  });
+
+  const handleDoneTask = () => {
+    contractReadMutation.mutate({ id: baseData.id });
+    setIsOpenInsertModal(false);
+  };
+
   const tableHeads: TableHeadShape = [
     {
       title: (
@@ -101,8 +115,8 @@ function DepartmanAcceptorTable2(props: DepartmanAcceptorTable2Props) {
       >
         <DepartmanEmployeModal
           data={modalDataMutation.data?.data || []}
-          baseData={{} as any}
-          onDoneTask={() => {}}
+          baseData={baseData}
+          onDoneTask={handleDoneTask}
         />
       </FixedModal>
     </>

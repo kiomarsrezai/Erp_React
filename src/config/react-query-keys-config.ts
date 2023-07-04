@@ -107,6 +107,7 @@ export const reactQueryKeys = {
   departman: {
     aceptor: {
       getData: ["departman-acceptor-read"],
+      getEmploye: ["departman-acceptor-employe"],
     },
   },
   // globals
