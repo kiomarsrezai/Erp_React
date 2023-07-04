@@ -8,8 +8,8 @@ import userStore from "hooks/store/user-store";
 import FixedModal from "components/ui/modal/fixed-modal";
 import CreditSearchRequestModal from "./credit-search-request-modal";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { red, blue, green, grey } from "@mui/material/colors";
 
-import { grey } from "@mui/material/colors";
 import { creditRequestApi } from "api/credit/credit-request-api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
@@ -272,7 +272,7 @@ function CreditRequestFormControlsButtons(
         <Button
           sx={{
             borderColor: grey[400],
-            color: grey[700],
+            color: blue[700],
             "&:hover": { borderColor: grey[400] },
           }}
           onClick={handleCheckClick}
@@ -283,7 +283,7 @@ function CreditRequestFormControlsButtons(
         <Button
           sx={{
             borderColor: grey[400],
-            color: grey[700],
+            color: blue[700],
             "&:hover": { borderColor: grey[400] },
           }}
           onClick={openSearchRequestModal}
@@ -294,7 +294,7 @@ function CreditRequestFormControlsButtons(
         <Button
           sx={{
             borderColor: grey[400],
-            color: grey[700],
+            color: red[700],
             "&:hover": { borderColor: grey[400] },
           }}
           onClick={handleDeleteClick}
@@ -304,7 +304,7 @@ function CreditRequestFormControlsButtons(
         <Button
           sx={{
             borderColor: grey[400],
-            color: grey[700],
+            color: red[700],
             "&:hover": { borderColor: grey[400] },
           }}
           onClick={handleClearForm}
@@ -315,7 +315,7 @@ function CreditRequestFormControlsButtons(
         <Button
           sx={{
             borderColor: grey[400],
-            color: grey[700],
+            color: green[700],
             "&:hover": { borderColor: grey[400] },
           }}
           onClick={handleSendClick}

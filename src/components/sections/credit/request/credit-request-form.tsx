@@ -18,13 +18,13 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import SuppliersModalCreditRequest from "./supplier/suppliers-modal";
 import CreditRequestFormControlsButtons from "./control-buttons/credit-request-form-controls-buttons";
+import { red } from "@mui/material/colors";
 
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 import { creditRequestConfig } from "config/features/credit/credit-request-config";
 import { Alert, AlertTitle, FormHelperText } from "@mui/material";
 import { globalConfig } from "config/global-config";
-import { red } from "@mui/material/colors";
 import BudgetSepratorCreaditorInput from "components/sections/inputs/budget-seprator-creaditor-input";
 import { useQuery } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
@@ -197,20 +197,55 @@ function CreditRequestForm(props: CreditRequestFormProps) {
     <>
       <Box>
         <Grid container rowSpacing={2} columnSpacing={1} alignItems="start">
+          <Grid xs={2} xl={2}>
+            <YearInput
+              setter={setFormData}
+              value={formData[creditRequestConfig.year]}
+              disabled={firstStepCrossed}
+              showError={haveSubmitedForm || haveClickedSearch}
+            />
+          </Grid>
+
+          <Grid xs={2} xl={2}>
+            <AreaInput
+              setter={setFormData}
+              value={formData[creditRequestConfig.area]}
+              disabled={firstStepCrossed}
+              showError={haveSubmitedForm || haveClickedSearch}
+            />
+          </Grid>
+
+          <Grid xs={2} xl={2}>
+            <BudgetSepratorCreaditorInput
+              setter={setFormData}
+              name={creditRequestConfig.execute_departman_id}
+              value={formData[creditRequestConfig.execute_departman_id] as any}
+              showError={haveSubmitedForm || haveClickedSearch}
+            />
+          </Grid>
+
+          <Grid xs={2}></Grid>
+          <Grid xs={2}></Grid>
+
+          <Grid xs={2} xl={2}>
+            <TextField
+              id="user-input"
+              label="کاربر"
+              variant="outlined"
+              fullWidth
+              size="small"
+              value={
+                formData[creditRequestConfig.employee] ||
+                `${userState.firstName} ${userState.lastName}`
+              }
+              disabled
+            />
+          </Grid>
+        </Grid>
+
+        <Grid container rowSpacing={2} columnSpacing={1} alignItems="start">
           <Grid xs={4} xl={4} ref={controlFormRef}>
             <Grid container rowSpacing={2} columnSpacing={1}>
-              <Grid xs={12}>
-                <CreditRequestFormControlsButtons
-                  formData={formData}
-                  setFormData={setFormData}
-                  firstStepCrossed={firstStepCrossed}
-                  setFirstStepCrossed={setFirstStepCrossed}
-                  onSubmitedCallback={onSubmitedCreateRequestCallback}
-                  onClickedSearchCallback={onClickedSearchCallback}
-                  onClearCallback={onClearCallback}
-                />
-              </Grid>
-
               {/* <Grid xs={12} xl={6}>
                 <FlotingLabelSelect
                   items={requestTypeItems}
@@ -221,21 +256,6 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   showError={haveSubmitedForm}
                 />
               </Grid> */}
-
-              <Grid xs={6} xl={6}>
-                <TextField
-                  id="user-input"
-                  label="کاربر"
-                  variant="outlined"
-                  fullWidth
-                  size="small"
-                  value={
-                    formData[creditRequestConfig.employee] ||
-                    `${userState.firstName} ${userState.lastName}`
-                  }
-                  disabled
-                />
-              </Grid>
 
               {/* <Grid xs={12} xl={6}>
                 <FormControl
@@ -275,16 +295,19 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                     )}
                 </FormControl>
               </Grid> */}
-              <Grid xs={6} xl={6}>
-                <BudgetSepratorCreaditorInput
-                  setter={setFormData}
-                  name={creditRequestConfig.execute_departman_id}
-                  value={
-                    formData[creditRequestConfig.execute_departman_id] as any
-                  }
-                  showError={haveSubmitedForm || haveClickedSearch}
+              <Grid sm={6}>
+                <CreditRequestFormControlsButtons
+                  formData={formData}
+                  setFormData={setFormData}
+                  firstStepCrossed={firstStepCrossed}
+                  setFirstStepCrossed={setFirstStepCrossed}
+                  onSubmitedCallback={onSubmitedCreateRequestCallback}
+                  onClickedSearchCallback={onClickedSearchCallback}
+                  onClearCallback={onClearCallback}
                 />
               </Grid>
+              <Grid sm={6}></Grid>
+
               <Grid xs={6} xl={6}>
                 <TextField
                   id="request-number-input"
@@ -296,14 +319,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   fullWidth
                 />
               </Grid>
-              <Grid xs={6} xl={6}>
-                <AreaInput
-                  setter={setFormData}
-                  value={formData[creditRequestConfig.area]}
-                  disabled={firstStepCrossed}
-                  showError={haveSubmitedForm || haveClickedSearch}
-                />
-              </Grid>
+
               <Grid xs={6} xl={6}>
                 <TextField
                   id="date-request-input"
@@ -315,14 +331,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   fullWidth
                 />
               </Grid>
-              <Grid xs={6} xl={6}>
-                <YearInput
-                  setter={setFormData}
-                  value={formData[creditRequestConfig.year]}
-                  disabled={firstStepCrossed}
-                  showError={haveSubmitedForm || haveClickedSearch}
-                />
-              </Grid>
+
               <Grid xs={6} xl={6}>
                 <FormControl
                   fullWidth
