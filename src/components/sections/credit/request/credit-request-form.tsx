@@ -300,7 +300,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
         </Grid>
 
         <Grid container rowSpacing={2} columnSpacing={1} alignItems="start">
-          <Grid xs={4} xl={4} ref={controlFormRef}>
+          <Grid xs={2} xl={2} ref={controlFormRef}>
             <Grid container rowSpacing={2} columnSpacing={1}>
               {/* <Grid xs={12} xl={6}>
                 <FlotingLabelSelect
@@ -351,7 +351,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                     )}
                 </FormControl>
               </Grid> */}
-              <Grid sm={6}>
+              <Grid sm={12}>
                 <CreditRequestFormControlsButtons
                   formData={formData}
                   setFormData={setFormData}
@@ -362,9 +362,9 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   onClearCallback={onClearCallback}
                 />
               </Grid>
-              <Grid sm={6}></Grid>
+              <Grid sm={12}></Grid>
 
-              <Grid xs={6} xl={6}>
+              <Grid xs={12} xl={12}>
                 <TextField
                   id="request-number-input"
                   label="شماره درخواست"
@@ -376,7 +376,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                 />
               </Grid>
 
-              <Grid xs={6} xl={6}>
+              <Grid xs={12} xl={12}>
                 <TextField
                   id="date-request-input"
                   label="تاریخ"
@@ -388,40 +388,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                 />
               </Grid>
 
-              <Grid xs={6} xl={6}>
-                <FormControl
-                  fullWidth
-                  size="small"
-                  error={
-                    haveSubmitedForm &&
-                    !formData[creditRequestConfig.doing_method]
-                  }
-                >
-                  <InputLabel id="doing-method-floting-select-label">
-                    شیوه انجام
-                  </InputLabel>
-                  <Select
-                    labelId="doing-method-floting-select-label"
-                    id={"doing-method-floting-select-input"}
-                    value={formData[creditRequestConfig.doing_method]}
-                    label="شیوه انجام"
-                    onChange={handleChangeDoingMethod}
-                  >
-                    {doingMethodItems.map((item) => (
-                      <MenuItem value={item.value} key={item.value}>
-                        {item.label}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  {!formData[creditRequestConfig.doing_method] &&
-                    haveSubmitedForm && (
-                      <FormHelperText>
-                        {globalConfig.ERROR_NO_EMPTY}
-                      </FormHelperText>
-                    )}
-                </FormControl>
-              </Grid>
-              <Grid xs={6} xl={6}>
+              <Grid xs={12} xl={12}>
                 <NumericFormat
                   customInput={TextField}
                   id="price-request-input"
@@ -457,6 +424,41 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   // }
                 /> */}
               </Grid>
+
+              <Grid xs={12} xl={12}>
+                <FormControl
+                  fullWidth
+                  size="small"
+                  error={
+                    haveSubmitedForm &&
+                    !formData[creditRequestConfig.doing_method]
+                  }
+                >
+                  <InputLabel id="doing-method-floting-select-label">
+                    شیوه انجام
+                  </InputLabel>
+                  <Select
+                    labelId="doing-method-floting-select-label"
+                    id={"doing-method-floting-select-input"}
+                    value={formData[creditRequestConfig.doing_method]}
+                    label="شیوه انجام"
+                    onChange={handleChangeDoingMethod}
+                  >
+                    {doingMethodItems.map((item) => (
+                      <MenuItem value={item.value} key={item.value}>
+                        {item.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {!formData[creditRequestConfig.doing_method] &&
+                    haveSubmitedForm && (
+                      <FormHelperText>
+                        {globalConfig.ERROR_NO_EMPTY}
+                      </FormHelperText>
+                    )}
+                </FormControl>
+              </Grid>
+
               {formData[creditRequestConfig.doing_method] === 5 && (
                 <>
                   <Grid xs={12}>
@@ -527,7 +529,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
               )}
             </Grid>
           </Grid>
-          <Grid xs={8} xl={8}>
+          <Grid xs={10} xl={10}>
             <Paper
               sx={{
                 width: "100%",
