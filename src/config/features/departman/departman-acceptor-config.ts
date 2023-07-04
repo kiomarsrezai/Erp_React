@@ -9,4 +9,5 @@ export const departmanAcceptorUrls = {
   getCombo: "DepartmentApi/DepartmentCom",
   insertTable1: "DepartmentApi/DepartmentAcceptorInsert",
   table2GetData: "DepartmentApi/DepartmentAcceptorUserRead",
+  getEmployeData: "DepartmentApi/EmployeeModal",
 };

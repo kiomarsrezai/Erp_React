@@ -87,6 +87,7 @@ function SomethingPage() {
       name: "actions",
       align: "left",
       width: "100px",
+      forceHaveBorder: true,
     },
   ];
 
@@ -123,7 +124,9 @@ function SomethingPage() {
 
   // table 2
   const table2Data = useMutation(departmanAcceptorApi.table2GetData);
+  const [activeBaseData, setActiveBaseData] = useState({});
   const openTable2 = (item: GetSingleDepartmanAcceptorItemShape) => {
+    setActiveBaseData(item);
     table2Data.mutate({
       id: item.id,
     });
@@ -182,7 +185,10 @@ function SomethingPage() {
         </Box>
 
         <Box sx={{ width: "50%" }}>
-          <DepartmanAcceptorTable2 data={table2Data.data?.data || []} />
+          <DepartmanAcceptorTable2
+            data={table2Data.data?.data || []}
+            baseData={activeBaseData as any}
+          />
         </Box>
       </Box>
     </AdminLayout>

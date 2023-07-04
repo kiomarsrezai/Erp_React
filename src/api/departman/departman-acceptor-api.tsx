@@ -7,7 +7,9 @@ import { contractsTasksUrls } from "config/features/contracts/conreacts-tasks-co
 import { GetSingleContractTaskItemShape } from "types/data/contracts/contracts-tasks-type";
 import {
   GetSingleDepartmanAcceptorComboShape,
+  GetSingleDepartmanAcceptorEmployeItemShape,
   GetSingleDepartmanAcceptorItemShape,
+  GetSingleDepartmanAcceptorTable2ItemShape,
 } from "types/data/departman/departman-acceptor-type";
 import { departmanAcceptorUrls } from "config/features/departman/departman-acceptor-config";
 
@@ -37,7 +39,16 @@ export const departmanAcceptorApi = new (class extends BaseApi {
     const url =
       departmanAcceptorUrls.table2GetData + this.joinFilterData(formData);
     const response = await clientAxios.get<
-      BaseApiResponseShape<GetSingleDepartmanAcceptorItemShape[]>
+      BaseApiResponseShape<GetSingleDepartmanAcceptorTable2ItemShape[]>
+    >(url);
+    return response.data;
+  };
+
+  getEmployeData = async (formData: any) => {
+    const url =
+      departmanAcceptorUrls.getEmployeData + this.joinFilterData(formData);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleDepartmanAcceptorEmployeItemShape[]>
     >(url);
     return response.data;
   };

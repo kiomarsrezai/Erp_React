@@ -2,6 +2,8 @@ import Grid from "@mui/material/Unstable_Grid2";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import SuppliersInput from "components/sections/inputs/suppliers-input";
+import AddIcon from "@mui/icons-material/Add";
+import IconButton from "@mui/material/IconButton";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
@@ -11,17 +13,40 @@ import { suppliersConfig } from "config/features/credit/suppliers-config";
 import { checkHaveValue } from "helper/form-utils";
 import FixedTable from "components/data/table/fixed-table";
 import { TableHeadShape } from "types/table-type";
-import { GetSingleDepartmanAcceptorItemShape } from "types/data/departman/departman-acceptor-type";
+import {
+  GetSingleDepartmanAcceptorItemShape,
+  GetSingleDepartmanAcceptorTable2ItemShape,
+} from "types/data/departman/departman-acceptor-type";
+import { departmanAcceptorApi } from "api/departman/departman-acceptor-api";
 
 interface DepartmanAcceptorTable2Props {
-  data: GetSingleDepartmanAcceptorItemShape[];
+  data: GetSingleDepartmanAcceptorTable2ItemShape[];
+  baseData: GetSingleDepartmanAcceptorItemShape;
 }
 function DepartmanAcceptorTable2(props: DepartmanAcceptorTable2Props) {
-  const { data } = props;
+  const { data, baseData } = props;
+
+  const [isOpenInsertModal, setIsOpenInsertModal] = useState(false);
+
+  const modalDataMutation = useMutation(departmanAcceptorApi.getEmployeData);
+
+  const addClick = () => {
+    modalDataMutation.mutate({
+      id: baseData.id,
+    });
+    setIsOpenInsertModal(true);
+  };
 
   const tableHeads: TableHeadShape = [
     {
-      title: "ردیف",
+      title: (
+        <div>
+          ردیف
+          <IconButton onClick={addClick} color="primary" size="small">
+            <AddIcon />
+          </IconButton>
+        </div>
+      ),
       name: "number",
       width: "100px",
     },
@@ -50,7 +75,7 @@ function DepartmanAcceptorTable2(props: DepartmanAcceptorTable2Props) {
   ];
 
   const formatTableData = (
-    unFormatData: GetSingleDepartmanAcceptorItemShape[]
+    unFormatData: GetSingleDepartmanAcceptorTable2ItemShape[]
   ): any[] => {
     const formatedData: any[] = unFormatData.map((item, i) => ({
       ...item,
@@ -63,7 +88,7 @@ function DepartmanAcceptorTable2(props: DepartmanAcceptorTable2Props) {
 
   const tableData = formatTableData(data);
 
-  return <FixedTable data={tableData} heads={tableHeads} />;
+  return <FixedTable data={tableData} heads={tableHeads} notFixed />;
 }
 
 export default DepartmanAcceptorTable2;

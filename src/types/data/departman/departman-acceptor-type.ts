@@ -14,7 +14,15 @@ export interface GetSingleDepartmanAcceptorComboShape {
 }
 
 // table 2
-export interface GetSingleDepartmanAcceptorItemShape {
+export interface GetSingleDepartmanAcceptorTable2ItemShape {
+  id: 1;
+  firstName: "string";
+  lastName: "string";
+  resposibility: "string";
+  userId: 0;
+}
+
+export interface GetSingleDepartmanAcceptorEmployeItemShape {
   id: 1;
   firstName: "string";
   lastName: "string";
