@@ -6,3 +6,9 @@ export interface GetSingleDepartmanAcceptorItemShape {
   departmentName: "فضای سبز ناحیه 1 منطقه 01";
   areaName: "منطقه 01";
 }
+
+export interface GetSingleDepartmanAcceptorComboShape {
+  id: 1;
+  departmentCode: "";
+  departmentName: "فضای سبز ناحیه 1 منطقه 01";
+}

@@ -1,7 +1,10 @@
 import { generalFieldsConfig } from "../general-fields-config";
 
-export const departmanAcceptorConfig = {};
+export const departmanAcceptorConfig = {
+  departman: "departmanId",
+};
 
 export const departmanAcceptorUrls = {
   getData: "DepartmentApi/DepartmentAcceptorRead",
+  getCombo: "DepartmentApi/DepartmentCom",
 };
