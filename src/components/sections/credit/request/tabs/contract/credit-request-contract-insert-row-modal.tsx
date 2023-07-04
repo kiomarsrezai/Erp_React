@@ -108,12 +108,18 @@ function CreditRequestContractInsertRowModal(
     // <IconButton color="primary" onClick={() => handleInsertClick(row)}>
     //   <AddIcon />
     // </IconButton>
-    <Checkbox
-      value={row.id}
-      checked={!!addItemsList[row.id]}
-      onChange={toggleItem}
-      size="small"
-    />
+    <>
+      {!baseData.find((baseItem) => {
+        return baseItem.number === row.number;
+      }) && (
+        <Checkbox
+          value={row.id}
+          checked={!!addItemsList[row.id]}
+          onChange={toggleItem}
+          size="small"
+        />
+      )}
+    </>
   );
 
   // head group
