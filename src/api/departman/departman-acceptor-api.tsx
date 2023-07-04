@@ -52,4 +52,13 @@ export const departmanAcceptorApi = new (class extends BaseApi {
     >(url);
     return response.data;
   };
+
+  insertEmploye = async (formData: any) => {
+    const url = departmanAcceptorUrls.insertEmployeData;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      formData
+    );
+    return response.data;
+  };
 })();

@@ -18,6 +18,8 @@ import {
   GetSingleDepartmanAcceptorTable2ItemShape,
 } from "types/data/departman/departman-acceptor-type";
 import { departmanAcceptorApi } from "api/departman/departman-acceptor-api";
+import FixedModal from "components/ui/modal/fixed-modal";
+import DepartmanEmployeModal from "./departman-employe-modal";
 
 interface DepartmanAcceptorTable2Props {
   data: GetSingleDepartmanAcceptorTable2ItemShape[];
@@ -88,7 +90,23 @@ function DepartmanAcceptorTable2(props: DepartmanAcceptorTable2Props) {
 
   const tableData = formatTableData(data);
 
-  return <FixedTable data={tableData} heads={tableHeads} notFixed />;
+  return (
+    <>
+      <FixedTable data={tableData} heads={tableHeads} notFixed />
+
+      <FixedModal
+        open={isOpenInsertModal}
+        handleClose={() => setIsOpenInsertModal(false)}
+        title="افزودن شخص"
+      >
+        <DepartmanEmployeModal
+          data={modalDataMutation.data?.data || []}
+          baseData={{} as any}
+          onDoneTask={() => {}}
+        />
+      </FixedModal>
+    </>
+  );
 }
 
 export default DepartmanAcceptorTable2;

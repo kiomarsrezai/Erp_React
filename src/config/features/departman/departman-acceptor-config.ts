@@ -10,4 +10,5 @@ export const departmanAcceptorUrls = {
   insertTable1: "DepartmentApi/DepartmentAcceptorInsert",
   table2GetData: "DepartmentApi/DepartmentAcceptorUserRead",
   getEmployeData: "DepartmentApi/EmployeeModal",
+  insertEmployeData: "DepartmentApi/DepartmentAcceptorEmployeeInsert",
 };
