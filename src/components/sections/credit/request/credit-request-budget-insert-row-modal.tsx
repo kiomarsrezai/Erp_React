@@ -282,6 +282,7 @@ function CreditRequestBudgetInsertRowModal(
     {
       title: "عملیات",
       name: "actions",
+      width: "100px",
     },
   ];
 
