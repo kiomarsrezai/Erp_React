@@ -50,6 +50,8 @@ export interface CreditReadRequestBudgetRowShape {
   project: string;
   yearName: string;
   budgetProcessId: number;
+  creditAmount: number;
+  balance: number;
 }
 
 export interface CreditReadRequestBudgetRowInsertedShape {

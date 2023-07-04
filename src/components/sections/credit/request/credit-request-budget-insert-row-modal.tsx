@@ -11,11 +11,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { creditRequestApi } from "api/credit/credit-request-api";
 import { creditRequestConfig } from "config/features/credit/credit-request-config";
 import { reactQueryKeys } from "config/react-query-keys-config";
-import { Box, Checkbox } from "@mui/material";
+import { Box, Checkbox, TextField } from "@mui/material";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 import { generalFieldsConfig } from "config/features/general-fields-config";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -108,12 +109,18 @@ function CreditRequestBudgetInsertRowModal(
     // <IconButton color="primary" onClick={() => handleInsertClick(row)}>
     //   <AddIcon />
     // </IconButton>
-    <Checkbox
-      value={row.id}
-      checked={!!addItemsList[row.id]}
-      onChange={toggleItem}
-      size="small"
-    />
+    <>
+      {!baseData.find((baseItem) => {
+        return baseItem.code === row.code;
+      }) && (
+        <Checkbox
+          value={row.id}
+          checked={!!addItemsList[row.id]}
+          onChange={toggleItem}
+          size="small"
+        />
+      )}
+    </>
   );
 
   // head group
@@ -121,30 +128,45 @@ function CreditRequestBudgetInsertRowModal(
     [generalFieldsConfig.BUDGET_METHOD]: 2,
   });
 
+  const [filterText, setFilterText] = useState("");
+
   const tableHeadGroup: TableHeadGroupShape = [
     {
       title: (
-        <Box sx={{ width: "200px" }}>
-          {" "}
-          <BudgetMethodInput
-            setter={setBudgetProccedId}
-            value={budgetProccedId[generalFieldsConfig.BUDGET_METHOD]}
-            ignoreItems={[1, 8, 9]}
-          />
-        </Box>
+        <Grid container spacing={2}>
+          <Grid sm={3}>
+            {" "}
+            <BudgetMethodInput
+              setter={setBudgetProccedId}
+              value={budgetProccedId[generalFieldsConfig.BUDGET_METHOD]}
+              ignoreItems={[1, 8, 9]}
+            />
+          </Grid>
+          <Grid sm={9}>
+            <TextField
+              size="small"
+              label="جستجو"
+              value={filterText}
+              variant="outlined"
+              onChange={(e) => setFilterText(e.target.value)}
+              fullWidth
+            />
+          </Grid>
+        </Grid>
       ),
-      colspan: 7,
+      colspan: 9,
     },
   ];
 
   // data
   const filteredData = data.filter(
     (item) =>
-      !baseData.find((baseItem) => {
-        return baseItem.code === item.code;
-      }) &&
+      // !baseData.find((baseItem) => {
+      //   return baseItem.code === item.code;
+      // }) &&
       item.budgetProcessId ===
-        budgetProccedId[generalFieldsConfig.BUDGET_METHOD]
+        budgetProccedId[generalFieldsConfig.BUDGET_METHOD] &&
+      (item.description.includes(filterText) || item.code.includes(filterText))
   );
 
   const formatTableData = (
@@ -168,6 +190,13 @@ function CreditRequestBudgetInsertRowModal(
     filteredData,
     "mosavabDepartment"
   );
+
+  const sumBalance = sumFieldsInSingleItemData(filteredData, "balance");
+
+  const sumCreditAmount = sumFieldsInSingleItemData(
+    filteredData,
+    "creditAmount"
+  );
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
     "colspan-number": 5,
@@ -176,6 +205,8 @@ function CreditRequestBudgetInsertRowModal(
     project: null,
     yearName: null,
     mosavabDepartment: sumMosavab,
+    creditAmount: sumCreditAmount,
+    balance: sumBalance,
     actions: "",
   };
 
@@ -191,14 +222,17 @@ function CreditRequestBudgetInsertRowModal(
         </div>
       ),
       name: "number",
+      width: "100px",
     },
     {
       title: "سال",
       name: "yearName",
+      width: "70px",
     },
     {
       title: "کد بودجه",
       name: "code",
+      width: "130px",
     },
     {
       title: "شرح ردیف",
@@ -216,7 +250,23 @@ function CreditRequestBudgetInsertRowModal(
       name: "mosavabDepartment",
       align: "left",
       split: true,
+      width: "120px",
     },
+    {
+      title: "تامین اعتبار",
+      name: "creditAmount",
+      align: "left",
+      split: true,
+      width: "120px",
+    },
+    {
+      title: "مانده",
+      name: "balance",
+      align: "left",
+      split: true,
+      width: "120px",
+    },
+
     // {
     //   title: "تعدیلات",
     //   name: "tadilat",

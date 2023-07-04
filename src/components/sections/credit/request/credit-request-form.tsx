@@ -532,7 +532,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
               sx={{
                 width: "100%",
                 // height: paperHeight,
-                height: "400px",
+                height: "300px",
                 overflow: "auto",
               }}
               elevation={0}
