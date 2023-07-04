@@ -23,6 +23,14 @@ export const stimulDateValue = () => {
     second: "numeric",
   });
 };
+
+export const NowDateValue = () => {
+  return new Date().toLocaleDateString("fa-IR-u-nu-latn", {
+    hour: "numeric",
+    minute: "numeric",
+  });
+};
+
 export const createStimulsoftFilePath = (name: string) => {
   return "/Stimulsoft/list/" + name;
 };
