@@ -199,6 +199,10 @@ function usePermissions() {
             "دکمه ویرایش مجریان",
             accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_EDIT_BTN
           ),
+          formatLocalFields(
+            "دکمه حذف مجریان",
+            accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_DELETE_BTN
+          ),
         ]
       ),
 
