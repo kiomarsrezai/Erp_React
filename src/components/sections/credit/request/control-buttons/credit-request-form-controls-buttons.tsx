@@ -179,8 +179,9 @@ function CreditRequestFormControlsButtons(
         ...formData,
         [creditRequestConfig.contractor]:
           formData[creditRequestConfig.contractor],
-        [creditRequestConfig.approximate_price]:
-          +formData[creditRequestConfig.approximate_price],
+        [creditRequestConfig.approximate_price]: +formData[
+          creditRequestConfig.approximate_price
+        ].replaceAll(",", ""),
       });
       // alert("should update");
     }

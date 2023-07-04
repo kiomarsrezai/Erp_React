@@ -32,6 +32,7 @@ import { creditRequestApi } from "api/credit/credit-request-api";
 import { checkHaveValue } from "helper/form-utils";
 import CreditSearchRequestModal from "./control-buttons/credit-search-request-modal";
 import { CreditReadRequestShape } from "types/data/credit/credit-request-type";
+import { NumericFormat } from "react-number-format";
 
 interface CreditRequestFormProps {
   formData: any;
@@ -421,7 +422,21 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                 </FormControl>
               </Grid>
               <Grid xs={6} xl={6}>
-                <TextField
+                <NumericFormat
+                  customInput={TextField}
+                  id="price-request-input"
+                  label="برآورد مبلغ"
+                  variant="outlined"
+                  size="small"
+                  value={formData[creditRequestConfig.approximate_price]}
+                  name={creditRequestConfig.approximate_price}
+                  onChange={handleChangeTextFields}
+                  allowLeadingZeros
+                  thousandSeparator=","
+                  fullWidth
+                />
+
+                {/* <TextField
                   id="price-request-input"
                   label="برآورد مبلغ"
                   variant="outlined"
@@ -440,7 +455,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   //   haveSubmitedForm &&
                   //   globalConfig.ERROR_NO_EMPTY
                   // }
-                />
+                /> */}
               </Grid>
               {formData[creditRequestConfig.doing_method] === 5 && (
                 <>

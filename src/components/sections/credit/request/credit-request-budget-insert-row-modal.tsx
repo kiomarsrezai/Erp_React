@@ -209,6 +209,7 @@ function CreditRequestBudgetInsertRowModal(
     {
       title: "پروژه",
       name: "project",
+      width: "250px",
     },
     {
       title: "مبلغ",

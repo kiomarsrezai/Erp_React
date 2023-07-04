@@ -8732,6 +8732,13 @@ react-medium-image-zoom@^5.1.5:
   resolved "https://registry.yarnpkg.com/react-medium-image-zoom/-/react-medium-image-zoom-5.1.5.tgz#550145e04f2635449c7abddd57ddf374f01c1d33"
   integrity sha512-dxqunC1xsaQZV48FM95I7QX+2wuMgOloYAHVw9034S09UGJ66JQgohG9bgkrfKU0cl3b34HCJeswy4RDIOcSiw==
 
+react-number-format@^5.2.2:
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/react-number-format/-/react-number-format-5.2.2.tgz#60ee1152b33fee9e522e13846da9c9bf30993404"
+  integrity sha512-wCh64Z1HCwXcO2dbgkeYIaB+Rmp/fcsH8kAeRtUkc46dv1pIrgDjie2WkOqKBw8YqyqhwNdYgNFNQuuY+iGJ/g==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-organizational-chart@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/react-organizational-chart/-/react-organizational-chart-2.2.1.tgz#876641081303349f611d3a24a9488bff38fba677"
