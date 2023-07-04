@@ -22,6 +22,8 @@ import DepartmanAcceotorInput from "components/sections/inputs/departman/departm
 import { departmanAcceptorConfig } from "config/features/departman/departman-acceptor-config";
 import { Box } from "@mui/material";
 import DepartmanAcceptorTable2 from "components/base/departman/departman-acceptor-table2";
+import { enqueueSnackbar } from "notistack";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -156,10 +158,53 @@ function SomethingPage() {
     });
   };
 
+  // delete
+  const [isShowConfrimDelete, setIsShowConfrimDelete] =
+    useState<boolean>(false);
+  const [idItemShouldDelete, setIdItemShouldDelete] = useState<number>();
+
+  const [textDeleteModal, setTextDeleteModal] = useState("");
+
+  const deleteMutation = useMutation(departmanAcceptorApi.deleteTable1, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+      // handleDoneActionTask();
+      // setIsOpenEditModal(false);
+      setIsShowConfrimDelete(false);
+      departmanAcceptorQuery.refetch();
+    },
+    onError: () => {
+      //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+      //variant: "error",
+      //});
+    },
+  });
+
+  const onConfrimDelete = () => {
+    if (idItemShouldDelete) deleteMutation.mutate(idItemShouldDelete);
+  };
+
+  const onCancelDelete = () => {
+    setIsShowConfrimDelete(false);
+  };
+
+  const handleDeleteBtnClick = (item: GetSingleDepartmanAcceptorItemShape) => {
+    const deleteText = `آیا مایل به حذف ${item.areaName} - ${item.departmentName} هستید ؟`;
+    setTextDeleteModal(deleteText);
+    setIdItemShouldDelete(item.id);
+    setIsShowConfrimDelete(true);
+  };
+
   // data
   const actionButtons = (row: TableDataItemShape & SuppliersShape) => (
     <>
-      <IconButton onClick={closeEditFunctionality} color="error" size="small">
+      <IconButton
+        onClick={() => handleDeleteBtnClick(row as any)}
+        color="error"
+        size="small"
+      >
         <DeleteIcon />
       </IconButton>
 
@@ -202,20 +247,31 @@ function SomethingPage() {
   const filteredData = [...(isInsertMode ? [actionItem] : []), ...tableData];
 
   return (
-    <AdminLayout>
-      <Box display={"flex"}>
-        <Box sx={{ width: "50%" }}>
-          <FixedTable data={filteredData} heads={tableHeads} notFixed />
-        </Box>
+    <>
+      <AdminLayout>
+        <Box display={"flex"}>
+          <Box sx={{ width: "50%" }}>
+            <FixedTable data={filteredData} heads={tableHeads} notFixed />
+          </Box>
 
-        <Box sx={{ width: "50%" }}>
-          <DepartmanAcceptorTable2
-            data={table2Query.data?.data || []}
-            baseData={activeBaseData as any}
-          />
+          <Box sx={{ width: "50%" }}>
+            <DepartmanAcceptorTable2
+              data={table2Query.data?.data || []}
+              baseData={activeBaseData as any}
+            />
+          </Box>
         </Box>
-      </Box>
-    </AdminLayout>
+      </AdminLayout>
+
+      {/* confrim delete */}
+      <ConfrimProcessModal
+        onCancel={onCancelDelete}
+        onConfrim={onConfrimDelete}
+        open={isShowConfrimDelete}
+        title="حذف آیتم"
+        text={textDeleteModal}
+      />
+    </>
   );
 }
 

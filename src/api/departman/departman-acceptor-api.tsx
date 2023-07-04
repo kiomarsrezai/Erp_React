@@ -38,6 +38,16 @@ export const departmanAcceptorApi = new (class extends BaseApi {
     );
     return response.data;
   };
+
+  deleteTable1 = async (formData: any) => {
+    const url = departmanAcceptorUrls.deleteTable1;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      formData
+    );
+    return response.data;
+  };
+
   table2GetData = async (formData: any) => {
     const url =
       departmanAcceptorUrls.table2GetData + this.joinFilterData(formData);
@@ -58,6 +68,15 @@ export const departmanAcceptorApi = new (class extends BaseApi {
 
   insertEmploye = async (formData: any) => {
     const url = departmanAcceptorUrls.insertEmployeData;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      formData
+    );
+    return response.data;
+  };
+
+  deleteEmploye = async (formData: any) => {
+    const url = departmanAcceptorUrls.deleteEmploye;
     const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
       url,
       formData

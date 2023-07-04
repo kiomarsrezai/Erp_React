@@ -3,6 +3,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import SuppliersInput from "components/sections/inputs/suppliers-input";
 import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -20,6 +21,9 @@ import {
 import { departmanAcceptorApi } from "api/departman/departman-acceptor-api";
 import FixedModal from "components/ui/modal/fixed-modal";
 import DepartmanEmployeModal from "./departman-employe-modal";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+import { enqueueSnackbar } from "notistack";
+import { globalConfig } from "config/global-config";
 
 interface DepartmanAcceptorTable2Props {
   data: GetSingleDepartmanAcceptorTable2ItemShape[];
@@ -90,13 +94,65 @@ function DepartmanAcceptorTable2(props: DepartmanAcceptorTable2Props) {
     },
   ];
 
+  // delete
+  const [isShowConfrimDelete, setIsShowConfrimDelete] =
+    useState<boolean>(false);
+  const [idItemShouldDelete, setIdItemShouldDelete] = useState<number>();
+
+  const [textDeleteModal, setTextDeleteModal] = useState("");
+
+  const deleteMutation = useMutation(departmanAcceptorApi.deleteEmploye, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+      // handleDoneActionTask();
+      // setIsOpenEditModal(false);
+      setIsShowConfrimDelete(false);
+      handleDoneTask();
+    },
+    onError: () => {
+      //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+      //variant: "error",
+      //});
+    },
+  });
+
+  const onConfrimDelete = () => {
+    if (idItemShouldDelete) deleteMutation.mutate(idItemShouldDelete);
+  };
+
+  const onCancelDelete = () => {
+    setIsShowConfrimDelete(false);
+  };
+
+  const handleDeleteBtnClick = (
+    item: GetSingleDepartmanAcceptorTable2ItemShape
+  ) => {
+    const deleteText = `آیا مایل به حذف ${item.firstName}  ${item.firstName} هستید ؟`;
+    setTextDeleteModal(deleteText);
+    setIdItemShouldDelete(item.id);
+    setIsShowConfrimDelete(true);
+  };
+
+  // actions
+  const actionButtons = (item: GetSingleDepartmanAcceptorTable2ItemShape) => (
+    <IconButton
+      onClick={() => handleDeleteBtnClick(item)}
+      color="error"
+      size="small"
+    >
+      <DeleteIcon />
+    </IconButton>
+  );
+
   const formatTableData = (
     unFormatData: GetSingleDepartmanAcceptorTable2ItemShape[]
   ): any[] => {
     const formatedData: any[] = unFormatData.map((item, i) => ({
       ...item,
       number: i + 1,
-      actions: "",
+      actions: () => actionButtons(item),
     }));
 
     return formatedData;
@@ -119,6 +175,15 @@ function DepartmanAcceptorTable2(props: DepartmanAcceptorTable2Props) {
           onDoneTask={handleDoneTask}
         />
       </FixedModal>
+
+      {/* confrim delete */}
+      <ConfrimProcessModal
+        onCancel={onCancelDelete}
+        onConfrim={onConfrimDelete}
+        open={isShowConfrimDelete}
+        title="حذف آیتم"
+        text={textDeleteModal}
+      />
     </>
   );
 }
