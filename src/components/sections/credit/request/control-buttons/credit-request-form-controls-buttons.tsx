@@ -280,7 +280,7 @@ function CreditRequestFormControlsButtons(
           <CheckIcon />
         </Button>
 
-        <Button
+        {/* <Button
           sx={{
             borderColor: grey[400],
             color: blue[700],
@@ -289,7 +289,7 @@ function CreditRequestFormControlsButtons(
           onClick={openSearchRequestModal}
         >
           <SearchIcon />
-        </Button>
+        </Button> */}
 
         <Button
           sx={{

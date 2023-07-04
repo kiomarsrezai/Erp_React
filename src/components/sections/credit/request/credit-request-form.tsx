@@ -23,12 +23,15 @@ import { red } from "@mui/material/colors";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 import { creditRequestConfig } from "config/features/credit/credit-request-config";
-import { Alert, AlertTitle, FormHelperText } from "@mui/material";
+import { Alert, AlertTitle, Button, FormHelperText } from "@mui/material";
 import { globalConfig } from "config/global-config";
 import BudgetSepratorCreaditorInput from "components/sections/inputs/budget-seprator-creaditor-input";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { creditRequestApi } from "api/credit/credit-request-api";
+import { checkHaveValue } from "helper/form-utils";
+import CreditSearchRequestModal from "./control-buttons/credit-search-request-modal";
+import { CreditReadRequestShape } from "types/data/credit/credit-request-type";
 
 interface CreditRequestFormProps {
   formData: any;
@@ -193,6 +196,51 @@ function CreditRequestForm(props: CreditRequestFormProps) {
     />
   );
 
+  // search
+  const [isOpenSelectRequestModal, setIsOpenSelectRequestModal] =
+    useState(false);
+
+  const searchRequestMutation = useMutation(creditRequestApi.searchRequest);
+
+  const openSearchRequestModal = () => {
+    onClickedSearchCallback();
+    if (
+      checkHaveValue(formData, [
+        creditRequestConfig.year,
+        creditRequestConfig.execute_departman_id,
+        creditRequestConfig.area,
+      ])
+    ) {
+      searchRequestMutation.mutate({
+        [creditRequestConfig.area]: formData[creditRequestConfig.area],
+        [creditRequestConfig.execute_departman_id]:
+          formData[creditRequestConfig.execute_departman_id],
+        [creditRequestConfig.year]: formData[creditRequestConfig.year],
+      });
+
+      setIsOpenSelectRequestModal(true);
+    }
+  };
+
+  const handleSelectRequest = (data: CreditReadRequestShape) => {
+    setFormData((state: any) => ({
+      ...state,
+      [creditRequestConfig.request_number]: data.number,
+      [creditRequestConfig.request_date]: data.dateShamsi,
+      [creditRequestConfig.approximate_price]: data.estimateAmount,
+      [creditRequestConfig.doing_method]: data.doingMethodId,
+      [creditRequestConfig.request_description]: data.description,
+      [creditRequestConfig.why_leave_ceremonies]: data.resonDoingMethod,
+      [creditRequestConfig.employee]: data.employee,
+      [creditRequestConfig.request_id]: data.id,
+      [creditRequestConfig.contractor]: data.suppliersId,
+      [creditRequestConfig.contractorName]: data.suppliersName,
+      id: data.id,
+    }));
+    setIsOpenSelectRequestModal(false);
+    setFirstStepCrossed(true);
+  };
+
   return (
     <>
       <Box>
@@ -224,8 +272,15 @@ function CreditRequestForm(props: CreditRequestFormProps) {
             />
           </Grid>
 
-          <Grid xs={2}></Grid>
-          <Grid xs={2}></Grid>
+          <Grid sm>
+            <Button
+              variant="contained"
+              size="large"
+              onClick={openSearchRequestModal}
+            >
+              <SearchIcon />
+            </Button>
+          </Grid>
 
           <Grid xs={2} xl={2}>
             <TextField
@@ -510,6 +565,19 @@ function CreditRequestForm(props: CreditRequestFormProps) {
             </Paper>
           </Grid>
         </Grid>
+
+        {/* select request modal */}
+        <FixedModal
+          open={isOpenSelectRequestModal}
+          handleClose={() => setIsOpenSelectRequestModal(false)}
+          title="انتخاب درخواست"
+          loading={searchRequestMutation.isLoading}
+        >
+          <CreditSearchRequestModal
+            data={searchRequestMutation.data?.data || []}
+            onDoneTask={handleSelectRequest}
+          />
+        </FixedModal>
 
         {/* confrim change doing method input */}
         <ConfrimProcessModal
