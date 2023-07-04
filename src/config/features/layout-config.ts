@@ -41,6 +41,7 @@ import OrgProjectTablePage from "pages/project/table/org-table-page";
 import BudgetEditPage from "pages/budget/budget-edit-page";
 import ContractsTasks from "pages/contracts/contracts-tasks";
 import PropertyMotor from "pages/property/property-motor";
+import SomethingPage from "pages/base/something-page";
 
 export const sidenavsLayout: SidenavShape[] = [
   // report
@@ -534,6 +535,15 @@ export const sidenavsLayout: SidenavShape[] = [
         licenseName: accessNamesConfig.BASE__USERS_PAGE,
         element: SuppliersPage,
       },
+
+      {
+        title: "مخاطبین 222",
+        icon: GroupsIcon,
+        path: "/base/something",
+        licenseName: accessNamesConfig.BASE__USERS_PAGE,
+        element: SomethingPage,
+      },
+
       {
         title: "مناطق و سازمان ها",
         icon: GroupsIcon,

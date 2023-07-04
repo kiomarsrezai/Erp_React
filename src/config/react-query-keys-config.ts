@@ -103,6 +103,12 @@ export const reactQueryKeys = {
       getArea: ["contracts-areas-data"],
     },
   },
+
+  departman: {
+    aceptor: {
+      getData: ["departman-acceptor-read"],
+    },
+  },
   // globals
   generals: {
     year: ["general-year"],
