@@ -15,6 +15,7 @@ import userStore from "hooks/store/user-store";
 import { suppliersApi } from "api/credit/suppliers-api";
 import { suppliersConfig } from "config/features/credit/suppliers-config";
 import { departmanAcceptorApi } from "api/departman/departman-acceptor-api";
+import { departmanAcceptorConfig } from "config/features/departman/departman-acceptor-config";
 
 interface DepartmanAcceotorInputProps {
   setter: (prevData: any) => void;
@@ -42,7 +43,7 @@ function DepartmanAcceotorInput(props: DepartmanAcceotorInputProps) {
   return (
     <FlotingLabelSelect
       label="نوع"
-      name={suppliersConfig.kind}
+      name={departmanAcceptorConfig.departman}
       items={suppliersItems}
       value={value}
       setter={setter}

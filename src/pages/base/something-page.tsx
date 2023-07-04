@@ -47,7 +47,15 @@ function SomethingPage() {
   };
 
   const insertMutation = useMutation(departmanAcceptorApi.insertTable1, {
-    onSuccess() {},
+    onSuccess() {
+      setIsInsertMode(false);
+      setActionFormData({
+        departmanId: undefined,
+        areaId: undefined,
+      });
+
+      departmanAcceptorQuery.refetch();
+    },
   });
   const clickActionDone = () => {
     insertMutation.mutate(actionFormData);

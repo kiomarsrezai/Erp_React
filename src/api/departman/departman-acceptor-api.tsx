@@ -30,9 +30,12 @@ export const departmanAcceptorApi = new (class extends BaseApi {
     return response.data;
   };
 
-  insertTable1 = async () => {
+  insertTable1 = async (formData: any) => {
     const url = departmanAcceptorUrls.insertTable1;
-    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(url);
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      formData
+    );
     return response.data;
   };
   table2GetData = async (formData: any) => {
