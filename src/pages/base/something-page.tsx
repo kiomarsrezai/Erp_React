@@ -6,7 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SuppliersForm from "components/base/suppliers/suppliers-form";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { ReactNode, useState } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
@@ -21,6 +21,7 @@ import { generalFieldsConfig } from "config/features/general-fields-config";
 import DepartmanAcceotorInput from "components/sections/inputs/departman/departman-acceptor-input";
 import { departmanAcceptorConfig } from "config/features/departman/departman-acceptor-config";
 import { Box } from "@mui/material";
+import DepartmanAcceptorTable2 from "components/base/departman/departman-acceptor-table2";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -120,6 +121,14 @@ function SomethingPage() {
     ),
   };
 
+  // table 2
+  const table2Data = useMutation(departmanAcceptorApi.table2GetData);
+  const openTable2 = (item: GetSingleDepartmanAcceptorItemShape) => {
+    table2Data.mutate({
+      id: item.id,
+    });
+  };
+
   // data
   const actionButtons = (row: TableDataItemShape & SuppliersShape) => (
     <>
@@ -127,7 +136,11 @@ function SomethingPage() {
         <DeleteIcon />
       </IconButton>
 
-      <IconButton size="small" color="primary" onClick={() => {}}>
+      <IconButton
+        size="small"
+        color="primary"
+        onClick={() => openTable2(row as any)}
+      >
         <ArrowCircleLeftIcon />
       </IconButton>
     </>
@@ -163,7 +176,15 @@ function SomethingPage() {
 
   return (
     <AdminLayout>
-      <FixedTable data={filteredData} heads={tableHeads} />
+      <Box display={"flex"}>
+        <Box sx={{ width: "50%" }}>
+          <FixedTable data={filteredData} heads={tableHeads} notFixed />
+        </Box>
+
+        <Box sx={{ width: "50%" }}>
+          <DepartmanAcceptorTable2 data={table2Data.data?.data || []} />
+        </Box>
+      </Box>
     </AdminLayout>
   );
 }

@@ -33,4 +33,12 @@ export const departmanAcceptorApi = new (class extends BaseApi {
     const response = await clientAxios.post<BaseApiResponseShape<boolean>>(url);
     return response.data;
   };
+  table2GetData = async (formData: any) => {
+    const url =
+      departmanAcceptorUrls.table2GetData + this.joinFilterData(formData);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleDepartmanAcceptorItemShape[]>
+    >(url);
+    return response.data;
+  };
 })();

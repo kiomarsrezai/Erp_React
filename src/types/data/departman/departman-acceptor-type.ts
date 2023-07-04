@@ -12,3 +12,12 @@ export interface GetSingleDepartmanAcceptorComboShape {
   departmentCode: "";
   departmentName: "فضای سبز ناحیه 1 منطقه 01";
 }
+
+// table 2
+export interface GetSingleDepartmanAcceptorItemShape {
+  id: 1;
+  firstName: "string";
+  lastName: "string";
+  resposibility: "string";
+  userId: 0;
+}
