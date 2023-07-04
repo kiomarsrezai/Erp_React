@@ -119,7 +119,7 @@ function DepartmanAcceptorTable2(props: DepartmanAcceptorTable2Props) {
   });
 
   const onConfrimDelete = () => {
-    if (idItemShouldDelete) deleteMutation.mutate(idItemShouldDelete);
+    if (idItemShouldDelete) deleteMutation.mutate({ id: idItemShouldDelete });
   };
 
   const onCancelDelete = () => {
@@ -137,13 +137,15 @@ function DepartmanAcceptorTable2(props: DepartmanAcceptorTable2Props) {
 
   // actions
   const actionButtons = (item: GetSingleDepartmanAcceptorTable2ItemShape) => (
-    <IconButton
-      onClick={() => handleDeleteBtnClick(item)}
-      color="error"
-      size="small"
-    >
-      <DeleteIcon />
-    </IconButton>
+    <Box display={"flex"} justifyContent={"center"}>
+      <IconButton
+        onClick={() => handleDeleteBtnClick(item)}
+        color="error"
+        size="small"
+      >
+        <DeleteIcon />
+      </IconButton>
+    </Box>
   );
 
   const formatTableData = (

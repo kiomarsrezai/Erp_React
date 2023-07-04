@@ -145,6 +145,8 @@ export const accessNamesConfig = {
 
   BASE__USERS_PAGE: "base-users",
 
+  BASE__DEPARTMAN_ACCEPTER_PAGE: "base-departman-accepter",
+
   BASE__ORGAN_PAGE: "base-organ",
 
   // others

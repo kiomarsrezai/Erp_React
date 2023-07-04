@@ -537,10 +537,10 @@ export const sidenavsLayout: SidenavShape[] = [
       },
 
       {
-        title: "مخاطبین 222",
+        title: "تاییدکنندگان درخواست ها",
         icon: GroupsIcon,
-        path: "/base/something",
-        licenseName: accessNamesConfig.BASE__USERS_PAGE,
+        path: "/base/departman-accepter",
+        licenseName: accessNamesConfig.BASE__DEPARTMAN_ACCEPTER_PAGE,
         element: SomethingPage,
       },
 

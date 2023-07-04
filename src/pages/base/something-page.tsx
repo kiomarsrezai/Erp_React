@@ -81,16 +81,17 @@ function SomethingPage() {
       name: "number",
       width: "100px",
     },
+
+    {
+      title: "واحدها",
+      name: "departmentName",
+      align: "left",
+    },
     {
       title: "منطقه",
       name: "areaName",
       align: "left",
       width: "300px",
-    },
-    {
-      title: "نام",
-      name: "departmentName",
-      align: "left",
     },
     {
       title: "عملیات",
@@ -150,7 +151,7 @@ function SomethingPage() {
     }
   );
 
-  const [activeBaseData, setActiveBaseData] = useState({});
+  const [activeBaseData, setActiveBaseData] = useState<any>({});
   const openTable2 = (item: GetSingleDepartmanAcceptorItemShape) => {
     setActiveBaseData(item);
     table2Data.mutate({
@@ -183,7 +184,7 @@ function SomethingPage() {
   });
 
   const onConfrimDelete = () => {
-    if (idItemShouldDelete) deleteMutation.mutate(idItemShouldDelete);
+    if (idItemShouldDelete) deleteMutation.mutate({ id: idItemShouldDelete });
   };
 
   const onCancelDelete = () => {
@@ -225,6 +226,7 @@ function SomethingPage() {
       unFormatData.map((item, i) => ({
         ...item,
         number: i + 1,
+        bgcolor: activeBaseData?.id === item.id ? "rgba(187,222,251)" : "",
         actions: (
           <Box justifyContent={"center"} display={"flex"}>
             {actionButtons(item as any)}
