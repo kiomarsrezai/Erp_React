@@ -179,6 +179,7 @@ document.querySelector('#table-container').scrollTo
   const [baseInitialItem, setBaseInitialItem] = useState<any>(null);
 
   const handleClickProjectModal = (row: any) => {
+    clearTimeout(activeTimeOut.current);
     sepratorProjectMutation.mutate({
       ...formData,
       [sepratorBudgetConfig.CODING]: row[sepratorBudgetConfig.CODING],
