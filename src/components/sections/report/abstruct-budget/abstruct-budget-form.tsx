@@ -1,4 +1,6 @@
 import PrintIcon from "@mui/icons-material/Print";
+import GetAppIcon from "@mui/icons-material/GetApp";
+
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -36,6 +38,7 @@ import {
 import NumbersInput from "components/sections/inputs/numbers-input";
 import { convertNumbers } from "helper/number-utils";
 import { abstructBudgetStimul } from "stimul/budget/report/abstruct/abstruct-budget-stimul";
+import { abstructBudgetXlsx } from "stimul/budget/report/abstruct/abstruct-budget-xlsx";
 
 interface RevenueChartFormProps {
   formData: any;
@@ -152,6 +155,23 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
     }
   };
 
+  const handleExcelClick = () => {
+    if (printData.data.length) {
+      // const yearLabel = getGeneralFieldItemYear(formData, 1);
+      // const budgetKindLabel = getGeneralFieldItemBudgetKind(formData);
+      // const numberLabel = getGeneralFieldItemNumber(formData);
+      abstructBudgetXlsx({
+        data: printData.data,
+        // footer: printData.footer,
+        // bottomFooter: printData.bottomFooter,
+        // moreBottomFooter: printData.moreBottomFooter,
+        // year: yearLabel,
+        // budgetKind: budgetKindLabel,
+        // numberShow: numberLabel,
+      });
+    }
+  };
+
   return (
     <>
       <Box component="form" padding={1} onSubmit={handleSubmit}>
@@ -242,6 +262,11 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
             </LoadingButton>
             <IconButton color="primary" onClick={handlePrintForm}>
               <PrintIcon />
+            </IconButton>
+
+            <IconButton color="primary" onClick={handleExcelClick}>
+              {/* <PrintIcon /> */}
+              <GetAppIcon />
             </IconButton>
           </Grid>
         </Grid>
