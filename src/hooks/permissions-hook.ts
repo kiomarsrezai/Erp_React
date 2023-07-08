@@ -263,7 +263,7 @@ function usePermissions() {
     [accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY]: formatLocalFields(
       "خلاصه بودجه",
       accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY,
-      [yearLevel1Field, budgetKindField, organField]
+      [yearLevel1Field]
     ),
 
     [accessNamesConfig.BUDGET__REPORT_PAGE_DEVIATION]: formatLocalFields(
