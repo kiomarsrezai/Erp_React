@@ -165,7 +165,7 @@ function DepartmanAcceptorTable2(props: DepartmanAcceptorTable2Props) {
 
   return (
     <>
-      <FixedTable data={tableData} heads={tableHeads} notFixed />
+      <FixedTable data={tableData} heads={tableHeads} />
 
       <FixedModal
         open={isOpenInsertModal}

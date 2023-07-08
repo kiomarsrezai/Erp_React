@@ -253,7 +253,7 @@ function SomethingPage() {
       <AdminLayout>
         <Box display={"flex"}>
           <Box sx={{ width: "40%" }}>
-            <FixedTable data={filteredData} heads={tableHeads} notFixed />
+            <FixedTable data={filteredData} heads={tableHeads} />
           </Box>
 
           <Box sx={{ width: "60%" }}>
