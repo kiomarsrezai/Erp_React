@@ -420,7 +420,10 @@ function FixedTable(props: FixedTableProps) {
                   borderRight: 1,
                   borderTop: 1,
                   borderColor: grey[borderColor],
-                  bgcolor: moreBottomFooter[`bgcolor-row`] || grey[200],
+                  bgcolor:
+                    moreBottomFooter[`bgcolor-${name}`] ||
+                    moreBottomFooter[`bgcolor-row`] ||
+                    grey[200],
                   fontWeight: 500,
                   whiteSpace: "nowrap",
                   p: 1,

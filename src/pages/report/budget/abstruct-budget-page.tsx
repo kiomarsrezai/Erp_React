@@ -472,11 +472,20 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
     resoures: sumResourcesSazman,
   };
 
+  const sumMosavabNeyabatiKol =
+    sumMosavabNeyabatiSazman + sumMosavabNeyabatiShahrdari;
+  const sumMosavabPayMotomarkezKol =
+    sumMosavabPayMotomarkezShahrdari + sumMosavabPayMotomarkezSazman;
+
   const tableMoreBottomFooter: TableDataItemShape | any = {
     number: "جمع کل",
     "colspan-number": 2,
+    "bgcolor-mosavabPayMotomarkez":
+      sumMosavabPayMotomarkezKol !== sumMosavabNeyabatiKol && "#d7a2a2",
+    "bgcolor-mosavabNeyabati":
+      sumMosavabPayMotomarkezKol !== sumMosavabNeyabatiKol && "#d7a2a2",
     areaName: null,
-    mosavabNeyabati: sumMosavabNeyabatiSazman + sumMosavabNeyabatiShahrdari,
+    mosavabNeyabati: sumMosavabNeyabatiKol,
     mosavabCurrent: sumMosavabCurrentShahrdari + sumMosavabCurrentSazman,
     percent_mosavabCurrent: getPercent(
       sumMosavabCurrentShahrdari + sumMosavabCurrentSazman,
@@ -500,8 +509,7 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
       sumMosavabSanavatiShahrdari + sumMosavabSanavatiSazman,
       sumResourcesShahrdari + sumResourcesSazman
     ),
-    mosavabPayMotomarkez:
-      sumMosavabPayMotomarkezShahrdari + sumMosavabPayMotomarkezSazman,
+    mosavabPayMotomarkez: sumMosavabPayMotomarkezKol,
     balanceMosavab: sumBalanceMosavabShahrdari + sumBalanceMosavabSazman,
     resoures: sumResourcesShahrdari + sumResourcesSazman,
   };

@@ -78,7 +78,7 @@ export const budgetMethodItems: FlotingLabelTextfieldItemsShape = [
     value: 3,
   },
   {
-    label: "مالی",
+    label: "تملک مالی",
     value: 4,
   },
   {
@@ -90,8 +90,12 @@ export const budgetMethodItems: FlotingLabelTextfieldItemsShape = [
     value: 8,
   },
   {
-    label: "دریافت از خزانه",
+    label: "دریافت از خزانه / نیابتی",
     value: 9,
+  },
+  {
+    label: "دریافت از خزانه / متمرکز",
+    value: 10,
   },
 ];
 
