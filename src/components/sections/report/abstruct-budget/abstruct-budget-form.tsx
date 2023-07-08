@@ -69,6 +69,8 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
         "mosavabFinancial",
         "mosavabSanavati",
         "balanceMosavab",
+        "balanceMosavab",
+        "mosavabNeyabati",
       ],
       formData[generalFieldsConfig.numbers]
     );
