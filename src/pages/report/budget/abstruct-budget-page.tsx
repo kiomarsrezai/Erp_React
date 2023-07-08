@@ -139,13 +139,13 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
     },
     {
       title: "از محل متمرکز",
-      name: "mosavabNeyabati",
+      name: "mosavabDar_Khazane",
       split: true,
       align: "left",
     },
     {
       title: "از محل نیابتی",
-      name: "mosavabDar_Khazane",
+      name: "mosavabNeyabati",
       split: true,
       align: "left",
       forceHaveBorder: true,
@@ -472,20 +472,21 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
     resoures: sumResourcesSazman,
   };
 
-  const sumMosavabNeyabatiKol =
-    sumMosavabNeyabatiSazman + sumMosavabNeyabatiShahrdari;
   const sumMosavabPayMotomarkezKol =
     sumMosavabPayMotomarkezShahrdari + sumMosavabPayMotomarkezSazman;
+
+  const sumMosavabDarKhazaneKol =
+    sumMosavabDar_KhazaneShahrdari + sumMosavabDar_KhazaneSazman;
 
   const tableMoreBottomFooter: TableDataItemShape | any = {
     number: "جمع کل",
     "colspan-number": 2,
     "bgcolor-mosavabPayMotomarkez":
-      sumMosavabPayMotomarkezKol !== sumMosavabNeyabatiKol && "#d7a2a2",
-    "bgcolor-mosavabNeyabati":
-      sumMosavabPayMotomarkezKol !== sumMosavabNeyabatiKol && "#d7a2a2",
+      sumMosavabPayMotomarkezKol !== sumMosavabDarKhazaneKol && "#d7a2a2",
+    "bgcolor-mosavabDar_Khazane":
+      sumMosavabPayMotomarkezKol !== sumMosavabDarKhazaneKol && "#d7a2a2",
     areaName: null,
-    mosavabNeyabati: sumMosavabNeyabatiKol,
+    mosavabNeyabati: sumMosavabNeyabatiSazman + sumMosavabNeyabatiShahrdari,
     mosavabCurrent: sumMosavabCurrentShahrdari + sumMosavabCurrentSazman,
     percent_mosavabCurrent: getPercent(
       sumMosavabCurrentShahrdari + sumMosavabCurrentSazman,
@@ -502,8 +503,7 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
       sumResourcesShahrdari + sumResourcesSazman
     ),
     mosavabRevenue: sumMosavabRevenueShahrdari + sumMosavabRevenueSazman,
-    mosavabDar_Khazane:
-      sumMosavabDar_KhazaneShahrdari + sumMosavabDar_KhazaneSazman,
+    mosavabDar_Khazane: sumMosavabDarKhazaneKol,
     mosavabSanavati: sumMosavabSanavatiShahrdari + sumMosavabSanavatiSazman,
     percent_mosavabSanavati: getPercent(
       sumMosavabSanavatiShahrdari + sumMosavabSanavatiSazman,

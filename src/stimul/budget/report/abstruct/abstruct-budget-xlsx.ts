@@ -15,6 +15,7 @@ interface StimulOptionsShape {
   area?: string;
   data: any[];
   month?: string;
+  footer: [any, any, any];
 }
 
 function componentToHex(c: any) {
@@ -36,7 +37,7 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
   wb.Workbook.Views = [{ RTL: true }];
   const headerStyle = {
     font: { name: "B Nazanin", sz: 12, bold: true },
-    fill: { fgColor: { rgb: "eeeeee" } },
+    fill: { fgColor: { rgb: "E0E0E0" } },
     alignment: {
       // wrapText: true,
       horizontal: "right",
@@ -45,9 +46,13 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
 
   const fitToColumn = (arrayOfArray: any) => {
     const a = arrayOfArray[0].map((a: any, i: any) => ({
-      wch: Math.max(
-        ...arrayOfArray.map((a2: any) => (a2[i] ? a2[i].toString().length : 0))
-      ),
+      wch:
+        20 ||
+        Math.max(
+          ...arrayOfArray.map((a2: any) =>
+            a2[i] ? a2[i].toString().length : 0
+          )
+        ),
     }));
     // debugger
     return a;
@@ -85,9 +90,7 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
           style.fill.fgColor = { rgb: a.BgColor.substring(1) };
         } else {
           style.fill.fgColor = {
-            rgb: rgbToHex(
-              getBgColorBudget(rowData.levelNumber, sheet.proccessId)
-            ),
+            rgb: rowIndex % 2 === 0 ? "ffffff" : "eeeeee",
           };
         }
         if (!column.Mony) {
@@ -106,8 +109,6 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
                 : ""
               : column.Percent
               ? `${rowData[column.Name]} %`
-              : column.Split
-              ? numberWithCommas(rowData[column.Name])
               : rowData[column.Name],
           t: column.Mony ? "n" : "s",
           s: style,
@@ -135,7 +136,7 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
           style.fill.fgColor = { rgb: a.BgColor.substring(1) };
         } else {
           style.fill.fgColor = {
-            rgb: "eeeeee",
+            rgb: "E0E0E0",
           };
         }
         if (!column.Mony) {
@@ -152,8 +153,6 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
                 : ""
               : column.Percent
               ? `${rowData[column.Name]} %`
-              : column.Split
-              ? numberWithCommas(rowData[column.Name])
               : rowData[column.Name],
           t: column.Mony ? "n" : "s",
           s: style,
@@ -176,7 +175,7 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
   XLSX.writeFile(wb, filename + ".xlsx");
 };
 
-const createData = (data: any, title: string, proccessId: number) => {
+const createData = (data: any, footer: [any, any, any], title: string) => {
   // const sumMosavab = sumFieldsInSingleItemData(
   //   data,
   //   "mosavab",
@@ -217,25 +216,33 @@ const createData = (data: any, title: string, proccessId: number) => {
         Header: "درآمد",
         Name: "mosavabRevenue",
         Split: true,
+        Mony: true,
       },
       {
         Header: "سهم متمرکز",
         Name: "mosavabPayMotomarkez",
-        // Mony: true,
+        Mony: true,
         // Width: 360,
         Split: true,
       },
       {
-        Header: "دریافت از خزانه",
+        Header: "دریافت از خزانه متمرکز",
         Name: "mosavabDar_Khazane",
-        // Mony: true,
+        Mony: true,
+        // Width: 160,
+        Split: true,
+      },
+      {
+        Header: "دریافت از خزانه نیابتی",
+        Name: "mosavabNeyabati",
+        Mony: true,
         // Width: 160,
         Split: true,
       },
       {
         Header: "جمع منابع",
         Name: "resoures",
-        // Mony: true,
+        Mony: true,
         // Width: 160,
         Split: true,
       },
@@ -243,6 +250,7 @@ const createData = (data: any, title: string, proccessId: number) => {
         Header: "هزینه ای",
         Name: "mosavabCurrent",
         Split: true,
+        Mony: true,
       },
       {
         Header: "%",
@@ -253,7 +261,7 @@ const createData = (data: any, title: string, proccessId: number) => {
       {
         Header: "تملک سرمایه ای",
         Name: "mosavabCivil",
-        // Mony: true,
+        Mony: true,
         // Width: 160,
         Split: true,
       },
@@ -265,7 +273,7 @@ const createData = (data: any, title: string, proccessId: number) => {
       {
         Header: "تملک مالی",
         Name: "mosavabFinancial",
-        // Mony: true,
+        Mony: true,
         // Width: 160,
         Split: true,
       },
@@ -277,7 +285,7 @@ const createData = (data: any, title: string, proccessId: number) => {
       {
         Header: "دیون سنواتی",
         Name: "mosavabSanavati",
-        // Mony: true,
+        Mony: true,
         // Width: 160,
         Split: true,
       },
@@ -289,27 +297,14 @@ const createData = (data: any, title: string, proccessId: number) => {
       {
         Header: "کنترل موازنه",
         Name: "balanceMosavab",
-        // Mony: true,
+        Mony: true,
         // Width: 160,
         Split: true,
       },
     ],
     List: data,
-    Sum: [
-      {
-        // number: "جمع",
-        // code: "",
-        // description: "",
-        // mosavab: sumMosavab,
-        // edit: sumEdit,
-        // creditAmount: sumCreditAmount,
-        // expenseMonth: sumExpenseMonth,
-        // percent: percentExpense,
-        // percentCredit: percentCreditAmount,
-      },
-    ],
+    Sum: footer,
     Title: title.replaceAll("/", "-"),
-    proccessId,
     Styles: {
       Styles: {},
       StylesMap: {},
@@ -318,7 +313,11 @@ const createData = (data: any, title: string, proccessId: number) => {
 };
 
 export const abstructBudgetXlsx = (exportOptions: StimulOptionsShape) => {
-  const data1 = createData(exportOptions.data, budgetMethodItems[0].label, 1);
+  const data1 = createData(
+    exportOptions.data,
+    exportOptions.footer,
+    budgetMethodItems[0].label
+  );
 
   ListsToExcel([data1], "خلاصه بودجه");
 };

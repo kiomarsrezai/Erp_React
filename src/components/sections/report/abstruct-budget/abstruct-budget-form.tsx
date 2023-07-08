@@ -162,7 +162,11 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
       // const numberLabel = getGeneralFieldItemNumber(formData);
       abstructBudgetXlsx({
         data: printData.data,
-        // footer: printData.footer,
+        footer: [
+          printData.footer[0],
+          printData.bottomFooter[0],
+          printData.moreBottomFooter[0],
+        ],
         // bottomFooter: printData.bottomFooter,
         // moreBottomFooter: printData.moreBottomFooter,
         // year: yearLabel,
