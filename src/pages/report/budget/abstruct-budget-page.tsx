@@ -43,45 +43,119 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
     [generalFieldsConfig.numbers]: 1,
   });
 
+  const tableHeadGroups: TableHeadGroupShape = [
+    {
+      title: "ردیف",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "منطقه",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "درآمد",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "سهم متمرکز",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "دریافت از خزانه",
+      colspan: 2,
+      align: "center",
+    },
+    {
+      title: "جمع منابع",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "هزینه ای",
+      colspan: 2,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "تملک سرمایه ای",
+      colspan: 2,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "تملک مالی",
+      colspan: 2,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "دیون سنواتی",
+      colspan: 2,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "کنترل موازنه",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+  ];
+
   const tableHeads: TableHeadShape = [
     {
       title: "ردیف",
       name: "number",
+      hiddenSelf: true,
     },
     {
       title: "منطقه",
       name: "areaName",
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "درآمد",
       name: "mosavabRevenue",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "سهم متمرکز",
       name: "mosavabPayMotomarkez",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
     {
-      title: "مصوب نیابتی",
+      title: "از محل متمرکز",
       name: "mosavabNeyabati",
       split: true,
       align: "left",
     },
     {
-      title: "دریافت از خزانه",
+      title: "از محل نیابتی",
       name: "mosavabDar_Khazane",
       split: true,
       align: "left",
+      forceHaveBorder: true,
     },
     {
       title: "جمع منابع",
       name: "resoures",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "هزینه ای",
@@ -89,6 +163,7 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
       split: true,
       align: "left",
       colspan: 2,
+      hiddenSelf: true,
     },
     {
       title: "هزینه ای",
@@ -102,6 +177,7 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
       split: true,
       align: "left",
       colspan: 2,
+      hiddenSelf: true,
     },
     {
       title: "تملک سرمایه ای",
@@ -115,6 +191,7 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
       split: true,
       align: "left",
       colspan: 2,
+      hiddenSelf: true,
     },
     {
       title: "تملک مالی",
@@ -128,6 +205,7 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
       split: true,
       align: "left",
       colspan: 2,
+      hiddenSelf: true,
     },
     {
       title: "دیون سنواتی",
@@ -140,6 +218,7 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
       name: "balanceMosavab",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
   ];
 
@@ -428,7 +507,7 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
   };
 
   // head group
-  const tableHeadGroups: TableHeadGroupShape = [
+  const tableTopHeadGroups: TableHeadGroupShape = [
     {
       title: (
         <AbstructBudgetForm
@@ -451,6 +530,7 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
     // <AdminLayout>
     <FixedTable
       heads={tableHeads}
+      topHeadGroups={tableTopHeadGroups}
       headGroups={tableHeadGroups}
       footer={tableFooter}
       bottomFooter={tableBottomFooter}
