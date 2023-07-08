@@ -96,20 +96,21 @@ function ProposalModal3(props: ProposalModal3Props) {
       name: "mosavab",
       align: "left",
       split: true,
-      width: "150px",
+      width: "180px",
     },
     {
       title: "اصلاح",
       name: "edit",
       align: "left",
       split: true,
-      width: "150px",
+      width: "180px",
     },
     {
       title: "ت اعتبار",
       name: "creditAmount",
       split: true,
       align: "left",
+      width: "180px",
       hidden: formData[proposalConfig.BUDGET_METHOD] === 1,
     },
     {
@@ -117,6 +118,7 @@ function ProposalModal3(props: ProposalModal3Props) {
       name: "expense",
       align: "left",
       split: true,
+      width: "180px",
     },
     {
       title: "% جذب",
