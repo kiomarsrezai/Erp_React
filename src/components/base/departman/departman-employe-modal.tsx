@@ -27,9 +27,10 @@ interface DepartmanEmployeModalProps {
   data: GetSingleDepartmanAcceptorEmployeItemShape[];
   baseData: GetSingleDepartmanAcceptorItemShape;
   onDoneTask: any;
+  table2Data: GetSingleDepartmanAcceptorTable2ItemShape[];
 }
 function DepartmanEmployeModal(props: DepartmanEmployeModalProps) {
-  const { data, baseData, onDoneTask } = props;
+  const { data, baseData, onDoneTask, table2Data } = props;
 
   const [filterText, setFilterText] = useState("");
 
@@ -53,63 +54,59 @@ function DepartmanEmployeModal(props: DepartmanEmployeModalProps) {
 
   // insert
 
-  const [isOpenInsertModal, setIsOpenInsertModal] = useState(false);
+  // const [isOpenInsertModal, setIsOpenInsertModal] = useState(false);
 
-  const modalDataMutation = useMutation(departmanAcceptorApi.getEmployeData);
+  // const modalDataMutation = useMutation(departmanAcceptorApi.getEmployeData);
 
-  const addClick = () => {
-    modalDataMutation.mutate({
-      id: baseData.id,
-    });
-    setIsOpenInsertModal(true);
-  };
+  // const addClick = () => {
+  //   // modalDataMutation.mutate({
+  //   //   id: baseData.id,
+  //   // });
+  //   // setIsOpenInsertModal(true);
+  // };
 
-  const [addItemsList, setAddItemsList] = useState<any>({});
+  // const [addItemsList, setAddItemsList] = useState<any>({});
 
   const insertMutation = useMutation(departmanAcceptorApi.insertEmploye, {
     onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
       onDoneTask();
     },
   });
 
-  const handleSaveClick = async () => {
-    let shouldUpdateItems: any = [];
+  // const handleSaveClick = async () => {
+  //   let shouldUpdateItems: any = [];
 
-    for (const key in addItemsList) {
-      const value = addItemsList?.[key];
-      if (value === true) {
-        shouldUpdateItems.push(+key);
-      }
-    }
-    try {
-      await Promise.all(
-        shouldUpdateItems.map((item: any) => {
-          return insertMutation.mutate({
-            employeeId: item,
-            departmentAcceptorId: baseData.id,
-          });
-        })
-      );
-    } catch {
-      return onDoneTask();
-    }
+  //   for (const key in addItemsList) {
+  //     const value = addItemsList?.[key];
+  //     if (value === true) {
+  //       shouldUpdateItems.push(+key);
+  //     }
+  //   }
+  //   try {
+  //     await Promise.all(
+  //       shouldUpdateItems.map((item: any) => {
+  //         return insertMutation.mutate({
+  //           employeeId: item,
+  //           departmentAcceptorId: baseData.id,
+  //         });
+  //       })
+  //     );
+  //   } catch {
+  //     return onDoneTask();
+  //   }
 
-    enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
-      variant: "success",
-    });
-    onDoneTask();
-  };
+  //   enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+  //     variant: "success",
+  //   });
+  //   onDoneTask();
+  // };
 
   const tableHeads: TableHeadShape = [
     {
-      title: (
-        <div>
-          ردیف
-          <IconButton color="primary" onClick={handleSaveClick}>
-            <AddIcon />
-          </IconButton>
-        </div>
-      ),
+      title: "ردیف",
       name: "number",
       width: "100px",
     },
@@ -138,42 +135,58 @@ function DepartmanEmployeModal(props: DepartmanEmployeModalProps) {
     },
   ];
 
-  const toggleItem = (e: ChangeEvent<HTMLInputElement>) => {
-    const checked = e.target.checked;
-    const value = e.target.value;
+  // const toggleItem = (e: ChangeEvent<HTMLInputElement>) => {
+  //   const checked = e.target.checked;
+  //   const value = e.target.value;
 
-    setAddItemsList((prevState: any) => {
-      // let itemValue = prevState[sepratorCreaditorBudgetConfig.creaditorId];
-      // itemValue[value] = checked;
-      // if (itemValue.find(value)) {
-      // } else {
-      //   itemValue = [...itemValue, value];
-      // }
+  //   setAddItemsList((prevState: any) => {
+  //     // let itemValue = prevState[sepratorCreaditorBudgetConfig.creaditorId];
+  //     // itemValue[value] = checked;
+  //     // if (itemValue.find(value)) {
+  //     // } else {
+  //     //   itemValue = [...itemValue, value];
+  //     // }
 
-      const result = {
-        ...prevState,
-        [value]: checked,
-      };
+  //     const result = {
+  //       ...prevState,
+  //       [value]: checked,
+  //     };
 
-      return result;
+  //     return result;
+  //   });
+  // };
+  const handleInsertClick = (
+    item: GetSingleDepartmanAcceptorEmployeItemShape
+  ) => {
+    insertMutation.mutate({
+      employeeId: item.id,
+      departmentAcceptorId: baseData.id,
     });
   };
   const actionBtn = (row: GetSingleDepartmanAcceptorEmployeItemShape) => (
-    // <IconButton color="primary" onClick={() => handleInsertClick(row)}>
-    //   <AddIcon />
-    // </IconButton>
-    <>
-      {/* {!baseData.find((baseItem) => {
-        return baseItem.number === row.number;
-      }) && ( */}
-      <Checkbox
-        value={row.id}
-        checked={!!addItemsList[row.id]}
-        onChange={toggleItem}
-        size="small"
-      />
-      {/* )} */}
-    </>
+    <Box display={"flex"} justifyContent={"center"}>
+      {!table2Data.find((item) => item.userId === row.id) && (
+        <IconButton
+          color="primary"
+          size="small"
+          onClick={() => handleInsertClick(row)}
+        >
+          <CheckIcon />
+        </IconButton>
+      )}
+    </Box>
+    // <>
+    //   {/* {!baseData.find((baseItem) => {
+    //     return baseItem.number === row.number;
+    //   }) && ( */}
+    //   <Checkbox
+    //     value={row.id}
+    //     checked={!!addItemsList[row.id]}
+    //     onChange={toggleItem}
+    //     size="small"
+    //   />
+    //   {/* )} */}
+    // </>
   );
 
   // data

@@ -54,7 +54,7 @@ function DepartmanAcceptorTable2(props: DepartmanAcceptorTable2Props) {
 
   const handleDoneTask = () => {
     contractReadMutation.mutate({ id: baseData.id });
-    setIsOpenInsertModal(false);
+    // setIsOpenInsertModal(false);
   };
 
   const tableHeads: TableHeadShape = [
@@ -170,11 +170,12 @@ function DepartmanAcceptorTable2(props: DepartmanAcceptorTable2Props) {
       <FixedModal
         open={isOpenInsertModal}
         handleClose={() => setIsOpenInsertModal(false)}
-        title="افزودن شخص"
+        title={`${baseData.departmentName} - ${baseData.areaName}`}
       >
         <DepartmanEmployeModal
           data={modalDataMutation.data?.data || []}
           baseData={baseData}
+          table2Data={data}
           onDoneTask={handleDoneTask}
         />
       </FixedModal>

@@ -1,6 +1,6 @@
 export interface GetSingleDepartmanAcceptorItemShape {
-  id: 1;
-  departmanId: 1;
+  id: number;
+  departmanId: number;
   areaId: 1;
   departmentCode: "";
   departmentName: "فضای سبز ناحیه 1 منطقه 01";
@@ -8,14 +8,14 @@ export interface GetSingleDepartmanAcceptorItemShape {
 }
 
 export interface GetSingleDepartmanAcceptorComboShape {
-  id: 1;
+  id: number;
   departmentCode: "";
   departmentName: "فضای سبز ناحیه 1 منطقه 01";
 }
 
 // table 2
 export interface GetSingleDepartmanAcceptorTable2ItemShape {
-  id: 1;
+  id: number;
   firstName: "string";
   lastName: "string";
   resposibility: "string";
@@ -23,9 +23,8 @@ export interface GetSingleDepartmanAcceptorTable2ItemShape {
 }
 
 export interface GetSingleDepartmanAcceptorEmployeItemShape {
-  id: 1;
+  id: number;
   firstName: "string";
   lastName: "string";
   bio: "string";
-  userId: 0;
 }
