@@ -38,8 +38,8 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
 
   const [formData, setFormData] = useState({
     [abstructBudgetConfig.YEAR]: undefined,
-    [abstructBudgetConfig.KIND]: 1, //undefined,
-    [abstructBudgetConfig.ORGAN]: 1, //undefined,
+    // [abstructBudgetConfig.KIND]: 1, //undefined,
+    // [abstructBudgetConfig.ORGAN]: 1, //undefined,
     [generalFieldsConfig.numbers]: 1,
   });
 
@@ -62,6 +62,12 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
     {
       title: "سهم متمرکز",
       name: "mosavabPayMotomarkez",
+      split: true,
+      align: "left",
+    },
+    {
+      title: "مصوب نیابتی",
+      name: "mosavabNeyabati",
       split: true,
       align: "left",
     },
@@ -206,6 +212,12 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
     : [];
 
   // footer
+
+  const sumMosavabNeyabatiShahrdari = sumFieldsInSingleItemData(
+    abstractQuery.data?.data,
+    "mosavabNeyabati",
+    (item: GetSingleAbstructBudgetItemShape) => item.id <= 10
+  );
   const sumMosavabCurrentShahrdari = sumFieldsInSingleItemData(
     abstractQuery.data?.data,
     "mosavabCurrent",
@@ -265,6 +277,11 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
     "mosavabCurrent",
     (item: GetSingleAbstructBudgetItemShape) => item.id > 10
   );
+  const sumMosavabNeyabatiSazman = sumFieldsInSingleItemData(
+    abstractQuery.data?.data,
+    "mosavabNeyabati",
+    (item: GetSingleAbstructBudgetItemShape) => item.id > 10
+  );
 
   const sumMosavabCivilSazman = sumFieldsInSingleItemData(
     abstractQuery.data?.data,
@@ -319,6 +336,7 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
     number: "جمع شهرداری",
     "colspan-number": 2,
     areaName: null,
+    mosavabNeyabati: sumMosavabNeyabatiShahrdari,
     mosavabCurrent: sumMosavabCurrentShahrdari,
     percent_mosavabCurrent: getPercent(
       sumMosavabCurrentShahrdari,
@@ -350,6 +368,7 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
     number: "جمع سازمان",
     "colspan-number": 2,
     areaName: null,
+    mosavabNeyabati: sumMosavabNeyabatiSazman,
     mosavabCurrent: sumMosavabCurrentSazman,
     percent_mosavabCurrent: getPercent(
       sumMosavabCurrentSazman,
@@ -378,6 +397,7 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
     number: "جمع کل",
     "colspan-number": 2,
     areaName: null,
+    mosavabNeyabati: sumMosavabNeyabatiSazman + sumMosavabNeyabatiShahrdari,
     mosavabCurrent: sumMosavabCurrentShahrdari + sumMosavabCurrentSazman,
     percent_mosavabCurrent: getPercent(
       sumMosavabCurrentShahrdari + sumMosavabCurrentSazman,

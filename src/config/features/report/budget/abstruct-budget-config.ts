@@ -7,5 +7,5 @@ export const abstructBudgetConfig = {
 };
 
 export const abstructBudgetUrls = {
-  getList: "ReportApi/AbstractList",
+  getList: "ReportApi/AbstractRead",
 };

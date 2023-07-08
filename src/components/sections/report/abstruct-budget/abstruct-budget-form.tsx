@@ -100,8 +100,8 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
       userLicenses,
       [
         accessNamesConfig.FIELD_YEAR,
-        accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY_KIND,
-        accessNamesConfig.FIELD_ORGAN,
+        // accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY_KIND,
+        // accessNamesConfig.FIELD_ORGAN,
       ],
       joinPermissions([
         accessNamesConfig.BUDGET__REPORT_PAGE,
@@ -120,7 +120,7 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
     if (
       checkHaveValue(formData, [
         abstructBudgetConfig.YEAR,
-        abstructBudgetConfig.ORGAN,
+        // abstructBudgetConfig.ORGAN,
       ])
     ) {
       submitMutation.mutate(formData);
