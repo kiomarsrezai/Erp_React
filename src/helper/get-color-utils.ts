@@ -82,4 +82,6 @@ export const getBgColorBudget = (levelNumber: number, budgetMethod: number) => {
   if (levelNumber === 4 && budgetMethod === 4) {
     return "#fff";
   }
+
+  return "#fff";
 };

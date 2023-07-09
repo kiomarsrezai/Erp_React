@@ -4,6 +4,7 @@ import userStore from "hooks/store/user-store";
 import { accessNamesConfig } from "config/access-names-config";
 import {
   budgetKindItems,
+  budgetMethodItems,
   generalFieldsConfig,
 } from "config/features/general-fields-config";
 import { filedItemsGuard, joinPermissions } from "helper/auth-utils";
@@ -116,13 +117,10 @@ function BudgetReportExpenseAreaModal(
   };
 
   const handlePrintForm = async (areaId: number) => {
-    let culmnsData: any = {
-      1: [],
-      2: [],
-      3: [],
-      4: [],
-      5: [],
-    };
+    let culmnsData: any = {};
+    budgetMethodItems.forEach((item) => {
+      culmnsData[item.value] = [];
+    });
 
     const culmnKeys = Object.keys(culmnsData);
 

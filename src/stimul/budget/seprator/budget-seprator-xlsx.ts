@@ -286,7 +286,7 @@ export const budgetSepratorXlsx = (exportOptions: StimulOptionsShape) => {
       exportOptions.culmnsData[item],
       budgetMethodItems.find((budgetItem) => String(budgetItem.value) === item)
         ?.label || "",
-      1
+      Number(item)
     )
   );
 

@@ -275,34 +275,13 @@ const createData = (data: any, title: string, proccessId: number) => {
 };
 
 export const budgetExpenseXlsx = (exportOptions: StimulOptionsShape) => {
-  const data1 = createData(
-    exportOptions.culmnsData[1],
-    budgetMethodItems[0].label,
-    1
+  const data = Object.keys(exportOptions.culmnsData).map((item) =>
+    createData(
+      exportOptions.culmnsData[item],
+      budgetMethodItems.find((budgetItem) => String(budgetItem.value) === item)
+        ?.label || "",
+      Number(item)
+    )
   );
-  const data2 = createData(
-    exportOptions.culmnsData[2],
-    budgetMethodItems[1].label,
-    2
-  );
-  const data3 = createData(
-    exportOptions.culmnsData[3],
-    budgetMethodItems[2].label,
-    3
-  );
-  const data4 = createData(
-    exportOptions.culmnsData[4],
-    budgetMethodItems[3].label,
-    4
-  );
-  const data5 = createData(
-    exportOptions.culmnsData[5],
-    budgetMethodItems[4].label,
-    5
-  );
-
-  ListsToExcel(
-    [data1, data2, data3, data4, data5],
-    exportOptions.area as string
-  );
+  ListsToExcel(data, exportOptions.area as string);
 };
