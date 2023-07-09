@@ -36,7 +36,7 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
   wb.Workbook = wb.Workbook || {};
   wb.Workbook.Views = [{ RTL: true }];
   const headerStyle = {
-    font: { name: "B Nazanin", sz: 12, bold: true },
+    font: { name: globalConfig.font.excel.value, sz: 12, bold: true },
     fill: { fgColor: { rgb: "E0E0E0" } },
     alignment: {
       // wrapText: true,
@@ -80,7 +80,7 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
           ] || {};
         const style: any = {};
         style.font = {
-          name: "Dubai",
+          name: globalConfig.font.excel.value,
         };
         if (a && a.TextColor) {
           style.font.color = { rgb: a.TextColor.substring(1) };
@@ -126,7 +126,7 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
           ] || {};
         const style: any = {};
         style.font = {
-          name: "Dubai",
+          name: globalConfig.font.excel.value,
         };
         if (a && a.TextColor) {
           style.font.color = { rgb: a.TextColor.substring(1) };

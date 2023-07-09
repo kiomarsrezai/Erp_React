@@ -2,7 +2,10 @@ import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
 import userStore from "hooks/store/user-store";
 
 import { accessNamesConfig } from "config/access-names-config";
-import { budgetKindItems } from "config/features/general-fields-config";
+import {
+  budgetKindItems,
+  generalFieldsConfig,
+} from "config/features/general-fields-config";
 import { filedItemsGuard, joinPermissions } from "helper/auth-utils";
 import { abstructBudgetConfig } from "config/features/report/budget/abstruct-budget-config";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -132,7 +135,8 @@ function BudgetReportExpenseAreaModal(
           ).mutateAsync({
             budgetProcessId: item,
             areaId: areaId,
-            monthId: formData[budgetReportExpenseConfig.month],
+            [generalFieldsConfig.MONTH]:
+              formData[budgetReportExpenseConfig.month],
             yearId: formData[budgetReportExpenseConfig.year],
           });
 

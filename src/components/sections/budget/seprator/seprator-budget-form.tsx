@@ -39,6 +39,7 @@ import SepratorFixMosavabModal1 from "./fix/seprator-fix-mosavab-modal-1";
 import { InputAdornment, TextField } from "@mui/material";
 import { budgetSepratorXlsx } from "stimul/budget/seprator/budget-seprator-xlsx";
 import { budgetMethodItems } from "config/features/general-fields-config";
+import SepratorModalPrint from "./seprator-modal-print";
 
 interface SepratoeBudgetFormProps {
   formData: any;
@@ -194,60 +195,10 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
   };
 
   // excel
-  const [printLoading, setPrintLoading] = useState(false);
-
-  const excelMutation = useMutation(sepratorBudgetApi.getData, {});
+  const [isOpenPrintModal, setIsOpenPrintModal] = useState(false);
 
   const handleExcelClick = () => {
-    setPrintLoading(true);
-
-    // budgetMethodItems.forEach((item) => {
-    //   handleExcelForm(item.value as number);
-    // });
-    handleExcelForm();
-    setPrintLoading(false);
-  };
-
-  const budgetMethodAccessItems = filedItemsGuard(
-    budgetMethodItems,
-    userLicenses,
-    joinPermissions([
-      accessNamesConfig.BUDGET__SEPRATOR_PAGE,
-      accessNamesConfig.FIELD_BUDGET_METHOD,
-    ])
-  );
-
-  const handleExcelForm = async () => {
-    let culmnsData: any = {};
-    budgetMethodAccessItems.forEach((item) => {
-      culmnsData[item.value] = [];
-    });
-
-    const culmnKeys = Object.keys(culmnsData);
-
-    try {
-      await Promise.all(
-        culmnKeys.map(async (item) => {
-          const data = await excelMutation.mutateAsync({
-            ...formData,
-            [sepratorBudgetConfig.BUDGET_METHOD]: item,
-          });
-
-          culmnsData = {
-            ...culmnsData,
-            [item]: data.data,
-          };
-        })
-      );
-    } catch {}
-
-    // const yearLabel = getGeneralFieldItemYear(formData, 1);
-    // const areaLabel = getGeneralFieldItemAreaFromId(3, areaId);
-    // const monthLabel = getGeneralFieldItemMonth(formData);
-
-    budgetSepratorXlsx({
-      culmnsData: culmnsData,
-    });
+    setIsOpenPrintModal(true);
   };
 
   return (
@@ -373,13 +324,15 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
         />
       </FixedModal>
 
-      <WindowLoading
-        active={
-          refeshFormMutation.isLoading ||
-          printLoading ||
-          excelMutation.isLoading
-        }
-      />
+      <FixedModal
+        open={isOpenPrintModal}
+        handleClose={() => setIsOpenPrintModal(false)}
+        title="خروجی اکسل"
+      >
+        <SepratorModalPrint formData={formData} />
+      </FixedModal>
+
+      <WindowLoading active={refeshFormMutation.isLoading} />
 
       <ConfrimProcessModal
         onCancel={() => setIsOpenConfrimRefresh(false)}
