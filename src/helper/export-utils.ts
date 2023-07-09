@@ -11,10 +11,12 @@ import {
   organItems,
 } from "config/features/general-fields-config";
 import { programProjectConfig } from "config/features/project/program-project-config";
+import { globalConfig } from "config/global-config";
 import {
   reactQueryClient,
   reactQueryKeys,
 } from "config/react-query-keys-config";
+import { enqueueSnackbar } from "notistack";
 
 export const stimulDateValue = () => {
   return new Date().toLocaleDateString("fa-IR-u-nu-latn", {
@@ -154,4 +156,15 @@ export const createImgFromSvg = (selector: string) => {
 
   var imgSource = `data:image/svg+xml;base64,${base64}`;
   return imgSource;
+};
+
+export const checkExcelFont = () => {
+  const exist = document.fonts.check(
+    `16px ${globalConfig.font.excel.checkValue}`
+  );
+  if (!exist) {
+    enqueueSnackbar(globalConfig.font.excel.message, {
+      variant: "warning",
+    });
+  }
 };

@@ -5,7 +5,11 @@ import {
   numberWithCommas,
   sumFieldsInSingleItemData,
 } from "helper/calculate-utils";
-import { createStimulsoftFilePath, stimulDateValue } from "helper/export-utils";
+import {
+  checkExcelFont,
+  createStimulsoftFilePath,
+  stimulDateValue,
+} from "helper/export-utils";
 import { getBgColorBudget } from "helper/get-color-utils";
 const XLSX = require("xlsx-js-style/dist/xlsx.bundle");
 
@@ -289,6 +293,7 @@ export const budgetSepratorXlsx = (exportOptions: StimulOptionsShape) => {
       Number(item)
     )
   );
+  checkExcelFont();
 
   ListsToExcel(data, exportOptions.area || "بودجه تفکیکی");
 };

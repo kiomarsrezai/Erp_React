@@ -17,10 +17,13 @@ export const globalConfig = {
     excel: {
       name: "ایران سنس",
       value: "IRANSansWeb(fanum)",
+      checkValue: "IRANSansWeb", // it shoud delete
+      message: "برای نمایش بهتر اکسل ابتدا فونت ایران سنس را نصب کنید",
     },
     print: {
       name: "ب یکان",
       value: "b yekan",
+      message: "برای نمایش بهتر پرینت ابتدا فونت ب یکان را نصب کنید",
     },
   },
   stimulKey:

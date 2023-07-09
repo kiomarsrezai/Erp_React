@@ -5,7 +5,11 @@ import {
   numberWithCommas,
   sumFieldsInSingleItemData,
 } from "helper/calculate-utils";
-import { createStimulsoftFilePath, stimulDateValue } from "helper/export-utils";
+import {
+  checkExcelFont,
+  createStimulsoftFilePath,
+  stimulDateValue,
+} from "helper/export-utils";
 import { getBgColorBudget } from "helper/get-color-utils";
 const XLSX = require("xlsx-js-style/dist/xlsx.bundle");
 
@@ -318,6 +322,8 @@ export const abstructBudgetXlsx = (exportOptions: StimulOptionsShape) => {
     exportOptions.footer,
     budgetMethodItems[0].label
   );
+
+  checkExcelFont();
 
   ListsToExcel([data1], "خلاصه بودجه");
 };
