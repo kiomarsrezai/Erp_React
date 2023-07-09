@@ -144,25 +144,25 @@ function BudgetReportExpenseAreaModal(
       );
     } catch {}
 
-    if (printData.data.length) {
-      const yearLabel = getGeneralFieldItemYear(formData, 1);
-      const areaLabel = getGeneralFieldItemAreaFromId(3, areaId);
-      const monthLabel = getGeneralFieldItemMonth(formData);
-      // budgetExpenseStimul({
-      //   culmnsData: culmnsData,
-      //   year: yearLabel,
-      //   area: areaLabel,
-      //   numberShow: "ریال",
-      //   month: monthLabel,
-      // });
-      budgetExpenseXlsx({
-        culmnsData: culmnsData,
-        year: yearLabel,
-        area: areaLabel,
-        numberShow: "ریال",
-        month: monthLabel,
-      });
-    }
+    // if (printData.data.length) {
+    const yearLabel = getGeneralFieldItemYear(formData, 1);
+    const areaLabel = getGeneralFieldItemAreaFromId(3, areaId);
+    const monthLabel = getGeneralFieldItemMonth(formData);
+    // budgetExpenseStimul({
+    //   culmnsData: culmnsData,
+    //   year: yearLabel,
+    //   area: areaLabel,
+    //   numberShow: "ریال",
+    //   month: monthLabel,
+    // });
+    budgetExpenseXlsx({
+      culmnsData: culmnsData,
+      year: yearLabel,
+      area: areaLabel,
+      numberShow: "ریال",
+      month: monthLabel,
+    });
+    // }
   };
 
   return (

@@ -44,9 +44,13 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
 
   const fitToColumn = (arrayOfArray: any) => {
     const a = arrayOfArray[0].map((a: any, i: any) => ({
-      wch: Math.max(
-        ...arrayOfArray.map((a2: any) => (a2[i] ? a2[i].toString().length : 0))
-      ),
+      wch:
+        20 ||
+        Math.max(
+          ...arrayOfArray.map((a2: any) =>
+            a2[i] ? a2[i].toString().length : 0
+          )
+        ),
     }));
     // debugger
     return a;
@@ -149,6 +153,8 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
                 : ""
               : column.Percent
               ? `${rowData[column.Name]} %`
+              : column.Split
+              ? numberWithCommas(rowData[column.Name])
               : rowData[column.Name],
           t: column.Mony ? "n" : "s",
           s: style,
@@ -247,7 +253,7 @@ const createData = (data: any, title: string, proccessId: number) => {
       },
       {
         Header: "%",
-        Name: "percent",
+        Name: "percentBud",
         Percent: true,
       },
     ],
@@ -274,35 +280,15 @@ const createData = (data: any, title: string, proccessId: number) => {
   };
 };
 
-export const budgetExpenseXlsx = (exportOptions: StimulOptionsShape) => {
-  const data1 = createData(
-    exportOptions.culmnsData[1],
-    budgetMethodItems[0].label,
-    1
-  );
-  const data2 = createData(
-    exportOptions.culmnsData[2],
-    budgetMethodItems[1].label,
-    2
-  );
-  const data3 = createData(
-    exportOptions.culmnsData[3],
-    budgetMethodItems[2].label,
-    3
-  );
-  const data4 = createData(
-    exportOptions.culmnsData[4],
-    budgetMethodItems[3].label,
-    4
-  );
-  const data5 = createData(
-    exportOptions.culmnsData[5],
-    budgetMethodItems[4].label,
-    5
+export const budgetSepratorXlsx = (exportOptions: StimulOptionsShape) => {
+  const data = Object.keys(exportOptions.culmnsData).map((item) =>
+    createData(
+      exportOptions.culmnsData[item],
+      budgetMethodItems.find((budgetItem) => String(budgetItem.value) === item)
+        ?.label || "",
+      1
+    )
   );
 
-  ListsToExcel(
-    [data1, data2, data3, data4, data5],
-    exportOptions.area as string
-  );
+  ListsToExcel(data, "بودجه تفکیکی");
 };

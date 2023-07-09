@@ -9,6 +9,7 @@ import SectionGuard from "components/auth/section-guard";
 import PrintIcon from "@mui/icons-material/Print";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
+import GetAppIcon from "@mui/icons-material/GetApp";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
@@ -16,7 +17,11 @@ import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { FormEvent, useEffect, useState } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { accessNamesConfig } from "config/access-names-config";
-import { checkHavePermission, joinPermissions } from "helper/auth-utils";
+import {
+  checkHavePermission,
+  filedItemsGuard,
+  joinPermissions,
+} from "helper/auth-utils";
 import WindowLoading from "components/ui/loading/window-loading";
 import { checkHaveValue } from "helper/form-utils";
 import { enqueueSnackbar } from "notistack";
@@ -32,6 +37,8 @@ import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import FixedModal from "components/ui/modal/fixed-modal";
 import SepratorFixMosavabModal1 from "./fix/seprator-fix-mosavab-modal-1";
 import { InputAdornment, TextField } from "@mui/material";
+import { budgetSepratorXlsx } from "stimul/budget/seprator/budget-seprator-xlsx";
+import { budgetMethodItems } from "config/features/general-fields-config";
 
 interface SepratoeBudgetFormProps {
   formData: any;
@@ -186,6 +193,63 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
     submitMutation.mutate(formData);
   };
 
+  // excel
+  const [printLoading, setPrintLoading] = useState(false);
+
+  const excelMutation = useMutation(sepratorBudgetApi.getData, {});
+
+  const handleExcelClick = () => {
+    setPrintLoading(true);
+
+    // budgetMethodItems.forEach((item) => {
+    //   handleExcelForm(item.value as number);
+    // });
+    handleExcelForm();
+    setPrintLoading(false);
+  };
+
+  const budgetMethodAccessItems = filedItemsGuard(
+    budgetMethodItems,
+    userLicenses,
+    joinPermissions([
+      accessNamesConfig.BUDGET__SEPRATOR_PAGE,
+      accessNamesConfig.FIELD_BUDGET_METHOD,
+    ])
+  );
+
+  const handleExcelForm = async () => {
+    let culmnsData: any = {};
+    budgetMethodAccessItems.forEach((item) => {
+      culmnsData[item.value] = [];
+    });
+
+    const culmnKeys = Object.keys(culmnsData);
+
+    try {
+      await Promise.all(
+        culmnKeys.map(async (item) => {
+          const data = await excelMutation.mutateAsync({
+            ...formData,
+            [sepratorBudgetConfig.BUDGET_METHOD]: item,
+          });
+
+          culmnsData = {
+            ...culmnsData,
+            [item]: data.data,
+          };
+        })
+      );
+    } catch {}
+
+    // const yearLabel = getGeneralFieldItemYear(formData, 1);
+    // const areaLabel = getGeneralFieldItemAreaFromId(3, areaId);
+    // const monthLabel = getGeneralFieldItemMonth(formData);
+
+    budgetSepratorXlsx({
+      culmnsData: culmnsData,
+    });
+  };
+
   return (
     <>
       <Box component="form" onSubmit={handleFormSubmit}>
@@ -250,7 +314,7 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
               sx={{ marginLeft: 1 }}
               onClick={handleRefeshForm}
             >
-              به روز آوری
+              به روز آوری از اخوان
             </Button>
 
             <SectionGuard
@@ -271,6 +335,10 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
 
             <IconButton color="primary" onClick={handlePrintForm}>
               <PrintIcon />
+            </IconButton>
+
+            <IconButton color="primary" onClick={handleExcelClick}>
+              <GetAppIcon />
             </IconButton>
           </Grid>
           {/* <Grid sm={2}>
@@ -305,7 +373,13 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
         />
       </FixedModal>
 
-      <WindowLoading active={refeshFormMutation.isLoading} />
+      <WindowLoading
+        active={
+          refeshFormMutation.isLoading ||
+          printLoading ||
+          excelMutation.isLoading
+        }
+      />
 
       <ConfrimProcessModal
         onCancel={() => setIsOpenConfrimRefresh(false)}
