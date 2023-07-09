@@ -116,29 +116,6 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
 };
 
 const createData = (data: any, footer: [any, any, any], title: string) => {
-  // const sumMosavab = sumFieldsInSingleItemData(
-  //   data,
-  //   "mosavab",
-  //   (item: any) => item.levelNumber === 1
-  // );
-  // const sumEdit = sumFieldsInSingleItemData(
-  //   data,
-  //   "edit",
-  //   (item: any) => item.levelNumber === 1
-  // );
-  // const sumCreditAmount = sumFieldsInSingleItemData(
-  //   data,
-  //   "creditAmount",
-  //   (item: any) => item.levelNumber === 1
-  // );
-  // const sumExpenseMonth = sumFieldsInSingleItemData(
-  //   data,
-  //   "expenseMonth",
-  //   (item: any) => item.levelNumber === 1
-  // );
-  // const percentExpense = getPercent(sumExpenseMonth, sumMosavab);
-  // const percentCreditAmount = getPercent(sumCreditAmount, sumMosavab);
-
   return {
     Columns: [
       {

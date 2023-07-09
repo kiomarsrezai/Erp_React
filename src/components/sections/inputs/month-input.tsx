@@ -11,7 +11,7 @@ interface TrazKindInputProps {
   setter: (prevData: any) => void;
   value: number;
   permissionForm?: string;
-  showError: boolean;
+  showError?: boolean;
 }
 
 function MonthInput(props: TrazKindInputProps) {

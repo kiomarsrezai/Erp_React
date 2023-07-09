@@ -10,11 +10,13 @@ import PrintIcon from "@mui/icons-material/Print";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
 import GetAppIcon from "@mui/icons-material/GetApp";
+import { Popover } from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, MouseEvent, useEffect, useState } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { accessNamesConfig } from "config/access-names-config";
 import {
@@ -38,8 +40,13 @@ import FixedModal from "components/ui/modal/fixed-modal";
 import SepratorFixMosavabModal1 from "./fix/seprator-fix-mosavab-modal-1";
 import { InputAdornment, TextField } from "@mui/material";
 import { budgetSepratorXlsx } from "stimul/budget/seprator/budget-seprator-xlsx";
-import { budgetMethodItems } from "config/features/general-fields-config";
+import {
+  budgetMethodItems,
+  generalFieldsConfig,
+} from "config/features/general-fields-config";
 import SepratorModalPrint from "./seprator-modal-print";
+import MonthInput from "components/sections/inputs/month-input";
+import { budgetReportExpenseApi } from "api/report/budget-expense-api";
 
 interface SepratoeBudgetFormProps {
   formData: any;
@@ -197,8 +204,80 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
   // excel
   const [isOpenPrintModal, setIsOpenPrintModal] = useState(false);
 
-  const handleExcelClick = () => {
-    setIsOpenPrintModal(true);
+  const [monthData, setMonthData] = useState({
+    [generalFieldsConfig.MONTH]: undefined,
+  });
+
+  // archor
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+  const handleExcelClick = (event: MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleConfrimExcel = () => {
+    handleExcelForm();
+  };
+
+  const openAnchorEl = Boolean(anchorEl);
+
+  const budgetMethodAccessItems = filedItemsGuard(
+    budgetMethodItems,
+    userLicenses,
+    joinPermissions([
+      accessNamesConfig.BUDGET__SEPRATOR_PAGE,
+      accessNamesConfig.FIELD_BUDGET_METHOD,
+    ])
+  );
+
+  const getExcelManateghMutation = useMutation(
+    budgetReportExpenseApi.getExcelManateghData
+  );
+  const getExcelSazmanMutation = useMutation(
+    budgetReportExpenseApi.getExcelSazmanData
+  );
+
+  const handleExcelForm = async () => {
+    let culmnsData: any = {};
+    budgetMethodAccessItems.forEach((item) => {
+      culmnsData[item.value] = [];
+    });
+
+    const culmnKeys = Object.keys(culmnsData);
+
+    try {
+      await Promise.all(
+        culmnKeys.map(async (item) => {
+          const data = await (formData[sepratorBudgetConfig.AREA] < 10
+            ? getExcelManateghMutation
+            : getExcelSazmanMutation
+          ).mutateAsync({
+            ...formData,
+            [generalFieldsConfig.MONTH]: monthData[generalFieldsConfig.MONTH],
+            [sepratorBudgetConfig.BUDGET_METHOD]: item,
+          });
+
+          culmnsData = {
+            ...culmnsData,
+            [item]: data.data,
+          };
+        })
+      );
+    } catch {}
+
+    // const yearLabel = getGeneralFieldItemYear(formData, 1);
+
+    const areaLabel = getGeneralFieldItemArea(formData, 2);
+    // const monthLabel = getGeneralFieldItemMonth(formData);
+
+    budgetSepratorXlsx({
+      culmnsData: culmnsData,
+      area: areaLabel,
+    });
   };
 
   return (
@@ -324,13 +403,38 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
         />
       </FixedModal>
 
-      <FixedModal
-        open={isOpenPrintModal}
-        handleClose={() => setIsOpenPrintModal(false)}
-        title="خروجی اکسل"
+      <Popover
+        open={openAnchorEl}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
       >
-        <SepratorModalPrint formData={formData} />
-      </FixedModal>
+        <Box
+          sx={{
+            py: 1,
+            px: 2,
+            width: 250,
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+          }}
+        >
+          <MonthInput
+            setter={setMonthData}
+            value={monthData[generalFieldsConfig.MONTH] as any}
+          />
+          <IconButton onClick={handleConfrimExcel} size="small" color="primary">
+            <CheckIcon />
+          </IconButton>
+        </Box>
+      </Popover>
 
       <WindowLoading active={refeshFormMutation.isLoading} />
 
