@@ -90,22 +90,22 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
       colspan: 3,
       align: "center",
     },
-    {
-      title: "متمرکز",
-      colspan: 3,
-      align: "center",
-    },
-    {
-      title: "دریافت از خزانه",
-      colspan: 3,
-      align: "center",
-    },
-    {
-      title: "مانده",
-      colspan: 1,
-      rowspan: 2,
-      align: "center",
-    },
+    // {
+    //   title: "متمرکز",
+    //   colspan: 3,
+    //   align: "center",
+    // },
+    // {
+    //   title: "دریافت از خزانه",
+    //   colspan: 3,
+    //   align: "center",
+    // },
+    // {
+    //   title: "مانده",
+    //   colspan: 1,
+    //   rowspan: 2,
+    //   align: "center",
+    // },
   ];
 
   const tableHeads: TableHeadShape = [
@@ -113,7 +113,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
       title: "عنوان",
       topTitle: "مناطق/سازمانها",
       name: "areaName",
-      align: "left",
+      // align: "left",
       hiddenSelf: true,
       sticky: true,
     },
@@ -262,56 +262,56 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
       percent: true,
     },
     // motamerkez
-    {
-      title: "مصوب",
-      name: "mosavabPayMotomarkez",
-      topTitle: "متمرکز",
-      split: true,
-      align: "left",
-    },
-    {
-      title: "عملکرد",
-      name: "expensePayMotomarkez",
-      topTitle: "متمرکز",
-      split: true,
-      align: "left",
-    },
-    {
-      title: "%",
-      name: "percentPayMotomarkez",
-      topTitle: "متمرکز",
-      percent: true,
-    },
-    // khazane
-    {
-      title: "مصوب",
-      name: "mosavabDar_Khazane",
-      split: true,
-      topTitle: "دریافت از خزانه",
-      align: "left",
-    },
-    {
-      title: "عملکرد",
-      name: "expenseDar_Khazane",
-      topTitle: "دریافت از خزانه",
-      split: true,
-      align: "left",
-    },
-    {
-      title: "%",
-      name: "percentDar_Khazane",
-      topTitle: "دریافت از خزانه",
-      percent: true,
-      forceHaveBorder: true,
-    },
-    {
-      title: "مانده",
-      topTitle: "مانده",
-      name: "balance",
-      split: true,
-      align: "left",
-      hiddenSelf: true,
-    },
+    // {
+    //   title: "مصوب",
+    //   name: "mosavabPayMotomarkez",
+    //   topTitle: "متمرکز",
+    //   split: true,
+    //   align: "left",
+    // },
+    // {
+    //   title: "عملکرد",
+    //   name: "expensePayMotomarkez",
+    //   topTitle: "متمرکز",
+    //   split: true,
+    //   align: "left",
+    // },
+    // {
+    //   title: "%",
+    //   name: "percentPayMotomarkez",
+    //   topTitle: "متمرکز",
+    //   percent: true,
+    // },
+    // // khazane
+    // {
+    //   title: "مصوب",
+    //   name: "mosavabDar_Khazane",
+    //   split: true,
+    //   topTitle: "دریافت از خزانه",
+    //   align: "left",
+    // },
+    // {
+    //   title: "عملکرد",
+    //   name: "expenseDar_Khazane",
+    //   topTitle: "دریافت از خزانه",
+    //   split: true,
+    //   align: "left",
+    // },
+    // {
+    //   title: "%",
+    //   name: "percentDar_Khazane",
+    //   topTitle: "دریافت از خزانه",
+    //   percent: true,
+    //   forceHaveBorder: true,
+    // },
+    // {
+    //   title: "مانده",
+    //   topTitle: "مانده",
+    //   name: "balance",
+    //   split: true,
+    //   align: "left",
+    //   hiddenSelf: true,
+    // },
   ];
   // data
   const formatTableData = (

@@ -168,3 +168,100 @@ export const checkExcelFont = () => {
     });
   }
 };
+
+export const excelHeaderStyle = {
+  font: { name: globalConfig.font.excel.value, bold: true, sz: 10 },
+  fill: { fgColor: { rgb: "E0E0E0" } },
+  alignment: {
+    wrapText: true,
+    horizontal: "center",
+    vertical: "center",
+  },
+  border: {
+    top: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+    left: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+    bottom: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+    right: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+  },
+};
+
+export const excelbodyStyle = (rowIndex: number, textAlign: any) => ({
+  font: { name: globalConfig.font.excel.value, sz: 10 },
+  fill: { fgColor: { rgb: rowIndex % 2 === 0 ? "ffffff" : "eeeeee" } },
+  alignment: {
+    wrapText: true,
+    horizontal: textAlign || "center",
+    vertical: "center",
+  },
+  border: {
+    top: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+    left: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+    bottom: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+    right: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+  },
+});
+
+export const excelFooterStyle = {
+  font: { name: globalConfig.font.excel.value, sz: 10 },
+  fill: { fgColor: { rgb: "e0e0e0" } },
+  alignment: {
+    wrapText: true,
+    horizontal: "center",
+    vertical: "center",
+  },
+  border: {
+    top: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+    left: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+    bottom: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+    right: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+  },
+};
+
+export const excelFitToColumn = (arrayOfArray: any) => {
+  const a = arrayOfArray[0].map((a: any, i: any) => ({
+    wch: Math.min(
+      Math.max(
+        ...arrayOfArray.map((a2: any) => (a2[i].v.toString().length || 0) + 2)
+      ),
+      80
+    ),
+  }));
+  // debugger
+  return a;
+};

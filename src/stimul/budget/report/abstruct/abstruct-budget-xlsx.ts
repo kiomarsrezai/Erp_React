@@ -8,6 +8,10 @@ import {
 import {
   checkExcelFont,
   createStimulsoftFilePath,
+  excelFitToColumn,
+  excelFooterStyle,
+  excelHeaderStyle,
+  excelbodyStyle,
   stimulDateValue,
 } from "helper/export-utils";
 import { getBgColorBudget } from "helper/get-color-utils";
@@ -39,28 +43,6 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
   var wb = XLSX.utils.book_new();
   wb.Workbook = wb.Workbook || {};
   wb.Workbook.Views = [{ RTL: true }];
-  const headerStyle = {
-    font: { name: globalConfig.font.excel.value, sz: 12, bold: true },
-    fill: { fgColor: { rgb: "E0E0E0" } },
-    alignment: {
-      // wrapText: true,
-      horizontal: "right",
-    },
-  };
-
-  const fitToColumn = (arrayOfArray: any) => {
-    const a = arrayOfArray[0].map((a: any, i: any) => ({
-      wch:
-        20 ||
-        Math.max(
-          ...arrayOfArray.map((a2: any) =>
-            a2[i] ? a2[i].toString().length : 0
-          )
-        ),
-    }));
-    // debugger
-    return a;
-  };
 
   Sheets.forEach((sheet: any) => {
     const header = [
@@ -69,7 +51,7 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
           return {
             v: column.Header,
             t: "s",
-            s: headerStyle,
+            s: excelHeaderStyle,
           };
         }),
       ],
@@ -78,30 +60,7 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
     // body
     const body = sheet.List.map((rowData: any, rowIndex: any) => {
       return sheet.Columns.map((column: any) => {
-        const a =
-          sheet.Styles.Styles?.[
-            sheet.Styles.StylesMap?.[rowIndex + 1]?.[column.Name]
-          ] || {};
-        const style: any = {};
-        style.font = {
-          name: globalConfig.font.excel.value,
-        };
-        if (a && a.TextColor) {
-          style.font.color = { rgb: a.TextColor.substring(1) };
-        }
-        style.fill = {};
-        if (a && a.BgColor) {
-          style.fill.fgColor = { rgb: a.BgColor.substring(1) };
-        } else {
-          style.fill.fgColor = {
-            rgb: rowIndex % 2 === 0 ? "ffffff" : "eeeeee",
-          };
-        }
-        if (!column.Mony) {
-          style.alignment = {};
-          style.alignment.horizontal = "right";
-          style.alignment.vertical = "center";
-        }
+        const style: any = excelbodyStyle(rowIndex, column.textAlign);
 
         return {
           v:
@@ -124,30 +83,7 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
     // footer
     const footer = sheet.Sum.map((rowData: any, rowIndex: any) => {
       return sheet.Columns.map((column: any) => {
-        const a =
-          sheet.Styles.Styles?.[
-            sheet.Styles.StylesMap?.[rowIndex + 1]?.[column.Name]
-          ] || {};
-        const style: any = {};
-        style.font = {
-          name: globalConfig.font.excel.value,
-        };
-        if (a && a.TextColor) {
-          style.font.color = { rgb: a.TextColor.substring(1) };
-        }
-        style.fill = {};
-        if (a && a.BgColor) {
-          style.fill.fgColor = { rgb: a.BgColor.substring(1) };
-        } else {
-          style.fill.fgColor = {
-            rgb: "E0E0E0",
-          };
-        }
-        if (!column.Mony) {
-          style.alignment = {};
-          style.alignment.horizontal = "right";
-          style.alignment.vertical = "center";
-        }
+        const style: any = excelFooterStyle;
 
         return {
           v:
@@ -169,7 +105,7 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
 
     //debugger
     const ws = XLSX.utils.aoa_to_sheet(data);
-    ws["!cols"] = fitToColumn(data);
+    ws["!cols"] = excelFitToColumn(data);
     //var ws = XLSX.utils.json_to_sheet(sheet.data);
     const Title =
       typeof sheet.Title === "function" ? sheet.Title() : sheet.Title;
@@ -209,52 +145,46 @@ const createData = (data: any, footer: [any, any, any], title: string) => {
         Header: "ردیف",
         Name: "number",
         RowIndex: true,
-        // Width: 90,
       },
       {
         Header: "منطقه",
         Name: "areaName",
-        // Width: 90,
       },
       {
         Header: "درآمد",
         Name: "mosavabRevenue",
-        Split: true,
         Mony: true,
+        textAlign: "left",
       },
       {
         Header: "سهم متمرکز",
         Name: "mosavabPayMotomarkez",
         Mony: true,
-        // Width: 360,
-        Split: true,
+        textAlign: "left",
       },
       {
         Header: "دریافت از خزانه متمرکز",
         Name: "mosavabDar_Khazane",
         Mony: true,
-        // Width: 160,
-        Split: true,
+        textAlign: "left",
       },
       {
         Header: "دریافت از خزانه نیابتی",
         Name: "mosavabNeyabati",
         Mony: true,
-        // Width: 160,
-        Split: true,
+        textAlign: "left",
       },
       {
         Header: "جمع منابع",
         Name: "resoures",
         Mony: true,
-        // Width: 160,
-        Split: true,
+        textAlign: "left",
       },
       {
         Header: "هزینه ای",
         Name: "mosavabCurrent",
-        Split: true,
         Mony: true,
+        textAlign: "left",
       },
       {
         Header: "%",
@@ -266,8 +196,7 @@ const createData = (data: any, footer: [any, any, any], title: string) => {
         Header: "تملک سرمایه ای",
         Name: "mosavabCivil",
         Mony: true,
-        // Width: 160,
-        Split: true,
+        textAlign: "left",
       },
       {
         Header: "%",
@@ -278,8 +207,7 @@ const createData = (data: any, footer: [any, any, any], title: string) => {
         Header: "تملک مالی",
         Name: "mosavabFinancial",
         Mony: true,
-        // Width: 160,
-        Split: true,
+        textAlign: "left",
       },
       {
         Header: "%",
@@ -290,8 +218,7 @@ const createData = (data: any, footer: [any, any, any], title: string) => {
         Header: "دیون سنواتی",
         Name: "mosavabSanavati",
         Mony: true,
-        // Width: 160,
-        Split: true,
+        textAlign: "left",
       },
       {
         Header: "%",
@@ -302,8 +229,7 @@ const createData = (data: any, footer: [any, any, any], title: string) => {
         Header: "کنترل موازنه",
         Name: "balanceMosavab",
         Mony: true,
-        // Width: 160,
-        Split: true,
+        textAlign: "left",
       },
     ],
     List: data,
