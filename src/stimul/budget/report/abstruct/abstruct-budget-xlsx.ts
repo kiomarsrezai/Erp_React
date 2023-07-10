@@ -15,6 +15,7 @@ import {
   stimulDateValue,
 } from "helper/export-utils";
 import { getBgColorBudget } from "helper/get-color-utils";
+import { enqueueSnackbar } from "notistack";
 const XLSX = require("xlsx-js-style/dist/xlsx.bundle");
 
 interface StimulOptionsShape {
@@ -229,4 +230,7 @@ export const abstructBudgetXlsx = (exportOptions: StimulOptionsShape) => {
   // checkExcelFont();
 
   ListsToExcel([data1], "خلاصه بودجه");
+  enqueueSnackbar(`خروجی اکسل برای خلاصه بودجه ماه با موفقیت انجام شد `, {
+    variant: "success",
+  });
 };

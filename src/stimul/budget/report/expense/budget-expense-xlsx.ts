@@ -15,6 +15,7 @@ import {
   stimulDateValue,
 } from "helper/export-utils";
 import { getBgColorBudget } from "helper/get-color-utils";
+import { enqueueSnackbar } from "notistack";
 const XLSX = require("xlsx-js-style/dist/xlsx.bundle");
 
 interface StimulOptionsShape {
@@ -170,12 +171,16 @@ const createData = (data: any, title: string, proccessId: number) => {
         Mony: true,
         textAlign: "left",
       },
-      {
-        Header: "ت اعتبار",
-        Name: "creditAmount",
-        Mony: true,
-        textAlign: "left",
-      },
+      ...(proccessId !== 1
+        ? [
+            {
+              Header: "ت اعتبار",
+              Name: "creditAmount",
+              Mony: true,
+              textAlign: "left",
+            },
+          ]
+        : []),
       {
         Header: "%",
         Name: "percentCredit",
@@ -226,6 +231,13 @@ export const budgetExpenseXlsx = (exportOptions: StimulOptionsShape) => {
 
   ListsToExcel(
     data,
-    `${exportOptions.year} - ${exportOptions.month} - ${exportOptions.area}`
+    `${exportOptions.area} سال ${exportOptions.year} ${exportOptions.month} ماه`
+  );
+
+  enqueueSnackbar(
+    `خروجی اکسل برای ${exportOptions.area} سال ${exportOptions.year} ${exportOptions.month} ماه با موفقیت انجام شد `,
+    {
+      variant: "success",
+    }
   );
 };

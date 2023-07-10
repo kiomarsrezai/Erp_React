@@ -158,7 +158,6 @@ function BudgetReportExpenseAreaModal(
       numberShow: "ریال",
       month: monthLabel,
     });
-    onClose();
     // }
   };
 
