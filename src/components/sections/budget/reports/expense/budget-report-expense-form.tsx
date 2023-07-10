@@ -1,5 +1,4 @@
 import Grid from "@mui/material/Unstable_Grid2";
-import Box from "@mui/material/Box";
 import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 import SectionGuard from "components/auth/section-guard";
 import userStore from "hooks/store/user-store";
@@ -7,10 +6,18 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import PrintIcon from "@mui/icons-material/Print";
 import IconButton from "@mui/material/IconButton";
 import GetAppIcon from "@mui/icons-material/GetApp";
+import { Button, Popover } from "@mui/material";
 
-import { FormEvent, ReactNode, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  MouseEvent,
+  ReactNode,
+  useEffect,
+  useState,
+} from "react";
 import { revenueChartFormConfig } from "config/features/revenue-chart-config";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { accessNamesConfig } from "config/access-names-config";
 import { enqueueSnackbar } from "notistack";
@@ -43,7 +50,9 @@ import { budgetProjectOprationConfig } from "config/features/budget/report/budge
 import { budgetProjectOprationApi } from "api/report/budget-project-opration-api";
 import { budgetProjectScaleStimul } from "stimul/budget/report/project-scale/budget-project-scale-stimul";
 import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
+import { Checkbox, FormControlLabel, FormGroup, Box } from "@mui/material";
 import {
+  budgetMethodItems,
   centerItems,
   generalFieldsConfig,
   organItems,
@@ -57,8 +66,9 @@ import MonthInput from "components/sections/inputs/month-input";
 import { budgetExpenseStimul } from "stimul/budget/report/expense/budget-expense-stimul";
 import WindowLoading from "components/ui/loading/window-loading";
 import { budgetExpenseXlsx } from "stimul/budget/report/expense/budget-expense-xlsx";
-import BudgetReportExpenseAreaModal from "./budget-report-expense-area-modal";
 import FixedModal from "components/ui/modal/fixed-modal";
+import { areaGeneralApi } from "api/general/area-general-api";
+import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 
 interface BudgetReportExpenseFormProps {
   formData: any;
@@ -168,12 +178,140 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
     formData[budgetReportExpenseConfig.month],
   ]);
 
-  // area modal
-  const [isOpenAreaModal, setIsOpenAreaModal] = useState(false);
-
   // print
-  const handlePrintClick = () => {
-    setIsOpenAreaModal(true);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+  const handleExcelClick = (event: MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const openAnchorEl = Boolean(anchorEl);
+
+  const getExcelManateghMutation = useMutation(
+    budgetReportExpenseApi.getExcelManateghData
+  );
+  const getExcelSazmanMutation = useMutation(
+    budgetReportExpenseApi.getExcelSazmanData
+  );
+
+  const areaQuery = useQuery(["general-area", 3], () =>
+    areaGeneralApi.getData(3)
+  );
+
+  const inputItems: FlotingLabelTextfieldItemsShape = areaQuery.data
+    ? areaQuery.data.data.map((item) => ({
+        label: item.areaName,
+        value: item.id,
+      }))
+    : [];
+
+  const areaItems = filedItemsGuard(
+    inputItems,
+    userLicenses,
+    joinPermissions([
+      accessNamesConfig.BUDGET__REPORT_PAGE,
+      accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
+      accessNamesConfig.FIELD_AREA,
+    ])
+  );
+
+  const [selectedAreas, setSelectedAreas] = useState<any>({});
+  const toggleItem = (e: ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked;
+    const value = e.target.value;
+
+    setSelectedAreas((prevState: any) => {
+      prevState[value] = checked;
+
+      return { ...prevState, [value]: checked };
+    });
+  };
+
+  const toggleAllItem = () => {
+    setSelectedAreas(() => {
+      let newValue: any = {};
+
+      areaItems.forEach((areaItem) => {
+        newValue[areaItem.value] = !isAllClicked;
+      });
+
+      return newValue;
+    });
+  };
+
+  const isAllClicked = areaItems.reduce((preveius: any, curent: any) => {
+    if (preveius === false) return false;
+
+    return selectedAreas?.[curent.value] === true;
+  }, true);
+
+  const [printLoading, setPrintLoading] = useState(false);
+  const handlePrintClick = async () => {
+    setPrintLoading(true);
+
+    let areas: any = [];
+
+    for (const key in selectedAreas) {
+      const value = selectedAreas?.[key];
+      if (value === true) {
+        areas.push(+key);
+      }
+    }
+
+    areas.forEach((item: any) => {
+      handlePrintForm(item);
+    });
+    setPrintLoading(false);
+    setAnchorEl(null);
+  };
+
+  const handlePrintForm = async (areaId: number) => {
+    let culmnsData: any = {};
+    budgetMethodItems.forEach((item) => {
+      culmnsData[item.value] = [];
+    });
+
+    const culmnKeys = Object.keys(culmnsData);
+
+    try {
+      await Promise.all(
+        culmnKeys.map(async (item) => {
+          const data = await (areaId < 10
+            ? getExcelManateghMutation
+            : getExcelSazmanMutation
+          ).mutateAsync({
+            budgetProcessId: item,
+            areaId: areaId,
+            [generalFieldsConfig.MONTH]:
+              formData[budgetReportExpenseConfig.month],
+            yearId: formData[budgetReportExpenseConfig.year],
+          });
+
+          culmnsData = {
+            ...culmnsData,
+            [item]: data.data,
+          };
+        })
+      );
+    } catch {}
+
+    // if (printData.data.length) {
+    const yearLabel = getGeneralFieldItemYear(formData, 1);
+    const areaLabel = getGeneralFieldItemAreaFromId(3, areaId);
+    const monthLabel = getGeneralFieldItemMonth(formData);
+
+    budgetExpenseXlsx({
+      culmnsData: culmnsData,
+      year: yearLabel,
+      area: areaLabel,
+      numberShow: "ریال",
+      month: monthLabel,
+    });
+    // }
   };
 
   return (
@@ -270,8 +408,7 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
                 accessNamesConfig.FIELD_YEAR,
               ])}
             >
-              <IconButton color="primary" onClick={handlePrintClick}>
-                {/* <PrintIcon /> */}
+              <IconButton color="primary" onClick={handleExcelClick}>
                 <GetAppIcon />
               </IconButton>
             </SectionGuard>
@@ -279,8 +416,61 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
         </Grid>
       </Box>
 
+      {/* excel */}
+      <Popover
+        open={openAnchorEl}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+      >
+        <Box width={"200px"} p={2} pt={0}>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value={"isAllClicked"}
+                  checked={isAllClicked}
+                  onChange={toggleAllItem}
+                />
+              }
+              label={"همه"}
+            />
+            {areaItems.map((item) => (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    value={item.value}
+                    checked={selectedAreas?.[item.value] === true}
+                    onChange={toggleItem}
+                  />
+                }
+                label={item.label}
+              />
+            ))}
+          </FormGroup>
+
+          <Button variant="contained" onClick={handlePrintClick} fullWidth>
+            تایید
+          </Button>
+        </Box>
+      </Popover>
+      <WindowLoading
+        active={
+          getExcelManateghMutation.isLoading ||
+          getExcelSazmanMutation.isLoading ||
+          printLoading
+        }
+      />
+
       {/* print modal */}
-      <FixedModal
+      {/* <FixedModal
         open={isOpenAreaModal}
         handleClose={() => setIsOpenAreaModal(false)}
         maxWidth="sm"
@@ -291,7 +481,7 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
           printData={printData}
           onClose={() => setIsOpenAreaModal(false)}
         />
-      </FixedModal>
+      </FixedModal> */}
     </>
   );
 }
