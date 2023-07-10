@@ -181,13 +181,13 @@ const createData = (data: any, title: string, proccessId: number) => {
               Mony: true,
               textAlign: "left",
             },
+            {
+              Header: "%",
+              Name: "percentCredit",
+              Percent: true,
+            },
           ]
         : []),
-      {
-        Header: "%",
-        Name: "percentCredit",
-        Percent: true,
-      },
       {
         Header: "عملکرد",
         Name: "expenseMonth",
