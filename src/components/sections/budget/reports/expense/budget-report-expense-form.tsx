@@ -260,9 +260,9 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
     return selectedAreas?.[curent.value] === true;
   }, true);
 
-  const [printLoading, setPrintLoading] = useState(false);
+  const [excelLodaing, setExcelLodaing] = useState(false);
   const handlePrintClick = async () => {
-    setPrintLoading(true);
+    setExcelLodaing(true);
 
     let areas: any = [];
 
@@ -276,7 +276,6 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
     areas.forEach((item: any) => {
       handlePrintForm(item);
     });
-    setPrintLoading(false);
     setAnchorEl(null);
   };
 
@@ -315,12 +314,14 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
     const areaLabel = getGeneralFieldItemAreaFromId(3, areaId);
     const monthLabel = getGeneralFieldItemMonth(formData);
 
+    setExcelLodaing(true);
     budgetExpenseXlsx({
       culmnsData: culmnsData,
       year: yearLabel,
       area: areaLabel,
       numberShow: "ریال",
       month: monthLabel,
+      setExcelLodaing: setExcelLodaing,
     });
     // }
   };
@@ -476,7 +477,7 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
         active={
           getExcelManateghMutation.isLoading ||
           getExcelSazmanMutation.isLoading ||
-          printLoading
+          excelLodaing
         }
       />
 

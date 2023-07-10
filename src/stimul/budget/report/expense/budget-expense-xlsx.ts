@@ -24,6 +24,7 @@ interface StimulOptionsShape {
   area?: string;
   culmnsData: any;
   month?: string;
+  setExcelLodaing?: any;
 }
 
 function componentToHex(c: any) {
@@ -240,4 +241,6 @@ export const budgetExpenseXlsx = (exportOptions: StimulOptionsShape) => {
       variant: "success",
     }
   );
+
+  exportOptions.setExcelLodaing(false);
 };
