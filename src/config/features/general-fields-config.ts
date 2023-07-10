@@ -66,15 +66,15 @@ export const numbersItems: FlotingLabelTextfieldItemsShape = [
 
 export const budgetMethodItems: FlotingLabelTextfieldItemsShape = [
   {
-    label: "درآمد/منابع",
+    label: "درآمد",
     value: 1,
   },
   {
-    label: "جاری / هزینه ای",
+    label: "هزینه ای",
     value: 2,
   },
   {
-    label: "عمرانی / سرمایه ای",
+    label: "تملک سرمایه ای",
     value: 3,
   },
   {
