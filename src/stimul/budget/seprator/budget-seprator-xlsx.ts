@@ -214,10 +214,6 @@ const createData = (data: any, title: string, proccessId: number) => {
     ],
     Title: title.replaceAll("/", "-"),
     proccessId,
-    Styles: {
-      Styles: {},
-      StylesMap: {},
-    },
   };
 };
 
@@ -232,5 +228,8 @@ export const budgetSepratorXlsx = (exportOptions: StimulOptionsShape) => {
   );
   // checkExcelFont();
 
-  ListsToExcel(data, exportOptions.area || "بودجه تفکیکی");
+  ListsToExcel(
+    data,
+    `${exportOptions.year} - ${exportOptions.month} - ${exportOptions.area}`
+  );
 };

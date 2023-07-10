@@ -32,6 +32,7 @@ import userStore from "hooks/store/user-store";
 import {
   getGeneralFieldItemArea,
   getGeneralFieldItemBudgetMethod,
+  getGeneralFieldItemMonth,
   getGeneralFieldItemYear,
 } from "helper/export-utils";
 import { budgetSepratorStimul } from "stimul/budget/seprator/budget-seprator-stimul";
@@ -271,14 +272,15 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
       );
     } catch {}
 
-    // const yearLabel = getGeneralFieldItemYear(formData, 1);
-
+    const yearLabel = getGeneralFieldItemYear(formData, 1);
     const areaLabel = getGeneralFieldItemArea(formData, 2);
-    // const monthLabel = getGeneralFieldItemMonth(formData);
+    const monthLabel = getGeneralFieldItemMonth(monthData);
 
     budgetSepratorXlsx({
       culmnsData: culmnsData,
       area: areaLabel,
+      month: monthLabel,
+      year: yearLabel,
     });
   };
 

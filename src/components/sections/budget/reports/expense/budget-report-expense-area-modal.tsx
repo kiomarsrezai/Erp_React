@@ -35,7 +35,7 @@ interface BudgetReportExpenseAreaModalProps {
 function BudgetReportExpenseAreaModal(
   props: BudgetReportExpenseAreaModalProps
 ) {
-  const { printData, formData } = props;
+  const { printData, formData, onClose } = props;
 
   const areaQuery = useQuery(["general-area", 3], () =>
     areaGeneralApi.getData(3)
@@ -150,13 +150,7 @@ function BudgetReportExpenseAreaModal(
     const yearLabel = getGeneralFieldItemYear(formData, 1);
     const areaLabel = getGeneralFieldItemAreaFromId(3, areaId);
     const monthLabel = getGeneralFieldItemMonth(formData);
-    // budgetExpenseStimul({
-    //   culmnsData: culmnsData,
-    //   year: yearLabel,
-    //   area: areaLabel,
-    //   numberShow: "ریال",
-    //   month: monthLabel,
-    // });
+
     budgetExpenseXlsx({
       culmnsData: culmnsData,
       year: yearLabel,
@@ -164,6 +158,7 @@ function BudgetReportExpenseAreaModal(
       numberShow: "ریال",
       month: monthLabel,
     });
+    onClose();
     // }
   };
 
