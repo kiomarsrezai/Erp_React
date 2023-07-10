@@ -226,7 +226,7 @@ export const abstructBudgetXlsx = (exportOptions: StimulOptionsShape) => {
     budgetMethodItems[0].label
   );
 
-  checkExcelFont();
+  // checkExcelFont();
 
   ListsToExcel([data1], "خلاصه بودجه");
 };

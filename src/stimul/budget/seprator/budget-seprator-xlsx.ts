@@ -171,12 +171,16 @@ const createData = (data: any, title: string, proccessId: number) => {
         Mony: true,
         textAlign: "left",
       },
-      {
-        Header: "ت اعتبار",
-        Name: "creditAmount",
-        Mony: true,
-        textAlign: "left",
-      },
+      ...(proccessId !== 1
+        ? [
+            {
+              Header: "ت اعتبار",
+              Name: "creditAmount",
+              Mony: true,
+              textAlign: "left",
+            },
+          ]
+        : []),
       {
         Header: "%",
         Name: "percentCredit",
@@ -226,7 +230,7 @@ export const budgetSepratorXlsx = (exportOptions: StimulOptionsShape) => {
       Number(item)
     )
   );
-  checkExcelFont();
+  // checkExcelFont();
 
   ListsToExcel(data, exportOptions.area || "بودجه تفکیکی");
 };

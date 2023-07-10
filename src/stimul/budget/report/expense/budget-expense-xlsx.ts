@@ -222,7 +222,7 @@ export const budgetExpenseXlsx = (exportOptions: StimulOptionsShape) => {
     )
   );
 
-  checkExcelFont();
+  // checkExcelFont();
 
   ListsToExcel(data, exportOptions.area as string);
 };

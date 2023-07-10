@@ -44,7 +44,6 @@ import {
   budgetMethodItems,
   generalFieldsConfig,
 } from "config/features/general-fields-config";
-import SepratorModalPrint from "./seprator-modal-print";
 import MonthInput from "components/sections/inputs/month-input";
 import { budgetReportExpenseApi } from "api/report/budget-expense-api";
 
@@ -202,7 +201,7 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
   };
 
   // excel
-  const [isOpenPrintModal, setIsOpenPrintModal] = useState(false);
+  const [excelLodaing, setExcelLodaing] = useState(false);
 
   const [monthData, setMonthData] = useState({
     [generalFieldsConfig.MONTH]: undefined,
@@ -220,7 +219,10 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
   };
 
   const handleConfrimExcel = () => {
+    setExcelLodaing(true);
     handleExcelForm();
+    setExcelLodaing(false);
+    setAnchorEl(null);
   };
 
   const openAnchorEl = Boolean(anchorEl);
@@ -436,7 +438,14 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
         </Box>
       </Popover>
 
-      <WindowLoading active={refeshFormMutation.isLoading} />
+      <WindowLoading
+        active={
+          refeshFormMutation.isLoading ||
+          getExcelManateghMutation.isLoading ||
+          getExcelSazmanMutation.isLoading ||
+          excelLodaing
+        }
+      />
 
       <ConfrimProcessModal
         onCancel={() => setIsOpenConfrimRefresh(false)}
