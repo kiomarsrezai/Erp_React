@@ -173,14 +173,24 @@ function TrazPage() {
     description: null,
     balanceBedehkar: sumFieldsInSingleItemData(
       proposalQuery.data?.data,
-      "balanceBedehkar"
+      "balanceBedehkar",
+      (item: any) => item.levels === 1
     ),
-    bedehkar: sumFieldsInSingleItemData(proposalQuery.data?.data, "bedehkar"),
+    bedehkar: sumFieldsInSingleItemData(
+      proposalQuery.data?.data,
+      "bedehkar",
+      (item: any) => item.levels === 1
+    ),
     balanceBestankar: sumFieldsInSingleItemData(
       proposalQuery.data?.data,
-      "balanceBestankar"
+      "balanceBestankar",
+      (item: any) => item.levels === 1
     ),
-    bestankar: sumFieldsInSingleItemData(proposalQuery.data?.data, "bestankar"),
+    bestankar: sumFieldsInSingleItemData(
+      proposalQuery.data?.data,
+      "bestankar",
+      (item: any) => item.levels === 1
+    ),
 
     actions: "",
   };

@@ -222,7 +222,6 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
   const handleConfrimExcel = () => {
     setExcelLodaing(true);
     handleExcelForm();
-    setExcelLodaing(false);
     setAnchorEl(null);
   };
 
@@ -281,6 +280,7 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
       area: areaLabel,
       month: monthLabel,
       year: yearLabel,
+      setExcelLodaing: setExcelLodaing,
     });
   };
 

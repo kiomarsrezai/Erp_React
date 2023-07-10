@@ -352,6 +352,8 @@ function FixedTable(props: FixedTableProps) {
                 "&:last-child": {
                   borderRight: 0,
                 },
+                position: item.sticky ? "sticky" : "static",
+                left: 0,
               }}
               dir={typeof footer[name] === "number" ? "ltr" : "rtl"}
               key={i}

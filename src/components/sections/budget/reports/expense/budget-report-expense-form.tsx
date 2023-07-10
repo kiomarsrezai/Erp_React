@@ -131,12 +131,12 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
   const submitMutation = useMutation(budgetReportExpenseApi.getData, {
     onSuccess: (data) => {
       // queryClient.setQueryData(reactQueryKeys.budget.expense, data);
-      formatAndBindData(data.data);
+      // formatAndBindData(data.data);
     },
   });
 
   const [haveSubmitedForm, setHaveSubmitedForm] = useState(false);
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     // permission
     const havePermission = checkHavePermission(
@@ -158,12 +158,21 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
 
     if (
       checkHaveValue(formData, [
-        budgetReportExpenseConfig.organ,
+        // budgetReportExpenseConfig.organ,
         budgetReportExpenseConfig.year,
         budgetReportExpenseConfig.month,
       ])
     ) {
-      submitMutation.mutate(formData);
+      const data1 = await submitMutation.mutateAsync({
+        ...formData,
+        [budgetReportExpenseConfig.organ]: 1,
+      });
+      const data2 = await submitMutation.mutateAsync({
+        ...formData,
+        [budgetReportExpenseConfig.organ]: 2,
+      });
+
+      formatAndBindData([...data1?.data, ...data2?.data]);
     }
   };
 
@@ -173,7 +182,7 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
       data: [],
     });
   }, [
-    formData[budgetReportExpenseConfig.organ],
+    // formData[budgetReportExpenseConfig.organ],
     formData[budgetReportExpenseConfig.year],
     formData[budgetReportExpenseConfig.month],
   ]);
@@ -202,12 +211,14 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
     areaGeneralApi.getData(3)
   );
 
-  const inputItems: FlotingLabelTextfieldItemsShape = areaQuery.data
-    ? areaQuery.data.data.map((item) => ({
-        label: item.areaName,
-        value: item.id,
-      }))
-    : [];
+  const inputItems: FlotingLabelTextfieldItemsShape = (
+    areaQuery.data
+      ? areaQuery.data.data.map((item) => ({
+          label: item.areaName,
+          value: item.id,
+        }))
+      : []
+  ).filter((item) => item.value !== 10);
 
   const areaItems = filedItemsGuard(
     inputItems,
@@ -322,9 +333,9 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
         onSubmit={handleSubmit}
         sx={{ bgcolor: "grey.200" }}
       >
-        {/* <Box display={"none"}>
+        <Box display={"none"}>
           <AreaInput setter={() => {}} value={undefined} level={3} />
-        </Box> */}
+        </Box>
         <Grid container spacing={2}>
           {tabRender && <Grid xs={12}>{tabRender}</Grid>}
           {inputRender && <Grid xs={2}>{inputRender}</Grid>}
@@ -357,7 +368,7 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
             />
           </Grid>
 
-          <SectionGuard
+          {/* <SectionGuard
             permission={joinPermissions([
               accessNamesConfig.BUDGET__REPORT_PAGE,
               accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
@@ -382,7 +393,7 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
                 showError={haveSubmitedForm}
               />
             </Grid>
-          </SectionGuard>
+          </SectionGuard> */}
 
           <Grid xs={2}>
             <NumbersInput
@@ -430,7 +441,7 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
           horizontal: "center",
         }}
       >
-        <Box width={"200px"} p={2} pt={0}>
+        <Box minWidth={"200px"} p={2} pt={0}>
           <FormGroup>
             <FormControlLabel
               control={
