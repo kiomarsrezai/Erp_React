@@ -60,7 +60,10 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
     // body
     const body = sheet.List.map((rowData: any, rowIndex: any) => {
       return sheet.Columns.map((column: any) => {
-        const style: any = excelbodyStyle(rowIndex, column.textAlign);
+        const style: any = excelbodyStyle(rowIndex, {
+          textAlign: column.textAlign,
+          wrapText: column.wrapText,
+        });
 
         style.fill.fgColor = {
           rgb: rgbToHex(
@@ -160,6 +163,7 @@ const createData = (data: any, title: string, proccessId: number) => {
         Header: "شرح",
         Name: "description",
         textAlign: "right",
+        wrapText: true,
       },
       {
         Header: "مصوب",

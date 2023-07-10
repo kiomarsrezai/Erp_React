@@ -173,7 +173,7 @@ export const excelHeaderStyle = {
   font: { name: globalConfig.font.excel.value, bold: true, sz: 10 },
   fill: { fgColor: { rgb: "E0E0E0" } },
   alignment: {
-    wrapText: true,
+    // wrapText: true,
     horizontal: "center",
     vertical: "center",
   },
@@ -197,12 +197,18 @@ export const excelHeaderStyle = {
   },
 };
 
-export const excelbodyStyle = (rowIndex: number, textAlign: any) => ({
+export const excelbodyStyle = (
+  rowIndex: number,
+  options: {
+    textAlign?: "left" | "right" | "center";
+    wrapText?: boolean;
+  }
+) => ({
   font: { name: globalConfig.font.excel.value, sz: 10 },
   fill: { fgColor: { rgb: rowIndex % 2 === 0 ? "ffffff" : "eeeeee" } },
   alignment: {
-    wrapText: true,
-    horizontal: textAlign || "center",
+    wrapText: options.wrapText || false,
+    horizontal: options.textAlign || "center",
     vertical: "center",
   },
   border: {
@@ -229,7 +235,7 @@ export const excelFooterStyle = {
   font: { name: globalConfig.font.excel.value, sz: 10 },
   fill: { fgColor: { rgb: "e0e0e0" } },
   alignment: {
-    wrapText: true,
+    // wrapText: true,
     horizontal: "center",
     vertical: "center",
   },
