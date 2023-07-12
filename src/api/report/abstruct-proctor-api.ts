@@ -2,6 +2,7 @@ import clientAxios from "config/axios-config";
 
 import { BaseApi } from "api/base-api";
 import {
+  ABSTRACT_PROCTOR_INFO_MODAL1_LIST_URL,
   ABSTRACT_PROCTOR_LIST_URL,
   ABSTRACT_PROCTOR_MODAL_ROW_URL,
   ABSTRACT_PROCTOR_MODAL_URL,
@@ -11,6 +12,7 @@ import {
 import { BaseApiResponseShape } from "types/base-type";
 import {
   GetSingleAbstructProctorItemShape,
+  GetSingleAbstructProctorModal1InfoItemShape,
   GetSingleAbstructProctorModalDataItemShape,
   GetSingleAbstructProctorModalRowDataItemShape,
   GetSingleProctorListShape,
@@ -65,6 +67,14 @@ export const abstructProctorApi = new (class extends BaseApi {
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleProctorListShape[]>
     >(ABSTRACT_PROCTOR_LIST_URL);
+
+    return response.data;
+  };
+
+  getProctorInfoModal1 = async (formdata: any) => {
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleAbstructProctorModal1InfoItemShape[]>
+    >(ABSTRACT_PROCTOR_INFO_MODAL1_LIST_URL + this.joinFilterData(formdata));
 
     return response.data;
   };

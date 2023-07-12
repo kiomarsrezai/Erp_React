@@ -46,3 +46,13 @@ export interface GetSingleProctorListShape {
   id: number;
   proctorName: string;
 }
+
+export interface GetSingleAbstructProctorModal1InfoItemShape {
+  number: string;
+  date: string;
+  dateShamsi: string;
+  description: string;
+  estimateAmount: number;
+  code: string;
+  title: string;
+}
