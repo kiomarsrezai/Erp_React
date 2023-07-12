@@ -56,12 +56,12 @@ function AbstructModal1(props: AbstructModal1Props) {
     },
     {
       title: "هزینه ای",
-      colspan: 3,
+      colspan: 5,
       align: "center",
     },
     {
       title: "سرمایه ای",
-      colspan: 3,
+      colspan: 5,
       align: "center",
     },
     {
@@ -97,13 +97,24 @@ function AbstructModal1(props: AbstructModal1Props) {
       align: "left",
     },
     {
+      title: "ت اعتبار",
+      name: "creditAmountCurrent",
+      split: true,
+      align: "left",
+    },
+    {
+      title: "%",
+      name: "percentCreditAmountCurrent",
+      percent: true,
+    },
+    {
       title: "عملکرد",
       name: "expenseHazine",
       split: true,
       align: "left",
     },
     {
-      title: "% جذب",
+      title: "%",
       name: "jazbHazine",
       percent: true,
     },
@@ -114,12 +125,23 @@ function AbstructModal1(props: AbstructModal1Props) {
       split: true,
     },
     {
+      title: "ت اعتبار",
+      name: "creditAmountCivil",
+      split: true,
+      align: "left",
+    },
+    {
+      title: "%",
+      name: "percentCreditAmountCivil",
+      percent: true,
+    },
+    {
       title: "عملکرد",
       name: "expenseSarmaie",
       split: true,
     },
     {
-      title: "% جذب",
+      title: "%",
       name: "jazbSarmaie",
       forceHaveBorder: true,
       percent: true,
@@ -209,12 +231,32 @@ function AbstructModal1(props: AbstructModal1Props) {
   const sumMosavabSarmaie = sumFieldsInSingleItemData(data, "mosavabCivil");
   const sumExpenseSarmaie = sumFieldsInSingleItemData(data, "expenseCivil");
 
+  const sumCreaditAmountCivil = sumFieldsInSingleItemData(
+    data,
+    "creditAmountCivil"
+  );
+
+  const sumCreaditAmountHazine = sumFieldsInSingleItemData(
+    data,
+    "creditAmountCurrent"
+  );
+
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
     "colspan-number": 2,
     title: null,
     mosavabHazine: sumMosavabHazine,
     expenseHazine: sumExpenseHazine,
+    percentCreditAmountCivil: getPercent(
+      sumCreaditAmountCivil,
+      sumMosavabSarmaie
+    ),
+    percentCreditAmountCurrent: getPercent(
+      sumCreaditAmountHazine,
+      sumMosavabHazine
+    ),
+    creditAmountCivil: sumCreaditAmountCivil,
+    creditAmountCurrent: sumCreaditAmountHazine,
     jazbHazine: getPercent(sumExpenseHazine, sumMosavabHazine),
     mosavabSarmaie: sumMosavabSarmaie,
     expenseSarmaie: sumExpenseSarmaie,
@@ -260,7 +302,7 @@ function AbstructModal1(props: AbstructModal1Props) {
           <PrintIcon />
         </IconButton>
       ),
-      colspan: 10,
+      colspan: 14,
     },
   ];
 
