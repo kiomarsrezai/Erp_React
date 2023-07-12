@@ -7,6 +7,10 @@ export interface GetSingleAbstructProctorItemShape {
   percentCurrent: number;
   percentCivil: number;
   percentTotal: number;
+  percentCreditAmountCivil: number;
+  percentCreditAmountCurrent: number;
+  creditAmountCivil: number;
+  creditAmountCurrent: number;
 }
 
 export interface GetSingleAbstructProctorModalDataItemShape {
