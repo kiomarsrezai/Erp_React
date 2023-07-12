@@ -6,13 +6,13 @@
     <Databases isList="true" count="2">
       <data Ref="2" type="Stimulsoft.Report.Dictionary.StiJsonDatabase" isKey="true">
         <Alias>data</Alias>
-        <Key />
+        <Key>eddcb647e748498bb97f3199f8726c5b</Key>
         <Name>data</Name>
         <PathData>D:\Profiles\akasir\Desktop\stimul\data.json</PathData>
       </data>
       <footer Ref="3" type="Stimulsoft.Report.Dictionary.StiJsonDatabase" isKey="true">
         <Alias>footer</Alias>
-        <Key />
+        <Key>8d1dffba7cec49e8a9c720c0952970d4</Key>
         <Name>footer</Name>
         <PathData>D:\Profiles\akasir\Desktop\stimul\footer.json</PathData>
       </footer>
@@ -21,12 +21,12 @@
       <root Ref="4" type="DataTableSource" isKey="true">
         <Alias>root</Alias>
         <Columns isList="true" count="6">
-          <value>title,System.String</value>
-          <value>code,System.Decimal</value>
-          <value>hazine,System.Decimal</value>
-          <value>jazb,System.Decimal</value>
-          <value>mosavab,System.Decimal</value>
-          <value>creditAmount,System.Decimal</value>
+          <value>ORIGINAL,title,title,title,System.String,b4741951ae7746a98ee20f18d02f9c61</value>
+          <value>ORIGINAL,code,code,code,System.Decimal,d8b615eda7f5473fb508eb30a1ea0160</value>
+          <value>ORIGINAL,hazine,hazine,hazine,System.Decimal,_x0031_5567781804c4dfc94613a3f4af0fb5c</value>
+          <value>ORIGINAL,jazb,jazb,jazb,System.Decimal,ac9a1dc8e00c454394d30080871fe567</value>
+          <value>ORIGINAL,mosavab,mosavab,mosavab,System.Decimal,_x0039_9d8827f7a04404fbdae51be1b9191ab</value>
+          <value>ORIGINAL,supply,supply,supply,System.Decimal,_x0031_410a5eaf37b41ec8fe48cb04d9b93c6</value>
         </Columns>
         <Dictionary isRef="1" />
         <Key>e105e5378e1d4944b009b0d18d2d2267</Key>
@@ -36,10 +36,10 @@
       <root2 Ref="5" type="DataTableSource" isKey="true">
         <Alias>root2</Alias>
         <Columns isList="true" count="4">
-          <value>hazine,System.Decimal</value>
-          <value>jazb,System.Decimal</value>
-          <value>mosavab,System.Decimal</value>
-          <value>creditAmount,System.Decimal</value>
+          <value>ORIGINAL,hazine,hazine,hazine,System.Decimal,_x0038_c69fc33edfd46e3842c0d93af3eb1d6</value>
+          <value>ORIGINAL,jazb,jazb,jazb,System.Decimal,_x0038_a427b21a7d84a29a24f9e2612e59e4b</value>
+          <value>ORIGINAL,mosavab,mosavab,mosavab,System.Decimal,_x0039_adcf4dee85f4dc3b9f2e721139d66c1</value>
+          <value>ORIGINAL,supply,supply,supply,System.Decimal,_x0039_86c32caac1440a18a286abdbebcd95c</value>
         </Columns>
         <Dictionary isRef="1" />
         <Key>d69099805e0843ee8c127f3bd6c172a2</Key>
@@ -500,7 +500,7 @@
               <Name>Text9</Name>
               <Page isRef="6" />
               <Parent isRef="23" />
-              <Text>{root.creditAmount}</Text>
+              <Text>{root.supply}</Text>
               <TextBrush>[74:74:74]</TextBrush>
               <TextFormat Ref="33" type="NumberFormat" isKey="true">
                 <DecimalDigits>0</DecimalDigits>
@@ -641,7 +641,7 @@
               <Name>Text10</Name>
               <Page isRef="6" />
               <Parent isRef="34" />
-              <Text>{root2.creditAmount}</Text>
+              <Text>{root2.supply}</Text>
               <TextBrush>[0:0:0]</TextBrush>
               <TextFormat Ref="42" type="NumberFormat" isKey="true">
                 <DecimalDigits>0</DecimalDigits>
@@ -691,11 +691,11 @@
   </ReferencedAssemblies>
   <ReportAlias>SimpleList</ReportAlias>
   <ReportAuthor>Stimulsoft</ReportAuthor>
-  <ReportChanged>5/31/2023 9:13:51 AM</ReportChanged>
+  <ReportChanged>7/12/2023 4:00:55 PM</ReportChanged>
   <ReportCreated>5/29/2004 10:59:00 AM</ReportCreated>
   <ReportDescription>This sample demonstrates how to create a simple list report.</ReportDescription>
-  <ReportFile>D:\Profiles\akasir\Desktop\stimul\abstruct-proctor-modal2.mrt</ReportFile>
-  <ReportGuid>1d4f344749eb474291607e0dd3084a32</ReportGuid>
+  <ReportFile>D:\erp\erp-react\public\Stimulsoft\list\proposal\report\proctor\abstruct-proctor-modal2.mrt</ReportFile>
+  <ReportGuid>1fd6cfc9aeca428a8319f313b032d156</ReportGuid>
   <ReportImage>iVBORw0KGgoAAAANSUhEUgAAASAAAAGWCAMAAADvzq7aAAAABGdBTUEAALGPC/xhBQAAAYBQTFRF
 S7asucbHqba33/Hx8vr56fb1paqq+v394fPx1N3i5/X1nKan7/n52+zryOfl8/T0s77B7ezt4/b1
 /f7+0+Tj29vcu7u9kZSV09PTsby8uMK+4vXzzN3d0+LewsPD0s3Iy8vMws3M5OTkys3S4t3Zw9PU
@@ -1289,7 +1289,7 @@ xuAbg8bgG4PG4BuDxuAbg8bgG4PG4BuDxuAbg8bgL8ZveAdG4/8D+uiM0GrY40YAAAAASUVORK5C
 YII=</ReportImage>
   <ReportName>Report</ReportName>
   <ReportUnit>HundredthsOfInch</ReportUnit>
-  <ReportVersion>2023.2.5.0</ReportVersion>
+  <ReportVersion>2023.2.7.0</ReportVersion>
   <Script>using System;
 using System.Drawing;
 using System.Windows.Forms;
