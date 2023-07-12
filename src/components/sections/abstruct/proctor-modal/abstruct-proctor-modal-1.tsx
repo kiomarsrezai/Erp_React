@@ -33,8 +33,29 @@ function AbstructProctorModal1(props: AbstructModal2Props) {
   const tableHeads: TableHeadShape = [
     {
       title: "ردیف",
+      name: "rowIndex",
+    },
+    {
+      title: "شماره",
       name: "number",
     },
+    {
+      title: "تاریخ",
+      name: "dateShamsi",
+      align: "left",
+    },
+    {
+      title: "شرح",
+      name: "description",
+      align: "left",
+    },
+    {
+      title: "مبلغ",
+      name: "estimateAmount",
+      align: "left",
+      split: true,
+    },
+
     {
       title: "کد",
       name: "code",
@@ -44,30 +65,6 @@ function AbstructProctorModal1(props: AbstructModal2Props) {
       name: "title",
       align: "left",
     },
-    {
-      title: "مصوب",
-      name: "mosavab",
-      split: true,
-      align: "left",
-    },
-    {
-      title: "ت اعتبار",
-      name: "supply",
-      split: true,
-      align: "left",
-    },
-    {
-      title: "هزینه",
-      name: "hazine",
-      split: true,
-      align: "left",
-    },
-
-    {
-      title: "% جذب",
-      name: "jazb",
-      percent: true,
-    },
   ];
 
   // table data
@@ -76,7 +73,7 @@ function AbstructProctorModal1(props: AbstructModal2Props) {
   ): any[] => {
     const formatedData: any[] = unFormatData.map((item, i) => ({
       ...item,
-      number: i + 1,
+      rowIndex: i + 1,
     }));
 
     return formatedData;
@@ -94,19 +91,17 @@ function AbstructProctorModal1(props: AbstructModal2Props) {
   const tableData = formatTableData(data);
 
   // table footer
-  const sumMosavab = sumFieldsInSingleItemData(data, "mosavab");
-  const sumHazine = sumFieldsInSingleItemData(data, "expense");
-  const sumSupply = sumFieldsInSingleItemData(data, "supply");
+  const sumEstimateAmount = sumFieldsInSingleItemData(data, "estimateAmount");
 
   const tableFooters: any = {
-    number: "جمع",
-    "colspan-number": 3,
-    title: null,
-    code: null,
-    mosavab: sumMosavab,
-    hazine: sumHazine,
-    supply: sumSupply,
-    jazb: getPercent(sumHazine, sumMosavab),
+    rowIndex: "جمع",
+    "colspan-rowIndex": 4,
+    title: "",
+    description: null,
+    dateShamsi: null,
+    number: null,
+    code: "",
+    estimateAmount: sumEstimateAmount,
   };
 
   const tableHeadGroups: TableHeadGroupShape = [

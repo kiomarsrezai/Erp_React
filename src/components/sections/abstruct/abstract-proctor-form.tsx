@@ -21,6 +21,7 @@ import { getGeneralFieldItemYear } from "helper/export-utils";
 import { abstructProctorStimul } from "stimul/budget/report/proctor/abstruct-proctor-stimul";
 import FixedModal from "components/ui/modal/fixed-modal";
 import AbstructProctorModal1 from "./proctor-modal/abstruct-proctor-modal-1";
+import { Button } from "@mui/material";
 
 interface AbstractProctorFormProps {
   formData: any;
@@ -116,7 +117,7 @@ function AbstractProctorForm(props: AbstractProctorFormProps) {
               accessNamesConfig.FIELD_YEAR,
             ])}
           >
-            <Grid lg={2}>
+            <Grid sm={2}>
               <YearInput
                 setter={setFormData}
                 value={formData[abstructProctorConfig.YEAR]}
@@ -149,7 +150,7 @@ function AbstractProctorForm(props: AbstractProctorFormProps) {
           />
         </Grid> */}
 
-          <Grid>
+          <Grid sm={2}>
             <LoadingButton
               variant="contained"
               type="submit"
@@ -164,18 +165,26 @@ function AbstractProctorForm(props: AbstractProctorFormProps) {
             >
               <PrintIcon />
             </IconButton>
-            <LoadingButton
-              variant="contained"
-              type="submit"
-              onClick={handleOpenModal}
-            >
-              نمایش
-            </LoadingButton>
+          </Grid>
+          <Grid sm={2}></Grid>
+          <Grid sm={2}></Grid>
+          <Grid sm={2}></Grid>
+
+          <Grid sm={2}>
+            <Box display={"flex"} justifyContent={"flex-end"}>
+              <Button variant="contained" onClick={handleOpenModal}>
+                درخواست ت اعتبار
+              </Button>
+            </Box>
           </Grid>
         </Grid>
       </Box>
 
-      <FixedModal open={isOpenModal} handleClose={handleCloseModal}>
+      <FixedModal
+        open={isOpenModal}
+        handleClose={handleCloseModal}
+        title="درخواست ت اعتبار"
+      >
         <AbstructProctorModal1 formdata={formData} />
       </FixedModal>
     </>
