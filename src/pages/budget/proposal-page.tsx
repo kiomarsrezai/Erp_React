@@ -369,6 +369,7 @@ function BudgetProposalPage() {
         handleClose={handleCloseModal1}
         loading={getDetailMutation.isLoading}
         title={modalTitle}
+        maxWidth="70%"
       >
         <ProposalModal1
           data={getDetailMutation.data?.data || []}

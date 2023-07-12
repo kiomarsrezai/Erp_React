@@ -22,6 +22,10 @@ export const reactQueryKeys = {
     },
     proposal: {
       getData: ["budget-propsal"],
+      getModal1Data: ["budget-propsal-modal1"],
+      getModal2Data: ["budget-propsal-modal2"],
+      getModal3Data: ["budget-propsal-modal3"],
+
       getAccData: ["budget-propsal-acc"],
     },
     connect: {

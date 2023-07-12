@@ -21,11 +21,12 @@ import {
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { proposalBudgetApi } from "api/budget/proposal-api";
 import { proposalConfig } from "config/features/budget/proposal-config";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import { TextField, Typography } from "@mui/material";
+import { reactQueryKeys } from "config/react-query-keys-config";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -109,7 +110,15 @@ function ProposalModal2(props: ProposalModal2Props) {
   // modal search
   const [isOpenSearchModal, setIsOpenSearchModal] = useState(false);
 
-  const dataMutation = useMutation(proposalBudgetApi.getMoreDetailData);
+  const queryClient = useQueryClient();
+
+  const dataMutation = useMutation(proposalBudgetApi.getMoreDetailData, {
+    onSuccess(data) {
+      queryClient?.setQueryData(reactQueryKeys.budget.proposal.getModal2Data, {
+        data: data.data,
+      });
+    },
+  });
 
   const handleDoneModal2Task = () => {
     dataMutation.mutate({
@@ -391,9 +400,15 @@ function ProposalModal2(props: ProposalModal2Props) {
     return formatedData;
   };
 
-  const tableData = dataMutation.data?.data
-    ? formatTableData(dataMutation.data.data)
-    : formatTableData(data);
+  const modal2DataQuery = useQuery(
+    reactQueryKeys.budget.proposal.getModal2Data,
+    () => proposalBudgetApi.getMoreDetailData({}),
+    {
+      enabled: false,
+    }
+  );
+
+  const tableData = formatTableData(modal2DataQuery.data?.data || data);
 
   // footer
   const sumMosavab = sumFieldsInSingleItemData(

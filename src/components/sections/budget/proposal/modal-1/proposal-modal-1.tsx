@@ -12,7 +12,7 @@ import ProposalModal1Search from "./proposal-modal-1-search";
 import ProposalModal2 from "../modal-2/proposal-modal-2";
 import ProposalModal1Edit from "./proposal-modal-1-edit";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { proposalBudgetApi } from "api/budget/proposal-api";
 import { proposalConfig } from "config/features/budget/proposal-config";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
@@ -27,6 +27,7 @@ import {
 } from "types/data/budget/proposal-type";
 import { TextField } from "@mui/material";
 import { AmdDependency } from "typescript";
+import { reactQueryKeys } from "config/react-query-keys-config";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -51,7 +52,14 @@ function ProposalModal1(props: ProposalModal1Props) {
   const { data, baseTitle, formData, baseRowData, setIsmodal1Changed } = props;
 
   // data
-  const getDataMutation = useMutation(proposalBudgetApi.getDetailData);
+  const queryClient = useQueryClient();
+  const getDataMutation = useMutation(proposalBudgetApi.getDetailData, {
+    onSuccess(data) {
+      queryClient?.setQueryData(reactQueryKeys.budget.proposal.getModal1Data, {
+        data: data.data,
+      });
+    },
+  });
 
   const handleDoneActionTask = () => {
     getDataMutation.mutate({
@@ -364,9 +372,15 @@ function ProposalModal1(props: ProposalModal1Props) {
     return formatedData;
   };
 
-  const tableData = getDataMutation.data?.data
-    ? formatTableData(getDataMutation.data?.data)
-    : formatTableData(data);
+  const modal1DataQuery = useQuery(
+    reactQueryKeys.budget.proposal.getModal1Data,
+    () => proposalBudgetApi.getDetailData({}),
+    {
+      enabled: false,
+    }
+  );
+
+  const tableData = formatTableData(modal1DataQuery.data?.data || data);
 
   // footer
   const sumMosavab = sumFieldsInSingleItemData(
