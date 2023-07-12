@@ -189,6 +189,12 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
 
   // print
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  // const [isCancel, setIsCancel] = useState(false);
+
+  const handleCancelClick = () => {
+    // setIsCancel(true)
+    window.location.reload();
+  };
 
   const handleExcelClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -280,6 +286,7 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
   };
 
   const handlePrintForm = async (areaId: number) => {
+    // setIsCancel(false);
     let culmnsData: any = {};
     budgetMethodItems.forEach((item) => {
       culmnsData[item.value] = [];
@@ -479,7 +486,37 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
           getExcelSazmanMutation.isLoading ||
           excelLodaing
         }
+        canCancel={
+          getExcelManateghMutation.isLoading ||
+          getExcelSazmanMutation.isLoading ||
+          excelLodaing
+        }
+        onCancel={handleCancelClick}
       />
+      {/*
+
+*/}
+      {/* {(getExcelManateghMutation.isLoading ||
+        getExcelSazmanMutation.isLoading ||
+        excelLodaing) &&
+        !isCancel && (
+          <Box
+            sx={{
+              position: "fixed",
+              zIndex: 1000002,
+              bottom: "2%",
+              left: "50%",
+            }}
+          >
+            <Button
+              variant="contained"
+              color="error"
+              onClick={handleCancelClick}
+            >
+              انصراف
+            </Button>
+          </Box>
+        )} */}
 
       {/* print modal */}
       {/* <FixedModal

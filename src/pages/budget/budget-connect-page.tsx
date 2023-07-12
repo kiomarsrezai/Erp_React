@@ -91,7 +91,7 @@ function BudgetConnectPage() {
     useState<GetSingleBudgetConnectItemShape | null>(null);
 
   const openEditModal = (row: GetSingleBudgetConnectItemShape) => {
-    setEditModalTitle(row.description);
+    setEditModalTitle(`${row.code} - ${row.description}`);
     setIsOpenEditModal(true);
     setEditModalInitialData(row);
   };
@@ -172,8 +172,9 @@ function BudgetConnectPage() {
         open={isOpenEditModal}
         handleClose={() => setIsOpenEditModal(false)}
         title={editModalTitle}
-        maxWidth="md"
-        maxHeight="30%"
+        maxWidth="sm"
+        maxHeight="270px"
+        minHeight="270px"
       >
         <BudgetConnectEditModal
           initialData={editModalInitialData}
