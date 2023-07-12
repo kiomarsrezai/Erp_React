@@ -69,6 +69,7 @@ export const reactQueryKeys = {
     },
     proctor: {
       abstract: ["abstract-proctor"],
+      abstractProctorModal1: ["abstract-proctor-modal1"],
       getDetailData: ["abstract-proctor-detail"],
     },
     abstruct: {

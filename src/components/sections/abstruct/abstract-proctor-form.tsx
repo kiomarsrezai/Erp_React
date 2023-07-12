@@ -176,7 +176,7 @@ function AbstractProctorForm(props: AbstractProctorFormProps) {
       </Box>
 
       <FixedModal open={isOpenModal} handleClose={handleCloseModal}>
-        <AbstructProctorModal1 data={[]} formdata={formData} />
+        <AbstructProctorModal1 formdata={formData} />
       </FixedModal>
     </>
   );

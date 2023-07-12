@@ -4,27 +4,30 @@ import IconButton from "@mui/material/IconButton";
 
 import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { getGeneralFieldItemYear } from "helper/export-utils";
-import { ReactNode } from "react";
-import { GetSingleAbstructProctorModalRowDataItemShape } from "types/data/report/abstruct-proctor-type";
+import { ReactNode, useState } from "react";
+import {
+  GetSingleAbstructProctorModal1InfoItemShape,
+  GetSingleAbstructProctorModalRowDataItemShape,
+} from "types/data/report/abstruct-proctor-type";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { abstructProctorModal2Stimul } from "stimul/budget/report/proctor/abstruct-proctor-modal2-stimul";
-
-interface TableDataItemShape {
-  number: ReactNode;
-  title: ReactNode;
-  code: ReactNode;
-  hazine: ReactNode;
-  mosavab: ReactNode;
-  jazb: ReactNode;
-}
+import AbstractProctorModal1Form from "./abstruct-proctor-modal1-form";
+import { abstructProctorConfig } from "config/features/report/proctor/abstruct-config";
+import { useQuery } from "@tanstack/react-query";
+import { reactQueryKeys } from "config/react-query-keys-config";
+import { abstructProctorApi } from "api/report/abstruct-proctor-api";
 
 interface AbstructModal2Props {
-  data: any[];
   formdata: any;
 }
 
 function AbstructProctorModal1(props: AbstructModal2Props) {
-  const { data, formdata } = props;
+  const { formdata } = props;
+
+  const [modalFormData, setModalFormData] = useState({
+    [abstructProctorConfig.AREA]: undefined,
+    [abstructProctorConfig.PROCTOR]: undefined,
+  });
 
   // table heads
   const tableHeads: TableHeadShape = [
@@ -69,31 +72,33 @@ function AbstructProctorModal1(props: AbstructModal2Props) {
 
   // table data
   const formatTableData = (
-    unFormatData: GetSingleAbstructProctorModalRowDataItemShape[]
-  ): TableDataItemShape[] => {
-    const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
+    unFormatData: GetSingleAbstructProctorModal1InfoItemShape[]
+  ): any[] => {
+    const formatedData: any[] = unFormatData.map((item, i) => ({
       ...item,
       number: i + 1,
-      title: item.description,
-      code: item.code,
-      hazine: item.expense,
-      "textcolor-hazine": item.expense < 0 ? "red" : "",
-      mosavab: item.mosavab,
-      jazb: getPercent(item.expense, item.mosavab),
-      actions: () => "",
     }));
 
     return formatedData;
   };
 
-  const tableData = data ? formatTableData(data) : [];
+  const abstractQuery = useQuery(
+    reactQueryKeys.report.proctor.abstractProctorModal1,
+    () => abstructProctorApi.getProctorInfoModal1({}),
+    {
+      enabled: false,
+    }
+  );
+
+  const data = abstractQuery.data?.data || [];
+  const tableData = formatTableData(data);
 
   // table footer
   const sumMosavab = sumFieldsInSingleItemData(data, "mosavab");
   const sumHazine = sumFieldsInSingleItemData(data, "expense");
   const sumSupply = sumFieldsInSingleItemData(data, "supply");
 
-  const tableFooters: TableDataItemShape | any = {
+  const tableFooters: any = {
     number: "جمع",
     "colspan-number": 3,
     title: null,
@@ -104,29 +109,14 @@ function AbstructProctorModal1(props: AbstructModal2Props) {
     jazb: getPercent(sumHazine, sumMosavab),
   };
 
-  // print
-  const handlePrintForm = () => {
-    if (tableData.length) {
-      // const [areaTitle, mainTitle] = modal2Title.split("-");
-      // const yearLabel = getGeneralFieldItemYear(formdata, 1);
-      // abstructProctorModal2Stimul({
-      //   data: tableData,
-      //   footer: [tableFooters],
-      //   year: yearLabel,
-      //   title1: modal1Title,
-      //   title2: areaTitle?.trim(),
-      //   mainTitle: mainTitle?.trim(),
-      //   numberShow: "ریال",
-      // });
-    }
-  };
-
   const tableHeadGroups: TableHeadGroupShape = [
     {
       title: (
-        <IconButton color="primary" onClick={handlePrintForm}>
-          <PrintIcon />
-        </IconButton>
+        <AbstractProctorModal1Form
+          formData={formdata}
+          modalFormData={modalFormData}
+          setModalFormData={setModalFormData}
+        />
       ),
       colspan: 7,
     },
