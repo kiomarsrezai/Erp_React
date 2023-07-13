@@ -74,3 +74,15 @@ export interface GetSingleSepratorConfrimItemShape {
   date: "string";
   dateShamsi: "string";
 }
+
+// abstruct
+export interface GetSingleSepratorAbstructItemShape {
+  id: 0;
+  areaName: "string";
+  userId: 0;
+  firstName: "string";
+  lastName: "string";
+  responsibility: "string";
+  date: "string";
+  dateShamsi: "string";
+}

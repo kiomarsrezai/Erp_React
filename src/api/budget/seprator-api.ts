@@ -189,4 +189,13 @@ export const sepratorBudgetApi = new (class extends BaseApi {
     );
     return response.data;
   };
+
+  // abstruct
+  abstructBudgetRead = async (formdata: any) => {
+    const url = sepratorBudgetUrl.abstructData + this.joinFilterData(formdata);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleSepratorConfrimItemShape[]>
+    >(url);
+    return response.data;
+  };
 })();

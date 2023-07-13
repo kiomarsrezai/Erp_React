@@ -49,6 +49,7 @@ import {
 import MonthInput from "components/sections/inputs/month-input";
 import { budgetReportExpenseApi } from "api/report/budget-expense-api";
 import SepratorBudgetConfirmationModal1 from "./confirmation/seprator-budget-confirmation-modal1";
+import SepratorBudgetAbstructModal1 from "./abstruct/seprator-budget-abstruct-modal1";
 
 interface SepratoeBudgetFormProps {
   formData: any;
@@ -306,6 +307,21 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
     setIsOpenConfirmModal(false);
   };
 
+  // abstruct modal
+  const [isOpenAbstructModal, setIsOpenAbstructModal] = useState(false);
+
+  const abstructBudgetMutation = useMutation(
+    sepratorBudgetApi.abstructBudgetRead
+  );
+
+  const handleOpenAbstructModal = () => {
+    setIsOpenAbstructModal(true);
+  };
+
+  const handleCloseAbstructModal = () => {
+    setIsOpenAbstructModal(false);
+  };
+
   return (
     <>
       <Box component="form" onSubmit={handleFormSubmit}>
@@ -415,6 +431,13 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
               fullWidth
             />
           </Grid> */}
+          <Grid sm={2}>
+            <Box display={"flex"} justifyContent={"flex-end"}>
+              <Button variant="contained" onClick={handleOpenAbstructModal}>
+                خلاصه بودجه
+              </Button>
+            </Box>
+          </Grid>
         </Grid>
       </Box>
 
@@ -495,6 +518,19 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
           data={confrimDataMutation.data?.data || []}
           formData={formData}
           monthData={monthData}
+        />
+      </FixedModal>
+
+      {/* abstruct */}
+      <FixedModal
+        open={isOpenAbstructModal}
+        handleClose={handleCloseAbstructModal}
+        title="خلاصه بودجه"
+        // maxHeight="90%"
+        loading={abstructBudgetMutation.isLoading}
+      >
+        <SepratorBudgetAbstructModal1
+          data={abstructBudgetMutation.data?.data || []}
         />
       </FixedModal>
     </>
