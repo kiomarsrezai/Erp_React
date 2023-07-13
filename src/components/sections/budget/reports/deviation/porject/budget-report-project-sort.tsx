@@ -22,7 +22,7 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
     [budgetProjectSortConfig.year]: undefined,
     [budgetProjectSortConfig.area]: undefined,
     [budgetProjectSortConfig.budget]: undefined,
-    [budgetProjectSortConfig.kind]: 1,
+    // [budgetProjectSortConfig.kind]: 1,
   });
 
   // head
@@ -52,6 +52,19 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
       width: "150px",
     },
     {
+      title: "ت اعتبار",
+      name: "creditAmount",
+      split: true,
+      align: "left",
+      width: "150px",
+    },
+    {
+      title: "%",
+      name: "percentCreditAmount",
+      percent: true,
+      width: "80px",
+    },
+    {
       title: "عملکرد",
       name: "expense",
       split: true,
@@ -59,8 +72,8 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
       width: "150px",
     },
     {
-      title: "% جذب",
-      name: "jazb",
+      title: "%",
+      name: "percent",
       percent: true,
       width: "80px",
     },
@@ -105,15 +118,22 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
     "expense"
   );
 
+  const sumCreaditAmount = sumFieldsInSingleItemData(
+    dataQuery.data?.data || [],
+    "creditAmount"
+  );
+
   const tableFooter: any = {
     number: "جمع",
     "colspan-number": 3,
     code: null,
     areaName: "",
-    jazb: getPercent(sumExpense, sumMosavab),
+    percent: getPercent(sumExpense, sumMosavab),
     description: null,
     mosavab: sumMosavab,
     expense: sumExpense,
+    creditAmount: sumCreaditAmount,
+    percentCreditAmount: getPercent(sumCreaditAmount, sumMosavab),
   };
 
   // table data
@@ -123,7 +143,7 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
       const result = {
         ...item,
         share: getPercentFloat(item.mosavab, sumMosavab, 1) + "%",
-        jazb: getPercent(item.expense, item.mosavab),
+        percent: getPercent(item.expense, item.mosavab),
         sum:
           getPercentFloat(item.mosavab + CalculatedMosavab, sumMosavab, 1) +
           "%",
@@ -153,7 +173,7 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
           }}
         />
       ),
-      colspan: 9,
+      colspan: 11,
     },
   ];
 

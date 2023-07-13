@@ -189,7 +189,7 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
                 accessNamesConfig.BUDGET__REPORT_PAGE,
                 accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SORT,
               ])}
-              showError={false}
+              showError={haveSubmitedForm}
             />
           </Grid>
         </SectionGuard>
@@ -235,12 +235,12 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
         </Grid>
         {/* </SectionGuard> */}
 
-        <Grid xs={2}>
+        {/* <Grid xs={2}>
           <BudgetSortKindInput
             setter={setFormData}
             value={formData[budgetProjectSortConfig.kind] as any}
           />
-        </Grid>
+        </Grid> */}
 
         <Grid xs>
           <LoadingButton
@@ -295,7 +295,8 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
               />
             </Box>
           </Popover>
-
+        </Grid>
+        <Grid xs={2}>
           <TextField
             size="small"
             label="جستجو"
