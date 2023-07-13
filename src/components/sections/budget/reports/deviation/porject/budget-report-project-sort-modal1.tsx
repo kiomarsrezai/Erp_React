@@ -28,18 +28,18 @@ function BudgetReportProjectSortModal1(
   const tableHeads: TableHeadShape = [
     {
       title: "ردیف",
-      name: "number",
+      name: "rowIndex",
+      width: "80px",
     },
     {
       title: "تاریخ",
       name: "dateShamsi",
-      align: "left",
+      width: "150px",
     },
     {
-      title: "مصوب",
-      name: "mosavabHazine",
-      split: true,
-      align: "left",
+      title: "شماره",
+      name: "number",
+      width: "150px",
     },
     {
       title: "شرح",
@@ -47,30 +47,11 @@ function BudgetReportProjectSortModal1(
       align: "left",
     },
     {
-      title: "ت اعتبار",
-      name: "creditAmount",
+      title: "مبلغ ت اعتبار",
+      name: "requestBudgetAmount",
       split: true,
       align: "left",
       width: "150px",
-    },
-    {
-      title: "%",
-      name: "percentCreditAmount",
-      percent: true,
-      width: "80px",
-    },
-    {
-      title: "عملکرد",
-      name: "expense",
-      split: true,
-      align: "left",
-      width: "150px",
-    },
-    {
-      title: "%",
-      name: "percent",
-      percent: true,
-      width: "80px",
     },
   ];
 
@@ -79,17 +60,7 @@ function BudgetReportProjectSortModal1(
   ): any[] => {
     const formatedData: any[] = unFormatData.map((item, i) => ({
       ...item,
-      number: i + 1,
-      title: item.areaName,
-      mosavabHazine: item.mosavabCurrent,
-      expenseHazine: item.expenseCurrent,
-      jazbHazine: item.percentCurrent,
-      mosavabSarmaie: item.mosavabCivil,
-      "textcolor-expenseHazine": item.expenseCurrent < 0 ? "red" : "",
-      "textcolor-expenseSarmaie": item.expenseCivil < 0 ? "red" : "",
-      expenseSarmaie: item.expenseCivil,
-      jazbSarmaie: item.percentCivil,
-      jazbKol: item.percentTotal,
+      rowIndex: i + 1,
     }));
 
     return formatedData;
@@ -98,66 +69,23 @@ function BudgetReportProjectSortModal1(
   const tableData = data ? formatTableData(data) : [];
 
   // table footer
-  const sumMosavab = sumFieldsInSingleItemData(data, "mosavab");
-  const sumExpense = sumFieldsInSingleItemData(data, "expense");
-
-  const sumCreaditAmount = sumFieldsInSingleItemData(data, "creditAmount");
+  const sumRequestBudgetAmount = sumFieldsInSingleItemData(
+    data,
+    "requestBudgetAmount"
+  );
 
   const tableFooter: any = {
-    number: "جمع",
-    "colspan-number": 2,
+    rowIndex: "جمع",
+    "colspan-rowIndex": 4,
     dateShamsi: null,
     description: null,
-    mosavab: sumMosavab,
-    creditAmount: sumCreaditAmount,
-    percentCreditAmount: getPercent(sumCreaditAmount, sumMosavab),
-    expense: sumExpense,
-    percent: getPercent(sumExpense, sumMosavab),
+    number: null,
+    requestBudgetAmount: sumRequestBudgetAmount,
   };
-
-  // modals
-  const [budgetRowModal, setBudgetRowModal] = useState(false);
-  const [areaName, setAreaName] = useState("");
-  const handleCloseBudgetRowModal = () => {
-    setBudgetRowModal(false);
-  };
-
-  const handleOpenBudgetRowModal = () => {
-    setBudgetRowModal(true);
-  };
-
-  const dataModalRowMutation = useMutation(abstructProctorApi.getModalRowData);
-
-  // print
-  // const handlePrintForm = () => {
-  //   if (tableData.length) {
-  //     const yearLabel = getGeneralFieldItemYear(formdata, 1);
-  //     abstructProctorModal1Stimul({
-  //       data: tableData,
-  //       footer: tableFooter,
-  //       year: yearLabel,
-  //       title1: title,
-  //       numberShow: "ریال",
-  //     });
-  //   }
-  // };
-
-  // const tableTopHeadGroups: TableHeadGroupShape = [
-  //   {
-  //     title: (
-  //       <IconButton color="primary" onClick={handlePrintForm}>
-  //         <PrintIcon />
-  //       </IconButton>
-  //     ),
-  //     colspan: 14,
-  //   },
-  // ];
 
   return (
     <FixedTable
-      // topHeadGroups={tableTopHeadGroups}
       heads={tableHeads}
-      //headGroups={tableHeadGroups}
       data={tableData}
       footer={tableFooter}
       notFixed
