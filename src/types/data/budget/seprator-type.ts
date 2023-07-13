@@ -77,12 +77,9 @@ export interface GetSingleSepratorConfrimItemShape {
 
 // abstruct
 export interface GetSingleSepratorAbstructItemShape {
-  id: 0;
-  areaName: "string";
-  userId: 0;
-  firstName: "string";
-  lastName: "string";
-  responsibility: "string";
-  date: "string";
-  dateShamsi: "string";
+  side: 0;
+  revenueKind: 0;
+  mosavab: 0;
+  edit: 0;
+  expense: 0;
 }

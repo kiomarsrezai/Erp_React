@@ -315,6 +315,10 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
   );
 
   const handleOpenAbstructModal = () => {
+    abstructBudgetMutation.mutate({
+      [sepratorBudgetConfig.YEAR]: formData[sepratorBudgetConfig.YEAR],
+      [sepratorBudgetConfig.AREA]: formData[sepratorBudgetConfig.AREA],
+    });
     setIsOpenAbstructModal(true);
   };
 

@@ -4,6 +4,7 @@ import { BaseApi } from "api/base-api";
 import { BaseApiResponseShape } from "types/base-type";
 import {
   GetSingleDetailSepratorItemShape,
+  GetSingleSepratorAbstructItemShape,
   GetSingleSepratorAccItemShape,
   GetSingleSepratorAreaItemShape,
   GetSingleSepratorConfrimItemShape,
@@ -194,7 +195,7 @@ export const sepratorBudgetApi = new (class extends BaseApi {
   abstructBudgetRead = async (formdata: any) => {
     const url = sepratorBudgetUrl.abstructData + this.joinFilterData(formdata);
     const response = await clientAxios.get<
-      BaseApiResponseShape<GetSingleSepratorConfrimItemShape[]>
+      BaseApiResponseShape<GetSingleSepratorAbstructItemShape[]>
     >(url);
     return response.data;
   };

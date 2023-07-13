@@ -73,7 +73,6 @@ function SepratorBudgetAbstructModal1(
     const formatedData: any[] = unFormatData.map((item, i) => ({
       ...item,
       number: i + 1,
-      dateAcceptShamsi: item.date ? item.dateShamsi : "",
     }));
 
     return formatedData;
