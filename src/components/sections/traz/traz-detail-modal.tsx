@@ -3,7 +3,7 @@ import IconButton from "@mui/material/IconButton";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 
 import { ReactNode, useState } from "react";
-import { TableHeadShape } from "types/table-type";
+import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { TrazItemShape } from "types/data/traz/traz-type";
 import TrazDetailMoreModal from "./traz-detail-more-modal";
 import FixedModal from "components/ui/modal/fixed-modal";
@@ -34,31 +34,80 @@ interface TrazDetailModalProps {
 function TrazDetailModal(props: TrazDetailModalProps) {
   const { data, formData, moein } = props;
 
-  //   table heads
+  // table heads
+  const tableHeadGroups: TableHeadGroupShape = [
+    {
+      title: "ردیف",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "مرکز هزینه",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "کد تفضیل",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "شرح تفضیل",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "گردش",
+      colspan: 2,
+      rowspan: 1,
+      align: "center",
+    },
+    {
+      title: "مانده",
+      align: "center",
+      colspan: 2,
+      rowspan: 1,
+    },
+    {
+      title: "عملیات",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+  ];
+
   const tableHeads: TableHeadShape = [
     {
       title: "ردیف",
       name: "number",
+      hiddenSelf: true,
     },
-    {
-      title: "شرح مرکز هزینه",
-      name: "descriptionCenter",
-      align: "left",
-      hidden: formData[trazConfig.AREA] >= 11,
-    },
+    // {
+    //   title: "شرح مرکز هزینه",
+    //   name: "descriptionCenter",
+    //   align: "left",
+    //   // hidden: formData[trazConfig.AREA] >= 11,
+    // },
     {
       title: "مرکز هزینه",
       name: "revenueCenter",
-      hidden: formData[trazConfig.AREA] >= 11,
+      // hidden: formData[trazConfig.AREA] >= 11,
+      hiddenSelf: true,
     },
     {
       title: "کد تفضیل",
       name: "code",
+      hiddenSelf: true,
     },
     {
       title: "شرح تفضیل",
       align: "left",
       name: "description",
+      hiddenSelf: true,
     },
     {
       title: "گردش بدهکار",
@@ -83,10 +132,12 @@ function TrazDetailModal(props: TrazDetailModalProps) {
       name: "balanceBestankar",
       align: "left",
       split: true,
+      forceHaveBorder: true,
     },
     {
       title: "عملیات",
       name: "actions",
+      hiddenSelf: true,
     },
   ];
 
@@ -168,9 +219,10 @@ function TrazDetailModal(props: TrazDetailModalProps) {
     <>
       <FixedTable
         heads={tableHeads}
+        headGroups={tableHeadGroups}
         data={tableData}
         footer={tableFooter}
-        enableVirtual
+        // enableVirtual
         notFixed
       />
       <FixedModal
