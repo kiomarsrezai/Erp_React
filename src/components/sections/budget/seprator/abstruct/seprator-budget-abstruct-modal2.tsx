@@ -26,13 +26,12 @@ import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { generalFieldsConfig } from "config/features/general-fields-config";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { dateCrossedMonth } from "helper/date-utils";
-import SepratorBudgetAbstructModal2 from "./seprator-budget-abstruct-modal2";
 
-interface SepratorBudgetAbstructModal1Props {
+interface SepratorBudgetAbstructModal2Props {
   data: GetSingleSepratorAbstructItemShape[];
 }
-function SepratorBudgetAbstructModal1(
-  props: SepratorBudgetAbstructModal1Props
+function SepratorBudgetAbstructModal2(
+  props: SepratorBudgetAbstructModal2Props
 ) {
   const { data } = props;
 
@@ -82,33 +81,9 @@ function SepratorBudgetAbstructModal1(
     return formatedData;
   };
 
-  const rightData = data.filter((item) => item.side === 1);
-  const leftData = data.filter((item) => item.side === 2);
+  const tableData = formatTableData(data);
 
-  const tableData = formatTableData(rightData);
-
-  return (
-    <Box display={"flex"}>
-      <Box sx={{ width: "50%", borderRight: 1, borderColor: "grey.400" }}>
-        <FixedTable
-          heads={tableHeads}
-          // headGroups={tableHeadGroup}
-          data={tableData}
-          notFixed
-        />
-      </Box>
-      {/* modal 2 */}
-      <Box sx={{ width: "50%" }}>
-        <SepratorBudgetAbstructModal2
-          data={leftData}
-          // loading={detailCodingMutation.isLoading}
-          // formData={formData}
-          // motherId={rowMotherId}
-          // baseModal2Title={titleActionModal}
-        />
-      </Box>
-    </Box>
-  );
+  return <FixedTable heads={tableHeads} data={tableData} notFixed />;
 }
 
-export default SepratorBudgetAbstructModal1;
+export default SepratorBudgetAbstructModal2;

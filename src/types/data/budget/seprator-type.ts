@@ -77,7 +77,7 @@ export interface GetSingleSepratorConfrimItemShape {
 
 // abstruct
 export interface GetSingleSepratorAbstructItemShape {
-  side: 0;
+  side: number;
   revenueKind: 0;
   mosavab: 0;
   edit: 0;
