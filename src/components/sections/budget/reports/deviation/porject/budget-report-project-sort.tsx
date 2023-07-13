@@ -2,14 +2,19 @@ import FixedTable from "components/data/table/fixed-table";
 import { ReactNode, useState } from "react";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import BudgetReportProjectSortForm from "./budget-report-project-sort-form";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import {
   getPercent,
   getPercentFloat,
   sumFieldsInSingleItemData,
 } from "helper/calculate-utils";
 import { budgetProjectSortConfig } from "config/features/budget/report/budget-project-sort-config";
+import FixedModal from "components/ui/modal/fixed-modal";
+import BudgetReportProjectSortModal1 from "./budget-report-project-sort-modal1";
+import { budgetProjectSortApi } from "api/report/budget-project-sort-api";
+import { IconButton } from "@mui/material";
 
 interface BudgetReportProjectSortProps {
   tabRender?: ReactNode;
@@ -92,6 +97,11 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
       name: "sum",
       width: "100px",
     },
+    {
+      title: "عملیات",
+      name: "actions",
+      width: "100px",
+    },
   ];
 
   // data
@@ -137,6 +147,17 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
   };
 
   // table data
+  const actionButtons = (row: any) => {
+    return (
+      <IconButton
+        size="small"
+        color="primary"
+        onClick={() => handleOpenModal(row)}
+      >
+        <FormatListBulletedIcon />
+      </IconButton>
+    );
+  };
   let CalculatedMosavab = 0;
   const formatTableData = (unFormatData: any): any => {
     const formatedData: any = unFormatData.map((item: any, i: any) => {
@@ -148,6 +169,7 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
           getPercentFloat(item.mosavab + CalculatedMosavab, sumMosavab, 1) +
           "%",
         number: i + 1,
+        actions: () => actionButtons(item),
       };
 
       CalculatedMosavab += item.mosavab;
@@ -173,19 +195,51 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
           }}
         />
       ),
-      colspan: 11,
+      colspan: 12,
     },
   ];
 
+  // modal
+  const dataModalMutation = useMutation(budgetProjectSortApi.getDataModal1);
+
+  const [isOpenModal1, setIsOpenModal1] = useState(false);
+  const [titleModal, setTitleModal] = useState("");
+  const handleOpenModal = (item: any) => {
+    setTitleModal(`${item.code} - ${item.description}`);
+    dataModalMutation.mutate({
+      [budgetProjectSortConfig.year]: formData[budgetProjectSortConfig.year],
+      [budgetProjectSortConfig.area]: formData[budgetProjectSortConfig.area],
+      [budgetProjectSortConfig.coding]: item.codingId,
+    });
+    setIsOpenModal1(true);
+  };
+
+  const handleCloseModal1 = () => {
+    setIsOpenModal1(false);
+  };
+
   return (
-    <FixedTable
-      heads={tableHeads}
-      headGroups={tableHeadGroups}
-      footer={tableFooter}
-      data={tableData}
-      tableLayout="auto"
-      enableVirtual
-    />
+    <>
+      <FixedTable
+        heads={tableHeads}
+        headGroups={tableHeadGroups}
+        footer={tableFooter}
+        data={tableData}
+        tableLayout="auto"
+        enableVirtual
+      />
+
+      <FixedModal
+        open={isOpenModal1}
+        handleClose={handleCloseModal1}
+        title={titleModal}
+        loading={dataModalMutation.isLoading}
+      >
+        <BudgetReportProjectSortModal1
+          data={dataModalMutation.data?.data || []}
+        />
+      </FixedModal>
+    </>
   );
 }
 
