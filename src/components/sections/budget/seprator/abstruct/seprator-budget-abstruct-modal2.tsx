@@ -26,6 +26,7 @@ import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { generalFieldsConfig } from "config/features/general-fields-config";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { dateCrossedMonth } from "helper/date-utils";
+import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 
 interface SepratorBudgetAbstructModal2Props {
   data: GetSingleSepratorAbstructItemShape[];
@@ -83,7 +84,28 @@ function SepratorBudgetAbstructModal2(
 
   const tableData = formatTableData(data);
 
-  return <FixedTable heads={tableHeads} data={tableData} notFixed />;
+  // footer
+  const sumMosavab = sumFieldsInSingleItemData(data, "mosavab");
+  const sumEdit = sumFieldsInSingleItemData(data, "edit");
+  const sumExpense = sumFieldsInSingleItemData(data, "expense");
+
+  const tableFooter: any = {
+    number: "جمع",
+    "colspan-number": 2,
+    description: null,
+    mosavab: sumMosavab,
+    edit: sumEdit,
+    expense: sumExpense,
+  };
+
+  return (
+    <FixedTable
+      heads={tableHeads}
+      data={tableData}
+      footer={tableFooter}
+      notFixed
+    />
+  );
 }
 
 export default SepratorBudgetAbstructModal2;
