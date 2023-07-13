@@ -295,9 +295,7 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
     const areaLabel = getGeneralFieldItemArea(formData, 2);
     const monthLabel = getGeneralFieldItemMonth(monthData);
 
-    setConfrimModalTitle(
-      `تایید کنندگان - ${yearLabel} - ${areaLabel} - ${monthLabel}`
-    );
+    setConfrimModalTitle(`تایید کنندگان - ${yearLabel}  - ${monthLabel}`);
     confrimDataMutation.mutate({
       [generalFieldsConfig.MONTH]: monthData[generalFieldsConfig.MONTH],
       [sepratorBudgetConfig.YEAR]: formData[sepratorBudgetConfig.YEAR],
@@ -492,9 +490,6 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
         open={isOpenConfirmModal}
         handleClose={handleCloseConfirmModal}
         title={confrimModalTitle}
-        maxWidth="40%"
-        maxHeight="50%"
-        minHeight="50%"
       >
         <SepratorBudgetConfirmationModal1
           data={confrimDataMutation.data?.data || []}

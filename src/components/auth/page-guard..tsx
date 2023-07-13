@@ -26,6 +26,7 @@ function PageGuard(props: PageGuardProps) {
           userName: data.data.userName,
           bio: data.data.bio,
           permissions: data.data.lisence,
+          nowDate: data.data.dateNow,
         });
       } else {
         navigate("/");

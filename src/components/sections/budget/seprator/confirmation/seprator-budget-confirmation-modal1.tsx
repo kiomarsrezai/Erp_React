@@ -22,6 +22,7 @@ import { GetSingleSepratorConfrimItemShape } from "types/data/budget/seprator-ty
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { generalFieldsConfig } from "config/features/general-fields-config";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
+import { dateCrossedMonth } from "helper/date-utils";
 
 interface SepratorBudgetConfirmationModal1Props {
   data: GetSingleSepratorConfrimItemShape[];
@@ -32,6 +33,8 @@ function SepratorBudgetConfirmationModal1(
   props: SepratorBudgetConfirmationModal1Props
 ) {
   const { data, formData, monthData } = props;
+
+  const nowDate = userStore((state) => state.nowDate);
 
   const tableHeads: TableHeadShape = [
     {
@@ -186,15 +189,16 @@ function SepratorBudgetConfirmationModal1(
             <DeleteIcon />
           </IconButton> */}
 
-          {userState.id === item.userId && (
-            <IconButton
-              color="primary"
-              onClick={() => handleClickApprove(item)}
-              size="small"
-            >
-              <ApprovalIcon />
-            </IconButton>
-          )}
+          {userState.id === item.userId &&
+            dateCrossedMonth(nowDate, monthData[generalFieldsConfig.MONTH]) && (
+              <IconButton
+                color="primary"
+                onClick={() => handleClickApprove(item)}
+                size="small"
+              >
+                <ApprovalIcon />
+              </IconButton>
+            )}
         </>
       )}
     </Box>
