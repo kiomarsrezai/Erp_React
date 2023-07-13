@@ -93,14 +93,14 @@ function AbstractProctorModal1Form(props: AbstractProctorModal1FormProps) {
   return (
     <Box component="form" p={1} onSubmit={handleFormSubmit}>
       <Grid container spacing={2}>
-        <Grid lg={2}>
+        <Grid lg={3}>
           <AreaInput
             setter={setModalFormData}
             value={modalFormData[abstructProctorConfig.AREA]}
           />
         </Grid>
 
-        <Grid lg={2}>
+        <Grid lg={3}>
           <ProctorInput
             setter={setModalFormData}
             value={modalFormData[abstructProctorConfig.PROCTOR]}

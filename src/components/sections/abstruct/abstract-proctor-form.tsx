@@ -184,6 +184,7 @@ function AbstractProctorForm(props: AbstractProctorFormProps) {
         open={isOpenModal}
         handleClose={handleCloseModal}
         title="درخواست ت اعتبار"
+        maxHeight="90%"
       >
         <AbstructProctorModal1 formdata={formData} />
       </FixedModal>
