@@ -180,4 +180,13 @@ export const sepratorBudgetApi = new (class extends BaseApi {
     >(url);
     return response.data;
   };
+
+  confrimUpdate = async (formdata: any) => {
+    const url = sepratorBudgetUrl.confrimUpdate;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      formdata
+    );
+    return response.data;
+  };
 })();

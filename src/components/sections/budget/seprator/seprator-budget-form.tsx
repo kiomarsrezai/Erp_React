@@ -484,13 +484,14 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
         open={isOpenConfirmModal}
         handleClose={handleCloseConfirmModal}
         title={"تایید کنندگان"}
-        maxWidth="sm"
-        maxHeight="40%"
-        minHeight="40%"
+        maxWidth="40%"
+        maxHeight="50%"
+        minHeight="50%"
       >
         <SepratorBudgetConfirmationModal1
           data={confrimDataMutation.data?.data || []}
-          commiteDetailItem={{} as any}
+          formData={formData}
+          monthData={monthData}
         />
       </FixedModal>
     </>

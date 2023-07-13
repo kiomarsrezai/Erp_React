@@ -20,15 +20,18 @@ import userStore from "hooks/store/user-store";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { GetSingleSepratorConfrimItemShape } from "types/data/budget/seprator-type";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
+import { generalFieldsConfig } from "config/features/general-fields-config";
+import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 
 interface SepratorBudgetConfirmationModal1Props {
   data: GetSingleSepratorConfrimItemShape[];
-  commiteDetailItem: GetSingleCommiteDetailModalShape;
+  formData: any;
+  monthData: any;
 }
 function SepratorBudgetConfirmationModal1(
   props: SepratorBudgetConfirmationModal1Props
 ) {
-  const { data, commiteDetailItem } = props;
+  const { data, formData, monthData } = props;
 
   const tableHeads: TableHeadShape = [
     {
@@ -36,8 +39,13 @@ function SepratorBudgetConfirmationModal1(
       name: "number",
     },
     {
-      title: "اسم",
-      name: "name",
+      title: "نام",
+      name: "firstName",
+      align: "left",
+    },
+    {
+      title: "نام خانوادگی",
+      name: "lastName",
       align: "left",
     },
     {
@@ -81,7 +89,10 @@ function SepratorBudgetConfirmationModal1(
   ];
 
   const onDoneTask = () => {
-    confirmationDataMutation.mutate({ commiteDetailId: commiteDetailItem.id });
+    confirmationDataMutation.mutate({
+      [generalFieldsConfig.MONTH]: monthData[generalFieldsConfig.MONTH],
+      [sepratorBudgetConfig.YEAR]: formData[sepratorBudgetConfig.YEAR],
+    });
     enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
       variant: "success",
     });
@@ -90,28 +101,28 @@ function SepratorBudgetConfirmationModal1(
     setActiveIdUpdate(null);
   };
 
-  const handleSelectUser = async (users: any) => {
-    let shouldUpdateItems: any = [];
-    for (const key in users) {
-      const value = users?.[key];
-      if (value === true) {
-        shouldUpdateItems.push(+key);
-      }
-    }
-    try {
-      await Promise.all(
-        shouldUpdateItems.map((item: any) => {
-          return commiteConfirmationInsertMutation.mutateAsync({
-            commiteDetailId: commiteDetailItem.id,
-            userId: item,
-          });
-        })
-      );
-    } catch {
-      return onDoneTask();
-    }
-    onDoneTask();
-  };
+  // const handleSelectUser = async (users: any) => {
+  //   let shouldUpdateItems: any = [];
+  //   for (const key in users) {
+  //     const value = users?.[key];
+  //     if (value === true) {
+  //       shouldUpdateItems.push(+key);
+  //     }
+  //   }
+  //   try {
+  //     await Promise.all(
+  //       shouldUpdateItems.map((item: any) => {
+  //         return commiteConfirmationInsertMutation.mutateAsync({
+  //           commiteDetailId: commiteDetailItem.id,
+  //           userId: item,
+  //         });
+  //       })
+  //     );
+  //   } catch {
+  //     return onDoneTask();
+  //   }
+  //   onDoneTask();
+  // };
 
   // edit
   const [isOpenConfrimDelete, setIsOpenConfrimDelete] = useState(false);
@@ -146,7 +157,7 @@ function SepratorBudgetConfirmationModal1(
 
   // aprove
   const confirmationApproveMutation = useMutation(
-    mettingsProjectApi.confirmationApprove,
+    sepratorBudgetApi.confrimUpdate,
     {
       onSuccess: () => {
         onDoneTask();
@@ -154,9 +165,7 @@ function SepratorBudgetConfirmationModal1(
     }
   );
 
-  const handleClickApprove = (
-    item: GetSingleCommiteDetailConfirmationModalShape
-  ) => {
+  const handleClickApprove = (item: GetSingleSepratorConfrimItemShape) => {
     confirmationApproveMutation.mutate({
       id: item.id,
     });
@@ -165,17 +174,17 @@ function SepratorBudgetConfirmationModal1(
   //   actions
   const userState = userStore();
 
-  const actionBtn = (item: GetSingleCommiteDetailConfirmationModalShape) => (
+  const actionBtn = (item: GetSingleSepratorConfrimItemShape) => (
     <Box display={"flex"} justifyContent={"center"}>
-      {!item.dateAccept && (
+      {!item.date && (
         <>
-          <IconButton
+          {/* <IconButton
             color="error"
             onClick={() => handleClickDelete(item)}
             size="small"
           >
             <DeleteIcon />
-          </IconButton>
+          </IconButton> */}
 
           {userState.id === item.userId && (
             <IconButton
@@ -197,9 +206,9 @@ function SepratorBudgetConfirmationModal1(
     const formatedData: any[] = unFormatData.map((item, i) => ({
       ...item,
       number: i + 1,
-      name: `${item.firstName} ${item.lastName}`,
+      // name: `${item.firstName} ${item.lastName}`,
       dateAcceptShamsi: item.date ? item.dateShamsi : "",
-      // actions: () => actionBtn(item),
+      actions: () => actionBtn(item),
     }));
 
     return formatedData;
@@ -233,7 +242,7 @@ function SepratorBudgetConfirmationModal1(
   return (
     <FixedTable
       heads={tableHeads}
-      headGroups={tableHeadGroup}
+      // headGroups={tableHeadGroup}
       data={tableData}
       notFixed
     />
