@@ -110,25 +110,25 @@ function TrazDetailModal(props: TrazDetailModalProps) {
       hiddenSelf: true,
     },
     {
-      title: "گردش بدهکار",
+      title: "بدهکار",
       name: "bedehkar",
       align: "left",
       split: true,
     },
     {
-      title: "گردش بستانکار",
+      title: "بستانکار",
       name: "bestankar",
       align: "left",
       split: true,
     },
     {
-      title: "مانده بدهکار",
+      title: "بدهکار",
       name: "balanceBedehkar",
       align: "left",
       split: true,
     },
     {
-      title: "مانده بستانکار",
+      title: "بستانکار",
       name: "balanceBestankar",
       align: "left",
       split: true,
@@ -193,6 +193,7 @@ function TrazDetailModal(props: TrazDetailModalProps) {
         balanceBestankar: item.balanceBestankar,
         revenueCenter: item.markazHazine,
         descriptionCenter: item.markazHazineName,
+        "cellTitle-revenueCenter": item.markazHazineName,
         actions: actionButtons,
       })
     );

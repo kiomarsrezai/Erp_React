@@ -17,6 +17,7 @@ import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { numberWithCommas } from "helper/calculate-utils";
 import { globalConfig } from "config/global-config";
 import classNames from "classnames";
+import { Tooltip } from "@mui/material";
 
 const formatDataCell = (
   nameCell: (
@@ -307,6 +308,7 @@ function FixedTable(props: FixedTableProps) {
           align={item.align || "center"}
           key={i}
           dir={typeof row[name] === "number" ? "ltr" : "rtl"}
+          // title="salam"
           onClick={
             clickCell
               ? (e) => e.ctrlKey && clickCell(name as any, row as any)
@@ -323,7 +325,13 @@ function FixedTable(props: FixedTableProps) {
             left: 0,
           }}
         >
-          {formatDataCell(row[name], item, row)}
+          {row[`cellTitle-${name}`] ? (
+            <Tooltip title={row[`cellTitle-${name}`]}>
+              <div>{formatDataCell(row[name], item, row)}</div>
+            </Tooltip>
+          ) : (
+            <>{formatDataCell(row[name], item, row)}</>
+          )}
         </TableCell>
       );
     });
