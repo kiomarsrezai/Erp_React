@@ -288,8 +288,16 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
 
   // confirm modal
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
+  const [confrimModalTitle, setConfrimModalTitle] = useState("");
   const confrimDataMutation = useMutation(sepratorBudgetApi.confrimDataRead);
   const handleOpenConfrimModal = () => {
+    const yearLabel = getGeneralFieldItemYear(formData, 1);
+    const areaLabel = getGeneralFieldItemArea(formData, 2);
+    const monthLabel = getGeneralFieldItemMonth(monthData);
+
+    setConfrimModalTitle(
+      `تایید کنندگان - ${yearLabel} - ${areaLabel} - ${monthLabel}`
+    );
     confrimDataMutation.mutate({
       [generalFieldsConfig.MONTH]: monthData[generalFieldsConfig.MONTH],
       [sepratorBudgetConfig.YEAR]: formData[sepratorBudgetConfig.YEAR],
@@ -483,7 +491,7 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
       <FixedModal
         open={isOpenConfirmModal}
         handleClose={handleCloseConfirmModal}
-        title={"تایید کنندگان"}
+        title={confrimModalTitle}
         maxWidth="40%"
         maxHeight="50%"
         minHeight="50%"
