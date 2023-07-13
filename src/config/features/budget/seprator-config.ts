@@ -18,6 +18,7 @@ export const sepratorBudgetUrl = {
   codingUpdate: "BudSepApi/CodingUpdate",
   areaProjectArea: "BudSepApi/BudgetSepratorAreaProjectModal2",
   areaProjectAreaUpdate: "BudSepApi/BudgetSepratorAreaProjectModal_Update",
+  confrimData: "BudSepApi/BudgetPerformanceAccept",
 };
 
 export const SEPRATOR_BUDGET_URL = "BudSepApi/FetchSeprator";

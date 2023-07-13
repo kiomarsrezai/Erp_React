@@ -14,6 +14,7 @@ export const reactQueryKeys = {
   budget: {
     seprator: {
       getData: ["budget-seprator"],
+      getConfrimData: ["budget-seprator-confrim-data"],
       projectModal1: ["budget-seprator-project-modal1"],
     },
     sepratorCreaditor: {

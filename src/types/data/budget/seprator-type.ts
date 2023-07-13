@@ -62,3 +62,15 @@ export interface GetSingleSepratorMosavabItemShape {
   budgetDetailProjectAreaId: 4675;
   mosavabArea: 1500000000;
 }
+
+// confrim
+export interface GetSingleSepratorConfrimItemShape {
+  id: 0;
+  areaName: "string";
+  userId: 0;
+  firstName: "string";
+  lastName: "string";
+  responsibility: "string";
+  date: "string";
+  dateShamsi: "string";
+}

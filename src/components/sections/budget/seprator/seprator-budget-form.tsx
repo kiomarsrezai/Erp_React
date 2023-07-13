@@ -12,6 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import GetAppIcon from "@mui/icons-material/GetApp";
 import { Popover } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
+import ApprovalIcon from "@mui/icons-material/Approval";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
@@ -47,6 +48,7 @@ import {
 } from "config/features/general-fields-config";
 import MonthInput from "components/sections/inputs/month-input";
 import { budgetReportExpenseApi } from "api/report/budget-expense-api";
+import SepratorBudgetConfirmationModal1 from "./confirmation/seprator-budget-confirmation-modal1";
 
 interface SepratoeBudgetFormProps {
   formData: any;
@@ -284,6 +286,20 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
     });
   };
 
+  // confirm modal
+  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
+  const confrimDataMutation = useMutation(sepratorBudgetApi.confrimDataRead);
+  const handleOpenConfrimModal = () => {
+    confrimDataMutation.mutate({
+      [generalFieldsConfig.MONTH]: monthData[generalFieldsConfig.MONTH],
+      [sepratorBudgetConfig.YEAR]: formData[sepratorBudgetConfig.YEAR],
+    });
+    setIsOpenConfirmModal(true);
+  };
+  const handleCloseConfirmModal = () => {
+    setIsOpenConfirmModal(false);
+  };
+
   return (
     <>
       <Box component="form" onSubmit={handleFormSubmit}>
@@ -437,6 +453,13 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
           <IconButton onClick={handleConfrimExcel} size="small" color="primary">
             <CheckIcon />
           </IconButton>
+          <IconButton
+            onClick={handleOpenConfrimModal}
+            size="small"
+            color="primary"
+          >
+            <ApprovalIcon />
+          </IconButton>
         </Box>
       </Popover>
 
@@ -455,6 +478,21 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
         open={isOpenConfrimRefresh}
         text="آیا مایل به به روز آوری اطلاعات هستید؟"
       />
+
+      {/* confirmation modal */}
+      <FixedModal
+        open={isOpenConfirmModal}
+        handleClose={handleCloseConfirmModal}
+        title={"تایید کنندگان"}
+        maxWidth="sm"
+        maxHeight="40%"
+        minHeight="40%"
+      >
+        <SepratorBudgetConfirmationModal1
+          data={confrimDataMutation.data?.data || []}
+          commiteDetailItem={{} as any}
+        />
+      </FixedModal>
     </>
   );
 }
