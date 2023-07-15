@@ -126,6 +126,11 @@ function UserPage() {
     setIsOpenInsertModal(false);
   };
 
+  const handleDoneUpdate = () => {
+    setIsOpenInsertModal(false);
+    userListQuery.refetch();
+  };
+
   return (
     <>
       <AdminLayout>
@@ -138,8 +143,12 @@ function UserPage() {
         title={insertModalTitle}
         maxHeight="450px"
         minHeight="450px"
+        maxWidth="md"
       >
-        <UserModalUpdate initData={activeRow as any} />
+        <UserModalUpdate
+          initData={activeRow as any}
+          onDoneTask={handleDoneUpdate}
+        />
       </FixedModal>
     </>
   );

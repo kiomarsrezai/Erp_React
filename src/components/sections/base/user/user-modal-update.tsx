@@ -18,22 +18,31 @@ import { globalConfig } from "config/global-config";
 import { UserItemShape } from "types/data/auth/users-type";
 import { DatePicker } from "@mui/x-date-pickers";
 import GanderInput from "components/sections/inputs/gander-input";
+import { UserApi } from "api/base/base-user";
+import { convertToCalenderDate } from "helper/date-utils";
 
 interface UserModalUpdateProps {
   initData: UserItemShape;
+  onDoneTask: any;
 }
 
 function UserModalUpdate(props: UserModalUpdateProps) {
-  const { initData } = props;
+  const { initData, onDoneTask } = props;
 
-  const [checkData, setCheckData] = useState({
-    // [codingBudgetConfig.crud]: initialData?.[codingBudgetConfig.crud] || false,
-    // [codingBudgetConfig.show]: initialData?.[codingBudgetConfig.show] || false,
+  const [editData, setEditData] = useState({
+    isActive: initData?.isActive,
+    gender: initData?.genderName === "مرد" ? 1 : 2,
+    birthDate: convertToCalenderDate(initData.persianBirthDate),
   });
 
   const editFormSchema = yup.object({
-    // [codingBudgetConfig.code]: yup.string().required(),
-    [codingBudgetConfig.description]: yup.string().required(),
+    userName: yup.string().required(),
+    phoneNumber: yup.string().required(),
+    firstName: yup.string().required(),
+    lastName: yup.string().required(),
+    bio: yup.string().required(),
+    email: yup.string().email().required(),
+    // birthDate: yup.string().required(),
   });
 
   const {
@@ -44,7 +53,25 @@ function UserModalUpdate(props: UserModalUpdateProps) {
     resolver: yupResolver(editFormSchema),
   });
 
-  const onSubmitHandler = () => {};
+  const editUserMutation = useMutation(UserApi.updateUser, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+      onDoneTask();
+    },
+  });
+
+  const onSubmitHandler = (values: any) => {
+    const data = {
+      ...values,
+      ...editData,
+      normalizedUserName: values.userName.toUpperCase(),
+      normalizedEmail: values.email.toUpperCase(),
+    };
+
+    editUserMutation.mutate(data);
+  };
 
   return (
     <Box p={2} component="form" onSubmit={handleSubmit(onSubmitHandler)}>
@@ -114,14 +141,13 @@ function UserModalUpdate(props: UserModalUpdateProps) {
 
         <Grid item sm={6}>
           <DatePicker
-            value={new Date()}
+            value={new Date(editData.birthDate)} //persianBirthDate
             label="تاریخ تولد"
-            onChange={
-              (newValue: any) => {}
-              // setFormData((state: any) => ({
-              //   ...state,
-              //   [contractsTasksConfig.date]: newValue,
-              // }))
+            onChange={(newValue: any) =>
+              setEditData((state: any) => ({
+                ...state,
+                birthDate: newValue,
+              }))
             }
             slotProps={{
               textField: { size: "small", fullWidth: true },
@@ -130,7 +156,7 @@ function UserModalUpdate(props: UserModalUpdateProps) {
         </Grid>
 
         <Grid item sm={6}>
-          <GanderInput value={undefined} setter={() => {}} />
+          <GanderInput value={editData.gender} setter={setEditData} />
         </Grid>
 
         <Grid item sm={12}>
@@ -165,24 +191,21 @@ function UserModalUpdate(props: UserModalUpdateProps) {
 
         <Grid item sm={12}>
           <FormControlLabel
-            control={<Switch size="small" defaultChecked />}
+            control={
+              <Switch
+                size="small"
+                checked={editData.isActive}
+                onChange={(e) =>
+                  setEditData((prevData: any) => ({
+                    ...prevData,
+                    isActive: e.target.checked,
+                  }))
+                }
+                defaultChecked
+              />
+            }
             label="فعال"
           />
-          {/* <Stack direction={"row"} spacing={1}>
-            <CheckboxLabeled
-              label="نمایش"
-              name={codingBudgetConfig.show}
-              value={checkData[codingBudgetConfig.show]}
-              setter={setCheckData}
-            />
-
-            <CheckboxLabeled
-              label="crud"
-              name={codingBudgetConfig.crud}
-              value={checkData[codingBudgetConfig.crud]}
-              setter={setCheckData}
-            />
-          </Stack> */}
         </Grid>
 
         <Grid item lg={12}>

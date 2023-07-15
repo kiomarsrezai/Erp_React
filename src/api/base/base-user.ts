@@ -19,4 +19,12 @@ export const UserApi = new (class extends BaseApi {
     >(url);
     return response.data;
   };
+
+  updateUser = async (formdata: any) => {
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      "UsersApi/EmployeeUpdate",
+      formdata
+    );
+    return response.data;
+  };
 })();
