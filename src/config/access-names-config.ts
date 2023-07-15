@@ -45,6 +45,7 @@ export const accessNamesConfig = {
   BUDGET__REPORT_PAGE_REVENUE_SEP_DETAIL: "sep-detail",
 
   BUDGET__REPORT_PAGE_ABSTRUCT: "budget-report-abstruct",
+  BUDGET__REPORT_PAGE_ABSTRUCT_CREDIT_BTN: "credit",
 
   BUDGET__REPORT_PAGE_SUMMARY: "budget-report-summary",
   BUDGET__REPORT_PAGE_SUMMARY_KIND: "budget-kind",
@@ -160,4 +161,5 @@ export const accessNamesConfig = {
   FIELD_BUDGET_METHOD: "budget-method",
   FIELD_ORGAN: "organ",
   FIELD_AREA: "area",
+  FIELD_PROCTOR: "proctor",
 };

@@ -93,20 +93,47 @@ function AbstractProctorModal1Form(props: AbstractProctorModal1FormProps) {
   return (
     <Box component="form" p={1} onSubmit={handleFormSubmit}>
       <Grid container spacing={2}>
-        <Grid lg={3}>
-          <AreaInput
-            setter={setModalFormData}
-            value={modalFormData[abstructProctorConfig.AREA]}
-          />
-        </Grid>
+        <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.BUDGET__REPORT_PAGE,
+            accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT,
+            accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT_CREDIT_BTN,
+            accessNamesConfig.FIELD_AREA,
+          ])}
+        >
+          <Grid lg={3}>
+            <AreaInput
+              setter={setModalFormData}
+              value={modalFormData[abstructProctorConfig.AREA]}
+              permissionForm={joinPermissions([
+                accessNamesConfig.BUDGET__REPORT_PAGE,
+                accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT,
+                accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT_CREDIT_BTN,
+              ])}
+            />
+          </Grid>
+        </SectionGuard>
 
-        <Grid lg={3}>
-          <ProctorInput
-            setter={setModalFormData}
-            value={modalFormData[abstructProctorConfig.PROCTOR]}
-          />
-        </Grid>
-
+        <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.BUDGET__REPORT_PAGE,
+            accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT,
+            accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT_CREDIT_BTN,
+            accessNamesConfig.FIELD_PROCTOR,
+          ])}
+        >
+          <Grid lg={3}>
+            <ProctorInput
+              setter={setModalFormData}
+              value={modalFormData[abstructProctorConfig.PROCTOR]}
+              permissionForm={joinPermissions([
+                accessNamesConfig.BUDGET__REPORT_PAGE,
+                accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT,
+                accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT_CREDIT_BTN,
+              ])}
+            />
+          </Grid>
+        </SectionGuard>
         <Grid>
           <LoadingButton
             variant="contained"

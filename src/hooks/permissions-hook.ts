@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { areaGeneralApi } from "api/general/area-general-api";
 import { yearGeneralApi } from "api/general/year-general-api";
 import { programProjectApi } from "api/project/programs-project-api";
+import { abstructProctorApi } from "api/report/abstruct-proctor-api";
 import { accessNamesConfig } from "config/access-names-config";
 import {
   budgetKindItems,
@@ -71,6 +72,17 @@ function usePermissions() {
     accessNamesConfig.FIELD_YEAR,
     "yearName",
     yearLevel2Query.data?.data || []
+  );
+
+  // proctor
+  const proctorQuery = useQuery(["general-proctor-list"], () =>
+    abstructProctorApi.getProctorList()
+  );
+  const proctorField: AccessItemShape = formatApiFields(
+    "متولی",
+    accessNamesConfig.FIELD_PROCTOR,
+    "proctorName",
+    proctorQuery.data?.data || []
   );
 
   // program
@@ -257,7 +269,14 @@ function usePermissions() {
     [accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT]: formatLocalFields(
       "متولی",
       accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT,
-      [yearLevel1Field]
+      [
+        yearLevel1Field,
+        formatLocalFields(
+          "دکمه درخواست ت اعتبار",
+          accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT_CREDIT_BTN,
+          [areaNumber2Field, proctorField]
+        ),
+      ]
     ),
 
     [accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY]: formatLocalFields(

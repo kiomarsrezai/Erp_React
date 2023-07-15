@@ -170,13 +170,21 @@ function AbstractProctorForm(props: AbstractProctorFormProps) {
           <Grid sm={2}></Grid>
           <Grid sm={2}></Grid>
 
-          <Grid sm={2}>
-            <Box display={"flex"} justifyContent={"flex-end"}>
-              <Button variant="contained" onClick={handleOpenModal}>
-                درخواست ت اعتبار
-              </Button>
-            </Box>
-          </Grid>
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.BUDGET__REPORT_PAGE,
+              accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT,
+              accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT_CREDIT_BTN,
+            ])}
+          >
+            <Grid sm={2}>
+              <Box display={"flex"} justifyContent={"flex-end"}>
+                <Button variant="contained" onClick={handleOpenModal}>
+                  درخواست ت اعتبار
+                </Button>
+              </Box>
+            </Grid>
+          </SectionGuard>
         </Grid>
       </Box>
 
