@@ -1,7 +1,7 @@
 import AdminLayout from "components/layout/admin-layout";
 import FixedTable from "components/data/table/fixed-table";
 import IconButton from "@mui/material/IconButton";
-import CheckIcon from "@mui/icons-material/Check";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -26,6 +26,8 @@ import { enqueueSnackbar } from "notistack";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import { UserApi } from "api/base/base-user";
 import { UserItemShape } from "types/data/auth/users-type";
+import UserModalUpdate from "components/sections/base/user/user-modal-update";
+import FixedModal from "components/ui/modal/fixed-modal";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -58,7 +60,7 @@ function UserPage() {
       name: "lastName",
     },
     {
-      title: "مسؤلیت",
+      title: "مسئولیت",
       name: "bio",
       align: "left",
     },
@@ -66,12 +68,28 @@ function UserPage() {
       title: "ایمیل",
       name: "email",
     },
-
     {
       title: "جنسیت",
       name: "genderName",
     },
+    {
+      title: "عملیات",
+      name: "actions",
+    },
   ];
+
+  //   actions
+  const actionButtons = (item: UserItemShape) => {
+    return (
+      <IconButton
+        size="small"
+        color="primary"
+        onClick={() => handleOpenInsertModal(item)}
+      >
+        <FormatListBulletedIcon />
+      </IconButton>
+    );
+  };
 
   // data
   const formatTableData = (
@@ -81,6 +99,7 @@ function UserPage() {
       unFormatData.map((item, i) => ({
         ...item,
         number: i + 1,
+        actions: () => actionButtons(item),
       }));
 
     return formatedData;
@@ -92,10 +111,35 @@ function UserPage() {
     ? formatTableData(userListQuery.data.data)
     : [];
 
+  // modal
+  const [isOpenInsertModal, setIsOpenInsertModal] = useState(false);
+  const [activeRow, setActiveRow] = useState<UserItemShape>();
+  const [insertModalTitle, setInsertModalTitle] = useState("");
+
+  const handleOpenInsertModal = (item: UserItemShape) => {
+    setInsertModalTitle(`${item.firstName} ${item.lastName}`);
+    setActiveRow(item);
+    setIsOpenInsertModal(true);
+  };
+
+  const handleCloseInsertModal = () => {
+    setIsOpenInsertModal(false);
+  };
+
   return (
-    <AdminLayout>
-      <FixedTable data={tableData} heads={tableHeads} />
-    </AdminLayout>
+    <>
+      <AdminLayout>
+        <FixedTable data={tableData} heads={tableHeads} />
+      </AdminLayout>
+
+      <FixedModal
+        open={isOpenInsertModal}
+        handleClose={handleCloseInsertModal}
+        title={insertModalTitle}
+      >
+        <UserModalUpdate initData={activeRow as any} />
+      </FixedModal>
+    </>
   );
 }
 
