@@ -26,15 +26,20 @@ interface ProposalModal2InsertCodeProps {
 function ProposalModal2InsertCode(props: ProposalModal2InsertCodeProps) {
   const { formData, onDoneTask } = props;
 
+  const [filterText, setFilterText] = useState("");
+
   const headGroup: TableHeadGroupShape = [
     {
       title: (
         <Box sx={{ width: "80%", mx: "auto" }}>
-          {/* <AreaInput
-            setter={setModalFormData}
-            value={modalFormData[proposalConfig.AREA]}
-            level={3}
-          /> */}
+          <TextField
+            size="small"
+            label="جستجو"
+            value={filterText}
+            variant="filled"
+            onChange={(e) => setFilterText(e.target.value)}
+            fullWidth
+          />
         </Box>
       ),
       colspan: 4,
@@ -46,10 +51,12 @@ function ProposalModal2InsertCode(props: ProposalModal2InsertCodeProps) {
     {
       title: "ردیف",
       name: "number",
+      width: "60px",
     },
     {
       title: "کد پروژه",
       name: "projectCode",
+      width: "80px",
     },
     {
       title: "نام پروژه",
@@ -59,6 +66,7 @@ function ProposalModal2InsertCode(props: ProposalModal2InsertCodeProps) {
     {
       title: "عملیات",
       name: "actions",
+      width: "80px",
     },
   ];
 
@@ -102,9 +110,13 @@ function ProposalModal2InsertCode(props: ProposalModal2InsertCodeProps) {
     return formatedData;
   };
 
-  const tableData = getDataQuery.data?.data
-    ? formatTableData(getDataQuery.data.data)
-    : [];
+  const filteredData =
+    getDataQuery.data?.data.filter(
+      (item) =>
+        item.projectName.includes(filterText) ||
+        item.projectCode.includes(filterText)
+    ) || [];
+  const tableData = formatTableData(filteredData);
 
   return (
     <FixedTable
@@ -112,6 +124,7 @@ function ProposalModal2InsertCode(props: ProposalModal2InsertCodeProps) {
       heads={tableHeads}
       headGroups={headGroup}
       enableVirtual
+      tableLayout="auto"
       notFixed
     />
   );
