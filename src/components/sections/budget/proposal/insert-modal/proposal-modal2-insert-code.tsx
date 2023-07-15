@@ -1,5 +1,5 @@
 import FixedTable from "components/data/table/fixed-table";
-import AddIocn from "@mui/icons-material/Add";
+import CheckIocn from "@mui/icons-material/Check";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -8,9 +8,10 @@ import { ReactNode, useEffect, useState } from "react";
 import {
   GetSearchPropsalModal1Data,
   GetSearchPropsalModal2Data,
+  GetSingleProposalProjectInsertCodeItemShape,
 } from "types/data/budget/proposal-type";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { proposalBudgetApi } from "api/budget/proposal-api";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
@@ -19,26 +20,21 @@ import AreaInput from "components/sections/inputs/area-input";
 
 interface ProposalModal2InsertCodeProps {
   formData: any;
-  codingId: number;
   onDoneTask: () => void;
 }
 
 function ProposalModal2InsertCode(props: ProposalModal2InsertCodeProps) {
-  const { formData, codingId, onDoneTask } = props;
-
-  const [modalFormData, setModalFormData] = useState({
-    [proposalConfig.AREA]: undefined,
-  });
+  const { formData, onDoneTask } = props;
 
   const headGroup: TableHeadGroupShape = [
     {
       title: (
         <Box sx={{ width: "80%", mx: "auto" }}>
-          <AreaInput
+          {/* <AreaInput
             setter={setModalFormData}
             value={modalFormData[proposalConfig.AREA]}
             level={3}
-          />
+          /> */}
         </Box>
       ),
       colspan: 4,
@@ -67,36 +63,22 @@ function ProposalModal2InsertCode(props: ProposalModal2InsertCodeProps) {
   ];
 
   // insert
-  const insertMutation = useMutation(proposalBudgetApi.insertModal2, {
-    onSuccess: () => {
-      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
-        variant: "success",
-      });
-      onDoneTask();
-    },
-    onError: () => {
-      //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
-      //variant: "error",
-      //});
-    },
-  });
-
-  const handleAddClick = (row: GetSearchPropsalModal1Data) => {
-    insertMutation.mutate({
-      [proposalConfig.AREA]: modalFormData[proposalConfig.AREA],
-      [proposalConfig.detailId]: codingId,
-      [proposalConfig.YEAR]: formData[proposalConfig.YEAR],
-      [proposalConfig.program]: row.id,
-    });
+  const handleAddClick = (row: GetSingleProposalProjectInsertCodeItemShape) => {
+    // insertMutation.mutate({
+    //   [proposalConfig.AREA]: modalFormData[proposalConfig.AREA],
+    //   [proposalConfig.detailId]: codingId,
+    //   [proposalConfig.YEAR]: formData[proposalConfig.YEAR],
+    //   [proposalConfig.program]: row.id,
+    // });
   };
 
   //   data
-  const searchMutation = useMutation(proposalBudgetApi.getSearchModal2Data);
-
-  useEffect(() => {
-    if (modalFormData[proposalConfig.AREA])
-      searchMutation.mutate({ ...formData, ...modalFormData });
-  }, [modalFormData]);
+  const getDataQuery = useQuery(["proposal-insert-code-data"], () => {
+    return proposalBudgetApi.getProjectsModalData({
+      [proposalConfig.AREA]: formData[proposalConfig.AREA],
+      [proposalConfig.YEAR]: formData[proposalConfig.YEAR],
+    });
+  });
 
   const actionButtons = (row: any) => (
     <IconButton
@@ -104,24 +86,24 @@ function ProposalModal2InsertCode(props: ProposalModal2InsertCodeProps) {
       size="small"
       onClick={() => handleAddClick(row)}
     >
-      <AddIocn />
+      <CheckIocn />
     </IconButton>
   );
 
   const formatTableData = (
-    unFormatData: GetSearchPropsalModal2Data[]
+    unFormatData: GetSingleProposalProjectInsertCodeItemShape[]
   ): any[] => {
     const formatedData: any[] = unFormatData.map((item, i) => ({
       ...item,
       number: i + 1,
-      actions: actionButtons,
+      actions: () => actionButtons(item),
     }));
 
     return formatedData;
   };
 
-  const tableData = searchMutation.data?.data
-    ? formatTableData(searchMutation.data.data)
+  const tableData = getDataQuery.data?.data
+    ? formatTableData(getDataQuery.data.data)
     : [];
 
   return (

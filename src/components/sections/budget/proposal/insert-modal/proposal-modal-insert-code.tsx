@@ -130,7 +130,7 @@ function ProposalModalInsertCode(props: ProposalModalInsertCodeProos) {
           </Grid>
           <Grid item sm={6}>
             <AreaInput
-              setter={onChange}
+              setter={setModalFormData}
               value={modalFormData[proposalConfig.AREA]}
               // error={!!modalFormData[proposalConfig.AREA]}
               // setter={setFormData}
@@ -213,9 +213,8 @@ function ProposalModalInsertCode(props: ProposalModalInsertCodeProos) {
         maxWidth="md"
       >
         <ProposalModal2InsertCode
-          formData={{}}
+          formData={modalFormData}
           onDoneTask={() => {}}
-          codingId={1}
         />
       </FixedModal>
     </>
