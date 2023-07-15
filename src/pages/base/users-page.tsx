@@ -136,6 +136,8 @@ function UserPage() {
         open={isOpenInsertModal}
         handleClose={handleCloseInsertModal}
         title={insertModalTitle}
+        maxHeight="450px"
+        minHeight="450px"
       >
         <UserModalUpdate initData={activeRow as any} />
       </FixedModal>

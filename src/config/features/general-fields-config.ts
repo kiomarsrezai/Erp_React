@@ -236,3 +236,14 @@ export const monthItems: FlotingLabelTextfieldItemsShape = [
     value: 12,
   },
 ];
+
+export const ganderItems: FlotingLabelTextfieldItemsShape = [
+  {
+    label: "مرد",
+    value: 1,
+  },
+  {
+    label: "زن",
+    value: 2,
+  },
+];

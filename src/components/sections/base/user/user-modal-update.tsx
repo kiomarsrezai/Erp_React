@@ -4,7 +4,8 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import CheckboxLabeled from "components/ui/inputs/checkbox-labeled";
 import * as yup from "yup";
-
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextField } from "@mui/material";
@@ -15,6 +16,8 @@ import { codingBudgetApi } from "api/budget/coding-api";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import { UserItemShape } from "types/data/auth/users-type";
+import { DatePicker } from "@mui/x-date-pickers";
+import GanderInput from "components/sections/inputs/gander-input";
 
 interface UserModalUpdateProps {
   initData: UserItemShape;
@@ -109,6 +112,27 @@ function UserModalUpdate(props: UserModalUpdateProps) {
           />
         </Grid>
 
+        <Grid item sm={6}>
+          <DatePicker
+            value={new Date()}
+            label="تاریخ تولد"
+            onChange={
+              (newValue: any) => {}
+              // setFormData((state: any) => ({
+              //   ...state,
+              //   [contractsTasksConfig.date]: newValue,
+              // }))
+            }
+            slotProps={{
+              textField: { size: "small", fullWidth: true },
+            }}
+          />
+        </Grid>
+
+        <Grid item sm={6}>
+          <GanderInput value={undefined} setter={() => {}} />
+        </Grid>
+
         <Grid item sm={12}>
           <TextField
             id="bio-input"
@@ -140,6 +164,10 @@ function UserModalUpdate(props: UserModalUpdateProps) {
         </Grid>
 
         <Grid item sm={12}>
+          <FormControlLabel
+            control={<Switch size="small" defaultChecked />}
+            label="فعال"
+          />
           {/* <Stack direction={"row"} spacing={1}>
             <CheckboxLabeled
               label="نمایش"
