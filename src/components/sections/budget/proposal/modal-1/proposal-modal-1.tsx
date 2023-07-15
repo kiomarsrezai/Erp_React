@@ -232,18 +232,24 @@ function ProposalModal1(props: ProposalModal1Props) {
     useState<null | GetSingleProposalItemShape>(null);
   const [editMosavab, setEditMosavab] = useState(0);
   const [editCode, setEditCode] = useState("0");
+  const [editOldCode, setEditOldCode] = useState("0");
+  const [editDescription, setEditDescription] = useState("");
 
   const onSubmitEditFunctionality = () => {
     editMutation.mutate({
       mosavabPublic: editMosavab,
       [proposalConfig.ID]: activeIdUpdate,
-      code: editCode,
+      codeOld: editOldCode,
+      codeNew: editCode,
+      description: editDescription,
     });
   };
 
   const openEditRowInline = (row: GetSingleProposalItemShape) => {
     setEditMosavab(row.mosavab);
     setEditCode(row.code);
+    setEditOldCode(row.code);
+    setEditDescription(row.description);
     setActiveRowUpdate(row);
     setActiveIdUpdate(row.id);
   };
@@ -350,6 +356,32 @@ function ProposalModal1(props: ProposalModal1Props) {
     }
   };
 
+  const renderDesciption = (row: any) => {
+    if (row.id === activeIdUpdate) {
+      return (
+        <TextField
+          id="description-input"
+          multiline
+          label=""
+          variant="outlined"
+          type="number"
+          size="small"
+          value={editDescription}
+          onChange={(e) => setEditDescription(e.target.value)}
+          autoComplete="off"
+          inputProps={{
+            sx: {
+              height: "17px",
+            },
+          }}
+          fullWidth
+        />
+      );
+    } else {
+      return row.description;
+    }
+  };
+
   const formatTableData = (
     unFormatData: GetSingleDetailProposalItemShape[] | any
   ): TableDataItemShape[] => {
@@ -358,7 +390,7 @@ function ProposalModal1(props: ProposalModal1Props) {
         ...item,
         number: i + 1,
         code: () => renderCodeDepartman(item),
-        description: item.description,
+        description: () => renderDesciption(item),
         creditAmount: 0,
         mosavab: () => renderMosavabDepartman(item),
         "textcolor-expense": item.expense < 0 ? "red" : "",
@@ -430,7 +462,7 @@ function ProposalModal1(props: ProposalModal1Props) {
     proposalBudgetApi.getMoreDetailData
   );
   const handleOpenDetailModal = (row: any) => {
-    const title = `${row.code(row)} - ${row.description}`;
+    const title = `${row.code(row)} - ${row.description(row)}`;
     setModalTitle(
       <>
         <div>{baseTitle}</div>

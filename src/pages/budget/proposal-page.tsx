@@ -204,7 +204,7 @@ function BudgetProposalPage() {
 
   // data
   const actionButtons = (
-    row: TableDataItemShape & GetSingleProposalItemShape
+    row: (TableDataItemShape & GetSingleProposalItemShape) | any
   ) => (
     <Box display={"flex"} justifyContent={"center"}>
       {/* {formData[proposalConfig.AREA] === 10 && ( */}
@@ -294,7 +294,7 @@ function BudgetProposalPage() {
                 item.levelNumber,
                 formData[proposalConfig.BUDGET_METHOD] || 0
               ),
-        actions: actionButtons,
+        actions: () => actionButtons(item),
       })
     );
 
