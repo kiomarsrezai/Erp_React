@@ -18,6 +18,8 @@ import { codingBudgetApi } from "api/budget/coding-api";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import AreaInput from "components/sections/inputs/area-input";
+import FixedModal from "components/ui/modal/fixed-modal";
+import ProposalModal2InsertCode from "./proposal-modal2-insert-code";
 
 interface ProposalModalInsertCodeProos {}
 
@@ -59,114 +61,146 @@ function ProposalModalInsertCode(props: ProposalModalInsertCodeProos) {
     },
   });
 
-  return (
-    <Box p={2} component="form" onSubmit={handleSubmit(onSubmitHandler)}>
-      <Grid
-        container
-        columnSpacing={1}
-        rowSpacing={2}
-        justifyContent={"center"}
-      >
-        <Grid item sm={6}>
-          <TextField
-            id="code-input"
-            label="کد"
-            variant="outlined"
-            size="small"
-            {...register(codingBudgetConfig.code)}
-            error={!!errors[codingBudgetConfig.code]}
-            helperText={(errors[codingBudgetConfig.code]?.message || "") as any}
-            autoComplete="off"
-            fullWidth
-          />
-        </Grid>
-        <Grid item sm={6}>
-          <TextField
-            id="code-input"
-            label="مصوب"
-            variant="outlined"
-            type="number"
-            size="small"
-            autoComplete="off"
-            fullWidth
-            {...register(codingBudgetConfig.code)}
-            error={!!errors[codingBudgetConfig.code]}
-            helperText={(errors[codingBudgetConfig.code]?.message || "") as any}
-          />
-        </Grid>
-        <Grid item sm={6}>
-          <AreaInput
-            setter={() => {}}
-            value={undefined}
-            // setter={setFormData}
-            // value={formData[proposalConfig.AREA]}
-            // showError={haveSubmitedForm}
-          />
-        </Grid>
-        <Grid item sm={6}>
-          <TextField
-            id="project-input"
-            label="پروژه"
-            variant="outlined"
-            value={undefined}
-            size="small"
-            // error={
-            //   !formData[creditRequestConfig.contractorName] && haveSubmitedForm
-            // }
-            // helperText={
-            //   !formData[creditRequestConfig.contractorName] &&
-            //   haveSubmitedForm &&
-            //   globalConfig.ERROR_NO_EMPTY
-            // }
-            // sx={{
-            //   "& fieldset": {
-            //     ...(!formData[creditRequestConfig.contractorName] &&
-            //       haveSubmitedForm && {
-            //         borderColor: `${red[600]} !important`,
-            //       }),
-            //   },
-            // }}
-            disabled
-            // InputLabelProps={{
-            //   shrink: !!formData[creditRequestConfig.contractorName],
-            // }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={() => {}} size="small">
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            fullWidth
-          />
-        </Grid>
-        <Grid item sm={12}>
-          <TextField
-            multiline
-            rows={4}
-            id="description-input"
-            label="شرح"
-            variant="outlined"
-            autoComplete="off"
-            size="small"
-            {...register(codingBudgetConfig.description)}
-            error={!!errors[codingBudgetConfig.description]}
-            helperText={
-              (errors[codingBudgetConfig.description]?.message || "") as any
-            }
-            fullWidth
-          />
-        </Grid>
+  // modal
+  const [isOpenModal2, setIsOpenModal2] = useState(false);
 
-        <Grid item lg={12}>
-          <Button variant="contained" type="submit">
-            افزودن
-          </Button>
+  const handleCloseModal2 = () => {
+    setIsOpenModal2(false);
+  };
+
+  const handleOpenModal2 = () => {
+    setIsOpenModal2(true);
+  };
+
+  return (
+    <>
+      <Box p={2} component="form" onSubmit={handleSubmit(onSubmitHandler)}>
+        <Grid
+          container
+          columnSpacing={1}
+          rowSpacing={2}
+          justifyContent={"center"}
+        >
+          <Grid item sm={6}>
+            <TextField
+              id="code-input"
+              label="کد"
+              variant="outlined"
+              size="small"
+              {...register(codingBudgetConfig.code)}
+              error={!!errors[codingBudgetConfig.code]}
+              helperText={
+                (errors[codingBudgetConfig.code]?.message || "") as any
+              }
+              autoComplete="off"
+              fullWidth
+            />
+          </Grid>
+          <Grid item sm={6}>
+            <TextField
+              id="code-input"
+              label="مصوب"
+              variant="outlined"
+              type="number"
+              size="small"
+              autoComplete="off"
+              fullWidth
+              {...register(codingBudgetConfig.code)}
+              error={!!errors[codingBudgetConfig.code]}
+              helperText={
+                (errors[codingBudgetConfig.code]?.message || "") as any
+              }
+            />
+          </Grid>
+          <Grid item sm={6}>
+            <AreaInput
+              setter={() => {}}
+              value={undefined}
+              // setter={setFormData}
+              // value={formData[proposalConfig.AREA]}
+              // showError={haveSubmitedForm}
+            />
+          </Grid>
+          <Grid item sm={6}>
+            <TextField
+              id="project-input"
+              label="پروژه"
+              variant="outlined"
+              value={undefined}
+              size="small"
+              // error={
+              //   !formData[creditRequestConfig.contractorName] && haveSubmitedForm
+              // }
+              // helperText={
+              //   !formData[creditRequestConfig.contractorName] &&
+              //   haveSubmitedForm &&
+              //   globalConfig.ERROR_NO_EMPTY
+              // }
+              // sx={{
+              //   "& fieldset": {
+              //     ...(!formData[creditRequestConfig.contractorName] &&
+              //       haveSubmitedForm && {
+              //         borderColor: `${red[600]} !important`,
+              //       }),
+              //   },
+              // }}
+              disabled
+              // InputLabelProps={{
+              //   shrink: !!formData[creditRequestConfig.contractorName],
+              // }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleOpenModal2} size="small">
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              fullWidth
+            />
+          </Grid>
+          <Grid item sm={12}>
+            <TextField
+              multiline
+              rows={4}
+              id="description-input"
+              label="شرح"
+              variant="outlined"
+              autoComplete="off"
+              size="small"
+              {...register(codingBudgetConfig.description)}
+              error={!!errors[codingBudgetConfig.description]}
+              helperText={
+                (errors[codingBudgetConfig.description]?.message || "") as any
+              }
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item lg={12}>
+            <Button variant="contained" type="submit">
+              افزودن
+            </Button>
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+
+      {/* modal insert code */}
+      <FixedModal
+        open={isOpenModal2}
+        handleClose={handleCloseModal2}
+        // loading={getInfoDataMutation.isLoading}
+        // title={modalTitle}
+        maxWidth="md"
+      >
+        <ProposalModal2InsertCode
+          formData={{}}
+          onDoneTask={() => {}}
+          codingId={1}
+        />
+      </FixedModal>
+    </>
   );
 }
 

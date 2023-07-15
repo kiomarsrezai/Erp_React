@@ -434,7 +434,6 @@ function BudgetProposalPage() {
         handleClose={handleCloseAddCodeModal}
         loading={getInfoDataMutation.isLoading}
         title={modalTitle}
-        maxWidth="md"
         maxHeight="400px"
         minHeight="400px"
       >
