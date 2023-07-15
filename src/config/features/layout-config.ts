@@ -42,6 +42,7 @@ import BudgetEditPage from "pages/budget/budget-edit-page";
 import ContractsTasks from "pages/contracts/contracts-tasks";
 import PropertyMotor from "pages/property/property-motor";
 import SomethingPage from "pages/base/something-page";
+import UserPage from "pages/base/users-page";
 
 export const sidenavsLayout: SidenavShape[] = [
   // report
@@ -527,7 +528,6 @@ export const sidenavsLayout: SidenavShape[] = [
           getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 2),
         ],
       },
-
       {
         title: "مخاطبین",
         icon: GroupsIcon,
@@ -535,7 +535,13 @@ export const sidenavsLayout: SidenavShape[] = [
         licenseName: accessNamesConfig.BASE__USERS_PAGE,
         element: SuppliersPage,
       },
-
+      {
+        title: "کاربران",
+        icon: GroupsIcon,
+        path: "/base/users",
+        licenseName: accessNamesConfig.BASE__USERS_LIST_PAGE,
+        element: UserPage,
+      },
       {
         title: "تاییدکنندگان درخواست ها",
         icon: GroupsIcon,
