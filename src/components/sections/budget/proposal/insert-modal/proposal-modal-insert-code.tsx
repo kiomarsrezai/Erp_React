@@ -32,10 +32,11 @@ import { changeInputHandler } from "helper/form-utils";
 interface ProposalModalInsertCodeProos {
   activeRowData: GetSingleProposalItemShape;
   formData: any;
+  onDoneTask: any;
 }
 
 function ProposalModalInsertCode(props: ProposalModalInsertCodeProos) {
-  const { activeRowData, formData } = props;
+  const { activeRowData, formData, onDoneTask } = props;
 
   const [haveSubmitedForm, setHaveSubmitedForm] = useState(false);
 
@@ -54,6 +55,7 @@ function ProposalModalInsertCode(props: ProposalModalInsertCodeProos) {
     event.preventDefault();
 
     setHaveSubmitedForm(true);
+    setIsClickedOpenModal(false);
 
     if (
       checkHaveValue(modalFormData, [
@@ -63,7 +65,10 @@ function ProposalModalInsertCode(props: ProposalModalInsertCodeProos) {
         proposalConfig.description,
       ])
     ) {
-      // insertCodingMutation.mutate(modalFormData);
+      insertCodingMutation.mutate({
+        ...modalFormData,
+        [proposalConfig.program]: Number(modalFormData[proposalConfig.program]),
+      });
     }
   };
 
@@ -72,6 +77,7 @@ function ProposalModalInsertCode(props: ProposalModalInsertCodeProos) {
       enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
         variant: "success",
       });
+      onDoneTask();
     },
   });
 
@@ -93,8 +99,13 @@ function ProposalModalInsertCode(props: ProposalModalInsertCodeProos) {
     handleCloseModal2();
   };
 
+  const [isClickedOpenModal, setIsClickedOpenModal] = useState(false);
   const handleOpenModal2 = () => {
-    setIsOpenModal2(true);
+    setIsClickedOpenModal(true);
+    setHaveSubmitedForm(false);
+    if (checkHaveValue(modalFormData, [proposalConfig.AREA])) {
+      setIsOpenModal2(true);
+    }
   };
 
   const onChange = (e: any) => {
@@ -152,7 +163,7 @@ function ProposalModalInsertCode(props: ProposalModalInsertCodeProos) {
               // error={!!modalFormData[proposalConfig.AREA]}
               // setter={setFormData}
               // value={formData[proposalConfig.AREA]}
-              showError={haveSubmitedForm}
+              showError={haveSubmitedForm || isClickedOpenModal}
             />
           </Grid>
           <Grid item sm={6}>

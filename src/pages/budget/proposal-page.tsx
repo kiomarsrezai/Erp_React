@@ -244,6 +244,11 @@ function BudgetProposalPage() {
     afterCloseAnyModal();
   };
 
+  const onDoneTaskModalInsertCode = () => {
+    getDataMutation.mutate(formData);
+    handleCloseAddCodeModal();
+  };
+
   // data
   const formatTableData = (
     unFormatData: GetSingleProposalItemShape[]
@@ -440,6 +445,7 @@ function BudgetProposalPage() {
         <ProposalModalInsertCode
           activeRowData={activeRowData as GetSingleProposalItemShape}
           formData={formData}
+          onDoneTask={onDoneTaskModalInsertCode}
         />
       </FixedModal>
 
