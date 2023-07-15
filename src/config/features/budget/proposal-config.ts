@@ -12,6 +12,8 @@ export const proposalConfig = {
   program: "programOperationDetailsId",
   detailId: "budgetDetailId",
   area_public: "areaPublicId",
+  description: "description",
+  mosavab: "mosavab",
 };
 
 export const proposalModal1EditConfig = {

@@ -10,6 +10,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ProposalModal1Search from "./proposal-modal-1-search";
 import ProposalModal2 from "../modal-2/proposal-modal-2";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import ProposalModal1Edit from "./proposal-modal-1-edit";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -18,7 +19,6 @@ import { proposalConfig } from "config/features/budget/proposal-config";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { ReactNode, useEffect, useState } from "react";
-import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import {
