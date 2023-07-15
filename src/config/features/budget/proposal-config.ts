@@ -6,6 +6,7 @@ export const proposalConfig = {
   BUDGET_METHOD: generalFieldsConfig.BUDGET_METHOD,
   organ: "structureId",
   coding: "codingId",
+  code: "code",
   project: "projectId",
   ID: "id",
   motherid: "motherid",
@@ -43,4 +44,8 @@ export const propsalBudgetUrls = {
 
   // info modal
   getInfo: "BudgetApi/BudgetCodingInfoModalRead",
+
+  // insert
+  insertCode: "BudgetApi/BudgetInlineInsert",
+  projectsCodeData: "BudgetApi/BudgetInlineInsertModal",
 };

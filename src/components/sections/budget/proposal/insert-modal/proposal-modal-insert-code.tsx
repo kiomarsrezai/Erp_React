@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextField } from "@mui/material";
 import { codingBudgetConfig } from "config/features/budget/coding-config";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { codingBudgetApi } from "api/budget/coding-api";
 import { enqueueSnackbar } from "notistack";
@@ -20,44 +20,54 @@ import { globalConfig } from "config/global-config";
 import AreaInput from "components/sections/inputs/area-input";
 import FixedModal from "components/ui/modal/fixed-modal";
 import ProposalModal2InsertCode from "./proposal-modal2-insert-code";
+import { proposalBudgetApi } from "api/budget/proposal-api";
+import { GetSingleProposalItemShape } from "types/data/budget/proposal-type";
+import { proposalConfig } from "config/features/budget/proposal-config";
+import { checkHaveValue } from "helper/form-utils";
+import { changeInputHandler } from "helper/form-utils";
 
-interface ProposalModalInsertCodeProos {}
+interface ProposalModalInsertCodeProos {
+  activeRowData: GetSingleProposalItemShape;
+  formData: any;
+}
 
 function ProposalModalInsertCode(props: ProposalModalInsertCodeProos) {
-  const {} = props;
+  const { activeRowData, formData } = props;
 
-  const formSchema = yup.object({
-    [codingBudgetConfig.code]: yup.string().required(),
-    [codingBudgetConfig.description]: yup.string().required(),
+  const [haveSubmitedForm, setHaveSubmitedForm] = useState(false);
+
+  const [modalFormData, setModalFormData] = useState({
+    [proposalConfig.code]: "",
+    [proposalConfig.description]: "",
+    [proposalConfig.coding]: activeRowData.codingId,
+    [proposalConfig.YEAR]: formData[proposalConfig.YEAR],
+    [proposalConfig.AREA]: undefined,
+    [proposalConfig.mosavab]: 0,
+    [proposalConfig.program]: undefined,
   });
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(formSchema),
-  });
+  const handleFormSubmit = (event: FormEvent) => {
+    event.preventDefault();
 
-  const onSubmitHandler = (values: any) => {
-    const data = {};
+    setHaveSubmitedForm(true);
 
-    insertCodingMutation.mutate({
-      ...data,
-    });
+    if (
+      checkHaveValue(modalFormData, [
+        proposalConfig.AREA,
+        proposalConfig.program,
+        proposalConfig.code,
+        proposalConfig.description,
+      ])
+    ) {
+      // insertCodingMutation.mutate(modalFormData);
+    }
   };
 
-  const insertCodingMutation = useMutation(codingBudgetApi.insertItem, {
+  const insertCodingMutation = useMutation(proposalBudgetApi.codingInsert, {
     onSuccess: () => {
       enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
         variant: "success",
       });
-      // onDoneTask();
-    },
-    onError: () => {
-      //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
-      //variant: "error",
-      //});
     },
   });
 
@@ -72,9 +82,13 @@ function ProposalModalInsertCode(props: ProposalModalInsertCodeProos) {
     setIsOpenModal2(true);
   };
 
+  const onChange = (e: any) => {
+    changeInputHandler(e, setModalFormData);
+  };
+
   return (
     <>
-      <Box p={2} component="form" onSubmit={handleSubmit(onSubmitHandler)}>
+      <Box p={2} component="form" onSubmit={handleFormSubmit}>
         <Grid
           container
           columnSpacing={1}
@@ -87,11 +101,12 @@ function ProposalModalInsertCode(props: ProposalModalInsertCodeProos) {
               label="کد"
               variant="outlined"
               size="small"
-              {...register(codingBudgetConfig.code)}
-              error={!!errors[codingBudgetConfig.code]}
-              helperText={
-                (errors[codingBudgetConfig.code]?.message || "") as any
-              }
+              value={modalFormData[proposalConfig.code]}
+              onChange={onChange}
+              error={!!modalFormData[proposalConfig.code]}
+              // helperText={
+              //   (errors[codingBudgetConfig.code]?.message || "") as any
+              // }
               autoComplete="off"
               fullWidth
             />
@@ -105,20 +120,22 @@ function ProposalModalInsertCode(props: ProposalModalInsertCodeProos) {
               size="small"
               autoComplete="off"
               fullWidth
-              {...register(codingBudgetConfig.code)}
-              error={!!errors[codingBudgetConfig.code]}
-              helperText={
-                (errors[codingBudgetConfig.code]?.message || "") as any
-              }
+              value={modalFormData[proposalConfig.mosavab]}
+              onChange={onChange}
+              error={!!modalFormData[proposalConfig.mosavab]}
+              // helperText={
+              //   (errors[codingBudgetConfig.code]?.message || "") as any
+              // }
             />
           </Grid>
           <Grid item sm={6}>
             <AreaInput
-              setter={() => {}}
-              value={undefined}
+              setter={onChange}
+              value={modalFormData[proposalConfig.AREA]}
+              // error={!!modalFormData[proposalConfig.AREA]}
               // setter={setFormData}
               // value={formData[proposalConfig.AREA]}
-              // showError={haveSubmitedForm}
+              showError={haveSubmitedForm}
             />
           </Grid>
           <Grid item sm={6}>
@@ -169,11 +186,12 @@ function ProposalModalInsertCode(props: ProposalModalInsertCodeProos) {
               variant="outlined"
               autoComplete="off"
               size="small"
-              {...register(codingBudgetConfig.description)}
-              error={!!errors[codingBudgetConfig.description]}
-              helperText={
-                (errors[codingBudgetConfig.description]?.message || "") as any
-              }
+              value={modalFormData[proposalConfig.description]}
+              onChange={onChange}
+              error={!!modalFormData[proposalConfig.description]}
+              // helperText={
+              //   (errors[codingBudgetConfig.description]?.message || "") as any
+              // }
               fullWidth
             />
           </Grid>

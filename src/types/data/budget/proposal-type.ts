@@ -80,3 +80,10 @@ export interface GetSingleProposalInfoItemShape {
   creditAmount: 481790912;
   expense: 0;
 }
+
+// modal insert code
+export interface GetSingleProposalProjectInsertCodeItemShape {
+  id: 33;
+  projectCode: "4";
+  projectName: " اجرای گذرگاه عابر پیاده واقع در سطح منطقه";
+}

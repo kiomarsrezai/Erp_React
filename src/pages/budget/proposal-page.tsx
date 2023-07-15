@@ -437,7 +437,10 @@ function BudgetProposalPage() {
         maxHeight="400px"
         minHeight="400px"
       >
-        <ProposalModalInsertCode />
+        <ProposalModalInsertCode
+          activeRowData={activeRowData as GetSingleProposalItemShape}
+          formData={formData}
+        />
       </FixedModal>
 
       {/* loading */}

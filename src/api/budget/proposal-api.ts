@@ -11,6 +11,7 @@ import {
   GetSingleMoreDetailProposalItemShape,
   GetSingleProposalInfoItemShape,
   GetSingleProposalItemShape,
+  GetSingleProposalProjectInsertCodeItemShape,
 } from "types/data/budget/proposal-type";
 import {
   proposalConfig,
@@ -180,6 +181,25 @@ export const proposalBudgetApi = new (class extends BaseApi {
     const url = propsalBudgetUrls.getInfo + this.joinFilterData(formdata);
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleProposalInfoItemShape[]>
+    >(url);
+    return response.data;
+  };
+
+  // insert code
+  codingInsert = async (formdata: any) => {
+    const url = propsalBudgetUrls.insertCode;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      formdata
+    );
+    return response.data;
+  };
+
+  getProjectsModalData = async (formdata: any) => {
+    const url =
+      propsalBudgetUrls.projectsCodeData + this.joinFilterData(formdata);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleProposalProjectInsertCodeItemShape[]>
     >(url);
     return response.data;
   };
