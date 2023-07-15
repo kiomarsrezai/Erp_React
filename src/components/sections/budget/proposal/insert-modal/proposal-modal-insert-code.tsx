@@ -21,7 +21,10 @@ import AreaInput from "components/sections/inputs/area-input";
 import FixedModal from "components/ui/modal/fixed-modal";
 import ProposalModal2InsertCode from "./proposal-modal2-insert-code";
 import { proposalBudgetApi } from "api/budget/proposal-api";
-import { GetSingleProposalItemShape } from "types/data/budget/proposal-type";
+import {
+  GetSingleProposalItemShape,
+  GetSingleProposalProjectInsertCodeItemShape,
+} from "types/data/budget/proposal-type";
 import { proposalConfig } from "config/features/budget/proposal-config";
 import { checkHaveValue } from "helper/form-utils";
 import { changeInputHandler } from "helper/form-utils";
@@ -44,6 +47,7 @@ function ProposalModalInsertCode(props: ProposalModalInsertCodeProos) {
     [proposalConfig.AREA]: undefined,
     [proposalConfig.mosavab]: 0,
     [proposalConfig.program]: undefined,
+    projectName: "",
   });
 
   const handleFormSubmit = (event: FormEvent) => {
@@ -78,6 +82,17 @@ function ProposalModalInsertCode(props: ProposalModalInsertCodeProos) {
     setIsOpenModal2(false);
   };
 
+  const handleSelectProject = (
+    item: GetSingleProposalProjectInsertCodeItemShape
+  ) => {
+    setModalFormData((prevData) => ({
+      ...prevData,
+      [proposalConfig.program]: item.projectCode,
+      projectName: item.projectName,
+    }));
+    handleCloseModal2();
+  };
+
   const handleOpenModal2 = () => {
     setIsOpenModal2(true);
   };
@@ -101,9 +116,10 @@ function ProposalModalInsertCode(props: ProposalModalInsertCodeProos) {
               label="کد"
               variant="outlined"
               size="small"
+              name={proposalConfig.code}
               value={modalFormData[proposalConfig.code]}
               onChange={onChange}
-              error={!!modalFormData[proposalConfig.code]}
+              error={!modalFormData[proposalConfig.code] && haveSubmitedForm}
               // helperText={
               //   (errors[codingBudgetConfig.code]?.message || "") as any
               // }
@@ -117,12 +133,13 @@ function ProposalModalInsertCode(props: ProposalModalInsertCodeProos) {
               label="مصوب"
               variant="outlined"
               type="number"
+              name={proposalConfig.mosavab}
               size="small"
               autoComplete="off"
               fullWidth
               value={modalFormData[proposalConfig.mosavab]}
               onChange={onChange}
-              error={!!modalFormData[proposalConfig.mosavab]}
+              // error={!modalFormData[proposalConfig.mosavab] && haveSubmitedForm}
               // helperText={
               //   (errors[codingBudgetConfig.code]?.message || "") as any
               // }
@@ -142,12 +159,11 @@ function ProposalModalInsertCode(props: ProposalModalInsertCodeProos) {
             <TextField
               id="project-input"
               label="پروژه"
+              name={proposalConfig.program}
               variant="outlined"
-              value={undefined}
+              value={modalFormData.projectName}
               size="small"
-              // error={
-              //   !formData[creditRequestConfig.contractorName] && haveSubmitedForm
-              // }
+              error={!modalFormData[proposalConfig.program] && haveSubmitedForm}
               // helperText={
               //   !formData[creditRequestConfig.contractorName] &&
               //   haveSubmitedForm &&
@@ -162,9 +178,9 @@ function ProposalModalInsertCode(props: ProposalModalInsertCodeProos) {
               //   },
               // }}
               disabled
-              // InputLabelProps={{
-              //   shrink: !!formData[creditRequestConfig.contractorName],
-              // }}
+              InputLabelProps={{
+                shrink: !!modalFormData[proposalConfig.program],
+              }}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -186,9 +202,12 @@ function ProposalModalInsertCode(props: ProposalModalInsertCodeProos) {
               variant="outlined"
               autoComplete="off"
               size="small"
+              name={proposalConfig.description}
               value={modalFormData[proposalConfig.description]}
               onChange={onChange}
-              error={!!modalFormData[proposalConfig.description]}
+              error={
+                !modalFormData[proposalConfig.description] && haveSubmitedForm
+              }
               // helperText={
               //   (errors[codingBudgetConfig.description]?.message || "") as any
               // }
@@ -214,7 +233,7 @@ function ProposalModalInsertCode(props: ProposalModalInsertCodeProos) {
       >
         <ProposalModal2InsertCode
           formData={modalFormData}
-          onDoneTask={() => {}}
+          onSelectProject={handleSelectProject}
         />
       </FixedModal>
     </>

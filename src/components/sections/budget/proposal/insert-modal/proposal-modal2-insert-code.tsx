@@ -20,11 +20,11 @@ import AreaInput from "components/sections/inputs/area-input";
 
 interface ProposalModal2InsertCodeProps {
   formData: any;
-  onDoneTask: () => void;
+  onSelectProject: (item: GetSingleProposalProjectInsertCodeItemShape) => void;
 }
 
 function ProposalModal2InsertCode(props: ProposalModal2InsertCodeProps) {
-  const { formData, onDoneTask } = props;
+  const { formData, onSelectProject } = props;
 
   const [filterText, setFilterText] = useState("");
 
@@ -72,6 +72,7 @@ function ProposalModal2InsertCode(props: ProposalModal2InsertCodeProps) {
 
   // insert
   const handleAddClick = (row: GetSingleProposalProjectInsertCodeItemShape) => {
+    onSelectProject(row);
     // insertMutation.mutate({
     //   [proposalConfig.AREA]: modalFormData[proposalConfig.AREA],
     //   [proposalConfig.detailId]: codingId,
