@@ -112,6 +112,10 @@ function UserPage() {
         ...item,
         number: i + 1,
         actions: () => actionButtons(item),
+        phoneNumber: `${item.phoneNumber.slice(0, 4)}-${item.phoneNumber.slice(
+          4,
+          7
+        )}-${item.phoneNumber.slice(7, 11)}`,
       }));
 
     return formatedData;

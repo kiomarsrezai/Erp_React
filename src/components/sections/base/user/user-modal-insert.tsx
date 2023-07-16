@@ -34,7 +34,13 @@ function UserModalInsert(props: UserModalUpdateProps) {
 
   const editFormSchema = yup.object({
     userName: yup.string().required(),
-    phoneNumber: yup.string().required(),
+    phoneNumber: yup
+      .string()
+      .matches(
+        /09(0[1-2]|1[0-9]|3[0-9]|2[0-9])-?[0-9]{3}-?[0-9]{4}$/,
+        "شماره موبایل معتبر نیست"
+      )
+      .required(),
     firstName: yup.string().required(),
     lastName: yup.string().required(),
     bio: yup.string().required(),
