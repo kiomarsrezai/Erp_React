@@ -28,6 +28,7 @@ import { UserApi } from "api/base/base-user";
 import { UserItemShape } from "types/data/auth/users-type";
 import UserModalUpdate from "components/sections/base/user/user-modal-update";
 import FixedModal from "components/ui/modal/fixed-modal";
+import UserModalInsert from "components/sections/base/user/user-modal-insert";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -39,7 +40,18 @@ function UserPage() {
   // heads
   const tableHeads: TableHeadShape = [
     {
-      title: "ردیف",
+      title: (
+        <div>
+          ردیف
+          <IconButton
+            size="small"
+            color="primary"
+            onClick={() => handleOpenInsertModal()}
+          >
+            <AddIcon />
+          </IconButton>
+        </div>
+      ),
       name: "number",
       //   width: "100px",
     },
@@ -84,7 +96,7 @@ function UserPage() {
       <IconButton
         size="small"
         color="primary"
-        onClick={() => handleOpenInsertModal(item)}
+        onClick={() => handleOpenUpdateModal(item)}
       >
         <FormatListBulletedIcon />
       </IconButton>
@@ -113,13 +125,22 @@ function UserPage() {
 
   // modal
   const [isOpenInsertModal, setIsOpenInsertModal] = useState(false);
+  const [isOpenUpdateModal, setIsOpenUpdateModal] = useState(false);
   const [activeRow, setActiveRow] = useState<UserItemShape>();
   const [insertModalTitle, setInsertModalTitle] = useState("");
 
-  const handleOpenInsertModal = (item: UserItemShape) => {
+  const handleOpenInsertModal = () => {
+    setIsOpenInsertModal(true);
+  };
+
+  const handleOpenUpdateModal = (item: UserItemShape) => {
     setInsertModalTitle(`${item.firstName} ${item.lastName}`);
     setActiveRow(item);
     setIsOpenInsertModal(true);
+  };
+
+  const handleCloseUpdateModal = () => {
+    setIsOpenUpdateModal(false);
   };
 
   const handleCloseInsertModal = () => {
@@ -127,7 +148,8 @@ function UserPage() {
   };
 
   const handleDoneUpdate = () => {
-    setIsOpenInsertModal(false);
+    handleCloseInsertModal();
+    handleCloseUpdateModal();
     userListQuery.refetch();
   };
 
@@ -138,8 +160,8 @@ function UserPage() {
       </AdminLayout>
 
       <FixedModal
-        open={isOpenInsertModal}
-        handleClose={handleCloseInsertModal}
+        open={isOpenUpdateModal}
+        handleClose={handleCloseUpdateModal}
         title={insertModalTitle}
         maxHeight="450px"
         minHeight="450px"
@@ -149,6 +171,17 @@ function UserPage() {
           initData={activeRow as any}
           onDoneTask={handleDoneUpdate}
         />
+      </FixedModal>
+
+      <FixedModal
+        open={isOpenInsertModal}
+        handleClose={handleCloseInsertModal}
+        title={"افزودن کاربر"}
+        maxHeight="400px"
+        minHeight="400px"
+        maxWidth="md"
+      >
+        <UserModalInsert onDoneTask={handleDoneUpdate} />
       </FixedModal>
     </>
   );

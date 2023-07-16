@@ -5,7 +5,7 @@ export const convertToJalaliDate = (date: string, full: boolean = false) => {
   return moment.from(date, "en").locale("fa").format(format);
 };
 
-export const convertToCalenderDate = (date: string) => {
+export const convertToCalenderDate = (date: string | null) => {
   if (date === null) {
     return new Date();
   }

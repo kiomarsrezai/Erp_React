@@ -27,4 +27,12 @@ export const UserApi = new (class extends BaseApi {
     );
     return response.data;
   };
+
+  insertUser = async (formdata: any) => {
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      "UsersApi/EmployeeInsert",
+      formdata
+    );
+    return response.data;
+  };
 })();
