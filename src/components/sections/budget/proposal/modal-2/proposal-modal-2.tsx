@@ -474,7 +474,7 @@ function ProposalModal2(props: ProposalModal2Props) {
         title={modalTitle}
         loading={getDetailMutation.isLoading}
         maxHeight="70%"
-        maxWidth="50%"
+        maxWidth="60%"
       >
         <ProposalModal3
           data={getDetailMutation.data?.data || []}
