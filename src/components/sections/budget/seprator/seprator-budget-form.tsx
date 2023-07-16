@@ -435,7 +435,7 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
               fullWidth
             />
           </Grid> */}
-          <Grid sm={2}>
+          <Grid sm={"auto"}>
             <Box display={"flex"} justifyContent={"flex-end"}>
               <Button variant="contained" onClick={handleOpenAbstructModal}>
                 خلاصه بودجه

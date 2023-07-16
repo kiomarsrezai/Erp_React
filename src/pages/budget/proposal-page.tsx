@@ -395,8 +395,8 @@ function BudgetProposalPage() {
           data={tableData}
           footer={tableFooter}
           bottomFooter={tableBottomFooter}
-          // enableVirtual
-          // tableLayout="auto"
+          enableVirtual
+          tableLayout="auto"
         />
       </AdminLayout>
       {/* modal 1 */}

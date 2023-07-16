@@ -222,11 +222,10 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
             </Button>
           </Grid>
 
-          {/* <Grid sm={2}>
+          <Grid sm={2}>
             <TextField
               size="small"
               label="جستجو"
-              sx={{ width: "250px" }}
               value={filterText}
               variant="outlined"
               onChange={(e) => setFilterText(e.target.value)}
@@ -239,7 +238,7 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
               }}
               fullWidth
             />
-          </Grid> */}
+          </Grid>
         </Grid>
       </Box>
 

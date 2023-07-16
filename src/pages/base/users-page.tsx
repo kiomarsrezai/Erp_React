@@ -69,8 +69,8 @@ function UserPage() {
       name: "email",
     },
     {
-      title: "جنسیت",
-      name: "genderName",
+      title: "موبایل",
+      name: "phoneNumber",
     },
     {
       title: "عملیات",
