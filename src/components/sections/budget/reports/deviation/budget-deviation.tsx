@@ -121,6 +121,7 @@ function BudgetReportDeviation(props: BudgetReportDeviationProps) {
   // footer
   const sumMosavab = sumFieldsInSingleItemData(tableData, "mosavab");
   const sumExpense = sumFieldsInSingleItemData(tableData, "expense");
+  const sumCreaditAmount = sumFieldsInSingleItemData(tableData, "creditAmount");
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
     "colspan-number": 4,
@@ -129,6 +130,8 @@ function BudgetReportDeviation(props: BudgetReportDeviationProps) {
     description: null,
     mosavab: sumMosavab,
     expense: sumExpense,
+    creditAmount: sumCreaditAmount,
+    percentCreditAmount: getPercent(sumCreaditAmount, sumMosavab),
     percmosavab: getPercent(sumExpense, sumMosavab),
   };
 
