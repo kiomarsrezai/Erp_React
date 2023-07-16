@@ -162,18 +162,19 @@ const createData = (data: any, title: string, proccessId: number) => {
         Header: "شرح",
         Name: "description",
         textAlign: "right",
+        wrapText: true,
       },
       {
         Header: "مصوب",
         Name: "mosavab",
         Mony: true,
-        textAlign: "left",
+        textAlign: "right",
       },
       {
         Header: "اصلاح",
         Name: "edit",
         Mony: true,
-        textAlign: "left",
+        textAlign: "right",
       },
       ...(proccessId !== 1
         ? [
@@ -181,7 +182,7 @@ const createData = (data: any, title: string, proccessId: number) => {
               Header: "ت اعتبار",
               Name: "creditAmount",
               Mony: true,
-              textAlign: "left",
+              textAlign: "right",
             },
             {
               Header: "%",
@@ -194,7 +195,7 @@ const createData = (data: any, title: string, proccessId: number) => {
         Header: "عملکرد",
         Name: "expenseMonth",
         Mony: true,
-        textAlign: "left",
+        textAlign: "right",
       },
       {
         Header: "%",
