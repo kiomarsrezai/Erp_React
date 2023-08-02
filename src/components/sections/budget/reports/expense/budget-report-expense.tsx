@@ -416,7 +416,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
 
   const sumExpenseDar_KhazaneShahrdari = sumFieldsInSingleItemData(
     deviationQuery.data?.data,
-    "mosavabDar_Khazane",
+    "expenseDar_Khazane",
     (item: GetSingleBudgetExpenseReportItemShape) => item.id <= 10
   );
 
@@ -612,7 +612,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
 
   const sumExpenseDar_KhazaneSazman = sumFieldsInSingleItemData(
     deviationQuery.data?.data,
-    "mosavabDar_Khazane",
+    "expenseDar_Khazane",
     (item: GetSingleBudgetExpenseReportItemShape) => item.id > 10
   );
 

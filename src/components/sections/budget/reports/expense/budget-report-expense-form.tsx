@@ -338,6 +338,7 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
 
   // excel
   const handleExcelBaseClick = () => {
+    const monthLabel = getGeneralFieldItemMonth(formData);
     if (printData.data.length) {
       budgetExpenseBaseXlsx({
         data: printData.data,
@@ -346,6 +347,7 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
           printData.bottomFooter[0],
           printData.moreBottomFooter[0],
         ],
+        month: monthLabel,
       });
     }
   };

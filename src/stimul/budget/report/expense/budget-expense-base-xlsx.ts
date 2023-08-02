@@ -139,88 +139,154 @@ const createData = (data: any, footer: [any, any, any], title: string) => {
       },
       {
         Header: "درآمد - عملکرد",
-        Name: "mosavabRevenue",
+        Name: "expenseRevenue",
         Mony: true,
         textAlign: "right",
       },
       {
-        Header: "متمرکز",
+        Header: "%",
+        Name: "percentRevenue",
+        Percent: true,
+      },
+      {
+        Header: "متمرکز - مصوب",
         Name: "mosavabPayMotomarkez",
         Mony: true,
         textAlign: "right",
       },
       {
-        Header: "متمرکز",
-        Name: "mosavabPayMotomarkez",
+        Header: "متمرکز - عملکرد",
+        Name: "expensePayMotomarkez",
         Mony: true,
         textAlign: "right",
       },
       {
-        Header: "دریافت از خزانه متمرکز",
+        Header: "%",
+        Name: "percentPayMotomarkez",
+        Percent: true,
+      },
+      {
+        Header: "دریافت از خزانه - از محل متمرکز - مصوب",
         Name: "mosavabDar_Khazane",
         Mony: true,
         textAlign: "right",
       },
       {
-        Header: "دریافت از خزانه نیابتی",
+        Header: "دریافت از خزانه - از محل متمرکز - عملکرد",
+        Name: "expenseDar_Khazane",
+        Mony: true,
+        textAlign: "right",
+      },
+      {
+        Header: "%",
+        Name: "percentDar_Khazane",
+        Percent: true,
+      },
+      {
+        Header: "دریافت از خزانه - از محل نیابتی - مصوب",
         Name: "mosavabNeyabati",
         Mony: true,
         textAlign: "right",
       },
       {
-        Header: "جمع منابع",
+        Header: "دریافت از خزانه - از محل نیابتی - عملکرد",
+        Name: "expenseNeyabati",
+        Mony: true,
+        textAlign: "right",
+      },
+      {
+        Header: "%",
+        Name: "percentNeyabati",
+        Percent: true,
+      },
+      {
+        Header: "منابع",
         Name: "resoures",
         Mony: true,
         textAlign: "right",
       },
       {
-        Header: "هزینه ای",
+        Header: "هزینه ای - مصوب",
         Name: "mosavabCurrent",
         Mony: true,
         textAlign: "right",
       },
       {
+        Header: "هزینه ای - عملکرد",
+        Name: "expenseCurrent",
+        Mony: true,
+        textAlign: "right",
+      },
+      {
         Header: "%",
-        Name: "percent_mosavabCurrent",
+        Name: "percentCurrent",
         Percent: true,
       },
-
       {
-        Header: "تملک سرمایه ای",
+        Header: "تملک سرمایه ای - مصوب",
         Name: "mosavabCivil",
         Mony: true,
         textAlign: "right",
       },
       {
+        Header: "تملک سرمایه ای - ت اعتبار",
+        Name: "creditAmountCivil",
+        Mony: true,
+        textAlign: "right",
+      },
+      {
         Header: "%",
-        Name: "percent_mosavabCivil",
+        Name: "percentCreditCivil",
         Percent: true,
       },
       {
-        Header: "تملک مالی",
+        Header: "تملک سرمایه ای - عملکرد",
+        Name: "expenseCivil",
+        Mony: true,
+        textAlign: "right",
+      },
+      {
+        Header: "%",
+        Name: "percentCivil",
+        Percent: true,
+      },
+      {
+        Header: "تملک مالی - مصوب",
         Name: "mosavabFinancial",
         Mony: true,
         textAlign: "right",
       },
       {
-        Header: "%",
-        Name: "percent_mosavabFinancial",
-        Percent: true,
-      },
-      {
-        Header: "دیون سنواتی",
-        Name: "mosavabSanavati",
+        Header: "تملک مالی - عملکرد",
+        Name: "expenseFinancial",
         Mony: true,
         textAlign: "right",
       },
       {
         Header: "%",
-        Name: "percent_mosavabSanavati",
+        Name: "percentFinancial",
         Percent: true,
       },
       {
-        Header: "کنترل موازنه",
-        Name: "balanceMosavab",
+        Header: "دیون سنواتی - مصوب",
+        Name: "mosavabSanavati",
+        Mony: true,
+        textAlign: "right",
+      },
+      {
+        Header: "دیون سنواتی - عملکرد",
+        Name: "expenseSanavati",
+        Mony: true,
+        textAlign: "right",
+      },
+      {
+        Header: "%",
+        Name: "percentSanavati",
+        Percent: true,
+      },
+      {
+        Header: "مانده",
+        Name: "balance",
         Mony: true,
         textAlign: "right",
       },
@@ -245,7 +311,10 @@ export const budgetExpenseBaseXlsx = (exportOptions: StimulOptionsShape) => {
   // checkExcelFont();
 
   ListsToExcel([data1], "خلاصه بودجه");
-  enqueueSnackbar(`خروجی اکسل برای خلاصه بودجه ماه با موفقیت انجام شد `, {
-    variant: "success",
-  });
+  enqueueSnackbar(
+    `خروجی اکسل برای عملکرد ${exportOptions.month} ماه با موفقیت انجام شد `,
+    {
+      variant: "success",
+    }
+  );
 };
