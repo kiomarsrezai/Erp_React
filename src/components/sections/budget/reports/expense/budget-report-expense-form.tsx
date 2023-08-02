@@ -376,10 +376,11 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
         <Box display={"none"}>
           <AreaInput setter={() => {}} value={undefined} level={3} />
         </Box>
-        <Grid container spacing={2}>
-          {tabRender && <Grid xs={12}>{tabRender}</Grid>}
-          {inputRender && <Grid xs={2}>{inputRender}</Grid>}
+        {/* <Grid container spacing={2}> */}
+        {tabRender && <Grid xs={12}>{tabRender}</Grid>}
+        {inputRender && <Grid xs={2}>{inputRender}</Grid>}
 
+        <Box display={"flex"} gap={0.5} pt={2}>
           <SectionGuard
             permission={joinPermissions([
               accessNamesConfig.BUDGET__REPORT_PAGE,
@@ -387,7 +388,8 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
               accessNamesConfig.FIELD_YEAR,
             ])}
           >
-            <Grid xs={2}>
+            <Box width={200}>
+              {/* <Grid xs={2}> */}
               <YearInput
                 setter={setFormData}
                 value={formData[budgetReportExpenseConfig.year] as number}
@@ -397,16 +399,19 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
                 ])}
                 showError={haveSubmitedForm}
               />
-            </Grid>
+            </Box>
+            {/* </Grid> */}
           </SectionGuard>
 
-          <Grid xs={2}>
+          {/* <Grid xs={2}> */}
+          <Box width={200}>
             <MonthInput
               setter={setFormData}
               value={formData[budgetReportExpenseConfig.month] as number}
               showError={haveSubmitedForm}
             />
-          </Grid>
+          </Box>
+          {/* </Grid> */}
 
           {/* <SectionGuard
             permission={joinPermissions([
@@ -435,49 +440,52 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
             </Grid>
           </SectionGuard> */}
 
-          <Grid xs={2}>
+          {/* <Grid xs={2}> */}
+          <Box width={200}>
             <NumbersInput
               setter={setFormData}
               value={formData[generalFieldsConfig.numbers] as number}
             />
-          </Grid>
+          </Box>
+          {/* </Grid> */}
 
-          <Grid xs>
-            <LoadingButton
-              variant="contained"
-              type="submit"
-              loading={submitMutation.isLoading}
-              sx={{ mr: 1 }}
-            >
-              نمایش
-            </LoadingButton>
+          {/* <Grid xs> */}
+          <LoadingButton
+            variant="contained"
+            type="submit"
+            loading={submitMutation.isLoading}
+            sx={{ mr: 1 }}
+          >
+            نمایش
+          </LoadingButton>
 
-            <SectionGuard
-              permission={joinPermissions([
-                accessNamesConfig.BUDGET__REPORT_PAGE,
-                accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
-                accessNamesConfig.FIELD_YEAR,
-              ])}
-            >
-              <IconButton color="primary" onClick={handleExcelClick}>
-                <ListIcon sx={{ mr: -1 }} />
-                <GetAppIcon />
-              </IconButton>
-            </SectionGuard>
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.BUDGET__REPORT_PAGE,
+              accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
+              accessNamesConfig.FIELD_YEAR,
+            ])}
+          >
+            <IconButton color="primary" onClick={handleExcelClick}>
+              <ListIcon sx={{ mr: -1 }} />
+              <GetAppIcon />
+            </IconButton>
+          </SectionGuard>
 
-            <SectionGuard
-              permission={joinPermissions([
-                accessNamesConfig.BUDGET__REPORT_PAGE,
-                accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
-                accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN_BASE_EXCEL,
-              ])}
-            >
-              <IconButton color="primary" onClick={handleExcel2Click}>
-                <GetAppIcon />
-              </IconButton>
-            </SectionGuard>
-          </Grid>
-        </Grid>
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.BUDGET__REPORT_PAGE,
+              accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
+              accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN_BASE_EXCEL,
+            ])}
+          >
+            <IconButton color="primary" onClick={handleExcel2Click}>
+              <GetAppIcon />
+            </IconButton>
+          </SectionGuard>
+        </Box>
+        {/* </Grid> */}
+        {/* </Grid> */}
       </Box>
 
       {/* excel confrim */}
