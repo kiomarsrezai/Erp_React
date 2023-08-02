@@ -27,10 +27,36 @@ export const stimulDateValue = () => {
 };
 
 export const NowDateValue = () => {
-  return new Date().toLocaleDateString("fa-IR-u-nu-latn", {
+  let nowDate = new Date().toLocaleDateString("fa-IR-u-nu-latn", {
     hour: "numeric",
     minute: "numeric",
   });
+
+  const day = new Date().getDay();
+  switch (day) {
+    case 0:
+      return nowDate + ", یکشنبه ";
+
+    case 1:
+      return nowDate + ", دوشنبه ";
+
+    case 2:
+      return nowDate + ", سه شنبه ";
+
+    case 3:
+      return nowDate + ", چهار شنبه ";
+
+    case 4:
+      return nowDate + ", پنج شنبه ";
+
+    case 5:
+      return nowDate + ", جمعه ";
+
+    case 6:
+      return nowDate + ", شنبه ";
+  }
+
+  return;
 };
 
 export const createStimulsoftFilePath = (name: string) => {
