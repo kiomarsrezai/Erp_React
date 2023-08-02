@@ -57,7 +57,12 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
       align: "center",
     },
     {
-      title: "دریافت از خزانه",
+      title: "دریافت از خزانه -  از محل متمرکز",
+      colspan: 3,
+      align: "center",
+    },
+    {
+      title: "دریافت از خزانه -  از محل نیابتی",
       colspan: 3,
       align: "center",
     },
@@ -88,16 +93,6 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
       colspan: 3,
       align: "center",
     },
-    // {
-    //   title: "متمرکز",
-    //   colspan: 3,
-    //   align: "center",
-    // },
-    // {
-    //   title: "دریافت از خزانه",
-    //   colspan: 3,
-    //   align: "center",
-    // },
     {
       title: "مانده",
       colspan: 1,
@@ -158,7 +153,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
       topTitle: "متمرکز",
       percent: true,
     },
-    // khazane
+    // khazane - 1
     {
       title: "مصوب",
       name: "mosavabDar_Khazane",
@@ -180,6 +175,29 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
       percent: true,
       forceHaveBorder: true,
     },
+    // khazane - 2
+    {
+      title: "مصوب",
+      name: "mosavabDar_Khazane",
+      split: true,
+      topTitle: "دریافت از خزانه",
+      align: "left",
+    },
+    {
+      title: "عملکرد",
+      name: "expenseDar_Khazane",
+      topTitle: "دریافت از خزانه",
+      split: true,
+      align: "left",
+    },
+    {
+      title: "%",
+      name: "percentDar_Khazane",
+      topTitle: "دریافت از خزانه",
+      percent: true,
+      forceHaveBorder: true,
+    },
+    // resources
     {
       title: "منابع",
       name: "resoures",
@@ -785,6 +803,8 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
           printData={{
             data: tableData,
             footer: [tableFooter],
+            bottomFooter: [tableBottomFooter],
+            moreBottomFooter: [tableMoreBottomFooter],
           }}
         />
       ),

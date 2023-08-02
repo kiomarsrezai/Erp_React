@@ -69,6 +69,7 @@ import { budgetExpenseXlsx } from "stimul/budget/report/expense/budget-expense-x
 import FixedModal from "components/ui/modal/fixed-modal";
 import { areaGeneralApi } from "api/general/area-general-api";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
+import { budgetExpenseBaseXlsx } from "stimul/budget/report/expense/budget-expense-base-xlsx";
 
 interface BudgetReportExpenseFormProps {
   formData: any;
@@ -78,6 +79,8 @@ interface BudgetReportExpenseFormProps {
   printData: {
     data: any[];
     footer: any[];
+    bottomFooter: any[];
+    moreBottomFooter: any[];
   };
 }
 
@@ -333,6 +336,20 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
     // }
   };
 
+  // excel
+  const handleExcelBaseClick = () => {
+    if (printData.data.length) {
+      budgetExpenseBaseXlsx({
+        data: printData.data,
+        footer: [
+          printData.footer[0],
+          printData.bottomFooter[0],
+          printData.moreBottomFooter[0],
+        ],
+      });
+    }
+  };
+
   return (
     <>
       <Box
@@ -431,6 +448,9 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
                 <GetAppIcon />
               </IconButton>
             </SectionGuard>
+            <IconButton color="primary" onClick={handleExcelBaseClick}>
+              <GetAppIcon />
+            </IconButton>
           </Grid>
         </Grid>
       </Box>
