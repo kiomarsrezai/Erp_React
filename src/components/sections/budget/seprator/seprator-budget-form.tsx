@@ -461,7 +461,11 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
               >
                 عملکرد ماهیانه
               </LoadingButton>
-              <Button variant="contained" onClick={handleOpenAbstructModal}>
+              <Button
+                variant="contained"
+                onClick={handleOpenAbstructModal}
+                sx={{ marginLeft: 1 }}
+              >
                 خلاصه بودجه
               </Button>
             </Box>
@@ -569,9 +573,8 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
           setIsOpenMonthlyModal(false);
         }}
         title={"عملکرد ماهیانه"}
-        maxWidth="sm"
-        maxHeight="40%"
-        minHeight="40%"
+        maxWidth="90%"
+        maxHeight="80%"
       >
         <SepratorMonthlyModal data={monthlyMutation.data?.data || []} />
       </FixedModal>
