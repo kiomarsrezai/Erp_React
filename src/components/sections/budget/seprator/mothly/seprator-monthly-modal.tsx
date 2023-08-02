@@ -1,7 +1,7 @@
 import FixedTable from "components/data/table/fixed-table";
 import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { GetSingleSepratorMonthlyItemShape } from "types/data/budget/seprator-type";
-import { TableHeadShape } from "types/table-type";
+import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 
 interface SepratorMonthlyModalProps {
   data: GetSingleSepratorMonthlyItemShape[];
@@ -9,168 +9,304 @@ interface SepratorMonthlyModalProps {
 function SepratorMonthlyModal(props: SepratorMonthlyModalProps) {
   const { data } = props;
 
+  const tableHeadGroup: TableHeadGroupShape = [
+    {
+      title: "ردیف",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "کد",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "شرح",
+      align: "left",
+      colspan: 1,
+      rowspan: 2,
+    },
+    {
+      title: "مصوب",
+      align: "center",
+      colspan: 1,
+      rowspan: 2,
+    },
+    {
+      title: "فروردین",
+      align: "center",
+      colspan: 2,
+      rowspan: 2,
+    },
+    {
+      title: "اردیبهشت",
+      align: "center",
+      colspan: 2,
+      rowspan: 2,
+    },
+    {
+      title: "خرداد",
+      align: "center",
+      colspan: 2,
+      rowspan: 2,
+    },
+    {
+      title: "تیر",
+      align: "center",
+      colspan: 2,
+      rowspan: 2,
+    },
+
+    {
+      title: "مرداد",
+      align: "center",
+      colspan: 2,
+      rowspan: 2,
+    },
+    {
+      title: "شهریور",
+      colspan: 2,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "مهر",
+      colspan: 2,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "آبان",
+      colspan: 2,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "آذر",
+      colspan: 2,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "دی",
+      colspan: 2,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "بهمن",
+      colspan: 2,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "اسفند",
+      colspan: 2,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "جمع کل",
+      colspan: 2,
+      rowspan: 2,
+      align: "center",
+    },
+  ];
+
   const tableHeads: TableHeadShape = [
     {
       title: "ردیف",
       name: "number",
+      hiddenSelf: true,
     },
     {
       title: "کد",
       name: "code",
+      hiddenSelf: true,
     },
     {
       title: "شرح",
       name: "description",
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "مصوب",
       name: "mosavab",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "فروردین",
       name: "month-1",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "%",
       name: "percent-month-1",
       percent: true,
+      hiddenSelf: true,
     },
     {
       title: "اردیبهشت",
       name: "month-2",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "%",
       name: "percent-month-2",
       percent: true,
+      hiddenSelf: true,
     },
     {
       title: "خرداد",
       name: "month-3",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "%",
       name: "percent-month-3",
       percent: true,
+      hiddenSelf: true,
     },
     {
       title: "تیر",
       name: "month-4",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "%",
       name: "percent-month-4",
       percent: true,
+      hiddenSelf: true,
     },
     {
       title: "مرداد",
       name: "month-5",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "%",
       name: "percent-month-5",
       percent: true,
+      hiddenSelf: true,
     },
     {
       title: "شهریور",
       name: "month-6",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "%",
       name: "percent-month-6",
       percent: true,
+      hiddenSelf: true,
     },
     {
       title: "مهر",
       name: "month-7",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "%",
       name: "percent-month-7",
       percent: true,
+      hiddenSelf: true,
     },
     {
       title: "آبان",
       name: "month-8",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "%",
       name: "percent-month-8",
       percent: true,
+      hiddenSelf: true,
     },
     {
       title: "آذر",
       name: "month-9",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "%",
       name: "percent-month-9",
       percent: true,
+      hiddenSelf: true,
     },
     {
       title: "دی",
       name: "month-10",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "%",
       name: "percent-month-10",
       percent: true,
+      hiddenSelf: true,
     },
     {
       title: "بهمن",
       name: "month-11",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "%",
       name: "percent-month-11",
       percent: true,
+      hiddenSelf: true,
     },
     {
       title: "اسفند",
       name: "month-12",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "%",
       name: "percent-month-12",
       percent: true,
+      hiddenSelf: true,
     },
     {
       title: "جمع کل",
       name: "sumAll",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "%",
       name: "percentSumAll",
       percent: true,
+      hiddenSelf: true,
     },
   ];
 
@@ -319,6 +455,7 @@ function SepratorMonthlyModal(props: SepratorMonthlyModalProps) {
   return (
     <FixedTable
       heads={tableHeads}
+      headGroups={tableHeadGroup}
       data={tableData}
       footer={tableFooter}
       notFixed
