@@ -3,7 +3,8 @@ import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 import SectionGuard from "components/auth/section-guard";
 import userStore from "hooks/store/user-store";
 import LoadingButton from "@mui/lab/LoadingButton";
-import PrintIcon from "@mui/icons-material/Print";
+import CheckIcon from "@mui/icons-material/Check";
+import ListIcon from "@mui/icons-material/List";
 import IconButton from "@mui/material/IconButton";
 import GetAppIcon from "@mui/icons-material/GetApp";
 import { Button, Popover } from "@mui/material";
@@ -352,6 +353,18 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
     }
   };
 
+  const [anchor2El, setAnchor2El] = useState<HTMLButtonElement | null>(null);
+
+  const handleExcel2Click = (event: MouseEvent<HTMLButtonElement>) => {
+    setAnchor2El(event.currentTarget);
+  };
+
+  const handleCloseAnchor2 = () => {
+    setAnchor2El(null);
+  };
+
+  const openAnchor2El = Boolean(anchor2El);
+
   return (
     <>
       <Box
@@ -447,15 +460,60 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
               ])}
             >
               <IconButton color="primary" onClick={handleExcelClick}>
+                <ListIcon sx={{ mr: -1 }} />
                 <GetAppIcon />
               </IconButton>
             </SectionGuard>
-            <IconButton color="primary" onClick={handleExcelBaseClick}>
-              <GetAppIcon />
-            </IconButton>
+
+            <SectionGuard
+              permission={joinPermissions([
+                accessNamesConfig.BUDGET__REPORT_PAGE,
+                accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
+                accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN_BASE_EXCEL,
+              ])}
+            >
+              <IconButton color="primary" onClick={handleExcel2Click}>
+                <GetAppIcon />
+              </IconButton>
+            </SectionGuard>
           </Grid>
         </Grid>
       </Box>
+
+      {/* excel confrim */}
+      <Popover
+        open={openAnchor2El}
+        anchorEl={anchor2El}
+        onClose={handleCloseAnchor2}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+      >
+        <Box
+          sx={{
+            py: 1,
+            px: 2,
+            width: 250,
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+          }}
+        >
+          آیا مایل به دریافت خروجی اکسل هستید؟
+          <IconButton
+            onClick={handleExcelBaseClick}
+            size="small"
+            color="primary"
+          >
+            <CheckIcon />
+          </IconButton>
+        </Box>
+      </Popover>
 
       {/* excel */}
       <Popover

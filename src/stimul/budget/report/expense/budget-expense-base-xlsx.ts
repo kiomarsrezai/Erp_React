@@ -305,7 +305,7 @@ export const budgetExpenseBaseXlsx = (exportOptions: StimulOptionsShape) => {
   const data1 = createData(
     exportOptions.data,
     exportOptions.footer,
-    budgetMethodItems[0].label
+    "عملکرد ماهیانه"
   );
 
   // checkExcelFont();

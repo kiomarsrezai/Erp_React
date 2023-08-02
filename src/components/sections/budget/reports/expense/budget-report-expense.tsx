@@ -797,8 +797,12 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
   const sumExpenseSanvati =
     sumExpenseSanvatiSazman + sumExpenseSanvatiShahrdari;
 
+  const sumBalance = sumBalanceShahrdari + sumBalanceSazman;
+
   const tableMoreBottomFooter: TableDataItemShape | any = {
     areaName: "جمع کل",
+
+    "bgcolor-areaName": sumBalance !== 0 && "#fcc2c2",
 
     "cellTitle-mosavabPayMotomarkez": numberWithCommas(
       sumMosavabPayMotomarkez - sumMosavabDar_Khazane
@@ -850,7 +854,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
     expenseSanavati: sumExpenseSanvati,
     percentSanavati: getPercent(sumExpenseSanvati, sumMosavabSanavati),
 
-    balance: sumBalanceShahrdari + sumBalanceSazman,
+    balance: sumBalance,
   };
 
   // head group

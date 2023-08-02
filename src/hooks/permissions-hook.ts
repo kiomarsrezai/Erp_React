@@ -263,6 +263,10 @@ function usePermissions() {
           "areaName",
           areaNumber3Query.data?.data || []
         ),
+        formatLocalFields(
+          "اکسل کف",
+          accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN_BASE_EXCEL
+        ),
       ]
     ),
 
