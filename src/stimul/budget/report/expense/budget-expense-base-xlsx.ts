@@ -128,17 +128,29 @@ const createData = (data: any, footer: [any, any, any], title: string) => {
         RowIndex: true,
       },
       {
-        Header: "منطقه",
+        Header: "مناطق/سازمانها",
         Name: "areaName",
       },
       {
-        Header: "درآمد",
+        Header: "درآمد - مصوب",
         Name: "mosavabRevenue",
         Mony: true,
         textAlign: "right",
       },
       {
-        Header: "سهم متمرکز",
+        Header: "درآمد - عملکرد",
+        Name: "mosavabRevenue",
+        Mony: true,
+        textAlign: "right",
+      },
+      {
+        Header: "متمرکز",
+        Name: "mosavabPayMotomarkez",
+        Mony: true,
+        textAlign: "right",
+      },
+      {
+        Header: "متمرکز",
         Name: "mosavabPayMotomarkez",
         Mony: true,
         textAlign: "right",

@@ -178,21 +178,21 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
     // khazane - 2
     {
       title: "مصوب",
-      name: "mosavabDar_Khazane",
+      name: "mosavabNeyabati",
       split: true,
       topTitle: "دریافت از خزانه",
       align: "left",
     },
     {
       title: "عملکرد",
-      name: "expenseDar_Khazane",
+      name: "expenseNeyabati",
       topTitle: "دریافت از خزانه",
       split: true,
       align: "left",
     },
     {
       title: "%",
-      name: "percentDar_Khazane",
+      name: "percentNeyabati",
       topTitle: "دریافت از خزانه",
       percent: true,
       forceHaveBorder: true,
@@ -420,6 +420,18 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
     (item: GetSingleBudgetExpenseReportItemShape) => item.id <= 10
   );
 
+  const sumMosavabNeyabatiShahrdari = sumFieldsInSingleItemData(
+    deviationQuery.data?.data,
+    "mosavabNeyabati",
+    (item: GetSingleBudgetExpenseReportItemShape) => item.id <= 10
+  );
+
+  const sumExpenseNeyabatiShahrdari = sumFieldsInSingleItemData(
+    deviationQuery.data?.data,
+    "expenseNeyabati",
+    (item: GetSingleBudgetExpenseReportItemShape) => item.id <= 10
+  );
+
   const sumResouresShahrdari = sumFieldsInSingleItemData(
     deviationQuery.data?.data,
     "resoures",
@@ -486,6 +498,76 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
     (item: GetSingleBudgetExpenseReportItemShape) => item.id <= 10
   );
 
+  const tableFooter: TableDataItemShape | any = {
+    areaName: "جمع شهرداری",
+
+    mosavabRevenue: sumMosavabRevenueShahrdari,
+    expenseRevenue: sumExpenseRevenueShahrdari,
+    percentRevenue: getPercent(
+      sumExpenseRevenueShahrdari,
+      sumMosavabRevenueShahrdari
+    ),
+
+    mosavabPayMotomarkez: sumMosavabPayMotomarkezShahrdari,
+    expensePayMotomarkez: sumExpensePayMotomarkezShahrdari,
+    percentPayMotomarkez: getPercent(
+      sumExpensePayMotomarkezShahrdari,
+      sumMosavabPayMotomarkezShahrdari
+    ),
+
+    mosavabNeyabati: sumMosavabNeyabatiShahrdari,
+    expenseNeyabati: sumExpenseNeyabatiShahrdari,
+    percentNeyabati: getPercent(
+      sumExpenseNeyabatiShahrdari,
+      sumMosavabNeyabatiShahrdari
+    ),
+
+    mosavabDar_Khazane: sumMosavabDar_KhazaneShahrdari,
+    expenseDar_Khazane: sumExpenseDar_KhazaneShahrdari,
+    percentDar_Khazane: getPercent(
+      sumExpenseDar_KhazaneShahrdari,
+      sumMosavabDar_KhazaneShahrdari
+    ),
+
+    resoures: sumResouresShahrdari,
+
+    mosavabCurrent: sumMosavabCurrentShahrdari,
+    expenseCurrent: sumExpenseCurrentShahrdari,
+    percentCurrent: getPercent(
+      sumExpenseCurrentShahrdari,
+      sumMosavabCurrentShahrdari
+    ),
+
+    mosavabCivil: sumMosavabCivilShahrdari,
+    expenseCivil: sumExpenseCivilShahrdari,
+    percentCivil: getPercent(
+      sumExpenseCivilShahrdari,
+      sumMosavabCivilShahrdari
+    ),
+    creditAmountCivil: sumCreditCivilShahrdari,
+    percentCreditCivil: getPercent(
+      sumCreditCivilShahrdari,
+      sumMosavabCivilShahrdari
+    ),
+
+    mosavabFinancial: sumMosavabFinancialShahrdari,
+    expenseFinancial: sumExpenseFinancialShahrdari,
+    percentFinancial: getPercent(
+      sumExpenseFinancialShahrdari,
+      sumMosavabFinancialShahrdari
+    ),
+
+    mosavabSanavati: sumMosavabSanavatiShahrdari,
+    expenseSanavati: sumExpenseSanvatiShahrdari,
+    percentSanavati: getPercent(
+      sumExpenseSanvatiShahrdari,
+      sumMosavabSanavatiShahrdari
+    ),
+
+    balance: sumBalanceShahrdari,
+  };
+
+  // sazman
   const sumMosavabRevenueSazman = sumFieldsInSingleItemData(
     deviationQuery.data?.data,
     "mosavabRevenue",
@@ -507,6 +589,18 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
   const sumExpensePayMotomarkezSazman = sumFieldsInSingleItemData(
     deviationQuery.data?.data,
     "expensePayMotomarkez",
+    (item: GetSingleBudgetExpenseReportItemShape) => item.id > 10
+  );
+
+  const sumMosavabNeyabatiSazman = sumFieldsInSingleItemData(
+    deviationQuery.data?.data,
+    "mosavabNeyabati",
+    (item: GetSingleBudgetExpenseReportItemShape) => item.id > 10
+  );
+
+  const sumExpenseNeyabatiSazman = sumFieldsInSingleItemData(
+    deviationQuery.data?.data,
+    "expenseNeyabati",
     (item: GetSingleBudgetExpenseReportItemShape) => item.id > 10
   );
 
@@ -588,68 +682,6 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
     (item: GetSingleBudgetExpenseReportItemShape) => item.id > 10
   );
 
-  const tableFooter: TableDataItemShape | any = {
-    areaName: "جمع شهرداری",
-
-    mosavabRevenue: sumMosavabRevenueShahrdari,
-    expenseRevenue: sumExpenseRevenueShahrdari,
-    percentRevenue: getPercent(
-      sumExpenseRevenueShahrdari,
-      sumMosavabRevenueShahrdari
-    ),
-
-    mosavabPayMotomarkez: sumMosavabPayMotomarkezShahrdari,
-    expensePayMotomarkez: sumExpensePayMotomarkezShahrdari,
-    percentPayMotomarkez: getPercent(
-      sumExpensePayMotomarkezShahrdari,
-      sumMosavabPayMotomarkezShahrdari
-    ),
-
-    mosavabDar_Khazane: sumMosavabDar_KhazaneShahrdari,
-    expenseDar_Khazane: sumExpenseDar_KhazaneShahrdari,
-    percentDar_Khazane: getPercent(
-      sumExpenseDar_KhazaneShahrdari,
-      sumMosavabDar_KhazaneShahrdari
-    ),
-
-    resoures: sumResouresShahrdari,
-
-    mosavabCurrent: sumMosavabCurrentShahrdari,
-    expenseCurrent: sumExpenseCurrentShahrdari,
-    percentCurrent: getPercent(
-      sumExpenseCurrentShahrdari,
-      sumMosavabCurrentShahrdari
-    ),
-
-    mosavabCivil: sumMosavabCivilShahrdari,
-    expenseCivil: sumExpenseCivilShahrdari,
-    percentCivil: getPercent(
-      sumExpenseCivilShahrdari,
-      sumMosavabCivilShahrdari
-    ),
-    creditAmountCivil: sumCreditCivilShahrdari,
-    percentCreditCivil: getPercent(
-      sumCreditCivilShahrdari,
-      sumMosavabCivilShahrdari
-    ),
-
-    mosavabFinancial: sumMosavabFinancialShahrdari,
-    expenseFinancial: sumExpenseFinancialShahrdari,
-    percentFinancial: getPercent(
-      sumExpenseFinancialShahrdari,
-      sumMosavabFinancialShahrdari
-    ),
-
-    mosavabSanavati: sumMosavabSanavatiShahrdari,
-    expenseSanavati: sumExpenseSanvatiShahrdari,
-    percentSanavati: getPercent(
-      sumExpenseSanvatiShahrdari,
-      sumMosavabSanavatiShahrdari
-    ),
-
-    balance: sumBalanceShahrdari,
-  };
-
   const tableBottomFooter: TableDataItemShape | any = {
     areaName: "جمع سازمان",
 
@@ -658,6 +690,13 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
     percentRevenue: getPercent(
       sumExpenseRevenueSazman,
       sumMosavabRevenueSazman
+    ),
+
+    mosavabNeyabati: sumMosavabNeyabatiSazman,
+    expenseNeyabati: sumExpenseNeyabatiSazman,
+    percentNeyabati: getPercent(
+      sumExpenseNeyabatiSazman,
+      sumMosavabNeyabatiSazman
     ),
 
     mosavabPayMotomarkez: sumMosavabPayMotomarkezSazman,
@@ -712,6 +751,11 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
   const sumExpenseRevenue =
     sumExpenseRevenueShahrdari + sumExpenseRevenueSazman;
 
+  const sumMosavabNeyabati =
+    sumMosavabNeyabatiShahrdari + sumMosavabNeyabatiSazman;
+  const sumExpenseNeyabati =
+    sumExpenseNeyabatiShahrdari + sumExpenseNeyabatiSazman;
+
   const sumMosavabPayMotomarkez =
     sumMosavabPayMotomarkezShahrdari + sumMosavabPayMotomarkezSazman;
   const sumExpensePayMotomarkez =
@@ -761,6 +805,10 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
       sumExpensePayMotomarkez,
       sumMosavabPayMotomarkez
     ),
+
+    mosavabNeyabati: sumMosavabNeyabati,
+    expenseNeyabati: sumExpenseNeyabati,
+    percentNeyabati: getPercent(sumExpenseNeyabati, sumMosavabNeyabati),
 
     mosavabDar_Khazane: sumMosavabDar_Khazane,
     expenseDar_Khazane: sumExpenseDar_Khazane,
