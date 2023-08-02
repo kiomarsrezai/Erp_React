@@ -399,6 +399,8 @@ function FixedTable(props: FixedTableProps) {
                 "&:last-child": {
                   borderRight: 0,
                 },
+                position: item.sticky ? "sticky" : "static",
+                left: 0,
               }}
               dir={typeof bottomFooter[name] === "number" ? "ltr" : "rtl"}
               key={i}
@@ -441,6 +443,8 @@ function FixedTable(props: FixedTableProps) {
                   "&:last-child": {
                     borderRight: 0,
                   },
+                  left: 0,
+                  position: item.sticky ? "sticky" : "static",
                 }}
                 dir={typeof moreBottomFooter[name] === "number" ? "ltr" : "rtl"}
                 key={i}
