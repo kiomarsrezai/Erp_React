@@ -7,7 +7,11 @@ import { reactQueryKeys } from "config/react-query-keys-config";
 import { budgetDeviationApi } from "api/report/budget-deviation-api";
 import { GetSingleBudgetDeviationItemShape } from "types/data/budget/budget-deviation-type";
 import { budgetDeviationConfig } from "config/features/budget/report/budget-deviation-config";
-import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
+import {
+  getPercent,
+  numberWithCommas,
+  sumFieldsInSingleItemData,
+} from "helper/calculate-utils";
 import { budgetProjectOprationConfig } from "config/features/budget/report/budget-project-opration-config";
 import { budgetReportExpenseConfig } from "config/features/budget/report/budget-report-expense-config";
 import { budgetReportExpenseApi } from "api/report/budget-expense-api";
@@ -366,6 +370,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
     const formatedData: TableDataItemShape[] | any = unFormatData.map(
       (item, i) => ({
         ...item,
+        "bgcolor-areaName": item.balance !== 0 && "#fcc2c2",
         number: i + 1,
       })
     );
@@ -794,6 +799,14 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
 
   const tableMoreBottomFooter: TableDataItemShape | any = {
     areaName: "جمع کل",
+
+    "cellTitle-mosavabPayMotomarkez": numberWithCommas(
+      sumMosavabPayMotomarkez - sumMosavabDar_Khazane
+    ),
+    "bgcolor-mosavabPayMotomarkez":
+      sumMosavabPayMotomarkez !== sumMosavabDar_Khazane && "#d7a2a2",
+    "bgcolor-mosavabDar_Khazane":
+      sumMosavabPayMotomarkez !== sumMosavabDar_Khazane && "#d7a2a2",
 
     mosavabRevenue: sumMosavabRevenue,
     expenseRevenue: sumExpenseRevenue,

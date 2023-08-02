@@ -16,6 +16,7 @@ export interface GetSingleBudgetExpenseReportItemShape {
   expenseFinancial: number;
   mosavabSanavati: number;
   expenseSanavati: number;
+  balance: number;
 }
 
 export interface GetSingleBudgetDetailExpenseReportItemShape {

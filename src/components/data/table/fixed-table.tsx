@@ -450,7 +450,31 @@ function FixedTable(props: FixedTableProps) {
                 key={i}
                 colSpan={moreBottomFooter[`colspan-${name}`] || 1}
               >
-                {formatDataCell(moreBottomFooter[name], item, moreBottomFooter)}
+                {moreBottomFooter[`cellTitle-${name}`] ? (
+                  <Tooltip
+                    title={
+                      <span dir="ltr">
+                        {moreBottomFooter[`cellTitle-${name}`]}
+                      </span>
+                    }
+                  >
+                    <div>
+                      {formatDataCell(
+                        moreBottomFooter[name],
+                        item,
+                        moreBottomFooter
+                      )}
+                    </div>
+                  </Tooltip>
+                ) : (
+                  <>
+                    {formatDataCell(
+                      moreBottomFooter[name],
+                      item,
+                      moreBottomFooter
+                    )}
+                  </>
+                )}
               </TableCell>
             );
           }
