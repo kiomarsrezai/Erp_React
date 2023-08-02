@@ -7,7 +7,6 @@ import AreaInput from "components/sections/inputs/area-input";
 import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 import SectionGuard from "components/auth/section-guard";
 import PrintIcon from "@mui/icons-material/Print";
-import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
 import GetAppIcon from "@mui/icons-material/GetApp";
 import { Popover } from "@mui/material";
@@ -51,6 +50,7 @@ import { budgetReportExpenseApi } from "api/report/budget-expense-api";
 import SepratorBudgetConfirmationModal1 from "./confirmation/seprator-budget-confirmation-modal1";
 import SepratorBudgetAbstructModal1 from "./abstruct/seprator-budget-abstruct-modal1";
 import SepratorMonthlyModal from "./mothly/seprator-monthly-modal";
+import monthlyIcon from "assets/images/icons/monthy.png";
 
 interface SepratoeBudgetFormProps {
   formData: any;
@@ -455,11 +455,15 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
           <Grid sm={"auto"}>
             <Box display={"flex"} justifyContent={"flex-end"}>
               <LoadingButton
-                variant="contained"
+                variant="text"
                 onClick={handleOpenMonthlyModal}
                 loading={monthlyMutation.isLoading}
               >
-                عملکرد ماهیانه
+                <Box
+                  component="img"
+                  src={monthlyIcon}
+                  sx={{ width: 30, height: 30 }}
+                />
               </LoadingButton>
               <Button
                 variant="contained"
