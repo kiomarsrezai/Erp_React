@@ -139,7 +139,7 @@ const createData = (data: any, footer: [any, any, any], title: string) => {
       },
       {
         Header: "درآمد - عملکرد",
-        Name: "expenseRevenue",
+        Name: "expenseMonthRevenue",
         Mony: true,
         textAlign: "right",
       },
@@ -173,7 +173,7 @@ const createData = (data: any, footer: [any, any, any], title: string) => {
       },
       {
         Header: "دریافت از خزانه - از محل متمرکز - عملکرد",
-        Name: "expenseDar_Khazane",
+        Name: "expenseMonthDarAzKhazane",
         Mony: true,
         textAlign: "right",
       },
@@ -190,7 +190,7 @@ const createData = (data: any, footer: [any, any, any], title: string) => {
       },
       {
         Header: "دریافت از خزانه - از محل نیابتی - عملکرد",
-        Name: "expenseNeyabati",
+        Name: "expenseMonthNeyabati",
         Mony: true,
         textAlign: "right",
       },
@@ -213,7 +213,7 @@ const createData = (data: any, footer: [any, any, any], title: string) => {
       },
       {
         Header: "هزینه ای - عملکرد",
-        Name: "expenseCurrent",
+        Name: "expenseMonthCurrent",
         Mony: true,
         textAlign: "right",
       },
@@ -257,6 +257,17 @@ const createData = (data: any, footer: [any, any, any], title: string) => {
         textAlign: "right",
       },
       {
+        Header: "تملک مالی - ت اعتبار",
+        Name: "creditFinancial",
+        Mony: true,
+        textAlign: "right",
+      },
+      {
+        Header: "%",
+        Name: "percentCreditFinancial",
+        Percent: true,
+      },
+      {
         Header: "تملک مالی - عملکرد",
         Name: "expenseFinancial",
         Mony: true,
@@ -272,6 +283,17 @@ const createData = (data: any, footer: [any, any, any], title: string) => {
         Name: "mosavabSanavati",
         Mony: true,
         textAlign: "right",
+      },
+      {
+        Header: "دیون سنواتی - ت اعتبار",
+        Name: "creditDoyonSanavati",
+        Mony: true,
+        textAlign: "right",
+      },
+      {
+        Header: "%",
+        Name: "percentDoyonSanavati",
+        Percent: true,
       },
       {
         Header: "دیون سنواتی - عملکرد",

@@ -339,6 +339,8 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
     monthlyMutation.mutate({
       [sepratorBudgetConfig.YEAR]: formData[sepratorBudgetConfig.YEAR],
       [sepratorBudgetConfig.AREA]: formData[sepratorBudgetConfig.AREA],
+      [sepratorBudgetConfig.BUDGET_METHOD]:
+        formData[sepratorBudgetConfig.BUDGET_METHOD],
     });
     setIsOpenMonthlyModal(true);
   };
