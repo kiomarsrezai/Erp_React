@@ -26,6 +26,7 @@ import { accessNamesConfig } from "config/access-names-config";
 import SepratorFixCodeModal from "components/sections/budget/seprator/fix/seprator-fix-code-modal";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
+import SepratorMonthlyModal from "components/sections/budget/seprator/mothly/seprator-monthly-modal";
 
 interface TableDataItemShape {
   id: ReactNode;

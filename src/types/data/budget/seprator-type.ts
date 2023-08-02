@@ -83,3 +83,13 @@ export interface GetSingleSepratorAbstructItemShape {
   edit: 0;
   expense: 0;
 }
+
+// monthly
+export interface GetSingleSepratorMonthlyItemShape {
+  id: number;
+  code: string;
+  description: string;
+  month: number;
+  mosavab: number;
+  expense: number;
+}

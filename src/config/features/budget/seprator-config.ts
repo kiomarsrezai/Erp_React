@@ -21,6 +21,7 @@ export const sepratorBudgetUrl = {
   confrimData: "BudSepApi/BudgetPerformanceAccept",
   confrimUpdate: "BudSepApi/BudgetPerformanceAcceptUpdate",
   abstructData: "BudSepApi/BudgetSepratorAbstractAreaModal",
+  getMonthly: "BudSepApi/AbstractPerformanceMonthly",
 };
 
 export const SEPRATOR_BUDGET_URL = "BudSepApi/FetchSeprator";

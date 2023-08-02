@@ -9,6 +9,7 @@ import {
   GetSingleSepratorAreaItemShape,
   GetSingleSepratorConfrimItemShape,
   GetSingleSepratorItemShape,
+  GetSingleSepratorMonthlyItemShape,
   GetSingleSepratorMosavabItemShape,
   GetSingleSepratorProjectItemShape,
   GetSingleSepratorTaminItemShape,
@@ -196,6 +197,15 @@ export const sepratorBudgetApi = new (class extends BaseApi {
     const url = sepratorBudgetUrl.abstructData + this.joinFilterData(formdata);
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleSepratorAbstructItemShape[]>
+    >(url);
+    return response.data;
+  };
+
+  // monthly
+  monthlyPerformance = async (formdata: any) => {
+    const url = sepratorBudgetUrl.getMonthly + this.joinFilterData(formdata);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleSepratorMonthlyItemShape[]>
     >(url);
     return response.data;
   };

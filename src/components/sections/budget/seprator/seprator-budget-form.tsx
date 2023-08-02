@@ -14,7 +14,7 @@ import { Popover } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import ApprovalIcon from "@mui/icons-material/Approval";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { sepratorBudgetApi } from "api/budget/seprator-api";
 import { sepratorBudgetConfig } from "config/features/budget/seprator-config";
 import { FormEvent, MouseEvent, useEffect, useState } from "react";
@@ -50,6 +50,7 @@ import MonthInput from "components/sections/inputs/month-input";
 import { budgetReportExpenseApi } from "api/report/budget-expense-api";
 import SepratorBudgetConfirmationModal1 from "./confirmation/seprator-budget-confirmation-modal1";
 import SepratorBudgetAbstructModal1 from "./abstruct/seprator-budget-abstruct-modal1";
+import SepratorMonthlyModal from "./mothly/seprator-monthly-modal";
 
 interface SepratoeBudgetFormProps {
   formData: any;
@@ -326,6 +327,22 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
     setIsOpenAbstructModal(false);
   };
 
+  // monthly modal
+  const [isOpenMonthlyModal, setIsOpenMonthlyModal] = useState(false);
+
+  const monthlyMutation = useMutation(
+    ["seprator-get-monthly"],
+    sepratorBudgetApi.monthlyPerformance
+  );
+
+  const handleOpenMonthlyModal = () => {
+    monthlyMutation.mutate({
+      [sepratorBudgetConfig.YEAR]: formData[sepratorBudgetConfig.YEAR],
+      [sepratorBudgetConfig.AREA]: formData[sepratorBudgetConfig.AREA],
+    });
+    setIsOpenMonthlyModal(true);
+  };
+
   return (
     <>
       <Box component="form" onSubmit={handleFormSubmit}>
@@ -437,6 +454,13 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
           </Grid> */}
           <Grid sm={"auto"}>
             <Box display={"flex"} justifyContent={"flex-end"}>
+              <LoadingButton
+                variant="contained"
+                onClick={handleOpenMonthlyModal}
+                loading={monthlyMutation.isLoading}
+              >
+                عملکرد ماهیانه
+              </LoadingButton>
               <Button variant="contained" onClick={handleOpenAbstructModal}>
                 خلاصه بودجه
               </Button>
@@ -536,6 +560,20 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
         <SepratorBudgetAbstructModal1
           data={abstructBudgetMutation.data?.data || []}
         />
+      </FixedModal>
+
+      {/* monthly */}
+      <FixedModal
+        open={isOpenMonthlyModal}
+        handleClose={() => {
+          setIsOpenMonthlyModal(false);
+        }}
+        title={"عملکرد ماهیانه"}
+        maxWidth="sm"
+        maxHeight="40%"
+        minHeight="40%"
+      >
+        <SepratorMonthlyModal data={monthlyMutation.data?.data || []} />
       </FixedModal>
     </>
   );
