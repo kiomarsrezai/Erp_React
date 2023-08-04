@@ -419,7 +419,7 @@ export const sidenavsLayout: SidenavShape[] = [
         licenseName: accessNamesConfig.ESTATE__INTRODUCTION_PAGE,
       },
       {
-        title: "املاک در اختیار شهرداری",
+        title: "املاک اختصاصی شهرداری",
         icon: CircleIcon,
         path: "/",
         licenseName: accessNamesConfig.ESTATE__POSSESSION_PAGE,
