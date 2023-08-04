@@ -17,6 +17,7 @@ import {
 import { contractsPlacesUrls } from "config/features/contracts/conreacts-places-config";
 
 export const contractsPlacesApi = new (class extends BaseApi {
+  // right
   getData = async () => {
     const url = contractsPlacesUrls.getData;
     const response = await clientAxios.get<
@@ -25,25 +26,35 @@ export const contractsPlacesApi = new (class extends BaseApi {
     return response.data;
   };
 
-  getLeftData = async (filterData: any) => {
-    const url =
-      contractsPlacesUrls.getLeftData + this.joinFilterData(filterData);
-    const response = await clientAxios.get<
-      BaseApiResponseShape<GetSingleContractPlacesPrivateItemShape[]>
-    >(url);
-    return response.data;
-  };
-
   insertRight = async (filterData: any) => {
-    const url =
-      contractsPlacesUrls.getLeftData + this.joinFilterData(filterData);
-    const response = await clientAxios.get<
-      BaseApiResponseShape<GetSingleContractPlacesPrivateItemShape[]>
-    >(url);
+    const url = contractsPlacesUrls.insertRight;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      filterData
+    );
     return response.data;
   };
 
   editRight = async (filterData: any) => {
+    const url = contractsPlacesUrls.editRight;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      filterData
+    );
+    return response.data;
+  };
+
+  deleteRight = async (filterData: any) => {
+    const url = contractsPlacesUrls.deleteRight;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      filterData
+    );
+    return response.data;
+  };
+
+  // left
+  getLeftData = async (filterData: any) => {
     const url =
       contractsPlacesUrls.getLeftData + this.joinFilterData(filterData);
     const response = await clientAxios.get<

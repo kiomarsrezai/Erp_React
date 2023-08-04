@@ -5,6 +5,12 @@ export const contractsPlacesConfig = {
 };
 
 export const contractsPlacesUrls = {
+  // right
   getData: "ContractApi/AmlakInfoRead",
+  insertRight: "ContractApi/AmlakInfoInsert",
+  editRight: "ContractApi/AmlakInfoUpdate",
+  deleteRight: "ContractApi/AmlakInfoDelete",
+
+  // left
   getLeftData: "ContractApi/AmlakPrivateRead",
 };

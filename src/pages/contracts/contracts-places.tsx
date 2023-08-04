@@ -4,10 +4,11 @@ import ProjectMeetingsEditorCard from "components/sections/project/mettings/proj
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { useEffect, useRef, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { mettingsProjectApi } from "api/project/meetings-project-api";
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { globalConfig } from "config/global-config";
@@ -28,12 +29,26 @@ import { contractsPlacesApi } from "api/contracts/contracts-places-api";
 import ContractsPlacesLeftSection from "components/sections/contracts/contracts-tasks/contracts-places/contracts-places-left-section";
 import ContractPlacesRightModal from "components/sections/contracts/contracts-tasks/contracts-places/contract-places-right-modal";
 import FixedModal from "components/ui/modal/fixed-modal";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+import { enqueueSnackbar } from "notistack";
 
 function ContractsPlaces() {
   // heads
+  const handleClickAddBtn = () => {
+    setEditInitData(undefined);
+    setIsOpenActionModal(true);
+  };
+
   const tableHeads: TableHeadShape = [
     {
-      title: "ردیف",
+      title: (
+        <div>
+          ردیف
+          <IconButton size="small" color="primary" onClick={handleClickAddBtn}>
+            <AddIcon />
+          </IconButton>
+        </div>
+      ),
       name: "number",
     },
     {
@@ -61,6 +76,29 @@ function ContractsPlaces() {
     useState<GetSingleContractPlacesItemShape>();
   const [isOpenActionModal, setIsOpenActionModal] = useState(false);
 
+  // delete
+  const [isShowConfrimDelete, setIsShowConfrimDelete] = useState(false);
+
+  const deleteMutation = useMutation(contractsPlacesApi.deleteRight, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+      setIsShowConfrimDelete(false);
+      handleDoneTask();
+    },
+  });
+
+  const onCancelDelete = () => {
+    setIsShowConfrimDelete(false);
+  };
+
+  const onConfrimDelete = () => {
+    deleteMutation.mutate({
+      id: editInitData?.id,
+    });
+  };
+
   // actions
   const [activePlaceItem, setActivePlaceItem] =
     useState<GetSingleContractPlacesItemShape>();
@@ -69,7 +107,10 @@ function ContractsPlaces() {
     setActivePlaceItem(item);
   };
 
-  const handleClickDelete = (item: GetSingleContractPlacesItemShape) => {};
+  const handleClickDelete = (item: GetSingleContractPlacesItemShape) => {
+    setEditInitData(item);
+    setIsShowConfrimDelete(true);
+  };
 
   const handleClickEditBtn = (item: GetSingleContractPlacesItemShape) => {
     setEditInitData(item);
@@ -144,7 +185,7 @@ function ContractsPlaces() {
         handleClose={() => {
           setIsOpenActionModal(false);
         }}
-        title={editInitData?.estateInfoName}
+        title={editInitData?.estateInfoName || "افزودن"}
         maxWidth="sm"
         maxHeight="50%"
       >
@@ -153,6 +194,15 @@ function ContractsPlaces() {
           initialData={editInitData}
         />
       </FixedModal>
+
+      {/* delete */}
+      <ConfrimProcessModal
+        onCancel={onCancelDelete}
+        onConfrim={onConfrimDelete}
+        open={isShowConfrimDelete}
+        text={`آیا مایل به حذف ${editInitData?.estateInfoName} هستید ؟`}
+        title="حذف آیتم"
+      />
     </>
   );
 }
