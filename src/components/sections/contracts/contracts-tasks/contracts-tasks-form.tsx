@@ -301,7 +301,7 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
         open={isOpenInstallModal}
         handleClose={() => setIsOpenInstallModal(false)}
         title={"قسط های قرارداد شماره " + formData[contractsTasksConfig.number]}
-        maxWidth="md"
+        maxWidth="400px"
       >
         <ContractsInstallModal formData={formData} />
       </FixedModal>

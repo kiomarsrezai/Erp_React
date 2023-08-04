@@ -109,4 +109,22 @@ export const contractsTasksApi = new (class extends BaseApi {
     );
     return response.data;
   };
+
+  updateInstall = async (filterData: any) => {
+    const url = contractsTasksUrls.updateInstal;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      filterData
+    );
+    return response.data;
+  };
+
+  deleteInstall = async (filterData: any) => {
+    const url = contractsTasksUrls.deleteInstal;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      filterData
+    );
+    return response.data;
+  };
 })();

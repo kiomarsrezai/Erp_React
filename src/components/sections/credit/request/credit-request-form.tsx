@@ -402,27 +402,6 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   thousandSeparator=","
                   fullWidth
                 />
-
-                {/* <TextField
-                  id="price-request-input"
-                  label="برآورد مبلغ"
-                  variant="outlined"
-                  size="small"
-                  type="number"
-                  value={formData[creditRequestConfig.approximate_price]}
-                  name={creditRequestConfig.approximate_price}
-                  onChange={handleChangeTextFields}
-                  fullWidth
-                  // error={
-                  //   !formData[creditRequestConfig.approximate_price] &&
-                  //   haveSubmitedForm
-                  // }
-                  // helperText={
-                  //   !formData[creditRequestConfig.approximate_price] &&
-                  //   haveSubmitedForm &&
-                  //   globalConfig.ERROR_NO_EMPTY
-                  // }
-                /> */}
               </Grid>
 
               <Grid xs={12} xl={12}>

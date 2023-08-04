@@ -29,6 +29,8 @@ export const contractsTasksUrls = {
   // install
   installRead: "ContractApi/ContractInstallmentsRead",
   insertInstal: "ContractApi/ContractInstallmentsInsert",
+  deleteInstal: "ContractApi/ContractInstallmentsDelete",
+  updateInstal: "ContractApi/ContractInstallmentsUpdate",
 };
 
 export const contractsTasksFormDefaultValue = {

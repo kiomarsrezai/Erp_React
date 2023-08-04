@@ -2,7 +2,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import * as yup from "yup";
-import { compareAsc, format, newDate } from "date-fns-jalali";
+import { compareAsc, format, newDate, add } from "date-fns-jalali";
 import { DatePicker } from "@mui/x-date-pickers";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -16,6 +16,7 @@ import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
 import { ChangeEvent, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { contractsTasksApi } from "api/contracts/contracts-tasks-api";
+import { NumericFormat } from "react-number-format";
 
 interface Props {
   onDoneTask: () => void;
@@ -37,7 +38,7 @@ export default function ContractsInstallModal2(props: Props) {
 
     setModalData((state: any) => ({
       ...state,
-      [name]: Number(value),
+      [name]: value,
     }));
   };
 
@@ -50,14 +51,19 @@ export default function ContractsInstallModal2(props: Props) {
     const items = [];
 
     for (let i = 0; i < modalData.count; i++) {
-      const date = format(new Date(modalData.date as any), "yyyy/MM/dd");
-      const [year, month] = date.split("/");
+      const initNewDate = add(new Date(modalData.date as any), {
+        months: i - 1,
+        days: 1,
+      });
+
+      const date = format(initNewDate, "yyyy/MM/dd");
+      const [year, month, day] = date.split("/");
 
       items.push(
         submitMutation.mutateAsync({
           contractId: formData.id,
-          date: date,
-          amount: modalData.price,
+          date: newDate(Number(year), Number(month), Number(day)),
+          amount: Number(String(modalData.price).replaceAll(",", "")),
           month: +month,
           yearName: +year,
         })
@@ -96,32 +102,22 @@ export default function ContractsInstallModal2(props: Props) {
             value={modalData.count}
             name={"count"}
             onChange={onChange}
-            // error={!formData[contractsTasksConfig.amount] && haveSubmitedForm}
-            // helperText={
-            //   !formData[contractsTasksConfig.amount] &&
-            //   haveSubmitedForm &&
-            //   globalConfig.ERROR_NO_EMPTY
-            // }
             fullWidth
           />
         </Grid>
 
         <Grid sm={8}>
-          <TextField
-            id="amount-input"
+          <NumericFormat
+            customInput={TextField}
+            id="price-request-input"
             label="مبلغ"
             variant="outlined"
             size="small"
-            type="number"
             value={modalData.price}
             name={"price"}
             onChange={onChange}
-            // error={!formData[contractsTasksConfig.amount] && haveSubmitedForm}
-            // helperText={
-            //   !formData[contractsTasksConfig.amount] &&
-            //   haveSubmitedForm &&
-            //   globalConfig.ERROR_NO_EMPTY
-            // }
+            allowLeadingZeros
+            thousandSeparator=","
             fullWidth
           />
         </Grid>

@@ -1,7 +1,10 @@
 import FixedTable from "components/data/table/fixed-table";
-import IconButton from "@mui/material/IconButton";
 import CheckIcon from "@mui/icons-material/Check";
 import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
+import Stack from "@mui/material/Stack";
+import EditIcon from "@mui/icons-material/Edit";
 import {
   GetSingleSearchContractTaskInstallItemShape,
   GetSingleSearchContractTaskItemShape,
@@ -21,6 +24,11 @@ import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
 import { useState } from "react";
 import FixedModal from "components/ui/modal/fixed-modal";
 import ContractsInstallModal2 from "./contracts-install-modal-2";
+import { sumFieldsInSingleItemData } from "helper/calculate-utils";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+import { enqueueSnackbar } from "notistack";
+import { contractsPlacesApi } from "api/contracts/contracts-places-api";
+import { globalConfig } from "config/global-config";
 
 interface Props {
   formData: any;
@@ -33,34 +41,45 @@ export default function ContractsInstallModal(props: Props) {
     setIsOpenInstallModal2(true);
   };
 
+  const installQuery = useQuery(["get-install", formData.id], () =>
+    contractsTasksApi.installRead({
+      contractId: formData.id,
+    })
+  );
+
   const tableHeads: TableHeadShape = [
     {
       title: (
         <div>
           ردیف
-          <IconButton size="small" color="primary" onClick={handleClickAddBtn}>
-            <AddIcon />
-          </IconButton>
+          {!installQuery.data?.data.length && (
+            <IconButton
+              size="small"
+              color="primary"
+              onClick={handleClickAddBtn}
+            >
+              <AddIcon />
+            </IconButton>
+          )}
         </div>
       ),
       name: "number",
-      width: "100px",
     },
     {
-      title: "سال",
-      name: "yearName",
-    },
-    {
-      title: "ماه",
-      name: "monthId",
-    },
-    {
-      title: "تاریخ",
+      title: "تاریخ قسط",
       name: "dateShamsi",
+      width: "150px",
     },
     {
       title: "مبلغ",
       name: "monthlyAmount",
+      width: "150px",
+      split: true,
+    },
+    {
+      title: "عملیات",
+      name: "actions",
+      width: "100px",
     },
   ];
 
@@ -72,19 +91,76 @@ export default function ContractsInstallModal(props: Props) {
     installQuery.refetch();
   };
 
-  // data
-  const installQuery = useQuery(["get-install", formData.id], () =>
-    contractsTasksApi.installRead({
-      contractId: formData.id,
-    })
-  );
+  // delete
+  const [isShowConfrimDelete, setIsShowConfrimDelete] = useState(false);
+  const [activeItemAction, setActiveItemAction] =
+    useState<GetSingleSearchContractTaskInstallItemShape>();
 
+  const deleteMutation = useMutation(contractsTasksApi.deleteInstall, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+      setIsShowConfrimDelete(false);
+      handleDoneTask();
+    },
+  });
+
+  const onCancelDelete = () => {
+    setIsShowConfrimDelete(false);
+  };
+
+  const onConfrimDelete = () => {
+    deleteMutation.mutate({
+      id: activeItemAction?.id,
+    });
+  };
+
+  const handleClickDelete = (
+    item: GetSingleSearchContractTaskInstallItemShape
+  ) => {
+    setActiveItemAction(item);
+    setIsShowConfrimDelete(true);
+  };
+
+  // edit
+  const [isOpenEditMode, setIsOpenEditMode] = useState(false);
+  const handleClickEditBtn = (
+    item: GetSingleSearchContractTaskInstallItemShape
+  ) => {
+    setActiveItemAction(item);
+    setIsOpenEditMode(true);
+  };
+
+  // data
+  const actionButtons = (item: GetSingleSearchContractTaskInstallItemShape) => {
+    return (
+      <Stack direction="row" spacing={0.5} justifyContent={"center"}>
+        <IconButton
+          size="small"
+          color="error"
+          onClick={() => handleClickDelete(item)}
+        >
+          <DeleteIcon />
+        </IconButton>
+
+        <IconButton
+          size="small"
+          color="primary"
+          onClick={() => handleClickEditBtn(item)}
+        >
+          <EditIcon />
+        </IconButton>
+      </Stack>
+    );
+  };
   const formatTableData = (
     unFormatData: GetSingleSearchContractTaskInstallItemShape[]
   ): any[] => {
     const formatedData: any[] = unFormatData.map((item, i) => ({
       ...item,
       number: i + 1,
+      actions: () => actionButtons(item),
     }));
 
     return formatedData;
@@ -92,9 +168,26 @@ export default function ContractsInstallModal(props: Props) {
 
   const tableData = formatTableData(installQuery.data?.data || []);
 
+  // footer
+  const sumPrice = sumFieldsInSingleItemData(
+    installQuery.data?.data,
+    "monthlyAmount"
+  );
+  const tableFooter = {
+    dateShamsi: null,
+    "colspan-number": 2,
+    number: "جمع",
+    monthlyAmount: sumPrice,
+  };
+
   return (
     <>
-      <FixedTable heads={tableHeads} data={tableData} notFixed />
+      <FixedTable
+        heads={tableHeads}
+        data={tableData}
+        footer={tableFooter}
+        notFixed
+      />
 
       {/* modal */}
       <FixedModal
@@ -111,6 +204,15 @@ export default function ContractsInstallModal(props: Props) {
           onDoneTask={handleDoneTask}
         />
       </FixedModal>
+
+      {/* delete */}
+      <ConfrimProcessModal
+        onCancel={onCancelDelete}
+        onConfrim={onConfrimDelete}
+        open={isShowConfrimDelete}
+        text={`آیا مایل به حذف قسط ${activeItemAction?.dateShamsi} هستید ؟`}
+        title="حذف آیتم"
+      />
     </>
   );
 }
