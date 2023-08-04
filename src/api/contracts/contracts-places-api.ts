@@ -10,14 +10,26 @@ import {
   GetSingleSearchContractTaskItemShape,
   InsertContractTaskItemShape,
 } from "types/data/contracts/contracts-tasks-type";
-import { GetSingleContractPlacesItemShape } from "types/data/contracts/contracts-places-type";
+import {
+  GetSingleContractPlacesItemShape,
+  GetSingleContractPlacesPrivateItemShape,
+} from "types/data/contracts/contracts-places-type";
 import { contractsPlacesUrls } from "config/features/contracts/conreacts-places-config";
 
 export const contractsPlacesApi = new (class extends BaseApi {
-  getData = async (filterData: any) => {
-    const url = contractsPlacesUrls.getData + this.joinFilterData(filterData);
+  getData = async () => {
+    const url = contractsPlacesUrls.getData;
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleContractPlacesItemShape[]>
+    >(url);
+    return response.data;
+  };
+
+  getLeftData = async (filterData: any) => {
+    const url =
+      contractsPlacesUrls.getLeftData + this.joinFilterData(filterData);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleContractPlacesPrivateItemShape[]>
     >(url);
     return response.data;
   };

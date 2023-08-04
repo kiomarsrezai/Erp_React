@@ -43,6 +43,7 @@ import ContractsTasks from "pages/contracts/contracts-tasks";
 import PropertyMotor from "pages/property/property-motor";
 import SomethingPage from "pages/base/something-page";
 import UserPage from "pages/base/users-page";
+import ContractsPlaces from "pages/contracts/contracts-places";
 
 export const sidenavsLayout: SidenavShape[] = [
   // report
@@ -414,15 +415,16 @@ export const sidenavsLayout: SidenavShape[] = [
     items: [
       {
         title: "معرفی املاک در مسیر",
-        icon: CircleIcon,
         path: "/",
+        icon: CircleIcon,
         licenseName: accessNamesConfig.ESTATE__INTRODUCTION_PAGE,
       },
       {
         title: "املاک اختصاصی شهرداری",
         icon: CircleIcon,
-        path: "/",
+        path: "/places/private",
         licenseName: accessNamesConfig.ESTATE__POSSESSION_PAGE,
+        element: ContractsPlaces,
       },
       {
         title: "آزادسازی",

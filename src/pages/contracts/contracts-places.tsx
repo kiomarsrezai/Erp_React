@@ -1,14 +1,18 @@
 import AdminLayout from "components/layout/admin-layout";
 import ProjectMeetingsForm from "components/sections/project/mettings/project-meetings-form";
 import ProjectMeetingsEditorCard from "components/sections/project/mettings/project-meetings-editor-card";
-
+import IconButton from "@mui/material/IconButton";
+import Stack from "@mui/material/Stack";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { mettingsProjectApi } from "api/project/meetings-project-api";
-import { Box, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { globalConfig } from "config/global-config";
 import { GetSingleCommiteDetailModalShape } from "types/data/project/commite-project-type";
+import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import {
   contractsTasksConfig,
   contractsTasksFormDefaultValue,
@@ -21,6 +25,7 @@ import { TableHeadShape } from "types/table-type";
 import FixedTable from "components/data/table/fixed-table";
 import { GetSingleContractPlacesItemShape } from "types/data/contracts/contracts-places-type";
 import { contractsPlacesApi } from "api/contracts/contracts-places-api";
+import ContractsPlacesLeftSection from "components/sections/contracts/contracts-tasks/contracts-places/contracts-places-left-section";
 
 function ContractsPlaces() {
   // heads
@@ -30,39 +35,59 @@ function ContractsPlaces() {
       name: "number",
     },
     {
-      title: "آیدی",
-      name: "id",
-    },
-    {
-      title: "نام کاربری",
-      name: "userName",
-    },
-    {
       title: "نام",
-      name: "firstName",
+      name: "estateInfoName",
     },
     {
-      title: "نام خانوادگی",
-      name: "lastName",
-    },
-    {
-      title: "مسئولیت",
-      name: "bio",
+      title: "آدرس",
+      name: "estateInfoAddress",
       align: "left",
-    },
-    {
-      title: "ایمیل",
-      name: "email",
-    },
-    {
-      title: "موبایل",
-      name: "phoneNumber",
     },
     {
       title: "عملیات",
       name: "actions",
     },
   ];
+
+  // actions
+  const [activePlaceItem, setActivePlaceItem] =
+    useState<GetSingleContractPlacesItemShape>();
+
+  const openLeftSection = (item: GetSingleContractPlacesItemShape) => {
+    setActivePlaceItem(item);
+  };
+
+  const handleClickDelete = (item: GetSingleContractPlacesItemShape) => {};
+
+  const handleClickEditBtn = (item: GetSingleContractPlacesItemShape) => {};
+
+  const actionButtons = (item: GetSingleContractPlacesItemShape) => (
+    <Stack direction="row" spacing={0.5} justifyContent={"center"}>
+      <IconButton
+        size="small"
+        color="error"
+        onClick={() => handleClickDelete(item)}
+      >
+        <DeleteIcon />
+      </IconButton>
+
+      <IconButton
+        size="small"
+        color="primary"
+        onClick={() => handleClickEditBtn(item)}
+      >
+        <EditIcon />
+      </IconButton>
+
+      <IconButton
+        size="small"
+        color="primary"
+        onClick={() => openLeftSection(item)}
+      >
+        <ArrowCircleLeftIcon />
+      </IconButton>
+    </Stack>
+  );
 
   // data
   const placesListQuery = useQuery(["all-places"], contractsPlacesApi.getData);
@@ -73,6 +98,8 @@ function ContractsPlaces() {
     const formatedData: any[] = unFormatData.map((item, i) => ({
       ...item,
       number: i + 1,
+      actions: () => actionButtons(item),
+      bgcolor: activePlaceItem?.id === item.id ? "rgba(187,222,251)" : "",
     }));
 
     return formatedData;
@@ -82,7 +109,17 @@ function ContractsPlaces() {
 
   return (
     <AdminLayout>
-      <FixedTable data={tableData} heads={tableHeads} />
+      <Box display={"flex"}>
+        <Box sx={{ width: "50%", borderRight: 1, borderColor: "grey.400" }}>
+          <FixedTable data={tableData} heads={tableHeads} />
+        </Box>
+        {/* modal 2 */}
+        <Box sx={{ width: "50%" }}>
+          {activePlaceItem && (
+            <ContractsPlacesLeftSection activePlaceItem={activePlaceItem} />
+          )}
+        </Box>
+      </Box>
     </AdminLayout>
   );
 }

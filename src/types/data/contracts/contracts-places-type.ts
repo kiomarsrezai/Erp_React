@@ -1,5 +1,11 @@
 export interface GetSingleContractPlacesItemShape {
-  id: 0;
+  id: number;
   estateInfoName: string;
   estateInfoAddress: string;
+}
+
+export interface GetSingleContractPlacesPrivateItemShape {
+  id: number;
+  masahat: number;
+  numberGhorfe: string;
 }
