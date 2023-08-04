@@ -1,12 +1,17 @@
 import AdminLayout from "components/layout/admin-layout";
 import ProjectMeetingsForm from "components/sections/project/mettings/project-meetings-form";
 import ProjectMeetingsEditorCard from "components/sections/project/mettings/project-meetings-editor-card";
+import IconButton from "@mui/material/IconButton";
+import Stack from "@mui/material/Stack";
+import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { useEffect, useRef, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { mettingsProjectApi } from "api/project/meetings-project-api";
-import { Box, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { globalConfig } from "config/global-config";
 import { GetSingleCommiteDetailModalShape } from "types/data/project/commite-project-type";
 import {
@@ -25,6 +30,10 @@ import {
 } from "types/data/contracts/contracts-places-type";
 import { contractsPlacesApi } from "api/contracts/contracts-places-api";
 import { contractsPlacesConfig } from "config/features/contracts/conreacts-places-config";
+import FixedModal from "components/ui/modal/fixed-modal";
+import ContractPlacesLeftModal from "./contract-places-left-modal";
+import { enqueueSnackbar } from "notistack";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 interface Props {
   activePlaceItem: GetSingleContractPlacesItemShape;
@@ -34,9 +43,21 @@ function ContractsPlacesLeftSection(props: Props) {
   const { activePlaceItem } = props;
 
   // heads
+  const handleClickAddBtn = () => {
+    setEditInitData(undefined);
+    setIsOpenActionModal(true);
+  };
+
   const tableHeads: TableHeadShape = [
     {
-      title: "ردیف",
+      title: (
+        <div>
+          ردیف
+          <IconButton size="small" color="primary" onClick={handleClickAddBtn}>
+            <AddIcon />
+          </IconButton>
+        </div>
+      ),
       name: "number",
     },
     {
@@ -47,7 +68,77 @@ function ContractsPlacesLeftSection(props: Props) {
       title: "شماره",
       name: "numberGhorfe",
     },
+    {
+      title: "عملیات",
+      name: "actions",
+    },
   ];
+
+  const handleDoneTask = () => {
+    placesPrivateListQuery.refetch();
+    setIsOpenActionModal(false);
+  };
+
+  // modal
+  const [editInitData, setEditInitData] =
+    useState<GetSingleContractPlacesPrivateItemShape>();
+  const [isOpenActionModal, setIsOpenActionModal] = useState(false);
+
+  // delete
+  const [isShowConfrimDelete, setIsShowConfrimDelete] = useState(false);
+
+  const deleteMutation = useMutation(contractsPlacesApi.deleteLeft, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+      setIsShowConfrimDelete(false);
+      handleDoneTask();
+    },
+  });
+
+  const onCancelDelete = () => {
+    setIsShowConfrimDelete(false);
+  };
+
+  const onConfrimDelete = () => {
+    deleteMutation.mutate({
+      id: editInitData?.id,
+    });
+  };
+
+  // actions
+  const handleClickDelete = (item: GetSingleContractPlacesPrivateItemShape) => {
+    setEditInitData(item);
+    setIsShowConfrimDelete(true);
+  };
+
+  const handleClickEditBtn = (
+    item: GetSingleContractPlacesPrivateItemShape
+  ) => {
+    setEditInitData(item);
+    setIsOpenActionModal(true);
+  };
+
+  const actionButtons = (item: GetSingleContractPlacesPrivateItemShape) => (
+    <Stack direction="row" spacing={0.5} justifyContent={"center"}>
+      <IconButton
+        size="small"
+        color="error"
+        onClick={() => handleClickDelete(item)}
+      >
+        <DeleteIcon />
+      </IconButton>
+
+      <IconButton
+        size="small"
+        color="primary"
+        onClick={() => handleClickEditBtn(item)}
+      >
+        <EditIcon />
+      </IconButton>
+    </Stack>
+  );
 
   // data
   const placesPrivateListQuery = useQuery(
@@ -64,6 +155,7 @@ function ContractsPlacesLeftSection(props: Props) {
     const formatedData: any[] = unFormatData.map((item, i) => ({
       ...item,
       number: i + 1,
+      actions: actionButtons,
     }));
 
     return formatedData;
@@ -71,7 +163,37 @@ function ContractsPlacesLeftSection(props: Props) {
 
   const tableData = formatTableData(placesPrivateListQuery.data?.data || []);
 
-  return <FixedTable data={tableData} heads={tableHeads} />;
+  return (
+    <>
+      <FixedTable data={tableData} heads={tableHeads} />
+
+      {/* modal */}
+      <FixedModal
+        open={isOpenActionModal}
+        handleClose={() => {
+          setIsOpenActionModal(false);
+        }}
+        title={editInitData ? "ویرایش" : "افزودن"}
+        maxWidth="sm"
+        maxHeight="50%"
+      >
+        <ContractPlacesLeftModal
+          onDoneTask={handleDoneTask}
+          initialData={editInitData}
+          baseId={activePlaceItem.id}
+        />
+      </FixedModal>
+
+      {/* delete */}
+      <ConfrimProcessModal
+        onCancel={onCancelDelete}
+        onConfrim={onConfrimDelete}
+        open={isShowConfrimDelete}
+        text={`آیا مایل به حذف این آیتم هستید ؟`}
+        title="حذف آیتم"
+      />
+    </>
+  );
 }
 
 export default ContractsPlacesLeftSection;

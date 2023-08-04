@@ -62,4 +62,31 @@ export const contractsPlacesApi = new (class extends BaseApi {
     >(url);
     return response.data;
   };
+
+  insertLeft = async (filterData: any) => {
+    const url = contractsPlacesUrls.insertLeft;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      filterData
+    );
+    return response.data;
+  };
+
+  editLeft = async (filterData: any) => {
+    const url = contractsPlacesUrls.editLeft;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      filterData
+    );
+    return response.data;
+  };
+
+  deleteLeft = async (filterData: any) => {
+    const url = contractsPlacesUrls.deleteLeft;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      filterData
+    );
+    return response.data;
+  };
 })();
