@@ -78,7 +78,7 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
     },
     {
       title: "هزینه ای",
-      colspan: 3,
+      colspan: 5,
       align: "center",
     },
 
@@ -216,6 +216,19 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
       topTitle: "هزینه ای",
       split: true,
       align: "left",
+    },
+    {
+      title: "ت اعتبار",
+      name: "creditCurrent",
+      topTitle: "هزینه ای",
+      split: true,
+      align: "left",
+    },
+    {
+      title: "%",
+      name: "percentCreditCurrent",
+      topTitle: "هزینه ای",
+      percent: true,
     },
     {
       title: "عملکرد",
@@ -482,6 +495,12 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
     (item: GetSingleBudgetExpenseReportItemShape) => item.id <= 10
   );
 
+  const sumCreditCurrentShahrdari = sumFieldsInSingleItemData(
+    deviationQuery.data?.data,
+    "creditCurrent",
+    (item: GetSingleBudgetExpenseReportItemShape) => item.id <= 10
+  );
+
   const sumMosavabCivilShahrdari = sumFieldsInSingleItemData(
     deviationQuery.data?.data,
     "mosavabCivil",
@@ -577,6 +596,11 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
 
     mosavabCurrent: sumMosavabCurrentShahrdari,
     expenseMonthCurrent: sumExpenseCurrentShahrdari,
+    creditCurrent: sumCreditCurrentShahrdari,
+    percentCreditCurrent: getPercent(
+      sumCreditCurrentShahrdari,
+      sumMosavabCurrentShahrdari
+    ),
     percentCurrent: getPercent(
       sumExpenseCurrentShahrdari,
       sumMosavabCurrentShahrdari
@@ -688,6 +712,12 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
     (item: GetSingleBudgetExpenseReportItemShape) => item.id > 10
   );
 
+  const sumCreditCurrentSazman = sumFieldsInSingleItemData(
+    deviationQuery.data?.data,
+    "creditCurrent",
+    (item: GetSingleBudgetExpenseReportItemShape) => item.id > 10
+  );
+
   const sumMosavabCivilSazman = sumFieldsInSingleItemData(
     deviationQuery.data?.data,
     "mosavabCivil",
@@ -783,6 +813,11 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
 
     mosavabCurrent: sumMosavabCurrentSazman,
     expenseMonthCurrent: sumExpenseCurrentSazman,
+    creditCurrent: sumCreditCurrentSazman,
+    percentCreditCurrent: getPercent(
+      sumCreditCurrentSazman,
+      sumMosavabCurrentSazman
+    ),
     percentCurrent: getPercent(
       sumExpenseCurrentSazman,
       sumMosavabCurrentSazman
@@ -850,6 +885,8 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
   const sumExpenseCurrent =
     sumExpenseCurrentShahrdari + sumExpenseCurrentSazman;
 
+  const sumCreditCurrent = sumCreditCurrentSazman + sumCreditCurrentShahrdari;
+
   const sumMosavabCivil = sumMosavabCivilShahrdari + sumMosavabCivilSazman;
 
   const sumExpenseCivil = sumExpenseCivilSazman + sumExpenseCivilShahrdari;
@@ -914,6 +951,8 @@ function BudgetReportExpense(props: BudgetReportExpenseProps) {
 
     mosavabCurrent: sumMosavabCurrent,
     expenseMonthCurrent: sumExpenseCurrent,
+    creditCurrent: sumCreditCurrent,
+    percentCreditCurrent: getPercent(sumCreditCurrent, sumMosavabCurrent),
     percentCurrent: getPercent(sumExpenseCurrent, sumMosavabCurrent),
 
     mosavabCivil: sumMosavabCivil,

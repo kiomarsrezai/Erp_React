@@ -212,6 +212,17 @@ const createData = (data: any, footer: [any, any, any], title: string) => {
         textAlign: "right",
       },
       {
+        Header: "هزینه ای - ت اعتبار",
+        Name: "creditCurrent",
+        Mony: true,
+        textAlign: "right",
+      },
+      {
+        Header: "%",
+        Name: "percentCreditCurrent",
+        Percent: true,
+      },
+      {
         Header: "هزینه ای - عملکرد",
         Name: "expenseMonthCurrent",
         Mony: true,
