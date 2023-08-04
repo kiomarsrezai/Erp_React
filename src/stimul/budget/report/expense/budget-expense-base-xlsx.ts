@@ -45,8 +45,37 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
   wb.Workbook = wb.Workbook || {};
   wb.Workbook.Views = [{ RTL: true }];
 
+  const mergeHeader: any = [];
+
   Sheets.forEach((sheet: any) => {
+    // top header
+    const topHeader = sheet.TopHeader.map((rowData: any, rowIndex: any) => {
+      return sheet.Columns.map((column: any, columnIndex: number) => {
+        const TopHeaderItem = rowData.find(
+          (item: any) => item.Name === column.Name
+        );
+
+        if (TopHeaderItem?.ColSpan > 1) {
+          const merge = {
+            s: { r: rowIndex, c: columnIndex },
+            e: { r: rowIndex, c: columnIndex + TopHeaderItem?.ColSpan - 1 },
+          };
+          mergeHeader.push(merge);
+        }
+
+        return {
+          v:
+            rowData.find((item: any) => item.Name === column.Name)?.Header ||
+            "salam",
+          t: "s",
+          s: excelHeaderStyle,
+        };
+      });
+    });
+
+    // header
     const header = [
+      ...topHeader,
       [
         ...sheet.Columns.map((column: any) => {
           return {
@@ -110,6 +139,8 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
     //debugger
     const ws = XLSX.utils.aoa_to_sheet(data);
     ws["!cols"] = excelFitToColumn(data);
+    // const merge = [{ s: { r: 0, c: 0 }, e: { r: 1, c: 2 } }];
+    ws["!merges"] = mergeHeader;
     //var ws = XLSX.utils.json_to_sheet(sheet.data);
     const Title =
       typeof sheet.Title === "function" ? sheet.Title() : sheet.Title;
@@ -121,6 +152,190 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
 
 const createData = (data: any, footer: [any, any, any], title: string) => {
   return {
+    TopHeader: [
+      [
+        {
+          Header: "ردیف",
+          Name: "number",
+          ColSpan: 1,
+        },
+        {
+          Header: "مناطق/سازمانها",
+          Name: "areaName",
+          ColSpan: 1,
+        },
+        {
+          Header: "درآمد",
+          Name: "mosavabRevenue",
+          ColSpan: 3,
+        },
+        {
+          Header: "درآمد",
+          Name: "expenseMonthRevenue",
+          ColSpan: 0,
+        },
+        {
+          Header: "درآمد",
+          Name: "percentRevenue",
+          ColSpan: 0,
+        },
+        {
+          Header: "متمرکز",
+          Name: "mosavabPayMotomarkez",
+          ColSpan: 3,
+        },
+        {
+          Header: "متمرکز",
+          Name: "expensePayMotomarkez",
+          ColSpan: 0,
+        },
+        {
+          Header: "متمرکز",
+          Name: "percentPayMotomarkez",
+          ColSpan: 0,
+        },
+        {
+          Header: "	دریافت از خزانه",
+          Name: "mosavabDar_Khazane",
+          ColSpan: 3,
+        },
+        {
+          Header: "	دریافت از خزانه",
+          Name: "expenseMonthDarAzKhazane",
+          ColSpan: 0,
+        },
+        {
+          Header: "	دریافت از خزانه",
+          Name: "percentDar_Khazane",
+          ColSpan: 0,
+        },
+        {
+          Header: "دریافت از خزانه",
+          Name: "mosavabNeyabati",
+          ColSpan: 3,
+        },
+        {
+          Header: "دریافت از خزانه",
+          Name: "expenseMonthNeyabati",
+          ColSpan: 0,
+        },
+        {
+          Header: "دریافت از خزانه",
+          Name: "percentNeyabati",
+          ColSpan: 0,
+        },
+        {
+          Header: "منابع",
+          Name: "resoures",
+          ColSpan: 1,
+        },
+        {
+          Header: "هزینه ای",
+          Name: "mosavabCurrent",
+          ColSpan: 5,
+        },
+        {
+          Header: "هزینه ای",
+          Name: "creditCurrent",
+          ColSpan: 0,
+        },
+        {
+          Header: "هزینه ای",
+          Name: "percentCreditCurrent",
+          ColSpan: 0,
+        },
+        {
+          Header: "هزینه ای",
+          Name: "expenseMonthCurrent",
+          ColSpan: 0,
+        },
+        {
+          Header: "هزینه ای",
+          Name: "percentCurrent",
+          ColSpan: 0,
+        },
+        {
+          Header: "تملک سرمایه ای	",
+          Name: "mosavabCivil",
+          ColSpan: 5,
+        },
+        {
+          Header: "تملک سرمایه ای	",
+          Name: "creditAmountCivil",
+          ColSpan: 0,
+        },
+        {
+          Header: "تملک سرمایه ای	",
+          Name: "percentCreditCivil",
+          ColSpan: 0,
+        },
+        {
+          Header: "تملک سرمایه ای	",
+          Name: "expenseCivil",
+          ColSpan: 0,
+        },
+        {
+          Header: "تملک سرمایه ای	",
+          Name: "percentCivil",
+          ColSpan: 0,
+        },
+        {
+          Header: "تملک مالی",
+          Name: "mosavabFinancial",
+          ColSpan: 5,
+        },
+        {
+          Header: "تملک مالی",
+          Name: "creditFinancial",
+          ColSpan: 0,
+        },
+        {
+          Header: "تملک مالی",
+          Name: "percentCreditFinancial",
+          ColSpan: 0,
+        },
+        {
+          Header: "تملک مالی",
+          Name: "expenseFinancial",
+          ColSpan: 0,
+        },
+        {
+          Header: "تملک مالی",
+          Name: "percentFinancial",
+          ColSpan: 0,
+        },
+        {
+          Header: "دیون سنواتی",
+          Name: "mosavabSanavati",
+          ColSpan: 5,
+        },
+        {
+          Header: "دیون سنواتی",
+          Name: "creditDoyonSanavati",
+          ColSpan: 0,
+        },
+        {
+          Header: "دیون سنواتی",
+          Name: "percentDoyonSanavati",
+          ColSpan: 0,
+        },
+        {
+          Header: "دیون سنواتی",
+          Name: "expenseSanavati",
+          ColSpan: 0,
+        },
+        {
+          Header: "دیون سنواتی",
+          Name: "percentSanavati",
+          ColSpan: 0,
+        },
+        {
+          Header: "مانده",
+          Name: "balance",
+          ColSpan: 1,
+        },
+      ],
+    ],
     Columns: [
       {
         Header: "ردیف",
