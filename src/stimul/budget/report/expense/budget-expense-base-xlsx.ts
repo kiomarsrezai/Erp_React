@@ -597,7 +597,10 @@ export const budgetExpenseBaseXlsx = (exportOptions: StimulOptionsShape) => {
 
   // checkExcelFont();
 
-  ListsToExcel([data1], `عملکرد ${exportOptions.month} ماه`);
+  ListsToExcel(
+    [data1],
+    `عملکرد ${exportOptions.month} ماه ${exportOptions.year}`
+  );
   enqueueSnackbar(
     `خروجی اکسل برای عملکرد ${exportOptions.month} ماه با موفقیت انجام شد `,
     {

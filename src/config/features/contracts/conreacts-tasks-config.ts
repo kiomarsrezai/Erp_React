@@ -25,6 +25,9 @@ export const contractsTasksUrls = {
   areaInsert: "ContractApi/ContractAreaInsert",
   areaDelete: "ContractApi/ContractAreaDelete",
   areaEdit: "ContractApi/ContractAreaUpdate",
+
+  // install
+  installRead: "ContractApi/ContractInstallmentsRead",
 };
 
 export const contractsTasksFormDefaultValue = {

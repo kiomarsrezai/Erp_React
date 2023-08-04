@@ -49,3 +49,13 @@ export interface GetSingleSearchContractTaskAreaItemShape {
   shareAmount: number;
   areaName: string;
 }
+
+// install
+export interface GetSingleSearchContractTaskInstallItemShape {
+  id: number;
+  yearName: number;
+  monthId: number;
+  installmentsDate: string;
+  dateShamsi: string;
+  monthlyAmount: number;
+}

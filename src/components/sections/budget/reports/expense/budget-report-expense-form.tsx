@@ -339,6 +339,7 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
 
   // excel
   const handleExcelBaseClick = () => {
+    const yearLabel = getGeneralFieldItemYear(formData, 1);
     const monthLabel = getGeneralFieldItemMonth(formData);
     if (printData.data.length) {
       budgetExpenseBaseXlsx({
@@ -349,8 +350,11 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
           printData.moreBottomFooter[0],
         ],
         month: monthLabel,
+        year: yearLabel,
       });
     }
+
+    handleCloseAnchor2();
   };
 
   const [anchor2El, setAnchor2El] = useState<HTMLButtonElement | null>(null);
@@ -412,33 +416,6 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
             />
           </Box>
           {/* </Grid> */}
-
-          {/* <SectionGuard
-            permission={joinPermissions([
-              accessNamesConfig.BUDGET__REPORT_PAGE,
-              accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
-              accessNamesConfig.FIELD_ORGAN,
-            ])}
-          >
-            <Grid xs={2}>
-              <FlotingLabelSelect
-                label="سازمان"
-                name={budgetReportExpenseConfig.organ}
-                items={filedItemsGuard(
-                  organItems2,
-                  userLicenses,
-                  joinPermissions([
-                    accessNamesConfig.BUDGET__REPORT_PAGE,
-                    accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
-                    accessNamesConfig.FIELD_ORGAN,
-                  ])
-                )}
-                value={formData[budgetReportExpenseConfig.organ]}
-                setter={setFormData}
-                showError={haveSubmitedForm}
-              />
-            </Grid>
-          </SectionGuard> */}
 
           {/* <Grid xs={2}> */}
           <Box width={200}>
@@ -581,44 +558,6 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
         }
         onCancel={handleCancelClick}
       />
-      {/*
-
-*/}
-      {/* {(getExcelManateghMutation.isLoading ||
-        getExcelSazmanMutation.isLoading ||
-        excelLodaing) &&
-        !isCancel && (
-          <Box
-            sx={{
-              position: "fixed",
-              zIndex: 1000002,
-              bottom: "2%",
-              left: "50%",
-            }}
-          >
-            <Button
-              variant="contained"
-              color="error"
-              onClick={handleCancelClick}
-            >
-              انصراف
-            </Button>
-          </Box>
-        )} */}
-
-      {/* print modal */}
-      {/* <FixedModal
-        open={isOpenAreaModal}
-        handleClose={() => setIsOpenAreaModal(false)}
-        maxWidth="sm"
-        title="خروجی اکسل"
-      >
-        <BudgetReportExpenseAreaModal
-          formData={formData}
-          printData={printData}
-          onClose={() => setIsOpenAreaModal(false)}
-        />
-      </FixedModal> */}
     </>
   );
 }

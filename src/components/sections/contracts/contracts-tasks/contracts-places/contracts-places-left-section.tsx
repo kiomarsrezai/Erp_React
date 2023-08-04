@@ -173,7 +173,11 @@ function ContractsPlacesLeftSection(props: Props) {
         handleClose={() => {
           setIsOpenActionModal(false);
         }}
-        title={editInitData ? "ویرایش" : "افزودن"}
+        title={
+          editInitData
+            ? "ویرایش"
+            : ` افزودن آیتم به ${activePlaceItem.estateInfoName} - ${activePlaceItem.estateInfoAddress} - ${activePlaceItem.areaName}`
+        }
         maxWidth="sm"
         maxHeight="50%"
       >

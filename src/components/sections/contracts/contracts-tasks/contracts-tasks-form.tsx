@@ -35,6 +35,7 @@ import { contractsTasksApi } from "api/contracts/contracts-tasks-api";
 import ContractsSearchModal from "./contracts-search-modal";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
+import ContractsInstallModal from "./install/contracts-install-modal";
 
 interface ContractsTasksFormProps {
   formData: any;
@@ -61,25 +62,8 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    // permission
-    // const havePermission = checkHavePermission(
-    //   userLicenses,
-    //   [accessNamesConfig.FIELD_AREA],
-    //   accessNamesConfig.CONTRACT__REPORT_PAGE
-    // );
-
-    // if (!havePermission) {
-    //   return enqueueSnackbar(globalConfig.PERMISSION_ERROR_MESSAGE, {
-    //     variant: "error",
-    //   });
-    // }
-
     setHaveSubmitedForm(true);
-
-    // if (checkHaveValue(formData, [contractsTasksConfig.area])) {
-    // submitMutation.mutate(formData);
     setIsOpenSearchModal(true);
-    // }
   };
 
   // check
@@ -233,6 +217,13 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
     setShowConfrimDeleteForm(false);
   };
 
+  // install
+  const [isOpenInstallModal, setIsOpenInstallModal] = useState(false);
+
+  const handleInstallClick = () => {
+    setIsOpenInstallModal(true);
+  };
+
   return (
     <>
       <Box component="form" onSubmit={handleFormSubmit} p={2}>
@@ -278,10 +269,16 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
             >
               <DeleteIcon />
             </Button>
+            <Button
+              variant="contained"
+              onClick={handleInstallClick}
+              sx={{ mx: 1 }}
+            >
+              <DeleteIcon />
+            </Button>
           </Grid>
         </Grid>
       </Box>
-
       {/* search modal */}
       <FixedModal
         open={isOpenSearchModal}
@@ -297,6 +294,15 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
         />
       </FixedModal>
 
+      {/* install */}
+      <FixedModal
+        open={isOpenInstallModal}
+        handleClose={() => setIsOpenInstallModal(false)}
+        title="نصب"
+      >
+        <ContractsInstallModal formData={formData} />
+      </FixedModal>
+
       {/* confrim clear form */}
       <ConfrimProcessModal
         onCancel={onCancelClearForm}
@@ -304,7 +310,6 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
         open={showConfrimClearForm}
         title="خالی کردن فرم"
       />
-
       {/* confrim delete form */}
       <ConfrimProcessModal
         onCancel={onCancelDeleteForm}
