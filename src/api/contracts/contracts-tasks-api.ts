@@ -102,7 +102,7 @@ export const contractsTasksApi = new (class extends BaseApi {
   };
 
   insertInstall = async (filterData: any) => {
-    const url = contractsTasksUrls.installRead;
+    const url = contractsTasksUrls.insertInstal;
     const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
       url,
       filterData

@@ -44,6 +44,7 @@ export default function ContractsInstallModal(props: Props) {
         </div>
       ),
       name: "number",
+      width: "100px",
     },
     {
       title: "سال",
@@ -68,6 +69,7 @@ export default function ContractsInstallModal(props: Props) {
 
   const handleDoneTask = () => {
     setIsOpenInstallModal2(false);
+    installQuery.refetch();
   };
 
   // data
@@ -98,6 +100,11 @@ export default function ContractsInstallModal(props: Props) {
       <FixedModal
         open={isOpenInstallModal2}
         handleClose={() => setIsOpenInstallModal2(false)}
+        maxWidth="sm"
+        maxHeight="50%"
+        title={
+          "افزودن قسط به قرارداد شماره " + formData[contractsTasksConfig.number]
+        }
       >
         <ContractsInstallModal2
           formData={formData}

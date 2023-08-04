@@ -9,7 +9,7 @@ import SectionGuard from "components/auth/section-guard";
 import userStore from "hooks/store/user-store";
 import FixedModal from "components/ui/modal/fixed-modal";
 import SearchIcon from "@mui/icons-material/Search";
-
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import CheckIcon from "@mui/icons-material/Check";
 import SendIcon from "@mui/icons-material/Send";
@@ -266,6 +266,7 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
               variant="contained"
               onClick={handleDeleteClick}
               sx={{ mx: 1 }}
+              disabled={!formData.id}
             >
               <DeleteIcon />
             </Button>
@@ -273,8 +274,9 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
               variant="contained"
               onClick={handleInstallClick}
               sx={{ mx: 1 }}
+              disabled={!formData.id}
             >
-              <DeleteIcon />
+              <AttachMoneyIcon />
             </Button>
           </Grid>
         </Grid>
@@ -298,7 +300,8 @@ function ContractsTasksForm(props: ContractsTasksFormProps) {
       <FixedModal
         open={isOpenInstallModal}
         handleClose={() => setIsOpenInstallModal(false)}
-        title="نصب"
+        title={"قسط های قرارداد شماره " + formData[contractsTasksConfig.number]}
+        maxWidth="md"
       >
         <ContractsInstallModal formData={formData} />
       </FixedModal>
