@@ -33,4 +33,22 @@ export const contractsPlacesApi = new (class extends BaseApi {
     >(url);
     return response.data;
   };
+
+  insertRight = async (filterData: any) => {
+    const url =
+      contractsPlacesUrls.getLeftData + this.joinFilterData(filterData);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleContractPlacesPrivateItemShape[]>
+    >(url);
+    return response.data;
+  };
+
+  editRight = async (filterData: any) => {
+    const url =
+      contractsPlacesUrls.getLeftData + this.joinFilterData(filterData);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleContractPlacesPrivateItemShape[]>
+    >(url);
+    return response.data;
+  };
 })();

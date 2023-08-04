@@ -26,6 +26,8 @@ import FixedTable from "components/data/table/fixed-table";
 import { GetSingleContractPlacesItemShape } from "types/data/contracts/contracts-places-type";
 import { contractsPlacesApi } from "api/contracts/contracts-places-api";
 import ContractsPlacesLeftSection from "components/sections/contracts/contracts-tasks/contracts-places/contracts-places-left-section";
+import ContractPlacesRightModal from "components/sections/contracts/contracts-tasks/contracts-places/contract-places-right-modal";
+import FixedModal from "components/ui/modal/fixed-modal";
 
 function ContractsPlaces() {
   // heads
@@ -49,6 +51,16 @@ function ContractsPlaces() {
     },
   ];
 
+  const handleDoneTask = () => {
+    placesListQuery.refetch();
+    setIsOpenActionModal(false);
+  };
+
+  // modal
+  const [editInitData, setEditInitData] =
+    useState<GetSingleContractPlacesItemShape>();
+  const [isOpenActionModal, setIsOpenActionModal] = useState(false);
+
   // actions
   const [activePlaceItem, setActivePlaceItem] =
     useState<GetSingleContractPlacesItemShape>();
@@ -59,7 +71,10 @@ function ContractsPlaces() {
 
   const handleClickDelete = (item: GetSingleContractPlacesItemShape) => {};
 
-  const handleClickEditBtn = (item: GetSingleContractPlacesItemShape) => {};
+  const handleClickEditBtn = (item: GetSingleContractPlacesItemShape) => {
+    setEditInitData(item);
+    setIsOpenActionModal(true);
+  };
 
   const actionButtons = (item: GetSingleContractPlacesItemShape) => (
     <Stack direction="row" spacing={0.5} justifyContent={"center"}>
@@ -108,19 +123,37 @@ function ContractsPlaces() {
   const tableData = formatTableData(placesListQuery.data?.data || []);
 
   return (
-    <AdminLayout>
-      <Box display={"flex"}>
-        <Box sx={{ width: "50%", borderRight: 1, borderColor: "grey.400" }}>
-          <FixedTable data={tableData} heads={tableHeads} />
+    <>
+      <AdminLayout>
+        <Box display={"flex"}>
+          <Box sx={{ width: "50%", borderRight: 1, borderColor: "grey.400" }}>
+            <FixedTable data={tableData} heads={tableHeads} />
+          </Box>
+          {/* modal 2 */}
+          <Box sx={{ width: "50%" }}>
+            {activePlaceItem && (
+              <ContractsPlacesLeftSection activePlaceItem={activePlaceItem} />
+            )}
+          </Box>
         </Box>
-        {/* modal 2 */}
-        <Box sx={{ width: "50%" }}>
-          {activePlaceItem && (
-            <ContractsPlacesLeftSection activePlaceItem={activePlaceItem} />
-          )}
-        </Box>
-      </Box>
-    </AdminLayout>
+      </AdminLayout>
+
+      {/* modal */}
+      <FixedModal
+        open={isOpenActionModal}
+        handleClose={() => {
+          setIsOpenActionModal(false);
+        }}
+        title={editInitData?.estateInfoName}
+        maxWidth="sm"
+        maxHeight="50%"
+      >
+        <ContractPlacesRightModal
+          onDoneTask={handleDoneTask}
+          initialData={editInitData}
+        />
+      </FixedModal>
+    </>
   );
 }
 
