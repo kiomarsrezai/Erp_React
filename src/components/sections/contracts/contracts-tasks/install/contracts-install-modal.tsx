@@ -51,20 +51,36 @@ export default function ContractsInstallModal(props: Props) {
     })
   );
 
+  const handleOpenAddMode = () => {
+    setActionData({
+      date: null,
+      amount: 0,
+      month: 0,
+      yearName: 0,
+    });
+
+    setActiveItemAction(undefined);
+    setActionMode("add");
+  };
+
   const tableHeads: TableHeadShape = [
     {
       title: (
         <div>
           ردیف
-          {!installQuery.data?.data.length && (
+          {
             <IconButton
               size="small"
               color="primary"
-              onClick={handleClickAddBtn}
+              onClick={
+                installQuery.data?.data.length
+                  ? handleOpenAddMode
+                  : handleClickAddBtn
+              }
             >
               <AddIcon />
             </IconButton>
-          )}
+          }
         </div>
       ),
       name: "number",
@@ -149,6 +165,13 @@ export default function ContractsInstallModal(props: Props) {
     },
   });
 
+  const addMutation = useMutation(contractsTasksApi.insertInstall, {
+    onSuccess() {
+      cancelEdit();
+      handleDoneTask();
+    },
+  });
+
   const onSubmitEditFunctionality = () => {
     const initNewDate = add(new Date(actionData.date as any), {
       days: 1,
@@ -156,13 +179,22 @@ export default function ContractsInstallModal(props: Props) {
     });
     const date = format(initNewDate, "yyyy/MM/dd");
     const [year, month, day] = date.split("/");
-
-    editMutation.mutate({
-      ...actionData,
-      amount: Number(String(actionData.amount).replaceAll(",", "")),
-      date: newDate(Number(year), Number(month), Number(day)),
-      id: activeItemAction?.id,
-    });
+    if (actionMode === "edit") {
+      editMutation.mutate({
+        ...actionData,
+        amount: Number(String(actionData.price).replaceAll(",", "")),
+        date: newDate(Number(year), Number(month), Number(day)),
+        id: activeItemAction?.id,
+      });
+    } else if (actionMode === "add") {
+      addMutation.mutate({
+        contractId: formData.id,
+        date: newDate(Number(year), Number(month), Number(day)),
+        amount: Number(String(actionData.price).replaceAll(",", "")),
+        month: +month,
+        yearName: +year,
+      });
+    }
   };
 
   const cancelEdit = () => {
@@ -219,11 +251,20 @@ export default function ContractsInstallModal(props: Props) {
     />
   );
 
+  // add
+  const addElements = {
+    monthlyAmount: monthlyAmountTextArea,
+    dateShamsi: dateTextArea,
+    number: "افزودن",
+    actions: () => actionButtons({} as any),
+  };
+
   // data
   const actionButtons = (item: GetSingleSearchContractTaskInstallItemShape) => {
     return (
       <Stack direction="row" spacing={0.5} justifyContent={"center"}>
-        {item.id === activeItemAction?.id && actionMode === "edit" ? (
+        {(item.id === activeItemAction?.id && actionMode === "edit") ||
+        (actionMode === "add" && !item?.id) ? (
           <>
             <IconButton
               color="success"
@@ -281,6 +322,8 @@ export default function ContractsInstallModal(props: Props) {
 
   const tableData = formatTableData(installQuery.data?.data || []);
 
+  const finalTableData = [addElements, ...tableData];
+
   // footer
   const sumPrice = sumFieldsInSingleItemData(
     installQuery.data?.data,
@@ -297,7 +340,7 @@ export default function ContractsInstallModal(props: Props) {
     <>
       <FixedTable
         heads={tableHeads}
-        data={tableData}
+        data={actionMode === "add" ? finalTableData : tableData}
         footer={tableFooter}
         notFixed
       />
