@@ -5,6 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import EditIcon from "@mui/icons-material/Edit";
+import CloseIcon from "@mui/icons-material/Close";
 import {
   GetSingleSearchContractTaskInstallItemShape,
   GetSingleSearchContractTaskItemShape,
@@ -18,7 +19,7 @@ import { convertToCalenderDate } from "helper/date-utils";
 import SectionGuard from "components/auth/section-guard";
 import { joinPermissions } from "helper/auth-utils";
 import { accessNamesConfig } from "config/access-names-config";
-import { Unstable_Grid2 as Grid } from "@mui/material";
+import { Unstable_Grid2 as Grid, TextField } from "@mui/material";
 import AreaInput from "components/sections/inputs/area-input";
 import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
 import { useState } from "react";
@@ -29,6 +30,9 @@ import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import { enqueueSnackbar } from "notistack";
 import { contractsPlacesApi } from "api/contracts/contracts-places-api";
 import { globalConfig } from "config/global-config";
+import { NumericFormat } from "react-number-format";
+import { DatePicker } from "@mui/x-date-pickers";
+import { add, format, newDate } from "date-fns-jalali";
 
 interface Props {
   formData: any;
@@ -124,33 +128,134 @@ export default function ContractsInstallModal(props: Props) {
   };
 
   // edit
-  const [isOpenEditMode, setIsOpenEditMode] = useState(false);
+  const [actionMode, setActionMode] = useState<"edit" | "add">();
   const handleClickEditBtn = (
     item: GetSingleSearchContractTaskInstallItemShape
   ) => {
     setActiveItemAction(item);
-    setIsOpenEditMode(true);
+    setActionData({
+      date: new Date(item.installmentsDate),
+      amount: item.monthlyAmount,
+      month: item.monthId,
+      yearName: item.yearName,
+    });
+    setActionMode("edit");
   };
+
+  const editMutation = useMutation(contractsTasksApi.updateInstall, {
+    onSuccess() {
+      cancelEdit();
+      handleDoneTask();
+    },
+  });
+
+  const onSubmitEditFunctionality = () => {
+    const initNewDate = add(new Date(actionData.date as any), {
+      days: 1,
+      months: -1,
+    });
+    const date = format(initNewDate, "yyyy/MM/dd");
+    const [year, month, day] = date.split("/");
+
+    editMutation.mutate({
+      ...actionData,
+      amount: Number(String(actionData.amount).replaceAll(",", "")),
+      date: newDate(Number(year), Number(month), Number(day)),
+      id: activeItemAction?.id,
+    });
+  };
+
+  const cancelEdit = () => {
+    setActiveItemAction(undefined);
+    setActionMode(undefined);
+  };
+
+  // add and update
+  const [actionData, setActionData] = useState<any>({
+    date: null,
+    amount: 0,
+    month: null,
+    yearName: null,
+  });
+
+  const onChange = (e: any) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setActionData((prev: any) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const monthlyAmountTextArea = (
+    <NumericFormat
+      customInput={TextField}
+      id="price-request-input"
+      label="مبلغ"
+      variant="outlined"
+      size="small"
+      value={actionData.amount}
+      name={"price"}
+      onChange={onChange}
+      allowLeadingZeros
+      thousandSeparator=","
+      fullWidth
+    />
+  );
+
+  const dateTextArea = (
+    <DatePicker
+      value={actionData.date}
+      label="تاریخ شروع"
+      onChange={(newValue: any) =>
+        setActionData((state: any) => ({
+          ...state,
+          date: newValue,
+        }))
+      }
+      slotProps={{
+        textField: { size: "small", fullWidth: true },
+      }}
+    />
+  );
 
   // data
   const actionButtons = (item: GetSingleSearchContractTaskInstallItemShape) => {
     return (
       <Stack direction="row" spacing={0.5} justifyContent={"center"}>
-        <IconButton
-          size="small"
-          color="error"
-          onClick={() => handleClickDelete(item)}
-        >
-          <DeleteIcon />
-        </IconButton>
+        {item.id === activeItemAction?.id && actionMode === "edit" ? (
+          <>
+            <IconButton
+              color="success"
+              size="small"
+              onClick={onSubmitEditFunctionality}
+            >
+              <CheckIcon />
+            </IconButton>
 
-        <IconButton
-          size="small"
-          color="primary"
-          onClick={() => handleClickEditBtn(item)}
-        >
-          <EditIcon />
-        </IconButton>
+            <IconButton color="error" size="small" onClick={cancelEdit}>
+              <CloseIcon />
+            </IconButton>
+          </>
+        ) : (
+          <>
+            <IconButton
+              size="small"
+              color="error"
+              onClick={() => handleClickDelete(item)}
+            >
+              <DeleteIcon />
+            </IconButton>
+
+            <IconButton
+              size="small"
+              color="primary"
+              onClick={() => handleClickEditBtn(item)}
+            >
+              <EditIcon />
+            </IconButton>
+          </>
+        )}
       </Stack>
     );
   };
@@ -159,6 +264,14 @@ export default function ContractsInstallModal(props: Props) {
   ): any[] => {
     const formatedData: any[] = unFormatData.map((item, i) => ({
       ...item,
+      monthlyAmount:
+        actionMode === "edit" && activeItemAction?.id === item.id
+          ? monthlyAmountTextArea
+          : item.monthlyAmount,
+      dateShamsi:
+        actionMode === "edit" && activeItemAction?.id === item.id
+          ? dateTextArea
+          : item.dateShamsi,
       number: i + 1,
       actions: () => actionButtons(item),
     }));
