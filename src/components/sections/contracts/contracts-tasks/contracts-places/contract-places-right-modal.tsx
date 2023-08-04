@@ -25,7 +25,7 @@ export default function ContractPlacesRightModal(props: Props) {
 
   // form manage
   const [areaValue, setAreaValue] = useState({
-    [generalFieldsConfig.AREA]: undefined,
+    [generalFieldsConfig.AREA]: initialData?.areaId || undefined,
   });
 
   const formSchema = yup.object({
@@ -106,6 +106,7 @@ export default function ContractPlacesRightModal(props: Props) {
           <AreaInput
             value={areaValue[generalFieldsConfig.AREA]}
             setter={setAreaValue}
+            level={3}
           />
         </Grid>
 

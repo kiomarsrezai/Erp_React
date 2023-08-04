@@ -61,6 +61,10 @@ function ContractsPlaces() {
       align: "left",
     },
     {
+      title: "منطقه",
+      name: "areaName",
+    },
+    {
       title: "عملیات",
       name: "actions",
     },
