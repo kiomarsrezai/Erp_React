@@ -6,6 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import EditIcon from "@mui/icons-material/Edit";
 import CloseIcon from "@mui/icons-material/Close";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   GetSingleSearchContractTaskInstallItemShape,
   GetSingleSearchContractTaskItemShape,
@@ -68,33 +69,28 @@ export default function ContractsInstallModal(props: Props) {
       title: (
         <div>
           ردیف
-          {
-            <IconButton
-              size="small"
-              color="primary"
-              onClick={
-                installQuery.data?.data.length
-                  ? handleOpenAddMode
-                  : handleClickAddBtn
-              }
-            >
-              <AddIcon />
-            </IconButton>
-          }
+          <IconButton size="small" color="primary" onClick={handleClickAddBtn}>
+            <MoreVertIcon sx={{ mr: -1.5 }} />
+            <AddIcon />
+          </IconButton>
+          <IconButton size="small" color="primary" onClick={handleOpenAddMode}>
+            <AddIcon />
+          </IconButton>
         </div>
       ),
       name: "number",
+      width: "100px",
     },
     {
       title: "تاریخ قسط",
       name: "dateShamsi",
-      width: "150px",
+      width: "300px",
     },
     {
       title: "مبلغ",
       name: "monthlyAmount",
-      width: "150px",
       split: true,
+      width: "300px",
     },
     {
       title: "عملیات",
