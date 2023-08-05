@@ -44,6 +44,7 @@ import PropertyMotor from "pages/property/property-motor";
 import SomethingPage from "pages/base/something-page";
 import UserPage from "pages/base/users-page";
 import ContractsPlaces from "pages/contracts/contracts-places";
+import ContractsMotaleb from "pages/contracts/contracts-motaleb";
 
 export const sidenavsLayout: SidenavShape[] = [
   // report
@@ -229,6 +230,17 @@ export const sidenavsLayout: SidenavShape[] = [
         permissionItems: [
           getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 3),
         ],
+      },
+
+      {
+        title: "وصول مطالبات",
+        icon: SummarizeIcon,
+        path: "/contracts/get-motalbat",
+        licenseName: accessNamesConfig.CONTRACT__GET_MOTALEB_PAGE,
+        element: ContractsMotaleb,
+        // permissionItems: [
+        // getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 3),
+        // ],
       },
     ],
   },

@@ -67,6 +67,8 @@ export const accessNamesConfig = {
 
   CONTRACT__REPORT_PAGE: "contract-report",
 
+  CONTRACT__GET_MOTALEB_PAGE: "contract-get-motaleb",
+
   // financial
   FINANCIAL__ACCOUNTS_PAGE: "financial-accounts",
 

@@ -108,6 +108,9 @@ export const reactQueryKeys = {
       getData: ["contracts-tasks-data"],
       getArea: ["contracts-areas-data"],
     },
+    motaleb: {
+      getData: ["all-motaleb"],
+    },
   },
 
   departman: {
