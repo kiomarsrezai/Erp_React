@@ -1,5 +1,6 @@
 export const contractsMotalebConfig = {
   date: "date",
+  motalebId: "reciveBankId",
 };
 
 export const contractsMotalebUrls = {
@@ -7,4 +8,6 @@ export const contractsMotalebUrls = {
   getData: "ContractApi/ReciveBankRead",
 
   // left
+
+  getLeftData: "ContractApi/ContractInstallmentsReciveRead",
 };

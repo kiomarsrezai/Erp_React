@@ -32,9 +32,13 @@ import FixedModal from "components/ui/modal/fixed-modal";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import { enqueueSnackbar } from "notistack";
 import { contractsMotalebApi } from "api/contracts/contracts-motaleb-api";
-import { GetSingleContractMotalebItemShape } from "types/data/contracts/contracts-motaleb-type";
+import {
+  GetSingleContractLeftDataItemShape,
+  GetSingleContractMotalebItemShape,
+} from "types/data/contracts/contracts-motaleb-type";
 import ContractsMotalebForm from "components/sections/contracts/contracts-places/contracts-motaleb-form";
 import { contractsMotalebConfig } from "config/features/contracts/conreacts-motaleb-config";
+import ContractsMotalebLeftSection from "components/sections/contracts/contracts-places/contracts-motaleb-left-section";
 
 export default function ContractsMotaleb() {
   const [formData, setFormData] = useState({
@@ -99,7 +103,10 @@ export default function ContractsMotaleb() {
   // data
   const motalebListQuery = useQuery(
     reactQueryKeys.contracts.motaleb.getData,
-    contractsMotalebApi.getData
+    contractsMotalebApi.getData,
+    {
+      enabled: false,
+    }
   );
 
   const formatTableData = (
@@ -129,11 +136,11 @@ export default function ContractsMotaleb() {
             />
           </Box>
           {/* modal 2 */}
-          {/* <Box sx={{ width: "50%" }}>
+          <Box sx={{ width: "50%" }}>
             {activePlaceItem && (
-              <ContractsPlacesLeftSection activePlaceItem={activePlaceItem} />
+              <ContractsMotalebLeftSection activePlaceItem={activePlaceItem} />
             )}
-          </Box> */}
+          </Box>
         </Box>
       </AdminLayout>
     </>

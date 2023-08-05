@@ -33,128 +33,63 @@ import { contractsPlacesConfig } from "config/features/contracts/conreacts-place
 import FixedModal from "components/ui/modal/fixed-modal";
 import { enqueueSnackbar } from "notistack";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
+import {
+  GetSingleContractLeftDataItemShape,
+  GetSingleContractMotalebItemShape,
+} from "types/data/contracts/contracts-motaleb-type";
+import { contractsMotalebApi } from "api/contracts/contracts-motaleb-api";
+import { contractsMotalebConfig } from "config/features/contracts/conreacts-motaleb-config";
 
 interface Props {
-  activePlaceItem: GetSingleContractPlacesItemShape;
+  activePlaceItem: GetSingleContractMotalebItemShape;
 }
 
-function ContractsPlacesLeftSection(props: Props) {
+function ContractsMotalebLeftSection(props: Props) {
   const { activePlaceItem } = props;
-
-  // heads
-  const handleClickAddBtn = () => {
-    setEditInitData(undefined);
-    setIsOpenActionModal(true);
-  };
 
   const tableHeads: TableHeadShape = [
     {
-      title: (
-        <div>
-          ردیف
-          <IconButton size="small" color="primary" onClick={handleClickAddBtn}>
-            <AddIcon />
-          </IconButton>
-        </div>
-      ),
+      title: "ردیف",
       name: "number",
     },
     {
-      title: "مساحت",
-      name: "masahat",
+      title: "نام",
+      name: "suppliersName",
     },
     {
       title: "شماره",
-      name: "numberGhorfe",
+      name: "number",
     },
     {
-      title: "عملیات",
-      name: "actions",
+      title: "سال",
+      name: "yearName",
+    },
+    {
+      title: "ماه",
+      name: "monthId",
+    },
+    {
+      title: "مبلغ دریافتی",
+      name: "reciveAmount",
+      split: true,
     },
   ];
 
-  const handleDoneTask = () => {
-    placesPrivateListQuery.refetch();
-    setIsOpenActionModal(false);
-  };
-
-  // modal
-  const [editInitData, setEditInitData] =
-    useState<GetSingleContractPlacesPrivateItemShape>();
-  const [isOpenActionModal, setIsOpenActionModal] = useState(false);
-
-  // delete
-  const [isShowConfrimDelete, setIsShowConfrimDelete] = useState(false);
-
-  const deleteMutation = useMutation(contractsPlacesApi.deleteLeft, {
-    onSuccess: () => {
-      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
-        variant: "success",
-      });
-      setIsShowConfrimDelete(false);
-      handleDoneTask();
-    },
-  });
-
-  const onCancelDelete = () => {
-    setIsShowConfrimDelete(false);
-  };
-
-  const onConfrimDelete = () => {
-    deleteMutation.mutate({
-      id: editInitData?.id,
-    });
-  };
-
-  // actions
-  const handleClickDelete = (item: GetSingleContractPlacesPrivateItemShape) => {
-    setEditInitData(item);
-    setIsShowConfrimDelete(true);
-  };
-
-  const handleClickEditBtn = (
-    item: GetSingleContractPlacesPrivateItemShape
-  ) => {
-    setEditInitData(item);
-    setIsOpenActionModal(true);
-  };
-
-  const actionButtons = (item: GetSingleContractPlacesPrivateItemShape) => (
-    <Stack direction="row" spacing={0.5} justifyContent={"center"}>
-      <IconButton
-        size="small"
-        color="error"
-        onClick={() => handleClickDelete(item)}
-      >
-        <DeleteIcon />
-      </IconButton>
-
-      <IconButton
-        size="small"
-        color="primary"
-        onClick={() => handleClickEditBtn(item)}
-      >
-        <EditIcon />
-      </IconButton>
-    </Stack>
-  );
-
   // data
   const placesPrivateListQuery = useQuery(
-    ["all-places-places", activePlaceItem.id],
+    ["all-motalebat", activePlaceItem.id],
     () =>
-      contractsPlacesApi.getLeftData({
-        [contractsPlacesConfig.amlak]: activePlaceItem.id,
+      contractsMotalebApi.getLeftData({
+        [contractsMotalebConfig.motalebId]: activePlaceItem.id,
       })
   );
 
   const formatTableData = (
-    unFormatData: GetSingleContractPlacesPrivateItemShape[]
+    unFormatData: GetSingleContractLeftDataItemShape[]
   ): any[] => {
     const formatedData: any[] = unFormatData.map((item, i) => ({
       ...item,
       number: i + 1,
-      actions: actionButtons,
     }));
 
     return formatedData;
@@ -165,17 +100,8 @@ function ContractsPlacesLeftSection(props: Props) {
   return (
     <>
       <FixedTable data={tableData} heads={tableHeads} />
-
-      {/* delete */}
-      <ConfrimProcessModal
-        onCancel={onCancelDelete}
-        onConfrim={onConfrimDelete}
-        open={isShowConfrimDelete}
-        text={`آیا مایل به حذف این آیتم هستید ؟`}
-        title="حذف آیتم"
-      />
     </>
   );
 }
 
-export default ContractsPlacesLeftSection;
+export default ContractsMotalebLeftSection;

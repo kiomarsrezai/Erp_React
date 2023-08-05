@@ -5,3 +5,12 @@ export interface GetSingleContractMotalebItemShape {
   number: number;
   amount: number;
 }
+
+export interface GetSingleContractLeftDataItemShape {
+  id: number;
+  suppliersName: string;
+  number: string;
+  yearName: string;
+  monthId: number;
+  reciveAmount: number;
+}
