@@ -39,6 +39,7 @@ import {
 import ContractsMotalebForm from "components/sections/contracts/contracts-places/contracts-motaleb-form";
 import { contractsMotalebConfig } from "config/features/contracts/conreacts-motaleb-config";
 import ContractsMotalebLeftSection from "components/sections/contracts/contracts-places/contracts-motaleb-left-section";
+import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 
 export default function ContractsMotaleb() {
   const [formData, setFormData] = useState({
@@ -59,7 +60,7 @@ export default function ContractsMotaleb() {
   const tableHeads: TableHeadShape = [
     {
       title: "ردیف",
-      name: "number",
+      name: "row",
     },
     {
       title: "تاریخ",
@@ -114,7 +115,7 @@ export default function ContractsMotaleb() {
   ): any[] => {
     const formatedData: any[] = unFormatData.map((item, i) => ({
       ...item,
-      number: i + 1,
+      row: i + 1,
       actions: () => actionButtons(item),
       bgcolor: activePlaceItem?.id === item.id ? "rgba(187,222,251)" : "",
     }));
@@ -123,6 +124,20 @@ export default function ContractsMotaleb() {
   };
 
   const tableData = formatTableData(motalebListQuery.data?.data || []);
+
+  // footer
+  const sumPrice = sumFieldsInSingleItemData(
+    motalebListQuery.data?.data,
+    "amount"
+  );
+
+  const tableFooter = {
+    row: "جمع",
+    "colspan-row": 3,
+    dateShamsi: null,
+    number: null,
+    amount: sumPrice,
+  };
 
   return (
     <>
@@ -133,6 +148,7 @@ export default function ContractsMotaleb() {
               data={tableData}
               heads={tableHeads}
               headGroups={tableHeadGroup}
+              footer={tableFooter}
             />
           </Box>
           {/* modal 2 */}

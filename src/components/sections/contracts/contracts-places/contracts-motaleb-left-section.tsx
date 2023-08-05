@@ -39,6 +39,7 @@ import {
 } from "types/data/contracts/contracts-motaleb-type";
 import { contractsMotalebApi } from "api/contracts/contracts-motaleb-api";
 import { contractsMotalebConfig } from "config/features/contracts/conreacts-motaleb-config";
+import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 
 interface Props {
   activePlaceItem: GetSingleContractMotalebItemShape;
@@ -50,7 +51,7 @@ function ContractsMotalebLeftSection(props: Props) {
   const tableHeads: TableHeadShape = [
     {
       title: "ردیف",
-      name: "number",
+      name: "row",
     },
     {
       title: "نام",
@@ -89,7 +90,7 @@ function ContractsMotalebLeftSection(props: Props) {
   ): any[] => {
     const formatedData: any[] = unFormatData.map((item, i) => ({
       ...item,
-      number: i + 1,
+      row: i + 1,
     }));
 
     return formatedData;
@@ -97,9 +98,25 @@ function ContractsMotalebLeftSection(props: Props) {
 
   const tableData = formatTableData(placesPrivateListQuery.data?.data || []);
 
+  // footer
+  const sumPrice = sumFieldsInSingleItemData(
+    placesPrivateListQuery.data?.data,
+    "reciveAmount"
+  );
+
+  const tableFooter = {
+    row: "جمع",
+    "colspan-row": 5,
+    suppliersName: null,
+    number: null,
+    yearName: null,
+    monthId: null,
+    reciveAmount: sumPrice,
+  };
+
   return (
     <>
-      <FixedTable data={tableData} heads={tableHeads} />
+      <FixedTable data={tableData} heads={tableHeads} footer={tableFooter} />
     </>
   );
 }
