@@ -8,6 +8,6 @@ export const contractsMotalebUrls = {
   getData: "ContractApi/ReciveBankRead",
 
   // left
-
   getLeftData: "ContractApi/ContractInstallmentsReciveRead",
+  getLeftModalItem: "ContractApi/ReciveBankModal",
 };

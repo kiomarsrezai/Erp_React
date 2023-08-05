@@ -14,3 +14,11 @@ export interface GetSingleContractLeftDataItemShape {
   monthId: number;
   reciveAmount: number;
 }
+
+export interface GetSingleContractLeftModalDataItemShape {
+  id: number;
+  yearName: string;
+  monthId: number;
+  monthlyAmount: number;
+  description: string;
+}

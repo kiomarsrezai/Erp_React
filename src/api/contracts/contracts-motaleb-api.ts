@@ -5,6 +5,7 @@ import { BaseApiResponseShape } from "types/base-type";
 import { contractsPlacesUrls } from "config/features/contracts/conreacts-places-config";
 import {
   GetSingleContractLeftDataItemShape,
+  GetSingleContractLeftModalDataItemShape,
   GetSingleContractMotalebItemShape,
 } from "types/data/contracts/contracts-motaleb-type";
 import {
@@ -28,6 +29,15 @@ export const contractsMotalebApi = new (class extends BaseApi {
       contractsMotalebUrls.getLeftData + this.joinFilterData(formData);
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleContractLeftDataItemShape[]>
+    >(url);
+    return response.data;
+  };
+
+  readModalItem = async (formData: any) => {
+    const url =
+      contractsMotalebUrls.getLeftModalItem + this.joinFilterData(formData);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleContractLeftModalDataItemShape[]>
     >(url);
     return response.data;
   };

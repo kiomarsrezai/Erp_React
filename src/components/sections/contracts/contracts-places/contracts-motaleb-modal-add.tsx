@@ -1,6 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { creditRequestApi } from "api/credit/credit-request-api";
-import { GetSingleContractMotalebItemShape } from "types/data/contracts/contracts-motaleb-type";
+import {
+  GetSingleContractLeftModalDataItemShape,
+  GetSingleContractMotalebItemShape,
+} from "types/data/contracts/contracts-motaleb-type";
 import Box from "@mui/material/Box";
 import Popover from "@mui/material/Popover";
 import TextField from "@mui/material/TextField";
@@ -9,6 +12,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import { useEffect, useRef, useState } from "react";
 import FixedTable from "components/data/table/fixed-table";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
+import { contractsMotalebApi } from "api/contracts/contracts-motaleb-api";
 
 interface Props {
   onDoneTask: () => void;
@@ -34,7 +38,6 @@ export default function ContractMotalebModalAdd(props: Props) {
   useEffect(() => {
     clearTimeout(timeoutRef.current);
     if (filterText) {
-      //   setAnchorEl(inputRef.current as any);
       timeoutRef.current = setTimeout(() => {
         setAnchorEl(inputRef.current as any);
       }, 1000);
@@ -87,12 +90,39 @@ export default function ContractMotalebModalAdd(props: Props) {
     },
   ];
 
-  const tableData: any = [];
+  const formatTableData = (
+    unFormatData: GetSingleContractLeftModalDataItemShape[]
+  ): any[] => {
+    const formatedData: any[] = unFormatData.map((item, i) => ({
+      ...item,
+      number: i + 1,
+    }));
+
+    return formatedData;
+  };
+
+  const [tableData, setTableData] = useState<
+    GetSingleContractLeftModalDataItemShape[]
+  >([]);
 
   const filteredItems =
     dataQuery.data?.data
       .filter((item) => item.suppliersName.includes(filterText))
       .filter((_, i) => i < 10) || [];
+
+  //   add
+  const readDataItem = useMutation(contractsMotalebApi.readModalItem, {
+    onSuccess(data) {
+      setTableData(formatTableData(data.data));
+    },
+  });
+  const clickAdd = (id: number) => {
+    readDataItem.mutate({
+      suppliersId: id,
+      reciveBankId: props.activeItem.id,
+    });
+    setAnchorEl(null);
+  };
 
   return (
     <>
@@ -100,7 +130,6 @@ export default function ContractMotalebModalAdd(props: Props) {
         data={tableData}
         heads={tableHeads}
         headGroups={tableHeadGroup}
-        enableVirtual
         notFixed
       />
 
@@ -133,7 +162,11 @@ export default function ContractMotalebModalAdd(props: Props) {
                 key={i}
               >
                 {item.suppliersName}
-                <IconButton onClick={() => {}} size="small" color="primary">
+                <IconButton
+                  onClick={() => clickAdd(item.id)}
+                  size="small"
+                  color="primary"
+                >
                   <CheckIcon />
                 </IconButton>
               </Box>
