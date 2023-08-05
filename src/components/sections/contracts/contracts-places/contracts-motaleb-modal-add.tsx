@@ -11,7 +11,7 @@ import Popover from "@mui/material/Popover";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import CheckIcon from "@mui/icons-material/Check";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import FixedTable from "components/data/table/fixed-table";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { contractsMotalebApi } from "api/contracts/contracts-motaleb-api";
@@ -162,10 +162,6 @@ export default function ContractMotalebModalAdd(props: Props) {
     return formatedData;
   };
 
-  const [tableData, setTableData] = useState<
-    GetSingleContractLeftModalDataItemShape[]
-  >([]);
-
   const filteredItems =
     dataQuery.data?.data
       .filter((item) => item.suppliersName.includes(filterText))
@@ -174,9 +170,14 @@ export default function ContractMotalebModalAdd(props: Props) {
   //   add
   const readDataItem = useMutation(contractsMotalebApi.readModalItem, {
     onSuccess(data) {
-      setTableData(formatTableData(data.data));
+      //   tableData = formatTableData(data.data);
     },
   });
+
+  const tableData: GetSingleContractLeftModalDataItemShape[] = useMemo(() => {
+    return formatTableData(readDataItem.data?.data || []);
+  }, [readDataItem.data?.data, addItemsList]);
+
   const clickAdd = (id: number) => {
     readDataItem.mutate({
       suppliersId: id,

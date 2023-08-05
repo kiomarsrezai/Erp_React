@@ -43,9 +43,11 @@ export const contractsMotalebApi = new (class extends BaseApi {
   };
 
   insertModalItem = async (formData: any) => {
-    const url =
-      contractsMotalebUrls.insertLeftModalItem + this.joinFilterData(formData);
-    const response = await clientAxios.get<BaseApiResponseShape<boolean>>(url);
+    const url = contractsMotalebUrls.insertLeftModalItem;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      formData
+    );
     return response.data;
   };
 })();

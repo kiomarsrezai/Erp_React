@@ -59,6 +59,7 @@ function ContractsMotalebLeftSection(props: Props) {
 
   const handleDoneTask = () => {
     setIsOpenAddModal(false);
+    placesPrivateListQuery.refetch();
   };
 
   // head

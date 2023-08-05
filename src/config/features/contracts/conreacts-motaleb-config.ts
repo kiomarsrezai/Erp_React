@@ -10,5 +10,5 @@ export const contractsMotalebUrls = {
   // left
   getLeftData: "ContractApi/ContractInstallmentsReciveRead",
   getLeftModalItem: "ContractApi/ReciveBankModal",
-  insertLeftModalItem: "ContractApi/ContractInstallmentsReciveInsert,",
+  insertLeftModalItem: "ContractApi/ContractInstallmentsReciveInsert",
 };
