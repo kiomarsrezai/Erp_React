@@ -40,6 +40,8 @@ import {
 import { contractsMotalebApi } from "api/contracts/contracts-motaleb-api";
 import { contractsMotalebConfig } from "config/features/contracts/conreacts-motaleb-config";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
+import ContractMoalebModalAdd from "./contracts-motaleb-modal-add";
+import ContractMotalebModalAdd from "./contracts-motaleb-modal-add";
 
 interface Props {
   activePlaceItem: GetSingleContractMotalebItemShape;
@@ -48,9 +50,28 @@ interface Props {
 function ContractsMotalebLeftSection(props: Props) {
   const { activePlaceItem } = props;
 
+  // modal
+  const [isOpenAddModal, setIsOpenAddModal] = useState(false);
+
+  const handleClickAddBtn = () => {
+    setIsOpenAddModal(true);
+  };
+
+  const handleDoneTask = () => {
+    setIsOpenAddModal(false);
+  };
+
+  // head
   const tableHeads: TableHeadShape = [
     {
-      title: "ردیف",
+      title: (
+        <div>
+          ردیف
+          <IconButton size="small" color="primary" onClick={handleClickAddBtn}>
+            <AddIcon />
+          </IconButton>
+        </div>
+      ),
       name: "row",
     },
     {
@@ -117,6 +138,21 @@ function ContractsMotalebLeftSection(props: Props) {
   return (
     <>
       <FixedTable data={tableData} heads={tableHeads} footer={tableFooter} />
+
+      <FixedModal
+        open={isOpenAddModal}
+        handleClose={() => {
+          setIsOpenAddModal(false);
+        }}
+        title={"افزودن"}
+        // maxWidth="sm"
+        // maxHeight="30%"
+      >
+        <ContractMotalebModalAdd
+          activeItem={activePlaceItem}
+          onDoneTask={handleDoneTask}
+        />
+      </FixedModal>
     </>
   );
 }
