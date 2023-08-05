@@ -14,6 +14,7 @@ import { generalFieldsConfig } from "config/features/general-fields-config";
 import { contractsPlacesApi } from "api/contracts/contracts-places-api";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
+import AmlakKindInput from "components/sections/inputs/amlak-kind-input";
 
 interface Props {
   onDoneTask: () => void;
@@ -26,6 +27,7 @@ export default function ContractPlacesRightModal(props: Props) {
   // form manage
   const [areaValue, setAreaValue] = useState({
     [generalFieldsConfig.AREA]: initialData?.areaId || undefined,
+    amlakInfoKindId: initialData?.amlakInfoKindId,
   });
 
   const formSchema = yup.object({
@@ -99,6 +101,13 @@ export default function ContractPlacesRightModal(props: Props) {
             defaultValue={initialData?.estateInfoName || ""}
             autoComplete="off"
             fullWidth
+          />
+        </Grid>
+
+        <Grid item sm={8}>
+          <AmlakKindInput
+            value={areaValue.amlakInfoKindId as any}
+            setter={setAreaValue}
           />
         </Grid>
 

@@ -26,7 +26,7 @@ function AmlakKindInput(props: AmlakKindInputProps) {
   return (
     <FlotingLabelSelect
       label="نوع"
-      name={trazConfig.kind}
+      name={"amlakInfoKindId"}
       items={inputItems}
       value={value}
       setter={setter}

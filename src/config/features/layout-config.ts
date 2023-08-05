@@ -215,12 +215,12 @@ export const sidenavsLayout: SidenavShape[] = [
     title: "قراردادها",
     icon: CircleIcon,
     items: [
-      {
-        title: "مدیریت قرارداد ها",
-        icon: ManageSearchIcon,
-        path: "/",
-        licenseName: accessNamesConfig.CONTRACT__MANAGE_PAGE,
-      },
+      // {
+      //   title: "مدیریت قرارداد ها",
+      //   icon: ManageSearchIcon,
+      //   path: "/",
+      //   licenseName: accessNamesConfig.CONTRACT__MANAGE_PAGE,
+      // },
       {
         title: "امور قرارداد ها",
         icon: SummarizeIcon,

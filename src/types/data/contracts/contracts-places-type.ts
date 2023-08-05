@@ -4,6 +4,7 @@ export interface GetSingleContractPlacesItemShape {
   estateInfoAddress: string;
   areaId: number;
   areaName: string;
+  amlakInfoKindId: number;
 }
 
 export interface GetSingleContractPlacesPrivateItemShape {

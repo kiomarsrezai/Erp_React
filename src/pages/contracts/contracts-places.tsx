@@ -52,13 +52,14 @@ function ContractsPlaces() {
       name: "number",
     },
     {
-      title: "نام",
-      name: "estateInfoName",
-    },
-    {
       title: "نوع",
       name: "amlakInfoKindName",
     },
+    {
+      title: "نام",
+      name: "estateInfoName",
+    },
+
     {
       title: "آدرس",
       name: "estateInfoAddress",
@@ -175,7 +176,7 @@ function ContractsPlaces() {
     <>
       <AdminLayout>
         <Box display={"flex"}>
-          <Box sx={{ width: "50%", borderRight: 1, borderColor: "grey.400" }}>
+          <Box sx={{ width: "70%", borderRight: 1, borderColor: "grey.400" }}>
             <FixedTable data={tableData} heads={tableHeads} />
           </Box>
           {/* modal 2 */}
@@ -195,7 +196,7 @@ function ContractsPlaces() {
         }}
         title={editInitData?.estateInfoName || "افزودن"}
         maxWidth="sm"
-        maxHeight="50%"
+        maxHeight="30%"
       >
         <ContractPlacesRightModal
           onDoneTask={handleDoneTask}
