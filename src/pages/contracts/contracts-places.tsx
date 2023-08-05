@@ -56,6 +56,10 @@ function ContractsPlaces() {
       name: "estateInfoName",
     },
     {
+      title: "نوع",
+      name: "amlakInfoKindName",
+    },
+    {
       title: "آدرس",
       name: "estateInfoAddress",
       align: "left",

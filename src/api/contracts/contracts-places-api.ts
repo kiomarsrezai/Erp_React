@@ -11,6 +11,7 @@ import {
   InsertContractTaskItemShape,
 } from "types/data/contracts/contracts-tasks-type";
 import {
+  GetSingleContractComItemShape,
   GetSingleContractPlacesItemShape,
   GetSingleContractPlacesPrivateItemShape,
 } from "types/data/contracts/contracts-places-type";
@@ -87,6 +88,15 @@ export const contractsPlacesApi = new (class extends BaseApi {
       url,
       filterData
     );
+    return response.data;
+  };
+
+  // com
+  getComboKind = async () => {
+    const url = contractsPlacesUrls.getCom;
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleContractComItemShape[]>
+    >(url);
     return response.data;
   };
 })();

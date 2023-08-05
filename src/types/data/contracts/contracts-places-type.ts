@@ -11,3 +11,8 @@ export interface GetSingleContractPlacesPrivateItemShape {
   masahat: number;
   numberGhorfe: string;
 }
+
+export interface GetSingleContractComItemShape {
+  id: number;
+  amlakInfoKindName: string;
+}
