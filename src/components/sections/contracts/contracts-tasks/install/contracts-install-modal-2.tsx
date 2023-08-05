@@ -27,7 +27,7 @@ export default function ContractsInstallModal2(props: Props) {
   const { onDoneTask, formData } = props;
 
   const [modalData, setModalData] = useState({
-    date: null,
+    date: new Date(),
     count: 0,
     price: 0,
   });

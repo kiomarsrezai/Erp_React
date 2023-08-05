@@ -54,7 +54,7 @@ export default function ContractsInstallModal(props: Props) {
 
   const handleOpenAddMode = () => {
     setActionData({
-      date: null,
+      date: new Date(),
       amount: 0,
       month: 0,
       yearName: 0,
@@ -146,7 +146,7 @@ export default function ContractsInstallModal(props: Props) {
   ) => {
     setActiveItemAction(item);
     setActionData({
-      date: new Date(item.installmentsDate),
+      date: convertToCalenderDate(item.installmentsDate),
       amount: item.monthlyAmount,
       month: item.monthId,
       yearName: item.yearName,
@@ -233,7 +233,7 @@ export default function ContractsInstallModal(props: Props) {
 
   const dateTextArea = (
     <DatePicker
-      value={actionData.date}
+      value={new Date(actionData.date)}
       label="تاریخ شروع"
       onChange={(newValue: any) =>
         setActionData((state: any) => ({
