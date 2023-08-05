@@ -4,12 +4,14 @@ import {
   GetSingleContractLeftModalDataItemShape,
   GetSingleContractMotalebItemShape,
 } from "types/data/contracts/contracts-motaleb-type";
+import AddIcon from "@mui/icons-material/Add";
 import Box from "@mui/material/Box";
+import Checkbox from "@mui/material/Checkbox";
 import Popover from "@mui/material/Popover";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import CheckIcon from "@mui/icons-material/Check";
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import FixedTable from "components/data/table/fixed-table";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import { contractsMotalebApi } from "api/contracts/contracts-motaleb-api";
@@ -67,9 +69,41 @@ export default function ContractMotalebModalAdd(props: Props) {
     },
   ];
 
+  //   heads
+  const insertMutation = useMutation(contractsMotalebApi.insertModalItem);
+  const handleSaveClick = async () => {
+    let shouldUpdateItems: any = [];
+    for (const key in addItemsList) {
+      const value = addItemsList?.[key];
+      if (value === true) {
+        shouldUpdateItems.push(+key);
+      }
+    }
+    try {
+      await Promise.all(
+        shouldUpdateItems.map((item: any) => {
+          return insertMutation.mutateAsync({
+            reciveBankId: props.activeItem.id,
+            contractInstallmentsId: item,
+          });
+        })
+      );
+    } catch {
+      return props.onDoneTask();
+    }
+    props.onDoneTask();
+  };
+
   const tableHeads: TableHeadShape = [
     {
-      title: "ردیف",
+      title: (
+        <div>
+          ردیف
+          <IconButton color="primary" onClick={handleSaveClick}>
+            <AddIcon />
+          </IconButton>
+        </div>
+      ),
       name: "number",
     },
     {
@@ -90,12 +124,39 @@ export default function ContractMotalebModalAdd(props: Props) {
     },
   ];
 
+  //   data
+  const [addItemsList, setAddItemsList] = useState<any>({});
+  const toggleItem = (e: ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked;
+    const value = e.target.value;
+
+    setAddItemsList((prevState: any) => {
+      const result = {
+        ...prevState,
+        [value]: checked,
+      };
+
+      return result;
+    });
+  };
+
   const formatTableData = (
     unFormatData: GetSingleContractLeftModalDataItemShape[]
   ): any[] => {
     const formatedData: any[] = unFormatData.map((item, i) => ({
       ...item,
-      number: i + 1,
+      number: (
+        <>
+          <Checkbox
+            value={item.id}
+            checked={!!addItemsList[item.id]}
+            onChange={toggleItem}
+            size="small"
+          />
+
+          {i + 1}
+        </>
+      ),
     }));
 
     return formatedData;
