@@ -6,22 +6,11 @@ import Stack from "@mui/material/Stack";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { reactQueryKeys } from "config/react-query-keys-config";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { mettingsProjectApi } from "api/project/meetings-project-api";
-import { Box, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { globalConfig } from "config/global-config";
-import { GetSingleCommiteDetailModalShape } from "types/data/project/commite-project-type";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
-import {
-  contractsTasksConfig,
-  contractsTasksFormDefaultValue,
-} from "config/features/contracts/conreacts-tasks-config";
-import { contractsTasksApi } from "api/contracts/contracts-tasks-api";
-import ContractsTasksForm from "components/sections/contracts/contracts-tasks/contracts-tasks-form";
-import ContractTaskItemCard from "components/sections/contracts/contracts-tasks/contract-task-item-card";
-import TabAreaContract from "components/sections/contracts/contracts-tasks/tabs/areas/tab-area-contract";
 import { TableHeadShape } from "types/table-type";
 import FixedTable from "components/data/table/fixed-table";
 import { GetSingleContractPlacesItemShape } from "types/data/contracts/contracts-places-type";
@@ -31,8 +20,31 @@ import ContractPlacesRightModal from "components/sections/contracts/contracts-ta
 import FixedModal from "components/ui/modal/fixed-modal";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import { enqueueSnackbar } from "notistack";
+import Grid from "@mui/material/Grid";
+import AmlakKindInput from "components/sections/inputs/amlak-kind-input";
 
 function ContractsPlaces() {
+  // head group
+  const [areaValue, setAreaValue] = useState<any>({
+    amlakInfoKindId: undefined,
+  });
+
+  const tableHeadGroup = [
+    {
+      title: (
+        <Grid container columnSpacing={1} rowSpacing={2}>
+          <Grid item sm={4}>
+            <AmlakKindInput
+              value={areaValue.amlakInfoKindId as any}
+              setter={setAreaValue}
+            />
+          </Grid>
+        </Grid>
+      ),
+      colspan: 5,
+    },
+  ];
+
   // heads
   const handleClickAddBtn = () => {
     setEditInitData(undefined);
@@ -51,10 +63,7 @@ function ContractsPlaces() {
       ),
       name: "number",
     },
-    {
-      title: "نوع",
-      name: "amlakInfoKindName",
-    },
+
     {
       title: "نام",
       name: "estateInfoName",
@@ -170,14 +179,22 @@ function ContractsPlaces() {
     return formatedData;
   };
 
-  const tableData = formatTableData(placesListQuery.data?.data || []);
+  const tableData = formatTableData(
+    placesListQuery.data?.data.filter(
+      (item) => item.amlakInfoKindId === areaValue.amlakInfoKindId
+    ) || []
+  );
 
   return (
     <>
       <AdminLayout>
         <Box display={"flex"}>
           <Box sx={{ width: "70%", borderRight: 1, borderColor: "grey.400" }}>
-            <FixedTable data={tableData} heads={tableHeads} />
+            <FixedTable
+              data={tableData}
+              heads={tableHeads}
+              headGroups={tableHeadGroup}
+            />
           </Box>
           {/* modal 2 */}
           <Box sx={{ width: "50%" }}>

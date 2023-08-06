@@ -42,6 +42,23 @@ interface Props {
 function ContractsPlacesLeftSection(props: Props) {
   const { activePlaceItem } = props;
 
+  // head group
+  const tableHeadGroup = [
+    {
+      title: (
+        <Typography
+          display={"flex"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          height={40}
+        >
+          {activePlaceItem.estateInfoName} - {activePlaceItem.estateInfoAddress}
+        </Typography>
+      ),
+      colspan: 4,
+    },
+  ];
+
   // heads
   const handleClickAddBtn = () => {
     setEditInitData(undefined);
@@ -165,7 +182,11 @@ function ContractsPlacesLeftSection(props: Props) {
 
   return (
     <>
-      <FixedTable data={tableData} heads={tableHeads} />
+      <FixedTable
+        data={tableData}
+        heads={tableHeads}
+        headGroups={tableHeadGroup}
+      />
 
       {/* modal */}
       <FixedModal
