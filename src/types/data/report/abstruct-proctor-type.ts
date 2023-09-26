@@ -7,6 +7,10 @@ export interface GetSingleAbstructProctorItemShape {
   percentCurrent: number;
   percentCivil: number;
   percentTotal: number;
+  percentCreditAmountCivil: number;
+  percentCreditAmountCurrent: number;
+  creditAmountCivil: number;
+  creditAmountCurrent: number;
 }
 
 export interface GetSingleAbstructProctorModalDataItemShape {
@@ -18,6 +22,10 @@ export interface GetSingleAbstructProctorModalDataItemShape {
   expenseCivil: number;
   percentCivil: number;
   percentTotal: number;
+  percentCreditAmountCivil: number;
+  percentCreditAmountCurrent: number;
+  creditAmountCivil: number;
+  creditAmountCurrent: number;
 }
 
 export interface GetSingleProctorListShape {
@@ -31,9 +39,20 @@ export interface GetSingleAbstructProctorModalRowDataItemShape {
   mosavab: number;
   expense: number;
   percent: number;
+  supply: number;
 }
 
 export interface GetSingleProctorListShape {
   id: number;
   proctorName: string;
+}
+
+export interface GetSingleAbstructProctorModal1InfoItemShape {
+  number: string;
+  date: string;
+  dateShamsi: string;
+  description: string;
+  estimateAmount: number;
+  code: string;
+  title: string;
 }

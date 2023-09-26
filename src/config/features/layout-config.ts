@@ -41,6 +41,10 @@ import OrgProjectTablePage from "pages/project/table/org-table-page";
 import BudgetEditPage from "pages/budget/budget-edit-page";
 import ContractsTasks from "pages/contracts/contracts-tasks";
 import PropertyMotor from "pages/property/property-motor";
+import SomethingPage from "pages/base/something-page";
+import UserPage from "pages/base/users-page";
+import ContractsPlaces from "pages/contracts/contracts-places";
+import ContractsMotaleb from "pages/contracts/contracts-motaleb";
 
 export const sidenavsLayout: SidenavShape[] = [
   // report
@@ -211,12 +215,12 @@ export const sidenavsLayout: SidenavShape[] = [
     title: "قراردادها",
     icon: CircleIcon,
     items: [
-      {
-        title: "مدیریت قرارداد ها",
-        icon: ManageSearchIcon,
-        path: "/",
-        licenseName: accessNamesConfig.CONTRACT__MANAGE_PAGE,
-      },
+      // {
+      //   title: "مدیریت قرارداد ها",
+      //   icon: ManageSearchIcon,
+      //   path: "/",
+      //   licenseName: accessNamesConfig.CONTRACT__MANAGE_PAGE,
+      // },
       {
         title: "امور قرارداد ها",
         icon: SummarizeIcon,
@@ -226,6 +230,17 @@ export const sidenavsLayout: SidenavShape[] = [
         permissionItems: [
           getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 3),
         ],
+      },
+
+      {
+        title: "وصول مطالبات",
+        icon: SummarizeIcon,
+        path: "/contracts/get-motalbat",
+        licenseName: accessNamesConfig.CONTRACT__GET_MOTALEB_PAGE,
+        element: ContractsMotaleb,
+        // permissionItems: [
+        // getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 3),
+        // ],
       },
     ],
   },
@@ -412,15 +427,16 @@ export const sidenavsLayout: SidenavShape[] = [
     items: [
       {
         title: "معرفی املاک در مسیر",
-        icon: CircleIcon,
         path: "/",
+        icon: CircleIcon,
         licenseName: accessNamesConfig.ESTATE__INTRODUCTION_PAGE,
       },
       {
-        title: "املاک در اختیار شهرداری",
+        title: "املاک اختصاصی شهرداری",
         icon: CircleIcon,
-        path: "/",
+        path: "/places/private",
         licenseName: accessNamesConfig.ESTATE__POSSESSION_PAGE,
+        element: ContractsPlaces,
       },
       {
         title: "آزادسازی",
@@ -526,7 +542,6 @@ export const sidenavsLayout: SidenavShape[] = [
           getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 2),
         ],
       },
-
       {
         title: "مخاطبین",
         icon: GroupsIcon,
@@ -534,6 +549,21 @@ export const sidenavsLayout: SidenavShape[] = [
         licenseName: accessNamesConfig.BASE__USERS_PAGE,
         element: SuppliersPage,
       },
+      {
+        title: "کاربران",
+        icon: GroupsIcon,
+        path: "/base/users",
+        licenseName: accessNamesConfig.BASE__USERS_LIST_PAGE,
+        element: UserPage,
+      },
+      {
+        title: "تاییدکنندگان درخواست ها",
+        icon: GroupsIcon,
+        path: "/base/departman-accepter",
+        licenseName: accessNamesConfig.BASE__DEPARTMAN_ACCEPTER_PAGE,
+        element: SomethingPage,
+      },
+
       {
         title: "مناطق و سازمان ها",
         icon: GroupsIcon,

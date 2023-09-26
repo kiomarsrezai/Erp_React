@@ -40,14 +40,14 @@ interface CreditRequestContractTableProps {
 function CreditRequestContractTable(props: CreditRequestContractTableProps) {
   const { formData, data } = props;
   // select contract modal
-  const [isOpenAddBudgetModal, setIsOpenAddBudgetModal] = useState(false);
-
   const modalDataMutation = useMutation(creditRequestApi.contractModal);
 
+  const [isOpenAddBudgetModal, setIsOpenAddBudgetModal] = useState(false);
+
   const handleClickAdd = () => {
-    // modalDataMutation.mutate({
-    //   [creditRequestConfig.area]: formData[creditRequestConfig.area],
-    // });
+    modalDataMutation.mutate({
+      [creditRequestConfig.area]: formData[creditRequestConfig.area],
+    });
     setIsOpenAddBudgetModal(true);
   };
   // head group
@@ -271,7 +271,7 @@ function CreditRequestContractTable(props: CreditRequestContractTableProps) {
         loading={modalDataMutation.isLoading}
       >
         <CreditRequestContractInsertRowModal
-          // data={modalDataMutation.data?.data || []}
+          data={modalDataMutation.data?.data || []}
           formData={formData}
           onDoneTask={handleDoneTask}
           baseData={data}

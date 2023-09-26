@@ -57,13 +57,24 @@ function BudgetReportDeviation(props: BudgetReportDeviationProps) {
       align: "left",
     },
     {
+      title: "ت اعتبار",
+      name: "creditAmount",
+      split: true,
+      align: "left",
+    },
+    {
+      title: "%",
+      name: "percentCreditAmount",
+      percent: true,
+    },
+    {
       title: "عملکرد",
       name: "expense",
       split: true,
       align: "left",
     },
     {
-      title: "% جذب",
+      title: "%",
       name: "percmosavab",
       percent: true,
     },
@@ -77,6 +88,9 @@ function BudgetReportDeviation(props: BudgetReportDeviationProps) {
       (item, i) => ({
         ...item,
         number: i + 1,
+        "bgcolor-creditAmount": item.creditAmount > item.mosavab && "#d7a2a2",
+        "bgcolor-expense": item.expense > item.mosavab && "#d7a2a2",
+        "textcolor-expense": item.expense > item.creditAmount && "red",
       })
     );
 
@@ -107,6 +121,7 @@ function BudgetReportDeviation(props: BudgetReportDeviationProps) {
   // footer
   const sumMosavab = sumFieldsInSingleItemData(tableData, "mosavab");
   const sumExpense = sumFieldsInSingleItemData(tableData, "expense");
+  const sumCreaditAmount = sumFieldsInSingleItemData(tableData, "creditAmount");
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
     "colspan-number": 4,
@@ -115,6 +130,8 @@ function BudgetReportDeviation(props: BudgetReportDeviationProps) {
     description: null,
     mosavab: sumMosavab,
     expense: sumExpense,
+    creditAmount: sumCreaditAmount,
+    percentCreditAmount: getPercent(sumCreaditAmount, sumMosavab),
     percmosavab: getPercent(sumExpense, sumMosavab),
   };
 

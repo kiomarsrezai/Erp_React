@@ -282,6 +282,15 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
   const handleClickOpenModal1 = (row: any) => {
     setActiveInitialData(row);
     // setDetailModalTitle(`${row.code} - ${row.description}`);
+    setModalTitle(
+      <>
+        {baseModal1Title}
+        <div>
+          {row.projectCode} - {row.projectName}
+        </div>
+      </>
+    );
+
     sepratorModal1Mutation.mutate({
       ...formData,
       [sepratorCreaditorBudgetConfig.coding]: baseCodingId,

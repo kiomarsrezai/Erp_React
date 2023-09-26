@@ -6,7 +6,7 @@ import AdminLayout from "components/layout/admin-layout";
 import BudgetConnectForm from "components/sections/budget/connect/budget-connect-form";
 import { budgetConnectConfig } from "config/features/budget/budget-connect-config";
 import { reactQueryKeys } from "config/react-query-keys-config";
-import { ReactNode, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
 import { GetSingleBudgetConnectItemShape } from "types/data/budget/budget-connect-type";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import EditIcon from "@mui/icons-material/Edit";
@@ -87,11 +87,23 @@ function BudgetConnectPage() {
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const [editModalTitle, setEditModalTitle] = useState("");
 
+  const [activeOpenRowId, setActiveOpenRowId] = useState<number | null>(null);
+  const activeTimeOut = useRef<any>(null);
+
+  const handleCloseModal = () => {
+    activeTimeOut.current = setTimeout(() => {
+      setActiveOpenRowId(null);
+    }, 1000);
+
+    setIsOpenEditModal(false);
+  };
+
   const [editModalInitialData, setEditModalInitialData] =
     useState<GetSingleBudgetConnectItemShape | null>(null);
 
   const openEditModal = (row: GetSingleBudgetConnectItemShape) => {
-    setEditModalTitle(row.description);
+    setEditModalTitle(`${row.code} - ${row.description}`);
+    setActiveOpenRowId(row.id);
     setIsOpenEditModal(true);
     setEditModalInitialData(row);
   };
@@ -117,6 +129,7 @@ function BudgetConnectPage() {
   );
 
   //   data
+
   const formatTableData = (
     unFormatData: GetSingleBudgetConnectItemShape[]
   ): TableDataItemShape[] => {
@@ -128,6 +141,7 @@ function BudgetConnectPage() {
           <span style={{ whiteSpace: "nowrap" }}>{item.proctorName}</span>
         ),
         actions: actionButtons,
+        bgcolor: activeOpenRowId === item.id && "#ffb1b1",
       })
     );
 
@@ -170,10 +184,11 @@ function BudgetConnectPage() {
 
       <FixedModal
         open={isOpenEditModal}
-        handleClose={() => setIsOpenEditModal(false)}
+        handleClose={handleCloseModal}
         title={editModalTitle}
-        maxWidth="md"
-        maxHeight="30%"
+        maxWidth="sm"
+        maxHeight="270px"
+        minHeight="270px"
       >
         <BudgetConnectEditModal
           initialData={editModalInitialData}

@@ -11,10 +11,12 @@ import {
   organItems,
 } from "config/features/general-fields-config";
 import { programProjectConfig } from "config/features/project/program-project-config";
+import { globalConfig } from "config/global-config";
 import {
   reactQueryClient,
   reactQueryKeys,
 } from "config/react-query-keys-config";
+import { enqueueSnackbar } from "notistack";
 
 export const stimulDateValue = () => {
   return new Date().toLocaleDateString("fa-IR-u-nu-latn", {
@@ -23,6 +25,40 @@ export const stimulDateValue = () => {
     second: "numeric",
   });
 };
+
+export const NowDateValue = () => {
+  let nowDate = new Date().toLocaleDateString("fa-IR-u-nu-latn", {
+    hour: "numeric",
+    minute: "numeric",
+  });
+
+  const day = new Date().getDay();
+  switch (day) {
+    case 0:
+      return nowDate + ", یکشنبه ";
+
+    case 1:
+      return nowDate + ", دوشنبه ";
+
+    case 2:
+      return nowDate + ", سه شنبه ";
+
+    case 3:
+      return nowDate + ", چهار شنبه ";
+
+    case 4:
+      return nowDate + ", پنج شنبه ";
+
+    case 5:
+      return nowDate + ", جمعه ";
+
+    case 6:
+      return nowDate + ", شنبه ";
+  }
+
+  return;
+};
+
 export const createStimulsoftFilePath = (name: string) => {
   return "/Stimulsoft/list/" + name;
 };
@@ -146,4 +182,118 @@ export const createImgFromSvg = (selector: string) => {
 
   var imgSource = `data:image/svg+xml;base64,${base64}`;
   return imgSource;
+};
+
+export const checkExcelFont = () => {
+  const exist = document.fonts.check(
+    `16px ${globalConfig.font.excel.checkValue}`
+  );
+  if (!exist) {
+    enqueueSnackbar(globalConfig.font.excel.message, {
+      variant: "warning",
+    });
+  }
+};
+
+export const excelHeaderStyle = {
+  font: { name: globalConfig.font.excel.value, bold: true, sz: 10 },
+  fill: { fgColor: { rgb: "E0E0E0" } },
+  alignment: {
+    // wrapText: true,
+    horizontal: "center",
+    vertical: "center",
+  },
+  border: {
+    top: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+    left: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+    bottom: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+    right: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+  },
+};
+
+export const excelbodyStyle = (
+  rowIndex: number,
+  options: {
+    textAlign?: "left" | "right" | "center";
+    wrapText?: boolean;
+  }
+) => ({
+  font: { name: globalConfig.font.excel.value, sz: 10 },
+  fill: { fgColor: { rgb: rowIndex % 2 === 0 ? "ffffff" : "eeeeee" } },
+  alignment: {
+    wrapText: options.wrapText || false,
+    horizontal: options.textAlign || "center",
+    vertical: "center",
+  },
+  border: {
+    top: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+    left: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+    bottom: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+    right: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+  },
+});
+
+export const excelFooterStyle = {
+  font: { name: globalConfig.font.excel.value, sz: 10 },
+  fill: { fgColor: { rgb: "e0e0e0" } },
+  alignment: {
+    // wrapText: true,
+    horizontal: "center",
+    vertical: "center",
+  },
+  border: {
+    top: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+    left: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+    bottom: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+    right: {
+      style: "thin",
+      color: { rgb: "bdbdbd" },
+    },
+  },
+};
+
+export const excelFitToColumn = (arrayOfArray: any) => {
+  const a = arrayOfArray[0].map((a: any, i: any) => ({
+    wch: Math.min(
+      Math.max(
+        ...arrayOfArray.map((a2: any) => (a2[i].v.toString().length || 0) + 2)
+      ),
+      80
+    ),
+  }));
+  // debugger
+  return a;
 };

@@ -14,6 +14,7 @@ export const accessNamesConfig = {
   BUDGET__SEPRATOR_PAGE_PROJECT_SEARCH_BTN: "project-search-btn",
   BUDGET__SEPRATOR_PAGE_PROJECT_USER_ADD_BTN: "project-user-add-btn",
   BUDGET__SEPRATOR_PAGE_PROJECT_USER_EDIT_BTN: "project-user-edit-btn",
+  BUDGET__SEPRATOR_PAGE_PROJECT_USER_DELETE_BTN: "project-user-delete-btn",
   BUDGET__SEPRATOR_PAGE_EDIT_CODING_BTN: "coding-edit-btn",
   BUDGET__SEPRATOR_PAGE_FIX_CODE: "project-fix-code",
   BUDGET__SEPRATOR_PAGE_FIX_MOSAVAB: "project-fix-mosavab",
@@ -44,6 +45,7 @@ export const accessNamesConfig = {
   BUDGET__REPORT_PAGE_REVENUE_SEP_DETAIL: "sep-detail",
 
   BUDGET__REPORT_PAGE_ABSTRUCT: "budget-report-abstruct",
+  BUDGET__REPORT_PAGE_ABSTRUCT_CREDIT_BTN: "credit",
 
   BUDGET__REPORT_PAGE_SUMMARY: "budget-report-summary",
   BUDGET__REPORT_PAGE_SUMMARY_KIND: "budget-kind",
@@ -58,11 +60,14 @@ export const accessNamesConfig = {
   BUDGET__REPORT_PAGE_PROJECT_SCALE: "budget-report-scale",
 
   BUDGET__REPORT_PAGE_EXPENSE_ORGAN: "budget-report-expense-organ",
+  BUDGET__REPORT_PAGE_EXPENSE_ORGAN_BASE_EXCEL: "base-excel",
 
   // contracts
   CONTRACT__MANAGE_PAGE: "contract-manage",
 
   CONTRACT__REPORT_PAGE: "contract-report",
+
+  CONTRACT__GET_MOTALEB_PAGE: "contract-get-motaleb",
 
   // financial
   FINANCIAL__ACCOUNTS_PAGE: "financial-accounts",
@@ -144,6 +149,10 @@ export const accessNamesConfig = {
 
   BASE__USERS_PAGE: "base-users",
 
+  BASE__USERS_LIST_PAGE: "base-users-list",
+
+  BASE__DEPARTMAN_ACCEPTER_PAGE: "base-departman-accepter",
+
   BASE__ORGAN_PAGE: "base-organ",
 
   // others
@@ -157,4 +166,5 @@ export const accessNamesConfig = {
   FIELD_BUDGET_METHOD: "budget-method",
   FIELD_ORGAN: "organ",
   FIELD_AREA: "area",
+  FIELD_PROCTOR: "proctor",
 };

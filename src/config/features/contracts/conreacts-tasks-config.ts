@@ -25,6 +25,12 @@ export const contractsTasksUrls = {
   areaInsert: "ContractApi/ContractAreaInsert",
   areaDelete: "ContractApi/ContractAreaDelete",
   areaEdit: "ContractApi/ContractAreaUpdate",
+
+  // install
+  installRead: "ContractApi/ContractInstallmentsRead",
+  insertInstal: "ContractApi/ContractInstallmentsInsert",
+  deleteInstal: "ContractApi/ContractInstallmentsDelete",
+  updateInstal: "ContractApi/ContractInstallmentsUpdate",
 };
 
 export const contractsTasksFormDefaultValue = {
@@ -32,12 +38,12 @@ export const contractsTasksFormDefaultValue = {
   [contractsTasksConfig.area]: null,
   [contractsTasksConfig.area_name]: "",
   [contractsTasksConfig.doing_method]: null,
-  [contractsTasksConfig.date]: undefined, // new Date(),
+  [contractsTasksConfig.date]: new Date(), // new Date(),
   [contractsTasksConfig.description]: "",
   [contractsTasksConfig.suppliers_id]: undefined,
   [contractsTasksConfig.suppliers_name]: "",
   [contractsTasksConfig.number]: "",
-  [contractsTasksConfig.date_from]: undefined, // new Date(),
-  [contractsTasksConfig.date_end]: undefined, // new Date(),
+  [contractsTasksConfig.date_from]: new Date(), // new Date(),
+  [contractsTasksConfig.date_end]: new Date(), // new Date(),
   [contractsTasksConfig.amount]: "",
 };

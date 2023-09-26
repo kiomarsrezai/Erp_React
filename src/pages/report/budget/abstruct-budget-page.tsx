@@ -38,44 +38,124 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
 
   const [formData, setFormData] = useState({
     [abstructBudgetConfig.YEAR]: undefined,
-    [abstructBudgetConfig.KIND]: 1, //undefined,
-    [abstructBudgetConfig.ORGAN]: 1, //undefined,
+    // [abstructBudgetConfig.KIND]: 1, //undefined,
+    // [abstructBudgetConfig.ORGAN]: 1, //undefined,
     [generalFieldsConfig.numbers]: 1,
   });
+
+  const tableHeadGroups: TableHeadGroupShape = [
+    {
+      title: "ردیف",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "منطقه",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "درآمد",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "سهم متمرکز",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "دریافت از خزانه",
+      colspan: 2,
+      align: "center",
+    },
+    {
+      title: "جمع منابع",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "هزینه ای",
+      colspan: 2,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "تملک سرمایه ای",
+      colspan: 2,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "تملک مالی",
+      colspan: 2,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "دیون سنواتی",
+      colspan: 2,
+      rowspan: 2,
+      align: "center",
+    },
+    {
+      title: "کنترل موازنه",
+      colspan: 1,
+      rowspan: 2,
+      align: "center",
+    },
+  ];
 
   const tableHeads: TableHeadShape = [
     {
       title: "ردیف",
       name: "number",
+      hiddenSelf: true,
     },
     {
       title: "منطقه",
       name: "areaName",
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "درآمد",
       name: "mosavabRevenue",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "سهم متمرکز",
       name: "mosavabPayMotomarkez",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
     {
-      title: "دریافت از خزانه",
+      title: "از محل متمرکز",
       name: "mosavabDar_Khazane",
       split: true,
       align: "left",
+    },
+    {
+      title: "از محل نیابتی",
+      name: "mosavabNeyabati",
+      split: true,
+      align: "left",
+      forceHaveBorder: true,
     },
     {
       title: "جمع منابع",
       name: "resoures",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
     {
       title: "هزینه ای",
@@ -83,6 +163,7 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
       split: true,
       align: "left",
       colspan: 2,
+      hiddenSelf: true,
     },
     {
       title: "هزینه ای",
@@ -96,6 +177,7 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
       split: true,
       align: "left",
       colspan: 2,
+      hiddenSelf: true,
     },
     {
       title: "تملک سرمایه ای",
@@ -109,6 +191,7 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
       split: true,
       align: "left",
       colspan: 2,
+      hiddenSelf: true,
     },
     {
       title: "تملک مالی",
@@ -122,6 +205,7 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
       split: true,
       align: "left",
       colspan: 2,
+      hiddenSelf: true,
     },
     {
       title: "دیون سنواتی",
@@ -134,6 +218,7 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
       name: "balanceMosavab",
       split: true,
       align: "left",
+      hiddenSelf: true,
     },
   ];
 
@@ -206,6 +291,12 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
     : [];
 
   // footer
+
+  const sumMosavabNeyabatiShahrdari = sumFieldsInSingleItemData(
+    abstractQuery.data?.data,
+    "mosavabNeyabati",
+    (item: GetSingleAbstructBudgetItemShape) => item.id <= 10
+  );
   const sumMosavabCurrentShahrdari = sumFieldsInSingleItemData(
     abstractQuery.data?.data,
     "mosavabCurrent",
@@ -265,6 +356,11 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
     "mosavabCurrent",
     (item: GetSingleAbstructBudgetItemShape) => item.id > 10
   );
+  const sumMosavabNeyabatiSazman = sumFieldsInSingleItemData(
+    abstractQuery.data?.data,
+    "mosavabNeyabati",
+    (item: GetSingleAbstructBudgetItemShape) => item.id > 10
+  );
 
   const sumMosavabCivilSazman = sumFieldsInSingleItemData(
     abstractQuery.data?.data,
@@ -319,6 +415,7 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
     number: "جمع شهرداری",
     "colspan-number": 2,
     areaName: null,
+    mosavabNeyabati: sumMosavabNeyabatiShahrdari,
     mosavabCurrent: sumMosavabCurrentShahrdari,
     percent_mosavabCurrent: getPercent(
       sumMosavabCurrentShahrdari,
@@ -350,6 +447,7 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
     number: "جمع سازمان",
     "colspan-number": 2,
     areaName: null,
+    mosavabNeyabati: sumMosavabNeyabatiSazman,
     mosavabCurrent: sumMosavabCurrentSazman,
     percent_mosavabCurrent: getPercent(
       sumMosavabCurrentSazman,
@@ -374,10 +472,21 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
     resoures: sumResourcesSazman,
   };
 
+  const sumMosavabPayMotomarkezKol =
+    sumMosavabPayMotomarkezShahrdari + sumMosavabPayMotomarkezSazman;
+
+  const sumMosavabDarKhazaneKol =
+    sumMosavabDar_KhazaneShahrdari + sumMosavabDar_KhazaneSazman;
+
   const tableMoreBottomFooter: TableDataItemShape | any = {
     number: "جمع کل",
     "colspan-number": 2,
+    "bgcolor-mosavabPayMotomarkez":
+      sumMosavabPayMotomarkezKol !== sumMosavabDarKhazaneKol && "#d7a2a2",
+    "bgcolor-mosavabDar_Khazane":
+      sumMosavabPayMotomarkezKol !== sumMosavabDarKhazaneKol && "#d7a2a2",
     areaName: null,
+    mosavabNeyabati: sumMosavabNeyabatiSazman + sumMosavabNeyabatiShahrdari,
     mosavabCurrent: sumMosavabCurrentShahrdari + sumMosavabCurrentSazman,
     percent_mosavabCurrent: getPercent(
       sumMosavabCurrentShahrdari + sumMosavabCurrentSazman,
@@ -394,21 +503,19 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
       sumResourcesShahrdari + sumResourcesSazman
     ),
     mosavabRevenue: sumMosavabRevenueShahrdari + sumMosavabRevenueSazman,
-    mosavabDar_Khazane:
-      sumMosavabDar_KhazaneShahrdari + sumMosavabDar_KhazaneSazman,
+    mosavabDar_Khazane: sumMosavabDarKhazaneKol,
     mosavabSanavati: sumMosavabSanavatiShahrdari + sumMosavabSanavatiSazman,
     percent_mosavabSanavati: getPercent(
       sumMosavabSanavatiShahrdari + sumMosavabSanavatiSazman,
       sumResourcesShahrdari + sumResourcesSazman
     ),
-    mosavabPayMotomarkez:
-      sumMosavabPayMotomarkezShahrdari + sumMosavabPayMotomarkezSazman,
+    mosavabPayMotomarkez: sumMosavabPayMotomarkezKol,
     balanceMosavab: sumBalanceMosavabShahrdari + sumBalanceMosavabSazman,
     resoures: sumResourcesShahrdari + sumResourcesSazman,
   };
 
   // head group
-  const tableHeadGroups: TableHeadGroupShape = [
+  const tableTopHeadGroups: TableHeadGroupShape = [
     {
       title: (
         <AbstructBudgetForm
@@ -431,6 +538,7 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
     // <AdminLayout>
     <FixedTable
       heads={tableHeads}
+      topHeadGroups={tableTopHeadGroups}
       headGroups={tableHeadGroups}
       footer={tableFooter}
       bottomFooter={tableBottomFooter}

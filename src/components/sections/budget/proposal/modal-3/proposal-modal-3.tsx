@@ -17,13 +17,14 @@ import {
 } from "types/data/budget/proposal-type";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { proposalConfig } from "config/features/budget/proposal-config";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { areaGeneralApi } from "api/general/area-general-api";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import { proposalBudgetApi } from "api/budget/proposal-api";
 import { globalConfig } from "config/global-config";
 import { enqueueSnackbar } from "notistack";
 import { Box, TextField } from "@mui/material";
+import { reactQueryKeys } from "config/react-query-keys-config";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -55,7 +56,15 @@ function ProposalModal3(props: ProposalModal3Props) {
     setIsOpenSearchModal(true);
   };
 
-  const dataMutation = useMutation(proposalBudgetApi.getLevel5DetailData);
+  const queryClient = useQueryClient();
+
+  const dataMutation = useMutation(proposalBudgetApi.getLevel5DetailData, {
+    onSuccess(data) {
+      queryClient?.setQueryData(reactQueryKeys.budget.proposal.getModal3Data, {
+        data: data.data,
+      });
+    },
+  });
 
   const handleDoneModal3Task = () => {
     dataMutation.mutate({
@@ -96,20 +105,21 @@ function ProposalModal3(props: ProposalModal3Props) {
       name: "mosavab",
       align: "left",
       split: true,
-      width: "150px",
+      width: "180px",
     },
     {
       title: "اصلاح",
       name: "edit",
       align: "left",
       split: true,
-      width: "150px",
+      width: "180px",
     },
     {
       title: "ت اعتبار",
       name: "creditAmount",
       split: true,
       align: "left",
+      width: "180px",
       hidden: formData[proposalConfig.BUDGET_METHOD] === 1,
     },
     {
@@ -117,6 +127,7 @@ function ProposalModal3(props: ProposalModal3Props) {
       name: "expense",
       align: "left",
       split: true,
+      width: "180px",
     },
     {
       title: "% جذب",
@@ -339,9 +350,15 @@ function ProposalModal3(props: ProposalModal3Props) {
     return formatedData;
   };
 
-  const tableData = dataMutation.data?.data
-    ? formatTableData(dataMutation.data.data)
-    : formatTableData(data);
+  const modal3DataQuery = useQuery(
+    reactQueryKeys.budget.proposal.getModal3Data,
+    () => proposalBudgetApi.getLevel5DetailData({}),
+    {
+      enabled: false,
+    }
+  );
+
+  const tableData = formatTableData(modal3DataQuery.data?.data || data);
 
   // footer
   const sumMosavab = sumFieldsInSingleItemData(

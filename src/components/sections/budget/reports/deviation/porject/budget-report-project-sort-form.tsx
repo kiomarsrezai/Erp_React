@@ -124,16 +124,22 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
       const filteredData = [...printData.data].splice(0, rowPrintCount);
       const sumMosavab = sumFieldsInSingleItemData(filteredData, "mosavab");
       const sumExpense = sumFieldsInSingleItemData(filteredData, "expense");
+      const sumCreditAmount = sumFieldsInSingleItemData(
+        filteredData,
+        "creditAmount"
+      );
 
       const tableFooter: any = {
         number: "جمع",
         "colspan-number": 3,
         code: null,
         areaName: "",
-        jazb: getPercent(sumExpense, sumMosavab),
+        percent: getPercent(sumExpense, sumMosavab),
         description: null,
         mosavab: sumMosavab,
         expense: sumExpense,
+        creditAmount: sumCreditAmount,
+        percentCreditAmount: getPercent(sumCreditAmount, sumMosavab),
       };
 
       const yearLabel = getGeneralFieldItemYear(formData, 1);
@@ -189,7 +195,7 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
                 accessNamesConfig.BUDGET__REPORT_PAGE,
                 accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SORT,
               ])}
-              showError={false}
+              showError={haveSubmitedForm}
             />
           </Grid>
         </SectionGuard>
@@ -235,12 +241,12 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
         </Grid>
         {/* </SectionGuard> */}
 
-        <Grid xs={2}>
+        {/* <Grid xs={2}>
           <BudgetSortKindInput
             setter={setFormData}
             value={formData[budgetProjectSortConfig.kind] as any}
           />
-        </Grid>
+        </Grid> */}
 
         <Grid xs>
           <LoadingButton
@@ -295,7 +301,8 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
               />
             </Box>
           </Popover>
-
+        </Grid>
+        <Grid xs={2}>
           <TextField
             size="small"
             label="جستجو"

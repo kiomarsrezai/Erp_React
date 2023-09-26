@@ -17,4 +17,5 @@ export const sepratorCreaditorBudgetUrl = {
   getCombo: "BudSepApi/BudgetSeperatorDepartmentCom",
   connectOne: "BudSepApi/SepratorAreaDepartmentInsert",
   updateOne: "BudSepApi/BudgetSepratorAreaDepartmantUpdate",
+  deleteOne: "BudSepApi/SepratorAreaDepartmentDelete",
 };

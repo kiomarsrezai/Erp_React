@@ -5,4 +5,6 @@ export interface GetSingleBudgetDeviationItemShape {
   mosavab: number;
   expense: number;
   percmosavab: number;
+  percentCreditAmount: number;
+  creditAmount: number;
 }

@@ -4,9 +4,12 @@ import { BaseApi } from "api/base-api";
 import { BaseApiResponseShape } from "types/base-type";
 import {
   GetSingleDetailSepratorItemShape,
+  GetSingleSepratorAbstructItemShape,
   GetSingleSepratorAccItemShape,
   GetSingleSepratorAreaItemShape,
+  GetSingleSepratorConfrimItemShape,
   GetSingleSepratorItemShape,
+  GetSingleSepratorMonthlyItemShape,
   GetSingleSepratorMosavabItemShape,
   GetSingleSepratorProjectItemShape,
   GetSingleSepratorTaminItemShape,
@@ -168,6 +171,42 @@ export const sepratorBudgetApi = new (class extends BaseApi {
       "BudSepApi/MosavabManualUpdate",
       formdata
     );
+    return response.data;
+  };
+
+  // confirm
+  confrimDataRead = async (formdata: any) => {
+    const url = sepratorBudgetUrl.confrimData + this.joinFilterData(formdata);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleSepratorConfrimItemShape[]>
+    >(url);
+    return response.data;
+  };
+
+  confrimUpdate = async (formdata: any) => {
+    const url = sepratorBudgetUrl.confrimUpdate;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      formdata
+    );
+    return response.data;
+  };
+
+  // abstruct
+  abstructBudgetRead = async (formdata: any) => {
+    const url = sepratorBudgetUrl.abstructData + this.joinFilterData(formdata);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleSepratorAbstructItemShape[]>
+    >(url);
+    return response.data;
+  };
+
+  // monthly
+  monthlyPerformance = async (formdata: any) => {
+    const url = sepratorBudgetUrl.getMonthly + this.joinFilterData(formdata);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleSepratorMonthlyItemShape[]>
+    >(url);
     return response.data;
   };
 })();

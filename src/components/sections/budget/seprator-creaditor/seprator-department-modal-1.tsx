@@ -7,6 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import { ReactNode, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
@@ -28,6 +29,7 @@ import SepratorUpdateModal from "./seprator-update-modal";
 import SectionGuard from "components/auth/section-guard";
 import { joinPermissions } from "helper/auth-utils";
 import { accessNamesConfig } from "config/access-names-config";
+import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 
 interface SepratorDepratmentModal1props {
   data: any[];
@@ -58,6 +60,7 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
     setIsOpenCreaditModal(false);
     setIsOpenUpdateModal(false);
     setActiveIdUpdate(null);
+    onCancelDeleteModal();
 
     sepratorModal1Mutation.mutate({
       ...formData,
@@ -150,6 +153,35 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
     }
   };
 
+  // delete
+  const [removeItemId, setRemoveItemId] = useState<null | number>(null);
+  const [confrimRemoveText, setConfrimRemoveText] = useState<string>("");
+
+  const removeMutation = useMutation(sepratorCreaditorBudgetApi.deleteOne, {
+    onSuccess: () => {
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+      handleDoneTask();
+    },
+  });
+
+  const onConfrimDeleteModal = () => {
+    removeMutation.mutate({
+      id: removeItemId,
+    });
+    onCancelDeleteModal();
+  };
+  const onCancelDeleteModal = () => {
+    setRemoveItemId(null);
+  };
+
+  const handleDeleteClick = (row: any) => {
+    const text = `آیا مایل به حذف کردن ردیف ${row.departmentName} هستید ؟`;
+    setConfrimRemoveText(text);
+    setRemoveItemId(row.id);
+  };
+
   // actions
   const actionButtons = (row: any) => (
     <Box display={"flex"} justifyContent={"center"}>
@@ -172,22 +204,41 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
           </IconButton>
         </>
       ) : (
-        <SectionGuard
-          permission={joinPermissions([
-            accessNamesConfig.BUDGET__SEPRATOR_PAGE,
-            accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_BTN,
-            accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_BTN,
-            accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_EDIT_BTN,
-          ])}
-        >
-          <IconButton
-            color="primary"
-            size="small"
-            onClick={() => openEditFunctionality(row)}
+        <>
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.BUDGET__SEPRATOR_PAGE,
+              accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_BTN,
+              accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_BTN,
+              accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_DELETE_BTN,
+            ])}
           >
-            <EditIcon />
-          </IconButton>
-        </SectionGuard>
+            <IconButton
+              size="small"
+              color="error"
+              onClick={() => handleDeleteClick(row)}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </SectionGuard>
+
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.BUDGET__SEPRATOR_PAGE,
+              accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_BTN,
+              accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_BTN,
+              accessNamesConfig.BUDGET__SEPRATOR_PAGE_PROJECT_USER_EDIT_BTN,
+            ])}
+          >
+            <IconButton
+              color="primary"
+              size="small"
+              onClick={() => openEditFunctionality(row)}
+            >
+              <EditIcon />
+            </IconButton>
+          </SectionGuard>
+        </>
       )}
     </Box>
   );
@@ -319,6 +370,14 @@ function SepratorDepratmentModal1(props: SepratorDepratmentModal1props) {
           onDoneTask={handleDoneTask}
         />
       </FixedModal>
+
+      {/* remove detail item modal*/}
+      <ConfrimProcessModal
+        open={removeItemId !== null}
+        onCancel={onCancelDeleteModal}
+        onConfrim={onConfrimDeleteModal}
+        text={confrimRemoveText}
+      />
     </>
   );
 }

@@ -7,6 +7,7 @@ import { contractsTasksUrls } from "config/features/contracts/conreacts-tasks-co
 import {
   GetSingleContractTaskItemShape,
   GetSingleSearchContractTaskAreaItemShape,
+  GetSingleSearchContractTaskInstallItemShape,
   GetSingleSearchContractTaskItemShape,
   InsertContractTaskItemShape,
 } from "types/data/contracts/contracts-tasks-type";
@@ -83,6 +84,43 @@ export const contractsTasksApi = new (class extends BaseApi {
 
   areaEdit = async (filterData: any) => {
     const url = contractsTasksUrls.areaEdit;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      filterData
+    );
+    return response.data;
+  };
+
+  // install
+  installRead = async (filterData: any) => {
+    const url =
+      contractsTasksUrls.installRead + this.joinFilterData(filterData);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleSearchContractTaskInstallItemShape[]>
+    >(url);
+    return response.data;
+  };
+
+  insertInstall = async (filterData: any) => {
+    const url = contractsTasksUrls.insertInstal;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      filterData
+    );
+    return response.data;
+  };
+
+  updateInstall = async (filterData: any) => {
+    const url = contractsTasksUrls.updateInstal;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      filterData
+    );
+    return response.data;
+  };
+
+  deleteInstall = async (filterData: any) => {
+    const url = contractsTasksUrls.deleteInstal;
     const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
       url,
       filterData

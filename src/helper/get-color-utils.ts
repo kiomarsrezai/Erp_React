@@ -21,7 +21,7 @@ export const getBgColorBudget = (levelNumber: number, budgetMethod: number) => {
   }
 
   if (levelNumber === 6 && (budgetMethod === 1 || budgetMethod === 9)) {
-    return "rgb(243 243 202,var(--hover-color))";
+    return "#fff"; // "rgb(243,243,202,var(--hover-color))";
   }
 
   // budget method 2
@@ -63,7 +63,7 @@ export const getBgColorBudget = (levelNumber: number, budgetMethod: number) => {
   }
 
   if (levelNumber === 6 && budgetMethod === 3) {
-    return "rgb(243 243 202,var(--hover-color))";
+    return "#fff"; // "rgb(243,243,202,var(--hover-color))";
   }
 
   // budget method 4
@@ -82,4 +82,6 @@ export const getBgColorBudget = (levelNumber: number, budgetMethod: number) => {
   if (levelNumber === 4 && budgetMethod === 4) {
     return "#fff";
   }
+
+  return "#fff";
 };

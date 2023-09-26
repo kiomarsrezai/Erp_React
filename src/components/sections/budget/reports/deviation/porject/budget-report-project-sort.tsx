@@ -2,14 +2,19 @@ import FixedTable from "components/data/table/fixed-table";
 import { ReactNode, useState } from "react";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import BudgetReportProjectSortForm from "./budget-report-project-sort-form";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import {
   getPercent,
   getPercentFloat,
   sumFieldsInSingleItemData,
 } from "helper/calculate-utils";
 import { budgetProjectSortConfig } from "config/features/budget/report/budget-project-sort-config";
+import FixedModal from "components/ui/modal/fixed-modal";
+import BudgetReportProjectSortModal1 from "./budget-report-project-sort-modal1";
+import { budgetProjectSortApi } from "api/report/budget-project-sort-api";
+import { IconButton } from "@mui/material";
 
 interface BudgetReportProjectSortProps {
   tabRender?: ReactNode;
@@ -22,7 +27,7 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
     [budgetProjectSortConfig.year]: undefined,
     [budgetProjectSortConfig.area]: undefined,
     [budgetProjectSortConfig.budget]: undefined,
-    [budgetProjectSortConfig.kind]: 1,
+    // [budgetProjectSortConfig.kind]: 1,
   });
 
   // head
@@ -52,6 +57,19 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
       width: "150px",
     },
     {
+      title: "ت اعتبار",
+      name: "creditAmount",
+      split: true,
+      align: "left",
+      width: "150px",
+    },
+    {
+      title: "%",
+      name: "percentCreditAmount",
+      percent: true,
+      width: "80px",
+    },
+    {
       title: "عملکرد",
       name: "expense",
       split: true,
@@ -59,8 +77,8 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
       width: "150px",
     },
     {
-      title: "% جذب",
-      name: "jazb",
+      title: "%",
+      name: "percent",
       percent: true,
       width: "80px",
     },
@@ -77,6 +95,11 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
     {
       title: "تجمیع",
       name: "sum",
+      width: "100px",
+    },
+    {
+      title: "عملیات",
+      name: "actions",
       width: "100px",
     },
   ];
@@ -105,29 +128,48 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
     "expense"
   );
 
+  const sumCreaditAmount = sumFieldsInSingleItemData(
+    dataQuery.data?.data || [],
+    "creditAmount"
+  );
+
   const tableFooter: any = {
     number: "جمع",
     "colspan-number": 3,
     code: null,
     areaName: "",
-    jazb: getPercent(sumExpense, sumMosavab),
+    percent: getPercent(sumExpense, sumMosavab),
     description: null,
     mosavab: sumMosavab,
     expense: sumExpense,
+    creditAmount: sumCreaditAmount,
+    percentCreditAmount: getPercent(sumCreaditAmount, sumMosavab),
   };
 
   // table data
+  const actionButtons = (row: any) => {
+    return (
+      <IconButton
+        size="small"
+        color="primary"
+        onClick={() => handleOpenModal(row)}
+      >
+        <FormatListBulletedIcon />
+      </IconButton>
+    );
+  };
   let CalculatedMosavab = 0;
   const formatTableData = (unFormatData: any): any => {
     const formatedData: any = unFormatData.map((item: any, i: any) => {
       const result = {
         ...item,
         share: getPercentFloat(item.mosavab, sumMosavab, 1) + "%",
-        jazb: getPercent(item.expense, item.mosavab),
+        percent: getPercent(item.expense, item.mosavab),
         sum:
           getPercentFloat(item.mosavab + CalculatedMosavab, sumMosavab, 1) +
           "%",
         number: i + 1,
+        actions: () => actionButtons(item),
       };
 
       CalculatedMosavab += item.mosavab;
@@ -153,19 +195,51 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
           }}
         />
       ),
-      colspan: 9,
+      colspan: 12,
     },
   ];
 
+  // modal
+  const dataModalMutation = useMutation(budgetProjectSortApi.getDataModal1);
+
+  const [isOpenModal1, setIsOpenModal1] = useState(false);
+  const [titleModal, setTitleModal] = useState("");
+  const handleOpenModal = (item: any) => {
+    setTitleModal(`${item.code} - ${item.description}`);
+    dataModalMutation.mutate({
+      [budgetProjectSortConfig.year]: formData[budgetProjectSortConfig.year],
+      [budgetProjectSortConfig.area]: formData[budgetProjectSortConfig.area],
+      [budgetProjectSortConfig.coding]: item.codingId,
+    });
+    setIsOpenModal1(true);
+  };
+
+  const handleCloseModal1 = () => {
+    setIsOpenModal1(false);
+  };
+
   return (
-    <FixedTable
-      heads={tableHeads}
-      headGroups={tableHeadGroups}
-      footer={tableFooter}
-      data={tableData}
-      tableLayout="auto"
-      enableVirtual
-    />
+    <>
+      <FixedTable
+        heads={tableHeads}
+        headGroups={tableHeadGroups}
+        footer={tableFooter}
+        data={tableData}
+        tableLayout="auto"
+        enableVirtual
+      />
+
+      <FixedModal
+        open={isOpenModal1}
+        handleClose={handleCloseModal1}
+        title={titleModal}
+        loading={dataModalMutation.isLoading}
+      >
+        <BudgetReportProjectSortModal1
+          data={dataModalMutation.data?.data || []}
+        />
+      </FixedModal>
+    </>
   );
 }
 

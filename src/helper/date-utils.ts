@@ -5,7 +5,7 @@ export const convertToJalaliDate = (date: string, full: boolean = false) => {
   return moment.from(date, "en").locale("fa").format(format);
 };
 
-export const convertToCalenderDate = (date: string) => {
+export const convertToCalenderDate = (date: string | null) => {
   if (date === null) {
     return new Date();
   }
@@ -16,4 +16,26 @@ export const convertToCalenderDate = (date: string) => {
   }
 
   return date;
+};
+
+export const dateCrossedMonth = (
+  date: string | null,
+  month: number | string | null
+) => {
+  if (!date || !month) return false;
+
+  const convertedMonth = Number(
+    moment
+      .from(date.split("/").reverse().join("/"), "en")
+      .locale("fa")
+      .format("MM")
+  );
+
+  // const convertedYear = Number(
+  //   moment
+  //     .from(date.split("/").reverse().join("/"), "en")
+  //     .locale("fa")
+  //     .format("YYYY")
+  // );
+  return convertedMonth > Number(month);
 };

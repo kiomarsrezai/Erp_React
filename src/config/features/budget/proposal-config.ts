@@ -6,12 +6,15 @@ export const proposalConfig = {
   BUDGET_METHOD: generalFieldsConfig.BUDGET_METHOD,
   organ: "structureId",
   coding: "codingId",
+  code: "code",
   project: "projectId",
   ID: "id",
   motherid: "motherid",
   program: "programOperationDetailsId",
   detailId: "budgetDetailId",
   area_public: "areaPublicId",
+  description: "description",
+  mosavab: "mosavab",
 };
 
 export const proposalModal1EditConfig = {
@@ -41,4 +44,8 @@ export const propsalBudgetUrls = {
 
   // info modal
   getInfo: "BudgetApi/BudgetCodingInfoModalRead",
+
+  // insert
+  insertCode: "BudgetApi/BudgetInlineInsert",
+  projectsCodeData: "BudgetApi/BudgetInlineInsertModal",
 };

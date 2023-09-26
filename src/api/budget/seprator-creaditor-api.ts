@@ -54,4 +54,13 @@ export const sepratorCreaditorBudgetApi = new (class extends BaseApi {
     );
     return response.data;
   };
+
+  deleteOne = async (data: any) => {
+    const url = sepratorCreaditorBudgetUrl.deleteOne;
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+      url,
+      data
+    );
+    return response.data;
+  };
 })();

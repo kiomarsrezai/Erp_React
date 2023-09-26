@@ -18,6 +18,10 @@ export const sepratorBudgetUrl = {
   codingUpdate: "BudSepApi/CodingUpdate",
   areaProjectArea: "BudSepApi/BudgetSepratorAreaProjectModal2",
   areaProjectAreaUpdate: "BudSepApi/BudgetSepratorAreaProjectModal_Update",
+  confrimData: "BudSepApi/BudgetPerformanceAccept",
+  confrimUpdate: "BudSepApi/BudgetPerformanceAcceptUpdate",
+  abstructData: "BudSepApi/BudgetSepratorAbstractAreaModal",
+  getMonthly: "BudSepApi/AbstractPerformanceMonthly",
 };
 
 export const SEPRATOR_BUDGET_URL = "BudSepApi/FetchSeprator";

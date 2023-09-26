@@ -17,6 +17,7 @@ import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { numberWithCommas } from "helper/calculate-utils";
 import { globalConfig } from "config/global-config";
 import classNames from "classnames";
+import { Tooltip } from "@mui/material";
 
 const formatDataCell = (
   nameCell: (
@@ -307,6 +308,7 @@ function FixedTable(props: FixedTableProps) {
           align={item.align || "center"}
           key={i}
           dir={typeof row[name] === "number" ? "ltr" : "rtl"}
+          // title="salam"
           onClick={
             clickCell
               ? (e) => e.ctrlKey && clickCell(name as any, row as any)
@@ -323,7 +325,13 @@ function FixedTable(props: FixedTableProps) {
             left: 0,
           }}
         >
-          {formatDataCell(row[name], item, row)}
+          {row[`cellTitle-${name}`] ? (
+            <Tooltip title={row[`cellTitle-${name}`]}>
+              <div>{formatDataCell(row[name], item, row)}</div>
+            </Tooltip>
+          ) : (
+            <>{formatDataCell(row[name], item, row)}</>
+          )}
         </TableCell>
       );
     });
@@ -352,6 +360,8 @@ function FixedTable(props: FixedTableProps) {
                 "&:last-child": {
                   borderRight: 0,
                 },
+                position: item.sticky ? "sticky" : "static",
+                left: 0,
               }}
               dir={typeof footer[name] === "number" ? "ltr" : "rtl"}
               key={i}
@@ -389,6 +399,8 @@ function FixedTable(props: FixedTableProps) {
                 "&:last-child": {
                   borderRight: 0,
                 },
+                position: item.sticky ? "sticky" : "static",
+                left: 0,
               }}
               dir={typeof bottomFooter[name] === "number" ? "ltr" : "rtl"}
               key={i}
@@ -420,7 +432,10 @@ function FixedTable(props: FixedTableProps) {
                   borderRight: 1,
                   borderTop: 1,
                   borderColor: grey[borderColor],
-                  bgcolor: moreBottomFooter[`bgcolor-row`] || grey[200],
+                  bgcolor:
+                    moreBottomFooter[`bgcolor-${name}`] ||
+                    moreBottomFooter[`bgcolor-row`] ||
+                    grey[200],
                   fontWeight: 500,
                   whiteSpace: "nowrap",
                   p: 1,
@@ -428,12 +443,38 @@ function FixedTable(props: FixedTableProps) {
                   "&:last-child": {
                     borderRight: 0,
                   },
+                  left: 0,
+                  position: item.sticky ? "sticky" : "static",
                 }}
                 dir={typeof moreBottomFooter[name] === "number" ? "ltr" : "rtl"}
                 key={i}
                 colSpan={moreBottomFooter[`colspan-${name}`] || 1}
               >
-                {formatDataCell(moreBottomFooter[name], item, moreBottomFooter)}
+                {moreBottomFooter[`cellTitle-${name}`] ? (
+                  <Tooltip
+                    title={
+                      <span dir="ltr">
+                        {moreBottomFooter[`cellTitle-${name}`]}
+                      </span>
+                    }
+                  >
+                    <div>
+                      {formatDataCell(
+                        moreBottomFooter[name],
+                        item,
+                        moreBottomFooter
+                      )}
+                    </div>
+                  </Tooltip>
+                ) : (
+                  <>
+                    {formatDataCell(
+                      moreBottomFooter[name],
+                      item,
+                      moreBottomFooter
+                    )}
+                  </>
+                )}
               </TableCell>
             );
           }

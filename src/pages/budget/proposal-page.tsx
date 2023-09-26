@@ -5,6 +5,10 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import IconButton from "@mui/material/IconButton";
 import FixedModal from "components/ui/modal/fixed-modal";
 import ProposalBudgetForm from "components/sections/budget/proposal/proposal-budget-form";
+import ProposalModal1 from "components/sections/budget/proposal/modal-1/proposal-modal-1";
+import WindowLoading from "components/ui/loading/window-loading";
+import ProposalModalInfo from "components/sections/budget/proposal/modal-info/proposal-modal-info";
+import AddIcon from "@mui/icons-material/Add";
 
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { ReactNode, useEffect, useRef, useState } from "react";
@@ -15,11 +19,9 @@ import { reactQueryKeys } from "config/react-query-keys-config";
 import { proposalBudgetApi } from "api/budget/proposal-api";
 import { getBgColorBudget } from "helper/get-color-utils";
 import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
-import ProposalModal1 from "components/sections/budget/proposal/modal-1/proposal-modal-1";
-import WindowLoading from "components/ui/loading/window-loading";
 import { formatExpenseName } from "helper/data-utils";
 import { Box } from "@mui/material";
-import ProposalModalInfo from "components/sections/budget/proposal/modal-info/proposal-modal-info";
+import ProposalModalInsertCode from "components/sections/budget/proposal/insert-modal/proposal-modal-insert-code";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -202,7 +204,7 @@ function BudgetProposalPage() {
 
   // data
   const actionButtons = (
-    row: TableDataItemShape & GetSingleProposalItemShape
+    row: (TableDataItemShape & GetSingleProposalItemShape) | any
   ) => (
     <Box display={"flex"} justifyContent={"center"}>
       {/* {formData[proposalConfig.AREA] === 10 && ( */}
@@ -225,6 +227,29 @@ function BudgetProposalPage() {
     </Box>
   );
 
+  // add code
+  const [isOpenAddCodeModal, setIsOpenAddCodeModal] = useState(false);
+  const handleOpenAddCodeModal = (item: GetSingleProposalItemShape) => {
+    clearTimeout(activeTimeOut.current);
+    const title = `افزودن کد - ${item.code} - ${item.description}`;
+    setModalTitle(title);
+    setActiveRowData(item);
+
+    setCodingId(item.codingId);
+
+    setIsOpenAddCodeModal(true);
+  };
+  const handleCloseAddCodeModal = () => {
+    setIsOpenAddCodeModal(false);
+    afterCloseAnyModal();
+  };
+
+  const onDoneTaskModalInsertCode = () => {
+    getDataMutation.mutate(formData);
+    handleCloseAddCodeModal();
+  };
+
+  // data
   const formatTableData = (
     unFormatData: GetSingleProposalItemShape[]
   ): TableDataItemShape[] => {
@@ -232,7 +257,18 @@ function BudgetProposalPage() {
       (item, i) => ({
         ...item,
         number: i + 1,
-        code: item.code,
+        code: (
+          <Box display={"flex"} alignItems={"center"}>
+            <IconButton
+              size="small"
+              color="primary"
+              onClick={() => handleOpenAddCodeModal(item)}
+            >
+              <AddIcon />
+            </IconButton>
+            <span>{item.code}</span>
+          </Box>
+        ),
         description: item.description,
         mosavab: item.mosavab,
         edit: item.edit,
@@ -258,7 +294,7 @@ function BudgetProposalPage() {
                 item.levelNumber,
                 formData[proposalConfig.BUDGET_METHOD] || 0
               ),
-        actions: actionButtons,
+        actions: () => actionButtons(item),
       })
     );
 
@@ -359,8 +395,8 @@ function BudgetProposalPage() {
           data={tableData}
           footer={tableFooter}
           bottomFooter={tableBottomFooter}
-          // enableVirtual
-          // tableLayout="auto"
+          enableVirtual
+          tableLayout="auto"
         />
       </AdminLayout>
       {/* modal 1 */}
@@ -369,6 +405,7 @@ function BudgetProposalPage() {
         handleClose={handleCloseModal1}
         loading={getDetailMutation.isLoading}
         title={modalTitle}
+        maxWidth="80%"
       >
         <ProposalModal1
           data={getDetailMutation.data?.data || []}
@@ -393,6 +430,22 @@ function BudgetProposalPage() {
         <ProposalModalInfo
           data={getInfoDataMutation.data?.data || []}
           formData={formData}
+        />
+      </FixedModal>
+
+      {/* modal insert code */}
+      <FixedModal
+        open={isOpenAddCodeModal}
+        handleClose={handleCloseAddCodeModal}
+        loading={getInfoDataMutation.isLoading}
+        title={modalTitle}
+        maxHeight="400px"
+        minHeight="400px"
+      >
+        <ProposalModalInsertCode
+          activeRowData={activeRowData as GetSingleProposalItemShape}
+          formData={formData}
+          onDoneTask={onDoneTaskModalInsertCode}
         />
       </FixedModal>
 

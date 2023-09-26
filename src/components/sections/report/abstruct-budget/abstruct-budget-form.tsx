@@ -1,4 +1,6 @@
 import PrintIcon from "@mui/icons-material/Print";
+import GetAppIcon from "@mui/icons-material/GetApp";
+
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -36,6 +38,7 @@ import {
 import NumbersInput from "components/sections/inputs/numbers-input";
 import { convertNumbers } from "helper/number-utils";
 import { abstructBudgetStimul } from "stimul/budget/report/abstruct/abstruct-budget-stimul";
+import { abstructBudgetXlsx } from "stimul/budget/report/abstruct/abstruct-budget-xlsx";
 
 interface RevenueChartFormProps {
   formData: any;
@@ -66,6 +69,8 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
         "mosavabFinancial",
         "mosavabSanavati",
         "balanceMosavab",
+        "balanceMosavab",
+        "mosavabNeyabati",
       ],
       formData[generalFieldsConfig.numbers]
     );
@@ -97,8 +102,8 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
       userLicenses,
       [
         accessNamesConfig.FIELD_YEAR,
-        accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY_KIND,
-        accessNamesConfig.FIELD_ORGAN,
+        // accessNamesConfig.BUDGET__REPORT_PAGE_SUMMARY_KIND,
+        // accessNamesConfig.FIELD_ORGAN,
       ],
       joinPermissions([
         accessNamesConfig.BUDGET__REPORT_PAGE,
@@ -117,7 +122,7 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
     if (
       checkHaveValue(formData, [
         abstructBudgetConfig.YEAR,
-        abstructBudgetConfig.ORGAN,
+        // abstructBudgetConfig.ORGAN,
       ])
     ) {
       submitMutation.mutate(formData);
@@ -148,6 +153,27 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
         year: yearLabel,
         budgetKind: budgetKindLabel,
         numberShow: numberLabel,
+      });
+    }
+  };
+
+  const handleExcelClick = () => {
+    if (printData.data.length) {
+      // const yearLabel = getGeneralFieldItemYear(formData, 1);
+      // const budgetKindLabel = getGeneralFieldItemBudgetKind(formData);
+      // const numberLabel = getGeneralFieldItemNumber(formData);
+      abstructBudgetXlsx({
+        data: printData.data,
+        footer: [
+          printData.footer[0],
+          printData.bottomFooter[0],
+          printData.moreBottomFooter[0],
+        ],
+        // bottomFooter: printData.bottomFooter,
+        // moreBottomFooter: printData.moreBottomFooter,
+        // year: yearLabel,
+        // budgetKind: budgetKindLabel,
+        // numberShow: numberLabel,
       });
     }
   };
@@ -242,6 +268,11 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
             </LoadingButton>
             <IconButton color="primary" onClick={handlePrintForm}>
               <PrintIcon />
+            </IconButton>
+
+            <IconButton color="primary" onClick={handleExcelClick}>
+              {/* <PrintIcon /> */}
+              <GetAppIcon />
             </IconButton>
           </Grid>
         </Grid>

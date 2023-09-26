@@ -278,6 +278,7 @@ function CreditRequestBudgetRowTable(props: CreditRequestBudgetRowTableProps) {
         handleClose={() => setIsOpenAddBudgetModal(false)}
         title="افزودن ردیف بودجه"
         loading={modalDataMutation.isLoading}
+        maxHeight="70%"
       >
         <CreditRequestBudgetInsertRowModal
           data={modalDataMutation.data?.data || []}

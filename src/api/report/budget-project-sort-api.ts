@@ -11,4 +11,12 @@ export const budgetProjectSortApi = new (class extends BaseApi {
     const response = await clientAxios.get<BaseApiResponseShape<any[]>>(url);
     return response.data;
   };
+
+  getDataModal1 = async (formdata: any) => {
+    const url =
+      budgetProjectSortUrls.getDataModal1 + this.joinFilterData(formdata);
+
+    const response = await clientAxios.get<BaseApiResponseShape<any[]>>(url);
+    return response.data;
+  };
 })();

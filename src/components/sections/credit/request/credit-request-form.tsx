@@ -18,17 +18,21 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
 import SuppliersModalCreditRequest from "./supplier/suppliers-modal";
 import CreditRequestFormControlsButtons from "./control-buttons/credit-request-form-controls-buttons";
+import { red } from "@mui/material/colors";
 
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { FlotingLabelTextfieldItemsShape } from "types/input-type";
 import { creditRequestConfig } from "config/features/credit/credit-request-config";
-import { Alert, AlertTitle, FormHelperText } from "@mui/material";
+import { Alert, AlertTitle, Button, FormHelperText } from "@mui/material";
 import { globalConfig } from "config/global-config";
-import { red } from "@mui/material/colors";
 import BudgetSepratorCreaditorInput from "components/sections/inputs/budget-seprator-creaditor-input";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { creditRequestApi } from "api/credit/credit-request-api";
+import { checkHaveValue } from "helper/form-utils";
+import CreditSearchRequestModal from "./control-buttons/credit-search-request-modal";
+import { CreditReadRequestShape } from "types/data/credit/credit-request-type";
+import { NumericFormat } from "react-number-format";
 
 interface CreditRequestFormProps {
   formData: any;
@@ -193,24 +197,111 @@ function CreditRequestForm(props: CreditRequestFormProps) {
     />
   );
 
+  // search
+  const [isOpenSelectRequestModal, setIsOpenSelectRequestModal] =
+    useState(false);
+
+  const searchRequestMutation = useMutation(creditRequestApi.searchRequest);
+
+  const openSearchRequestModal = () => {
+    onClickedSearchCallback();
+    if (
+      checkHaveValue(formData, [
+        creditRequestConfig.year,
+        creditRequestConfig.execute_departman_id,
+        creditRequestConfig.area,
+      ])
+    ) {
+      searchRequestMutation.mutate({
+        [creditRequestConfig.area]: formData[creditRequestConfig.area],
+        [creditRequestConfig.execute_departman_id]:
+          formData[creditRequestConfig.execute_departman_id],
+        [creditRequestConfig.year]: formData[creditRequestConfig.year],
+      });
+
+      setIsOpenSelectRequestModal(true);
+    }
+  };
+
+  const handleSelectRequest = (data: CreditReadRequestShape) => {
+    setFormData((state: any) => ({
+      ...state,
+      [creditRequestConfig.request_number]: data.number,
+      [creditRequestConfig.request_date]: data.dateShamsi,
+      [creditRequestConfig.approximate_price]: data.estimateAmount,
+      [creditRequestConfig.doing_method]: data.doingMethodId,
+      [creditRequestConfig.request_description]: data.description,
+      [creditRequestConfig.why_leave_ceremonies]: data.resonDoingMethod,
+      [creditRequestConfig.employee]: data.employee,
+      [creditRequestConfig.request_id]: data.id,
+      [creditRequestConfig.contractor]: data.suppliersId,
+      [creditRequestConfig.contractorName]: data.suppliersName,
+      id: data.id,
+    }));
+    setIsOpenSelectRequestModal(false);
+    setFirstStepCrossed(true);
+  };
+
   return (
     <>
       <Box>
         <Grid container rowSpacing={2} columnSpacing={1} alignItems="start">
-          <Grid xs={4} xl={4} ref={controlFormRef}>
-            <Grid container rowSpacing={2} columnSpacing={1}>
-              <Grid xs={12}>
-                <CreditRequestFormControlsButtons
-                  formData={formData}
-                  setFormData={setFormData}
-                  firstStepCrossed={firstStepCrossed}
-                  setFirstStepCrossed={setFirstStepCrossed}
-                  onSubmitedCallback={onSubmitedCreateRequestCallback}
-                  onClickedSearchCallback={onClickedSearchCallback}
-                  onClearCallback={onClearCallback}
-                />
-              </Grid>
+          <Grid xs={2} xl={2}>
+            <YearInput
+              setter={setFormData}
+              value={formData[creditRequestConfig.year]}
+              disabled={firstStepCrossed}
+              showError={haveSubmitedForm || haveClickedSearch}
+            />
+          </Grid>
 
+          <Grid xs={2} xl={2}>
+            <AreaInput
+              setter={setFormData}
+              value={formData[creditRequestConfig.area]}
+              disabled={firstStepCrossed}
+              showError={haveSubmitedForm || haveClickedSearch}
+            />
+          </Grid>
+
+          <Grid xs={2} xl={2}>
+            <BudgetSepratorCreaditorInput
+              setter={setFormData}
+              name={creditRequestConfig.execute_departman_id}
+              value={formData[creditRequestConfig.execute_departman_id] as any}
+              showError={haveSubmitedForm || haveClickedSearch}
+            />
+          </Grid>
+
+          <Grid sm>
+            <Button
+              variant="contained"
+              size="large"
+              onClick={openSearchRequestModal}
+            >
+              <SearchIcon />
+            </Button>
+          </Grid>
+
+          <Grid xs={2} xl={2}>
+            <TextField
+              id="user-input"
+              label="کاربر"
+              variant="outlined"
+              fullWidth
+              size="small"
+              value={
+                formData[creditRequestConfig.employee] ||
+                `${userState.firstName} ${userState.lastName}`
+              }
+              disabled
+            />
+          </Grid>
+        </Grid>
+
+        <Grid container rowSpacing={2} columnSpacing={1} alignItems="start">
+          <Grid xs={2} xl={2} ref={controlFormRef}>
+            <Grid container rowSpacing={2} columnSpacing={1}>
               {/* <Grid xs={12} xl={6}>
                 <FlotingLabelSelect
                   items={requestTypeItems}
@@ -221,21 +312,6 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   showError={haveSubmitedForm}
                 />
               </Grid> */}
-
-              <Grid xs={6} xl={6}>
-                <TextField
-                  id="user-input"
-                  label="کاربر"
-                  variant="outlined"
-                  fullWidth
-                  size="small"
-                  value={
-                    formData[creditRequestConfig.employee] ||
-                    `${userState.firstName} ${userState.lastName}`
-                  }
-                  disabled
-                />
-              </Grid>
 
               {/* <Grid xs={12} xl={6}>
                 <FormControl
@@ -275,17 +351,20 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                     )}
                 </FormControl>
               </Grid> */}
-              <Grid xs={6} xl={6}>
-                <BudgetSepratorCreaditorInput
-                  setter={setFormData}
-                  name={creditRequestConfig.execute_departman_id}
-                  value={
-                    formData[creditRequestConfig.execute_departman_id] as any
-                  }
-                  showError={haveSubmitedForm || haveClickedSearch}
+              <Grid sm={12}>
+                <CreditRequestFormControlsButtons
+                  formData={formData}
+                  setFormData={setFormData}
+                  firstStepCrossed={firstStepCrossed}
+                  setFirstStepCrossed={setFirstStepCrossed}
+                  onSubmitedCallback={onSubmitedCreateRequestCallback}
+                  onClickedSearchCallback={onClickedSearchCallback}
+                  onClearCallback={onClearCallback}
                 />
               </Grid>
-              <Grid xs={6} xl={6}>
+              <Grid sm={12}></Grid>
+
+              <Grid xs={12} xl={12}>
                 <TextField
                   id="request-number-input"
                   label="شماره درخواست"
@@ -296,15 +375,8 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   fullWidth
                 />
               </Grid>
-              <Grid xs={6} xl={6}>
-                <AreaInput
-                  setter={setFormData}
-                  value={formData[creditRequestConfig.area]}
-                  disabled={firstStepCrossed}
-                  showError={haveSubmitedForm || haveClickedSearch}
-                />
-              </Grid>
-              <Grid xs={6} xl={6}>
+
+              <Grid xs={12} xl={12}>
                 <TextField
                   id="date-request-input"
                   label="تاریخ"
@@ -315,15 +387,24 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                   fullWidth
                 />
               </Grid>
-              <Grid xs={6} xl={6}>
-                <YearInput
-                  setter={setFormData}
-                  value={formData[creditRequestConfig.year]}
-                  disabled={firstStepCrossed}
-                  showError={haveSubmitedForm || haveClickedSearch}
+
+              <Grid xs={12} xl={12}>
+                <NumericFormat
+                  customInput={TextField}
+                  id="price-request-input"
+                  label="برآورد مبلغ"
+                  variant="outlined"
+                  size="small"
+                  value={formData[creditRequestConfig.approximate_price]}
+                  name={creditRequestConfig.approximate_price}
+                  onChange={handleChangeTextFields}
+                  allowLeadingZeros
+                  thousandSeparator=","
+                  fullWidth
                 />
               </Grid>
-              <Grid xs={6} xl={6}>
+
+              <Grid xs={12} xl={12}>
                 <FormControl
                   fullWidth
                   size="small"
@@ -356,28 +437,7 @@ function CreditRequestForm(props: CreditRequestFormProps) {
                     )}
                 </FormControl>
               </Grid>
-              <Grid xs={6} xl={6}>
-                <TextField
-                  id="price-request-input"
-                  label="برآورد مبلغ"
-                  variant="outlined"
-                  size="small"
-                  type="number"
-                  value={formData[creditRequestConfig.approximate_price]}
-                  name={creditRequestConfig.approximate_price}
-                  onChange={handleChangeTextFields}
-                  fullWidth
-                  // error={
-                  //   !formData[creditRequestConfig.approximate_price] &&
-                  //   haveSubmitedForm
-                  // }
-                  // helperText={
-                  //   !formData[creditRequestConfig.approximate_price] &&
-                  //   haveSubmitedForm &&
-                  //   globalConfig.ERROR_NO_EMPTY
-                  // }
-                />
-              </Grid>
+
               {formData[creditRequestConfig.doing_method] === 5 && (
                 <>
                   <Grid xs={12}>
@@ -448,12 +508,12 @@ function CreditRequestForm(props: CreditRequestFormProps) {
               )}
             </Grid>
           </Grid>
-          <Grid xs={8} xl={8}>
+          <Grid xs={10} xl={10}>
             <Paper
               sx={{
                 width: "100%",
                 // height: paperHeight,
-                height: "400px",
+                height: "300px",
                 overflow: "auto",
               }}
               elevation={0}
@@ -501,6 +561,19 @@ function CreditRequestForm(props: CreditRequestFormProps) {
             </Paper>
           </Grid>
         </Grid>
+
+        {/* select request modal */}
+        <FixedModal
+          open={isOpenSelectRequestModal}
+          handleClose={() => setIsOpenSelectRequestModal(false)}
+          title="انتخاب درخواست"
+          loading={searchRequestMutation.isLoading}
+        >
+          <CreditSearchRequestModal
+            data={searchRequestMutation.data?.data || []}
+            onDoneTask={handleSelectRequest}
+          />
+        </FixedModal>
 
         {/* confrim change doing method input */}
         <ConfrimProcessModal

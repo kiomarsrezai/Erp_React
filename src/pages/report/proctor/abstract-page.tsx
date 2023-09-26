@@ -56,16 +56,16 @@ function ReportProctorAbstructPage(props: ReportProctorAbstructProps) {
     },
     {
       title: "هزینه ای",
-      colspan: 3,
+      colspan: 5,
       align: "center",
     },
     {
       title: "سرمایه ای",
-      colspan: 3,
+      colspan: 5,
       align: "center",
     },
     {
-      title: "جذب کل %",
+      title: "% جذب کل",
       colspan: 1,
       rowspan: 2,
       align: "center",
@@ -97,13 +97,24 @@ function ReportProctorAbstructPage(props: ReportProctorAbstructProps) {
       align: "left",
     },
     {
+      title: "ت اعتبار",
+      name: "creditAmountCurrent",
+      split: true,
+      align: "left",
+    },
+    {
+      title: "%",
+      name: "percentCreditAmountCurrent",
+      percent: true,
+    },
+    {
       title: "عملکرد",
       name: "expenseHazine",
       split: true,
       align: "left",
     },
     {
-      title: "جذب %",
+      title: "%",
       name: "jazbHazine",
       percent: true,
     },
@@ -114,13 +125,24 @@ function ReportProctorAbstructPage(props: ReportProctorAbstructProps) {
       align: "left",
     },
     {
+      title: "ت اعتبار",
+      name: "creditAmountCivil",
+      split: true,
+      align: "left",
+    },
+    {
+      title: "%",
+      name: "percentCreditAmountCivil",
+      percent: true,
+    },
+    {
       title: "عملکرد",
       name: "expenseSarmaie",
       split: true,
       align: "left",
     },
     {
-      title: "جذب %",
+      title: "%",
       name: "jazbSarmaie",
       percent: true,
       forceHaveBorder: true,
@@ -228,12 +250,32 @@ function ReportProctorAbstructPage(props: ReportProctorAbstructProps) {
     "expenseCivil"
   );
 
+  const sumCreaditAmountCivil = sumFieldsInSingleItemData(
+    abstractQuery.data?.data || [],
+    "creditAmountCivil"
+  );
+
+  const sumCreaditAmountHazine = sumFieldsInSingleItemData(
+    abstractQuery.data?.data || [],
+    "creditAmountCurrent"
+  );
+
   const tableFooter: TableDataItemShape & any = {
     number: "جمع",
     "colspan-number": 2,
     title: null,
     mosavabHazine: sumMosavabHazine,
     expenseHazine: sumExpenseHazine,
+    percentCreditAmountCivil: getPercent(
+      sumCreaditAmountCivil,
+      sumMosavabSarmaie
+    ),
+    percentCreditAmountCurrent: getPercent(
+      sumCreaditAmountHazine,
+      sumMosavabHazine
+    ),
+    creditAmountCivil: sumCreaditAmountCivil,
+    creditAmountCurrent: sumCreaditAmountHazine,
     jazbHazine: getPercent(sumExpenseHazine, sumMosavabHazine),
     mosavabSarmaie: sumMosavabSarmaie,
     expenseSarmaie: sumExpenseSarmaie,
@@ -259,7 +301,7 @@ function ReportProctorAbstructPage(props: ReportProctorAbstructProps) {
           }}
         />
       ),
-      colspan: 10,
+      colspan: 14,
     },
   ];
 

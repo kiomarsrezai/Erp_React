@@ -1,16 +1,24 @@
 import Grid from "@mui/material/Unstable_Grid2";
-import Box from "@mui/material/Box";
 import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 import SectionGuard from "components/auth/section-guard";
 import userStore from "hooks/store/user-store";
 import LoadingButton from "@mui/lab/LoadingButton";
-import PrintIcon from "@mui/icons-material/Print";
+import CheckIcon from "@mui/icons-material/Check";
+import ListIcon from "@mui/icons-material/List";
 import IconButton from "@mui/material/IconButton";
 import GetAppIcon from "@mui/icons-material/GetApp";
+import { Button, Popover } from "@mui/material";
 
-import { FormEvent, ReactNode, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  MouseEvent,
+  ReactNode,
+  useEffect,
+  useState,
+} from "react";
 import { revenueChartFormConfig } from "config/features/revenue-chart-config";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { accessNamesConfig } from "config/access-names-config";
 import { enqueueSnackbar } from "notistack";
@@ -43,7 +51,9 @@ import { budgetProjectOprationConfig } from "config/features/budget/report/budge
 import { budgetProjectOprationApi } from "api/report/budget-project-opration-api";
 import { budgetProjectScaleStimul } from "stimul/budget/report/project-scale/budget-project-scale-stimul";
 import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
+import { Checkbox, FormControlLabel, FormGroup, Box } from "@mui/material";
 import {
+  budgetMethodItems,
   centerItems,
   generalFieldsConfig,
   organItems,
@@ -57,8 +67,10 @@ import MonthInput from "components/sections/inputs/month-input";
 import { budgetExpenseStimul } from "stimul/budget/report/expense/budget-expense-stimul";
 import WindowLoading from "components/ui/loading/window-loading";
 import { budgetExpenseXlsx } from "stimul/budget/report/expense/budget-expense-xlsx";
-import BudgetReportExpenseAreaModal from "./budget-report-expense-area-modal";
 import FixedModal from "components/ui/modal/fixed-modal";
+import { areaGeneralApi } from "api/general/area-general-api";
+import { FlotingLabelTextfieldItemsShape } from "types/input-type";
+import { budgetExpenseBaseXlsx } from "stimul/budget/report/expense/budget-expense-base-xlsx";
 
 interface BudgetReportExpenseFormProps {
   formData: any;
@@ -68,6 +80,8 @@ interface BudgetReportExpenseFormProps {
   printData: {
     data: any[];
     footer: any[];
+    bottomFooter: any[];
+    moreBottomFooter: any[];
   };
 }
 
@@ -121,12 +135,12 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
   const submitMutation = useMutation(budgetReportExpenseApi.getData, {
     onSuccess: (data) => {
       // queryClient.setQueryData(reactQueryKeys.budget.expense, data);
-      formatAndBindData(data.data);
+      // formatAndBindData(data.data);
     },
   });
 
   const [haveSubmitedForm, setHaveSubmitedForm] = useState(false);
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     // permission
     const havePermission = checkHavePermission(
@@ -148,12 +162,21 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
 
     if (
       checkHaveValue(formData, [
-        budgetReportExpenseConfig.organ,
+        // budgetReportExpenseConfig.organ,
         budgetReportExpenseConfig.year,
         budgetReportExpenseConfig.month,
       ])
     ) {
-      submitMutation.mutate(formData);
+      const data1 = await submitMutation.mutateAsync({
+        ...formData,
+        [budgetReportExpenseConfig.organ]: 1,
+      });
+      const data2 = await submitMutation.mutateAsync({
+        ...formData,
+        [budgetReportExpenseConfig.organ]: 2,
+      });
+
+      formatAndBindData([...data1?.data, ...data2?.data]);
     }
   };
 
@@ -163,18 +186,188 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
       data: [],
     });
   }, [
-    formData[budgetReportExpenseConfig.organ],
+    // formData[budgetReportExpenseConfig.organ],
     formData[budgetReportExpenseConfig.year],
     formData[budgetReportExpenseConfig.month],
   ]);
 
-  // area modal
-  const [isOpenAreaModal, setIsOpenAreaModal] = useState(false);
-
   // print
-  const handlePrintClick = () => {
-    setIsOpenAreaModal(true);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  // const [isCancel, setIsCancel] = useState(false);
+
+  const handleCancelClick = () => {
+    // setIsCancel(true)
+    window.location.reload();
   };
+
+  const handleExcelClick = (event: MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const openAnchorEl = Boolean(anchorEl);
+
+  const getExcelManateghMutation = useMutation(
+    budgetReportExpenseApi.getExcelManateghData
+  );
+  const getExcelSazmanMutation = useMutation(
+    budgetReportExpenseApi.getExcelSazmanData
+  );
+
+  const areaQuery = useQuery(["general-area", 3], () =>
+    areaGeneralApi.getData(3)
+  );
+
+  const inputItems: FlotingLabelTextfieldItemsShape = (
+    areaQuery.data
+      ? areaQuery.data.data.map((item) => ({
+          label: item.areaName,
+          value: item.id,
+        }))
+      : []
+  ).filter((item) => item.value !== 10);
+
+  const areaItems = filedItemsGuard(
+    inputItems,
+    userLicenses,
+    joinPermissions([
+      accessNamesConfig.BUDGET__REPORT_PAGE,
+      accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
+      accessNamesConfig.FIELD_AREA,
+    ])
+  );
+
+  const [selectedAreas, setSelectedAreas] = useState<any>({});
+  const toggleItem = (e: ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked;
+    const value = e.target.value;
+
+    setSelectedAreas((prevState: any) => {
+      prevState[value] = checked;
+
+      return { ...prevState, [value]: checked };
+    });
+  };
+
+  const toggleAllItem = () => {
+    setSelectedAreas(() => {
+      let newValue: any = {};
+
+      areaItems.forEach((areaItem) => {
+        newValue[areaItem.value] = !isAllClicked;
+      });
+
+      return newValue;
+    });
+  };
+
+  const isAllClicked = areaItems.reduce((preveius: any, curent: any) => {
+    if (preveius === false) return false;
+
+    return selectedAreas?.[curent.value] === true;
+  }, true);
+
+  const [excelLodaing, setExcelLodaing] = useState(false);
+  const handlePrintClick = async () => {
+    setExcelLodaing(true);
+
+    let areas: any = [];
+
+    for (const key in selectedAreas) {
+      const value = selectedAreas?.[key];
+      if (value === true) {
+        areas.push(+key);
+      }
+    }
+
+    areas.forEach((item: any) => {
+      handlePrintForm(item);
+    });
+    setAnchorEl(null);
+  };
+
+  const handlePrintForm = async (areaId: number) => {
+    // setIsCancel(false);
+    let culmnsData: any = {};
+    budgetMethodItems.forEach((item) => {
+      culmnsData[item.value] = [];
+    });
+
+    const culmnKeys = Object.keys(culmnsData);
+
+    try {
+      await Promise.all(
+        culmnKeys.map(async (item) => {
+          const data = await (areaId < 10
+            ? getExcelManateghMutation
+            : getExcelSazmanMutation
+          ).mutateAsync({
+            budgetProcessId: item,
+            areaId: areaId,
+            [generalFieldsConfig.MONTH]:
+              formData[budgetReportExpenseConfig.month],
+            yearId: formData[budgetReportExpenseConfig.year],
+          });
+
+          culmnsData = {
+            ...culmnsData,
+            [item]: data.data,
+          };
+        })
+      );
+    } catch {}
+
+    // if (printData.data.length) {
+    const yearLabel = getGeneralFieldItemYear(formData, 1);
+    const areaLabel = getGeneralFieldItemAreaFromId(3, areaId);
+    const monthLabel = getGeneralFieldItemMonth(formData);
+
+    setExcelLodaing(true);
+    budgetExpenseXlsx({
+      culmnsData: culmnsData,
+      year: yearLabel,
+      area: areaLabel,
+      numberShow: "ریال",
+      month: monthLabel,
+      setExcelLodaing: setExcelLodaing,
+    });
+    // }
+  };
+
+  // excel
+  const handleExcelBaseClick = () => {
+    const yearLabel = getGeneralFieldItemYear(formData, 1);
+    const monthLabel = getGeneralFieldItemMonth(formData);
+    if (printData.data.length) {
+      budgetExpenseBaseXlsx({
+        data: printData.data,
+        footer: [
+          printData.footer[0],
+          printData.bottomFooter[0],
+          printData.moreBottomFooter[0],
+        ],
+        month: monthLabel,
+        year: yearLabel,
+      });
+    }
+
+    handleCloseAnchor2();
+  };
+
+  const [anchor2El, setAnchor2El] = useState<HTMLButtonElement | null>(null);
+
+  const handleExcel2Click = (event: MouseEvent<HTMLButtonElement>) => {
+    setAnchor2El(event.currentTarget);
+  };
+
+  const handleCloseAnchor2 = () => {
+    setAnchor2El(null);
+  };
+
+  const openAnchor2El = Boolean(anchor2El);
 
   return (
     <>
@@ -184,13 +377,14 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
         onSubmit={handleSubmit}
         sx={{ bgcolor: "grey.200" }}
       >
-        {/* <Box display={"none"}>
+        <Box display={"none"}>
           <AreaInput setter={() => {}} value={undefined} level={3} />
-        </Box> */}
-        <Grid container spacing={2}>
-          {tabRender && <Grid xs={12}>{tabRender}</Grid>}
-          {inputRender && <Grid xs={2}>{inputRender}</Grid>}
+        </Box>
+        {/* <Grid container spacing={2}> */}
+        {tabRender && <Grid xs={12}>{tabRender}</Grid>}
+        {inputRender && <Grid xs={2}>{inputRender}</Grid>}
 
+        <Box display={"flex"} gap={0.5} pt={2}>
           <SectionGuard
             permission={joinPermissions([
               accessNamesConfig.BUDGET__REPORT_PAGE,
@@ -198,7 +392,8 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
               accessNamesConfig.FIELD_YEAR,
             ])}
           >
-            <Grid xs={2}>
+            <Box width={200}>
+              {/* <Grid xs={2}> */}
               <YearInput
                 setter={setFormData}
                 value={formData[budgetReportExpenseConfig.year] as number}
@@ -208,90 +403,161 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
                 ])}
                 showError={haveSubmitedForm}
               />
-            </Grid>
+            </Box>
+            {/* </Grid> */}
           </SectionGuard>
 
-          <Grid xs={2}>
+          {/* <Grid xs={2}> */}
+          <Box width={200}>
             <MonthInput
               setter={setFormData}
               value={formData[budgetReportExpenseConfig.month] as number}
               showError={haveSubmitedForm}
             />
-          </Grid>
+          </Box>
+          {/* </Grid> */}
+
+          {/* <Grid xs={2}> */}
+          <Box width={200}>
+            <NumbersInput
+              setter={setFormData}
+              value={formData[generalFieldsConfig.numbers] as number}
+            />
+          </Box>
+          {/* </Grid> */}
+
+          {/* <Grid xs> */}
+          <LoadingButton
+            variant="contained"
+            type="submit"
+            loading={submitMutation.isLoading}
+            sx={{ mr: 1 }}
+          >
+            نمایش
+          </LoadingButton>
 
           <SectionGuard
             permission={joinPermissions([
               accessNamesConfig.BUDGET__REPORT_PAGE,
               accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
-              accessNamesConfig.FIELD_ORGAN,
+              accessNamesConfig.FIELD_YEAR,
             ])}
           >
-            <Grid xs={2}>
-              <FlotingLabelSelect
-                label="سازمان"
-                name={budgetReportExpenseConfig.organ}
-                items={filedItemsGuard(
-                  organItems2,
-                  userLicenses,
-                  joinPermissions([
-                    accessNamesConfig.BUDGET__REPORT_PAGE,
-                    accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
-                    accessNamesConfig.FIELD_ORGAN,
-                  ])
-                )}
-                value={formData[budgetReportExpenseConfig.organ]}
-                setter={setFormData}
-                showError={haveSubmitedForm}
-              />
-            </Grid>
+            <IconButton color="primary" onClick={handleExcelClick}>
+              <ListIcon sx={{ mr: -1 }} />
+              <GetAppIcon />
+            </IconButton>
           </SectionGuard>
 
-          <Grid xs={2}>
-            <NumbersInput
-              setter={setFormData}
-              value={formData[generalFieldsConfig.numbers] as number}
-            />
-          </Grid>
-
-          <Grid xs>
-            <LoadingButton
-              variant="contained"
-              type="submit"
-              loading={submitMutation.isLoading}
-              sx={{ mr: 1 }}
-            >
-              نمایش
-            </LoadingButton>
-
-            <SectionGuard
-              permission={joinPermissions([
-                accessNamesConfig.BUDGET__REPORT_PAGE,
-                accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
-                accessNamesConfig.FIELD_YEAR,
-              ])}
-            >
-              <IconButton color="primary" onClick={handlePrintClick}>
-                {/* <PrintIcon /> */}
-                <GetAppIcon />
-              </IconButton>
-            </SectionGuard>
-          </Grid>
-        </Grid>
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.BUDGET__REPORT_PAGE,
+              accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN,
+              accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN_BASE_EXCEL,
+            ])}
+          >
+            <IconButton color="primary" onClick={handleExcel2Click}>
+              <GetAppIcon />
+            </IconButton>
+          </SectionGuard>
+        </Box>
+        {/* </Grid> */}
+        {/* </Grid> */}
       </Box>
 
-      {/* print modal */}
-      <FixedModal
-        open={isOpenAreaModal}
-        handleClose={() => setIsOpenAreaModal(false)}
-        maxWidth="sm"
-        title="خروجی اکسل"
+      {/* excel confrim */}
+      <Popover
+        open={openAnchor2El}
+        anchorEl={anchor2El}
+        onClose={handleCloseAnchor2}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
       >
-        <BudgetReportExpenseAreaModal
-          formData={formData}
-          printData={printData}
-          onClose={() => setIsOpenAreaModal(false)}
-        />
-      </FixedModal>
+        <Box
+          sx={{
+            py: 1,
+            px: 2,
+            width: 250,
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+          }}
+        >
+          آیا مایل به دریافت خروجی اکسل هستید؟
+          <IconButton
+            onClick={handleExcelBaseClick}
+            size="small"
+            color="primary"
+          >
+            <CheckIcon />
+          </IconButton>
+        </Box>
+      </Popover>
+
+      {/* excel */}
+      <Popover
+        open={openAnchorEl}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+      >
+        <Box minWidth={"200px"} p={2} pt={0}>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value={"isAllClicked"}
+                  checked={isAllClicked}
+                  onChange={toggleAllItem}
+                />
+              }
+              label={"همه"}
+            />
+            {areaItems.map((item) => (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    value={item.value}
+                    checked={selectedAreas?.[item.value] === true}
+                    onChange={toggleItem}
+                  />
+                }
+                label={item.label}
+              />
+            ))}
+          </FormGroup>
+
+          <Button variant="contained" onClick={handlePrintClick} fullWidth>
+            تایید
+          </Button>
+        </Box>
+      </Popover>
+      <WindowLoading
+        active={
+          getExcelManateghMutation.isLoading ||
+          getExcelSazmanMutation.isLoading ||
+          excelLodaing
+        }
+        canCancel={
+          getExcelManateghMutation.isLoading ||
+          getExcelSazmanMutation.isLoading ||
+          excelLodaing
+        }
+        onCancel={handleCancelClick}
+      />
     </>
   );
 }

@@ -5,8 +5,17 @@ import {
   numberWithCommas,
   sumFieldsInSingleItemData,
 } from "helper/calculate-utils";
-import { createStimulsoftFilePath, stimulDateValue } from "helper/export-utils";
+import {
+  checkExcelFont,
+  createStimulsoftFilePath,
+  excelFitToColumn,
+  excelFooterStyle,
+  excelHeaderStyle,
+  excelbodyStyle,
+  stimulDateValue,
+} from "helper/export-utils";
 import { getBgColorBudget } from "helper/get-color-utils";
+import { enqueueSnackbar } from "notistack";
 const XLSX = require("xlsx-js-style/dist/xlsx.bundle");
 
 interface StimulOptionsShape {
@@ -15,6 +24,7 @@ interface StimulOptionsShape {
   area?: string;
   culmnsData: any;
   month?: string;
+  setExcelLodaing?: any;
 }
 
 function componentToHex(c: any) {
@@ -33,24 +43,6 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
   var wb = XLSX.utils.book_new();
   wb.Workbook = wb.Workbook || {};
   wb.Workbook.Views = [{ RTL: true }];
-  const headerStyle = {
-    font: { name: "B Nazanin", sz: 12, bold: true },
-    fill: { fgColor: { rgb: "eeeeee" } },
-    alignment: {
-      // wrapText: true,
-      horizontal: "right",
-    },
-  };
-
-  const fitToColumn = (arrayOfArray: any) => {
-    const a = arrayOfArray[0].map((a: any, i: any) => ({
-      wch: Math.max(
-        ...arrayOfArray.map((a2: any) => (a2[i] ? a2[i].toString().length : 0))
-      ),
-    }));
-    // debugger
-    return a;
-  };
 
   Sheets.forEach((sheet: any) => {
     const header = [
@@ -59,7 +51,7 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
           return {
             v: column.Header,
             t: "s",
-            s: headerStyle,
+            s: excelHeaderStyle,
           };
         }),
       ],
@@ -68,32 +60,15 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
     // body
     const body = sheet.List.map((rowData: any, rowIndex: any) => {
       return sheet.Columns.map((column: any) => {
-        const a =
-          sheet.Styles.Styles?.[
-            sheet.Styles.StylesMap?.[rowIndex + 1]?.[column.Name]
-          ] || {};
-        const style: any = {};
-        style.font = {
-          name: "Dubai",
+        const style: any = excelbodyStyle(rowIndex, {
+          textAlign: column.textAlign,
+          wrapText: column.wrapText,
+        });
+        style.fill.fgColor = {
+          rgb: rgbToHex(
+            getBgColorBudget(rowData.levelNumber, sheet.proccessId)
+          ),
         };
-        if (a && a.TextColor) {
-          style.font.color = { rgb: a.TextColor.substring(1) };
-        }
-        style.fill = {};
-        if (a && a.BgColor) {
-          style.fill.fgColor = { rgb: a.BgColor.substring(1) };
-        } else {
-          style.fill.fgColor = {
-            rgb: rgbToHex(
-              getBgColorBudget(rowData.levelNumber, sheet.proccessId)
-            ),
-          };
-        }
-        if (!column.Mony) {
-          style.alignment = {};
-          style.alignment.horizontal = "right";
-          style.alignment.vertical = "center";
-        }
 
         return {
           v:
@@ -105,8 +80,6 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
                 : ""
               : column.Percent
               ? `${rowData[column.Name]} %`
-              : column.Split
-              ? numberWithCommas(rowData[column.Name])
               : rowData[column.Name],
           t: column.Mony ? "n" : "s",
           s: style,
@@ -118,30 +91,7 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
     // footer
     const footer = sheet.Sum.map((rowData: any, rowIndex: any) => {
       return sheet.Columns.map((column: any) => {
-        const a =
-          sheet.Styles.Styles?.[
-            sheet.Styles.StylesMap?.[rowIndex + 1]?.[column.Name]
-          ] || {};
-        const style: any = {};
-        style.font = {
-          name: "Dubai",
-        };
-        if (a && a.TextColor) {
-          style.font.color = { rgb: a.TextColor.substring(1) };
-        }
-        style.fill = {};
-        if (a && a.BgColor) {
-          style.fill.fgColor = { rgb: a.BgColor.substring(1) };
-        } else {
-          style.fill.fgColor = {
-            rgb: "eeeeee",
-          };
-        }
-        if (!column.Mony) {
-          style.alignment = {};
-          style.alignment.horizontal = "right";
-          style.alignment.vertical = "center";
-        }
+        const style: any = excelFooterStyle;
 
         return {
           v:
@@ -151,8 +101,6 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
                 : ""
               : column.Percent
               ? `${rowData[column.Name]} %`
-              : column.Split
-              ? numberWithCommas(rowData[column.Name])
               : rowData[column.Name],
           t: column.Mony ? "n" : "s",
           s: style,
@@ -165,7 +113,7 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
 
     //debugger
     const ws = XLSX.utils.aoa_to_sheet(data);
-    ws["!cols"] = fitToColumn(data);
+    ws["!cols"] = excelFitToColumn(data);
     //var ws = XLSX.utils.json_to_sheet(sheet.data);
     const Title =
       typeof sheet.Title === "function" ? sheet.Title() : sheet.Title;
@@ -205,49 +153,49 @@ const createData = (data: any, title: string, proccessId: number) => {
         Header: "ردیف",
         Name: "number",
         RowIndex: true,
-        // Width: 90,
       },
       {
         Header: "کد",
         Name: "code",
-        // Width: 90,
       },
       {
         Header: "شرح",
         Name: "description",
+        textAlign: "right",
+        wrapText: true,
       },
       {
         Header: "مصوب",
         Name: "mosavab",
-        // Mony: true,
-        // Width: 360,
-        Split: true,
+        Mony: true,
+        textAlign: "right",
       },
       {
         Header: "اصلاح",
         Name: "edit",
-        // Mony: true,
-        // Width: 160,
-        Split: true,
+        Mony: true,
+        textAlign: "right",
       },
-      {
-        Header: "ت اعتبار",
-        Name: "creditAmount",
-        // Mony: true,
-        // Width: 160,
-        Split: true,
-      },
-      {
-        Header: "%",
-        Name: "percentCredit",
-        Percent: true,
-      },
+      ...(proccessId !== 1
+        ? [
+            {
+              Header: "ت اعتبار",
+              Name: "creditAmount",
+              Mony: true,
+              textAlign: "right",
+            },
+            {
+              Header: "%",
+              Name: "percentCredit",
+              Percent: true,
+            },
+          ]
+        : []),
       {
         Header: "عملکرد",
         Name: "expenseMonth",
-        // Mony: true,
-        // Width: 160,
-        Split: true,
+        Mony: true,
+        textAlign: "right",
       },
       {
         Header: "%",
@@ -271,42 +219,32 @@ const createData = (data: any, title: string, proccessId: number) => {
     ],
     Title: title.replaceAll("/", "-"),
     proccessId,
-    Styles: {
-      Styles: {},
-      StylesMap: {},
-    },
   };
 };
 
 export const budgetExpenseXlsx = (exportOptions: StimulOptionsShape) => {
-  const data1 = createData(
-    exportOptions.culmnsData[1],
-    budgetMethodItems[0].label,
-    1
-  );
-  const data2 = createData(
-    exportOptions.culmnsData[2],
-    budgetMethodItems[1].label,
-    2
-  );
-  const data3 = createData(
-    exportOptions.culmnsData[3],
-    budgetMethodItems[2].label,
-    3
-  );
-  const data4 = createData(
-    exportOptions.culmnsData[4],
-    budgetMethodItems[3].label,
-    4
-  );
-  const data5 = createData(
-    exportOptions.culmnsData[5],
-    budgetMethodItems[4].label,
-    5
+  const data = Object.keys(exportOptions.culmnsData).map((item) =>
+    createData(
+      exportOptions.culmnsData[item],
+      budgetMethodItems.find((budgetItem) => String(budgetItem.value) === item)
+        ?.label || "",
+      Number(item)
+    )
   );
 
+  // checkExcelFont();
+
   ListsToExcel(
-    [data1, data2, data3, data4, data5],
-    exportOptions.area as string
+    data,
+    `${exportOptions.area} سال ${exportOptions.year} ${exportOptions.month} ماه`
   );
+
+  enqueueSnackbar(
+    `خروجی اکسل برای ${exportOptions.area} سال ${exportOptions.year} ${exportOptions.month} ماه با موفقیت انجام شد `,
+    {
+      variant: "success",
+    }
+  );
+
+  exportOptions.setExcelLodaing(false);
 };

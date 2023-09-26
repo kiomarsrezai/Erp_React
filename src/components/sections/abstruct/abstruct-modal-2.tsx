@@ -50,13 +50,20 @@ function AbstructModal2(props: AbstructModal2Props) {
       align: "left",
     },
     {
+      title: "ت اعتبار",
+      name: "supply",
+      split: true,
+      align: "left",
+    },
+    {
       title: "هزینه",
       name: "hazine",
       split: true,
       align: "left",
     },
+
     {
-      title: "جذب %",
+      title: "% جذب",
       name: "jazb",
       percent: true,
     },
@@ -74,7 +81,6 @@ function AbstructModal2(props: AbstructModal2Props) {
       hazine: item.expense,
       "textcolor-hazine": item.expense < 0 ? "red" : "",
       mosavab: item.mosavab,
-      creditAmount: item.mosavab,
       jazb: getPercent(item.expense, item.mosavab),
       actions: () => "",
     }));
@@ -87,6 +93,8 @@ function AbstructModal2(props: AbstructModal2Props) {
   // table footer
   const sumMosavab = sumFieldsInSingleItemData(data, "mosavab");
   const sumHazine = sumFieldsInSingleItemData(data, "expense");
+  const sumSupply = sumFieldsInSingleItemData(data, "supply");
+
   const tableFooters: TableDataItemShape | any = {
     number: "جمع",
     "colspan-number": 3,
@@ -94,6 +102,7 @@ function AbstructModal2(props: AbstructModal2Props) {
     code: null,
     mosavab: sumMosavab,
     hazine: sumHazine,
+    supply: sumSupply,
     jazb: getPercent(sumHazine, sumMosavab),
   };
 
@@ -122,7 +131,7 @@ function AbstructModal2(props: AbstructModal2Props) {
           <PrintIcon />
         </IconButton>
       ),
-      colspan: 6,
+      colspan: 7,
     },
   ];
 

@@ -19,6 +19,9 @@ import { checkHaveValue } from "helper/form-utils";
 import userStore from "hooks/store/user-store";
 import { getGeneralFieldItemYear } from "helper/export-utils";
 import { abstructProctorStimul } from "stimul/budget/report/proctor/abstruct-proctor-stimul";
+import FixedModal from "components/ui/modal/fixed-modal";
+import AbstructProctorModal1 from "./proctor-modal/abstruct-proctor-modal-1";
+import { Button } from "@mui/material";
 
 interface AbstractProctorFormProps {
   formData: any;
@@ -90,31 +93,43 @@ function AbstractProctorForm(props: AbstractProctorFormProps) {
     }
   };
 
-  return (
-    <Box component="form" p={1} onSubmit={handleFormSubmit}>
-      <Grid container spacing={2}>
-        {tabRender && <Grid xs={12}>{tabRender}</Grid>}
+  // modal
 
-        <SectionGuard
-          permission={joinPermissions([
-            accessNamesConfig.BUDGET__REPORT_PAGE,
-            accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT,
-            accessNamesConfig.FIELD_YEAR,
-          ])}
-        >
-          <Grid lg={2}>
-            <YearInput
-              setter={setFormData}
-              value={formData[abstructProctorConfig.YEAR]}
-              permissionForm={joinPermissions([
-                accessNamesConfig.BUDGET__REPORT_PAGE,
-                accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT,
-              ])}
-              showError={haveSubmitedForm}
-            />
-          </Grid>
-        </SectionGuard>
-        {/* <Grid lg={2}>
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const handleOpenModal = () => {
+    setIsOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsOpenModal(false);
+  };
+
+  return (
+    <>
+      <Box component="form" p={1} onSubmit={handleFormSubmit}>
+        <Grid container spacing={2}>
+          {tabRender && <Grid xs={12}>{tabRender}</Grid>}
+
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.BUDGET__REPORT_PAGE,
+              accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT,
+              accessNamesConfig.FIELD_YEAR,
+            ])}
+          >
+            <Grid sm={2}>
+              <YearInput
+                setter={setFormData}
+                value={formData[abstructProctorConfig.YEAR]}
+                permissionForm={joinPermissions([
+                  accessNamesConfig.BUDGET__REPORT_PAGE,
+                  accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT,
+                ])}
+                showError={haveSubmitedForm}
+              />
+            </Grid>
+          </SectionGuard>
+          {/* <Grid lg={2}>
           <AreaInput
             setter={setFormData}
             value={formData[abstructProctorConfig.AREA]}
@@ -135,20 +150,53 @@ function AbstractProctorForm(props: AbstractProctorFormProps) {
           />
         </Grid> */}
 
-        <Grid>
-          <LoadingButton
-            variant="contained"
-            type="submit"
-            loading={submitMutation.isLoading}
+          <Grid sm={2}>
+            <LoadingButton
+              variant="contained"
+              type="submit"
+              loading={submitMutation.isLoading}
+            >
+              نمایش
+            </LoadingButton>
+            <IconButton
+              color="primary"
+              onClick={handlePrintForm}
+              sx={{ ml: 1 }}
+            >
+              <PrintIcon />
+            </IconButton>
+          </Grid>
+          <Grid sm={2}></Grid>
+          <Grid sm={2}></Grid>
+          <Grid sm={2}></Grid>
+
+          <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.BUDGET__REPORT_PAGE,
+              accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT,
+              accessNamesConfig.BUDGET__REPORT_PAGE_ABSTRUCT_CREDIT_BTN,
+            ])}
           >
-            نمایش
-          </LoadingButton>
-          <IconButton color="primary" onClick={handlePrintForm} sx={{ ml: 1 }}>
-            <PrintIcon />
-          </IconButton>
+            <Grid sm={2}>
+              <Box display={"flex"} justifyContent={"flex-end"}>
+                <Button variant="contained" onClick={handleOpenModal}>
+                  درخواست ت اعتبار
+                </Button>
+              </Box>
+            </Grid>
+          </SectionGuard>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+
+      <FixedModal
+        open={isOpenModal}
+        handleClose={handleCloseModal}
+        title="درخواست ت اعتبار"
+        maxHeight="90%"
+      >
+        <AbstructProctorModal1 formdata={formData} />
+      </FixedModal>
+    </>
   );
 }
 

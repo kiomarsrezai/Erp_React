@@ -7,6 +7,7 @@ interface SuccessLoginItemShape {
   lastName: string;
   sectionId: string;
   bio: string;
+  dateNow: string;
   lisence: string | null;
 }
 

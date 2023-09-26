@@ -14,6 +14,7 @@ export const reactQueryKeys = {
   budget: {
     seprator: {
       getData: ["budget-seprator"],
+      getConfrimData: ["budget-seprator-confrim-data"],
       projectModal1: ["budget-seprator-project-modal1"],
     },
     sepratorCreaditor: {
@@ -22,6 +23,10 @@ export const reactQueryKeys = {
     },
     proposal: {
       getData: ["budget-propsal"],
+      getModal1Data: ["budget-propsal-modal1"],
+      getModal2Data: ["budget-propsal-modal2"],
+      getModal3Data: ["budget-propsal-modal3"],
+
       getAccData: ["budget-propsal-acc"],
     },
     connect: {
@@ -65,6 +70,7 @@ export const reactQueryKeys = {
     },
     proctor: {
       abstract: ["abstract-proctor"],
+      abstractProctorModal1: ["abstract-proctor-modal1"],
       getDetailData: ["abstract-proctor-detail"],
     },
     abstruct: {
@@ -101,6 +107,16 @@ export const reactQueryKeys = {
     tasks: {
       getData: ["contracts-tasks-data"],
       getArea: ["contracts-areas-data"],
+    },
+    motaleb: {
+      getData: ["all-motaleb"],
+    },
+  },
+
+  departman: {
+    aceptor: {
+      getData: ["departman-acceptor-read"],
+      getEmploye: ["departman-acceptor-employe"],
     },
   },
   // globals

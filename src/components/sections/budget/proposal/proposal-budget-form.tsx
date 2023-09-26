@@ -141,17 +141,18 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
     setCodingId(coding);
     setIsOpenBaseModal(false);
     submitMutation.mutate(formData);
+    setFilterText(String(coding));
 
-    setTimeout(() => {
-      afterCloseAnyModal();
-      const top =
-        (document.querySelector("#table-container") as any)?.scrollTop +
-        (document.querySelector(`#c-${coding}`) as any).getBoundingClientRect()
-          ?.top -
-        500;
+    // setTimeout(() => {
+    //   afterCloseAnyModal();
+    //   const top =
+    //     (document.querySelector("#table-container") as any)?.scrollTop +
+    //     (document.querySelector(`#c-${coding}`) as any).getBoundingClientRect()
+    //       ?.top -
+    //     500;
 
-      (document.querySelector("#table-container") as any)?.scrollTo?.(0, top);
-    }, 500);
+    //   (document.querySelector("#table-container") as any)?.scrollTo?.(0, top);
+    // }, 500);
   };
 
   return (
@@ -222,11 +223,10 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
             </Button>
           </Grid>
 
-          {/* <Grid sm={2}>
+          <Grid sm={2}>
             <TextField
               size="small"
               label="جستجو"
-              sx={{ width: "250px" }}
               value={filterText}
               variant="outlined"
               onChange={(e) => setFilterText(e.target.value)}
@@ -239,7 +239,7 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
               }}
               fullWidth
             />
-          </Grid> */}
+          </Grid>
         </Grid>
       </Box>
 

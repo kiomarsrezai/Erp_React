@@ -8,11 +8,22 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CopyrightIcon from "@mui/icons-material/Copyright";
+import { useEffect, useState } from "react";
+import { NowDateValue, stimulDateValue } from "helper/export-utils";
 
 function AdminSidenav() {
   const normalize = useLayoutStore((state) => state.normalize);
 
   const drawerWidth = normalize ? 74 : 300;
+
+  // time
+  const [nowTime, setNowTime] = useState(NowDateValue());
+  useEffect(() => {
+    const timeout = setInterval(() => {
+      setNowTime(NowDateValue());
+    }, 10000);
+    return () => clearInterval(timeout);
+  }, []);
 
   return (
     <Drawer
@@ -69,8 +80,11 @@ function AdminSidenav() {
               fontWeight="bold"
               color="grey.600"
             >
-              <CopyrightIcon sx={{ fontSize: 14 }} />
-              {!normalize && "فاوا اهواز"}
+              {!normalize && (
+                <Typography variant="caption" dir="ltr">
+                  {nowTime}
+                </Typography>
+              )}
             </Typography>
           </CardContent>
         </Card>

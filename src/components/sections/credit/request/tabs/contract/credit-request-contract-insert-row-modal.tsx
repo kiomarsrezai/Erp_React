@@ -35,7 +35,7 @@ interface TableDataItemShape {
 }
 
 interface CreditRequestContractInsertRowModalProps {
-  // data: CreditReadRequestBudgetRowShape[];
+  data: CreditRequestReadContractModalTableShape[];
   formData: any;
   onDoneTask: () => void;
   baseData: any[];
@@ -44,7 +44,7 @@ interface CreditRequestContractInsertRowModalProps {
 function CreditRequestContractInsertRowModal(
   props: CreditRequestContractInsertRowModalProps
 ) {
-  const { formData, onDoneTask, baseData } = props;
+  const { formData, onDoneTask, baseData, data } = props;
 
   // table data
   const [addItemsList, setAddItemsList] = useState<any>({});
@@ -108,12 +108,18 @@ function CreditRequestContractInsertRowModal(
     // <IconButton color="primary" onClick={() => handleInsertClick(row)}>
     //   <AddIcon />
     // </IconButton>
-    <Checkbox
-      value={row.id}
-      checked={!!addItemsList[row.id]}
-      onChange={toggleItem}
-      size="small"
-    />
+    <>
+      {!baseData.find((baseItem) => {
+        return baseItem.number === row.number;
+      }) && (
+        <Checkbox
+          value={row.id}
+          checked={!!addItemsList[row.id]}
+          onChange={toggleItem}
+          size="small"
+        />
+      )}
+    </>
   );
 
   // head group
@@ -122,9 +128,9 @@ function CreditRequestContractInsertRowModal(
   });
 
   const getDataClick = () => {
-    modalDataMutation.mutate({
-      areaId: budgetProccedId[generalFieldsConfig.AREA],
-    });
+    // modalDataMutation.mutate({
+    //   areaId: budgetProccedId[generalFieldsConfig.AREA],
+    // });
   };
 
   const tableHeadGroup: TableHeadGroupShape = [
@@ -146,14 +152,14 @@ function CreditRequestContractInsertRowModal(
           </LoadingButton>
         </Box>
       ),
-      colspan: 6,
+      colspan: 7,
     },
   ];
 
   // data
-  const modalDataMutation = useMutation(creditRequestApi.contractModal);
+  // const modalDataMutation = useMutation(creditRequestApi.contractModal);
 
-  const filteredData = modalDataMutation.data?.data || [];
+  const filteredData = data; //modalDataMutation.data?.data || [];
   // const filteredData =
   //  data.filter(
   //   (item) =>
@@ -170,19 +176,18 @@ function CreditRequestContractInsertRowModal(
     const formatedData: TableDataItemShape[] | any = unFormatData.map(
       (item, i) => ({
         ...item,
-        number: (
-          <Box>
-            {i + 1}
-            <Checkbox
-              value={item.id}
-              checked={!!addItemsList[item.id]}
-              onChange={toggleItem}
-              size="small"
-            />
-          </Box>
-        ),
+        number: i + 1,
+        // <Box>
+        //   {i + 1}
+        //   <Checkbox
+        //     value={item.id}
+        //     checked={!!addItemsList[item.id]}
+        //     onChange={toggleItem}
+        //     size="small"
+        //   />
+        // </Box>
         contractNumber: item.number,
-        // actions: () => actionBtn(item),
+        actions: () => actionBtn(item),
       })
     );
 
@@ -210,19 +215,22 @@ function CreditRequestContractInsertRowModal(
         <div>
           ردیف
           <IconButton color="primary" onClick={handleSaveClick}>
-            <CheckIcon />
+            <AddIcon />
           </IconButton>
         </div>
       ),
       name: "number",
+      width: "100px",
     },
     {
       title: "شماره",
       name: "contractNumber",
+      width: "120px",
     },
     {
       title: "تاریخ",
       name: "dateShamsi",
+      width: "120px",
     },
     {
       title: "شرح",
@@ -233,19 +241,26 @@ function CreditRequestContractInsertRowModal(
       title: "پیمانکار",
       name: "suppliersName",
       align: "left",
+      width: "220px",
     },
     {
       title: "مبلغ",
       name: "shareAmount",
       align: "left",
       split: true,
+      width: "120px",
+    },
+    {
+      title: "عملیات",
+      name: "actions",
+      width: "100px",
     },
   ];
 
   return (
     <FixedTable
       heads={tableHeads}
-      headGroups={tableHeadGroup}
+      // headGroups={tableHeadGroup}
       data={tableData}
       footer={tableFooter}
       notFixed

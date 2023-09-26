@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 interface UserState {
   id: number | null;
+  nowDate: string | null;
   userName: string;
   firstName: string;
   lastName: string;
@@ -17,6 +18,7 @@ const userStore = create<UserState>((set) => ({
   userName: "",
   firstName: "",
   lastName: "",
+  nowDate: null,
   bio: "",
   permissions: "",
   fetched: false,
@@ -29,6 +31,7 @@ const userStore = create<UserState>((set) => ({
       lastName: "",
       bio: "",
       permissions: "",
+      nowDate: null,
       fetched: false,
     }),
 }));

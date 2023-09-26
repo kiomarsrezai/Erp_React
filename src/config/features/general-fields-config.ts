@@ -66,19 +66,19 @@ export const numbersItems: FlotingLabelTextfieldItemsShape = [
 
 export const budgetMethodItems: FlotingLabelTextfieldItemsShape = [
   {
-    label: "درآمد/منابع",
+    label: "درآمد",
     value: 1,
   },
   {
-    label: "جاری / هزینه ای",
+    label: "هزینه ای",
     value: 2,
   },
   {
-    label: "عمرانی / سرمایه ای",
+    label: "تملک سرمایه ای",
     value: 3,
   },
   {
-    label: "مالی",
+    label: "تملک مالی",
     value: 4,
   },
   {
@@ -90,8 +90,12 @@ export const budgetMethodItems: FlotingLabelTextfieldItemsShape = [
     value: 8,
   },
   {
-    label: "دریافت از خزانه",
+    label: "دریافت از خزانه / نیابتی",
     value: 9,
+  },
+  {
+    label: "دریافت از خزانه / متمرکز",
+    value: 10,
   },
 ];
 
@@ -230,5 +234,16 @@ export const monthItems: FlotingLabelTextfieldItemsShape = [
   {
     label: "اسفند",
     value: 12,
+  },
+];
+
+export const ganderItems: FlotingLabelTextfieldItemsShape = [
+  {
+    label: "مرد",
+    value: 1,
+  },
+  {
+    label: "زن",
+    value: 2,
   },
 ];
