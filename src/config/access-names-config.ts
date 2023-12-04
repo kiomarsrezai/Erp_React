@@ -3,6 +3,7 @@ export const accessNamesConfig = {
   REPORT__PERCENT_PAGE: "report-percent",
 
   // budget
+  BUDGET__BeforePROPOSAL_PAGE: "budget-beforeproposal",
   BUDGET__PROPOSAL_PAGE: "budget-proposal",
 
   BUDGET__SEPRATOR_PAGE: "budget-seprator",

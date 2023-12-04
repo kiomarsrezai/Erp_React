@@ -66,8 +66,19 @@ export const sidenavsLayout: SidenavShape[] = [
     icon: CircleIcon,
     items: [
       {
-        title: "بودجه مصوب",
+        title: "بودجه پیشنهادی",
         path: "/budget/proposal",
+        icon: MoneyIcon,
+        licenseName: accessNamesConfig.BUDGET__BeforePROPOSAL_PAGE,
+        element: BudgetProposalPage,
+        permissionItems: [
+          getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
+          getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 1),
+          accessNamesConfig.FIELD_BUDGET_METHOD,
+        ],
+      },  {
+        title: "بودجه مصوب",
+        path: "/budget/mosavab",
         icon: MoneyIcon,
         licenseName: accessNamesConfig.BUDGET__PROPOSAL_PAGE,
         element: BudgetProposalPage,
