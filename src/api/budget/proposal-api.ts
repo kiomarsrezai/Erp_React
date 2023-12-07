@@ -203,4 +203,17 @@ export const proposalBudgetApi = new (class extends BaseApi {
     >(url);
     return response.data;
   };
+
+
+
+
+
+  ////sajjad
+  BudgetProposalRead = async (formdata: any) => {
+    const url = propsalBudgetUrls.getProData + this.joinFilterData(formdata);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<GetSingleProposalInfoItemShape[]>
+    >(url);
+    return response.data;
+  };
 })();

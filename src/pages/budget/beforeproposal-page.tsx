@@ -3,17 +3,14 @@ import AdminLayout from "components/layout/admin-layout";
 import FixedTable from "components/data/table/fixed-table";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import IconButton from "@mui/material/IconButton";
-import FixedModal from "components/ui/modal/fixed-modal";
-import ProposalBudgetForm from "components/sections/budget/proposal/proposal-budget-form";
-import ProposalModal1 from "components/sections/budget/proposal/modal-1/proposal-modal-1";
 import WindowLoading from "components/ui/loading/window-loading";
-import ProposalModalInfo from "components/sections/budget/proposal/modal-info/proposal-modal-info";
 import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import { transferApi } from "api/transfer/transfer-api";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { ReactNode, useEffect, useRef, useState } from "react";
-import { proposalConfig } from "config/features/budget/proposal-config";
-import { GetSingleProposalItemShape } from "types/data/budget/proposal-type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { proposalBudgetApi } from "api/budget/proposal-api";
@@ -21,25 +18,53 @@ import { getBgColorBudget } from "helper/get-color-utils";
 import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { formatExpenseName } from "helper/data-utils";
 import { Box } from "@mui/material";
-import ProposalModalInsertCode from "components/sections/budget/proposal/insert-modal/proposal-modal-insert-code";
+import BeforeProposalBudgetForm from "components/sections/budget/beforeproposal/beforeproposal-budget-form";
+import { beforeproposalConfig, beforepropsalBudgetUrls } from "config/features/budget/beforeproposal-config";
+import { GetSingleBeforeProposalItemShape } from "types/beforeproposal-type";
+import { beforeproposalapi } from "api/budget/pishnahadi-api";
+import { globalConfig } from "config/global-config";
+import { enqueueSnackbar } from "notistack";
+import { generalFieldsConfig } from "config/features/general-fields-config";
 
 interface TableDataItemShape {
   number: ReactNode;
+  codingId: ReactNode;
   code: ReactNode;
   description: ReactNode;
   mosavab: ReactNode;
   edit: ReactNode;
   creditAmount: ReactNode;
   expense: ReactNode;
+  budgetNext: ReactNode;
+  levelNumber: ReactNode;
+  crud: ReactNode;
   percent: ReactNode;
   actions: ((row: TableDataItemShape) => ReactNode) | ReactNode;
 }
 
+
+
+
+
 function BudgetBeforeProposalPage() {
   const [formData, setFormData] = useState({
-    [proposalConfig.YEAR]: undefined,
-    [proposalConfig.AREA]: undefined,
-    [proposalConfig.BUDGET_METHOD]: undefined,
+    [generalFieldsConfig.YEAR]: undefined,
+    [generalFieldsConfig.AREA]: undefined,
+    [generalFieldsConfig.BUDGET_METHOD]: undefined,
+  });
+
+  const handleaddbtnclick = useMutation(beforeproposalapi.insertData, {
+    onSuccess: () => {
+      getDataMutation.mutate(formData);
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+    },
+    onError: () => {
+      //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+      //variant: "error",
+      //});
+    },
   });
 
   const [codingId, setCodingId] = useState<any>(0);
@@ -55,6 +80,26 @@ function BudgetBeforeProposalPage() {
       setCodingId(0);
     }, 3000);
   };
+
+  const [textDeleteModal, setTextDeleteModal] = useState("");
+ // delete item
+ const [isShowConfrimDelete, setIsShowConfrimDelete] = useState<null | number>(
+  null
+);
+const handleClickDelete = (
+  row: TableDataItemShape & GetSingleBeforeProposalItemShape
+) => {
+  const deleteText = `آیا مایل به حذف ${row.code} - ${row.description} هستید ؟`;
+  setTextDeleteModal(deleteText);
+  setIsShowConfrimDelete(row.id);
+};
+
+
+const [isOpenModal, setIsOpenModal] = useState(false);
+  const [activeRowTitle, setActiveRowTitle] = useState("");
+  // const detailCodingMutation = useMutation(beforeproposalapi.del);
+  
+
 
   // form heads
   const tableHeads: TableHeadShape = [
@@ -93,15 +138,22 @@ function BudgetBeforeProposalPage() {
       width: "160px",
     },
     {
+      title: "مبلغ پیشنهادی",
+      align: "left",
+      name: "budgetNext",
+      split: true,
+      width: "160px",
+    },
+    {
       title: "ت اعتبار",
       name: "creditAmount",
       split: true,
       align: "left",
-      hidden: formData[proposalConfig.BUDGET_METHOD] === 1,
+      hidden: formData[beforeproposalConfig.BUDGET_METHOD] === 1,
       width: "160px",
     },
     {
-      title: formatExpenseName(formData[proposalConfig.BUDGET_METHOD]),
+      title: formatExpenseName(formData[beforeproposalConfig.BUDGET_METHOD]),
       name: "expense",
       align: "left",
       split: true,
@@ -123,11 +175,10 @@ function BudgetBeforeProposalPage() {
   const tableHeadGroups: TableHeadGroupShape = [
     {
       title: (
-        <ProposalBudgetForm
+        <BeforeProposalBudgetForm
           formData={formData}
           setFormData={setFormData}
           setCodingId={setCodingId}
-          afterCloseAnyModal={afterCloseAnyModal}
         />
       ),
       colspan: tableHeads.filter((item) => !item.hidden).length,
@@ -138,12 +189,12 @@ function BudgetBeforeProposalPage() {
   const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
   const [activeRowData, setActiveRowData] =
-    useState<GetSingleProposalItemShape | null>(null);
+    useState<GetSingleBeforeProposalItemShape | null>(null);
 
   const getDetailMutation = useMutation(proposalBudgetApi.getDetailData);
 
   const queryClient = useQueryClient();
-  const getDataMutation = useMutation(proposalBudgetApi.getData, {
+  const getDataMutation = useMutation(beforeproposalapi.getData, {
     onSuccess: (data) => {
       queryClient.setQueryData(reactQueryKeys.budget.proposal.getData, data);
     },
@@ -161,7 +212,7 @@ function BudgetBeforeProposalPage() {
   };
 
   const handleOpenDetailModal = (
-    row: TableDataItemShape & GetSingleProposalItemShape
+    row: TableDataItemShape & GetSingleBeforeProposalItemShape
   ) => {
     clearTimeout(activeTimeOut.current);
     setIsmodal1Changed(false);
@@ -171,13 +222,26 @@ function BudgetBeforeProposalPage() {
 
     getDetailMutation.mutate({
       ...formData,
-      [proposalConfig.coding]: row.codingId,
+      [beforeproposalConfig.coding]: row.codingId,
     });
 
     setCodingId(row.codingId);
 
     setIsOpenDetailModal(true);
   };
+  const insertCodeAccMutation = useMutation(beforeproposalapi.insertData, {
+    onSuccess: () => {
+      getDataMutation.mutate(formData);
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+    },
+    onError: () => {
+      //enqueueSnackbar(globalConfig.ERROR_MESSAGE, {
+      //variant: "error",
+      //});
+    },
+  });
 
   // detail modal
   const [isOpenInfoModal, setIsOpenInfoModal] = useState(false);
@@ -185,18 +249,14 @@ function BudgetBeforeProposalPage() {
   const getInfoDataMutation = useMutation(proposalBudgetApi.getInfoData);
 
   const handleOpenInfoModal = (
-    row: TableDataItemShape & GetSingleProposalItemShape
+    row: TableDataItemShape & GetSingleBeforeProposalItemShape
   ) => {
     clearTimeout(activeTimeOut.current);
     const title = `${row.code} - ${row.description}`;
     setModalTitle(title);
     setActiveRowData(row);
 
-    getInfoDataMutation.mutate({
-      ...formData,
-      [proposalConfig.coding]: row.codingId,
-    });
-
+    
     setCodingId(row.codingId);
 
     setIsOpenInfoModal(true);
@@ -204,32 +264,40 @@ function BudgetBeforeProposalPage() {
 
   // data
   const actionButtons = (
-    row: (TableDataItemShape & GetSingleProposalItemShape) | any
+    row: (TableDataItemShape & GetSingleBeforeProposalItemShape) | any
   ) => (
     <Box display={"flex"} justifyContent={"center"}>
-      {/* {formData[proposalConfig.AREA] === 10 && ( */}
-      <IconButton
+      {/* {formData[beforeproposalConfig.AREA] === 10 && ( */}
+      {/* <DelIcon
         size="small"
-        color="primary"
+        color="danger"
         onClick={() => handleOpenInfoModal(row)}
       >
         <UnfoldMoreIcon />
-      </IconButton>
+      </DelIcon> */}
       {/* )} */}
 
       <IconButton
         size="small"
-        color="primary"
-        onClick={() => handleOpenDetailModal(row)}
+        color="error"
+        onClick={() => handleClickDelete(row)}
       >
-        <FormatListBulletedIcon />
+        <DeleteIcon />
+      </IconButton>
+
+      <IconButton
+        size="small"
+        color="primary"
+        // onClick={() => handleClickEditBtn(row)}
+      >
+        <EditIcon />
       </IconButton>
     </Box>
   );
 
   // add code
   const [isOpenAddCodeModal, setIsOpenAddCodeModal] = useState(false);
-  const handleOpenAddCodeModal = (item: GetSingleProposalItemShape) => {
+  const handleOpenAddCodeModal = (item: GetSingleBeforeProposalItemShape) => {
     clearTimeout(activeTimeOut.current);
     const title = `افزودن کد - ${item.code} - ${item.description}`;
     setModalTitle(title);
@@ -239,6 +307,7 @@ function BudgetBeforeProposalPage() {
 
     setIsOpenAddCodeModal(true);
   };
+
   const handleCloseAddCodeModal = () => {
     setIsOpenAddCodeModal(false);
     afterCloseAnyModal();
@@ -251,7 +320,7 @@ function BudgetBeforeProposalPage() {
 
   // data
   const formatTableData = (
-    unFormatData: GetSingleProposalItemShape[]
+    unFormatData: GetSingleBeforeProposalItemShape[]
   ): TableDataItemShape[] => {
     const formatedData: TableDataItemShape[] | any = unFormatData.map(
       (item, i) => ({
@@ -262,7 +331,7 @@ function BudgetBeforeProposalPage() {
             <IconButton
               size="small"
               color="primary"
-              onClick={() => handleOpenAddCodeModal(item)}
+              onClick={() => handleaddbtnclick.mutate(item)}
             >
               <AddIcon />
             </IconButton>
@@ -281,7 +350,7 @@ function BudgetBeforeProposalPage() {
           item.expense < 0 ||
           (item.expense > item.creditAmount &&
             [2, 3, 4, 5].includes(
-              formData[proposalConfig.BUDGET_METHOD] as any
+              formData[beforeproposalConfig.BUDGET_METHOD] as any
             ))
             ? "red"
             : "",
@@ -292,7 +361,7 @@ function BudgetBeforeProposalPage() {
             ? "#ffb1b1"
             : getBgColorBudget(
                 item.levelNumber,
-                formData[proposalConfig.BUDGET_METHOD] || 0
+                formData[beforeproposalConfig.BUDGET_METHOD] || 0
               ),
         actions: () => actionButtons(item),
       })
@@ -303,7 +372,7 @@ function BudgetBeforeProposalPage() {
 
   const proposalQuery = useQuery(
     reactQueryKeys.budget.proposal.getData,
-    () => proposalBudgetApi.getData({}),
+    () => beforeproposalapi.getData({}),
     {
       enabled: false,
     }
@@ -317,25 +386,25 @@ function BudgetBeforeProposalPage() {
   const footerMosavabSum = sumFieldsInSingleItemData(
     proposalQuery.data?.data,
     "mosavab",
-    (item: GetSingleProposalItemShape) => item.levelNumber === 1
+    (item: GetSingleBeforeProposalItemShape) => item.levelNumber === 1
   );
 
   const footerEditSum = sumFieldsInSingleItemData(
     proposalQuery.data?.data,
     "edit",
-    (item: GetSingleProposalItemShape) => item.levelNumber === 1
+    (item: GetSingleBeforeProposalItemShape) => item.levelNumber === 1
   );
 
   const footerExpenseSum = sumFieldsInSingleItemData(
     proposalQuery.data?.data,
     "expense",
-    (item: GetSingleProposalItemShape) => item.levelNumber === 1
+    (item: GetSingleBeforeProposalItemShape) => item.levelNumber === 1
   );
 
   const footerCreaditAmount = sumFieldsInSingleItemData(
     proposalQuery.data?.data,
     "creditAmount",
-    (item: GetSingleProposalItemShape) => item.levelNumber === 1
+    (item: GetSingleBeforeProposalItemShape) => item.levelNumber === 1
   );
 
   const tableFooter: TableDataItemShape | any = {
@@ -400,7 +469,7 @@ function BudgetBeforeProposalPage() {
         />
       </AdminLayout>
       {/* modal 1 */}
-      <FixedModal
+      {/* <FixedModal
         open={isOpenDetailModal}
         handleClose={handleCloseModal1}
         loading={getDetailMutation.isLoading}
@@ -411,12 +480,12 @@ function BudgetBeforeProposalPage() {
           data={getDetailMutation.data?.data || []}
           baseTitle={modalTitle}
           formData={formData}
-          baseRowData={activeRowData as GetSingleProposalItemShape}
+          baseRowData={activeRowData as GetSingleBeforeProposalItemShape}
           setIsmodal1Changed={setIsmodal1Changed}
         />
-      </FixedModal>
+      </FixedModal> */}
       {/* modal info */}
-      <FixedModal
+      {/* <FixedModal
         open={isOpenInfoModal}
         handleClose={() => {
           setIsOpenInfoModal(false);
@@ -431,10 +500,10 @@ function BudgetBeforeProposalPage() {
           data={getInfoDataMutation.data?.data || []}
           formData={formData}
         />
-      </FixedModal>
+      </FixedModal> */}
 
       {/* modal insert code */}
-      <FixedModal
+      {/* <FixedModal
         open={isOpenAddCodeModal}
         handleClose={handleCloseAddCodeModal}
         loading={getInfoDataMutation.isLoading}
@@ -443,11 +512,11 @@ function BudgetBeforeProposalPage() {
         minHeight="400px"
       >
         <ProposalModalInsertCode
-          activeRowData={activeRowData as GetSingleProposalItemShape}
+          activeRowData={activeRowData as GetSingleBeforeProposalItemShape}
           formData={formData}
           onDoneTask={onDoneTaskModalInsertCode}
         />
-      </FixedModal>
+      </FixedModal> */}
 
       {/* loading */}
       <WindowLoading active={getDataMutation.isLoading} />
@@ -456,3 +525,5 @@ function BudgetBeforeProposalPage() {
 }
 
 export default BudgetBeforeProposalPage;
+
+

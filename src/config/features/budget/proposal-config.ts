@@ -48,4 +48,9 @@ export const propsalBudgetUrls = {
   // insert
   insertCode: "BudgetApi/BudgetInlineInsert",
   projectsCodeData: "BudgetApi/BudgetInlineInsertModal",
+
+  //sajjad
+
+  proInsert : "BudgetPishnahadiApi/BudgetProposalInlineInsert",
+  getProData :"BudgetPishnahadiApi/BudgetProposalRead"
 };

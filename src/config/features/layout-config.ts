@@ -45,6 +45,7 @@ import SomethingPage from "pages/base/something-page";
 import UserPage from "pages/base/users-page";
 import ContractsPlaces from "pages/contracts/contracts-places";
 import ContractsMotaleb from "pages/contracts/contracts-motaleb";
+import BudgetBeforeProposalPage from "pages/budget/beforeproposal-page";
 
 export const sidenavsLayout: SidenavShape[] = [
   // report
@@ -67,16 +68,21 @@ export const sidenavsLayout: SidenavShape[] = [
     items: [
       {
         title: "بودجه پیشنهادی",
-        path: "/budget/proposal",
+        path: "/budget/BudgetProposal",
         icon: MoneyIcon,
         licenseName: accessNamesConfig.BUDGET__BeforePROPOSAL_PAGE,
-        element: BudgetProposalPage,
+        element: BudgetBeforeProposalPage,
         permissionItems: [
           getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
           getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 1),
           accessNamesConfig.FIELD_BUDGET_METHOD,
         ],
-      },  {
+      },
+   
+      
+      
+      
+      {
         title: "بودجه مصوب",
         path: "/budget/mosavab",
         icon: MoneyIcon,

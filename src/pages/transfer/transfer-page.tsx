@@ -150,7 +150,7 @@ function TransferPage() {
 
     const title = `${row.description} (${row.code})`;
     setModalTitle(title);
-    setActiveID(row.id);
+    setActiveID(row.id); 
     handleOpenModal();
   };
 
@@ -190,7 +190,7 @@ function TransferPage() {
   ) => {
     const text = `آیا مایل به حذف کردن ردیف ${row.description} هستید ؟`;
     setConfrimRemoveText(text);
-    setRemoveItemId(row.id);
+    setRemoveItemId(row.id); 
   };
 
   const actionButtons = (
