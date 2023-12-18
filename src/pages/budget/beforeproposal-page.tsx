@@ -112,7 +112,9 @@ const [isOpenModal, setIsOpenModal] = useState(false);
       title: "#",
       name: "levelNumber",
       width: "40px",
-    },
+      hidden:true
+    }
+    ,
     {
       title: "کد",
       name: "code",
@@ -124,28 +126,28 @@ const [isOpenModal, setIsOpenModal] = useState(false);
       name: "description",
     },
     {
-      title: "مصوب",
+      title: "مصوب 1402",
       align: "left",
       name: "mosavab",
       split: true,
       width: "160px",
     },
     {
-      title: "اصلاح",
+      title: "اصلاح 1402",
       align: "left",
       name: "edit",
       split: true,
       width: "160px",
     },
     {
-      title: "مبلغ پیشنهادی",
+      title: "مبلغ پیشنهادی 1403",
       align: "left",
       name: "budgetNext",
       split: true,
       width: "160px",
     },
     {
-      title: "ت اعتبار",
+      title: "ت اعتبار 1402",
       name: "creditAmount",
       split: true,
       align: "left",
@@ -153,7 +155,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
       width: "160px",
     },
     {
-      title: formatExpenseName(formData[beforeproposalConfig.BUDGET_METHOD]),
+      title: "هزینه 1402",
       name: "expense",
       align: "left",
       split: true,
@@ -164,11 +166,13 @@ const [isOpenModal, setIsOpenModal] = useState(false);
       name: "percent",
       percent: true,
       width: "80px",
+      hidden:true
     },
     {
       title: "عملیات",
       name: "actions",
       width: "100px",
+      hidden:true
     },
   ];
 
@@ -328,13 +332,13 @@ const [isOpenModal, setIsOpenModal] = useState(false);
         number: i + 1,
         code: (
           <Box display={"flex"} alignItems={"center"}>
-            <IconButton
+            {/* <IconButton
               size="small"
               color="primary"
-              onClick={() => handleaddbtnclick.mutate(item)}
-            >
-              <AddIcon />
-            </IconButton>
+              // onClick={() => handleaddbtnclick.mutate(item)}
+            > */}
+              {/* <AddIcon /> */}
+            {/* </IconButton> */}
             <span>{item.code}</span>
           </Box>
         ),
@@ -394,7 +398,11 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     "edit",
     (item: GetSingleBeforeProposalItemShape) => item.levelNumber === 1
   );
-
+  const footerbudgetNextSum = sumFieldsInSingleItemData(
+    proposalQuery.data?.data,
+    "budgetNext",
+    (item: GetSingleBeforeProposalItemShape) => item.levelNumber === 1
+  );
   const footerExpenseSum = sumFieldsInSingleItemData(
     proposalQuery.data?.data,
     "expense",
@@ -415,6 +423,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     description: null,
     mosavab: footerMosavabSum,
     edit: footerEditSum,
+    budgetNext: footerbudgetNextSum,
     creditAmount: footerCreaditAmount,
     expense: footerExpenseSum,
     // percent: getPercent(footerExpenseSum, footerEditSum),

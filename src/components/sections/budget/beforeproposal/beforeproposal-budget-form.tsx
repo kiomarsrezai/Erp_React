@@ -68,7 +68,7 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
         accessNamesConfig.FIELD_AREA,
         accessNamesConfig.FIELD_BUDGET_METHOD,
       ],
-      accessNamesConfig.BUDGET__PROPOSAL_PAGE
+      accessNamesConfig.BUDGET__BeforePROPOSAL_PAGE
     );
 
     if (!havePermission) {
@@ -221,7 +221,7 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
             </Button> */}
           </Grid>
 
-          <Grid sm={2}>
+          {/* <Grid sm={2}>
             <TextField
               size="small"
               label="باقیمانده"
@@ -232,13 +232,13 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    {/* <SearchIcon /> */}
+                     <SearchIcon /> 
                   </InputAdornment>
                 ),
               }}
               fullWidth
             />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Box>
 

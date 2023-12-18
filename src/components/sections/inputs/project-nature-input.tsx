@@ -54,7 +54,7 @@ function ProjectNatureInput(props: BudgetMethodInputProps) {
 
   return (
     <FlotingLabelSelect
-      label="دسته بندی"
+      label="مجری"
       name={budgetConnectConfig.coding_nature}
       items={inputItems}
       value={value}

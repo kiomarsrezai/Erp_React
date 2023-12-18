@@ -48,15 +48,15 @@ function BudgetConnectPage() {
       name: "description",
     },
     {
-      title: "دسته بندی",
-      align: "left",
-      name: "codingNatureName",
-      width: "150px",
-    },
-    {
       title: "متولی",
       align: "left",
       name: "proctorName",
+      width: "150px",
+    },
+    {
+      title: "مجری",
+      align: "left",
+      name: "codingNatureName",
       width: "150px",
     },
     {
