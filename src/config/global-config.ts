@@ -4,9 +4,9 @@ const isDevelopment =
 export const globalConfig = {
   siteTitle: "سامانه ERP",
   BASE_API_URL:
-  //  isDevelopment
-  //   ? "https://localhost:44309/api/v1/"
-  //   : 
+   isDevelopment
+    ? "http://109.201.18.33:80/api/v1/"
+    :
     "https://info.ahvaz.ir/api/v1/", // https://info.ahvaz.ir/ https://localhost:44309/
   BASE_MEDIA_URL: "https://info.ahvaz.ir/Resources/", // https://info.ahvaz.ir/ https://localhost:44309/
   SUCCESS_MESSAGE: "عملیات با موفقیت انجام شد",

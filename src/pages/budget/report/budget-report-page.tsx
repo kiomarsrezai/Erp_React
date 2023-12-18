@@ -13,10 +13,10 @@ import { useEffect, useState } from "react";
 import { accessNamesConfig } from "config/access-names-config";
 import { checkHavePermission } from "helper/auth-utils";
 import { budgetReportItems } from "config/features/general-fields-config";
-import BudgetReportProjectScaleForm from "components/sections/budget/reports/project-scale/budget-project-scale-form";
 import BudgetReportProjectScale from "components/sections/budget/reports/project-scale/budget-project-scale";
 import BudgetReportProjectSort from "components/sections/budget/reports/deviation/porject/budget-report-project-sort";
 import BudgetReportExpense from "components/sections/budget/reports/expense/budget-report-expense";
+import RequestAnalyzeRead from "components/sections/budget/reports/request-analyze/request-analyze-read";
 
 function BudgetReportsPage() {
   const [tabValue, setTabValue] = useState(undefined);
@@ -60,6 +60,9 @@ function BudgetReportsPage() {
 
       case 8:
         return accessNamesConfig.BUDGET__REPORT_PAGE_EXPENSE_ORGAN;
+  
+      case 9:
+        return accessNamesConfig.BUDGET__REPORT_PAGE_REQUEST_ANALYZE;
 
       default:
         return "";
@@ -96,6 +99,7 @@ function BudgetReportsPage() {
     6: <BudgetReportProjectScale tabRender={budgetTabRender} />,
     7: <BudgetReportProjectSort tabRender={budgetTabRender} />,
     8: <BudgetReportExpense tabRender={budgetTabRender} />,
+    9: <RequestAnalyzeRead tabRender={budgetTabRender} />,
   };
 
   return (

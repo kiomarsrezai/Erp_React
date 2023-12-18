@@ -5,6 +5,7 @@ import { programProjectApi } from "api/project/programs-project-api";
 import { abstructProctorApi } from "api/report/abstruct-proctor-api";
 import { accessNamesConfig } from "config/access-names-config";
 import {
+  budgetAnalyzeKindItems,
   budgetKindItems,
   budgetMethodItems,
   budgetReportItems,
@@ -128,6 +129,13 @@ function usePermissions() {
     "نوع فرایند",
     accessNamesConfig.BUDGET__REPORT__ABSTRUCT_BUDGET_PAGE_KIND,
     budgetKindItems
+  );
+  
+  //   budget kind
+  const budgetAnalyzeKindField = formatLocalFields(
+    "نوع فرایند",
+    accessNamesConfig.BUDGET__REPORT_PAGE_REQUEST_ANALYZE,
+      budgetAnalyzeKindItems
   );
 
   // traz type
@@ -305,6 +313,12 @@ function usePermissions() {
       "مقیاس پروژه",
       accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE,
       [yearLevel1Field, areaNumber3Field]
+    ),
+  
+    [accessNamesConfig.BUDGET__REPORT_PAGE_REQUEST_ANALYZE]: formatLocalFields(
+        "تامین اعتبار",
+        accessNamesConfig.BUDGET__REPORT_PAGE_REQUEST_ANALYZE,
+        [areaNumber1Field, budgetAnalyzeKindField]
     ),
 
     // transfer page

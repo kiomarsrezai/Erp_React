@@ -143,6 +143,10 @@ export const budgetReportItems: FlotingLabelTextfieldItemsShape = [
     label: "ابعاد اجرای پروژه",
     value: 6,
   },
+  {
+    label: "تامین اعتبار",
+    value: 9,
+  },
 ];
 
 export const budgetKindItems: FlotingLabelTextfieldItemsShape = [
@@ -155,6 +159,14 @@ export const budgetKindItems: FlotingLabelTextfieldItemsShape = [
     value: 2,
   },
 ];
+
+export const budgetAnalyzeKindItems: FlotingLabelTextfieldItemsShape = [
+  {label: 'راکت', value: 1},
+  {label: 'بدون ثبت هزینه', value: 2},
+  {label: 'در پایان', value: 3},
+  {label: 'بیشتر از اعتبار', value: 4},
+];
+
 
 export const budgetKindDeviationItems: FlotingLabelTextfieldItemsShape = [
   {
