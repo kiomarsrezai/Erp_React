@@ -52,21 +52,25 @@ export default function RequestAnalyzeRead(props: BudgetReportFundingProps) {
         {
             title: "شرح درخواست",
             name: "reqDesc",
+            align: 'left'
         },
         {
             title: "مبلغ درخواست",
             name: "requestPrice",
             split: true,
+            align: 'left'
         },
         {
             title: "ثبت هزینه",
             name: "cnfirmedPrice",
             split: true,
+            align: 'left'
         },
         {
             title: "مانده",
             name: "diff",
             split: true,
+            align: 'left'
         },
         {
             title: "روز",
@@ -89,7 +93,7 @@ export default function RequestAnalyzeRead(props: BudgetReportFundingProps) {
     };
     
     const deviationQuery = useQuery(
-        reactQueryKeys.budget.projectOpration,
+        reactQueryKeys.budget.requestAnalyzeRead,
         () => budgetDeviationApi.getData({}),
         {
             enabled: false,

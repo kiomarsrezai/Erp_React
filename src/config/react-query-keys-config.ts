@@ -44,6 +44,7 @@ export const reactQueryKeys = {
     deviation: ["budget-deviation"],
     expense: ["budget-expense"],
     projectOpration: ["budget-project-opration"],
+    requestAnalyzeRead: ["request-analyze-read"],
   },
   request: {
     budgetRow: {

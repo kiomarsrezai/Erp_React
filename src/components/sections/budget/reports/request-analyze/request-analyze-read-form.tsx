@@ -27,6 +27,7 @@ import {requestAnalyzeReadApi} from "../../../../../api/report/request-analyze-r
 import {budgetAnalyzeKindItems} from "../../../../../config/features/general-fields-config";
 import * as moment2 from "jalali-moment";
 import moment from "moment";
+import {budgetDeviationConfig} from "../../../../../config/features/budget/report/budget-deviation-config";
 
 interface BudgetReportDeviationFormProps {
     formData: any;
@@ -54,7 +55,7 @@ export default function RequestAnalyzeReadForm(props: BudgetReportDeviationFormP
                 var end = moment(CurrentDate, "YYYY-MM-DD");
                 item.day = moment.duration(end.diff(start)).asDays()
             });
-            queryClient.setQueryData(reactQueryKeys.budget.projectOpration, data);
+            queryClient.setQueryData(reactQueryKeys.budget.requestAnalyzeRead, data);
         },
     });
     
@@ -91,7 +92,7 @@ export default function RequestAnalyzeReadForm(props: BudgetReportDeviationFormP
     
     // reset
     useEffect(() => {
-        queryClient?.setQueryData(reactQueryKeys.budget.deviation, {
+        queryClient?.setQueryData(reactQueryKeys.budget.requestAnalyzeRead, {
             data: [],
         });
     }, [
@@ -126,6 +127,17 @@ export default function RequestAnalyzeReadForm(props: BudgetReportDeviationFormP
             joinPermissions([kindPermissionForm, accessNamesConfig.FIELD_KIND_ID])
         )
         : budgetAnalyzeKindItems;
+    
+    
+    // reset
+    useEffect(() => {
+        queryClient?.setQueryData(reactQueryKeys.budget.requestAnalyzeRead, {
+            data: [],
+        });
+    }, [
+        formData[requestAnalyzeRead.area],
+        formData[requestAnalyzeRead.kind],
+    ]);
     
     return (
         <Box

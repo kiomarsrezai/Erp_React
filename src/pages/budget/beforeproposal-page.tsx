@@ -176,18 +176,6 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     },
   ];
 
-  const tableHeadGroups: TableHeadGroupShape = [
-    {
-      title: (
-        <BeforeProposalBudgetForm
-          formData={formData}
-          setFormData={setFormData}
-          setCodingId={setCodingId}
-        />
-      ),
-      colspan: tableHeads.filter((item) => !item.hidden).length,
-    },
-  ];
 
   // detail modal
   const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
@@ -463,6 +451,22 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     percent: "",
     actions: "",
   };
+  
+  const tableHeadGroups: TableHeadGroupShape = [
+    {
+      title: (
+          <BeforeProposalBudgetForm
+              formData={formData}
+              setFormData={setFormData}
+              setCodingId={setCodingId}
+              printData={{
+                data: tableData
+              }}
+          />
+      ),
+      colspan: tableHeads.filter((item) => !item.hidden).length,
+    },
+  ];
 
   return (
     <>

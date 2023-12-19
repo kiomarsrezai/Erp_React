@@ -21,15 +21,23 @@ import { globalConfig } from "config/global-config";
 import { checkHaveValue } from "helper/form-utils";
 import { beforeproposalConfig } from "config/features/budget/beforeproposal-config";
 import { InputAdornment, TextField } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import PrintIcon from "@mui/icons-material/Print";
+import GetAppIcon from "@mui/icons-material/GetApp";
+import {proposalBudgetXlsx} from "../../../../stimul/budget/report/proposal/budget-proposal-xlsx";
+
 
 interface BeforeProposalBudgetFormProps {
   formData: any;
   setFormData: any;
   setCodingId: any;
+  printData: {
+    data: any[];
+  };
 }
 
 function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
-  const { formData, setFormData} = props;
+  const { formData, setFormData, printData} = props;
 
   const userLicenses = userStore((state) => state.permissions);
 
@@ -152,6 +160,19 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
 //     //   (document.querySelector("#table-container") as any)?.scrollTo?.(0, top);
 //     // }, 500);
 //   };
+  
+  const handleExcelClick = () => {
+    if (printData.data.length) {
+      proposalBudgetXlsx({
+        data: submitedData,
+        footer: [
+          [],
+          [],
+          []
+        ],
+      });
+    }
+  };
 
   return (
     <>
@@ -219,6 +240,14 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
             >
               افزودن
             </Button> */}
+  
+            {/*<IconButton color="primary" >*/}
+            {/*  <PrintIcon />*/}
+            {/*</IconButton>*/}
+            
+            {/*<IconButton color="primary" onClick={handleExcelClick}>*/}
+            {/*  <GetAppIcon />*/}
+            {/*</IconButton>*/}
           </Grid>
 
           {/* <Grid sm={2}>
@@ -232,7 +261,7 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                     <SearchIcon /> 
+                     <SearchIcon />
                   </InputAdornment>
                 ),
               }}
