@@ -34,7 +34,7 @@ export default function RequestAnalyzeRead(props: BudgetReportFundingProps) {
             name: "number",
         },
         {
-            title: "ش تایید سند",
+            title: "ش ثبت هزینه",
             name: "confirmDocNo",
         },
         {
