@@ -171,4 +171,5 @@ export const accessNamesConfig = {
   FIELD_ORGAN: "organ",
   FIELD_AREA: "area",
   FIELD_PROCTOR: "proctor",
+  FIELD_KIND_ID: "kind-id",
 };

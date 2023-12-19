@@ -8,4 +8,5 @@ export interface RequestAnalyzeReadItemShape {
     cnfirmedPrice: number,
     diff: number,
     sectionId: number
+    day: string|number
 }

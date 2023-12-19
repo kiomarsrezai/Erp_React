@@ -97,6 +97,12 @@ function usePermissions() {
     "programName",
     programProjectQuery.data?.data || []
   );
+  
+  const kindIdField = formatLocalFields(
+      "نوع",
+      accessNamesConfig.FIELD_KIND_ID,
+      budgetAnalyzeKindItems
+  );
 
   // organ
   const organField = formatLocalFields(
@@ -318,7 +324,7 @@ function usePermissions() {
     [accessNamesConfig.BUDGET__REPORT_PAGE_REQUEST_ANALYZE]: formatLocalFields(
         "تامین اعتبار",
         accessNamesConfig.BUDGET__REPORT_PAGE_REQUEST_ANALYZE,
-        [areaNumber1Field, budgetAnalyzeKindField]
+        [areaNumber1Field, kindIdField]
     ),
 
     // transfer page

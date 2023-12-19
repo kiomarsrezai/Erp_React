@@ -13,7 +13,7 @@ import { accessNamesConfig } from "config/access-names-config";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import { checkHaveValue } from "helper/form-utils";
-import { checkHavePermission, joinPermissions } from "helper/auth-utils";
+import {checkHavePermission, filedItemsGuard, joinPermissions} from "helper/auth-utils";
 import AreaInput from "components/sections/inputs/area-input";
 import {
     getGeneralFieldItemArea,
@@ -23,9 +23,10 @@ import {
 import { budgetProjectScaleStimul } from "stimul/budget/report/project-scale/budget-project-scale-stimul";
 import { requestAnalyzeRead } from "config/features/budget/report/request-analyze-read";
 import FlotingLabelSelect from "../../../../ui/inputs/floting-label-select";
-import {budgetProjectOprationApi} from "../../../../../api/report/budget-project-opration-api";
 import {requestAnalyzeReadApi} from "../../../../../api/report/request-analyze-read-api";
 import {budgetAnalyzeKindItems} from "../../../../../config/features/general-fields-config";
+import * as moment2 from "jalali-moment";
+import moment from "moment";
 
 interface BudgetReportDeviationFormProps {
     formData: any;
@@ -46,6 +47,13 @@ export default function RequestAnalyzeReadForm(props: BudgetReportDeviationFormP
     const queryClient = useQueryClient();
     const submitMutation = useMutation(requestAnalyzeReadApi.getData, {
         onSuccess: (data) => {
+            const CurrentDate = moment().format('YYYY/MM/DD');
+            data.data.map(item=> {
+                const requestDateParts = moment2.from(item.requestDate, 'fa', 'YYYY/MM/DD').format('YYYY/MM/DD');
+                var start = moment(requestDateParts, "YYYY-MM-DD");
+                var end = moment(CurrentDate, "YYYY-MM-DD");
+                item.day = moment.duration(end.diff(start)).asDays()
+            });
             queryClient.setQueryData(reactQueryKeys.budget.projectOpration, data);
         },
     });
@@ -53,11 +61,10 @@ export default function RequestAnalyzeReadForm(props: BudgetReportDeviationFormP
     const [haveSubmitedForm, setHaveSubmitedForm] = useState(false);
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        console.log('submit');
         // permission
         const havePermission = checkHavePermission(
             userLicenses,
-            [accessNamesConfig.FIELD_AREA, accessNamesConfig.FIELD_YEAR],
+            [accessNamesConfig.FIELD_AREA, accessNamesConfig.FIELD_KIND_ID],
             joinPermissions([
                 accessNamesConfig.BUDGET__REPORT_PAGE,
                 accessNamesConfig.BUDGET__REPORT_PAGE_REQUEST_ANALYZE,
@@ -72,7 +79,6 @@ export default function RequestAnalyzeReadForm(props: BudgetReportDeviationFormP
         
         setHaveSubmitedForm(true);
     
-        console.log(formData)
         if (
             checkHaveValue(formData, [
                 requestAnalyzeRead.kind,
@@ -109,6 +115,17 @@ export default function RequestAnalyzeReadForm(props: BudgetReportDeviationFormP
             });
         }
     };
+    
+    const kindPermissionForm = joinPermissions([
+        accessNamesConfig.BUDGET__REPORT_PAGE,
+        accessNamesConfig.BUDGET__REPORT_PAGE_REQUEST_ANALYZE,
+    ]);
+    const kindIdItems =  kindPermissionForm ? filedItemsGuard(
+            budgetAnalyzeKindItems,
+            userLicenses,
+            joinPermissions([kindPermissionForm, accessNamesConfig.FIELD_KIND_ID])
+        )
+        : budgetAnalyzeKindItems;
     
     return (
         <Box
@@ -148,14 +165,14 @@ export default function RequestAnalyzeReadForm(props: BudgetReportDeviationFormP
                     permission={joinPermissions([
                         accessNamesConfig.BUDGET__REPORT_PAGE,
                         accessNamesConfig.BUDGET__REPORT_PAGE_REQUEST_ANALYZE,
-                        accessNamesConfig.FIELD_AREA,
+                        accessNamesConfig.FIELD_KIND_ID,
                     ])}
                 >
                     <Grid lg={2}>
                         <FlotingLabelSelect
                             label="نوع"
                             name="kindId"
-                            items={budgetAnalyzeKindItems}
+                            items={kindIdItems}
                             value={formData[requestAnalyzeRead.kind]}
                             setter={setFormData}
                             showError={haveSubmitedForm}
