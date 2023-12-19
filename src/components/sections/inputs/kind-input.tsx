@@ -16,10 +16,10 @@ export default function KindInput(props: KindInputProps) {
             label="نوع"
             name="kind"
             items={[
-                {label: 'راکت', value: 1},
+                {label: 'بلاتکلیف', value: 1},
                 {label: 'بدون ثبت هزینه', value: 2},
-                {label: 'در پایان', value: 3},
-                {label: 'بیشتر از اعتبار', value: 4},
+                {label: 'در جریان', value: 3},
+                {label: 'بیشتر از تامین اعتبار', value: 4},
             ]}
             value={value}
             setter={setter}
