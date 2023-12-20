@@ -460,7 +460,9 @@ const [isOpenModal, setIsOpenModal] = useState(false);
               setFormData={setFormData}
               setCodingId={setCodingId}
               printData={{
-                data: tableData
+                data: tableData,
+                footer: tableFooter,
+                bottomFooter: tableBottomFooter
               }}
           />
       ),

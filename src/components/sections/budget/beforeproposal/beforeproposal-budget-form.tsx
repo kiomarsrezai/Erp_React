@@ -15,7 +15,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { beforeproposalapi } from "api/budget/pishnahadi-api";
 import { accessNamesConfig } from "config/access-names-config";
-import { checkHavePermission, joinPermissions } from "helper/auth-utils";
+import {checkHavePermission, filedItemsGuard, joinPermissions} from "helper/auth-utils";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import { checkHaveValue } from "helper/form-utils";
@@ -24,7 +24,16 @@ import { InputAdornment, TextField } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import PrintIcon from "@mui/icons-material/Print";
 import GetAppIcon from "@mui/icons-material/GetApp";
-import {proposalBudgetXlsx} from "../../../../stimul/budget/report/proposal/budget-proposal-xlsx";
+import {proposalBudgetXlsx} from "../../../../stimul/budget/proposal/budget-proposal-xlsx";
+import WindowLoading from "../../../ui/loading/window-loading";
+import {budgetMethodItems, generalFieldsConfig} from "../../../../config/features/general-fields-config";
+import {
+  getGeneralFieldItemArea,
+  getGeneralFieldItemYear
+} from "../../../../helper/export-utils";
+import {requestAnalyzeStimul} from "../../../../stimul/budget/report/request-analyze/request-analyze-stimul";
+import {requestAnalyzeRead} from "../../../../config/features/budget/report/request-analyze-read";
+import {beforeProposalStimul} from "../../../../stimul/budget/proposal/budget-beforeproposal-stimul";
 
 
 interface BeforeProposalBudgetFormProps {
@@ -32,7 +41,9 @@ interface BeforeProposalBudgetFormProps {
   setFormData: any;
   setCodingId: any;
   printData: {
-    data: any[];
+    data: any[],
+    footer: any[],
+    bottomFooter: any[],
   };
 }
 
@@ -161,15 +172,71 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
 //     // }, 500);
 //   };
   
+  const [excelLodaing, setExcelLodaing] = useState(false);
+  
   const handleExcelClick = () => {
+    setExcelLodaing(true);
+    handleExcelForm();
+  };
+  
+  const budgetMethodAccessItems = filedItemsGuard(
+      budgetMethodItems,
+      userLicenses,
+      joinPermissions([
+        accessNamesConfig.BUDGET__PROPOSAL_PAGE,
+        accessNamesConfig.FIELD_BUDGET_METHOD,
+      ])
+  );
+  
+  const submitMutation2 = useMutation(beforeproposalapi.getData);
+  const handleExcelForm = async () => {
+  
+    let culmnsData: any = {};
+    budgetMethodAccessItems.forEach((item) => {
+      culmnsData[item.value] = [];
+    });
+  
+    const culmnKeys = Object.keys(culmnsData);
+    
+    try {
+      await Promise.all(
+          culmnKeys.map(async (item) => {
+            const data = await submitMutation2.mutateAsync({
+              ...formData,
+              [generalFieldsConfig.BUDGET_METHOD]: item,
+            });
+
+            culmnsData = {
+              ...culmnsData,
+              [item]: data.data,
+            };
+          })
+      );
+    } catch {}
+  
+    const yearLabel = getGeneralFieldItemYear(formData, 1);
+    const areaLabel = getGeneralFieldItemArea(formData, 1);
+  
+    proposalBudgetXlsx({
+      culmnsData: culmnsData,
+      area: areaLabel,
+      year: yearLabel,
+      setExcelLodaing: setExcelLodaing,
+    });
+  };
+  
+  const handlePrintForm = async () => {
     if (printData.data.length) {
-      proposalBudgetXlsx({
-        data: submitedData,
-        footer: [
-          [],
-          [],
-          []
-        ],
+      const data = await submitMutation2.mutateAsync(formData);
+  
+      const areaLabel = getGeneralFieldItemArea(formData, 1);
+      beforeProposalStimul({
+        data: data.data,
+        footer: printData.footer,
+        bottomFooter: [],
+        area: areaLabel,
+        kind: budgetMethodAccessItems[formData[beforeproposalConfig.BUDGET_METHOD]].label,
+        numberShow: "ریال",
       });
     }
   };
@@ -244,10 +311,20 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
             {/*<IconButton color="primary" >*/}
             {/*  <PrintIcon />*/}
             {/*</IconButton>*/}
+  
+            <IconButton color="primary" onClick={handlePrintForm}>
+              <PrintIcon />
+            </IconButton>
             
-            {/*<IconButton color="primary" onClick={handleExcelClick}>*/}
-            {/*  <GetAppIcon />*/}
-            {/*</IconButton>*/}
+            <IconButton color="primary" onClick={handleExcelClick}>
+              <GetAppIcon />
+            </IconButton>
+  
+            <WindowLoading
+                active={
+                    excelLodaing
+                }
+            />
           </Grid>
 
           {/* <Grid sm={2}>

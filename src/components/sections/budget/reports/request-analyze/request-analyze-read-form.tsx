@@ -16,7 +16,7 @@ import { checkHaveValue } from "helper/form-utils";
 import {checkHavePermission, filedItemsGuard, joinPermissions} from "helper/auth-utils";
 import AreaInput from "components/sections/inputs/area-input";
 import {
-    getGeneralFieldItemArea,
+    getGeneralFieldItemArea, getGeneralFieldItemBudgetKind, getGeneralFieldItemNumber,
     getGeneralFieldItemProjectScale,
     getGeneralFieldItemYear,
 } from "helper/export-utils";
@@ -24,10 +24,17 @@ import { budgetProjectScaleStimul } from "stimul/budget/report/project-scale/bud
 import { requestAnalyzeRead } from "config/features/budget/report/request-analyze-read";
 import FlotingLabelSelect from "../../../../ui/inputs/floting-label-select";
 import {requestAnalyzeReadApi} from "../../../../../api/report/request-analyze-read-api";
-import {budgetAnalyzeKindItems} from "../../../../../config/features/general-fields-config";
+import {budgetAnalyzeKindItems, generalFieldsConfig} from "../../../../../config/features/general-fields-config";
 import * as moment2 from "jalali-moment";
 import moment from "moment";
 import {budgetDeviationConfig} from "../../../../../config/features/budget/report/budget-deviation-config";
+import GetAppIcon from "@mui/icons-material/GetApp";
+import {abstructBudgetXlsx} from "../../../../../stimul/budget/report/abstruct/abstruct-budget-xlsx";
+import WindowLoading from "../../../../ui/loading/window-loading";
+import {proposalBudgetXlsx} from "../../../../../stimul/budget/proposal/budget-proposal-xlsx";
+import {requestAnalyzeBudgetXlsx} from "../../../../../stimul/budget/report/request-analyze/request-analyze";
+import {abstructBudgetStimul} from "../../../../../stimul/budget/report/abstruct/abstruct-budget-stimul";
+import {requestAnalyzeStimul} from "../../../../../stimul/budget/report/request-analyze/request-analyze-stimul";
 
 interface BudgetReportDeviationFormProps {
     formData: any;
@@ -100,23 +107,6 @@ export default function RequestAnalyzeReadForm(props: BudgetReportDeviationFormP
         formData[requestAnalyzeRead.area],
     ]);
     
-    // print
-    const handlePrintForm = () => {
-        if (printData.data.length) {
-            const yearLabel = getGeneralFieldItemYear(formData, 1);
-            const areaLabel = getGeneralFieldItemArea(formData, 3);
-            const budgetKindLabel = getGeneralFieldItemProjectScale(formData);
-            budgetProjectScaleStimul({
-                data: printData.data,
-                footer: printData.footer,
-                year: yearLabel,
-                area: areaLabel,
-                kind: budgetKindLabel,
-                numberShow: "ریال",
-            });
-        }
-    };
-    
     const kindPermissionForm = joinPermissions([
         accessNamesConfig.BUDGET__REPORT_PAGE,
         accessNamesConfig.BUDGET__REPORT_PAGE_REQUEST_ANALYZE,
@@ -138,6 +128,71 @@ export default function RequestAnalyzeReadForm(props: BudgetReportDeviationFormP
         formData[requestAnalyzeRead.area],
         formData[requestAnalyzeRead.kind],
     ]);
+    
+    
+    const submitMutation2 = useMutation(requestAnalyzeReadApi.getData);
+    const [excelLodaing, setExcelLodaing] = useState(false);
+    
+    const handleExcelClick = () => {
+        setExcelLodaing(true);
+        handleExcelForm();
+        
+        setTimeout(() => {
+            setExcelLodaing(false);
+        }, 3000)
+    };
+    
+    const handleExcelForm = async () => {
+        let culmnsData: any = {};
+        kindIdItems.forEach((item) => {
+            culmnsData[item.value] = [];
+        });
+    
+
+        const culmnKeys = Object.keys(culmnsData);
+
+        try {
+            await Promise.all(
+                culmnKeys.map(async (item) => {
+                    const data = await submitMutation2.mutateAsync({
+                        ...formData,
+                        [generalFieldsConfig.kind]: item,
+                    });
+
+                    culmnsData = {
+                        ...culmnsData,
+                        [item]: data.data,
+                    };
+                })
+            );
+        } catch {}
+    
+        const areaLabel = getGeneralFieldItemArea(formData, 1);
+    
+        requestAnalyzeBudgetXlsx({
+            culmnsData: culmnsData,
+            area: areaLabel,
+            setExcelLodaing: setExcelLodaing,
+        });
+    };
+    
+    
+    // print
+    const handlePrintForm = () => {
+        if (printData.data.length) {
+            const areaLabel = getGeneralFieldItemArea(formData, 1);
+           
+            requestAnalyzeStimul({
+                data: printData.data,
+                footer: printData.footer,
+                bottomFooter: [],
+                area: areaLabel,
+                kind: kindIdItems[formData[requestAnalyzeRead.kind]].label,
+                numberShow: "ریال",
+            });
+        }
+    };
+    
     
     return (
         <Box
@@ -205,6 +260,20 @@ export default function RequestAnalyzeReadForm(props: BudgetReportDeviationFormP
                     {/*<IconButton color="primary" onClick={handlePrintForm}>*/}
                     {/*    <PrintIcon />*/}
                     {/*</IconButton>*/}
+    
+                    <IconButton color="primary" onClick={handlePrintForm}>
+                        <PrintIcon />
+                    </IconButton>
+                    
+                    <IconButton color="primary" onClick={handleExcelClick}>
+                        <GetAppIcon />
+                    </IconButton>
+                    <WindowLoading
+                        active={
+                            excelLodaing
+                        }
+                    />
+                    
                 </Grid>
             </Grid>
         </Box>
