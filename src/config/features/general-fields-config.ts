@@ -161,7 +161,7 @@ export const budgetKindItems: FlotingLabelTextfieldItemsShape = [
 ];
 
 export const budgetAnalyzeKindItems: FlotingLabelTextfieldItemsShape = [
-  {label: 'راکد', value: 1},
+  {label: 'بلاتکلیف', value: 1},
   {label: 'بدون ثبت هزینه', value: 2},
   {label: 'در جریان', value: 3},
   {label: 'بیشتر از تامین اعتبار', value: 4},
