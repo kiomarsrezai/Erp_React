@@ -187,7 +187,7 @@ export default function RequestAnalyzeReadForm(props: BudgetReportDeviationFormP
                 footer: printData.footer,
                 bottomFooter: [],
                 area: areaLabel,
-                kind: kindIdItems[formData[requestAnalyzeRead.kind]].label,
+                kind: kindIdItems[formData[requestAnalyzeRead.kind] - 1].label,
                 numberShow: "ریال",
             });
         }

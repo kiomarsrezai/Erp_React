@@ -235,7 +235,7 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
         footer: printData.footer,
         bottomFooter: [],
         area: areaLabel,
-        kind: budgetMethodAccessItems[formData[beforeproposalConfig.BUDGET_METHOD]].label,
+        kind: budgetMethodAccessItems[formData[beforeproposalConfig.BUDGET_METHOD] - 1].label,
         numberShow: "ریال",
       });
     }
