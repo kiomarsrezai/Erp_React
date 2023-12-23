@@ -13,6 +13,8 @@ export interface GetSingleBeforeProposalItemShape {
     crud: boolean;
     totalMosavab: number;
     totalExpense: number;
+    percent: number;
+    percent2: number;
   }
   
 //   export interface GetSingleDetailProposalItemShape {
@@ -25,7 +27,7 @@ export interface GetSingleBeforeProposalItemShape {
 //     codingId: number;
 //     percentBud: number;
 //   }
-  
+
 //   export interface GetSingleMoreDetailProposalItemShape {
 //     id: number;
 //     projectId: number;
@@ -37,7 +39,7 @@ export interface GetSingleBeforeProposalItemShape {
 //     projectName: string;
 //     areaId: number;
 //   }
-  
+
 //   export interface GetSingleLevel5DetailProposalItemShape {
 //     id: number;
 //     areaName: string;
@@ -47,7 +49,7 @@ export interface GetSingleBeforeProposalItemShape {
 //     percentBud: number;
 //     supply: number;
 //   }
-  
+
 //   export interface GetSearchPropsalModal1Data {
 //     id: number;
 //     code: string;
@@ -56,7 +58,7 @@ export interface GetSingleBeforeProposalItemShape {
 //     crud: boolean;
 //     show: boolean;
 //   }
-  
+
 //   // modal base
 //   export interface GetModalBaseData {
 //     id: number;
@@ -64,14 +66,14 @@ export interface GetSingleBeforeProposalItemShape {
 //     description: string;
 //     levelNumber: number;
 //   }
-  
+
 //   // modal 2
 //   export interface GetSearchPropsalModal2Data {
 //     id: number;
 //     projectCode: string;
 //     projectName: string;
 //   }
-  
+
 //   // modal info
 //   export interface GetSingleProposalInfoItemShape {
 //     structureId: number;
@@ -81,11 +83,10 @@ export interface GetSingleBeforeProposalItemShape {
 //     creditAmount: 481790912;
 //     expense: 0;
 //   }
-  
+
 //   // modal insert code
 //   export interface GetSingleProposalProjectInsertCodeItemShape {
 //     id: 33;
 //     projectCode: "4";
 //     projectName: " اجرای گذرگاه عابر پیاده واقع در سطح منطقه";
 //   }
-  

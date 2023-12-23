@@ -137,11 +137,7 @@ const createData = (data: any, title: string, proccessId: number) => {
                 RowIndex: true,
             },
             {
-                Header: "ش ثبت هزینه",
-                Name: "confirmDocNo",
-            },
-            {
-                Header: "شماره درخواست",
+                Header: "ش درخواست",
                 Name: "requestRefStr",
                 textAlign: "right",
                 wrapText: true,
@@ -150,6 +146,16 @@ const createData = (data: any, title: string, proccessId: number) => {
                 Header: "تاریخ درخواست",
                 Name: "requestDate",
                 Mony: true,
+                textAlign: "right",
+            },
+            {
+                Header: "ش ت اعتبار",
+                textAlign: "right",
+                Name: "confirmDocNo",
+            },
+            {
+                Header: "تاریخ ت اعتبار",
+                Name: "confirmDocDate",
                 textAlign: "right",
             },
             {
@@ -179,6 +185,12 @@ const createData = (data: any, title: string, proccessId: number) => {
             {
                 Header: "مانده",
                 Name: "diff",
+                Mony: true,
+                textAlign: "right",
+            },
+            {
+                Header: "روز",
+                Name: "day",
                 Mony: true,
                 textAlign: "right",
             },

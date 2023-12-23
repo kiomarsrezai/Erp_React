@@ -3,6 +3,7 @@ import { BaseApi } from "api/base-api";
 import { BaseApiResponseShape } from "types/base-type";
 import {requestAnalyzeReadUrls} from "../../config/features/budget/report/request-analyze-read";
 import {RequestAnalyzeReadItemShape} from "../../types/data/budget/request-analyze-read-type";
+import {numberOfDaysPassedSinceJalaliDate} from "../../helper/date-utils";
 
 export const requestAnalyzeReadApi = new (class extends BaseApi {
     getData = async (formdata: any) => {
@@ -13,6 +14,15 @@ export const requestAnalyzeReadApi = new (class extends BaseApi {
         const response = await clientAxios.get<
             BaseApiResponseShape<RequestAnalyzeReadItemShape[]>
             >(url);
+    
+        response.data.data.map(item=> {
+            if(item.requestDate){
+                item.day = numberOfDaysPassedSinceJalaliDate(item.requestDate);
+            }else{
+                item.day = "";
+            }
+        });
+        
         return response.data;
     };
 })();

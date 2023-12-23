@@ -20,6 +20,10 @@ export const beforeproposalapi = new (class extends BaseApi {
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleBeforeProposalItemShape[]>
     >(url);
+  
+    response.data.data.map((item) => {
+        item['percent2'] = item['percent']?? '';
+    });
     return response.data;
 
     

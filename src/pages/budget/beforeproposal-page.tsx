@@ -52,7 +52,10 @@ function BudgetBeforeProposalPage() {
     [generalFieldsConfig.AREA]: undefined,
     [generalFieldsConfig.BUDGET_METHOD]: undefined,
   });
-
+  
+  const [isHideLevel5Items, setIsHideLevel5Items] = useState<boolean>(false);
+  
+  
   const handleaddbtnclick = useMutation(beforeproposalapi.insertData, {
     onSuccess: () => {
       getDataMutation.mutate(formData);
@@ -113,8 +116,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
       name: "levelNumber",
       width: "40px",
       hidden:true
-    }
-    ,
+    },
     {
       title: "کد",
       name: "code",
@@ -145,6 +147,13 @@ const [isOpenModal, setIsOpenModal] = useState(false);
       name: "budgetNext",
       split: true,
       width: "160px",
+    },
+    {
+      title: "%",
+      align: "left",
+      name: "percent2",
+      width: "80px",
+      percent: true
     },
     {
       title: "ت اعتبار 1402",
@@ -459,6 +468,8 @@ const [isOpenModal, setIsOpenModal] = useState(false);
               formData={formData}
               setFormData={setFormData}
               setCodingId={setCodingId}
+              setIsHideLevel5Items={setIsHideLevel5Items}
+              isHideLevel5Items={isHideLevel5Items}
               printData={{
                 data: tableData,
                 footer: tableFooter,
@@ -476,7 +487,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
         <FixedTable
           heads={tableHeads}
           headGroups={tableHeadGroups}
-          data={tableData}
+          data={tableData.filter(item => !(item.levelNumber === 5 && isHideLevel5Items))}
           footer={tableFooter}
           bottomFooter={tableBottomFooter}
           enableVirtual

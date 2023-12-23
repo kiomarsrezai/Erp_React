@@ -25,8 +25,6 @@ import { requestAnalyzeRead } from "config/features/budget/report/request-analyz
 import FlotingLabelSelect from "../../../../ui/inputs/floting-label-select";
 import {requestAnalyzeReadApi} from "../../../../../api/report/request-analyze-read-api";
 import {budgetAnalyzeKindItems, generalFieldsConfig} from "../../../../../config/features/general-fields-config";
-import * as moment2 from "jalali-moment";
-import moment from "moment";
 import {budgetDeviationConfig} from "../../../../../config/features/budget/report/budget-deviation-config";
 import GetAppIcon from "@mui/icons-material/GetApp";
 import {abstructBudgetXlsx} from "../../../../../stimul/budget/report/abstruct/abstruct-budget-xlsx";
@@ -35,6 +33,7 @@ import {proposalBudgetXlsx} from "../../../../../stimul/budget/proposal/budget-p
 import {requestAnalyzeBudgetXlsx} from "../../../../../stimul/budget/report/request-analyze/request-analyze";
 import {abstructBudgetStimul} from "../../../../../stimul/budget/report/abstruct/abstruct-budget-stimul";
 import {requestAnalyzeStimul} from "../../../../../stimul/budget/report/request-analyze/request-analyze-stimul";
+import {numberOfDaysPassedSinceJalaliDate} from "../../../../../helper/date-utils";
 
 interface BudgetReportDeviationFormProps {
     formData: any;
@@ -55,13 +54,6 @@ export default function RequestAnalyzeReadForm(props: BudgetReportDeviationFormP
     const queryClient = useQueryClient();
     const submitMutation = useMutation(requestAnalyzeReadApi.getData, {
         onSuccess: (data) => {
-            const CurrentDate = moment().format('YYYY/MM/DD');
-            data.data.map(item=> {
-                const requestDateParts = moment2.from(item.requestDate, 'fa', 'YYYY/MM/DD').format('YYYY/MM/DD');
-                var start = moment(requestDateParts, "YYYY-MM-DD");
-                var end = moment(CurrentDate, "YYYY-MM-DD");
-                item.day = moment.duration(end.diff(start)).asDays()
-            });
             queryClient.setQueryData(reactQueryKeys.budget.requestAnalyzeRead, data);
         },
     });

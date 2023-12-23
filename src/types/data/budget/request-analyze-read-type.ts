@@ -1,6 +1,7 @@
 export interface RequestAnalyzeReadItemShape {
     requestRef: number,
     confirmDocNo: string,
+    confirmDocDate: string,
     requestRefStr: string,
     requestDate: string,
     reqDesc: string,

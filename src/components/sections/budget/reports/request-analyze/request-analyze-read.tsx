@@ -34,16 +34,20 @@ export default function RequestAnalyzeRead(props: BudgetReportFundingProps) {
             name: "number",
         },
         {
-            title: "ش ثبت هزینه",
-            name: "confirmDocNo",
-        },
-        {
-            title: "شماره درخواست",
+            title: "ش درخواست",
             name: "requestRefStr",
         },
         {
             title: "تاریخ درخواست",
             name: "requestDate",
+        },
+        {
+            title: "ش ت اعتبار",
+            name: "confirmDocNo",
+        },
+        {
+            title: "تاریخ ت اعتبار",
+            name: "confirmDocDate",
         },
         {
             title: "منطقه",
@@ -108,8 +112,9 @@ export default function RequestAnalyzeRead(props: BudgetReportFundingProps) {
     const diff = sumFieldsInSingleItemData(tableData, "diff");
     const tableFooter: TableDataItemShape | any = {
         number: "جمع",
-        "colspan-number": 6,
+        "colspan-number": 7,
         confirmDocNo: null,
+        confirmDocDate: null,
         requestRefStr: null,
         sectionId: null,
         requestDate: null,
@@ -134,7 +139,7 @@ export default function RequestAnalyzeRead(props: BudgetReportFundingProps) {
                     }}
                 />
             ),
-            colspan: 10,
+            colspan: 11,
         },
     ];
     

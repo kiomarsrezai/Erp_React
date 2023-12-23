@@ -187,6 +187,12 @@ const createData = (data: any, title: string, proccessId: number) => {
         Mony: true,
         textAlign: "right",
       },
+      {
+        Header: "%",
+        Name: "percent2",
+        textAlign: "right",
+        Percent: true,
+      },
       ...(proccessId !== 1
           ? [
             {

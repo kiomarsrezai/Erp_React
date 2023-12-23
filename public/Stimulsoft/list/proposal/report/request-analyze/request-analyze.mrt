@@ -26,7 +26,7 @@
     <DataSources isList="true" count="3">
       <root Ref="5" type="DataTableSource" isKey="true">
         <Alias>root</Alias>
-        <Columns isList="true" count="9">
+        <Columns isList="true" count="11">
           <value>ORIGINAL,requestRefStr,requestRefStr,requestRefStr,System.String,ba56444e593b48c28b8a651345e043b3</value>
           <value>ORIGINAL,requestDate,requestDate,requestDate,System.String,c030133a5dc844249c23030289e372c8</value>
           <value>ORIGINAL,sectionId,sectionId,sectionId,System.Decimal,_x0030_5890a352a9e4da9bebe5e5cc814e1bb</value>
@@ -36,6 +36,8 @@
           <value>day,System.Decimal</value>
           <value>ORIGINAL,diff,diff,diff,System.Decimal,_x0037_149074217544b5dbf0b4b5196062fcd</value>
           <value>ORIGINAL,confirmDocNo,confirmDocNo,confirmDocNo,System.String,b8a11a2277dc434fb07a13e57d5689b5</value>
+          <value>confirmDocDate,System.String</value>
+          <value>day,System.String</value>
         </Columns>
         <Dictionary isRef="1" />
         <Key>87441deb810b4b3c8422ed0b5c1a61c1</Key>
@@ -234,26 +236,8 @@
         <HeaderBand1 Ref="17" type="HeaderBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,170,1149,40</ClientRectangle>
-          <Components isList="true" count="9">
-            <Text4 Ref="18" type="Text" isKey="true">
-              <Border>Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
-              <Brush>[238:238:238]</Brush>
-              <ClientRectangle>850,0,79,40</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>B Yekan,10</Font>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text4</Name>
-              <Page isRef="8" />
-              <Parent isRef="17" />
-              <Text>شماره درخواست</Text>
-              <TextBrush>[221:0:0:0]</TextBrush>
-              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Text4>
-            <Text19 Ref="19" type="Text" isKey="true">
+          <Components isList="true" count="11">
+            <Text19 Ref="18" type="Text" isKey="true">
               <Border>Left, Right, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
               <ClientRectangle>1110,0,39,40</ClientRectangle>
@@ -271,10 +255,10 @@
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text19>
-            <Text2 Ref="20" type="Text" isKey="true">
+            <Text2 Ref="19" type="Text" isKey="true">
               <Border>Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>930,0,89,40</ClientRectangle>
+              <ClientRectangle>850,0,89,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,10</Font>
@@ -283,16 +267,16 @@
               <Name>Text2</Name>
               <Page isRef="8" />
               <Parent isRef="17" />
-              <Text>کد بودجه</Text>
+              <Text>ش ت اعتبار</Text>
               <TextBrush>[221:0:0:0]</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text2>
-            <Text1 Ref="21" type="Text" isKey="true">
+            <Text1 Ref="20" type="Text" isKey="true">
               <Border>Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>810,0,39,40</ClientRectangle>
+              <ClientRectangle>720,0,39,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,10</Font>
@@ -306,10 +290,10 @@
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text1>
-            <Text5 Ref="22" type="Text" isKey="true">
+            <Text5 Ref="21" type="Text" isKey="true">
               <Border>Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>110,0,99,40</ClientRectangle>
+              <ClientRectangle>140,0,109,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,10</Font>
@@ -323,10 +307,10 @@
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text5>
-            <Text18 Ref="23" type="Text" isKey="true">
+            <Text18 Ref="22" type="Text" isKey="true">
               <Border>Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>0,0,109,40</ClientRectangle>
+              <ClientRectangle>40,0,109,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,10</Font>
@@ -340,10 +324,10 @@
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text18>
-            <Text14 Ref="24" type="Text" isKey="true">
+            <Text14 Ref="23" type="Text" isKey="true">
               <Border>Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>310,0,499,40</ClientRectangle>
+              <ClientRectangle>340,0,379,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,10</Font>
@@ -357,10 +341,10 @@
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text14>
-            <Text15 Ref="25" type="Text" isKey="true">
+            <Text15 Ref="24" type="Text" isKey="true">
               <Border>Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>210,0,99,40</ClientRectangle>
+              <ClientRectangle>240,0,99,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,10</Font>
@@ -374,10 +358,10 @@
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text15>
-            <Text37 Ref="26" type="Text" isKey="true">
+            <Text37 Ref="25" type="Text" isKey="true">
               <Border>Left, Right, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>[238:238:238]</Brush>
-              <ClientRectangle>1020,0,89,40</ClientRectangle>
+              <ClientRectangle>940,0,89,40</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,10</Font>
@@ -386,12 +370,65 @@
               <Name>Text37</Name>
               <Page isRef="8" />
               <Parent isRef="17" />
-              <Text>ش ثبت هزینه</Text>
+              <Text>تاریخ درخواست</Text>
               <TextBrush>[221:0:0:0]</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text37>
+            <Text4 Ref="26" type="Text" isKey="true">
+              <Border>Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
+              <Brush>[238:238:238]</Brush>
+              <ClientRectangle>1030,0,79,40</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Expressions isList="true" count="0" />
+              <Font>B Yekan,10</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text4</Name>
+              <Page isRef="8" />
+              <Parent isRef="17" />
+              <Text>ش درخواست</Text>
+              <TextBrush>[221:0:0:0]</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text4>
+            <Text8 Ref="27" type="Text" isKey="true">
+              <Border>Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
+              <Brush>[238:238:238]</Brush>
+              <ClientRectangle>760,0,89,40</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Expressions isList="true" count="0" />
+              <Font>B Yekan,10</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text8</Name>
+              <Page isRef="8" />
+              <Parent isRef="17" />
+              <Text>تاریخ ت اعتبار</Text>
+              <TextBrush>[221:0:0:0]</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text8>
+            <Text16 Ref="28" type="Text" isKey="true">
+              <Border>Left, Bottom;[191:191:191];1;Solid;False;4;Black</Border>
+              <Brush>[238:238:238]</Brush>
+              <ClientRectangle>0,0,39,40</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Expressions isList="true" count="0" />
+              <Font>B Yekan,10</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text16</Name>
+              <Page isRef="8" />
+              <Parent isRef="17" />
+              <Text>روز</Text>
+              <TextBrush>[221:0:0:0]</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text16>
           </Components>
           <Conditions isList="true" count="0" />
           <Expressions isList="true" count="0" />
@@ -400,12 +437,12 @@
           <Parent isRef="8" />
           <PrintIfEmpty>True</PrintIfEmpty>
         </HeaderBand1>
-        <Databudget Ref="27" type="DataBand" isKey="true">
+        <Databudget Ref="29" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
           <BusinessObjectGuid isNull="true" />
           <ClientRectangle>0,250,1149,30</ClientRectangle>
-          <Components isList="true" count="9">
-            <Text48 Ref="28" type="Text" isKey="true">
+          <Components isList="true" count="11">
+            <Text48 Ref="30" type="Text" isKey="true">
               <Border>Left, Right;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
@@ -418,18 +455,18 @@
               <Margins>3,3,3,3</Margins>
               <Name>Text48</Name>
               <Page isRef="8" />
-              <Parent isRef="27" />
+              <Parent isRef="29" />
               <Text>{Line}</Text>
               <TextBrush>[74:74:74]</TextBrush>
               <TextOptions>,,,Trimming=Character,,A=0</TextOptions>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text48>
-            <Text9 Ref="29" type="Text" isKey="true">
+            <Text9 Ref="31" type="Text" isKey="true">
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>930,0,90,30</ClientRectangle>
+              <ClientRectangle>1030,0,80,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -438,38 +475,18 @@
               <Margins>3,3,3,3</Margins>
               <Name>Text9</Name>
               <Page isRef="8" />
-              <Parent isRef="27" />
+              <Parent isRef="29" />
               <Text>{root.requestRefStr}</Text>
               <TextBrush>[74:74:74]</TextBrush>
               <TextOptions>,,,Trimming=Character,,A=0</TextOptions>
-              <Type>Expression</Type>
+              <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text9>
-            <Text3 Ref="30" type="Text" isKey="true">
+            <Text10 Ref="32" type="Text" isKey="true">
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>850,0,80,30</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>B Yekan,8</Font>
-              <GrowToHeight>True</GrowToHeight>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>3,3,3,3</Margins>
-              <Name>Text3</Name>
-              <Page isRef="8" />
-              <Parent isRef="27" />
-              <Text>{root.requestDate}</Text>
-              <TextBrush>[74:74:74]</TextBrush>
-              <TextOptions>,,,Trimming=Character,WordWrap=True,A=0</TextOptions>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Text3>
-            <Text10 Ref="31" type="Text" isKey="true">
-              <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <CanGrow>True</CanGrow>
-              <ClientRectangle>0,0,110,30</ClientRectangle>
+              <ClientRectangle>40,0,110,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -478,18 +495,18 @@
               <Margins>3,3,3,3</Margins>
               <Name>Text10</Name>
               <Page isRef="8" />
-              <Parent isRef="27" />
+              <Parent isRef="29" />
               <Text>{root.diff}</Text>
               <TextBrush>[74:74:74]</TextBrush>
               <TextOptions>,,,Trimming=Character,WordWrap=True,A=0</TextOptions>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text10>
-            <Text20 Ref="32" type="Text" isKey="true">
+            <Text20 Ref="33" type="Text" isKey="true">
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>110,0,100,30</ClientRectangle>
+              <ClientRectangle>140,0,100,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -498,10 +515,10 @@
               <Margins>3,3,3,3</Margins>
               <Name>Text20</Name>
               <Page isRef="8" />
-              <Parent isRef="27" />
+              <Parent isRef="29" />
               <Text>{root.cnfirmedPrice}</Text>
               <TextBrush>[74:74:74]</TextBrush>
-              <TextFormat Ref="33" type="NumberFormat" isKey="true">
+              <TextFormat Ref="34" type="NumberFormat" isKey="true">
                 <DecimalDigits>0</DecimalDigits>
                 <DecimalSeparator>/</DecimalSeparator>
                 <GroupSeparator>,</GroupSeparator>
@@ -512,11 +529,11 @@
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text20>
-            <Text22 Ref="34" type="Text" isKey="true">
+            <Text22 Ref="35" type="Text" isKey="true">
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>210,0,100,30</ClientRectangle>
+              <ClientRectangle>240,0,100,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -525,10 +542,10 @@
               <Margins>3,3,3,3</Margins>
               <Name>Text22</Name>
               <Page isRef="8" />
-              <Parent isRef="27" />
+              <Parent isRef="29" />
               <Text>{root.requestPrice}</Text>
               <TextBrush>[74:74:74]</TextBrush>
-              <TextFormat Ref="35" type="NumberFormat" isKey="true">
+              <TextFormat Ref="36" type="NumberFormat" isKey="true">
                 <DecimalDigits>0</DecimalDigits>
                 <DecimalSeparator>/</DecimalSeparator>
                 <GroupSeparator>,</GroupSeparator>
@@ -539,11 +556,11 @@
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text22>
-            <Text24 Ref="36" type="Text" isKey="true">
+            <Text24 Ref="37" type="Text" isKey="true">
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>810,0,40,30</ClientRectangle>
+              <ClientRectangle>720,0,40,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -552,10 +569,10 @@
               <Margins>3,3,3,3</Margins>
               <Name>Text24</Name>
               <Page isRef="8" />
-              <Parent isRef="27" />
+              <Parent isRef="29" />
               <Text>{root.sectionId}</Text>
               <TextBrush>[74:74:74]</TextBrush>
-              <TextFormat Ref="37" type="NumberFormat" isKey="true">
+              <TextFormat Ref="38" type="NumberFormat" isKey="true">
                 <DecimalDigits>0</DecimalDigits>
                 <DecimalSeparator>/</DecimalSeparator>
                 <GroupSeparator>,</GroupSeparator>
@@ -566,11 +583,11 @@
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text24>
-            <Text25 Ref="38" type="Text" isKey="true">
+            <Text25 Ref="39" type="Text" isKey="true">
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>310,0,500,30</ClientRectangle>
+              <ClientRectangle>340,0,380,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -580,10 +597,10 @@
               <Margins>3,3,3,3</Margins>
               <Name>Text25</Name>
               <Page isRef="8" />
-              <Parent isRef="27" />
+              <Parent isRef="29" />
               <Text>{root.reqDesc}</Text>
               <TextBrush>[74:74:74]</TextBrush>
-              <TextFormat Ref="39" type="NumberFormat" isKey="true">
+              <TextFormat Ref="40" type="NumberFormat" isKey="true">
                 <DecimalDigits>0</DecimalDigits>
                 <DecimalSeparator>/</DecimalSeparator>
                 <GroupSeparator>,</GroupSeparator>
@@ -594,11 +611,11 @@
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text25>
-            <Text38 Ref="40" type="Text" isKey="true">
+            <Text38 Ref="41" type="Text" isKey="true">
               <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>1020,0,90,30</ClientRectangle>
+              <ClientRectangle>850,0,90,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -607,13 +624,73 @@
               <Margins>3,3,3,3</Margins>
               <Name>Text38</Name>
               <Page isRef="8" />
-              <Parent isRef="27" />
+              <Parent isRef="29" />
               <Text>{root.confirmDocNo}</Text>
               <TextBrush>[74:74:74]</TextBrush>
               <TextOptions>,,,Trimming=Character,,A=0</TextOptions>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text38>
+            <Text3 Ref="42" type="Text" isKey="true">
+              <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>940,0,90,30</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Expressions isList="true" count="0" />
+              <Font>B Yekan,8</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>3,3,3,3</Margins>
+              <Name>Text3</Name>
+              <Page isRef="8" />
+              <Parent isRef="29" />
+              <Text>{root.requestDate}</Text>
+              <TextBrush>[74:74:74]</TextBrush>
+              <TextOptions>,,,Trimming=Character,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text3>
+            <Text11 Ref="43" type="Text" isKey="true">
+              <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>760,0,90,30</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Expressions isList="true" count="0" />
+              <Font>B Yekan,8</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>3,3,3,3</Margins>
+              <Name>Text11</Name>
+              <Page isRef="8" />
+              <Parent isRef="29" />
+              <Text>{root.confirmDocDate}</Text>
+              <TextBrush>[74:74:74]</TextBrush>
+              <TextOptions>,,,Trimming=Character,,A=0</TextOptions>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text11>
+            <Text17 Ref="44" type="Text" isKey="true">
+              <Border>Left;[182:182:182];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,0,40,30</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Expressions isList="true" count="0" />
+              <Font>B Yekan,8</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>3,3,3,3</Margins>
+              <Name>Text17</Name>
+              <Page isRef="8" />
+              <Parent isRef="29" />
+              <Text>{root.day}</Text>
+              <TextBrush>[74:74:74]</TextBrush>
+              <TextOptions>,,,Trimming=Character,WordWrap=True,A=0</TextOptions>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text17>
           </Components>
           <Conditions isList="true" count="1">
             <value>_x007B_Line_x0020__x0025__x0020_2_x0020__x003D__x003D__x0020_0_x007D_,[0:0:0],[238:238:238],Arial_x002C_8,True,False,,,None</value>
@@ -627,15 +704,15 @@
           <Parent isRef="8" />
           <Sort isList="true" count="0" />
         </Databudget>
-        <FooterBand1 Ref="41" type="FooterBand" isKey="true">
+        <FooterBand1 Ref="45" type="FooterBand" isKey="true">
           <Brush>[238:238:238]</Brush>
           <ClientRectangle>0,320,1149,30</ClientRectangle>
-          <Components isList="true" count="4">
-            <Text7 Ref="42" type="Text" isKey="true">
+          <Components isList="true" count="5">
+            <Text7 Ref="46" type="Text" isKey="true">
               <Border>Top, Left;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>109,0,100,30</ClientRectangle>
+              <ClientRectangle>139,0,100,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -644,10 +721,10 @@
               <Margins>3,3,3,3</Margins>
               <Name>Text7</Name>
               <Page isRef="8" />
-              <Parent isRef="41" />
+              <Parent isRef="45" />
               <Text>{footer.cnfirmedPrice}</Text>
               <TextBrush>[0:0:0]</TextBrush>
-              <TextFormat Ref="43" type="NumberFormat" isKey="true">
+              <TextFormat Ref="47" type="NumberFormat" isKey="true">
                 <DecimalDigits>0</DecimalDigits>
                 <DecimalSeparator>/</DecimalSeparator>
                 <GroupSeparator>,</GroupSeparator>
@@ -658,11 +735,11 @@
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text7>
-            <Text28 Ref="44" type="Text" isKey="true">
+            <Text28 Ref="48" type="Text" isKey="true">
               <Border>Top, Left, Right;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>0,0,110,30</ClientRectangle>
+              <ClientRectangle>40,0,100,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -671,10 +748,10 @@
               <Margins>3,3,3,3</Margins>
               <Name>Text28</Name>
               <Page isRef="8" />
-              <Parent isRef="41" />
+              <Parent isRef="45" />
               <Text>{footer.diff}</Text>
               <TextBrush>[0:0:0]</TextBrush>
-              <TextFormat Ref="45" type="NumberFormat" isKey="true">
+              <TextFormat Ref="49" type="NumberFormat" isKey="true">
                 <DecimalDigits>0</DecimalDigits>
                 <DecimalSeparator>/</DecimalSeparator>
                 <GroupSeparator>,</GroupSeparator>
@@ -685,11 +762,11 @@
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text28>
-            <Text42 Ref="46" type="Text" isKey="true">
+            <Text42 Ref="50" type="Text" isKey="true">
               <Border>Top, Left, Right;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>310,0,839,30</ClientRectangle>
+              <ClientRectangle>340,0,809,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -698,7 +775,7 @@
               <Margins>3,3,3,3</Margins>
               <Name>Text42</Name>
               <Page isRef="8" />
-              <Parent isRef="41" />
+              <Parent isRef="45" />
               <ProcessingDuplicates>BasedOnValueAndTagMerge</ProcessingDuplicates>
               <ShiftMode>None</ShiftMode>
               <Text>جمع</Text>
@@ -707,11 +784,11 @@
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text42>
-            <Text27 Ref="47" type="Text" isKey="true">
+            <Text27 Ref="51" type="Text" isKey="true">
               <Border>Top, Left;[191:191:191];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>210,0,100,30</ClientRectangle>
+              <ClientRectangle>240,0,100,30</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Yekan,8</Font>
@@ -720,10 +797,10 @@
               <Margins>3,3,3,3</Margins>
               <Name>Text27</Name>
               <Page isRef="8" />
-              <Parent isRef="41" />
+              <Parent isRef="45" />
               <Text>{footer.requestPrice}</Text>
               <TextBrush>[0:0:0]</TextBrush>
-              <TextFormat Ref="48" type="NumberFormat" isKey="true">
+              <TextFormat Ref="52" type="NumberFormat" isKey="true">
                 <DecimalDigits>0</DecimalDigits>
                 <DecimalSeparator>/</DecimalSeparator>
                 <GroupSeparator>,</GroupSeparator>
@@ -734,6 +811,32 @@
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text27>
+            <Text26 Ref="53" type="Text" isKey="true">
+              <Border>Top, Left, Right;[191:191:191];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,0,40,30</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Expressions isList="true" count="0" />
+              <Font>B Yekan,8</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>3,3,3,3</Margins>
+              <Name>Text26</Name>
+              <Page isRef="8" />
+              <Parent isRef="45" />
+              <TextBrush>[0:0:0]</TextBrush>
+              <TextFormat Ref="54" type="NumberFormat" isKey="true">
+                <DecimalDigits>0</DecimalDigits>
+                <DecimalSeparator>/</DecimalSeparator>
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>3</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <TextOptions>,,,Trimming=Character,,A=0</TextOptions>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text26>
           </Components>
           <Conditions isList="true" count="0" />
           <Expressions isList="true" count="0" />
@@ -754,7 +857,7 @@
       <PaperSize>A4</PaperSize>
       <Report isRef="0" />
       <RightToLeft>True</RightToLeft>
-      <Watermark Ref="49" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+      <Watermark Ref="55" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
         <Font>Arial,100,Bold</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
       </Watermark>
@@ -774,11 +877,11 @@
   </ReferencedAssemblies>
   <ReportAlias>SimpleList</ReportAlias>
   <ReportAuthor>Stimulsoft</ReportAuthor>
-  <ReportChanged>12/20/2023 3:32:58 PM</ReportChanged>
+  <ReportChanged>12/23/2023 9:49:03 AM</ReportChanged>
   <ReportCreated>5/29/2004 10:59:00 AM</ReportCreated>
   <ReportDescription>This sample demonstrates how to create a simple list report.</ReportDescription>
   <ReportFile>d:\projects\erp_react\public\stimulsoft\list\proposal\report\request-analyze\request-analyze.mrt</ReportFile>
-  <ReportGuid>cdc3b1512912432b822660dc98a879b9</ReportGuid>
+  <ReportGuid>25e822fbb3bb441782ec52d8367b8568</ReportGuid>
   <ReportImage>iVBORw0KGgoAAAANSUhEUgAAASAAAAGWCAMAAADvzq7aAAAABGdBTUEAALGPC/xhBQAAAYBQTFRF
 S7asucbHqba33/Hx8vr56fb1paqq+v394fPx1N3i5/X1nKan7/n52+zryOfl8/T0s77B7ezt4/b1
 /f7+0+Tj29vcu7u9kZSV09PTsby8uMK+4vXzzN3d0+LewsPD0s3Iy8vMws3M5OTkys3S4t3Zw9PU
@@ -1399,7 +1502,7 @@ namespace Reports
 }</Script>
   <ScriptLanguage>CSharp</ScriptLanguage>
   <Styles isList="true" count="5">
-    <Header2 Ref="50" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Header2 Ref="56" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>Bottom;[158:158:158];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <Conditions isList="true" count="0" />
@@ -1410,7 +1513,7 @@ namespace Reports
       <TextBrush>[158:158:158]</TextBrush>
       <VertAlignment>Center</VertAlignment>
     </Header2>
-    <Header3 Ref="51" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Header3 Ref="57" type="Stimulsoft.Report.StiStyle" isKey="true">
       <AllowUseBorderFormatting>False</AllowUseBorderFormatting>
       <Border>Left;White;1;Solid;False;4;Black</Border>
       <Brush>[77:182:172]</Brush>
@@ -1422,7 +1525,7 @@ namespace Reports
       <TextBrush>[255:255:255]</TextBrush>
       <VertAlignment>Center</VertAlignment>
     </Header3>
-    <Data1 Ref="52" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Data1 Ref="58" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>None;[182:182:182];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <Conditions isList="true" count="0" />
@@ -1432,7 +1535,7 @@ namespace Reports
       <TextBrush>[74:74:74]</TextBrush>
       <VertAlignment>Center</VertAlignment>
     </Data1>
-    <Data2 Ref="53" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Data2 Ref="59" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>None;[255:255:255];1;Solid;False;4;Black</Border>
       <Brush>[224:242:241]</Brush>
       <Conditions isList="true" count="0" />
@@ -1441,7 +1544,7 @@ namespace Reports
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>[74:74:74]</TextBrush>
     </Data2>
-    <Footer2 Ref="54" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Footer2 Ref="60" type="Stimulsoft.Report.StiStyle" isKey="true">
       <AllowUseBorderSides>False</AllowUseBorderSides>
       <Border>None;[58:78:94];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>

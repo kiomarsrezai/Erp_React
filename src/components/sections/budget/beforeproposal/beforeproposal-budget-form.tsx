@@ -34,12 +34,18 @@ import {
 import {requestAnalyzeStimul} from "../../../../stimul/budget/report/request-analyze/request-analyze-stimul";
 import {requestAnalyzeRead} from "../../../../config/features/budget/report/request-analyze-read";
 import {beforeProposalStimul} from "../../../../stimul/budget/proposal/budget-beforeproposal-stimul";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Typography from "@mui/material/Typography";
 
 
 interface BeforeProposalBudgetFormProps {
   formData: any;
   setFormData: any;
   setCodingId: any;
+  setIsHideLevel5Items: any,
+  isHideLevel5Items: boolean
   printData: {
     data: any[],
     footer: any[],
@@ -48,7 +54,7 @@ interface BeforeProposalBudgetFormProps {
 }
 
 function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
-  const { formData, setFormData, printData} = props;
+  const { formData, setFormData, printData, isHideLevel5Items, setIsHideLevel5Items} = props;
 
   const userLicenses = userStore((state) => state.permissions);
 
@@ -205,10 +211,12 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
               ...formData,
               [generalFieldsConfig.BUDGET_METHOD]: item,
             });
-
+  
+            const newData = data.data.filter((item) => !(item.levelNumber === 5 && isHideLevel5Items))
+            
             culmnsData = {
               ...culmnsData,
-              [item]: data.data,
+              [item]: newData,
             };
           })
       );
@@ -229,9 +237,11 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
     if (printData.data.length) {
       const data = await submitMutation2.mutateAsync(formData);
   
+      const newData = data.data.filter((item) => !(item.levelNumber === 5 && isHideLevel5Items))
+  
       const areaLabel = getGeneralFieldItemArea(formData, 1);
       beforeProposalStimul({
-        data: data.data,
+        data: newData,
         footer: printData.footer,
         bottomFooter: [],
         area: areaLabel,
@@ -346,6 +356,21 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
             />
           </Grid> */}
         </Grid>
+  
+        <FormGroup>
+          <FormControlLabel
+              style={{width:'130px'}}
+              control={
+                <Checkbox
+                    checked={isHideLevel5Items}
+                    onChange={() => setIsHideLevel5Items((state: boolean) => !state)}
+                />
+              }
+              label={
+                <Typography variant="body2">بدون ریز پروژه</Typography>
+              }
+          />
+        </FormGroup>
       </Box>
 
       {/* base modal */}
