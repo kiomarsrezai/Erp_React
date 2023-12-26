@@ -11,7 +11,7 @@ import {
   GetSingleMoreDetailProposalItemShape,
   GetSingleProposalInfoItemShape,
   GetSingleProposalItemShape,
-  GetSingleProposalProjectInsertCodeItemShape,
+  GetSingleProposalProjectInsertCodeItemShape, ProposalBalance,
 } from "types/data/budget/proposal-type";
 import {
   proposalConfig,
@@ -204,8 +204,14 @@ export const proposalBudgetApi = new (class extends BaseApi {
     return response.data;
   };
 
+  editItem = async (formdata: any) => {
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+        propsalBudgetUrls.edit,
+        formdata
+    );
 
-
+    return response.data;
+  };
 
 
   ////sajjad
@@ -213,6 +219,14 @@ export const proposalBudgetApi = new (class extends BaseApi {
     const url = propsalBudgetUrls.getProData + this.joinFilterData(formdata);
     const response = await clientAxios.get<
       BaseApiResponseShape<GetSingleProposalInfoItemShape[]>
+    >(url);
+    return response.data;
+  };
+  
+  balanceTextBoxRead = async (formdata: any) => {
+    const url = propsalBudgetUrls.balanceTextBoxRead + this.joinFilterData(formdata);
+    const response = await clientAxios.get<
+      BaseApiResponseShape<ProposalBalance>
     >(url);
     return response.data;
   };

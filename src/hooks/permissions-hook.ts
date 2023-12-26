@@ -412,6 +412,11 @@ function usePermissions() {
       label: "دکمه مصوب",
       name: accessNamesConfig.BUDGET__SEPRATOR_PAGE_FIX_MOSAVAB,
     },
+  
+    [accessNamesConfig.BUDGET__PROPOSAL_EDIT_BUTTON]: {
+      label: "دکمه ویرایش",
+      name: accessNamesConfig.BUDGET__PROPOSAL_EDIT_BUTTON,
+    },
 
     // report
 

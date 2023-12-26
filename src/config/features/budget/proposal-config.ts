@@ -15,6 +15,7 @@ export const proposalConfig = {
   area_public: "areaPublicId",
   description: "description",
   mosavab: "mosavab",
+  budgetNext: "budgetNext",
 };
 
 export const proposalModal1EditConfig = {
@@ -48,9 +49,13 @@ export const propsalBudgetUrls = {
   // insert
   insertCode: "BudgetApi/BudgetInlineInsert",
   projectsCodeData: "BudgetApi/BudgetInlineInsertModal",
+  
+  // update
+  edit: "BudgetPishnahadiApi/BudgetProposalInlineUpdate",
 
   //sajjad
 
   proInsert : "BudgetPishnahadiApi/BudgetProposalInlineInsert",
-  getProData :"BudgetPishnahadiApi/BudgetProposalRead"
+  getProData :"BudgetPishnahadiApi/BudgetProposalRead",
+  balanceTextBoxRead: "BudgetPishnahadiApi/BudgetProposalBalanceTextBoxRead",
 };

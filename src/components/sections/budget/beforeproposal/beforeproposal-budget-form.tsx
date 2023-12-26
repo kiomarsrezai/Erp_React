@@ -45,7 +45,9 @@ interface BeforeProposalBudgetFormProps {
   setFormData: any;
   setCodingId: any;
   setIsHideLevel5Items: any,
-  isHideLevel5Items: boolean
+  isHideLevel5Items: boolean,
+  refreshRemain: () => void,
+  remainBalance: any,
   printData: {
     data: any[],
     footer: any[],
@@ -54,7 +56,7 @@ interface BeforeProposalBudgetFormProps {
 }
 
 function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
-  const { formData, setFormData, printData, isHideLevel5Items, setIsHideLevel5Items} = props;
+  const { formData, setFormData, printData, isHideLevel5Items, setIsHideLevel5Items, refreshRemain, remainBalance} = props;
 
   const userLicenses = userStore((state) => state.permissions);
 
@@ -67,6 +69,7 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
     onSuccess: (data) => {
       // queryClient.setQueryData(reactQueryKeys.budget.proposal.getData, data);
       setSubmitedData(data.data);
+      refreshRemain()
     },
   });
 
@@ -355,6 +358,17 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
               fullWidth
             />
           </Grid> */}
+  
+          <Grid sm={2}>
+            <TextField
+              size="small"
+              label="باقیمانده"
+              disabled
+              value={remainBalance?.toLocaleString('en-US')}
+              variant="outlined"
+              fullWidth
+            />
+          </Grid>
         </Grid>
   
         <FormGroup>

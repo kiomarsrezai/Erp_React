@@ -37,6 +37,10 @@ function BudgetReportProjectScale(props: BudgetReportDeviationProps) {
       name: "number",
     },
     {
+      title: "نام منطقه",
+      name: "areaName",
+    },
+    {
       title: "کد پروژه",
       name: "projectCode",
     },
@@ -45,16 +49,33 @@ function BudgetReportProjectScale(props: BudgetReportDeviationProps) {
       name: "projectName",
       align: "left",
     },
-
     {
-      title: "مصوب",
+      title: "مصوب 1402",
       name: "mosavab",
       split: true,
       align: "left",
     },
     {
-      title: "عملکرد",
+      title: "اصلاح 1402",
+      name: "edit",
+      split: true,
+      align: "left",
+    },
+    {
+      title: "ت اعتبار 1402",
+      name: "supply",
+      split: true,
+      align: "left",
+    },
+    {
+      title: "هزینه 1402",
       name: "expense",
+      split: true,
+      align: "left",
+    },
+    {
+      title: "مبلغ پیشنهادی 1403",
+      name: "budgetNext",
       split: true,
       align: "left",
     },
@@ -86,14 +107,21 @@ function BudgetReportProjectScale(props: BudgetReportDeviationProps) {
 
   // footer
   const sumMosavab = sumFieldsInSingleItemData(tableData, "mosavab");
+  const sumEdit = sumFieldsInSingleItemData(tableData, "edit");
+  const sumSupply = sumFieldsInSingleItemData(tableData, "supply");
   const sumExpense = sumFieldsInSingleItemData(tableData, "expense");
+  const sumBudgetNext = sumFieldsInSingleItemData(tableData, "budgetNext");
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
-    "colspan-number": 3,
+    "colspan-number": 4,
+    areaName: null,
     projectCode: null,
     projectName: null,
     mosavab: sumMosavab,
+    edit: sumEdit,
+    supply: sumSupply,
     expense: sumExpense,
+    budgetNext: sumBudgetNext,
   };
 
   // head group
@@ -110,7 +138,7 @@ function BudgetReportProjectScale(props: BudgetReportDeviationProps) {
           }}
         />
       ),
-      colspan: 5,
+      colspan: 9,
     },
   ];
 

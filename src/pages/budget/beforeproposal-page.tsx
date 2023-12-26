@@ -25,6 +25,12 @@ import { beforeproposalapi } from "api/budget/pishnahadi-api";
 import { globalConfig } from "config/global-config";
 import { enqueueSnackbar } from "notistack";
 import { generalFieldsConfig } from "config/features/general-fields-config";
+import FixedModal from "components/ui/modal/fixed-modal";
+import BeforeproposalBudgetEdit from "../../components/sections/budget/beforeproposal/beforeproposal-budget-edit";
+import {joinPermissions} from "../../helper/auth-utils";
+import {accessNamesConfig} from "../../config/access-names-config";
+import SectionGuard from "components/auth/section-guard";
+
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -53,8 +59,12 @@ function BudgetBeforeProposalPage() {
     [generalFieldsConfig.BUDGET_METHOD]: undefined,
   });
   
+  const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const [isHideLevel5Items, setIsHideLevel5Items] = useState<boolean>(false);
   
+  const [activeOpenRowId, setActiveOpenRowId] = useState<number | null>(null);
+  const [editModalTitle, setEditModalTitle] = useState("");
+  const [remainBalance, setRemainBalance] = useState<any>('');
   
   const handleaddbtnclick = useMutation(beforeproposalapi.insertData, {
     onSuccess: () => {
@@ -180,8 +190,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     {
       title: "عملیات",
       name: "actions",
-      width: "100px",
-      hidden:true
+      width: "80px",
     },
   ];
 
@@ -278,24 +287,58 @@ const [isOpenModal, setIsOpenModal] = useState(false);
       </DelIcon> */}
       {/* )} */}
 
-      <IconButton
-        size="small"
-        color="error"
-        onClick={() => handleClickDelete(row)}
+      {/*<IconButton*/}
+      {/*  size="small"*/}
+      {/*  color="error"*/}
+      {/*  onClick={() => handleClickDelete(row)}*/}
+      {/*>*/}
+      {/*  <DeleteIcon />*/}
+      {/*</IconButton>*/}
+  
+      <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.BUDGET__PROPOSAL_PAGE,
+            accessNamesConfig.BUDGET__PROPOSAL_EDIT_BUTTON,
+          ])}
       >
-        <DeleteIcon />
-      </IconButton>
-
-      <IconButton
-        size="small"
-        color="primary"
-        // onClick={() => handleClickEditBtn(row)}
-      >
-        <EditIcon />
-      </IconButton>
+        <IconButton
+          size="small"
+          color="primary"
+          onClick={() => handleClickEditBtn(row)}
+        >
+          <EditIcon />
+        </IconButton>
+      </SectionGuard>
+      
     </Box>
   );
-
+  
+  const [editModalInitialData, setEditModalInitialData] =
+      useState<GetSingleBeforeProposalItemShape | null>(null);
+  
+  const handleClickEditBtn = (row: GetSingleBeforeProposalItemShape) => {
+    setEditModalTitle(row.description);
+    setActiveOpenRowId(row.id);
+    setIsOpenEditModal(true);
+    setEditModalInitialData(row);
+  }
+  
+  const handleCloseModal = () => {
+    activeTimeOut.current = setTimeout(() => {
+      setActiveOpenRowId(null);
+    }, 1000);
+    
+    setIsOpenEditModal(false);
+  };
+  
+  const handleDoneModalEditTask = () => {
+    setIsOpenEditModal(false);
+    setEditModalInitialData(null);
+    getDataMutation.mutate(formData);
+    refreshRemain();
+  };
+  
+  
   // add code
   const [isOpenAddCodeModal, setIsOpenAddCodeModal] = useState(false);
   const handleOpenAddCodeModal = (item: GetSingleBeforeProposalItemShape) => {
@@ -382,6 +425,11 @@ const [isOpenModal, setIsOpenModal] = useState(false);
   const tableData = proposalQuery.data
     ? formatTableData(proposalQuery.data?.data)
     : [];
+  
+  const refreshRemain = async () => {
+    const result = await proposalBudgetApi.balanceTextBoxRead(formData)
+    setRemainBalance(result.data.balance);
+  }
 
   // footer
   const footerMosavabSum = sumFieldsInSingleItemData(
@@ -470,6 +518,8 @@ const [isOpenModal, setIsOpenModal] = useState(false);
               setCodingId={setCodingId}
               setIsHideLevel5Items={setIsHideLevel5Items}
               isHideLevel5Items={isHideLevel5Items}
+              refreshRemain={refreshRemain}
+              remainBalance={remainBalance}
               printData={{
                 data: tableData,
                 footer: tableFooter,
@@ -494,6 +544,22 @@ const [isOpenModal, setIsOpenModal] = useState(false);
           tableLayout="auto"
         />
       </AdminLayout>
+  
+      <FixedModal
+          open={isOpenEditModal}
+          handleClose={handleCloseModal}
+          title={editModalTitle}
+          maxWidth="sm"
+          maxHeight="270px"
+          minHeight="270px"
+      >
+        <BeforeproposalBudgetEdit
+            initialData={editModalInitialData}
+            onDoneTask={handleDoneModalEditTask}
+            formData={formData}
+        />
+      </FixedModal>
+      
       {/* modal 1 */}
       {/* <FixedModal
         open={isOpenDetailModal}

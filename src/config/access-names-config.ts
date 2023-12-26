@@ -5,6 +5,7 @@ export const accessNamesConfig = {
   // budget
   BUDGET__BeforePROPOSAL_PAGE: "budget-beforeproposal",
   BUDGET__PROPOSAL_PAGE: "budget-proposal",
+  BUDGET__PROPOSAL_EDIT_BUTTON: "edit-button",
 
   BUDGET__SEPRATOR_PAGE: "budget-seprator",
   BUDGET__SEPRATOR_PAGE_TAMIN_BTN: "tamin-btn",

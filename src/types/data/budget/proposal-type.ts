@@ -87,3 +87,7 @@ export interface GetSingleProposalProjectInsertCodeItemShape {
   projectCode: "4";
   projectName: " اجرای گذرگاه عابر پیاده واقع در سطح منطقه";
 }
+
+export interface ProposalBalance {
+  balance: number;
+}

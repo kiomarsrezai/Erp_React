@@ -76,6 +76,7 @@ export const sidenavsLayout: SidenavShape[] = [
           getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
           getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 1),
           accessNamesConfig.FIELD_BUDGET_METHOD,
+          accessNamesConfig.BUDGET__PROPOSAL_EDIT_BUTTON,
         ],
       },
    
