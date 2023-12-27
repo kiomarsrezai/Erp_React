@@ -417,6 +417,11 @@ function usePermissions() {
       label: "دکمه ویرایش",
       name: accessNamesConfig.BUDGET__PROPOSAL_EDIT_BUTTON,
     },
+    
+    [accessNamesConfig.BUDGET__PROPOSAL_DATA_TABLE_READ]: {
+      label: "جزئیات ردیف",
+      name: accessNamesConfig.BUDGET__PROPOSAL_DATA_TABLE_READ,
+    },
 
     // report
 

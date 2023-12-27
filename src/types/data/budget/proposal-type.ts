@@ -91,3 +91,16 @@ export interface GetSingleProposalProjectInsertCodeItemShape {
 export interface ProposalBalance {
   balance: number;
 }
+
+export interface BudgetProposalModalRead {
+  codingId: number,
+  areaId: number,
+  areaName: string,
+  code: string,
+  description: string,
+  mosavab: number,
+  edit: number,
+  supply: number,
+  expense: number,
+  budgetNext: number
+}

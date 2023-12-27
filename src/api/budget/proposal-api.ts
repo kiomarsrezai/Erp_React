@@ -4,6 +4,7 @@ import { BaseApi } from "api/base-api";
 import { BaseApiResponseShape } from "types/base-type";
 
 import {
+  BudgetProposalModalRead,
   GetModalBaseData,
   GetSearchPropsalModal1Data,
   GetSearchPropsalModal2Data,
@@ -228,6 +229,14 @@ export const proposalBudgetApi = new (class extends BaseApi {
     const response = await clientAxios.get<
       BaseApiResponseShape<ProposalBalance>
     >(url);
+    return response.data;
+  };
+  
+  budgetProposalModalRead = async (formdata: any) => {
+    const url = propsalBudgetUrls.budgetProposalModalRead + this.joinFilterData(formdata);
+    const response = await clientAxios.get<
+        BaseApiResponseShape<BudgetProposalModalRead[]>
+        >(url);
     return response.data;
   };
 })();

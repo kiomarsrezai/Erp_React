@@ -30,6 +30,8 @@ import BeforeproposalBudgetEdit from "../../components/sections/budget/beforepro
 import {joinPermissions} from "../../helper/auth-utils";
 import {accessNamesConfig} from "../../config/access-names-config";
 import SectionGuard from "components/auth/section-guard";
+import BeforeproposalBudgetTableRead
+  from "../../components/sections/budget/beforeproposal/beforeproposal-budget-table-read";
 
 
 interface TableDataItemShape {
@@ -64,7 +66,10 @@ function BudgetBeforeProposalPage() {
   
   const [activeOpenRowId, setActiveOpenRowId] = useState<number | null>(null);
   const [editModalTitle, setEditModalTitle] = useState("");
+  const [tableReadTitle, setTableReadTitle] = useState("");
   const [remainBalance, setRemainBalance] = useState<any>('');
+  
+  const [isOpenTableProposalReadModal, setIsOpenTableProposalReadModal] = useState(false);
   
   const handleaddbtnclick = useMutation(beforeproposalapi.insertData, {
     onSuccess: () => {
@@ -297,7 +302,22 @@ const [isOpenModal, setIsOpenModal] = useState(false);
   
       <SectionGuard
           permission={joinPermissions([
-            accessNamesConfig.BUDGET__PROPOSAL_PAGE,
+            accessNamesConfig.BUDGET__BeforePROPOSAL_PAGE,
+            accessNamesConfig.BUDGET__PROPOSAL_DATA_TABLE_READ,
+          ])}
+      >
+        <IconButton
+            size="small"
+            color="primary"
+            onClick={() => handleClickOpenTableReadModal(row)}
+        >
+          <FormatListBulletedIcon />
+        </IconButton>
+      </SectionGuard>
+  
+      <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.BUDGET__BeforePROPOSAL_PAGE,
             accessNamesConfig.BUDGET__PROPOSAL_EDIT_BUTTON,
           ])}
       >
@@ -320,6 +340,13 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     setEditModalTitle(row.description);
     setActiveOpenRowId(row.id);
     setIsOpenEditModal(true);
+    setEditModalInitialData(row);
+  }
+  
+  const handleClickOpenTableReadModal = (row: GetSingleBeforeProposalItemShape) => {
+    setTableReadTitle(row.description);
+    setActiveOpenRowId(row.id);
+    setIsOpenTableProposalReadModal(true);
     setEditModalInitialData(row);
   }
   
@@ -557,6 +584,23 @@ const [isOpenModal, setIsOpenModal] = useState(false);
             initialData={editModalInitialData}
             onDoneTask={handleDoneModalEditTask}
             formData={formData}
+        />
+      </FixedModal>
+  
+      <FixedModal
+          open={isOpenTableProposalReadModal}
+          handleClose={() => {
+            setIsOpenTableProposalReadModal(false);
+            afterCloseAnyModal();
+          }}
+          title={tableReadTitle}
+          maxWidth="70%"
+          maxHeight="70%"
+      >
+  
+        <BeforeproposalBudgetTableRead
+            formData={formData}
+            initialData={editModalInitialData}
         />
       </FixedModal>
       
