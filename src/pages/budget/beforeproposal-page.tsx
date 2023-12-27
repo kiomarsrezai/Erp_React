@@ -315,21 +315,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
         </IconButton>
       </SectionGuard>
   
-      <SectionGuard
-          permission={joinPermissions([
-            accessNamesConfig.BUDGET__BeforePROPOSAL_PAGE,
-            accessNamesConfig.BUDGET__PROPOSAL_EDIT_BUTTON,
-          ])}
-      >
-        <IconButton
-          size="small"
-          color="primary"
-          onClick={() => handleClickEditBtn(row)}
-        >
-          <EditIcon />
-        </IconButton>
-      </SectionGuard>
-      
+      {editButtone(row)}
     </Box>
   );
   
@@ -358,11 +344,13 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     setIsOpenEditModal(false);
   };
   
+  const [updater, setUpdater] = useState(0);
   const handleDoneModalEditTask = () => {
     setIsOpenEditModal(false);
     setEditModalInitialData(null);
     getDataMutation.mutate(formData);
     refreshRemain();
+    setUpdater(updater+1)
   };
   
   
@@ -557,6 +545,46 @@ const [isOpenModal, setIsOpenModal] = useState(false);
       colspan: tableHeads.filter((item) => !item.hidden).length,
     },
   ];
+  
+  const beforeproposalBudgetEdit = () => {
+    return(
+        <>
+          <FixedModal
+              open={isOpenEditModal}
+              handleClose={handleCloseModal}
+              title={editModalTitle}
+              maxWidth="sm"
+              maxHeight="270px"
+              minHeight="270px"
+          >
+            <BeforeproposalBudgetEdit
+                initialData={editModalInitialData}
+                onDoneTask={handleDoneModalEditTask}
+                formData={formData}
+            />
+          </FixedModal>
+        </>
+      );
+  }
+  
+  const editButtone = (row: (TableDataItemShape & GetSingleBeforeProposalItemShape) | any) => {
+    return(
+        <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.BUDGET__BeforePROPOSAL_PAGE,
+              accessNamesConfig.BUDGET__PROPOSAL_EDIT_BUTTON,
+            ])}
+        >
+          <IconButton
+              size="small"
+              color="primary"
+              onClick={() => handleClickEditBtn(row)}
+          >
+            <EditIcon />
+          </IconButton>
+        </SectionGuard>
+      );
+  }
 
   return (
     <>
@@ -572,20 +600,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
         />
       </AdminLayout>
   
-      <FixedModal
-          open={isOpenEditModal}
-          handleClose={handleCloseModal}
-          title={editModalTitle}
-          maxWidth="sm"
-          maxHeight="270px"
-          minHeight="270px"
-      >
-        <BeforeproposalBudgetEdit
-            initialData={editModalInitialData}
-            onDoneTask={handleDoneModalEditTask}
-            formData={formData}
-        />
-      </FixedModal>
+      {beforeproposalBudgetEdit()}
   
       <FixedModal
           open={isOpenTableProposalReadModal}
@@ -601,6 +616,9 @@ const [isOpenModal, setIsOpenModal] = useState(false);
         <BeforeproposalBudgetTableRead
             formData={formData}
             initialData={editModalInitialData}
+            editButtone={editButtone}
+            beforeproposalBudgetEdit={beforeproposalBudgetEdit()}
+            refresh={updater}
         />
       </FixedModal>
       

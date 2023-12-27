@@ -25,6 +25,7 @@ function BeforeproposalBudgetEdit(props: setEditModalInitialData) {
     
     const editFormSchema = yup.object({
         [proposalConfig.budgetNext]: yup.number().required(),
+        [proposalConfig.description]: yup.string().required(),
     });
     
     const {register, handleSubmit, formState: { errors },} = useForm({
@@ -50,7 +51,6 @@ function BeforeproposalBudgetEdit(props: setEditModalInitialData) {
                 [generalFieldsConfig.BUDGET_METHOD]: formData[generalFieldsConfig.BUDGET_METHOD],
                 [proposalConfig.coding]: initialData?.codingId,
                 ...values,
-                [proposalConfig.description]: initialData?.description,
             }
     
             editCodingMutation.mutate(data);
@@ -59,17 +59,35 @@ function BeforeproposalBudgetEdit(props: setEditModalInitialData) {
     return (
         <Box sx={{ width: "80%", mx: "auto", p: 2 }} component="form" onSubmit={handleSubmit(onSubmitHandler)}>
             <Stack spacing={2}>
-                <TextField
-                    id="budgetNext"
-                    label="مبلغ پیشنهادی 1403"
-                    variant="outlined"
-                    size="small"
-                    {...register(proposalConfig.budgetNext)}
-                    error={!!errors[proposalConfig.budgetNext]}
-                    defaultValue={initialData?.budgetNext || ""}
-                    autoComplete="off"
-                    fullWidth
-                />
+                <Grid item sm={12}>
+                    <TextField
+                        id="budgetNext"
+                        label="مبلغ پیشنهادی 1403"
+                        variant="outlined"
+                        size="small"
+                        {...register(proposalConfig.budgetNext)}
+                        error={!!errors[proposalConfig.budgetNext]}
+                        defaultValue={initialData?.budgetNext || ""}
+                        autoComplete="off"
+                        fullWidth
+                    />
+                </Grid>
+    
+                <Grid item sm={12}>
+                    <TextField
+                        id="description"
+                        label="شرح"
+                        variant="outlined"
+                        multiline
+                        size="small"
+                        {...register("description")}
+                        error={!!errors["description"]}
+                        helperText={(errors.description?.message || "") as any}
+                        defaultValue={initialData?.description}
+                        autoComplete="off"
+                        fullWidth
+                    />
+                </Grid>
             </Stack>
     
             <br/>

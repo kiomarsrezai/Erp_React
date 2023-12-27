@@ -534,13 +534,13 @@ function FixedTable(props: FixedTableProps) {
                     transition: "background ease 0.1s",
                     "&:last-child td, &:last-child th": { border: 0 },
                     "&:nth-of-type(even)": {
-                      bgcolor: row.bgcolor || grey[200],
+                      bgcolor: row.bgcolor || grey[300],
                       "&:hover": {
                         "--hover-color": "0.6",
                         bgcolor:
                           row.bgcolor === "#fff"
-                            ? grey[200]
-                            : row.bgcolor || grey[300],
+                            ? grey[300]
+                            : row.bgcolor || grey[400],
                       },
                     },
                     bgcolor: row.bgcolor || "white",
@@ -548,8 +548,8 @@ function FixedTable(props: FixedTableProps) {
                       "--hover-color": "0.6",
                       bgcolor:
                         row.bgcolor === "#fff"
-                          ? grey[200]
-                          : row.bgcolor || grey[300],
+                          ? grey[300]
+                          : row.bgcolor || grey[400],
                     },
                   }}
                   key={i}

@@ -9,7 +9,10 @@ import {sumFieldsInSingleItemData} from "../../../../helper/calculate-utils";
 import {beforeproposalConfig} from "../../../../config/features/budget/beforeproposal-config";
 
 interface BeforeproposalBudgetTableReadProps{
+    refresh: number,
     formData: any,
+    editButtone: (row: BudgetProposalModalRead) => ReactNode,
+    beforeproposalBudgetEdit: any,
     initialData?: GetSingleBeforeProposalItemShape|null;
 }
 
@@ -26,17 +29,20 @@ interface TableDataItemShape {
     budgetNext: number
 }
 
-export default function BeforeproposalBudgetTableRead({formData, initialData}: BeforeproposalBudgetTableReadProps){
+export default function BeforeproposalBudgetTableRead({formData, initialData, editButtone, beforeproposalBudgetEdit, refresh}: BeforeproposalBudgetTableReadProps){
     const [data, setData] = useState<BudgetProposalModalRead[]>([]);
     const budgetProposalModalRead = useMutation(proposalBudgetApi.budgetProposalModalRead, {
         onSuccess(fetchedData) {
             setData(fetchedData.data)
         },
     });
+    const fetchData = () => {
+        budgetProposalModalRead.mutate({...formData, codingId: initialData?.codingId})
+    }
     
     useEffect(() => {
-        budgetProposalModalRead.mutate({...formData, codingId: initialData?.codingId})
-    }, []);
+        fetchData();
+    }, [refresh]);
     
     // heads
     const tableHeads: TableHeadShape = [
@@ -98,6 +104,11 @@ export default function BeforeproposalBudgetTableRead({formData, initialData}: B
             split: true,
             width: "130px",
         },
+        {
+            title: "عملیات",
+            name: "actions",
+            width: "80px",
+        },
     ];
     
     const formatTableData = (
@@ -106,6 +117,7 @@ export default function BeforeproposalBudgetTableRead({formData, initialData}: B
         const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
             ...item,
             number: i + 1,
+            actions: () => editButtone(item),
         }));
 
         return formatedData;
@@ -127,16 +139,20 @@ export default function BeforeproposalBudgetTableRead({formData, initialData}: B
         supply: sumSupply,
         expense: sumExpense,
         budgetNext: sumBudgetNext,
+        actions: "",
     };
 
     const tableData = formatTableData(data);
     
     return (
-        <FixedTable
-            heads={tableHeads}
-            data={tableData}
-            footer={tableFooter}
-            notFixed
-        />
+        <>
+            <FixedTable
+                heads={tableHeads}
+                data={tableData}
+                footer={tableFooter}
+                notFixed
+            />
+            {beforeproposalBudgetEdit}
+        </>
     );
 }
