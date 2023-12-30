@@ -31,13 +31,17 @@ interface TableDataItemShape {
 
 export default function BeforeproposalBudgetTableRead({formData, initialData, editButtone, beforeproposalBudgetEdit, refresh}: BeforeproposalBudgetTableReadProps){
     const [data, setData] = useState<BudgetProposalModalRead[]>([]);
+    const [codingId, setCodingId] = useState<number|null>(null);
     const budgetProposalModalRead = useMutation(proposalBudgetApi.budgetProposalModalRead, {
         onSuccess(fetchedData) {
-            setData(fetchedData.data)
+            setData(fetchedData.data);
         },
     });
     const fetchData = () => {
-        budgetProposalModalRead.mutate({...formData, codingId: initialData?.codingId})
+        if(initialData?.codingId){
+            setCodingId(initialData?.codingId);
+        }
+        budgetProposalModalRead.mutate({...formData, codingId: initialData?.codingId?? codingId});
     }
     
     useEffect(() => {
@@ -84,6 +88,13 @@ export default function BeforeproposalBudgetTableRead({formData, initialData, ed
             width: "130px",
         },
         {
+            title: "مبلغ پیشنهادی 1403",
+            align: "left",
+            name: "budgetNext",
+            split: true,
+            width: "130px",
+        },
+        {
             title: "ت اعتبار 1402",
             align: "left",
             name: "supply",
@@ -94,13 +105,6 @@ export default function BeforeproposalBudgetTableRead({formData, initialData, ed
             title: "هزینه 1402",
             name: "expense",
             align: "left",
-            split: true,
-            width: "130px",
-        },
-        {
-            title: "مبلغ پیشنهادی 1403",
-            align: "left",
-            name: "budgetNext",
             split: true,
             width: "130px",
         },

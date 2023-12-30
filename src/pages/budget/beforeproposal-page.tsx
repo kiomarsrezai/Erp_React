@@ -346,11 +346,11 @@ const [isOpenModal, setIsOpenModal] = useState(false);
   
   const [updater, setUpdater] = useState(0);
   const handleDoneModalEditTask = () => {
+    setUpdater(updater+1)
     setIsOpenEditModal(false);
     setEditModalInitialData(null);
     getDataMutation.mutate(formData);
     refreshRemain();
-    setUpdater(updater+1)
   };
   
   
@@ -484,9 +484,9 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     mosavab: footerMosavabSum,
     edit: footerEditSum,
     budgetNext: footerbudgetNextSum,
+    percent2: getPercent(footerbudgetNextSum, footerMosavabSum),
     creditAmount: footerCreaditAmount,
     expense: footerExpenseSum,
-    // percent: getPercent(footerExpenseSum, footerEditSum),
     actions: "",
   };
 
@@ -609,7 +609,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
             afterCloseAnyModal();
           }}
           title={tableReadTitle}
-          maxWidth="70%"
+          maxWidth="85%"
           maxHeight="70%"
       >
   

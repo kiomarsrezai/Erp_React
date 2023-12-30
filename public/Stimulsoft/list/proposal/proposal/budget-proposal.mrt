@@ -44,13 +44,14 @@
       </root>
       <footer Ref="6" type="DataTableSource" isKey="true">
         <Alias>footer</Alias>
-        <Columns isList="true" count="6">
+        <Columns isList="true" count="7">
           <value>mosavab,System.Decimal</value>
           <value>expense,System.Decimal</value>
           <value>creditAmount,System.Decimal</value>
           <value>percentBud,System.Decimal</value>
           <value>edit,System.Decimal</value>
           <value>budgetNext,System.Decimal</value>
+          <value>percent2,System.Decimal</value>
         </Columns>
         <Dictionary isRef="1" />
         <Key>d653d3a1d16e40a49136ba3b8e6f54bc</Key>
@@ -836,6 +837,7 @@
               <Name>Text16</Name>
               <Page isRef="8" />
               <Parent isRef="44" />
+              <Text>{footer.percent2}%</Text>
               <TextBrush>[0:0:0]</TextBrush>
               <TextFormat Ref="57" type="NumberFormat" isKey="true">
                 <DecimalDigits>0</DecimalDigits>
@@ -845,7 +847,7 @@
                 <UseLocalSetting>False</UseLocalSetting>
               </TextFormat>
               <TextOptions>,,,Trimming=Character,,A=0</TextOptions>
-              <Type>DataColumn</Type>
+              <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text16>
           </Components>
@@ -888,11 +890,11 @@
   </ReferencedAssemblies>
   <ReportAlias>SimpleList</ReportAlias>
   <ReportAuthor>Stimulsoft</ReportAuthor>
-  <ReportChanged>12/23/2023 11:55:54 AM</ReportChanged>
+  <ReportChanged>12/30/2023 9:31:41 AM</ReportChanged>
   <ReportCreated>5/29/2004 10:59:00 AM</ReportCreated>
   <ReportDescription>This sample demonstrates how to create a simple list report.</ReportDescription>
   <ReportFile>d:\projects\erp_react\public\stimulsoft\list\proposal\proposal\budget-proposal.mrt</ReportFile>
-  <ReportGuid>e46f7b50026f4d198caf0438c798f418</ReportGuid>
+  <ReportGuid>868ffc52bc6a4f1490e5ced5aa33394b</ReportGuid>
   <ReportImage>iVBORw0KGgoAAAANSUhEUgAAASAAAAGWCAMAAADvzq7aAAAABGdBTUEAALGPC/xhBQAAAYBQTFRF
 S7asucbHqba33/Hx8vr56fb1paqq+v394fPx1N3i5/X1nKan7/n52+zryOfl8/T0s77B7ezt4/b1
 /f7+0+Tj29vcu7u9kZSV09PTsby8uMK+4vXzzN3d0+LewsPD0s3Iy8vMws3M5OTkys3S4t3Zw9PU
