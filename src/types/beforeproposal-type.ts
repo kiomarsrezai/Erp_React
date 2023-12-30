@@ -15,6 +15,7 @@ export interface GetSingleBeforeProposalItemShape {
     totalExpense: number;
     percent: number;
     percent2: number;
+    areaId?:number
   }
   
 //   export interface GetSingleDetailProposalItemShape {

@@ -47,7 +47,7 @@ function BeforeproposalBudgetEdit(props: setEditModalInitialData) {
         if (initialData) {
             const data = {
                 [generalFieldsConfig.YEAR]: formData[generalFieldsConfig.YEAR],
-                [generalFieldsConfig.AREA]: formData[generalFieldsConfig.AREA],
+                [generalFieldsConfig.AREA]: initialData?.areaId??formData[generalFieldsConfig.AREA],
                 [generalFieldsConfig.BUDGET_METHOD]: formData[generalFieldsConfig.BUDGET_METHOD],
                 [proposalConfig.coding]: initialData?.codingId,
                 ...values,

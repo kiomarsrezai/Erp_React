@@ -10,6 +10,8 @@ export interface GetSingleTransferItemShape {
 export interface GetSingleTransferModalDataItemShape {
   markazHazine: string;
   idTafsily5: string;
+  idTafsily6: string;
+  idTafsily6Name: string;
   idMoein: string;
   idKol: string;
   name: string;

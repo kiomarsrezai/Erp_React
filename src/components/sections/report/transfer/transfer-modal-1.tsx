@@ -50,6 +50,16 @@ function TransferModal1(props: TransferModal1Props) {
       name: "number",
     },
     {
+      title: "شرح پروژه",
+      name: "tafsily6Name",
+      align: "left",
+    },
+    {
+      title: "پروژه",
+      name: "idTafsily6",
+      align: "left",
+    },
+    {
       title: "عنوان مرکز هزینه",
       name: "markazHazine",
       align: "left",
@@ -104,9 +114,13 @@ function TransferModal1(props: TransferModal1Props) {
   });
 
   const handleLinkClick = (row: any) => {
-    const codeAcc = `${row.idKol}-${row.idMoein}-${row.idTafsily}${
-      areaId <= 9 ? "-" + row.idTafsily5 : ""
-    }`;
+    let codeAcc = "";
+    if(areaId <= 9) {
+      codeAcc = `${row.idKol}-${row.idMoein}-${row.idTafsily}-${row.idTafsily5}`;
+    }else if(areaId >= 11){
+      codeAcc = `${row.idKol}-${row.idMoein}-${row.idTafsily}-${row.idTafsily5}-${row.idTafsily6}`;
+    }
+  
     linkCodeAccMutation.mutate({
       ...row,
       [transferConfig.TITLE_ACC]: `${row.name} --- ${row.markazHazine}`,
@@ -183,7 +197,7 @@ function TransferModal1(props: TransferModal1Props) {
           <PrintIcon />
         </IconButton>
       ),
-      colspan: 9,
+      colspan: 11,
     },
   ];
 

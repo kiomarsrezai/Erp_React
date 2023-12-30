@@ -484,7 +484,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     mosavab: footerMosavabSum,
     edit: footerEditSum,
     budgetNext: footerbudgetNextSum,
-    percent2: getPercent(footerbudgetNextSum, footerMosavabSum),
+    percent2: getPercent(footerbudgetNextSum, footerMosavabSum) - 100,
     creditAmount: footerCreaditAmount,
     expense: footerExpenseSum,
     actions: "",
@@ -553,9 +553,8 @@ const [isOpenModal, setIsOpenModal] = useState(false);
               open={isOpenEditModal}
               handleClose={handleCloseModal}
               title={editModalTitle}
-              maxWidth="sm"
-              maxHeight="270px"
-              minHeight="270px"
+              maxWidth="600px"
+              maxHeight="300px"
           >
             <BeforeproposalBudgetEdit
                 initialData={editModalInitialData}
