@@ -78,9 +78,7 @@ export const transferApi = new (class extends BaseApi {
       [transferConfig.TITLE_ACC]: formdata[transferConfig.TITLE_ACC],
     };
 
-    const url = TRANSFER_LINK_CODE_ACC_URL + this.joinFilterData(filterData);
-
-    const response = await clientAxios.get<BaseApiResponseShape<boolean>>(url);
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(TRANSFER_LINK_CODE_ACC_URL, filterData);
     return response.data;
   };
 })();
