@@ -192,7 +192,7 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
       budgetMethodItems,
       userLicenses,
       joinPermissions([
-        accessNamesConfig.BUDGET__PROPOSAL_PAGE,
+        accessNamesConfig.BUDGET__BeforePROPOSAL_PAGE,
         accessNamesConfig.FIELD_BUDGET_METHOD,
       ])
   );
