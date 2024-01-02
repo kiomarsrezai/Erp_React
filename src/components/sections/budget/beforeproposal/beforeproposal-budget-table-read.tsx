@@ -3,10 +3,10 @@ import {useMutation} from "@tanstack/react-query";
 import {proposalBudgetApi} from "../../../../api/budget/proposal-api";
 import {GetSingleBeforeProposalItemShape} from "../../../../types/beforeproposal-type";
 import FixedTable from "../../../data/table/fixed-table";
-import {TableHeadShape} from "../../../../types/table-type";
+import {TableHeadGroupShape, TableHeadShape} from "../../../../types/table-type";
 import {BudgetProposalModalRead} from "../../../../types/data/budget/proposal-type";
 import {sumFieldsInSingleItemData} from "../../../../helper/calculate-utils";
-import {beforeproposalConfig} from "../../../../config/features/budget/beforeproposal-config";
+import {Checkbox, FormControlLabel, Typography} from "@mui/material";
 
 interface BeforeproposalBudgetTableReadProps{
     refresh: number,
@@ -32,9 +32,10 @@ interface TableDataItemShape {
 export default function BeforeproposalBudgetTableRead({formData, initialData, editButtone, beforeproposalBudgetEdit, refresh}: BeforeproposalBudgetTableReadProps){
     const [data, setData] = useState<BudgetProposalModalRead[]>([]);
     const [codingId, setCodingId] = useState<number|null>(null);
+    const [hasBudgetNext, setHasBudgetNext] = useState<boolean>(false);
     const budgetProposalModalRead = useMutation(proposalBudgetApi.budgetProposalModalRead, {
         onSuccess(fetchedData) {
-            setData(fetchedData.data);
+            setData(fetchedData.data.filter(item => !(hasBudgetNext && item.budgetNext === 0)));
         },
     });
     const fetchData = () => {
@@ -121,6 +122,7 @@ export default function BeforeproposalBudgetTableRead({formData, initialData, ed
         const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
             ...item,
             number: i + 1,
+            bgcolor: i % 2 === 0? '#fff' : '#D9F0CB',
             actions: () => editButtone(item),
         }));
 
@@ -148,9 +150,34 @@ export default function BeforeproposalBudgetTableRead({formData, initialData, ed
 
     const tableData = formatTableData(data);
     
+    const tableHeadGroups: TableHeadGroupShape = [
+        {
+            title: (
+                <FormControlLabel
+                    style={{width:'100%'}}
+                    control={
+                        <Checkbox
+                            checked={hasBudgetNext}
+                            onChange={() => setHasBudgetNext((state: boolean) => !state)}
+                        />
+                    }
+                    label={
+                        <Typography variant="body2">دارای بودجه پیشنهادی</Typography>
+                    }
+                />
+            ),
+            colspan: tableHeads.filter((item) => !item.hidden).length,
+        },
+    ];
+    
+    useEffect(() => {
+        fetchData();
+    },[hasBudgetNext])
+    
     return (
         <>
             <FixedTable
+                headGroups={tableHeadGroups}
                 heads={tableHeads}
                 data={tableData}
                 footer={tableFooter}
