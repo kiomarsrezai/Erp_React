@@ -26,6 +26,7 @@ export interface TableSingleHeadShape {
   width?: string;
   sticky?: boolean;
   topTitle?: string;
+  dir?: "rtl" | "ltr";
 }
 
 export type TableHeadShape = TableSingleHeadShape[];

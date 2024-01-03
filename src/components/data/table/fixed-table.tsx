@@ -314,6 +314,7 @@ function FixedTable(props: FixedTableProps) {
               ? (e) => e.ctrlKey && clickCell(name as any, row as any)
               : undefined
           }
+          style={{direction: item.dir??item.dir}}
           sx={{
             // width: row[`width-${name}`] || null,
             bgcolor: row[`bgcolor-${name}`] || "inherit",

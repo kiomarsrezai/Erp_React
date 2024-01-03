@@ -94,6 +94,8 @@ function TransferPage() {
     {
       title: "کد حسابداری",
       name: "codeAcc",
+      width: '220px',
+      dir: "ltr"
     },
     {
       title: "شرح حسابداری",
