@@ -62,7 +62,6 @@ function BudgetBeforeProposalPage() {
   });
   
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
-  const [isHideLevel5Items, setIsHideLevel5Items] = useState<boolean>(false);
   
   const [activeOpenRowId, setActiveOpenRowId] = useState<number | null>(null);
   const [editModalTitle, setEditModalTitle] = useState("");
@@ -531,8 +530,6 @@ const [isOpenModal, setIsOpenModal] = useState(false);
               formData={formData}
               setFormData={setFormData}
               setCodingId={setCodingId}
-              setIsHideLevel5Items={setIsHideLevel5Items}
-              isHideLevel5Items={isHideLevel5Items}
               refreshRemain={refreshRemain}
               remainBalance={remainBalance}
               printData={{
@@ -591,7 +588,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
         <FixedTable
           heads={tableHeads}
           headGroups={tableHeadGroups}
-          data={tableData.filter(item => !(item.levelNumber === 5 && isHideLevel5Items))}
+          data={tableData}
           footer={tableFooter}
           bottomFooter={tableBottomFooter}
           enableVirtual

@@ -1,14 +1,11 @@
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
 import YearInput from "components/sections/inputs/year-input";
 import AreaInput from "components/sections/inputs/area-input";
 import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 import SectionGuard from "components/auth/section-guard";
 import userStore from "hooks/store/user-store";
-import FixedModal from "components/ui/modal/fixed-modal";
-import SearchIcon from "@mui/icons-material/Search";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FormEvent, useEffect, useState } from "react";
@@ -31,21 +28,18 @@ import {
   getGeneralFieldItemArea,
   getGeneralFieldItemYear
 } from "../../../../helper/export-utils";
-import {requestAnalyzeStimul} from "../../../../stimul/budget/report/request-analyze/request-analyze-stimul";
-import {requestAnalyzeRead} from "../../../../config/features/budget/report/request-analyze-read";
 import {beforeProposalStimul} from "../../../../stimul/budget/proposal/budget-beforeproposal-stimul";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Typography from "@mui/material/Typography";
+import {GetSingleBeforeProposalItemShape} from "../../../../types/beforeproposal-type";
 
 
 interface BeforeProposalBudgetFormProps {
   formData: any;
   setFormData: any;
   setCodingId: any;
-  setIsHideLevel5Items: any,
-  isHideLevel5Items: boolean,
   refreshRemain: () => void,
   remainBalance: any,
   printData: {
@@ -56,7 +50,7 @@ interface BeforeProposalBudgetFormProps {
 }
 
 function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
-  const { formData, setFormData, printData, isHideLevel5Items, setIsHideLevel5Items, refreshRemain, remainBalance} = props;
+  const { formData, setFormData, printData, refreshRemain, remainBalance} = props;
 
   const userLicenses = userStore((state) => state.permissions);
 
@@ -67,12 +61,26 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
   const [submitedData, setSubmitedData] = useState<any[]>([]);
   const submitMutation = useMutation(beforeproposalapi.getData, {
     onSuccess: (data) => {
-      // queryClient.setQueryData(reactQueryKeys.budget.proposal.getData, data);
-      setSubmitedData(data.data);
+      let result = filterData(data.data);
+      
+      setSubmitedData(result);
       refreshRemain()
     },
   });
 
+  
+  const filterData = (data:GetSingleBeforeProposalItemShape[]) => {
+    let result = [];
+    result = data.filter(item => !(onlyShowProject && item.levelNumber !== 4));
+    result = result.filter(item => !(item.levelNumber === 5 && isHideLevel5Items));
+  
+    if(onlyShowProject){
+      result.sort((a, b) => b.budgetNext - a.budgetNext);
+    }
+    
+    return result;
+  }
+  
   useEffect(() => {
     const filteredData = submitedData.filter(
       (item) =>
@@ -215,7 +223,7 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
               [generalFieldsConfig.BUDGET_METHOD]: item,
             });
   
-            const newData = data.data.filter((item) => !(item.levelNumber === 5 && isHideLevel5Items))
+            const newData = filterData(data.data);
             
             culmnsData = {
               ...culmnsData,
@@ -240,7 +248,7 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
     if (printData.data.length) {
       const data = await submitMutation2.mutateAsync(formData);
   
-      const newData = data.data.filter((item) => !(item.levelNumber === 5 && isHideLevel5Items))
+      const newData = filterData(data.data);
   
       const areaLabel = getGeneralFieldItemArea(formData, 1);
       beforeProposalStimul({
@@ -253,6 +261,13 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
       });
     }
   };
+  
+  const [isHideLevel5Items, setIsHideLevel5Items] = useState(false);
+  const [onlyShowProject, setOnlyShowProject] = useState(false);
+  
+  useEffect(() => {
+      submitMutation.mutate(formData);
+  }, [onlyShowProject, isHideLevel5Items])
 
   return (
     <>
@@ -371,17 +386,29 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
           </Grid>
         </Grid>
   
-        <FormGroup>
+        <FormGroup style={{display: 'flex', flexDirection: 'row'}}>
           <FormControlLabel
               style={{width:'130px'}}
               control={
                 <Checkbox
                     checked={isHideLevel5Items}
-                    onChange={() => setIsHideLevel5Items((state: boolean) => !state)}
+                    onChange={() => {setIsHideLevel5Items((state: boolean) => !state);setOnlyShowProject(false)}}
                 />
               }
               label={
                 <Typography variant="body2">بدون ریز پروژه</Typography>
+              }
+          />
+          <FormControlLabel
+              style={{width:'130px'}}
+              control={
+                <Checkbox
+                    checked={onlyShowProject}
+                    onChange={() =>{ setOnlyShowProject((state: boolean) => !state); setIsHideLevel5Items(false)}}
+                />
+              }
+              label={
+                <Typography variant="body2">پروژه</Typography>
               }
           />
         </FormGroup>
