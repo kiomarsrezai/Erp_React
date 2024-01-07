@@ -42,6 +42,13 @@ interface BeforeProposalBudgetFormProps {
   setCodingId: any;
   refreshRemain: () => void,
   remainBalance: any,
+
+  isHideLevel5Items: any,
+  onlyShowProject: any,
+  setIsHideLevel5Items: any,
+  setOnlyShowProject: any,
+
+
   printData: {
     data: any[],
     footer: any[],
@@ -50,7 +57,7 @@ interface BeforeProposalBudgetFormProps {
 }
 
 function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
-  const { formData, setFormData, printData, refreshRemain, remainBalance} = props;
+  const { formData, setFormData, printData, refreshRemain, remainBalance, isHideLevel5Items, onlyShowProject, setIsHideLevel5Items, setOnlyShowProject} = props;
 
   const userLicenses = userStore((state) => state.permissions);
 
@@ -62,25 +69,25 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
   const submitMutation = useMutation(beforeproposalapi.getData, {
     onSuccess: (data) => {
       let result = filterData(data.data);
-      
+
       setSubmitedData(result);
       refreshRemain()
     },
   });
 
-  
+
   const filterData = (data:GetSingleBeforeProposalItemShape[]) => {
     let result = [];
     result = data.filter(item => !(onlyShowProject && item.levelNumber !== 4));
     result = result.filter(item => !(item.levelNumber === 5 && isHideLevel5Items));
-  
+
     if(onlyShowProject){
       result.sort((a, b) => b.budgetNext - a.budgetNext);
     }
-    
+
     return result;
   }
-  
+
   useEffect(() => {
     const filteredData = submitedData.filter(
       (item) =>
@@ -188,14 +195,14 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
 //     //   (document.querySelector("#table-container") as any)?.scrollTo?.(0, top);
 //     // }, 500);
 //   };
-  
+
   const [excelLodaing, setExcelLodaing] = useState(false);
-  
+
   const handleExcelClick = () => {
     setExcelLodaing(true);
     handleExcelForm();
   };
-  
+
   const budgetMethodAccessItems = filedItemsGuard(
       budgetMethodItems,
       userLicenses,
@@ -204,17 +211,17 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
         accessNamesConfig.FIELD_BUDGET_METHOD,
       ])
   );
-  
+
   const submitMutation2 = useMutation(beforeproposalapi.getData);
   const handleExcelForm = async () => {
-  
+
     let culmnsData: any = {};
     budgetMethodAccessItems.forEach((item) => {
       culmnsData[item.value] = [];
     });
-  
+
     const culmnKeys = Object.keys(culmnsData);
-    
+
     try {
       await Promise.all(
           culmnKeys.map(async (item) => {
@@ -222,9 +229,9 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
               ...formData,
               [generalFieldsConfig.BUDGET_METHOD]: item,
             });
-  
+
             const newData = filterData(data.data);
-            
+
             culmnsData = {
               ...culmnsData,
               [item]: newData,
@@ -232,10 +239,10 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
           })
       );
     } catch {}
-  
+
     const yearLabel = getGeneralFieldItemYear(formData, 1);
     const areaLabel = getGeneralFieldItemArea(formData, 1);
-  
+
     proposalBudgetXlsx({
       culmnsData: culmnsData,
       area: areaLabel,
@@ -243,13 +250,13 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
       setExcelLodaing: setExcelLodaing,
     });
   };
-  
+
   const handlePrintForm = async () => {
     if (printData.data.length) {
       const data = await submitMutation2.mutateAsync(formData);
-  
+
       const newData = filterData(data.data);
-  
+
       const areaLabel = getGeneralFieldItemArea(formData, 1);
       beforeProposalStimul({
         data: newData,
@@ -261,10 +268,8 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
       });
     }
   };
-  
-  const [isHideLevel5Items, setIsHideLevel5Items] = useState(false);
-  const [onlyShowProject, setOnlyShowProject] = useState(false);
-  
+
+
   useEffect(() => {
       submitMutation.mutate(formData);
   }, [onlyShowProject, isHideLevel5Items])
@@ -335,19 +340,19 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
             >
               افزودن
             </Button> */}
-  
+
             {/*<IconButton color="primary" >*/}
             {/*  <PrintIcon />*/}
             {/*</IconButton>*/}
-  
+
             <IconButton color="primary" onClick={handlePrintForm}>
               <PrintIcon />
             </IconButton>
-            
+
             <IconButton color="primary" onClick={handleExcelClick}>
               <GetAppIcon />
             </IconButton>
-  
+
             <WindowLoading
                 active={
                     excelLodaing
@@ -373,7 +378,7 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
               fullWidth
             />
           </Grid> */}
-  
+
           <Grid sm={2}>
             <TextField
               size="small"
@@ -385,7 +390,7 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
             />
           </Grid>
         </Grid>
-  
+
         <FormGroup style={{display: 'flex', flexDirection: 'row'}}>
           <FormControlLabel
               style={{width:'130px'}}

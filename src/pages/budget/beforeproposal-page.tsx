@@ -60,16 +60,16 @@ function BudgetBeforeProposalPage() {
     [generalFieldsConfig.AREA]: undefined,
     [generalFieldsConfig.BUDGET_METHOD]: undefined,
   });
-  
+
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
-  
+
   const [activeOpenRowId, setActiveOpenRowId] = useState<number | null>(null);
   const [editModalTitle, setEditModalTitle] = useState("");
   const [tableReadTitle, setTableReadTitle] = useState("");
   const [remainBalance, setRemainBalance] = useState<any>('');
-  
+
   const [isOpenTableProposalReadModal, setIsOpenTableProposalReadModal] = useState(false);
-  
+
   const handleaddbtnclick = useMutation(beforeproposalapi.insertData, {
     onSuccess: () => {
       getDataMutation.mutate(formData);
@@ -115,7 +115,7 @@ const handleClickDelete = (
 const [isOpenModal, setIsOpenModal] = useState(false);
   const [activeRowTitle, setActiveRowTitle] = useState("");
   // const detailCodingMutation = useMutation(beforeproposalapi.del);
-  
+
 
 
   // form heads
@@ -207,12 +207,28 @@ const [isOpenModal, setIsOpenModal] = useState(false);
 
   const getDetailMutation = useMutation(proposalBudgetApi.getDetailData);
 
+  const [isHideLevel5Items, setIsHideLevel5Items] = useState(false);
+  const [onlyShowProject, setOnlyShowProject] = useState(false);
+
   const queryClient = useQueryClient();
   const getDataMutation = useMutation(beforeproposalapi.getData, {
     onSuccess: (data) => {
+      data.data = filterData(data.data)
       queryClient.setQueryData(reactQueryKeys.budget.proposal.getData, data);
     },
   });
+
+  const filterData = (data:GetSingleBeforeProposalItemShape[]) => {
+    let result = [];
+    result = data.filter(item => !(onlyShowProject && item.levelNumber !== 4));
+    result = result.filter(item => !(item.levelNumber === 5 && isHideLevel5Items));
+
+    if(onlyShowProject){
+      result.sort((a, b) => b.budgetNext - a.budgetNext);
+    }
+
+    return result;
+  }
 
   const [isModal1Changed, setIsmodal1Changed] = useState(false);
 
@@ -270,7 +286,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     setModalTitle(title);
     setActiveRowData(row);
 
-    
+
     setCodingId(row.codingId);
 
     setIsOpenInfoModal(true);
@@ -298,7 +314,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
       {/*>*/}
       {/*  <DeleteIcon />*/}
       {/*</IconButton>*/}
-  
+
       <SectionGuard
           permission={joinPermissions([
             accessNamesConfig.BUDGET__BeforePROPOSAL_PAGE,
@@ -313,36 +329,36 @@ const [isOpenModal, setIsOpenModal] = useState(false);
           <FormatListBulletedIcon />
         </IconButton>
       </SectionGuard>
-  
+
       {editButtone(row)}
     </Box>
   );
-  
+
   const [editModalInitialData, setEditModalInitialData] =
       useState<GetSingleBeforeProposalItemShape | null>(null);
-  
+
   const handleClickEditBtn = (row: GetSingleBeforeProposalItemShape) => {
     setEditModalTitle(row.description);
     setActiveOpenRowId(row.id);
     setIsOpenEditModal(true);
     setEditModalInitialData(row);
   }
-  
+
   const handleClickOpenTableReadModal = (row: GetSingleBeforeProposalItemShape) => {
     setTableReadTitle(row.description);
     setActiveOpenRowId(row.id);
     setIsOpenTableProposalReadModal(true);
     setEditModalInitialData(row);
   }
-  
+
   const handleCloseModal = () => {
     activeTimeOut.current = setTimeout(() => {
       setActiveOpenRowId(null);
     }, 1000);
-    
+
     setIsOpenEditModal(false);
   };
-  
+
   const [updater, setUpdater] = useState(0);
   const handleDoneModalEditTask = () => {
     setUpdater(updater+1)
@@ -351,8 +367,8 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     getDataMutation.mutate(formData);
     refreshRemain();
   };
-  
-  
+
+
   // add code
   const [isOpenAddCodeModal, setIsOpenAddCodeModal] = useState(false);
   const handleOpenAddCodeModal = (item: GetSingleBeforeProposalItemShape) => {
@@ -439,7 +455,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
   const tableData = proposalQuery.data
     ? formatTableData(proposalQuery.data?.data)
     : [];
-  
+
   const refreshRemain = async () => {
     const result = await proposalBudgetApi.balanceTextBoxRead(formData)
     setRemainBalance(result.data.balance);
@@ -522,7 +538,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     percent: "",
     actions: "",
   };
-  
+
   const tableHeadGroups: TableHeadGroupShape = [
     {
       title: (
@@ -532,6 +548,10 @@ const [isOpenModal, setIsOpenModal] = useState(false);
               setCodingId={setCodingId}
               refreshRemain={refreshRemain}
               remainBalance={remainBalance}
+              isHideLevel5Items={isHideLevel5Items}
+              onlyShowProject={onlyShowProject}
+              setIsHideLevel5Items={setIsHideLevel5Items}
+              setOnlyShowProject={setOnlyShowProject}
               printData={{
                 data: tableData,
                 footer: tableFooter,
@@ -542,7 +562,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
       colspan: tableHeads.filter((item) => !item.hidden).length,
     },
   ];
-  
+
   const beforeproposalBudgetEdit = () => {
     return(
         <>
@@ -562,7 +582,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
         </>
       );
   }
-  
+
   const editButtone = (row: (TableDataItemShape & GetSingleBeforeProposalItemShape) | any) => {
     return(
         <SectionGuard
@@ -595,9 +615,9 @@ const [isOpenModal, setIsOpenModal] = useState(false);
           tableLayout="auto"
         />
       </AdminLayout>
-  
+
       {beforeproposalBudgetEdit()}
-  
+
       <FixedModal
           open={isOpenTableProposalReadModal}
           handleClose={() => {
@@ -608,7 +628,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
           maxWidth="85%"
           maxHeight="70%"
       >
-  
+
         <BeforeproposalBudgetTableRead
             formData={formData}
             initialData={editModalInitialData}
@@ -617,7 +637,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
             refresh={updater}
         />
       </FixedModal>
-      
+
       {/* modal 1 */}
       {/* <FixedModal
         open={isOpenDetailModal}
