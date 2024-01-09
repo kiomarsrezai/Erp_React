@@ -7,6 +7,12 @@ import {TableHeadGroupShape, TableHeadShape} from "../../../../types/table-type"
 import {BudgetProposalModalRead} from "../../../../types/data/budget/proposal-type";
 import {sumFieldsInSingleItemData} from "../../../../helper/calculate-utils";
 import {Checkbox, FormControlLabel, Typography} from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import GetAppIcon from "@mui/icons-material/GetApp";
+import {getGeneralFieldItemArea, getGeneralFieldItemYear} from "../../../../helper/export-utils";
+import {generalFieldsConfig} from "../../../../config/features/general-fields-config";
+import {proposalBudgetXlsx} from "../../../../stimul/budget/proposal/budget-proposal-xlsx";
+import {proposalBudgetTableReadXlsx} from "../../../../stimul/budget/proposal/budget-proposal-table-read-xlsx";
 
 interface BeforeproposalBudgetTableReadProps{
     refresh: number,
@@ -147,24 +153,68 @@ export default function BeforeproposalBudgetTableRead({formData, initialData, ed
         budgetNext: sumBudgetNext,
         actions: "",
     };
+    
+    const [a, setExcelLodaing] = useState(true)
+    const handleExcelClick = () =>{
+        let culmnsData: any = {};
+    
+        [{label: 'تست', value: 1}].forEach((item) => {
+            culmnsData[item.value] = [];
+        });
+    
+        const culmnKeys = Object.keys(culmnsData);
+    
+        culmnsData = {
+            ...culmnsData,
+            [1]: tableData,
+        };
+        const yearLabel = getGeneralFieldItemYear(formData, 1);
+        const areaLabel = getGeneralFieldItemArea(formData, 1);
+        proposalBudgetTableReadXlsx({
+            culmnsData: culmnsData,
+            area: areaLabel,
+            year: yearLabel,
+            setExcelLodaing: setExcelLodaing,
+        });
+        
+        // const newData = filterData(tableData);
+        //
+        // culmnsData = {
+        //     ...culmnsData,
+        //     [item]: newData,
+        // };
+        //
+        // const yearLabel = getGeneralFieldItemYear(formData, 1);
+        // const areaLabel = getGeneralFieldItemArea(formData, 1);
+    
+        // proposalBudgetTableReadXlsx({
+        // });
+    };
 
     const tableData = formatTableData(data);
     
     const tableHeadGroups: TableHeadGroupShape = [
         {
             title: (
-                <FormControlLabel
-                    style={{width:'100%'}}
-                    control={
-                        <Checkbox
-                            checked={hasBudgetNext}
-                            onChange={() => setHasBudgetNext((state: boolean) => !state)}
+                <div style={{display: 'flex'}}>
+                    <div style={{width: '180px'}}>
+                        <FormControlLabel
+                            style={{width:'100%'}}
+                            control={
+                                <Checkbox
+                                    checked={hasBudgetNext}
+                                    onChange={() => setHasBudgetNext((state: boolean) => !state)}
+                                />
+                            }
+                            label={
+                                <Typography variant="body2">دارای بودجه پیشنهادی</Typography>
+                            }
                         />
-                    }
-                    label={
-                        <Typography variant="body2">دارای بودجه پیشنهادی</Typography>
-                    }
-                />
+                    </div>
+                    <IconButton color="primary" onClick={handleExcelClick}>
+                        <GetAppIcon />
+                    </IconButton>
+                </div>
             ),
             colspan: tableHeads.filter((item) => !item.hidden).length,
         },
