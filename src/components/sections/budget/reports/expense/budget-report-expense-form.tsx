@@ -115,6 +115,11 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
 
         "mosavabDar_Khazane",
         "expenseDar_Khazane",
+        
+        "mosavabNeyabati",
+        "expenseMonthNeyabati",
+        
+        "resoures",
 
         "balance",
       ],
