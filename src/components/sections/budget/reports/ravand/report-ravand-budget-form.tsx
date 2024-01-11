@@ -17,22 +17,30 @@ import { checkHavePermission, joinPermissions } from "helper/auth-utils";
 import AreaInput from "components/sections/inputs/area-input";
 import { ravandChartConfig } from "config/features/report/chart/ravand-chart-config";
 import { ravandChartApi } from "api/report/ravand-chart-api";
+import FixedModal from "../../../../ui/modal/fixed-modal";
+import reportRavandBudgetAmounts from "./report-ravand-budget-amounts";
+import ReportRavandBudgetAmounts from "./report-ravand-budget-amounts";
+import {getGeneralFieldItemArea} from "../../../../../helper/export-utils";
 
 interface ReportRavandBudgetFormProps {
   formData: any;
   setFormData: (prevState: any) => void;
   inputRender?: ReactNode;
   tabRender?: ReactNode;
+  showBtnAmount: boolean;
 }
 function ReportRavandBudgetForm(props: ReportRavandBudgetFormProps) {
-  const { formData, setFormData, inputRender, tabRender } = props;
+  const { formData, setFormData, inputRender, tabRender, showBtnAmount } = props;
   const userLicenses = userStore((state) => state.permissions);
+  const [amountsModal, setAmountsModal] = useState<boolean>(false);
+  const [data, setData] = useState<any>([]);
 
   // form
   const queryClient = useQueryClient();
 
   const submitMutation = useMutation(ravandChartApi.getChart, {
     onSuccess: (data) => {
+      setData(data.data)
       queryClient.setQueryData(reactQueryKeys.report.chart.ravand, data);
     },
   });
@@ -127,7 +135,7 @@ function ReportRavandBudgetForm(props: ReportRavandBudgetFormProps) {
           </Grid>
         </SectionGuard>
 
-        <Grid xs={2}>
+        <Grid>
           <LoadingButton
             variant="contained"
             type="submit"
@@ -136,7 +144,32 @@ function ReportRavandBudgetForm(props: ReportRavandBudgetFormProps) {
             نمایش
           </LoadingButton>
         </Grid>
+        {showBtnAmount?
+          <Grid xs={2}>
+            <LoadingButton
+                variant="contained"
+                onClick={() => setAmountsModal(true)}
+            >
+              مقادیر
+            </LoadingButton>
+          </Grid> : ''
+        }
       </Grid>
+  
+        <FixedModal
+            open={amountsModal}
+            handleClose={() => {
+              setAmountsModal(false);
+            }}
+            title="مقادیر"
+            maxWidth="85%"
+            maxHeight="70%"
+        >
+          
+          <ReportRavandBudgetAmounts data={data}/>
+      
+        </FixedModal>
+      
     </Box>
   );
 }

@@ -80,6 +80,7 @@ function ReportRavandBudgetChart(props: ReportRavandBudgetChartProps) {
     >
       <Box ref={boxElement}>
         <ReportRavandBudgetForm
+          showBtnAmount={!!ravandQuery.data?.data?.[0]?.length}
           formData={formData}
           setFormData={setFormData}
           inputRender={inputRender}

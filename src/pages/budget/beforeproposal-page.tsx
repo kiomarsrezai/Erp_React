@@ -339,14 +339,14 @@ const [isOpenModal, setIsOpenModal] = useState(false);
 
   const handleClickEditBtn = (row: GetSingleBeforeProposalItemShape) => {
     setEditModalTitle(row.description);
-    setActiveOpenRowId(row.id);
+    setActiveOpenRowId(row.codingId);
     setIsOpenEditModal(true);
     setEditModalInitialData(row);
   }
 
   const handleClickOpenTableReadModal = (row: GetSingleBeforeProposalItemShape) => {
     setTableReadTitle(row.description);
-    setActiveOpenRowId(row.id);
+    setActiveOpenRowId(row.codingId);
     setIsOpenTableProposalReadModal(true);
     setEditModalInitialData(row);
   }
@@ -419,7 +419,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
         percent: item.percentBud,
         row_id: `c-${item.codingId}`,
         expense: item.expense,
-        bgcolor_pulse: codingId === item.codingId,
+        bgcolor_pulse: activeOpenRowId === item.codingId,
         "textcolor-expense":
           item.expense < 0 ||
           (item.expense > item.creditAmount &&
@@ -431,7 +431,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
         "bgcolor-expense": item.expense > item.edit && "#d7a2a2",
         "bgcolor-creditAmount": item.creditAmount > item.edit && "#d7a2a2",
         bgcolor:
-          codingId === item.codingId
+          activeOpenRowId === item.codingId
             ? "#ffb1b1"
             : getBgColorBudget(
                 item.levelNumber,
