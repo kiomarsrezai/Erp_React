@@ -7,6 +7,7 @@ export const accessNamesConfig = {
   BUDGET__PROPOSAL_PAGE: "budget-proposal",
   BUDGET__PROPOSAL_EDIT_BUTTON: "edit-button",
   BUDGET__PROPOSAL_DATA_TABLE_READ: "budget-proposal-data-table-read",
+  BUDGET__PROPOSAL_DATA_TABLE_CHART: "budget-proposal-data-table-chart",
 
   BUDGET__SEPRATOR_PAGE: "budget-seprator",
   BUDGET__SEPRATOR_PAGE_TAMIN_BTN: "tamin-btn",

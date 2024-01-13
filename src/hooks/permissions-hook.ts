@@ -422,6 +422,11 @@ function usePermissions() {
       label: "جزئیات ردیف",
       name: accessNamesConfig.BUDGET__PROPOSAL_DATA_TABLE_READ,
     },
+    
+    [accessNamesConfig.BUDGET__PROPOSAL_DATA_TABLE_CHART]: {
+      label: "مشاهده جدول",
+      name: accessNamesConfig.BUDGET__PROPOSAL_DATA_TABLE_CHART,
+    },
 
     // report
 

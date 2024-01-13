@@ -78,6 +78,7 @@ export const sidenavsLayout: SidenavShape[] = [
           accessNamesConfig.FIELD_BUDGET_METHOD,
           accessNamesConfig.BUDGET__PROPOSAL_EDIT_BUTTON,
           accessNamesConfig.BUDGET__PROPOSAL_DATA_TABLE_READ,
+          accessNamesConfig.BUDGET__PROPOSAL_DATA_TABLE_CHART,
         ],
       },
    

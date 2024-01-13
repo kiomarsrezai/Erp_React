@@ -59,4 +59,6 @@ export const propsalBudgetUrls = {
   getProData :"BudgetPishnahadiApi/BudgetProposalRead",
   balanceTextBoxRead: "BudgetPishnahadiApi/BudgetProposalBalanceTextBoxRead",
   budgetProposalModalRead: "BudgetPishnahadiApi/BudgetProposalModalRead",
+  
+  budgetProposalModalChart: "BudgetPishnahadiApi/ChartRadef",
 };

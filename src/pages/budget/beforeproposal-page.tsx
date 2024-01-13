@@ -32,7 +32,8 @@ import {accessNamesConfig} from "../../config/access-names-config";
 import SectionGuard from "components/auth/section-guard";
 import BeforeproposalBudgetTableRead
   from "../../components/sections/budget/beforeproposal/beforeproposal-budget-table-read";
-
+import BeforeproposalBudgetChart from "../../components/sections/budget/beforeproposal/beforeproposal-budget-chart";
+import BarChartIcon from '@mui/icons-material/BarChart';
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -67,6 +68,7 @@ function BudgetBeforeProposalPage() {
   const [editModalTitle, setEditModalTitle] = useState("");
   const [tableReadTitle, setTableReadTitle] = useState("");
   const [remainBalance, setRemainBalance] = useState<any>('');
+  const [isOpenChartModal, setIsOpenChartModal] = useState<boolean>(false);
 
   const [isOpenTableProposalReadModal, setIsOpenTableProposalReadModal] = useState(false);
 
@@ -291,7 +293,13 @@ const [isOpenModal, setIsOpenModal] = useState(false);
 
     setIsOpenInfoModal(true);
   };
-
+  
+  
+  function showChartModal(row: GetSingleBeforeProposalItemShape){
+    setIsOpenChartModal(true)
+    setEditModalInitialData(row);
+  }
+  
   // data
   const actionButtons = (
     row: (TableDataItemShape & GetSingleBeforeProposalItemShape) | any
@@ -314,7 +322,21 @@ const [isOpenModal, setIsOpenModal] = useState(false);
       {/*>*/}
       {/*  <DeleteIcon />*/}
       {/*</IconButton>*/}
-
+      <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.BUDGET__BeforePROPOSAL_PAGE,
+            accessNamesConfig.BUDGET__PROPOSAL_DATA_TABLE_CHART,
+          ])}
+      >
+        <IconButton
+            size="small"
+            color="primary"
+            onClick={() => showChartModal(row)}
+        >
+          <BarChartIcon/>
+        </IconButton>
+      </SectionGuard>
+      
       <SectionGuard
           permission={joinPermissions([
             accessNamesConfig.BUDGET__BeforePROPOSAL_PAGE,
@@ -346,7 +368,6 @@ const [isOpenModal, setIsOpenModal] = useState(false);
 
   const handleClickOpenTableReadModal = (row: GetSingleBeforeProposalItemShape) => {
     setTableReadTitle(row.description);
-    setActiveOpenRowId(row.codingId);
     setIsOpenTableProposalReadModal(true);
     setEditModalInitialData(row);
   }
@@ -637,7 +658,22 @@ const [isOpenModal, setIsOpenModal] = useState(false);
             refresh={updater}
         />
       </FixedModal>
+  
+      <FixedModal
+          open={isOpenChartModal}
+          handleClose={() => {
+            setIsOpenChartModal(false);
+            setEditModalInitialData(null);
+          }}
+          title={editModalInitialData?.description}
+          maxWidth="85%"
+          maxHeight="85%"
+      >
+        
+        <BeforeproposalBudgetChart initialData={editModalInitialData}/>
 
+      </FixedModal>
+  
       {/* modal 1 */}
       {/* <FixedModal
         open={isOpenDetailModal}

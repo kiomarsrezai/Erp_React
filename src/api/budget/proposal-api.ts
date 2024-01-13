@@ -239,4 +239,12 @@ export const proposalBudgetApi = new (class extends BaseApi {
         >(url);
     return response.data;
   };
+  
+  budgetProposalModalChart = async (formdata: any) => {
+    const url = propsalBudgetUrls.budgetProposalModalChart + this.joinFilterData(formdata);
+    const response = await clientAxios.get<
+        BaseApiResponseShape<any[]>
+        >(url);
+    return response.data;
+  };
 })();
