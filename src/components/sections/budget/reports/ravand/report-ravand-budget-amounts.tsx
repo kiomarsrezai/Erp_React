@@ -8,6 +8,7 @@ interface TableAmounts {
     mosavab?: number,
     expense?: number,
     function?: number,
+    presentMosavab?: number,
 }
 
 export default function ReportRavandBudgetAmounts({data}: {data: any}) {
@@ -22,6 +23,7 @@ export default function ReportRavandBudgetAmounts({data}: {data: any}) {
             item.mosavab = data[1][i];
             item.expense = data[5][i];
             item.function = data[3][i];
+            item.presentMosavab = data[4][i];
             items.push(item)
         }
     
@@ -55,6 +57,12 @@ export default function ReportRavandBudgetAmounts({data}: {data: any}) {
             align: "left",
             name: "function",
             split: true,
+        },
+        {
+            title: "% به مصوب",
+            align: "left",
+            name: "presentMosavab",
+            percent: true
         },
     ];
     

@@ -17,7 +17,7 @@ import FixedChart from "components/data/chart/fixed-chart";
 interface ChartDataShape {
   Mosavab: number;
   MosavabDaily: number;
-  Expense: number;
+  Expense?: number;
   AreaName: string;
 }
 
@@ -32,8 +32,11 @@ const formatChatData = (
       AreaName: unFormatData[2][i] as any,
       Mosavab: unFormatData[1][i],
       MosavabDaily: unFormatData[2][i],
-      Expense: unFormatData[3][i],
     };
+  
+    if(unFormatData[3][i] !== 0){
+      dataItem.Expense = unFormatData[3][i];
+    }
     formatedData.push(dataItem);
   }
   return formatedData;

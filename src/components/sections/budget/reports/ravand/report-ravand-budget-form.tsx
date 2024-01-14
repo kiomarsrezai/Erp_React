@@ -162,7 +162,7 @@ function ReportRavandBudgetForm(props: ReportRavandBudgetFormProps) {
               setAmountsModal(false);
             }}
             title="مقادیر"
-            maxWidth="85%"
+            maxWidth="60%"
             maxHeight="70%"
         >
           

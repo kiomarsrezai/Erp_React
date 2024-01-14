@@ -15,7 +15,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { proposalBudgetApi } from "api/budget/proposal-api";
 import { getBgColorBudget } from "helper/get-color-utils";
-import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
+import {getPercent, getPercentGrow, sumFieldsInSingleItemData} from "helper/calculate-utils";
 import { formatExpenseName } from "helper/data-utils";
 import { Box } from "@mui/material";
 import BeforeProposalBudgetForm from "components/sections/budget/beforeproposal/beforeproposal-budget-form";
@@ -520,7 +520,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     mosavab: footerMosavabSum,
     edit: footerEditSum,
     budgetNext: footerbudgetNextSum,
-    percent2: getPercent(footerbudgetNextSum, footerMosavabSum) - 100,
+    percent2: getPercentGrow(footerbudgetNextSum, footerMosavabSum),
     creditAmount: footerCreaditAmount,
     expense: footerExpenseSum,
     actions: "",
@@ -666,8 +666,8 @@ const [isOpenModal, setIsOpenModal] = useState(false);
             setEditModalInitialData(null);
           }}
           title={editModalInitialData?.description}
-          maxWidth="85%"
-          maxHeight="85%"
+          maxWidth="60%"
+          maxHeight="70%"
       >
         
         <BeforeproposalBudgetChart initialData={editModalInitialData}/>

@@ -15,11 +15,20 @@ export const sumFieldsInSingleItemData = (
 };
 
 export const numberWithCommas = (x: number) => {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  try {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }catch (e){
+    return ''
+  }
 };
 
 export const getPercent = (a: number = 0, b: number = 1) => {
   const result = Math.round((a / b) * 100);
+  return isFinite(result) ? result : 0;
+};
+
+export const getPercentGrow = (a: number = 0, b: number = 1) => {
+  const result = getPercent(a, b) - 100;
   return isFinite(result) ? result : 0;
 };
 

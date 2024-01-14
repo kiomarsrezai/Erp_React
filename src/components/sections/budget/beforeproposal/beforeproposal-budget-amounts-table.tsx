@@ -7,6 +7,8 @@ interface TableAmounts {
     mosavab?: number,
     presentMosavab?: number,
     function?: number,
+    expense?: number,
+    presentExpense?: number,
 }
 
 export default function BeforeproposalBudgetAmountsTable({data}: {data: any}) {
@@ -25,17 +27,29 @@ export default function BeforeproposalBudgetAmountsTable({data}: {data: any}) {
             split: true,
         },
         {
+            title: "اصلاح",
+            align: "left",
+            name: "expense",
+            split: true,
+        },
+        {
             title: "عملکرد",
             align: "left",
             name: "function",
             split: true,
         },
         {
-            title: "%",
+            title: "% به مصوب",
             align: "left",
             name: "presentMosavab",
-            split: true,
+            percent: true
         },
+        {
+            title: "% به اصلاح",
+            align: "left",
+            name: "presentExpense",
+            percent: true
+        }
     ];
     
     useEffect(() => {
@@ -45,8 +59,10 @@ export default function BeforeproposalBudgetAmountsTable({data}: {data: any}) {
             let item: TableAmounts = {}
             item.year = data[0][i];
             item.mosavab = data[1][i];
+            item.expense = data[2][i];
             item.function = data[3][i];
             item.presentMosavab = data[4][i];
+            item.presentExpense = data[5][i];
             items.push(item)
         }
         

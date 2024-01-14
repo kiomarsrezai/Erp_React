@@ -31,10 +31,14 @@ export default function BeforeproposalBudgetChart({initialData}: BeforeproposalB
         
         for (let i = 0; i < length; i++) {
             const dataItem: any = {
+                AreaName: unFormatData[0][i],
                 Mosavab: unFormatData[1][i],
-                Function: unFormatData[3][i],
                 PercentMosavab: unFormatData[4][i],
             };
+            
+            if(unFormatData[3][i] !== 0){
+                dataItem.Function = unFormatData[3][i]
+            }
             formatedData.push(dataItem);
         }
         return formatedData;
@@ -65,7 +69,7 @@ export default function BeforeproposalBudgetChart({initialData}: BeforeproposalB
             </Box>
             
             <Box
-                style={{height: `calc(91%)`, overflow: 'hidden'}}
+                style={{height: `calc(88%)`, overflow: 'hidden'}}
                 sx={{
                     width: "100%",
                     direction: "rtl",
@@ -89,8 +93,8 @@ export default function BeforeproposalBudgetChart({initialData}: BeforeproposalB
                     setAmountsModal(false)
                 }}
                 title="مقادیر"
-                maxWidth="75%"
-                maxHeight="65%"
+                maxWidth="50%"
+                maxHeight="50%"
             >
                 
                 <BeforeproposalBudgetAmountsTable data={chartModalQuery.data?.data}/>
