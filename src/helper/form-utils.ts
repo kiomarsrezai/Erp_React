@@ -1,3 +1,4 @@
+import * as htmlToImage from 'html-to-image';
 import { ChangeEvent } from "react";
 
 export const checkHaveValue = (formData: any, names: string[]) => {
@@ -31,3 +32,16 @@ export const onlyNumberKey = (evt: any) => {
   }
   return true;
 };
+
+export const downloadImage = (id: string, filename: string) => {
+  let node: any = document.getElementById(id);
+  if(node){
+      htmlToImage.toJpeg(node)
+          .then((dataUrl: string) => {
+            const a = document.createElement("a");
+            a.href = dataUrl;
+            a.download = filename + '.jpg';
+            a.click()
+          })
+  }
+}

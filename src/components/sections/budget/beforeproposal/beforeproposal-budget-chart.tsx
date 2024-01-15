@@ -9,6 +9,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import LoadingButton from "@mui/lab/LoadingButton";
 import FixedModal from "../../../ui/modal/fixed-modal";
 import BeforeproposalBudgetAmountsTable from "./beforeproposal-budget-amounts-table";
+import {downloadImage} from "../../../../helper/form-utils";
 
 interface BeforeproposalBudgetTableReadProps{
     initialData?: GetSingleBeforeProposalItemShape|null;
@@ -55,16 +56,25 @@ export default function BeforeproposalBudgetChart({initialData}: BeforeproposalB
                     padding={2}
                     sx={{ bgcolor: "grey.200" }}
                 >
-                    <Grid xs={2}>
+                    <div style={{display: 'flex'}}>
                         {!!chartModalQuery.data?.data?.[0]?.length && (
-                            <LoadingButton
-                                variant="contained"
-                                onClick={() => setAmountsModal(true)}
-                            >
-                                مقادیر
-                            </LoadingButton>
+                            <>
+                                <LoadingButton
+                                    variant="contained"
+                                    onClick={() => setAmountsModal(true)}
+                                >
+                                    مقادیر
+                                </LoadingButton>
+                                <div style={{paddingLeft: '8px'}}></div>
+                                <LoadingButton
+                                    variant="contained"
+                                    onClick={() => downloadImage('chart', 'chart')}
+                                >
+                                    دانلود نمودار
+                                </LoadingButton>
+                            </>
                         )}
-                    </Grid>
+                    </div>
                 </Box>
             </Box>
             
@@ -78,6 +88,7 @@ export default function BeforeproposalBudgetChart({initialData}: BeforeproposalB
             >
                 {!!chartModalQuery.data?.data?.[0]?.length && (
                     <FixedChart
+                        id="chart"
                         lineName="Function"
                         barName="Mosavab"
                         lineLabel="عملکرد"

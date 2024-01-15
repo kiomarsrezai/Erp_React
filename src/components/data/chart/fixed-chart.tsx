@@ -23,10 +23,11 @@ interface BulletChartProps {
   barName: string;
   lineLabel: string;
   barLabel: string;
+  id?: string;
 }
 
 function FixedChart(props: BulletChartProps) {
-  const { data, barName, lineName, lineLabel, barLabel } = props;
+  const { data, barName, lineName, lineLabel, barLabel, id } = props;
 
   const barColor = "#999";
   const innerBarColor = blue[300];
@@ -113,8 +114,8 @@ function FixedChart(props: BulletChartProps) {
   };
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <ComposedChart data={data}>
+    <ResponsiveContainer id={id} width="100%" height="100%">
+      <ComposedChart data={data} style={{background: '#fff'}}>
         <CartesianGrid stroke={grey[300]} strokeDasharray="3 3" />
         <XAxis dataKey="AreaName" interval={0} fontSize={12} />
         <YAxis width={180} tickFormatter={(value) => numberWithCommas(value)} />

@@ -23,7 +23,7 @@ import { centerItems, organItems } from "config/features/general-fields-config";
 import { accessNamesConfig } from "config/access-names-config";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
-import { checkHaveValue } from "helper/form-utils";
+import {checkHaveValue, downloadImage} from "helper/form-utils";
 import {
   checkHavePermission,
   filedItemsGuard,
@@ -402,6 +402,10 @@ function RevenueChartForm(props: RevenueChartFormProps) {
                   تفکیک درآمد
                 </Button>
               </SectionGuard>
+    
+                <Button variant="contained" onClick={() => downloadImage('chart', 'chart')}>
+                   دانلود جدول
+                </Button>
               <IconButton color="primary" onClick={handlePrintForm}>
                 <PrintIcon />
               </IconButton>

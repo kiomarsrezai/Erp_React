@@ -359,7 +359,11 @@ const [isOpenModal, setIsOpenModal] = useState(false);
   const [editModalInitialData, setEditModalInitialData] =
       useState<GetSingleBeforeProposalItemShape | null>(null);
 
+  const [areaId, setAreaId] = useState<number|null>(null)
   const handleClickEditBtn = (row: GetSingleBeforeProposalItemShape) => {
+    if(row.areaId){
+      setAreaId(row.areaId);
+    }
     setEditModalTitle(row.description);
     setActiveOpenRowId(row.codingId);
     setIsOpenEditModal(true);
@@ -375,6 +379,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
   const handleCloseModal = () => {
     activeTimeOut.current = setTimeout(() => {
       setActiveOpenRowId(null);
+      setAreaId(null);
     }, 1000);
 
     setIsOpenEditModal(false);
@@ -651,6 +656,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
       >
 
         <BeforeproposalBudgetTableRead
+            areaId={areaId}
             formData={formData}
             initialData={editModalInitialData}
             editButtone={editButtone}

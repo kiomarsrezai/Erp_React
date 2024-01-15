@@ -1,7 +1,10 @@
 import {useEffect, useState} from "react";
-import {TableHeadShape} from "../../../../../types/table-type";
-import {BudgetProposalModalRead} from "../../../../../types/data/budget/proposal-type";
+import {TableHeadGroupShape, TableHeadShape} from "../../../../../types/table-type";
 import FixedTable from "../../../../data/table/fixed-table";
+import IconButton from "@mui/material/IconButton";
+import GetAppIcon from "@mui/icons-material/GetApp";
+import {getGeneralFieldItemArea} from "../../../../../helper/export-utils";
+import {revenueAmountsExcel} from "../../../../../stimul/budget/report/revenue/revenue-amounts-excel";
 
 interface TableAmounts {
     year?: string,
@@ -11,7 +14,7 @@ interface TableAmounts {
     presentMosavab?: number,
 }
 
-export default function ReportRavandBudgetAmounts({data}: {data: any}) {
+export default function ReportRavandBudgetAmounts({data, formData}: {data: any,   formData: any}) {
     const [editedData, setEditedData] = useState<TableAmounts[]>([]);
     
     useEffect(() => {
@@ -29,10 +32,6 @@ export default function ReportRavandBudgetAmounts({data}: {data: any}) {
     
         setEditedData(items)
     }, [])
-    
-    function showLog(){
-        console.log(editedData)
-    }
     
     const tableHeads: TableHeadShape = [
         {
@@ -80,11 +79,46 @@ export default function ReportRavandBudgetAmounts({data}: {data: any}) {
     
     const tableData = formatTableData(editedData);
     
+    const handleExcelClick = () =>{
+        let culmnsData: any = {};
+
+        [{label: 'تست', value: 1}].forEach((item) => {
+            culmnsData[item.value] = [];
+        });
+
+        const culmnKeys = Object.keys(culmnsData);
+
+        culmnsData = {
+            ...culmnsData,
+            [1]: tableData,
+        };
+        const areaLabel = getGeneralFieldItemArea(formData, 3);
+    
+        revenueAmountsExcel({
+            culmnsData: culmnsData,
+            area: areaLabel,
+        });
+    };
+    
+    const tableHeadGroups: TableHeadGroupShape = [
+        {
+            title: (
+                <div style={{display: 'flex'}}>
+                    <IconButton color="primary" onClick={handleExcelClick}>
+                        <GetAppIcon />
+                    </IconButton>
+                </div>
+            ),
+            colspan: tableHeads.filter((item) => !item.hidden).length,
+        },
+    ];
+    
     return(
         <div>
             <FixedTable
                 heads={tableHeads}
                 data={tableData}
+                headGroups={tableHeadGroups}
                 notFixed
             />
         </div>

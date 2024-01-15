@@ -100,6 +100,7 @@ function ReportRevenueChartPage(props: ReportRevenueChartPageProps) {
       >
         {!!revenueChart.data?.data?.[0]?.length && (
           <BulletChart
+            id="chart"
             lineName="Expense"
             barName="Mosavab"
             innerBarName="MosavabDaily"

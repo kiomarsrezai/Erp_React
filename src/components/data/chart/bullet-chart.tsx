@@ -25,6 +25,7 @@ interface BulletChartProps {
   lineLabel: string;
   barLabel: string;
   innerBarLabel: string;
+  id?: string
 }
 
 function BulletChart(props: BulletChartProps) {
@@ -36,6 +37,7 @@ function BulletChart(props: BulletChartProps) {
     lineLabel,
     barLabel,
     innerBarLabel,
+    id
   } = props;
 
   const barColor = "#cbd5e1";
@@ -148,8 +150,8 @@ function BulletChart(props: BulletChartProps) {
   };
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <ComposedChart data={data}>
+    <ResponsiveContainer id={id} width="100%" height="100%">
+      <ComposedChart data={data} style={{background: '#fff'}}>
         <CartesianGrid stroke={grey[300]} strokeDasharray="3 3" />
         <XAxis dataKey="AreaName" interval={0} fontSize={12} />
         <YAxis width={180} tickFormatter={(value) => numberWithCommas(value)} />

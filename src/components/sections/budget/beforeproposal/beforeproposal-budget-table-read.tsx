@@ -20,6 +20,7 @@ interface BeforeproposalBudgetTableReadProps{
     editButtone: (row: BudgetProposalModalRead) => ReactNode,
     beforeproposalBudgetEdit: any,
     initialData?: GetSingleBeforeProposalItemShape|null;
+    areaId?: number|null;
 }
 
 interface TableDataItemShape {
@@ -35,7 +36,7 @@ interface TableDataItemShape {
     budgetNext: number
 }
 
-export default function BeforeproposalBudgetTableRead({formData, initialData, editButtone, beforeproposalBudgetEdit, refresh}: BeforeproposalBudgetTableReadProps){
+export default function BeforeproposalBudgetTableRead({formData, initialData, editButtone, beforeproposalBudgetEdit, refresh, areaId}: BeforeproposalBudgetTableReadProps){
     const [data, setData] = useState<BudgetProposalModalRead[]>([]);
     const [codingId, setCodingId] = useState<number|null>(null);
     const [hasBudgetNext, setHasBudgetNext] = useState<boolean>(false);
@@ -128,7 +129,8 @@ export default function BeforeproposalBudgetTableRead({formData, initialData, ed
         const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
             ...item,
             number: i + 1,
-            bgcolor: i % 2 === 0? '#fff' : '#D9F0CB',
+            bgcolor:
+                areaId === item.areaId? '#ffb1b1': i % 2 === 0? '#fff' : '#D9F0CB',
             actions: () => editButtone(item),
         }));
 

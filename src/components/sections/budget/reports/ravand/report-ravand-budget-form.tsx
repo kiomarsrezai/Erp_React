@@ -12,15 +12,13 @@ import { reactQueryKeys } from "config/react-query-keys-config";
 import { accessNamesConfig } from "config/access-names-config";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
-import { checkHaveValue } from "helper/form-utils";
+import {checkHaveValue, downloadImage} from "helper/form-utils";
 import { checkHavePermission, joinPermissions } from "helper/auth-utils";
 import AreaInput from "components/sections/inputs/area-input";
 import { ravandChartConfig } from "config/features/report/chart/ravand-chart-config";
 import { ravandChartApi } from "api/report/ravand-chart-api";
 import FixedModal from "../../../../ui/modal/fixed-modal";
-import reportRavandBudgetAmounts from "./report-ravand-budget-amounts";
 import ReportRavandBudgetAmounts from "./report-ravand-budget-amounts";
-import {getGeneralFieldItemArea} from "../../../../../helper/export-utils";
 
 interface ReportRavandBudgetFormProps {
   formData: any;
@@ -145,14 +143,26 @@ function ReportRavandBudgetForm(props: ReportRavandBudgetFormProps) {
           </LoadingButton>
         </Grid>
         {showBtnAmount?
-          <Grid xs={2}>
+          <div style={{display: 'flex', paddingTop: '9px'}}>
             <LoadingButton
+                style={{height: '36px'}}
                 variant="contained"
                 onClick={() => setAmountsModal(true)}
             >
               مقادیر
             </LoadingButton>
-          </Grid> : ''
+            <div style={{paddingLeft: '8px'}}></div>
+            <div id="ssss">
+            
+            </div>
+            <LoadingButton
+                style={{height: '36px'}}
+                variant="contained"
+                onClick={() => downloadImage('chart', 'chart')}
+            >
+              دانلود نمودار
+            </LoadingButton>
+          </div> : ''
         }
       </Grid>
   
@@ -166,7 +176,7 @@ function ReportRavandBudgetForm(props: ReportRavandBudgetFormProps) {
             maxHeight="70%"
         >
           
-          <ReportRavandBudgetAmounts data={data}/>
+          <ReportRavandBudgetAmounts data={data} formData={formData}/>
       
         </FixedModal>
       

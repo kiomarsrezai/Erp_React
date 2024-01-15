@@ -100,6 +100,7 @@ function ReportRavandBudgetChart(props: ReportRavandBudgetChartProps) {
       >
         {!!ravandQuery.data?.data?.[0]?.length && (
           <FixedChart
+            id="chart"
             lineName="Expense"
             barName="Mosavab"
             lineLabel="عملکرد"
