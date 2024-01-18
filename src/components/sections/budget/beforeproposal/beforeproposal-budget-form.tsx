@@ -79,7 +79,12 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
   const filterData = (data:GetSingleBeforeProposalItemShape[]) => {
     let result = [];
     result = data.filter(item => !(onlyShowProject && item.levelNumber !== 4));
-    result = result.filter(item => !(item.levelNumber === 5 && isHideLevel5Items));
+    
+    if(formData[beforeproposalConfig.BUDGET_METHOD] === 1 || formData[beforeproposalConfig.BUDGET_METHOD] === 3){
+      result = result.filter(item => !(item.levelNumber === 5 && isHideLevel5Items));
+    }else if(formData[beforeproposalConfig.BUDGET_METHOD] === 2){
+      result = result.filter(item => !(item.levelNumber === 4 && isHideLevel5Items));
+    }
 
     if(onlyShowProject){
       result.sort((a, b) => b.budgetNext - a.budgetNext);
