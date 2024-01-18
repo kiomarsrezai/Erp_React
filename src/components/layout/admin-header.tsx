@@ -21,6 +21,7 @@ import { alpha } from "@mui/system/colorManipulator";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Notifications from "./notifictions";
+import {globalConfig} from "../../config/global-config";
 
 function AdminHeader() {
   const toggleNormalize = useLayoutStore((state) => state.toggleNormalize);
@@ -110,6 +111,7 @@ function AdminHeader() {
               justifyContent={"space-between"}
             >
               <>
+                <span style={{paddingLeft: '16px'}}>v {globalConfig.version}</span>
                 <IconButton color="inherit" onClick={handleClickNotification}>
                   <Badge
                     badgeContent={423}

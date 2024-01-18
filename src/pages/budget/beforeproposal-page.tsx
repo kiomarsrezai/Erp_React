@@ -158,7 +158,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
       width: "160px",
     },
     {
-      title: "مبلغ پیشنهادی 1403",
+      title: "پیشنهادی 1403",
       align: "left",
       name: "budgetNext",
       split: true,
@@ -374,16 +374,21 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     setIsOpenEditModal(true);
     setEditModalInitialData(row);
   }
-
+  
+  const [isOpenTableReadModal, setIsOpenTableReadModal] = useState<boolean>(false)
   const handleClickOpenTableReadModal = (row: GetSingleBeforeProposalItemShape) => {
     setTableReadTitle(row.description);
+    setActiveOpenRowId(row.codingId);
+    setIsOpenTableReadModal(true)
     setIsOpenTableProposalReadModal(true);
     setEditModalInitialData(row);
   }
 
   const handleCloseModal = () => {
     activeTimeOut.current = setTimeout(() => {
-      setActiveOpenRowId(null);
+      if(!isOpenTableReadModal){
+        setActiveOpenRowId(null);
+      }
       setAreaId(null);
     }, 1000);
 
@@ -654,6 +659,10 @@ const [isOpenModal, setIsOpenModal] = useState(false);
           handleClose={() => {
             setIsOpenTableProposalReadModal(false);
             afterCloseAnyModal();
+            setTimeout(() => {
+              setActiveOpenRowId(null);
+              setIsOpenTableReadModal(false)
+            }, 1000);
           }}
           title={tableReadTitle}
           maxWidth="85%"

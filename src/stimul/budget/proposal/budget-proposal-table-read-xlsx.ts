@@ -1,7 +1,7 @@
 import { budgetMethodItems } from "config/features/general-fields-config";
 import { globalConfig } from "config/global-config";
 import {
-    getPercent,
+    getPercent, getPercentGrow,
     numberWithCommas,
     sumFieldsInSingleItemData,
 } from "helper/calculate-utils";
@@ -165,8 +165,14 @@ const createData = (data: any, title: string, proccessId: number) => {
                 textAlign: "right",
             },
             {
-                Header: "مبلغ پیشنهادی 1403",
+                Header: "پیشنهادی 1403",
                 Name: "budgetNext",
+                Mony: true,
+                textAlign: "right",
+            },
+            {
+                Header: "%",
+                Name: "present2",
                 Mony: true,
                 textAlign: "right",
             },
@@ -192,6 +198,7 @@ const createData = (data: any, title: string, proccessId: number) => {
                 mosavab: sumMosavab,
                 edit: sumEdit,
                 budgetNext: sumBudgetNext,
+                present2: getPercentGrow(sumBudgetNext, sumMosavab),
                 supply: sumSupply,
                 expense: sumExpense,
             },

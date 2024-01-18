@@ -5,7 +5,7 @@ import {GetSingleBeforeProposalItemShape} from "../../../../types/beforeproposal
 import FixedTable from "../../../data/table/fixed-table";
 import {TableHeadGroupShape, TableHeadShape} from "../../../../types/table-type";
 import {BudgetProposalModalRead} from "../../../../types/data/budget/proposal-type";
-import {sumFieldsInSingleItemData} from "../../../../helper/calculate-utils";
+import {getPercentGrow, sumFieldsInSingleItemData} from "../../../../helper/calculate-utils";
 import {Checkbox, FormControlLabel, Typography} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import GetAppIcon from "@mui/icons-material/GetApp";
@@ -33,7 +33,8 @@ interface TableDataItemShape {
     edit: number,
     supply: number,
     expense: number,
-    budgetNext: number
+    budgetNext: number,
+    present2: number,
 }
 
 export default function BeforeproposalBudgetTableRead({formData, initialData, editButtone, beforeproposalBudgetEdit, refresh, areaId}: BeforeproposalBudgetTableReadProps){
@@ -96,11 +97,18 @@ export default function BeforeproposalBudgetTableRead({formData, initialData, ed
             width: "130px",
         },
         {
-            title: "مبلغ پیشنهادی 1403",
+            title: "پیشنهادی 1403",
             align: "left",
             name: "budgetNext",
             split: true,
             width: "130px",
+        },
+        {
+            title: "%",
+            align: "left",
+            name: "present2",
+            percent: true,
+            width: "80px",
         },
         {
             title: "ت اعتبار 1402",
@@ -153,6 +161,7 @@ export default function BeforeproposalBudgetTableRead({formData, initialData, ed
         supply: sumSupply,
         expense: sumExpense,
         budgetNext: sumBudgetNext,
+        present2: getPercentGrow(sumBudgetNext, sumMosavab),
         actions: "",
     };
     

@@ -18,6 +18,7 @@ import {
   proposalConfig,
   propsalBudgetUrls,
 } from "config/features/budget/proposal-config";
+import {getPercentGrow} from "../../helper/calculate-utils";
 
 export const proposalBudgetApi = new (class extends BaseApi {
   getData = async (formdata: any) => {
@@ -237,6 +238,11 @@ export const proposalBudgetApi = new (class extends BaseApi {
     const response = await clientAxios.get<
         BaseApiResponseShape<BudgetProposalModalRead[]>
         >(url);
+  
+    response.data.data.map(item => {
+      item.present2 = getPercentGrow(item.budgetNext, item.mosavab);
+    });
+    
     return response.data;
   };
   

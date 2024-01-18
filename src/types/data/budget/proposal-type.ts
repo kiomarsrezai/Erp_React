@@ -103,4 +103,5 @@ export interface BudgetProposalModalRead {
   supply: number,
   expense: number,
   budgetNext: number
+  present2: number
 }

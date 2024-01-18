@@ -9,6 +9,15 @@ import { GetSingleBudgetDeviationItemShape } from "types/data/budget/budget-devi
 import { budgetDeviationConfig } from "config/features/budget/report/budget-deviation-config";
 import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { budgetProjectOprationConfig } from "config/features/budget/report/budget-project-opration-config";
+import {GetSingleBeforeProposalItemShape} from "../../../../../types/beforeproposal-type";
+import {Box} from "@mui/material";
+import SectionGuard from "../../../../auth/section-guard";
+import {joinPermissions} from "../../../../../helper/auth-utils";
+import {accessNamesConfig} from "../../../../../config/access-names-config";
+import IconButton from "@mui/material/IconButton";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import FixedModal from "../../../../ui/modal/fixed-modal";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -79,8 +88,43 @@ function BudgetReportProjectScale(props: BudgetReportDeviationProps) {
       split: true,
       align: "left",
     },
+    // {
+    //   title: "عملیات",
+    //   name: "actions",
+    //   width: "30px",
+    // },
   ];
-
+  
+  
+  const [projectReportScaleBudgetModal, setProjectReportScaleBudgetModal] = useState<boolean>(false)
+  const [editModalInitialData, setEditModalInitialData] = useState<any>({})
+  const actionButtons = (
+      row: (TableDataItemShape & GetSingleBeforeProposalItemShape) | any
+  ) => (
+      <Box display={"flex"} justifyContent={"center"}>
+        {/*<SectionGuard*/}
+        {/*    permission={joinPermissions([*/}
+        {/*      accessNamesConfig.BUDGET__BeforePROPOSAL_PAGE,*/}
+        {/*      accessNamesConfig.BUDGET__PROPOSAL_DATA_TABLE_READ,*/}
+        {/*    ])}*/}
+        {/*>*/}
+          <IconButton
+              size="small"
+              color="primary"
+              onClick={() => handelOpenProjectReportScaleBudgetModal(row)}
+          >
+            <FormatListBulletedIcon />
+          </IconButton>
+        {/*</SectionGuard>*/}
+        
+      </Box>
+  );
+  
+  function handelOpenProjectReportScaleBudgetModal(row: (TableDataItemShape & GetSingleBeforeProposalItemShape) | any){
+    setProjectReportScaleBudgetModal(true)
+    setEditModalInitialData(row);
+  }
+  
   // data
   const formatTableData = (
     unFormatData: GetSingleBudgetDeviationItemShape[]
@@ -89,8 +133,9 @@ function BudgetReportProjectScale(props: BudgetReportDeviationProps) {
       (item, i) => ({
         ...item,
         number: i + 1,
+        actions: () => actionButtons(item),
       })
-    );
+  );
 
     return formatedData;
   };
@@ -122,6 +167,7 @@ function BudgetReportProjectScale(props: BudgetReportDeviationProps) {
     supply: sumSupply,
     expense: sumExpense,
     budgetNext: sumBudgetNext,
+    actions: "",
   };
 
   // head group
@@ -143,12 +189,26 @@ function BudgetReportProjectScale(props: BudgetReportDeviationProps) {
   ];
 
   return (
-    <FixedTable
-      heads={tableHeads}
-      headGroups={tableHeadGroups}
-      footer={tableFooter}
-      data={tableData}
-    />
+      <>
+        <FixedTable
+          heads={tableHeads}
+          headGroups={tableHeadGroups}
+          footer={tableFooter}
+          data={tableData}
+        />
+  
+        <FixedModal
+            open={projectReportScaleBudgetModal}
+            handleClose={() => {
+              setProjectReportScaleBudgetModal(false);
+            }}
+            title={editModalInitialData?.description}
+            maxWidth="85%"
+            maxHeight="70%"
+        >
+        
+        </FixedModal>
+      </>
   );
 }
 

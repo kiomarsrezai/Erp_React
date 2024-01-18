@@ -182,7 +182,7 @@ const createData = (data: any, title: string, proccessId: number) => {
         textAlign: "right",
       },
       {
-        Header: "مبلغ پیشنهادی 1403",
+        Header: "پیشنهادی 1403",
         Name: "budgetNext",
         Mony: true,
         textAlign: "right",
