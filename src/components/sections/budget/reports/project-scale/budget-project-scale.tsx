@@ -18,6 +18,7 @@ import IconButton from "@mui/material/IconButton";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import FixedModal from "../../../../ui/modal/fixed-modal";
+import BudgetProjectScaleModal from "./budget-project-scale-modal";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -88,11 +89,11 @@ function BudgetReportProjectScale(props: BudgetReportDeviationProps) {
       split: true,
       align: "left",
     },
-    // {
-    //   title: "عملیات",
-    //   name: "actions",
-    //   width: "30px",
-    // },
+    {
+      title: "عملیات",
+      name: "actions",
+      width: "30px",
+    },
   ];
   
   
@@ -102,12 +103,13 @@ function BudgetReportProjectScale(props: BudgetReportDeviationProps) {
       row: (TableDataItemShape & GetSingleBeforeProposalItemShape) | any
   ) => (
       <Box display={"flex"} justifyContent={"center"}>
-        {/*<SectionGuard*/}
-        {/*    permission={joinPermissions([*/}
-        {/*      accessNamesConfig.BUDGET__BeforePROPOSAL_PAGE,*/}
-        {/*      accessNamesConfig.BUDGET__PROPOSAL_DATA_TABLE_READ,*/}
-        {/*    ])}*/}
-        {/*>*/}
+        <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.BUDGET__REPORT_PAGE,
+              accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE,
+              accessNamesConfig.PROJECT__SCALE_ACTIONS,
+            ])}
+        >
           <IconButton
               size="small"
               color="primary"
@@ -115,7 +117,7 @@ function BudgetReportProjectScale(props: BudgetReportDeviationProps) {
           >
             <FormatListBulletedIcon />
           </IconButton>
-        {/*</SectionGuard>*/}
+        </SectionGuard>
         
       </Box>
   );
@@ -184,7 +186,7 @@ function BudgetReportProjectScale(props: BudgetReportDeviationProps) {
           }}
         />
       ),
-      colspan: 9,
+      colspan: 10,
     },
   ];
 
@@ -206,6 +208,8 @@ function BudgetReportProjectScale(props: BudgetReportDeviationProps) {
             maxWidth="85%"
             maxHeight="70%"
         >
+          
+          <BudgetProjectScaleModal formData={formData} initialData={editModalInitialData}/>
         
         </FixedModal>
       </>

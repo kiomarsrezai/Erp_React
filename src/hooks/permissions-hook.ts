@@ -191,6 +191,11 @@ function usePermissions() {
     "areaName",
     areaNumber3Query.data?.data || []
   );
+  
+  const budgetReportPageProjectScaleActions: AccessItemShape = formatLocalFields(
+      "مشاهده جزئیات ردیف",
+      accessNamesConfig.PROJECT__SCALE_ACTIONS,
+  );
 
   // seprator
   const sepratorTaminBtn = formatLocalFields(
@@ -318,7 +323,7 @@ function usePermissions() {
     [accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE]: formatLocalFields(
       "مقیاس پروژه",
       accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SCALE,
-      [yearLevel1Field, areaNumber3Field]
+      [yearLevel1Field, areaNumber3Field, budgetReportPageProjectScaleActions]
     ),
   
     [accessNamesConfig.BUDGET__REPORT_PAGE_REQUEST_ANALYZE]: formatLocalFields(

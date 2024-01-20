@@ -37,8 +37,14 @@ export const revenueChartApi = new (class extends BaseApi {
   };
 
   getChart = async (formdata: any) => {
-    const filterData = this.getFormData(formdata);
-
+    let filterData;
+    if(formdata.noFilter){
+      filterData = formdata;
+      delete filterData['noFilter'];
+    }else{
+      filterData = this.getFormData(formdata);
+    }
+    
     const url = REVENUE_CHART_URL + this.joinFilterData(filterData);
 
     const response = await clientAxios.get<

@@ -8,4 +8,5 @@ export const budgetDeviationConfig = {
 
 export const budgetDeviationUrls = {
   getData: "ReportApi/BudgetDeviation",
+  projectReportScaleBudgetModal: "ReportApi/ProjectReportScaleBudgetModal",
 };

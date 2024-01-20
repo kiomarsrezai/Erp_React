@@ -167,6 +167,9 @@ export const accessNamesConfig = {
 
   // request
   CREDIT_REQUEST_PAGE: "credit-request",
+  
+  // projects scale
+  PROJECT__SCALE_ACTIONS: 'project_scale_actions',
 
   // global fields
   FIELD_YEAR: "year",

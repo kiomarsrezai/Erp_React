@@ -218,13 +218,21 @@ function RevenueChartModal1(props: RevenueChartModal1Props) {
     setModalTitle(row.areaName as string);
 
     queryClient.setQueryData(reactQueryKeys.report.chart.revenueMoreDetail, []);
-    console.log(row.areaId);
 
     setAreaId(row.areaId as number);
-    dataTableMutation.mutate({
-      ...formData,
+    const params = ({
+      ...{
+        yearId: formData.yearId,
+        budgetProcessId: formData.budgetprocessId,
+        structureId: formData.structureId,
+        centerId: formData.centerId,
+        codingId: formData.codingId??null,
+      },
       [revenueChartFormConfig.area]: row.areaId,
+      noFilter: true,
     });
+    
+    dataTableMutation.mutate(params);
     setIsOpenMoreDetailModal(true);
   };
 

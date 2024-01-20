@@ -98,12 +98,13 @@ function BudgetReportProjectScaleForm(props: BudgetReportDeviationFormProps) {
 
   // reset
   useEffect(() => {
-    queryClient?.setQueryData(reactQueryKeys.budget.deviation, {
+    queryClient?.setQueryData(reactQueryKeys.budget.projectOpration, {
       data: [],
     });
   }, [
-    formData[budgetDeviationConfig.area],
-    formData[budgetDeviationConfig.year],
+    formData[budgetProjectOprationConfig.area],
+    formData[budgetProjectOprationConfig.year],
+    formData[budgetProjectOprationConfig.scale],
   ]);
 
   // print

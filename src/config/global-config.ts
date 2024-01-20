@@ -3,7 +3,7 @@ const isDevelopment =
 
 export const globalConfig = {
   siteTitle: "سامانه ERP",
-  version: '1.0.0',
+  version: '1.1.0',
   BASE_API_URL:
    isDevelopment
     ? "http://109.201.18.33:80/api/v1/"
