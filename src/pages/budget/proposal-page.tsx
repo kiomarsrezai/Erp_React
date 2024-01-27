@@ -18,7 +18,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { proposalBudgetApi } from "api/budget/proposal-api";
 import { getBgColorBudget } from "helper/get-color-utils";
-import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
+import {getPercent, getPercentGrow, sumFieldsInSingleItemData} from "helper/calculate-utils";
 import { formatExpenseName } from "helper/data-utils";
 import { Box } from "@mui/material";
 import ProposalModalInsertCode from "components/sections/budget/proposal/insert-modal/proposal-modal-insert-code";
@@ -67,6 +67,7 @@ function BudgetProposalPage() {
       title: "#",
       name: "levelNumber",
       width: "40px",
+      hidden: true
     },
     {
       title: "کد",
@@ -91,6 +92,13 @@ function BudgetProposalPage() {
       name: "edit",
       split: true,
       width: "160px",
+    },
+    {
+      title: "% رشد",
+      align: "left",
+      name: "percent2",
+      width: "80px",
+      percent: true
     },
     {
       title: "ت اعتبار",
@@ -272,6 +280,7 @@ function BudgetProposalPage() {
         description: item.description,
         mosavab: item.mosavab,
         edit: item.edit,
+        percent2: getPercentGrow(item.edit, item.mosavab),
         creditAmount: item.creditAmount,
         percent: item.percentBud,
         row_id: `c-${item.codingId}`,
@@ -346,6 +355,7 @@ function BudgetProposalPage() {
     description: null,
     mosavab: footerMosavabSum,
     edit: footerEditSum,
+    percent2: getPercentGrow(footerEditSum, footerMosavabSum),
     creditAmount: footerCreaditAmount,
     expense: footerExpenseSum,
     // percent: getPercent(footerExpenseSum, footerEditSum),
