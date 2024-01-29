@@ -22,16 +22,28 @@ import { globalConfig } from "config/global-config";
 import { checkHaveValue } from "helper/form-utils";
 import { proposalConfig } from "config/features/budget/proposal-config";
 import { InputAdornment, TextField } from "@mui/material";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Typography from "@mui/material/Typography";
+import {beforeproposalConfig} from "../../../../config/features/budget/beforeproposal-config";
+import {GetSingleProposalItemShape} from "../../../../types/data/budget/proposal-type";
 
 interface ProposalBudgetFormProps {
   formData: any;
   setFormData: any;
   setCodingId: any;
   afterCloseAnyModal: any;
+    
+    
+    isHideLevel5Items: any,
+    onlyShowProject: any,
+    setIsHideLevel5Items: any,
+    setOnlyShowProject: any,
 }
 
 function ProposalBudgetForm(props: ProposalBudgetFormProps) {
-  const { formData, setFormData, setCodingId, afterCloseAnyModal } = props;
+  const { formData, setFormData, setCodingId, afterCloseAnyModal, isHideLevel5Items, onlyShowProject, setIsHideLevel5Items, setOnlyShowProject } = props;
 
   const userLicenses = userStore((state) => state.permissions);
 
@@ -42,8 +54,10 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
   const [submitedData, setSubmitedData] = useState<any[]>([]);
   const submitMutation = useMutation(proposalBudgetApi.getData, {
     onSuccess: (data) => {
-      // queryClient.setQueryData(reactQueryKeys.budget.proposal.getData, data);
-      setSubmitedData(data.data);
+        let result = filterData(data.data);
+    
+        // queryClient.setQueryData(reactQueryKeys.budget.proposal.getData, data);
+      setSubmitedData(result);
     },
   });
 
@@ -154,7 +168,30 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
     //   (document.querySelector("#table-container") as any)?.scrollTo?.(0, top);
     // }, 500);
   };
+  
+  
+  useEffect(() => {
+      // console.log('fetch data');
+    submitMutation.mutate(formData);
+  }, [onlyShowProject, isHideLevel5Items])
+    
+    const filterData = (data:GetSingleProposalItemShape[]) => {
+        let result = [];
+        result = data.filter(item => !(onlyShowProject && item.levelNumber !== 4));
 
+        if(formData[beforeproposalConfig.BUDGET_METHOD] === 1 || formData[beforeproposalConfig.BUDGET_METHOD] === 3){
+            result = result.filter(item => !(item.levelNumber === 5 && isHideLevel5Items));
+        }else if(formData[beforeproposalConfig.BUDGET_METHOD] === 2){
+            result = result.filter(item => !(item.levelNumber === 4 && isHideLevel5Items));
+        }
+
+        if(onlyShowProject){
+            result.sort((a, b) => b.mosavab - a.mosavab);
+        }
+
+        return result;
+    }
+  
   return (
     <>
       <Box component="form" onSubmit={handleFormSubmit}>
@@ -241,6 +278,33 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
             />
           </Grid>
         </Grid>
+  
+        <FormGroup style={{display: 'flex', flexDirection: 'row'}}>
+          <FormControlLabel
+              style={{width:'130px'}}
+              control={
+                <Checkbox
+                    checked={isHideLevel5Items}
+                    onChange={() => {setIsHideLevel5Items((state: boolean) => !state);setOnlyShowProject(false)}}
+                />
+              }
+              label={
+                <Typography variant="body2">بدون ریز پروژه</Typography>
+              }
+          />
+          <FormControlLabel
+              style={{width:'130px'}}
+              control={
+                <Checkbox
+                    checked={onlyShowProject}
+                    onChange={() =>{ setOnlyShowProject((state: boolean) => !state); setIsHideLevel5Items(false)}}
+                />
+              }
+              label={
+                <Typography variant="body2">پروژه</Typography>
+              }
+          />
+        </FormGroup>
       </Box>
 
       {/* base modal */}

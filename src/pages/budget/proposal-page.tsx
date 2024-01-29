@@ -22,6 +22,7 @@ import {getPercent, getPercentGrow, sumFieldsInSingleItemData} from "helper/calc
 import { formatExpenseName } from "helper/data-utils";
 import { Box } from "@mui/material";
 import ProposalModalInsertCode from "components/sections/budget/proposal/insert-modal/proposal-modal-insert-code";
+import {beforeproposalConfig} from "../../config/features/budget/beforeproposal-config";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -45,7 +46,10 @@ function BudgetProposalPage() {
   const [codingId, setCodingId] = useState<any>(0);
 
   const activeTimeOut = useRef<any>(null);
-
+  
+  const [isHideLevel5Items, setIsHideLevel5Items] = useState(false);
+  const [onlyShowProject, setOnlyShowProject] = useState(false);
+  
   useEffect(() => {
     return () => clearTimeout(activeTimeOut.current);
   }, []);
@@ -136,6 +140,10 @@ function BudgetProposalPage() {
           setFormData={setFormData}
           setCodingId={setCodingId}
           afterCloseAnyModal={afterCloseAnyModal}
+          isHideLevel5Items={isHideLevel5Items}
+          onlyShowProject={onlyShowProject}
+          setIsHideLevel5Items={setIsHideLevel5Items}
+          setOnlyShowProject={setOnlyShowProject}
         />
       ),
       colspan: tableHeads.filter((item) => !item.hidden).length,
@@ -395,7 +403,30 @@ function BudgetProposalPage() {
     percent: "",
     actions: "",
   };
-
+  
+  // useEffect(() => {
+  //   console.log('fetch data');
+  //   getDataMutation.mutate(formData);
+  // }, [onlyShowProject, isHideLevel5Items])
+  //
+  // const filterData = (data:GetSingleProposalItemShape[]) => {
+  //   let result = [];
+  //   result = data.filter(item => !(onlyShowProject && item.levelNumber !== 4));
+  //
+  //   if(formData[beforeproposalConfig.BUDGET_METHOD] === 1 || formData[beforeproposalConfig.BUDGET_METHOD] === 3){
+  //     result = result.filter(item => !(item.levelNumber === 5 && isHideLevel5Items));
+  //   }else if(formData[beforeproposalConfig.BUDGET_METHOD] === 2){
+  //     result = result.filter(item => !(item.levelNumber === 4 && isHideLevel5Items));
+  //   }
+  //
+  //   if(onlyShowProject){
+  //     result.sort((a, b) => b.mosavab - a.mosavab);
+  //   }
+  //
+  //   return result;
+  // }
+  //
+  
   return (
     <>
       <AdminLayout>

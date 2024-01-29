@@ -122,6 +122,11 @@ function BudgetReportExpenseForm(props: BudgetReportExpenseFormProps) {
         "resoures",
 
         "balance",
+        
+        "creditCurrent",
+        "expenseMonthRevenue",
+        "expenseMonthDarAzKhazane",
+        "expenseMonthCurrent",
       ],
       formData[generalFieldsConfig.numbers]
     );
