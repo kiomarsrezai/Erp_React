@@ -46,6 +46,7 @@ import UserPage from "pages/base/users-page";
 import ContractsPlaces from "pages/contracts/contracts-places";
 import ContractsMotaleb from "pages/contracts/contracts-motaleb";
 import BudgetBeforeProposalPage from "pages/budget/beforeproposal-page";
+import BudgetBeforeProposalPage2 from "../../pages/budget/beforeproposal-page2";
 
 export const sidenavsLayout: SidenavShape[] = [
   // report
@@ -81,10 +82,21 @@ export const sidenavsLayout: SidenavShape[] = [
           accessNamesConfig.BUDGET__PROPOSAL_DATA_TABLE_CHART,
         ],
       },
-   
-      
-      
-      
+      {
+        title: "اصلاح پیشنهادی",
+        path: "/budget/BudgetProposal2",
+        icon: MoneyIcon,
+        licenseName: accessNamesConfig.BUDGET__BeforePROPOSAL_PAGE,
+        element: BudgetBeforeProposalPage2,
+        permissionItems: [
+          getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
+          getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 1),
+          accessNamesConfig.FIELD_BUDGET_METHOD,
+          accessNamesConfig.BUDGET__PROPOSAL_EDIT_BUTTON,
+          accessNamesConfig.BUDGET__PROPOSAL_DATA_TABLE_READ,
+          accessNamesConfig.BUDGET__PROPOSAL_DATA_TABLE_CHART,
+        ],
+      },
       {
         title: "بودجه مصوب",
         path: "/budget/mosavab",

@@ -17,7 +17,28 @@ export interface GetSingleBeforeProposalItemShape {
     percent2: number;
     areaId?:number
   }
-  
+
+export interface GetSingleBeforeProposalItemShape2 {
+    id: number;
+    codingId: number;
+    code: string;
+    description: string;
+    mosavab: number;
+    edit: number;
+    supply: number;
+    expense: number;
+    needEditYearNow: number;
+    levelNumber: number;
+    percentBud: number;
+    crud: boolean;
+    totalMosavab: number;
+    totalExpense: number;
+    percent: number;
+    percent2: number;
+    areaId?:number
+    sumSupplyNeedEditYearNow:number
+}
+
 //   export interface GetSingleDetailProposalItemShape {
 //     code: string;
 //     description: string;

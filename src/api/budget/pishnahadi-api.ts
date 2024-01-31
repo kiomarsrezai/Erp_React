@@ -3,8 +3,9 @@ import clientAxios from "config/axios-config";
 import { BaseApi } from "api/base-api";
 import { BaseApiResponseShape } from "types/base-type";
 import { beforeproposalConfig, beforepropsalBudgetUrls } from "config/features/budget/beforeproposal-config";
-import { GetSingleBeforeProposalItemShape } from "types/beforeproposal-type";
+import {GetSingleBeforeProposalItemShape, GetSingleBeforeProposalItemShape2} from "types/beforeproposal-type";
 import { generalFieldsConfig } from "config/features/general-fields-config";
+import {getPercent} from "../../helper/calculate-utils";
 
 export const beforeproposalapi = new (class extends BaseApi {
   getData = async (formdata: any) => {
@@ -28,7 +29,28 @@ export const beforeproposalapi = new (class extends BaseApi {
 
     
   };
-
+  
+  getData2 = async (formdata: any) => {
+    const filterData = {
+      [beforeproposalConfig.YEAR]: formdata[beforeproposalConfig.YEAR],
+      [beforeproposalConfig.AREA]: formdata[beforeproposalConfig.AREA],
+      [beforeproposalConfig.BUDGET_METHOD]:
+          formdata[beforeproposalConfig.BUDGET_METHOD],
+    };
+    
+    
+    const url = "BudgetEditApi/Edit" + this.joinFilterData(filterData);
+    const response = await clientAxios.get<
+        BaseApiResponseShape<GetSingleBeforeProposalItemShape2[]>
+        >(url);
+    
+    response.data.data.map((item) => {
+      item['percent2'] = getPercent(item['supply'], item['mosavab']);
+      item['sumSupplyNeedEditYearNow'] = item['supply'] + item['needEditYearNow'];
+    });
+    
+    return response.data;
+  };
 
  
 
