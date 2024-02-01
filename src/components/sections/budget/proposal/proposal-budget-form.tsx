@@ -16,7 +16,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { proposalBudgetApi } from "api/budget/proposal-api";
 import { accessNamesConfig } from "config/access-names-config";
-import { checkHavePermission, joinPermissions } from "helper/auth-utils";
+import {checkHavePermission, filedItemsGuard, joinPermissions} from "helper/auth-utils";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import { checkHaveValue } from "helper/form-utils";
@@ -28,6 +28,12 @@ import Checkbox from "@mui/material/Checkbox";
 import Typography from "@mui/material/Typography";
 import {beforeproposalConfig} from "../../../../config/features/budget/beforeproposal-config";
 import {GetSingleProposalItemShape} from "../../../../types/data/budget/proposal-type";
+import IconButton from "@mui/material/IconButton";
+import GetAppIcon from "@mui/icons-material/GetApp";
+import WindowLoading from "../../../ui/loading/window-loading";
+import {budgetMethodItems, generalFieldsConfig} from "../../../../config/features/general-fields-config";
+import {getGeneralFieldItemArea, getGeneralFieldItemYear} from "../../../../helper/export-utils";
+import {mosavabBudgetXlsx} from "../../../../stimul/budget/mosavab/budget-mosavab-xlsx";
 
 interface ProposalBudgetFormProps {
   formData: any;
@@ -191,6 +197,66 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
 
         return result;
     }
+    
+    const submitMutation2 = useMutation(proposalBudgetApi.getData);
+    
+    const [excelLodaing, setExcelLodaing] = useState(false);
+    const handleExcelClick = () => {
+        setExcelLodaing(true);
+        handleExcelForm();
+    }
+    
+    const budgetMethodAccessItems = filedItemsGuard(
+        budgetMethodItems,
+        userLicenses,
+        joinPermissions([
+            accessNamesConfig.BUDGET__PROPOSAL_PAGE,
+            accessNamesConfig.FIELD_BUDGET_METHOD,
+        ])
+    );
+    
+    const handleExcelForm = async () => {
+        if(!formData[generalFieldsConfig.AREA] && !formData[generalFieldsConfig.YEAR]){
+            return
+        }
+        
+        let culmnsData: any = {};
+        budgetMethodAccessItems.forEach((item) => {
+            culmnsData[item.value] = [];
+        });
+
+        const culmnKeys = Object.keys(culmnsData);
+    
+        
+        try {
+            await Promise.all(
+                culmnKeys.map(async (item) => {
+                    const data = await submitMutation2.mutateAsync({
+                        ...formData,
+                        [generalFieldsConfig.BUDGET_METHOD]: item,
+                    });
+
+                    const newData = filterData(data.data);
+
+                    culmnsData = {
+                        ...culmnsData,
+                        [item]: newData,
+                    };
+                })
+            );
+        } catch {}
+
+        const yearLabel = getGeneralFieldItemYear(formData, 1);
+        const areaLabel = getGeneralFieldItemArea(formData, 1);
+    
+        mosavabBudgetXlsx({
+            culmnsData: culmnsData,
+            area: areaLabel,
+            year: yearLabel,
+            budgetMethod: formData[generalFieldsConfig.BUDGET_METHOD],
+            setExcelLodaing: setExcelLodaing,
+        });
+    };
   
   return (
     <>
@@ -258,6 +324,11 @@ function ProposalBudgetForm(props: ProposalBudgetFormProps) {
             >
               افزودن
             </Button>
+              <IconButton color="primary" onClick={handleExcelClick}>
+                  <GetAppIcon />
+              </IconButton>
+    
+              <WindowLoading active={excelLodaing}/>
           </Grid>
 
           <Grid sm={2}>
