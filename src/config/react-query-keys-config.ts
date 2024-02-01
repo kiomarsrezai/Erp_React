@@ -30,6 +30,10 @@ export const reactQueryKeys = {
 
       getAccData: ["budget-propsal-acc"],
     },
+    suggestedEdit :{
+      getData: ["budget-suggested-edit"],
+      
+    },
     connect: {
       getData: ["budget-connect"],
     },

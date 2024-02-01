@@ -18,7 +18,7 @@ export interface GetSingleBeforeProposalItemShape {
     areaId?:number
   }
 
-export interface GetSingleBeforeProposalItemShape2 {
+export interface GetSingleSuggestedEditItemShape {
     id: number;
     codingId: number;
     code: string;
