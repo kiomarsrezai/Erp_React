@@ -31,6 +31,7 @@ import {accessNamesConfig} from "../../config/access-names-config";
 import SectionGuard from "components/auth/section-guard";
 import BeforeproposalBudgetTableRead from "../../components/sections/budget/suggestedEdit/suggested-edit-table-read";
 import {suggestedEditApi} from "../../api/budget/suggested-edit-api";
+import {convertNumbers} from "../../helper/number-utils";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -249,8 +250,8 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     if(onlyShowProject){
       result.sort((a, b) => b.edit - a.edit);
     }
-
-    return result;
+    
+    return formatAndBindData(result);
   }
 
   const [isModal1Changed, setIsmodal1Changed] = useState(false);
@@ -589,6 +590,21 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     percent: "",
     actions: "",
   };
+  
+  const formatAndBindData = (data?: any[]) => {
+    const formatedData = convertNumbers(
+ data||getDataMutation.data?.data||[],
+["mosavab", "supply", "expense", "needEditYearNow", "sumSupplyNeedEditYearNow", "edit"],
+        // @ts-ignore
+      formData[generalFieldsConfig.numbers]
+    );
+
+    // queryClient.setQueryData(reactQueryKeys.budget.proposal.getData, {
+    //   data: formatedData,
+    // });
+
+    return formatedData
+  };
 
   const tableHeadGroups: TableHeadGroupShape = [
     {
@@ -601,6 +617,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
               onlyShowProject={onlyShowProject}
               setIsHideLevel5Items={setIsHideLevel5Items}
               setOnlyShowProject={setOnlyShowProject}
+              formatAndBindData={formatAndBindData}
               printData={{
                 data: tableData,
                 footer: tableFooter,

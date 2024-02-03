@@ -28,7 +28,6 @@ import {
   getGeneralFieldItemArea,
   getGeneralFieldItemYear
 } from "../../../../helper/export-utils";
-import {beforeProposalStimul} from "../../../../stimul/budget/proposal/budget-beforeproposal-stimul";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -36,6 +35,7 @@ import Typography from "@mui/material/Typography";
 import {GetSingleSuggestedEditItemShape} from "../../../../types/beforeproposal-type";
 import {suggestedEditApi} from "../../../../api/budget/suggested-edit-api";
 import {suggestedEditXlsx} from "../../../../stimul/budget/suggestedEdit/suggested-edit-xlsx";
+import NumbersInput from "../../inputs/numbers-input";
 
 
 interface BeforeProposalBudgetFormProps {
@@ -47,6 +47,7 @@ interface BeforeProposalBudgetFormProps {
   onlyShowProject: any,
   setIsHideLevel5Items: any,
   setOnlyShowProject: any,
+  formatAndBindData: any,
 
 
   printData: {
@@ -57,7 +58,7 @@ interface BeforeProposalBudgetFormProps {
 }
 
 function SuggestedEditForm(props: BeforeProposalBudgetFormProps) {
-  const { formData, setFormData, printData, isHideLevel5Items, onlyShowProject, setIsHideLevel5Items, setOnlyShowProject} = props;
+  const { formData, setFormData, printData, isHideLevel5Items, onlyShowProject, setIsHideLevel5Items, setOnlyShowProject, formatAndBindData} = props;
 
   const userLicenses = userStore((state) => state.permissions);
 
@@ -88,8 +89,7 @@ function SuggestedEditForm(props: BeforeProposalBudgetFormProps) {
     if(onlyShowProject){
       result.sort((a, b) => b.edit - a.edit);
     }
-
-    return result;
+    return formatAndBindData(result);
   }
 
   useEffect(() => {
@@ -142,7 +142,7 @@ function SuggestedEditForm(props: BeforeProposalBudgetFormProps) {
     queryClient?.setQueryData(reactQueryKeys.budget.proposal.getData, {
       data: [],
     });
-  }, [formData, queryClient]);
+  }, [formData[beforeproposalConfig.YEAR], formData[beforeproposalConfig.AREA], formData[beforeproposalConfig.BUDGET_METHOD], queryClient]);
 
   // base modal
 //   const [isOpenBaseModal, setIsOpenBaseModal] = useState(false);
@@ -278,7 +278,15 @@ function SuggestedEditForm(props: BeforeProposalBudgetFormProps) {
   useEffect(() => {
       submitMutation.mutate(formData);
   }, [onlyShowProject, isHideLevel5Items])
-
+  
+  useEffect(() => {
+    onchangeFormatDFata();
+  }, [formData[generalFieldsConfig.numbers]]);
+  
+  const onchangeFormatDFata = async () => {
+    const data = await submitMutation.mutate(formData);
+  }
+  
   return (
     <>
       <Box component="form" onSubmit={handleFormSubmit}>
@@ -350,9 +358,9 @@ function SuggestedEditForm(props: BeforeProposalBudgetFormProps) {
             {/*  <PrintIcon />*/}
             {/*</IconButton>*/}
 
-            <IconButton color="primary" onClick={handlePrintForm}>
-              <PrintIcon />
-            </IconButton>
+            {/*<IconButton color="primary" onClick={handlePrintForm}>*/}
+            {/*  <PrintIcon />*/}
+            {/*</IconButton>*/}
 
             <IconButton color="primary" onClick={handleExcelClick}>
               <GetAppIcon />
@@ -367,7 +375,13 @@ function SuggestedEditForm(props: BeforeProposalBudgetFormProps) {
 
         </Grid>
 
-        <FormGroup style={{display: 'flex', flexDirection: 'row'}}>
+        <FormGroup style={{display: 'flex', flexDirection: 'row',  paddingTop: 16}}>
+          <div style={{width: '150px', paddingLeft: 16}}>
+            <NumbersInput
+                setter={setFormData}
+                value={formData[generalFieldsConfig.numbers] as number}
+            />
+          </div>
           <FormControlLabel
               style={{width:'130px'}}
               control={

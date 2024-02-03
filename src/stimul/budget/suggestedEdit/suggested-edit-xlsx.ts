@@ -222,12 +222,6 @@ const createData = (data: any, title: string, proccessId: number, budgetMethod: 
         Mony: true,
         textAlign: "right",
       },
-      {
-        Header: "% جذب",
-        Name: "percent",
-        Mony: true,
-        textAlign: "right",
-      },
     ],
     List: data,
     Sum: [
