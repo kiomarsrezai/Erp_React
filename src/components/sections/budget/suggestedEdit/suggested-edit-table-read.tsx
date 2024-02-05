@@ -1,25 +1,31 @@
 import {ReactNode, useEffect, useState} from "react";
 import {useMutation} from "@tanstack/react-query";
 import {proposalBudgetApi} from "../../../../api/budget/proposal-api";
-import {GetSingleBeforeProposalItemShape} from "../../../../types/beforeproposal-type";
+import {
+    GetSingleBeforeProposalItemShape,
+    GetSingleSuggestedEditItemShape,
+    SuggestedEditModalRead
+} from "../../../../types/beforeproposal-type";
 import FixedTable from "../../../data/table/fixed-table";
 import {TableHeadGroupShape, TableHeadShape} from "../../../../types/table-type";
 import {BudgetProposalModalRead} from "../../../../types/data/budget/proposal-type";
-import {getPercentGrow, sumFieldsInSingleItemData} from "../../../../helper/calculate-utils";
+import {getPercent, getPercentGrow, sumFieldsInSingleItemData} from "../../../../helper/calculate-utils";
 import {Checkbox, FormControlLabel, Typography} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import GetAppIcon from "@mui/icons-material/GetApp";
 import {getGeneralFieldItemArea, getGeneralFieldItemYear} from "../../../../helper/export-utils";
-import {generalFieldsConfig} from "../../../../config/features/general-fields-config";
-import {proposalBudgetXlsx} from "../../../../stimul/budget/proposal/budget-proposal-xlsx";
 import {proposalBudgetTableReadXlsx} from "../../../../stimul/budget/proposal/budget-proposal-table-read-xlsx";
+import {suggestedEditApi} from "../../../../api/budget/suggested-edit-api";
+import {beforeproposalConfig} from "../../../../config/features/budget/beforeproposal-config";
+import {suggestedEditXlsx} from "../../../../stimul/budget/suggestedEdit/suggested-edit-xlsx";
+import {accessNamesConfig} from "../../../../config/access-names-config";
 
-interface BeforeproposalBudgetTableReadProps{
+interface SuggestedEditBudgetTableReadProps{
     refresh: number,
     formData: any,
-    editButtone: (row: BudgetProposalModalRead) => ReactNode,
+    editButtone: (row: SuggestedEditModalRead) => ReactNode,
     beforeproposalBudgetEdit: any,
-    initialData?: GetSingleBeforeProposalItemShape|null;
+    initialData?: GetSingleSuggestedEditItemShape|null;
     areaId?: number|null;
 }
 
@@ -37,20 +43,21 @@ interface TableDataItemShape {
     present2: number,
 }
 
-export default function SuggestedEditTableRead({formData, initialData, editButtone, beforeproposalBudgetEdit, refresh, areaId}: BeforeproposalBudgetTableReadProps){
-    const [data, setData] = useState<BudgetProposalModalRead[]>([]);
+export default function SuggestedEditTableRead({formData, initialData, editButtone, beforeproposalBudgetEdit, refresh, areaId}: SuggestedEditBudgetTableReadProps){
+    const [data, setData] = useState<SuggestedEditModalRead[]>([]);
     const [codingId, setCodingId] = useState<number|null>(null);
     const [hasBudgetNext, setHasBudgetNext] = useState<boolean>(false);
-    const budgetProposalModalRead = useMutation(proposalBudgetApi.budgetProposalModalRead, {
+    const suggestedEditModalRead = useMutation(suggestedEditApi.suggestedEditModalRead, {
         onSuccess(fetchedData) {
-            setData(fetchedData.data.filter(item => !(hasBudgetNext && item.budgetNext === 0)));
+            // setData(fetchedData.data.filter(item => !(hasBudgetNext && item.budgetNext === 0)));
+            setData(fetchedData.data);
         },
     });
     const fetchData = () => {
         if(initialData?.codingId){
             setCodingId(initialData?.codingId);
         }
-        budgetProposalModalRead.mutate({...formData, codingId: initialData?.codingId?? codingId});
+        suggestedEditModalRead.mutate({...formData, codingId: initialData?.codingId?? codingId});
     }
     
     useEffect(() => {
@@ -62,67 +69,98 @@ export default function SuggestedEditTableRead({formData, initialData, editButto
         {
             title: "ردیف",
             name: "number",
-            width: "30px",
+            width: "50px",
         },
         {
-            title: "کد منطقه",
+            title: "#",
+            name: "levelNumber",
+            width: "40px",
+            hidden:true,
+        },
+        {
+            title: "منطقه",
             name: "areaName",
-            align: "left",
-            width: "30px",
+            width: "110px",
         },
         {
             title: "کد",
             name: "code",
-            align: "left",
-            width: "70px",
+            width: "110px",
         },
         {
             title: "شرح",
-            name: "description",
             align: "left",
-            width: "300px",
+            name: "description",
         },
         {
-            title: "مصوب 1402",
+            title: "مصوب ",
             align: "left",
             name: "mosavab",
             split: true,
-            width: "130px",
+            width: "160px",
+            canSort: true
         },
         {
-            title: "اصلاح 1402",
-            align: "left",
-            name: "edit",
+            title: "ت اعتبار ",
+            name: "supply",
             split: true,
-            width: "130px",
-        },
-        {
-            title: "پیشنهادی 1403",
             align: "left",
-            name: "budgetNext",
-            split: true,
-            width: "130px",
+            hidden: formData[beforeproposalConfig.BUDGET_METHOD] === 1,
+            width: "160px",
+            canSort: true
         },
         {
             title: "%",
             align: "left",
-            name: "present2",
-            percent: true,
-            width: "80px",
+            name: "percent2",
+            width: "60px",
+            percent: true
         },
         {
-            title: "ت اعتبار 1402",
-            align: "left",
-            name: "supply",
-            split: true,
-            width: "130px",
-        },
-        {
-            title: "هزینه 1402",
+            title: "هزینه ",
             name: "expense",
             align: "left",
             split: true,
-            width: "130px",
+            width: "160px",
+            canSort: true
+        },
+        {
+            title: "تعهدی 1402",
+            align: "left",
+            name: "needEditYearNow",
+            split: true,
+            width: "160px",
+            canSort: true
+        },
+        {
+            title: "جمع ت اعتبار تعهدی",
+            align: "left",
+            name: "sumSupplyNeedEditYearNow",
+            split: true,
+            width: "160px",
+            canSort: true
+        },
+        {
+            title: "اصلاح پیشنهادی",
+            align: "left",
+            name: "edit",
+            split: true,
+            width: "160px",
+            canSort: true
+        },
+        {
+            title: "% رشد",
+            align: "left",
+            name: "percentGrow",
+            width: "60px",
+            percent: true
+        },
+        {
+            title: "% جذب",
+            name: "percent",
+            percent: true,
+            width: "80px",
+            hidden:true
         },
         {
             title: "عملیات",
@@ -132,11 +170,13 @@ export default function SuggestedEditTableRead({formData, initialData, editButto
     ];
     
     const formatTableData = (
-        unFormatData: BudgetProposalModalRead[]
+        unFormatData: SuggestedEditModalRead[]
     ): TableDataItemShape[] => {
+        // @ts-ignore
         const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
             ...item,
             number: i + 1,
+            percentGrow: getPercentGrow(item.edit, item.mosavab),
             bgcolor:
                 areaId === item.areaId? '#ffb1b1': i % 2 === 0? '#fff' : '#D9F0CB',
             actions: () => editButtone(item),
@@ -147,21 +187,25 @@ export default function SuggestedEditTableRead({formData, initialData, editButto
     
     const sumMosavab = sumFieldsInSingleItemData(data, "mosavab");
     const sumEdit = sumFieldsInSingleItemData(data, "edit");
-    const sumSupply = sumFieldsInSingleItemData(data, "supply");
-    const sumExpense = sumFieldsInSingleItemData(data, "expense");
-    const sumBudgetNext = sumFieldsInSingleItemData(data, "budgetNext");
+    const sumNeedEditYearNow = sumFieldsInSingleItemData(data, "needEditYearNow");
+    const sumSumSupplyNeedEditYearNow = sumFieldsInSingleItemData(data, "supply");
+    const sumfooterSupplyAmount = sumFieldsInSingleItemData(data, "supply");
+    const footerExpenseSum = sumFieldsInSingleItemData(data, "expense");
     const tableFooter: TableDataItemShape | any = {
         number: "جمع",
         "colspan-number": 4,
+        "rowspan-number": 2,
         areaName: null,
         code: null,
         description: null,
         mosavab: sumMosavab,
         edit: sumEdit,
-        supply: sumSupply,
-        expense: sumExpense,
-        budgetNext: sumBudgetNext,
-        present2: getPercentGrow(sumBudgetNext, sumMosavab),
+        needEditYearNow: sumNeedEditYearNow,
+        sumSupplyNeedEditYearNow: sumSumSupplyNeedEditYearNow,
+        percent2: getPercent(footerExpenseSum, sumMosavab),
+        supply: sumfooterSupplyAmount,
+        expense: footerExpenseSum,
+        percentGrow: getPercentGrow(sumEdit, sumMosavab),
         actions: "",
     };
     
@@ -181,13 +225,14 @@ export default function SuggestedEditTableRead({formData, initialData, editButto
         };
         const yearLabel = getGeneralFieldItemYear(formData, 1);
         const areaLabel = getGeneralFieldItemArea(formData, 1);
-        proposalBudgetTableReadXlsx({
+        
+        suggestedEditXlsx({
             culmnsData: culmnsData,
             area: areaLabel,
             year: yearLabel,
             setExcelLodaing: setExcelLodaing,
+            budgetMethod: formData[accessNamesConfig.FIELD_BUDGET_METHOD],
         });
-        
         // const newData = filterData(tableData);
         //
         // culmnsData = {

@@ -39,6 +39,23 @@ export interface GetSingleSuggestedEditItemShape {
     sumSupplyNeedEditYearNow:number
 }
 
+export interface SuggestedEditModalRead {
+    codingId: number,
+    areaId: number,
+    areaName: string,
+    code: string,
+    description: string,
+    mosavab: number,
+    supply: number,
+    expense: number,
+    needEditYearNow: number
+    edit: number,
+    levelNumber: number
+    percent2: number;
+    sumSupplyNeedEditYearNow: number;
+}
+
+
 //   export interface GetSingleDetailProposalItemShape {
 //     code: string;
 //     description: string;

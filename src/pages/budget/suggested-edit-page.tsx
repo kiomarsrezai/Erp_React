@@ -181,7 +181,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
       canSort: true
     },
     {
-      title: "اصلاح مورد نیاز",
+      title: "جمع ت اعتبار تعهدی",
       align: "left",
       name: "sumSupplyNeedEditYearNow",
       split: true,
@@ -528,6 +528,12 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     "needEditYearNow",
     (item: GetSingleSuggestedEditItemShape) => item.levelNumber === 1
   );
+  
+  const sumSupplyNeedEditYearNowSum = sumFieldsInSingleItemData(
+    proposalQuery.data?.data,
+    "sumSupplyNeedEditYearNow",
+    (item: GetSingleSuggestedEditItemShape) => item.levelNumber === 1
+  );
   const footerExpenseSum = sumFieldsInSingleItemData(
     proposalQuery.data?.data,
     "expense",
@@ -549,8 +555,8 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     mosavab: footerMosavabSum,
     edit: footerEditSum,
     needEditYearNow: footerNeedEditYearNowSum,
-    sumSupplyNeedEditYearNow: getPercentGrow(footerSupplyAmount, footerMosavabSum),
-    percent2: getPercentGrow(footerNeedEditYearNowSum, footerMosavabSum),
+    sumSupplyNeedEditYearNow: sumSupplyNeedEditYearNowSum,
+    percent2: getPercent(footerSupplyAmount, footerMosavabSum),
     supply: footerSupplyAmount,
     expense: footerExpenseSum,
     percentGrow: getPercentGrow(footerEditSum, footerMosavabSum),
@@ -698,8 +704,8 @@ const [isOpenModal, setIsOpenModal] = useState(false);
             }, 1000);
           }}
           title={tableReadTitle}
-          maxWidth="85%"
-          maxHeight="70%"
+          maxWidth="95%"
+          maxHeight="85%"
       >
 
         <BeforeproposalBudgetTableRead
