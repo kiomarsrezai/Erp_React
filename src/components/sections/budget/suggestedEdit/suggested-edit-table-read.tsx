@@ -19,6 +19,7 @@ import {suggestedEditApi} from "../../../../api/budget/suggested-edit-api";
 import {beforeproposalConfig} from "../../../../config/features/budget/beforeproposal-config";
 import {suggestedEditXlsx} from "../../../../stimul/budget/suggestedEdit/suggested-edit-xlsx";
 import {accessNamesConfig} from "../../../../config/access-names-config";
+import {suggestedEditModalXlsx} from "../../../../stimul/budget/suggestedEdit/suggested-edit-modal-xlsx";
 
 interface SuggestedEditBudgetTableReadProps{
     refresh: number,
@@ -224,8 +225,8 @@ export default function SuggestedEditTableRead({formData, initialData, editButto
         };
         const yearLabel = getGeneralFieldItemYear(formData, 1);
         const areaLabel = getGeneralFieldItemArea(formData, 1);
-        
-        suggestedEditXlsx({
+    
+        suggestedEditModalXlsx({
             culmnsData: culmnsData,
             area: areaLabel,
             year: yearLabel,
