@@ -49,8 +49,7 @@ export default function SuggestedEditTableRead({formData, initialData, editButto
     const [hasBudgetNext, setHasBudgetNext] = useState<boolean>(false);
     const suggestedEditModalRead = useMutation(suggestedEditApi.suggestedEditModalRead, {
         onSuccess(fetchedData) {
-            // setData(fetchedData.data.filter(item => !(hasBudgetNext && item.budgetNext === 0)));
-            setData(fetchedData.data);
+            setData(fetchedData.data.filter(item => !(hasBudgetNext && item.edit === 0)));
         },
     });
     const fetchData = () => {
@@ -263,7 +262,7 @@ export default function SuggestedEditTableRead({formData, initialData, editButto
                                 />
                             }
                             label={
-                                <Typography variant="body2">دارای بودجه پیشنهادی</Typography>
+                                <Typography variant="body2">دارای اصلاح پیشنهادی</Typography>
                             }
                         />
                     </div>

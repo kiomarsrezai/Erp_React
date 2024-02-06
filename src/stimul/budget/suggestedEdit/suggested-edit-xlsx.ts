@@ -16,6 +16,7 @@ import {
 } from "helper/export-utils";
 import { getBgColorBudget } from "helper/get-color-utils";
 import { enqueueSnackbar } from "notistack";
+import {GetSingleSuggestedEditItemShape} from "../../../types/beforeproposal-type";
 const XLSX = require("xlsx-js-style/dist/xlsx.bundle");
 
 interface StimulOptionsShape {
@@ -131,6 +132,11 @@ const createData = (data: any, title: string, proccessId: number, budgetMethod: 
       "mosavab",
       (item: any) => item.levelNumber === 1
   );
+  const sumSupply = sumFieldsInSingleItemData(
+      data,
+      "supply",
+      (item: any) => item.levelNumber === 1
+  );
   const sumEdit = sumFieldsInSingleItemData(
       data,
       "edit",
@@ -151,6 +157,17 @@ const createData = (data: any, title: string, proccessId: number, budgetMethod: 
       "expense",
       (item: any) => item.levelNumber === 1
   );
+  const sumNeedEditYearNow = sumFieldsInSingleItemData(
+      data,
+      "needEditYearNow",
+      (item: GetSingleSuggestedEditItemShape) => item.levelNumber === 1
+  );
+  const sumSumSupplyNeedEditYearNow = sumFieldsInSingleItemData(
+      data,
+      "sumSupplyNeedEditYearNow",
+      (item: GetSingleSuggestedEditItemShape) => item.levelNumber === 1
+  );
+  
   
   data.map((item: any) => {item.percentGrow = getPercentGrow(item.edit, item.mosavab)})
   return {
@@ -205,7 +222,7 @@ const createData = (data: any, title: string, proccessId: number, budgetMethod: 
         textAlign: "right",
       },
       {
-        Header: "اصلاح مورد نیاز",
+        Header: "جمع ت اعتبار تعهدی",
         Name: "sumSupplyNeedEditYearNow",
         Mony: true,
         textAlign: "right",
@@ -230,8 +247,12 @@ const createData = (data: any, title: string, proccessId: number, budgetMethod: 
         code: "",
         description: "",
         mosavab: sumMosavab,
+        supply: sumSupply,
+        percent2: getPercent(sumSupply, sumMosavab),
         edit: sumEdit,
-        budgetNext: sumBudgetNext,
+        sumSupplyNeedEditYearNow: sumSumSupplyNeedEditYearNow,
+        needEditYearNow: sumNeedEditYearNow,
+        percentGrow: getPercentGrow(sumEdit, sumMosavab),
         creditAmount: sumCreditAmount,
         expense: sumExpense,
       },
