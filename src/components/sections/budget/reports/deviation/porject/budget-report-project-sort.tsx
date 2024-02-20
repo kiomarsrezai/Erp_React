@@ -15,6 +15,8 @@ import FixedModal from "components/ui/modal/fixed-modal";
 import BudgetReportProjectSortModal1 from "./budget-report-project-sort-modal1";
 import { budgetProjectSortApi } from "api/report/budget-project-sort-api";
 import { IconButton } from "@mui/material";
+import {convertNumbers} from "../../../../../../helper/number-utils";
+import {generalFieldsConfig} from "../../../../../../config/features/general-fields-config";
 
 interface BudgetReportProjectSortProps {
   tabRender?: ReactNode;
@@ -52,6 +54,13 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
     {
       title: "مصوب",
       name: "mosavab",
+      split: true,
+      align: "left",
+      width: "150px",
+    },
+    {
+      title: "اصلاح",
+      name: "edit",
       split: true,
       align: "left",
       width: "150px",
@@ -117,11 +126,31 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
       },
     }
   );
+  
+  const formatAndBindData = (data?: any[]) => {
+    const formatedData = convertNumbers(
+        data||dataQuery.data?.data||[],
+        ["mosavab", "edit", "creditAmount", "expense"],
+        // @ts-ignore
+        formData[generalFieldsConfig.numbers]
+    );
+    
+    // queryClient.setQueryData(reactQueryKeys.budget.proposal.getData, {
+    //   data: formatedData,
+    // });
+    
+    return formatedData
+  };
 
   // footer
   const sumMosavab = sumFieldsInSingleItemData(
     dataQuery.data?.data || [],
     "mosavab"
+  );
+  
+  const sumEdit = sumFieldsInSingleItemData(
+    dataQuery.data?.data || [],
+    "edit"
   );
   const sumExpense = sumFieldsInSingleItemData(
     dataQuery.data?.data || [],
@@ -141,6 +170,7 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
     percent: getPercent(sumExpense, sumMosavab),
     description: null,
     mosavab: sumMosavab,
+    edit: sumEdit,
     expense: sumExpense,
     creditAmount: sumCreaditAmount,
     percentCreditAmount: getPercent(sumCreaditAmount, sumMosavab),
@@ -189,13 +219,14 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
           formData={formData}
           setFormData={setFormData}
           tabRender={tabRender}
+          formatAndBindData={formatAndBindData}
           printData={{
             data: tableData,
             footer: [tableFooter],
           }}
         />
       ),
-      colspan: 12,
+      colspan: 13,
     },
   ];
 

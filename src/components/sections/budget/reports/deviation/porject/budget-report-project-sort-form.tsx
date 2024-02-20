@@ -16,7 +16,7 @@ import { accessNamesConfig } from "config/access-names-config";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import { checkHaveValue } from "helper/form-utils";
-import { checkHavePermission, joinPermissions } from "helper/auth-utils";
+import {checkHavePermission, filedItemsGuard, joinPermissions} from "helper/auth-utils";
 import AreaInput from "components/sections/inputs/area-input";
 import { ravandChartConfig } from "config/features/report/chart/ravand-chart-config";
 import { ravandChartApi } from "api/report/ravand-chart-api";
@@ -41,13 +41,21 @@ import BudgetSortKindInput from "components/sections/inputs/budget-sort-kind-inp
 import { budgetReportShareStimul } from "stimul/budget/report/share/budget-share-stimul";
 import { budgetProjectSortApi } from "api/report/budget-project-sort-api";
 import { budgetProjectSortConfig } from "config/features/budget/report/budget-project-sort-config";
-import { InputAdornment, Popover, TextField } from "@mui/material";
+import {FormGroup, InputAdornment, Popover, TextField} from "@mui/material";
 import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
+import NumbersInput from "../../../../inputs/numbers-input";
+import {budgetMethodItems, generalFieldsConfig} from "../../../../../../config/features/general-fields-config";
+import GetAppIcon from "@mui/icons-material/GetApp";
+import {suggestedEditApi} from "../../../../../../api/budget/suggested-edit-api";
+import {suggestedEditXlsx} from "../../../../../../stimul/budget/suggestedEdit/suggested-edit-xlsx";
+import {projectSortXlsx} from "../../../../../../stimul/budget/report/sort/project-sort-xlsx";
+import WindowLoading from "../../../../../ui/loading/window-loading";
 
 interface BudgetReportProjectSortFormProps {
   tabRender?: ReactNode;
   formData: any;
   setFormData: any;
+  formatAndBindData: any,
   printData: {
     data: any[];
     footer: any[];
@@ -55,7 +63,7 @@ interface BudgetReportProjectSortFormProps {
 }
 
 function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
-  const { tabRender, formData, setFormData, printData } = props;
+  const { tabRender, formData, setFormData, printData, formatAndBindData } = props;
 
   const userLicenses = userStore((state) => state.permissions);
 
@@ -66,7 +74,7 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
   const submitMutation = useMutation(budgetProjectSortApi.getData, {
     onSuccess: (data) => {
       // queryClient.setQueryData(reactQueryKeys.budget.sort.getData, data);
-      setSubmitedData(data.data);
+      setSubmitedData(formatAndBindData(data.data));
     },
   });
 
@@ -169,7 +177,72 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
 
   const openAnchorEl = Boolean(anchorEl);
   const [rowPrintCount, setRowPrintCount] = useState(0);
+  
+  
+  useEffect(() => {
+    onchangeFormatDFata();
+  }, [formData[generalFieldsConfig.numbers]]);
+  
+  const onchangeFormatDFata = async () => {
+    const data = await submitMutation.mutate(formData);
+  }
+  
+  const [excelLodaing, setExcelLodaing] = useState(false);
+  const handleExcelClick = () => {
+    setExcelLodaing(true);
+    handleExcelForm();
+  };
+  
+  // const budgetMethodAccessItems = filedItemsGuard(
+  //     budgetMethodItems,
+  //     userLicenses,
+  //     joinPermissions([
+  //       accessNamesConfig.BUDGET__REPORT_PAGE_PROJECT_SORT,
+  //       accessNamesConfig.FIELD_BUDGET_METHOD,
+  //     ])
+  // );
+  
+  const submitMutation2 = useMutation(budgetProjectSortApi.getData);
+  const handleExcelForm = async () => {
+    let culmnsData: any = {};
+    budgetMethodItems.forEach((item) => {
+      culmnsData[item.value] = [];
+    });
+    
+    const culmnKeys = Object.keys(culmnsData);
+  
+    try {
+      await Promise.all(
+          culmnKeys.map(async (item) => {
+            const data = await submitMutation2.mutateAsync({
+              ...formData,
+              [generalFieldsConfig.BUDGET_METHOD]: item,
+            });
 
+            const newData = formatAndBindData(data.data);
+
+            culmnsData = {
+              ...culmnsData,
+              [item]: newData,
+            };
+          })
+      );
+    } catch {}
+    
+
+    const yearLabel = getGeneralFieldItemYear(formData, 1);
+    const areaLabel = getGeneralFieldItemArea(formData, 1);
+  
+    projectSortXlsx({
+      culmnsData: culmnsData,
+      area: areaLabel,
+      year: yearLabel,
+      setExcelLodaing: setExcelLodaing,
+      budgetMethod: formData[accessNamesConfig.FIELD_BUDGET_METHOD],
+    });
+  };
+  
+  
   return (
     <Box
       component="form"
@@ -261,6 +334,12 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
           <IconButton color="primary" onClick={handlePrintClick}>
             <PrintIcon />
           </IconButton>
+  
+          <IconButton color="primary" onClick={handleExcelClick}>
+            <GetAppIcon />
+          </IconButton>
+  
+          <WindowLoading active={excelLodaing}/>
 
           <Popover
             open={openAnchorEl}
@@ -314,6 +393,15 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
           />
         </Grid>
       </Grid>
+  
+      <div>
+        <div style={{width: '150px', paddingLeft: 16, paddingTop: 16}}>
+          <NumbersInput
+              setter={setFormData}
+              value={formData[generalFieldsConfig.numbers] as number}
+          />
+        </div>
+      </div>
     </Box>
   );
 }
