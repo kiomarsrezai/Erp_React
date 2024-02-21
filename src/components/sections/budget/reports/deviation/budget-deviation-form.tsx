@@ -9,7 +9,7 @@ import IconButton from "@mui/material/IconButton";
 
 import { FormEvent, ReactNode, useEffect, useState } from "react";
 import { revenueChartFormConfig } from "config/features/revenue-chart-config";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { accessNamesConfig } from "config/access-names-config";
 import { enqueueSnackbar } from "notistack";
@@ -30,12 +30,22 @@ import {
   getGeneralFieldItemBudgetKindDeviation,
   getGeneralFieldItemYear,
 } from "helper/export-utils";
+import NumbersInput from "../../../inputs/numbers-input";
+import {
+  budgetKindDeviationItems,
+  budgetMethodItems,
+  generalFieldsConfig
+} from "../../../../../config/features/general-fields-config";
+import GetAppIcon from "@mui/icons-material/GetApp";
+import WindowLoading from "../../../../ui/loading/window-loading";
+import {budgetDivationXlsx} from "../../../../../stimul/budget/report/divation/budget-divation-xlsx";
 
 interface BudgetReportDeviationFormProps {
   formData: any;
   setFormData: (prevState: any) => void;
   inputRender?: ReactNode;
   tabRender?: ReactNode;
+  formatAndBindData: any;
   printData: {
     data: any[];
     footer: any[];
@@ -43,13 +53,14 @@ interface BudgetReportDeviationFormProps {
 }
 
 function BudgetReportDeviationForm(props: BudgetReportDeviationFormProps) {
-  const { formData, setFormData, inputRender, tabRender, printData } = props;
+  const { formData, setFormData, inputRender, tabRender, printData, formatAndBindData } = props;
 
   const userLicenses = userStore((state) => state.permissions);
   // form
   const queryClient = useQueryClient();
   const submitMutation = useMutation(budgetDeviationApi.getData, {
     onSuccess: (data) => {
+      data.data = formatAndBindData(data.data);
       queryClient.setQueryData(reactQueryKeys.budget.deviation, data);
     },
   });
@@ -112,7 +123,70 @@ function BudgetReportDeviationForm(props: BudgetReportDeviationFormProps) {
       });
     }
   };
+  
+  
+  const [excelLodaing, setExcelLodaing] = useState(false);
+  const handleExcelClick = () => {
+    setExcelLodaing(true);
+    handleExcelForm();
+  };
+  
+  const submitMutation2 = useMutation(budgetDeviationApi.getData);
+  const handleExcelForm = async () => {
+    let culmnsData: any = {};
+    budgetKindDeviationItems.forEach((item) => {
+      culmnsData[item.value] = [];
+    });
 
+    const culmnKeys = Object.keys(culmnsData);
+    
+    try {
+      const data = await submitMutation2.mutateAsync({
+        ...formData,
+      });
+      const result = formatAndBindData(data.data);
+      culmnKeys.map(async (item) => {
+        let newResult = [];
+        
+        if(parseInt(item) == 1){
+           newResult = result.filter((row: any) => row.percmosavab <= 110)
+        }else if(parseInt(item) == 2){
+           newResult = result.filter((row: any) => row.percmosavab > 110)
+        }else if(parseInt(item) == 3){
+          newResult = result;
+        }
+        culmnsData = {
+          ...culmnsData,
+          [item]: newResult,
+        };
+      })
+    } catch {}
+    
+    const yearLabel = getGeneralFieldItemYear(formData, 1);
+    const areaLabel = getGeneralFieldItemArea(formData, 3);
+
+    budgetDivationXlsx({
+      culmnsData: culmnsData,
+      area: areaLabel,
+      year: yearLabel,
+      setExcelLodaing: setExcelLodaing,
+    });
+  };
+  
+  useEffect(() => {
+    onchangeFormatDFata();
+  }, [formData[generalFieldsConfig.numbers]]);
+  
+  useEffect(() => {
+    if(!formData[generalFieldsConfig.numbers]){
+      formData[generalFieldsConfig.numbers] = 1;
+    }
+  }, []);
+  
+  const onchangeFormatDFata = async () => {
+    const data = await submitMutation.mutate(formData);
+  }
+  
   return (
     <Box
       component="form"
@@ -173,7 +247,7 @@ function BudgetReportDeviationForm(props: BudgetReportDeviationFormProps) {
           />
         </Grid>
 
-        <Grid xs={2}>
+        <div style={{height: 44, display: 'flex', alignItems: 'center', paddingTop: 10}}>
           <LoadingButton
             variant="contained"
             type="submit"
@@ -186,7 +260,20 @@ function BudgetReportDeviationForm(props: BudgetReportDeviationFormProps) {
           <IconButton color="primary" onClick={handlePrintForm}>
             <PrintIcon />
           </IconButton>
-        </Grid>
+  
+          <IconButton color="primary" onClick={handleExcelClick}>
+            <GetAppIcon />
+          </IconButton>
+  
+          <WindowLoading active={excelLodaing}/>
+  
+          <div style={{width: 150}}>
+            <NumbersInput
+                setter={setFormData}
+                value={formData[generalFieldsConfig.numbers] as number}
+            />
+          </div>
+        </div>
       </Grid>
     </Box>
   );

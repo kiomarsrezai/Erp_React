@@ -8,6 +8,8 @@ import { budgetDeviationApi } from "api/report/budget-deviation-api";
 import { GetSingleBudgetDeviationItemShape } from "types/data/budget/budget-deviation-type";
 import { budgetDeviationConfig } from "config/features/budget/report/budget-deviation-config";
 import { getPercent, sumFieldsInSingleItemData } from "helper/calculate-utils";
+import {convertNumbers} from "../../../../../helper/number-utils";
+import {generalFieldsConfig} from "../../../../../config/features/general-fields-config";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -37,13 +39,14 @@ function BudgetReportDeviation(props: BudgetReportDeviationProps) {
       name: "number",
     },
     {
-      title: "کد",
-      name: "code",
-    },
-    {
       title: "منطقه",
       name: "areaName",
       align: "left",
+      width: '100px',
+    },
+    {
+      title: "کد",
+      name: "code",
     },
     {
       title: "شرح",
@@ -53,6 +56,12 @@ function BudgetReportDeviation(props: BudgetReportDeviationProps) {
     {
       title: "مصوب",
       name: "mosavab",
+      split: true,
+      align: "left",
+    },
+    {
+      title: "اصلاح",
+      name: "edit",
       split: true,
       align: "left",
     },
@@ -122,6 +131,7 @@ function BudgetReportDeviation(props: BudgetReportDeviationProps) {
   const sumMosavab = sumFieldsInSingleItemData(tableData, "mosavab");
   const sumExpense = sumFieldsInSingleItemData(tableData, "expense");
   const sumCreaditAmount = sumFieldsInSingleItemData(tableData, "creditAmount");
+  const sumEdit = sumFieldsInSingleItemData(tableData, "edit");
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
     "colspan-number": 4,
@@ -130,11 +140,28 @@ function BudgetReportDeviation(props: BudgetReportDeviationProps) {
     description: null,
     mosavab: sumMosavab,
     expense: sumExpense,
+    edit: sumEdit,
     creditAmount: sumCreaditAmount,
-    percentCreditAmount: getPercent(sumCreaditAmount, sumMosavab),
+    percentCreditAmount: getPercent(sumCreaditAmount, sumEdit),
     percmosavab: getPercent(sumExpense, sumMosavab),
   };
-
+  
+  
+  const formatAndBindData = (data?: any[]) => {
+    const formatedData = convertNumbers(
+        data||deviationQuery.data?.data||[],
+        ["mosavab", "edit", "creditAmount", "expense"],
+        // @ts-ignore
+        formData[generalFieldsConfig.numbers]
+    );
+    
+    // queryClient.setQueryData(reactQueryKeys.budget.proposal.getData, {
+    //   data: formatedData,
+    // });
+    
+    return formatedData
+  };
+  
   // head group
   const tableHeadGroups: TableHeadGroupShape = [
     {
@@ -143,6 +170,7 @@ function BudgetReportDeviation(props: BudgetReportDeviationProps) {
           formData={formData}
           setFormData={setFormData}
           tabRender={tabRender}
+          formatAndBindData={formatAndBindData}
           printData={{
             data: tableData,
             footer: [tableFooter],

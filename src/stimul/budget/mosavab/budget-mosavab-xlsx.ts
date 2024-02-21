@@ -178,6 +178,12 @@ const createData = (data: any, title: string, proccessId: number, budgetMethod: 
                 textAlign: "right",
             },
             {
+                Header: "ت اعتبار",
+                Name: "creditAmount",
+                Mony: true,
+                textAlign: "right",
+            },
+            {
                 Header: formatExpenseName(budgetMethod),
                 Name: "expense",
                 Mony: true,

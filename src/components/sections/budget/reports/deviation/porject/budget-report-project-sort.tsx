@@ -173,7 +173,7 @@ function BudgetReportProjectSort(props: BudgetReportProjectSortProps) {
     edit: sumEdit,
     expense: sumExpense,
     creditAmount: sumCreaditAmount,
-    percentCreditAmount: getPercent(sumCreaditAmount, sumMosavab),
+    percentCreditAmount: getPercent(sumCreaditAmount, sumEdit),
   };
 
   // table data

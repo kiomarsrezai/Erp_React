@@ -1,4 +1,4 @@
-import { budgetMethodItems } from "config/features/general-fields-config";
+import {budgetKindDeviationItems, budgetMethodItems} from "config/features/general-fields-config";
 import { globalConfig } from "config/global-config";
 import {
   getPercent, getPercentFloat, getPercentGrow,
@@ -25,7 +25,6 @@ interface StimulOptionsShape {
   culmnsData: any;
   month?: string;
   setExcelLodaing: any;
-  budgetMethod: number;
 }
 
 function componentToHex(c: any) {
@@ -125,7 +124,7 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
   XLSX.writeFile(wb, filename + ".xlsx");
 };
 
-const createData = (data: any, title: string, proccessId: number, budgetMethod: number) => {
+const createData = (data: any, title: string) => {
   const sumMosavab = sumFieldsInSingleItemData(data, "mosavab",);
   const sumEdit = sumFieldsInSingleItemData(data, "edit",);
   const sumCreditAmount = sumFieldsInSingleItemData(data, "creditAmount",);
@@ -148,7 +147,11 @@ const createData = (data: any, title: string, proccessId: number, budgetMethod: 
         RowIndex: true,
       },
       {
-        Header: "کد بودجه",
+        Header: "منطقه",
+        Name: "areaName",
+      },
+      {
+        Header: "کد",
         Name: "code",
       },
       {
@@ -189,23 +192,7 @@ const createData = (data: any, title: string, proccessId: number, budgetMethod: 
       },
       {
         Header: "%",
-        Name: "percent",
-        textAlign: "right",
-        Percent: true,
-      },
-      {
-        Header: "منطقه",
-        Name: "areaName",
-      },
-      {
-        Header: "سهم",
-        Name: "share",
-        textAlign: "right",
-        Percent: true,
-      },
-      {
-        Header: "تجمیع",
-        Name: "sum",
+        Name: "percmosavab",
         textAlign: "right",
         Percent: true,
       },
@@ -221,25 +208,22 @@ const createData = (data: any, title: string, proccessId: number, budgetMethod: 
         creditAmount: sumCreditAmount,
         percentCreditAmount: getPercent(sumCreditAmount, sumEdit),
         expense: sumExpense,
-        percent:  getPercent(sumExpense, sumMosavab),
+        percmosavab: getPercent(sumExpense, sumMosavab),
         areaName: "",
         share: "",
         sum: "",
       },
     ],
     Title: title.replaceAll("/", "-"),
-    proccessId,
   };
 };
 
-export const projectSortXlsx = (exportOptions: StimulOptionsShape) => {
+export const budgetDivationXlsx = (exportOptions: StimulOptionsShape) => {
   const data = Object.keys(exportOptions.culmnsData).map((item) =>
       createData(
           exportOptions.culmnsData[item],
-          budgetMethodItems.find((budgetItem) => String(budgetItem.value) === item)
+          budgetKindDeviationItems.find((budgetItem) => String(budgetItem.value) === item)
               ?.label || "",
-          Number(item),
-          exportOptions.budgetMethod
       )
   );
   // checkExcelFont();

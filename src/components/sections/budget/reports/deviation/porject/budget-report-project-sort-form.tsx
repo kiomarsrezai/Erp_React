@@ -183,6 +183,12 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
     onchangeFormatDFata();
   }, [formData[generalFieldsConfig.numbers]]);
   
+  useEffect(() => {
+    if(!formData[generalFieldsConfig.numbers]){
+      formData[generalFieldsConfig.numbers] = 1;
+    }
+  }, []);
+  
   const onchangeFormatDFata = async () => {
     const data = await submitMutation.mutate(formData);
   }
@@ -381,27 +387,29 @@ function BudgetReportProjectSortForm(props: BudgetReportProjectSortFormProps) {
             </Box>
           </Popover>
         </Grid>
-        <Grid xs={2}>
-          <TextField
-            size="small"
-            label="جستجو"
-            sx={{ width: "250px" }}
-            value={filterText}
-            variant="outlined"
-            onChange={(e) => setFilterText(e.target.value)}
-            fullWidth
-          />
-        </Grid>
+        <div>
+          <div style={{width: '150px', paddingTop: 8, paddingLeft: 16}}>
+            <NumbersInput
+                setter={setFormData}
+                value={formData[generalFieldsConfig.numbers] as number}
+            />
+          </div>
+        </div>
+        <div>
+          <div style={{width: '150px', paddingTop: 8}}>
+            <TextField
+                size="small"
+                label="جستجو"
+                sx={{ width: "150px" }}
+                value={filterText}
+                variant="outlined"
+                onChange={(e) => setFilterText(e.target.value)}
+                fullWidth
+            />
+          </div>
+        </div>
       </Grid>
   
-      <div>
-        <div style={{width: '150px', paddingLeft: 16, paddingTop: 16}}>
-          <NumbersInput
-              setter={setFormData}
-              value={formData[generalFieldsConfig.numbers] as number}
-          />
-        </div>
-      </div>
     </Box>
   );
 }

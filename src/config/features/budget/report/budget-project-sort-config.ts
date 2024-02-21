@@ -6,6 +6,7 @@ export const budgetProjectSortConfig = {
   coding: "codingId",
   kind: generalFieldsConfig.kind,
   budget: generalFieldsConfig.BUDGET_METHOD,
+  number: 'number',
 };
 
 export const budgetProjectSortUrls = {
