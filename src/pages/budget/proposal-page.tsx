@@ -468,10 +468,13 @@ function BudgetProposalPage() {
         maxWidth="md"
         maxHeight="70%"
       >
-        <ProposalModalInfo
-          data={getInfoDataMutation.data?.data || []}
-          formData={formData}
-        />
+        <div>
+          <ProposalModalInfo
+            data={getInfoDataMutation.data?.data || []}
+            formData={formData}
+            baseRowData={activeRowData as GetSingleProposalItemShape}
+          />
+        </div>
       </FixedModal>
 
       {/* modal insert code */}

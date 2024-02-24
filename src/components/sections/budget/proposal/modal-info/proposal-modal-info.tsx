@@ -2,19 +2,25 @@ import { Box } from "@mui/material";
 import FixedTable from "components/data/table/fixed-table";
 import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
 import { proposalConfig } from "config/features/budget/proposal-config";
-import { organItems, organItems2 } from "config/features/general-fields-config";
+import {generalFieldsConfig, organItems, organItems2} from "config/features/general-fields-config";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { useState } from "react";
-import { GetSingleProposalInfoItemShape } from "types/data/budget/proposal-type";
+import {GetSingleProposalInfoItemShape, GetSingleProposalItemShape} from "types/data/budget/proposal-type";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
+import IconButton from "@mui/material/IconButton";
+import GetAppIcon from "@mui/icons-material/GetApp";
+import {getGeneralFieldItemArea, getGeneralFieldItemYear} from "../../../../../helper/export-utils";
+import {accessNamesConfig} from "../../../../../config/access-names-config";
+import {mosavabModalXlsx} from "../../../../../stimul/budget/mosavab/mosavab-modal-xlsx";
 
 interface ProposalModalInfoProps {
   data: GetSingleProposalInfoItemShape[];
   formData: any;
+  baseRowData: GetSingleProposalItemShape;
 }
 
 function ProposalModalInfo(props: ProposalModalInfoProps) {
-  const { data, formData } = props;
+  const { data, formData, baseRowData } = props;
 
   const [modalFormData, setModalFormData] = useState({
     [proposalConfig.organ]: 1, // 1,
@@ -177,9 +183,54 @@ function ProposalModalInfo(props: ProposalModalInfoProps) {
     editArea: sumEditShahrdari + sumEditSazman,
     expense: sumExpenseShahrdari + sumExpenseSazman,
   };
-
+  
+  const handleExcelClick = () => {
+    tableData.map((item) => {
+      item.code = baseRowData.code;
+    });
+  
+    let culmnsData: any = {};
+  
+    [{label: 'تست', value: 1}].forEach((item) => {
+      culmnsData[item.value] = [];
+    });
+  
+    const culmnKeys = Object.keys(culmnsData);
+  
+    culmnsData = {
+      ...culmnsData,
+      [1]: tableData,
+    };
+    const yearLabel = getGeneralFieldItemYear(formData, 1);
+    const areaLabel = getGeneralFieldItemArea(formData, 1);
+  
+    mosavabModalXlsx({
+      culmnsData: culmnsData,
+      area: areaLabel,
+      year: yearLabel,
+      budgetMethod: formData[accessNamesConfig.FIELD_BUDGET_METHOD],
+      tableFooterShahrdari: tableFooterShahrdari,
+      tableFooterSazman: tableFooterSazman,
+      tableFooter: tableFooter,
+    });
+  }
+  
+  const tableHeadGroups: TableHeadGroupShape = [
+    {
+      title: (
+          <div>
+            <IconButton color="primary" onClick={handleExcelClick}>
+              <GetAppIcon />
+            </IconButton>
+          </div>
+      ),
+      colspan: tableHeads.filter((item) => !item.hidden).length,
+    },
+  ];
+  
   return (
     <FixedTable
+      headGroups={tableHeadGroups}
       heads={tableHeads}
       data={tableData}
       footer={tableFooterShahrdari}
