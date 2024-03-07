@@ -4,7 +4,7 @@ import FlotingLabelSelect from "components/ui/inputs/floting-label-select";
 import { proposalConfig } from "config/features/budget/proposal-config";
 import {generalFieldsConfig, organItems, organItems2} from "config/features/general-fields-config";
 import { sumFieldsInSingleItemData } from "helper/calculate-utils";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import {GetSingleProposalInfoItemShape, GetSingleProposalItemShape} from "types/data/budget/proposal-type";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import IconButton from "@mui/material/IconButton";
@@ -97,6 +97,9 @@ function ProposalModalInfo(props: ProposalModalInfoProps) {
     const formatedData: any[] = unFormatData.map((item, i) => ({
       ...item,
       number: i + 1,
+      "bgcolor-expense": item.expense > item.editArea && "#d7a2a2",
+      "bgcolor-creditAmount": item.creditAmount > item.editArea && "#d7a2a2",
+      "textcolor-expense": item.expense > item.creditAmount && "red",
     }));
 
     return formatedData;
@@ -215,29 +218,24 @@ function ProposalModalInfo(props: ProposalModalInfoProps) {
     });
   }
   
-  const tableHeadGroups: TableHeadGroupShape = [
-    {
-      title: (
-          <div>
-            <IconButton color="primary" onClick={handleExcelClick}>
-              <GetAppIcon />
-            </IconButton>
-          </div>
-      ),
-      colspan: tableHeads.filter((item) => !item.hidden).length,
-    },
-  ];
+  useEffect(() => {
+    // @ts-ignore
+    document.getElementById("excelExportButton").addEventListener("click", () => {
+      handleExcelClick();
+    });
+  }, [])
   
   return (
-    <FixedTable
-      headGroups={tableHeadGroups}
-      heads={tableHeads}
-      data={tableData}
-      footer={tableFooterShahrdari}
-      bottomFooter={tableFooterSazman}
-      moreBottomFooter={tableFooter}
-      notFixed
-    />
+    <div style={{height: 'calc(80vh - 74px)'}}>
+      <FixedTable
+        heads={tableHeads}
+        data={tableData}
+        footer={tableFooterShahrdari}
+        bottomFooter={tableFooterSazman}
+        moreBottomFooter={tableFooter}
+        notFixed
+      />
+    </div>
   );
 }
 

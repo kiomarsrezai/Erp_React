@@ -23,6 +23,7 @@ import { formatExpenseName } from "helper/data-utils";
 import { Box } from "@mui/material";
 import ProposalModalInsertCode from "components/sections/budget/proposal/insert-modal/proposal-modal-insert-code";
 import {beforeproposalConfig} from "../../config/features/budget/beforeproposal-config";
+import GetAppIcon from "@mui/icons-material/GetApp";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -427,6 +428,14 @@ function BudgetProposalPage() {
   // }
   //
   
+  function excelExportButton() {
+    return (
+        <IconButton color="primary" id="excelExportButton">
+          <GetAppIcon />
+        </IconButton>
+    );
+  }
+  
   return (
     <>
       <AdminLayout>
@@ -466,7 +475,8 @@ function BudgetProposalPage() {
         loading={getInfoDataMutation.isLoading}
         title={modalTitle}
         maxWidth="md"
-        maxHeight="70%"
+        maxHeight="80%"
+        btnLeft={excelExportButton()}
       >
         <div>
           <ProposalModalInfo

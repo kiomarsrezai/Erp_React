@@ -34,6 +34,7 @@ interface FixedModalProps {
   loading?: boolean;
   title?: string | ReactNode;
   topTitle?: ReactNode;
+  btnLeft?: ReactNode;
   maxWidth?: string;
   maxHeight?: string;
   isNested?: boolean;
@@ -58,6 +59,7 @@ function FixedModal(props: FixedModalProps) {
     topTitle,
     minHeight,
     dontCloseWithBox,
+    btnLeft,
   } = props;
 
   // loading
@@ -98,9 +100,12 @@ function FixedModal(props: FixedModalProps) {
             "جزئیات اطلاعات"
           )}
         </Box>
-        <IconButton size="small" onClick={handleClose}>
-          <CloseIcon fontSize="small" />
-        </IconButton>
+        <div>
+          {btnLeft}
+          <IconButton size="small" onClick={handleClose} style={{paddingRight: 10}}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </div>
       </DialogTitle>
       <DialogContent dividers>
         {loading ? renderLoading : children}
