@@ -34,14 +34,15 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Typography from "@mui/material/Typography";
 import {GetSingleBeforeProposalItemShape} from "../../../../types/beforeproposal-type";
+import SearchIcon from "@mui/icons-material/Search";
 
 
 interface BeforeProposalBudgetFormProps {
   formData: any;
   setFormData: any;
   setCodingId: any;
-  refreshRemain: () => void,
-  remainBalance: any,
+  // refreshRemain: () => void,
+  // remainBalance: any,
 
   isHideLevel5Items: any,
   onlyShowProject: any,
@@ -57,7 +58,7 @@ interface BeforeProposalBudgetFormProps {
 }
 
 function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
-  const { formData, setFormData, printData, refreshRemain, remainBalance, isHideLevel5Items, onlyShowProject, setIsHideLevel5Items, setOnlyShowProject} = props;
+  const { formData, setFormData, printData, isHideLevel5Items, onlyShowProject, setIsHideLevel5Items, setOnlyShowProject} = props;
 
   const userLicenses = userStore((state) => state.permissions);
 
@@ -71,7 +72,7 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
       let result = filterData(data.data);
 
       setSubmitedData(result);
-      refreshRemain()
+      // refreshRemain()
     },
   });
 
@@ -364,12 +365,11 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
                 }
             />
           </Grid>
-
-          {/* <Grid sm={2}>
+          
+          <Grid sm={2}>
             <TextField
               size="small"
-              label="باقیمانده"
-              disabled
+              label="جستجو"
               value={filterText}
               variant="outlined"
               onChange={(e) => setFilterText(e.target.value)}
@@ -382,18 +382,18 @@ function BeforeProposalBudgetForm(props: BeforeProposalBudgetFormProps) {
               }}
               fullWidth
             />
-          </Grid> */}
-
-          <Grid sm={2}>
-            <TextField
-              size="small"
-              label="باقیمانده"
-              disabled
-              value={remainBalance?.toLocaleString('en-US')}
-              variant="outlined"
-              fullWidth
-            />
           </Grid>
+
+          {/*<Grid sm={2}>*/}
+          {/*  <TextField*/}
+          {/*    size="small"*/}
+          {/*    label="باقیمانده"*/}
+          {/*    disabled*/}
+          {/*    value={remainBalance?.toLocaleString('en-US')}*/}
+          {/*    variant="outlined"*/}
+          {/*    fullWidth*/}
+          {/*  />*/}
+          {/*</Grid>*/}
         </Grid>
 
         <FormGroup style={{display: 'flex', flexDirection: 'row'}}>

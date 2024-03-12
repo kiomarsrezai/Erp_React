@@ -67,7 +67,7 @@ function BudgetBeforeProposalPage() {
   const [activeOpenRowId, setActiveOpenRowId] = useState<number | null>(null);
   const [editModalTitle, setEditModalTitle] = useState("");
   const [tableReadTitle, setTableReadTitle] = useState("");
-  const [remainBalance, setRemainBalance] = useState<any>('');
+  // const [remainBalance, setRemainBalance] = useState<any>('');
   const [isOpenChartModal, setIsOpenChartModal] = useState<boolean>(false);
 
   const [isOpenTableProposalReadModal, setIsOpenTableProposalReadModal] = useState(false);
@@ -401,7 +401,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     setIsOpenEditModal(false);
     setEditModalInitialData(null);
     getDataMutation.mutate(formData);
-    refreshRemain();
+    // refreshRemain();
   };
 
 
@@ -492,10 +492,10 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     ? formatTableData(proposalQuery.data?.data)
     : [];
 
-  const refreshRemain = async () => {
-    const result = await proposalBudgetApi.balanceTextBoxRead(formData)
-    setRemainBalance(result.data.balance);
-  }
+  // const refreshRemain = async () => {
+  //   const result = await proposalBudgetApi.balanceTextBoxRead(formData)
+  //   setRemainBalance(result.data.balance);
+  // }
 
   // footer
   const footerMosavabSum = sumFieldsInSingleItemData(
@@ -582,8 +582,8 @@ const [isOpenModal, setIsOpenModal] = useState(false);
               formData={formData}
               setFormData={setFormData}
               setCodingId={setCodingId}
-              refreshRemain={refreshRemain}
-              remainBalance={remainBalance}
+              // refreshRemain={refreshRemain}
+              // remainBalance={remainBalance}
               isHideLevel5Items={isHideLevel5Items}
               onlyShowProject={onlyShowProject}
               setIsHideLevel5Items={setIsHideLevel5Items}
