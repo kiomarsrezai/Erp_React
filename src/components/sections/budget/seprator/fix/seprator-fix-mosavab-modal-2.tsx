@@ -50,6 +50,8 @@ function SepratorFixMosavabModal2(props: SepratorFixMosavabModal2Proos) {
     onSuccess: (data) => {
       const values = getValues();
       queryClient.setQueryData(reactQueryKeys.budget.seprator.getData, data);
+  
+      // @ts-ignore
       onDoneTask(String(values.code));
     },
   });

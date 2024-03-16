@@ -77,6 +77,7 @@ function FixedTable(props: FixedTableProps) {
     clickCell,
   } = props;
 
+  // @ts-ignore
   const VirtuosoTableComponents: TableComponents = React.useMemo(
     () => ({
       Scroller: React.forwardRef<HTMLDivElement>((props, ref) => (

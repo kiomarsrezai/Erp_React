@@ -224,7 +224,7 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
           <Grid container spacing={2}>
             <Grid lg={8}>
               <CKEditor
-                editor={ClassicEditor}
+                editor={ClassicEditor as any}
                 config={{
                   toolbar: [
                     "heading",
@@ -241,6 +241,7 @@ function ProjectMeetingsEditorCard(props: ProjectMeetingsEditorCardProps) {
                 }}
                 data={description}
                 onChange={(event, editor) => {
+                  // @ts-ignore
                   const data = editor.getData();
                   // console.log({ event, editor, data });
                   setDescription(data);

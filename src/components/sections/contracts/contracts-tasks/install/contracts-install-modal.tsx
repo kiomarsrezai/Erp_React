@@ -33,7 +33,7 @@ import { contractsPlacesApi } from "api/contracts/contracts-places-api";
 import { globalConfig } from "config/global-config";
 import { NumericFormat } from "react-number-format";
 import { DatePicker } from "@mui/x-date-pickers";
-import { add, format, newDate } from "date-fns-jalali";
+import jalaliMoment from 'jalali-moment';
 
 interface Props {
   formData: any;
@@ -41,17 +41,17 @@ interface Props {
 
 export default function ContractsInstallModal(props: Props) {
   const { formData } = props;
-
+  
   const handleClickAddBtn = () => {
     setIsOpenInstallModal2(true);
   };
-
+  
   const installQuery = useQuery(["get-install", formData.id], () =>
-    contractsTasksApi.installRead({
-      contractId: formData.id,
-    })
+      contractsTasksApi.installRead({
+        contractId: formData.id,
+      })
   );
-
+  
   const handleOpenAddMode = () => {
     setActionData({
       date: new Date(),
@@ -59,24 +59,24 @@ export default function ContractsInstallModal(props: Props) {
       month: 0,
       yearName: 0,
     });
-
+    
     setActiveItemAction(undefined);
     setActionMode("add");
   };
-
+  
   const tableHeads: TableHeadShape = [
     {
       title: (
-        <div>
-          ردیف
-          <IconButton size="small" color="primary" onClick={handleClickAddBtn}>
-            <MoreVertIcon sx={{ mr: -1.5 }} />
-            <AddIcon />
-          </IconButton>
-          <IconButton size="small" color="primary" onClick={handleOpenAddMode}>
-            <AddIcon />
-          </IconButton>
-        </div>
+          <div>
+            ردیف
+            <IconButton size="small" color="primary" onClick={handleClickAddBtn}>
+              <MoreVertIcon sx={{ mr: -1.5 }} />
+              <AddIcon />
+            </IconButton>
+            <IconButton size="small" color="primary" onClick={handleOpenAddMode}>
+              <AddIcon />
+            </IconButton>
+          </div>
       ),
       name: "number",
       width: "100px",
@@ -98,20 +98,20 @@ export default function ContractsInstallModal(props: Props) {
       width: "100px",
     },
   ];
-
+  
   // modal
   const [isOpenInstallModal2, setIsOpenInstallModal2] = useState(false);
-
+  
   const handleDoneTask = () => {
     setIsOpenInstallModal2(false);
     installQuery.refetch();
   };
-
+  
   // delete
   const [isShowConfrimDelete, setIsShowConfrimDelete] = useState(false);
   const [activeItemAction, setActiveItemAction] =
-    useState<GetSingleSearchContractTaskInstallItemShape>();
-
+      useState<GetSingleSearchContractTaskInstallItemShape>();
+  
   const deleteMutation = useMutation(contractsTasksApi.deleteInstall, {
     onSuccess: () => {
       enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
@@ -121,28 +121,28 @@ export default function ContractsInstallModal(props: Props) {
       handleDoneTask();
     },
   });
-
+  
   const onCancelDelete = () => {
     setIsShowConfrimDelete(false);
   };
-
+  
   const onConfrimDelete = () => {
     deleteMutation.mutate({
       id: activeItemAction?.id,
     });
   };
-
+  
   const handleClickDelete = (
-    item: GetSingleSearchContractTaskInstallItemShape
+      item: GetSingleSearchContractTaskInstallItemShape
   ) => {
     setActiveItemAction(item);
     setIsShowConfrimDelete(true);
   };
-
+  
   // edit
   const [actionMode, setActionMode] = useState<"edit" | "add">();
   const handleClickEditBtn = (
-    item: GetSingleSearchContractTaskInstallItemShape
+      item: GetSingleSearchContractTaskInstallItemShape
   ) => {
     setActiveItemAction(item);
     setActionData({
@@ -153,51 +153,53 @@ export default function ContractsInstallModal(props: Props) {
     });
     setActionMode("edit");
   };
-
+  
   const editMutation = useMutation(contractsTasksApi.updateInstall, {
     onSuccess() {
       cancelEdit();
       handleDoneTask();
     },
   });
-
+  
   const addMutation = useMutation(contractsTasksApi.insertInstall, {
     onSuccess() {
       cancelEdit();
       handleDoneTask();
     },
   });
-
+  
   const onSubmitEditFunctionality = () => {
-    const initNewDate = add(new Date(actionData.date as any), {
-      days: 1,
-      months: -1,
-    });
-    const date = format(initNewDate, "yyyy/MM/dd");
-    const [year, month, day] = date.split("/");
+    const actionDate = jalaliMoment(actionData.date, 'YYYY/MM/DD').locale('fa');
+    const initNewDate = actionDate.add(-1, 'jMonth').add(1, 'jDay').toDate();
+    
+    const date = jalaliMoment(initNewDate).locale('fa').format('jYYYY/jM/jD');
+    const [year, month, day] = date.split('/');
+    
+    const jalaliDate = jalaliMoment(`${year}/${month}/${day}`, 'jYYYY/jM/jD').locale('fa').format('YYYY/MM/DD');
+    
     if (actionMode === "edit") {
       editMutation.mutate({
         ...actionData,
         amount: Number(String(actionData.price).replaceAll(",", "")),
-        date: newDate(Number(year), Number(month), Number(day)),
+        date: jalaliDate,
         id: activeItemAction?.id,
       });
     } else if (actionMode === "add") {
       addMutation.mutate({
         contractId: formData.id,
-        date: newDate(Number(year), Number(month), Number(day)),
+        date: jalaliDate,
         amount: Number(String(actionData.price).replaceAll(",", "")),
         month: +month,
         yearName: +year,
       });
     }
   };
-
+  
   const cancelEdit = () => {
     setActiveItemAction(undefined);
     setActionMode(undefined);
   };
-
+  
   // add and update
   const [actionData, setActionData] = useState<any>({
     date: null,
@@ -205,7 +207,7 @@ export default function ContractsInstallModal(props: Props) {
     month: null,
     yearName: null,
   });
-
+  
   const onChange = (e: any) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -214,39 +216,39 @@ export default function ContractsInstallModal(props: Props) {
       [name]: value,
     }));
   };
-
+  
   const monthlyAmountTextArea = (
-    <NumericFormat
-      customInput={TextField}
-      id="price-request-input"
-      label="مبلغ"
-      variant="outlined"
-      size="small"
-      value={actionData.amount}
-      name={"price"}
-      onChange={onChange}
-      allowLeadingZeros
-      thousandSeparator=","
-      fullWidth
-    />
+      <NumericFormat
+          customInput={TextField}
+          id="price-request-input"
+          label="مبلغ"
+          variant="outlined"
+          size="small"
+          value={actionData.amount}
+          name={"price"}
+          onChange={onChange}
+          allowLeadingZeros
+          thousandSeparator=","
+          fullWidth
+      />
   );
-
+  
   const dateTextArea = (
-    <DatePicker
-      value={new Date(actionData.date)}
-      label="تاریخ شروع"
-      onChange={(newValue: any) =>
-        setActionData((state: any) => ({
-          ...state,
-          date: newValue,
-        }))
-      }
-      slotProps={{
-        textField: { size: "small", fullWidth: true },
-      }}
-    />
+      <DatePicker
+          value={new Date(actionData.date)}
+          label="تاریخ شروع"
+          onChange={(newValue: any) =>
+              setActionData((state: any) => ({
+                ...state,
+                date: newValue,
+              }))
+          }
+          slotProps={{
+            textField: { size: "small", fullWidth: true },
+          }}
+      />
   );
-
+  
   // add
   const addElements = {
     monthlyAmount: monthlyAmountTextArea,
@@ -254,76 +256,76 @@ export default function ContractsInstallModal(props: Props) {
     number: "افزودن",
     actions: () => actionButtons({} as any),
   };
-
+  
   // data
   const actionButtons = (item: GetSingleSearchContractTaskInstallItemShape) => {
     return (
-      <Stack direction="row" spacing={0.5} justifyContent={"center"}>
-        {(item.id === activeItemAction?.id && actionMode === "edit") ||
-        (actionMode === "add" && !item?.id) ? (
-          <>
-            <IconButton
-              color="success"
-              size="small"
-              onClick={onSubmitEditFunctionality}
-            >
-              <CheckIcon />
-            </IconButton>
-
-            <IconButton color="error" size="small" onClick={cancelEdit}>
-              <CloseIcon />
-            </IconButton>
-          </>
-        ) : (
-          <>
-            <IconButton
-              size="small"
-              color="error"
-              onClick={() => handleClickDelete(item)}
-            >
-              <DeleteIcon />
-            </IconButton>
-
-            <IconButton
-              size="small"
-              color="primary"
-              onClick={() => handleClickEditBtn(item)}
-            >
-              <EditIcon />
-            </IconButton>
-          </>
-        )}
-      </Stack>
+        <Stack direction="row" spacing={0.5} justifyContent={"center"}>
+          {(item.id === activeItemAction?.id && actionMode === "edit") ||
+          (actionMode === "add" && !item?.id) ? (
+              <>
+                <IconButton
+                    color="success"
+                    size="small"
+                    onClick={onSubmitEditFunctionality}
+                >
+                  <CheckIcon />
+                </IconButton>
+                
+                <IconButton color="error" size="small" onClick={cancelEdit}>
+                  <CloseIcon />
+                </IconButton>
+              </>
+          ) : (
+              <>
+                <IconButton
+                    size="small"
+                    color="error"
+                    onClick={() => handleClickDelete(item)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+                
+                <IconButton
+                    size="small"
+                    color="primary"
+                    onClick={() => handleClickEditBtn(item)}
+                >
+                  <EditIcon />
+                </IconButton>
+              </>
+          )}
+        </Stack>
     );
   };
   const formatTableData = (
-    unFormatData: GetSingleSearchContractTaskInstallItemShape[]
+      unFormatData: GetSingleSearchContractTaskInstallItemShape[]
   ): any[] => {
     const formatedData: any[] = unFormatData.map((item, i) => ({
       ...item,
       monthlyAmount:
-        actionMode === "edit" && activeItemAction?.id === item.id
-          ? monthlyAmountTextArea
-          : item.monthlyAmount,
+          actionMode === "edit" && activeItemAction?.id === item.id
+              ? monthlyAmountTextArea
+              : item.monthlyAmount,
       dateShamsi:
-        actionMode === "edit" && activeItemAction?.id === item.id
-          ? dateTextArea
-          : item.dateShamsi,
+          actionMode === "edit" && activeItemAction?.id === item.id
+              ? dateTextArea
+              : item.dateShamsi,
       number: i + 1,
       actions: () => actionButtons(item),
     }));
-
+    
     return formatedData;
   };
-
+  
   const tableData = formatTableData(installQuery.data?.data || []);
-
+  
   const finalTableData = [addElements, ...tableData];
-
+  
   // footer
   const sumPrice = sumFieldsInSingleItemData(
-    installQuery.data?.data,
-    "monthlyAmount"
+      installQuery.data?.data,
+      "monthlyAmount"
   );
   const tableFooter = {
     dateShamsi: null,
@@ -331,40 +333,40 @@ export default function ContractsInstallModal(props: Props) {
     number: "جمع",
     monthlyAmount: sumPrice,
   };
-
+  
   return (
-    <>
-      <FixedTable
-        heads={tableHeads}
-        data={actionMode === "add" ? finalTableData : tableData}
-        footer={tableFooter}
-        notFixed
-      />
-
-      {/* modal */}
-      <FixedModal
-        open={isOpenInstallModal2}
-        handleClose={() => setIsOpenInstallModal2(false)}
-        maxWidth="sm"
-        maxHeight="50%"
-        title={
-          "افزودن قسط به قرارداد شماره " + formData[contractsTasksConfig.number]
-        }
-      >
-        <ContractsInstallModal2
-          formData={formData}
-          onDoneTask={handleDoneTask}
+      <>
+        <FixedTable
+            heads={tableHeads}
+            data={actionMode === "add" ? finalTableData : tableData}
+            footer={tableFooter}
+            notFixed
         />
-      </FixedModal>
-
-      {/* delete */}
-      <ConfrimProcessModal
-        onCancel={onCancelDelete}
-        onConfrim={onConfrimDelete}
-        open={isShowConfrimDelete}
-        text={`آیا مایل به حذف قسط ${activeItemAction?.dateShamsi} هستید ؟`}
-        title="حذف آیتم"
-      />
-    </>
+        
+        {/* modal */}
+        <FixedModal
+            open={isOpenInstallModal2}
+            handleClose={() => setIsOpenInstallModal2(false)}
+            maxWidth="sm"
+            maxHeight="50%"
+            title={
+                "افزودن قسط به قرارداد شماره " + formData[contractsTasksConfig.number]
+            }
+        >
+          <ContractsInstallModal2
+              formData={formData}
+              onDoneTask={handleDoneTask}
+          />
+        </FixedModal>
+        
+        {/* delete */}
+        <ConfrimProcessModal
+            onCancel={onCancelDelete}
+            onConfrim={onConfrimDelete}
+            open={isShowConfrimDelete}
+            text={`آیا مایل به حذف قسط ${activeItemAction?.dateShamsi} هستید ؟`}
+            title="حذف آیتم"
+        />
+      </>
   );
 }
