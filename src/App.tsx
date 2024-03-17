@@ -1,4 +1,4 @@
-import router from "router";
+import router from "./router";
 import CssBaseline from "@mui/material/CssBaseline";
 import ThemeProvider from "@mui/system/ThemeProvider";
 import RightToLeft from "components/layout/right-to-left";

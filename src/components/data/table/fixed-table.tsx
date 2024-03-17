@@ -16,7 +16,6 @@ import { ReactNode, useState } from "react";
 import { TableHeadShape, TableHeadGroupShape } from "types/table-type";
 import { numberWithCommas } from "helper/calculate-utils";
 import { globalConfig } from "config/global-config";
-import classNames from "classnames";
 import { Tooltip } from "@mui/material";
 
 const formatDataCell = (
@@ -310,11 +309,9 @@ function FixedTable(props: FixedTableProps) {
           key={i}
           dir={typeof row[name] === "number" ? "ltr" : "rtl"}
           // title="salam"
-          onClick={
-            clickCell
-              ? (e) => e.ctrlKey && clickCell(name as any, row as any)
-              : undefined
-          }
+          onClick={clickCell
+              ? (e) => e.ctrlKey && clickCell && clickCell(name as any, row as any)
+              : undefined}
           style={{direction: item.dir??item.dir}}
           sx={{
             // width: row[`width-${name}`] || null,
@@ -528,10 +525,8 @@ function FixedTable(props: FixedTableProps) {
             <TableBody>
               {sortedData.map((row: any, i: number) => (
                 <TableRow
-                  className={classNames({
-                    "pulse-many-animation": row.bgcolor_pulse,
-                  })}
-                  id={row.row_id || undefined}
+                    className={row.bgcolor_pulse ? "pulse-many-animation" : ""}
+                    id={row.row_id || undefined}
                   sx={{
                     transition: "background ease 0.1s",
                     "&:last-child td, &:last-child th": { border: 0 },

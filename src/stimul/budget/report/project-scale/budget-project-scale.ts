@@ -17,7 +17,7 @@ import {
 import { getBgColorBudget } from "helper/get-color-utils";
 import { enqueueSnackbar } from "notistack";
 import {GetSingleProgramScaleShape} from "../../../../types/data/project/program-project-type";
-const XLSX = require("xlsx-js-style/dist/xlsx.bundle");
+import * as XLSX from "xlsx-js-style"
 
 interface StimulOptionsShape {
     year?: string;

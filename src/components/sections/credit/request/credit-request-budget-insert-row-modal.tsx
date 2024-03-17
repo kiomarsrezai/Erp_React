@@ -10,13 +10,12 @@ import { sumFieldsInSingleItemData } from "helper/calculate-utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { creditRequestApi } from "api/credit/credit-request-api";
 import { creditRequestConfig } from "config/features/credit/credit-request-config";
-import { reactQueryKeys } from "config/react-query-keys-config";
 import { Box, Checkbox, TextField } from "@mui/material";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
 import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 import { generalFieldsConfig } from "config/features/general-fields-config";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import { Unstable_Grid2 as Grid } from "@mui/material";
 
 interface TableDataItemShape {
   number: ReactNode;

@@ -1,7 +1,7 @@
 import FixedTable from "components/data/table/fixed-table";
 import IconButton from "@mui/material/IconButton";
 import green from "@mui/material/colors/green";
-import Grid from "@mui/material/Unstable_Grid2";
+import { Unstable_Grid2 as Grid } from "@mui/material";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import FixedModal from "components/ui/modal/fixed-modal";
 import RevenueChartModal2 from "./revenue-chart-modal-2";

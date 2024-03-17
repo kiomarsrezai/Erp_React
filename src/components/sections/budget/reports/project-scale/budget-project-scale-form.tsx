@@ -1,4 +1,4 @@
-import Grid from "@mui/material/Unstable_Grid2";
+import { Unstable_Grid2 as Grid } from "@mui/material";
 import Box from "@mui/material/Box";
 import BudgetMethodInput from "components/sections/inputs/budget-method-input";
 import SectionGuard from "components/auth/section-guard";

@@ -9,7 +9,7 @@ import {
 } from "helper/export-utils";
 import { getBgColorBudget } from "helper/get-color-utils";
 import { enqueueSnackbar } from "notistack";
-const XLSX = require("xlsx-js-style/dist/xlsx.bundle");
+import * as XLSX from "xlsx-js-style"
 
 interface StimulOptionsShape {
     year?: string;

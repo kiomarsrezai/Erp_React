@@ -3,7 +3,7 @@ import CardContent from "@mui/material/CardContent";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import Grid from "@mui/material/Unstable_Grid2";
+import { Unstable_Grid2 as Grid } from "@mui/material";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";

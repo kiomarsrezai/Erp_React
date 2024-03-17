@@ -83,6 +83,7 @@ function LoginForm() {
   });
 
   const onSubmitHandler = (values: any) => {
+    // @ts-ignore
     loginMutation.mutate(values);
   };
 

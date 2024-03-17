@@ -1,10 +1,7 @@
-import Grid from "@mui/material/Unstable_Grid2";
+import { Unstable_Grid2 as Grid } from "@mui/material";
 import Box from "@mui/material/Box";
 import LoadingButton from "@mui/lab/LoadingButton";
-import YearInput from "components/sections/inputs/year-input";
 import SectionGuard from "components/auth/section-guard";
-import PrintIcon from "@mui/icons-material/Print";
-import IconButton from "@mui/material/IconButton";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FormEvent, ReactNode, useEffect, useState } from "react";

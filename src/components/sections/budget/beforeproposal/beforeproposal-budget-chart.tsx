@@ -5,7 +5,7 @@ import {reactQueryKeys} from "../../../../config/react-query-keys-config";
 import FixedChart from "../../../data/chart/fixed-chart";
 import Box from "@mui/material/Box";
 import {useState} from "react";
-import Grid from "@mui/material/Unstable_Grid2";
+import { Unstable_Grid2 as Grid } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import FixedModal from "../../../ui/modal/fixed-modal";
 import BeforeproposalBudgetAmountsTable from "./beforeproposal-budget-amounts-table";

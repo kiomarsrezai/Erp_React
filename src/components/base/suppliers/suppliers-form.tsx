@@ -1,4 +1,4 @@
-import Grid from "@mui/material/Unstable_Grid2";
+import { Unstable_Grid2 as Grid } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import SuppliersInput from "components/sections/inputs/suppliers-input";

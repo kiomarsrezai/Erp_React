@@ -1,7 +1,7 @@
 import { GetSingleContractTaskItemShape } from "types/data/contracts/contracts-tasks-type";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Grid from "@mui/material/Unstable_Grid2";
+import { Unstable_Grid2 as Grid } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import SuppliersModalCreditRequest from "components/sections/credit/request/supplier/suppliers-modal";
 import FixedModal from "components/ui/modal/fixed-modal";

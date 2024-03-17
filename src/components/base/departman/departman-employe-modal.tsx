@@ -1,16 +1,9 @@
-import Grid from "@mui/material/Unstable_Grid2";
-import LoadingButton from "@mui/lab/LoadingButton";
-import SuppliersInput from "components/sections/inputs/suppliers-input";
 import CheckIcon from "@mui/icons-material/Check";
 import IconButton from "@mui/material/IconButton";
-import { Box, Checkbox, TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { reactQueryKeys } from "config/react-query-keys-config";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { suppliersApi } from "api/credit/suppliers-api";
-import { suppliersConfig } from "config/features/credit/suppliers-config";
-import { checkHaveValue } from "helper/form-utils";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 import FixedTable from "components/data/table/fixed-table";
 import { TableHeadGroupShape, TableHeadShape } from "types/table-type";
 import {
@@ -56,7 +49,7 @@ function DepartmanEmployeModal(props: DepartmanEmployeModalProps) {
 
   // const [isOpenInsertModal, setIsOpenInsertModal] = useState(false);
 
-  // const modalDataMutation = useMutation(departmanAcceptorApi.getEmployeData);
+  // const modalDataMutation: UseMutationResult = useMutation(departmanAcceptorApi.getEmployeData);
 
   // const addClick = () => {
   //   // modalDataMutation.mutate({

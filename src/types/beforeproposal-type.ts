@@ -13,8 +13,8 @@ export interface GetSingleBeforeProposalItemShape {
     crud: boolean;
     totalMosavab: number;
     totalExpense: number;
-    percent: number;
-    percent2: number;
+    percent: number|string;
+    percent2: number|string;
     areaId?:number
   }
 

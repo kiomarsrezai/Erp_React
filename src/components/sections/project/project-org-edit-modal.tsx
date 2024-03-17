@@ -1,4 +1,4 @@
-import Grid from "@mui/material/Unstable_Grid2";
+import { Unstable_Grid2 as Grid } from "@mui/material";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import * as yup from "yup";

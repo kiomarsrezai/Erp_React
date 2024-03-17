@@ -33,16 +33,10 @@ import {
   GetSingleContractPlacesItemShape,
   GetSingleContractPlacesPrivateItemShape,
 } from "types/data/contracts/contracts-places-type";
-import { contractsPlacesApi } from "api/contracts/contracts-places-api";
-import { contractsPlacesConfig } from "config/features/contracts/conreacts-places-config";
-import FixedModal from "components/ui/modal/fixed-modal";
-import { enqueueSnackbar } from "notistack";
-import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import { Unstable_Grid2 as Grid } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { DatePicker } from "@mui/x-date-pickers";
 import { contractsMotalebApi } from "api/contracts/contracts-motaleb-api";
-import { checkHaveValue } from "helper/form-utils";
 
 interface Props {
   formData: any;
