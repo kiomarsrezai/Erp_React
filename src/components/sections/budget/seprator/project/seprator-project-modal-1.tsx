@@ -91,7 +91,7 @@ function SepratorProjectModal1(props: SepratorProjectModal1props) {
         </div>
       </>
     );
-    setModal1ProjectId(row?.projectId as any);
+    setModal1ProjectId(row?.id as any);
     sepratorAreaMutation.mutate(formData);
     setIsOpenAreaModal(true);
   };
