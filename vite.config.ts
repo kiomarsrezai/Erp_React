@@ -26,7 +26,7 @@ export default defineConfig({
                         return `fonts/[name][extname]`;
                     }
                     
-                    if (ext === 'png' || ext === 'svg' || ext === 'svg') {
+                    if (ext === 'png' || ext === 'svg' || ext === 'jpg' || ext === 'webp') {
                         return `images/[name][extname]`;
                     }
                     

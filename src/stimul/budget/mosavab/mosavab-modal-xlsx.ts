@@ -69,12 +69,6 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
           wrapText: column.wrapText,
         });
         
-        style.fill.fgColor = {
-          rgb: rgbToHex(
-              getBgColorBudget(rowData.levelNumber, sheet.proccessId)
-          ),
-        };
-        
         return {
           v:
               rowData[column.Name] === null || rowData[column.Name] === undefined
@@ -142,22 +136,26 @@ const createData = (data: any, title: string, proccessId: number, budgetMethod: 
         Name: "code",
       },
       {
+        Header: "شرح کد",
+        Name: "codeDesc",
+      },
+      {
         Header: "منطقه",
         Name: "areaName",
       },
       {
         Header: "مصوب",
         Name: "mosavab",
+        Mony: true,
         textAlign: "right",
-        wrapText: true,
       },
       {
-        Header: "مصوب",
+        Header: "اصلاح",
         Name: "editArea",
         Mony: true,
         textAlign: "right",
       },
-      ...(proccessId !== 1
+      ...(proccessId === 1
           ? [
             {
               Header: "ت اعتبار",
@@ -206,8 +204,7 @@ export const mosavabModalXlsx = (exportOptions: StimulOptionsShape) => {
   const data = Object.keys(exportOptions.culmnsData).map((item) =>
       createData(
           exportOptions.culmnsData[item],
-          budgetMethodItems.find((budgetItem) => String(budgetItem.value) === item)
-              ?.label || "",
+          "ریز ارقام",
           Number(item),
           exportOptions.budgetMethod,
           exportOptions.tableFooterShahrdari,

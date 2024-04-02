@@ -190,6 +190,7 @@ function ProposalModalInfo(props: ProposalModalInfoProps) {
   const handleExcelClick = () => {
     tableData.map((item) => {
       item.code = baseRowData.code;
+      item.codeDesc = baseRowData.description;
     });
   
     let culmnsData: any = {};
