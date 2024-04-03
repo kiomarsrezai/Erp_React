@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview && npm run zip",
+    "build": "tsc && vite build && npm run zip",
+    "preview": "vite preview",
     "zip": "bestzip build.zip build/*"
   },
   "eslintConfig": {
