@@ -516,6 +516,7 @@ function SepratoeBudgetForm(props: SepratoeBudgetFormProps) {
           <MonthInput
             setter={setMonthData}
             value={monthData[generalFieldsConfig.MONTH] as any}
+            yearlyLabel={true}
           />
           <IconButton onClick={handleConfrimExcel} size="small" color="primary">
             <CheckIcon />
