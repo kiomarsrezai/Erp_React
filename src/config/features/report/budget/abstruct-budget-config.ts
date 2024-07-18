@@ -4,6 +4,7 @@ export const abstructBudgetConfig = {
   YEAR: generalFieldsConfig.YEAR,
   ORGAN: generalFieldsConfig.ORGAN,
   KIND: generalFieldsConfig.kind,
+  TYPE: generalFieldsConfig.TYPE,
 };
 
 export const abstructBudgetUrls = {

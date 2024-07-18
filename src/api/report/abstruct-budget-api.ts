@@ -16,6 +16,7 @@ export const abstructBudgetApi = new (class extends BaseApi {
       [abstructBudgetConfig.YEAR]: formdata[abstructBudgetConfig.YEAR],
       [abstructBudgetConfig.KIND]: formdata[abstructBudgetConfig.KIND],
       [abstructBudgetConfig.ORGAN]: formdata[abstructBudgetConfig.ORGAN],
+      [abstructBudgetConfig.TYPE]: formdata[abstructBudgetConfig.TYPE],
     };
 
     const url = abstructBudgetUrls.getList + this.joinFilterData(filterData);

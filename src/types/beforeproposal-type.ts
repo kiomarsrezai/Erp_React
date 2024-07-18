@@ -1,3 +1,5 @@
+import {beforeproposalapi} from "../api/budget/pishnahadi-api";
+
 export interface GetSingleBeforeProposalItemShape {
     id: number;
     codingId: number;
@@ -16,6 +18,9 @@ export interface GetSingleBeforeProposalItemShape {
     percent: number|string;
     percent2: number|string;
     areaId?:number
+    remainBudget?:number
+    motavalli?:number
+    mojri?:number
   }
 
 export interface GetSingleSuggestedEditItemShape {

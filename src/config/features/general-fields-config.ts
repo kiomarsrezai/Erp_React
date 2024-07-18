@@ -10,6 +10,7 @@ export const generalFieldsConfig = {
   numbers: "numbers",
   kind: "kindId",
   MONTH: "monthId",
+  TYPE: "type",
 };
 
 export const centerItems: FlotingLabelTextfieldItemsShape = [

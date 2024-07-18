@@ -36,6 +36,7 @@ import NumbersInput from "components/sections/inputs/numbers-input";
 import { convertNumbers } from "helper/number-utils";
 import { abstructBudgetStimul } from "stimul/budget/report/abstruct/abstruct-budget-stimul";
 import { abstructBudgetXlsx } from "stimul/budget/report/abstruct/abstruct-budget-xlsx";
+import FlotingLabelSelect from "../../../ui/inputs/floting-label-select";
 
 interface RevenueChartFormProps {
   formData: any;
@@ -134,6 +135,7 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
     formData[abstructBudgetConfig.ORGAN],
     formData[abstructBudgetConfig.KIND],
     formData[abstructBudgetConfig.YEAR],
+    formData[abstructBudgetConfig.TYPE],
   ]);
 
   // print
@@ -207,6 +209,16 @@ function AbstructBudgetForm(props: RevenueChartFormProps) {
               />
             </Grid>
           </SectionGuard> */}
+          <Grid xs={2}>
+            <FlotingLabelSelect
+                label="نوع"
+                name={generalFieldsConfig.TYPE}
+                setter={setFormData}
+                value={formData[abstructBudgetConfig.TYPE] as string}
+                items={[{value:'mosavab', label:'مصوب'}, {value:'eslahi', label:'اصلاحیه'}]}
+                showError={haveSubmitedForm}
+            />
+          </Grid>
           <SectionGuard
             permission={joinPermissions([
               accessNamesConfig.BUDGET__REPORT_PAGE,

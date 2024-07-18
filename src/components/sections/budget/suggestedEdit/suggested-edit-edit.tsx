@@ -13,6 +13,13 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {generalFieldsConfig} from "../../../../config/features/general-fields-config";
 import {proposalBudgetApi} from "../../../../api/budget/proposal-api";
+import ProctorInput from "../../inputs/proctor-input";
+import ts from "typescript";
+import ProjectInfoTelemetryEvent = ts.server.ProjectInfoTelemetryEvent;
+import ProjectNatureInput from "../../inputs/project-nature-input";
+import {useState} from "react";
+import {abstructBudgetConfig} from "../../../../config/features/report/budget/abstruct-budget-config";
+import {budgetConnectConfig} from "../../../../config/features/budget/budget-connect-config";
 
 interface setEditModalInitialData {
     onDoneTask: () => void;
@@ -43,6 +50,11 @@ function SuggestedEditEdit(props: setEditModalInitialData) {
         onError: () => {},
     });
     
+    const [modalFormData, setModalFormData] = useState({
+        [budgetConnectConfig.proctor]: initialData?.motavalli,
+        [budgetConnectConfig.coding_nature]: initialData?.mojri,
+    });
+    
     const onSubmitHandler = (values: any) => {
         if (initialData) {
             const data = {
@@ -50,6 +62,8 @@ function SuggestedEditEdit(props: setEditModalInitialData) {
                 [generalFieldsConfig.AREA]: initialData?.areaId??formData[generalFieldsConfig.AREA],
                 [generalFieldsConfig.BUDGET_METHOD]: formData[generalFieldsConfig.BUDGET_METHOD],
                 [proposalConfig.coding]: initialData?.codingId,
+                [proposalConfig.motavalli]: modalFormData[budgetConnectConfig.proctor],
+                [proposalConfig.mojri]: modalFormData[budgetConnectConfig.coding_nature],
                 ...values,
             }
     
@@ -72,6 +86,21 @@ function SuggestedEditEdit(props: setEditModalInitialData) {
                         fullWidth
                     />
                 </Grid>
+                <Grid item sm={12}>
+                    <TextField
+                        id="code"
+                        label="کد"
+                        variant="outlined"
+                        multiline
+                        size="small"
+                        {...register("code")}
+                        error={!!errors["code"]}
+                        helperText={(errors.description?.message || "") as any}
+                        defaultValue={initialData?.code}
+                        autoComplete="off"
+                        fullWidth
+                    />
+                </Grid>
     
                 <Grid item sm={12}>
                     <TextField
@@ -88,6 +117,14 @@ function SuggestedEditEdit(props: setEditModalInitialData) {
                         fullWidth
                     />
                 </Grid>
+                <ProctorInput
+                    setter={setModalFormData}
+                    value={modalFormData[budgetConnectConfig.proctor] as any}
+                />
+                <ProjectNatureInput
+                    setter={setModalFormData}
+                    value={modalFormData[budgetConnectConfig.coding_nature] as any}
+                />
             </Stack>
     
             <br/>

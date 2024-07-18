@@ -37,6 +37,7 @@ function AbstructBudgetPage(props: AbstructBudgetProps) {
   const { tabRender } = props;
 
   const [formData, setFormData] = useState({
+    [abstructBudgetConfig.TYPE]: 'mosavab',
     [abstructBudgetConfig.YEAR]: undefined,
     // [abstructBudgetConfig.KIND]: 1, //undefined,
     // [abstructBudgetConfig.ORGAN]: 1, //undefined,

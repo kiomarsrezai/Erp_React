@@ -16,6 +16,8 @@ export const proposalConfig = {
   description: "description",
   mosavab: "mosavab",
   budgetNext: "budgetNext",
+  motavalli: "motavalli",
+  mojri: "mojri",
 };
 
 export const proposalModal1EditConfig = {

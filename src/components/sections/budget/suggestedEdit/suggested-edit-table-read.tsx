@@ -117,7 +117,7 @@ export default function SuggestedEditTableRead({formData, initialData, editButto
             percent: true
         },
         {
-            title: "هزینه ",
+            title: "ثبت هزینه",
             name: "expense",
             align: "left",
             split: true,
@@ -125,21 +125,45 @@ export default function SuggestedEditTableRead({formData, initialData, editButto
             canSort: true
         },
         {
-            title: "تعهدی 1402",
+            title: "متولی",
+            name: "motavalli",
             align: "left",
-            name: "needEditYearNow",
             split: true,
             width: "160px",
             canSort: true
         },
         {
-            title: "جمع ت اعتبار تعهدی",
+            title: "مجری",
+            name: "mojri",
             align: "left",
-            name: "sumSupplyNeedEditYearNow",
             split: true,
             width: "160px",
             canSort: true
         },
+        {
+            title: "باقی مانده ",
+            name: "remainBudget",
+            align: "left",
+            split: true,
+            width: "160px",
+            canSort: true
+        },
+        // {
+        //     title: "تعهدی 1402",
+        //     align: "left",
+        //     name: "needEditYearNow",
+        //     split: true,
+        //     width: "160px",
+        //     canSort: true
+        // },
+        // {
+        //     title: "جمع ت اعتبار تعهدی",
+        //     align: "left",
+        //     name: "sumSupplyNeedEditYearNow",
+        //     split: true,
+        //     width: "160px",
+        //     canSort: true
+        // },
         {
             title: "اصلاح پیشنهادی",
             align: "left",
