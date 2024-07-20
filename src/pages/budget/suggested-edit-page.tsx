@@ -190,7 +190,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
       canSort: true
     },
     {
-      title: "باقی مانده ",
+      title: "باقی مانده تعهدی",
       name: "remainBudget",
       align: "left",
       split: true,
@@ -570,6 +570,12 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     "supply",
     (item: GetSingleSuggestedEditItemShape) => item.levelNumber === 1
   );
+  
+  const footerRemainBudgetAmount = sumFieldsInSingleItemData(
+      proposalQuery.data?.data,
+      "remainBudget",
+      (item: GetSingleSuggestedEditItemShape) => item.levelNumber === 1
+  );
 
   const tableFooter: TableDataItemShape | any = {
     number: "جمع",
@@ -585,7 +591,8 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     supply: footerSupplyAmount,
     expense: footerExpenseSum,
     percentGrow: getPercentGrow(footerEditSum, footerMosavabSum),
-    actions: "",
+    actions: footerRemainBudgetAmount,
+    remainBudget: footerRemainBudgetAmount,
   };
 
   const tableBottomFooter: TableDataItemShape | any = {

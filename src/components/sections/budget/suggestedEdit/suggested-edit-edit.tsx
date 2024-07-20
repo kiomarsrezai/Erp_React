@@ -31,8 +31,9 @@ function SuggestedEditEdit(props: setEditModalInitialData) {
     const { onDoneTask, initialData, formData } = props;
     
     const editFormSchema = yup.object({
-        [proposalConfig.budgetNext]: yup.number().required(),
+        [proposalConfig.budgetNext]: yup.number().min(initialData?.supply, "مبلغ پیشنهادی نباید کمتر از مبلغ تامین اعتبار باشد.").required(),
         [proposalConfig.description]: yup.string().required(),
+        [proposalConfig.code]: yup.number().required(),
     });
     
     const {register, handleSubmit, formState: { errors },} = useForm({
@@ -56,6 +57,7 @@ function SuggestedEditEdit(props: setEditModalInitialData) {
     });
     
     const onSubmitHandler = (values: any) => {
+        console.log(values)
         if (initialData) {
             const data = {
                 [generalFieldsConfig.YEAR]: formData[generalFieldsConfig.YEAR],
@@ -72,6 +74,7 @@ function SuggestedEditEdit(props: setEditModalInitialData) {
     };
     return (
         <Box sx={{ width: "80%", mx: "auto", p: 2 }} component="form" onSubmit={handleSubmit(onSubmitHandler)}>
+            <p style={{color: 'orange', fontSize: 12}}>مبلغ پیشنهادی نباید کمتر از مبلغ تامین اعتبار({initialData?.supply}) باشد</p>
             <Stack spacing={2}>
                 <Grid item sm={12}>
                     <TextField
@@ -81,6 +84,7 @@ function SuggestedEditEdit(props: setEditModalInitialData) {
                         size="small"
                         {...register(proposalConfig.budgetNext)}
                         error={!!errors[proposalConfig.budgetNext]}
+                        helperText={(errors.budgetNext?.message || "") as any}
                         defaultValue={initialData?.budgetNext || ""}
                         autoComplete="off"
                         fullWidth
@@ -91,11 +95,10 @@ function SuggestedEditEdit(props: setEditModalInitialData) {
                         id="code"
                         label="کد"
                         variant="outlined"
-                        multiline
                         size="small"
                         {...register("code")}
                         error={!!errors["code"]}
-                        helperText={(errors.description?.message || "") as any}
+                        helperText={(errors.code?.message || "") as any}
                         defaultValue={initialData?.code}
                         autoComplete="off"
                         fullWidth
@@ -120,10 +123,12 @@ function SuggestedEditEdit(props: setEditModalInitialData) {
                 <ProctorInput
                     setter={setModalFormData}
                     value={modalFormData[budgetConnectConfig.proctor] as any}
+                    showError={true}
                 />
                 <ProjectNatureInput
                     setter={setModalFormData}
                     value={modalFormData[budgetConnectConfig.coding_nature] as any}
+                    showError={true}
                 />
             </Stack>
     

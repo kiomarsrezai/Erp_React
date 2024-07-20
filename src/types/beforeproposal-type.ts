@@ -21,6 +21,7 @@ export interface GetSingleBeforeProposalItemShape {
     remainBudget?:number
     motavalli?:number
     mojri?:number
+    supply?:number
   }
 
 export interface GetSingleSuggestedEditItemShape {

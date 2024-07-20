@@ -12,10 +12,11 @@ interface AreaInputProps {
   setter: (prevData: any) => void;
   permissionForm?: string;
   value: number | undefined;
+  showError?: boolean;
 }
 
 function ProctorInput(props: AreaInputProps) {
-  const { setter, value, permissionForm } = props;
+  const { setter, value, permissionForm, showError } = props;
   const userLicenses = userStore((state) => state.permissions);
 
   const areaQuery = useQuery(
@@ -53,6 +54,7 @@ function ProctorInput(props: AreaInputProps) {
       items={inputItems}
       value={value}
       setter={setter}
+      showError={showError}
     />
   );
 }

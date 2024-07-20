@@ -130,7 +130,6 @@ export default function SuggestedEditTableRead({formData, initialData, editButto
             align: "left",
             split: true,
             width: "160px",
-            canSort: true
         },
         {
             title: "مجری",
@@ -138,10 +137,9 @@ export default function SuggestedEditTableRead({formData, initialData, editButto
             align: "left",
             split: true,
             width: "160px",
-            canSort: true
         },
         {
-            title: "باقی مانده ",
+            title: "باقی مانده تعهدی",
             name: "remainBudget",
             align: "left",
             split: true,
