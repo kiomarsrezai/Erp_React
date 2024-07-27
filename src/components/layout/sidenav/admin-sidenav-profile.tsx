@@ -1,6 +1,4 @@
-import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import defaultProfileImg from "assets/images/default-profile.png";
 import useLayoutStore from "hooks/store/layout-store";
@@ -22,7 +20,7 @@ function AdminSidenavProfile() {
                 padding={1}
             >
                 <div className="flex flex-col items-center">
-                    <img src={defaultProfileImg} className="h-20"/>
+                    <img src={defaultProfileImg} className={normalize? 'h-10':'h-20'}/>
                     {!normalize && (
                         <div className="pt-4">
                             <Typography variant="body1" fontWeight="bold" color="GrayText" className="text-center">

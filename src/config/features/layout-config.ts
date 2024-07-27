@@ -48,11 +48,23 @@ import ContractsMotaleb from "pages/contracts/contracts-motaleb";
 import BudgetBeforeProposalPage from "pages/budget/beforeproposal-page";
 import SuggestedEditPage from "../../pages/budget/suggested-edit-page";
 
+
+import ReportIcon from '@mui/icons-material/Report';
+import MemoryIcon from '@mui/icons-material/Memory';
+import GavelIcon from '@mui/icons-material/Gavel';
+import LocalAtmIcon from '@mui/icons-material/LocalAtm';
+import StoreIcon from '@mui/icons-material/Store';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
+import StorageIcon from '@mui/icons-material/Storage';
+import OutputIcon from '@mui/icons-material/Output';
+
+
 export const sidenavsLayout: SidenavShape[] = [
   // report
   {
     title: "گزارشات",
-    icon: CircleIcon,
+    icon: ReportIcon,
     items: [
       {
         title: "گزارش بر اساس درصد",
@@ -65,7 +77,7 @@ export const sidenavsLayout: SidenavShape[] = [
   // budget
   {
     title: "فرایندهای بودجه",
-    icon: CircleIcon,
+    icon: MemoryIcon,
     items: [
       {
         title: "بودجه پیشنهادی",
@@ -186,7 +198,7 @@ export const sidenavsLayout: SidenavShape[] = [
   {
     title: "گزارشات بودجه",
     path: "/budget/report",
-    icon: AssessmentIcon,
+    icon: ReportIcon,
     licenseName: accessNamesConfig.BUDGET__REPORT_PAGE,
     element: BudgetReportsPage,
     permissionItems: [
@@ -245,7 +257,7 @@ export const sidenavsLayout: SidenavShape[] = [
   // contracts
   {
     title: "قراردادها",
-    icon: CircleIcon,
+    icon: CreditCardIcon,
     items: [
       // {
       //   title: "مدیریت قرارداد ها",
@@ -279,7 +291,7 @@ export const sidenavsLayout: SidenavShape[] = [
   // financial
   {
     title: "امور مالی",
-    icon: CircleIcon,
+    icon: LocalAtmIcon,
     items: [
       {
         title: "حساب های انتظامی",
@@ -344,7 +356,7 @@ export const sidenavsLayout: SidenavShape[] = [
   // treasury
   {
     title: "خزانه داری",
-    icon: CircleIcon,
+    icon: AccountBalanceIcon,
     items: [
       {
         title: "درخواست وجه",
@@ -357,24 +369,24 @@ export const sidenavsLayout: SidenavShape[] = [
   // store
   {
     title: "انبار",
-    icon: CircleIcon,
+    icon: StoreIcon,
     items: [
       {
         title: "معرفی کدینگ کالا",
-        icon: CircleIcon,
+        icon: ApartmentIcon,
         licenseName: accessNamesConfig.STORE__CODING_PAGE,
         path: "/",
       },
 
       {
         title: "رسید انبار",
-        icon: CircleIcon,
+        icon: StoreIcon,
         licenseName: accessNamesConfig.STORE__DOCUMENT_PAGE,
         path: "/",
       },
       {
         title: "خروجی انبار",
-        icon: CircleIcon,
+        icon: OutputIcon,
         licenseName: accessNamesConfig.STORE__OUTPUT_PAGE,
         path: "/",
       },
@@ -403,7 +415,7 @@ export const sidenavsLayout: SidenavShape[] = [
   // project
   {
     title: "کنترل پروژه",
-    icon: CircleIcon,
+    icon: ReceiptLongIcon,
     items: [
       {
         title: "برنامه عملیاتی",
@@ -442,7 +454,7 @@ export const sidenavsLayout: SidenavShape[] = [
   // plans
   {
     title: "برنامه ریزی",
-    icon: CircleIcon,
+    icon: AccessTimeFilledIcon,
     items: [
       {
         title: "شاخص",
@@ -555,7 +567,7 @@ export const sidenavsLayout: SidenavShape[] = [
   // base
   {
     title: "اطلاعات پایه",
-    icon: CircleIcon,
+    icon: StorageIcon,
     items: [
       {
         title: "دسترسی ها",

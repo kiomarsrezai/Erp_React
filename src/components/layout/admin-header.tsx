@@ -97,35 +97,35 @@ function AdminHeader() {
               </Typography>
             </Box>
 
-            <Box
-              component={"img"}
-              src={logoImg}
-              alt="logo"
-              height={"55px"}
-              sx={{ bgcolor: alpha(grey[100], 0.3), borderRadius: 2 }}
-            />
+            {/*<Box*/}
+            {/*  component={"img"}*/}
+            {/*  src={logoImg}*/}
+            {/*  alt="logo"*/}
+            {/*  height={"55px"}*/}
+            {/*  sx={{ bgcolor: alpha(grey[100], 0.3), borderRadius: 2 }}*/}
+            {/*/>*/}
 
             <Box
               display={"flex"}
               alignItems={"center"}
               justifyContent={"space-between"}
             >
-              <>
-                <span style={{paddingLeft: '16px'}}>v {globalConfig.version}</span>
-                <IconButton color="inherit" onClick={handleClickNotification}>
-                  <Badge
-                    badgeContent={423}
-                    color="error"
-                    anchorOrigin={{ horizontal: "left", vertical: "top" }}
-                  >
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton>
-                <Notifications
-                  anchorEl={anchorNotification}
-                  onClose={closeNotifications}
-                />
-              </>
+              {/*<>*/}
+              {/*  <span style={{paddingLeft: '16px'}}>v {globalConfig.version}</span>*/}
+              {/*  <IconButton color="inherit" onClick={handleClickNotification}>*/}
+              {/*    <Badge*/}
+              {/*      badgeContent={423}*/}
+              {/*      color="error"*/}
+              {/*      anchorOrigin={{ horizontal: "left", vertical: "top" }}*/}
+              {/*    >*/}
+              {/*      <NotificationsIcon />*/}
+              {/*    </Badge>*/}
+              {/*  </IconButton>*/}
+              {/*  <Notifications*/}
+              {/*    anchorEl={anchorNotification}*/}
+              {/*    onClose={closeNotifications}*/}
+              {/*  />*/}
+              {/*</>*/}
 
               <IconButton
                 color="inherit"

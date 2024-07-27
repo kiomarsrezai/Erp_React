@@ -17,10 +17,22 @@ import "react-medium-image-zoom/dist/styles.css";
 import { reactQueryClient } from "config/react-query-keys-config";
 import Localization from "components/layout/localization";
 import { useEffect } from "react";
+import {orange} from "@mui/material/colors";
 
 // material ui theme
 const theme = createTheme({
   direction: "rtl",
+  palette: {
+    primary: {
+      // main: '#2F3C7E',
+      // main: '#FFBB00',
+      // main: '#735DA5',
+      // main: '#00246B',
+      // main: '#B85042',
+      main: orange[500],
+      // main: 'rgb(56, 188, 213)',
+    },
+  },
 });
 
 function App() {
