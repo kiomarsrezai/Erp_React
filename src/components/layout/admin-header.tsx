@@ -90,7 +90,7 @@ function AdminHeader() {
                 <MenuIcon />
               </IconButton>
               <Typography variant="h6" component="div">
-                سامانه ERP
+                {globalConfig.siteTitle}
                 <Typography variant="caption" sx={{ ml: 1 }}>
                   ( سازمان فاوا اهواز )
                 </Typography>

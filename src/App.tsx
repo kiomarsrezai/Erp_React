@@ -1,3 +1,4 @@
+import "./index.css";
 import router from "./router";
 import CssBaseline from "@mui/material/CssBaseline";
 import ThemeProvider from "@mui/system/ThemeProvider";
@@ -8,6 +9,7 @@ import { RouterProvider, useLocation } from "react-router-dom";
 import { createTheme } from "@mui/material/styles";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
+// @ts-ignore
 import "config/yup-config.ts";
 import "assets/styles/font.css";
 import "assets/styles/global.css";

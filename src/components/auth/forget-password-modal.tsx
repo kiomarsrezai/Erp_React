@@ -28,8 +28,7 @@ function ForgetPasswordModal() {
 
   return (
     <Box component="form" padding={3} onSubmit={handleSubmit(submitHandler)}>
-      <Grid container justifyContent="center" spacing={2}>
-        <Grid>
+        <div className="flex flex-col">
           <TextField
             id="phone-input"
             label="شماره موبایل"
@@ -41,13 +40,11 @@ function ForgetPasswordModal() {
             }
             fullWidth
           />
-        </Grid>
-        <Grid>
-          <Button variant="contained" color="primary" type="submit">
+          <div className="py-2"></div>
+          <Button variant="contained" color="primary" type="submit" className="w-full">
             تایید
           </Button>
-        </Grid>
-      </Grid>
+        </div>
     </Box>
   );
 }

@@ -381,25 +381,25 @@ export const sidenavsLayout: SidenavShape[] = [
     ],
   },
   // property
-  {
-    title: "اموال و دارایی ها",
-    icon: CircleIcon,
-    items: [
-      {
-        title: "وسایل نقلیه موتوری",
-        icon: CircleIcon,
-        licenseName: accessNamesConfig.PROPERTY__MOTOR_PAGE,
-        element: PropertyMotor,
-        path: "/property/motor",
-      },
-      {
-        title: "تاسیسات و تجهیزات",
-        icon: CircleIcon,
-        licenseName: accessNamesConfig.PROPERTY__INSTALLATION_PAGE,
-        path: "/",
-      },
-    ],
-  },
+  // {
+  //   title: "اموال و دارایی ها",
+  //   icon: CircleIcon,
+  //   items: [
+  //     {
+  //       title: "وسایل نقلیه موتوری",
+  //       icon: CircleIcon,
+  //       licenseName: accessNamesConfig.PROPERTY__MOTOR_PAGE,
+  //       element: PropertyMotor,
+  //       path: "/property/motor",
+  //     },
+  //     {
+  //       title: "تاسیسات و تجهیزات",
+  //       icon: CircleIcon,
+  //       licenseName: accessNamesConfig.PROPERTY__INSTALLATION_PAGE,
+  //       path: "/",
+  //     },
+  //   ],
+  // },
   // project
   {
     title: "کنترل پروژه",
@@ -453,105 +453,105 @@ export const sidenavsLayout: SidenavShape[] = [
     ],
   },
   // estate
-  {
-    title: "املاک اختصاصی و آزادسازی",
-    icon: CircleIcon,
-    items: [
-      {
-        title: "معرفی املاک در مسیر",
-        path: "/",
-        icon: CircleIcon,
-        licenseName: accessNamesConfig.ESTATE__INTRODUCTION_PAGE,
-      },
-      {
-        title: "املاک اختصاصی شهرداری",
-        icon: CircleIcon,
-        path: "/places/private",
-        licenseName: accessNamesConfig.ESTATE__POSSESSION_PAGE,
-        element: ContractsPlaces,
-      },
-      {
-        title: "آزادسازی",
-        icon: CircleIcon,
-        path: "/",
-        licenseName: accessNamesConfig.ESTATE__FREE_PAGE,
-      },
-      {
-        title: "گزارشات",
-        icon: CircleIcon,
-        path: "/",
-        licenseName: accessNamesConfig.ESTATE__REPORTS_PAGE,
-      },
-    ],
-  },
+  // {
+  //   title: "املاک اختصاصی و آزادسازی",
+  //   icon: CircleIcon,
+  //   items: [
+  //     {
+  //       title: "معرفی املاک در مسیر",
+  //       path: "/",
+  //       icon: CircleIcon,
+  //       licenseName: accessNamesConfig.ESTATE__INTRODUCTION_PAGE,
+  //     },
+  //     {
+  //       title: "املاک اختصاصی شهرداری",
+  //       icon: CircleIcon,
+  //       path: "/places/private",
+  //       licenseName: accessNamesConfig.ESTATE__POSSESSION_PAGE,
+  //       element: ContractsPlaces,
+  //     },
+  //     {
+  //       title: "آزادسازی",
+  //       icon: CircleIcon,
+  //       path: "/",
+  //       licenseName: accessNamesConfig.ESTATE__FREE_PAGE,
+  //     },
+  //     {
+  //       title: "گزارشات",
+  //       icon: CircleIcon,
+  //       path: "/",
+  //       licenseName: accessNamesConfig.ESTATE__REPORTS_PAGE,
+  //     },
+  //   ],
+  // },
   // stable
-  {
-    title: "نت دارایی های ثابت",
-    icon: CircleIcon,
-    items: [
-      {
-        title: "وسایل نقریه موتوری",
-        icon: CircleIcon,
-        items: [
-          {
-            title: "تعمیرات",
-            icon: CircleIcon,
-            path: "/",
-            licenseName: accessNamesConfig.STABLE__MOTOR__EDIT_PAGE,
-          },
-          {
-            title: "سوخت",
-            icon: CircleIcon,
-            path: "/",
-            licenseName: accessNamesConfig.STABLE__MOTOR__FUEL_PAGE,
-          },
-          {
-            title: "بیمه",
-            icon: CircleIcon,
-            path: "/",
-            licenseName: accessNamesConfig.STABLE__MOTOR__INSURANCE_PAGE,
-          },
-          {
-            title: "خلافی",
-            icon: CircleIcon,
-            path: "/",
-            licenseName: accessNamesConfig.STABLE__MOTOR__FOUL_PAGE,
-          },
-          {
-            title: "معاینه فنی",
-            icon: CircleIcon,
-            path: "/",
-            licenseName: accessNamesConfig.STABLE__MOTOR__EXAMINATION_PAGE,
-          },
-        ],
-      },
-    ],
-  },
+  // {
+  //   title: "نت دارایی های ثابت",
+  //   icon: CircleIcon,
+  //   items: [
+  //     {
+  //       title: "وسایل نقریه موتوری",
+  //       icon: CircleIcon,
+  //       items: [
+  //         {
+  //           title: "تعمیرات",
+  //           icon: CircleIcon,
+  //           path: "/",
+  //           licenseName: accessNamesConfig.STABLE__MOTOR__EDIT_PAGE,
+  //         },
+  //         {
+  //           title: "سوخت",
+  //           icon: CircleIcon,
+  //           path: "/",
+  //           licenseName: accessNamesConfig.STABLE__MOTOR__FUEL_PAGE,
+  //         },
+  //         {
+  //           title: "بیمه",
+  //           icon: CircleIcon,
+  //           path: "/",
+  //           licenseName: accessNamesConfig.STABLE__MOTOR__INSURANCE_PAGE,
+  //         },
+  //         {
+  //           title: "خلافی",
+  //           icon: CircleIcon,
+  //           path: "/",
+  //           licenseName: accessNamesConfig.STABLE__MOTOR__FOUL_PAGE,
+  //         },
+  //         {
+  //           title: "معاینه فنی",
+  //           icon: CircleIcon,
+  //           path: "/",
+  //           licenseName: accessNamesConfig.STABLE__MOTOR__EXAMINATION_PAGE,
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
   // energy
-  {
-    title: "انرژی",
-    icon: CircleIcon,
-    items: [
-      {
-        title: "آب",
-        icon: CircleIcon,
-        path: "/",
-        licenseName: accessNamesConfig.ENERGY__WATER_PAGE,
-      },
-      {
-        title: "برق",
-        icon: CircleIcon,
-        path: "/",
-        licenseName: accessNamesConfig.ENERGY__ELECTEICITY_PAGE,
-      },
-      {
-        title: "گاز",
-        icon: CircleIcon,
-        path: "/",
-        licenseName: accessNamesConfig.ENERGY__GAS_PAGE,
-      },
-    ],
-  },
+  // {
+  //   title: "انرژی",
+  //   icon: CircleIcon,
+  //   items: [
+  //     {
+  //       title: "آب",
+  //       icon: CircleIcon,
+  //       path: "/",
+  //       licenseName: accessNamesConfig.ENERGY__WATER_PAGE,
+  //     },
+  //     {
+  //       title: "برق",
+  //       icon: CircleIcon,
+  //       path: "/",
+  //       licenseName: accessNamesConfig.ENERGY__ELECTEICITY_PAGE,
+  //     },
+  //     {
+  //       title: "گاز",
+  //       icon: CircleIcon,
+  //       path: "/",
+  //       licenseName: accessNamesConfig.ENERGY__GAS_PAGE,
+  //     },
+  //   ],
+  // },
   // base
   {
     title: "اطلاعات پایه",
