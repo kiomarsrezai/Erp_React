@@ -1,54 +1,35 @@
 import AdminLayout from "components/layout/admin-layout";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-
-import { globalConfig } from "config/global-config";
+import CustomCard from "../components/ui/card/custom-card";
 
 function WellcomePage() {
   return (
     <AdminLayout>
-      <Box
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="between"
-        height={`calc(100vh - ${globalConfig.headerHeight}px)`}
-      >
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          height="100%"
-        >
-          <Typography variant="body1" color="grey.700">
-            به
-            <Typography
-              variant="body1"
-              color="grey.700"
-              fontWeight="bold"
-              display="inline"
-            >
-              {" "}
-              سامانه ERP{" "}
-            </Typography>
-            خوش آمدید.
-          </Typography>
-        </Box>
-        <Card sx={{ bgcolor: "grey.200", textAlign: "center" }}>
-          <CardContent>
-            <Typography variant="caption" fontWeight="bold" color="grey.600">
-              کلیه حقوق مادی و معنوی این سامانه برای سازمان فن آوری اطلاعات و
-              ارتباطات{" "}
-              <Typography variant="caption" fontWeight="bold" color="grey.800">
-                شهرداری اهواز
-              </Typography>{" "}
-              محفوظ میباشد
-            </Typography>
-          </CardContent>
-        </Card>
-      </Box>
+        <div className="grid grid-cols-12 p-2 gap-2">
+            
+            <CustomCard className="col-span-3" title="کارت شماره 1">
+                <div className="p-2 min-h-[300px]">
+                
+                </div>
+            </CustomCard>
+            
+            
+            <CustomCard className="col-span-6" title="کارت شماره 2">
+                <div className="p-2 min-h-[300px]">aaaaaaaa</div>
+            </CustomCard>
+            <CustomCard className="col-span-3" title="کارت شماره 3">
+                <div className="p-2 min-h-[300px]">aaaaaaaa</div>
+            </CustomCard>
+            
+            <CustomCard className="col-span-4" title="کارت شماره 4">
+                <div className="p-2 min-h-[300px]">aaaaaaaa</div>
+            </CustomCard>
+            <CustomCard className="col-span-5" title="کارت شماره 5">
+                <div className="p-2 min-h-[300px]">aaaaaaaa</div>
+            </CustomCard>
+            <CustomCard className="col-span-3" title="کارت شماره 6">
+                <div className="p-2 min-h-[300px]">aaaaaaaa</div>
+            </CustomCard>
+        </div>
     </AdminLayout>
   );
 }
