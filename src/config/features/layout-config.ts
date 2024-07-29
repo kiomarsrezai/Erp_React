@@ -58,6 +58,7 @@ import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import StorageIcon from '@mui/icons-material/Storage';
 import OutputIcon from '@mui/icons-material/Output';
+import DeviceHubIcon from '@mui/icons-material/DeviceHub';
 
 
 export const sidenavsLayout: SidenavShape[] = [
@@ -419,7 +420,7 @@ export const sidenavsLayout: SidenavShape[] = [
     items: [
       {
         title: "برنامه عملیاتی",
-        icon: CircleIcon,
+        icon: AccountTreeIcon,
         licenseName: accessNamesConfig.PROJECT__PLAN_PAGE,
         path: "/project/program",
         element: ProgramOperationProjectPage,
@@ -616,11 +617,10 @@ export const sidenavsLayout: SidenavShape[] = [
       },
     ],
   },
-
   // others
   {
     title: "سایر",
-    icon: CircleIcon,
+    icon: DeviceHubIcon,
     items: [
       {
         title: "استیجاری ها",

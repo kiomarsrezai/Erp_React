@@ -27,7 +27,9 @@ export default function CustomCard(props: Props){
         <div className={`bg-white base-shadow rounded relative ${props.className??''}`}>
             {headerCard()}
             
-            {props.children}
+            <div>
+                {props.children}
+            </div>
             
             {footerCard()}
         </div>
