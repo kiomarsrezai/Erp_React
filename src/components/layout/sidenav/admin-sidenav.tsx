@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import CopyrightIcon from "@mui/icons-material/Copyright";
 import { useEffect, useState } from "react";
 import { NowDateValue, stimulDateValue } from "helper/export-utils";
+import {globalConfig} from "../../../config/global-config";
 
 function AdminSidenav() {
   const normalize = useLayoutStore((state) => state.normalize);
@@ -80,11 +81,9 @@ function AdminSidenav() {
               fontWeight="bold"
               color="grey.600"
             >
-              {!normalize && (
-                <Typography variant="caption" dir="ltr">
-                  {nowTime}
-                </Typography>
-              )}
+              {/*{!normalize && (*/}
+                <Typography variant="caption" dir="ltr" className="whitespace-nowrap">V {globalConfig.version}</Typography>
+              {/*)}*/}
             </Typography>
           </CardContent>
         </Card>

@@ -2,26 +2,19 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import LogoutIcon from "@mui/icons-material/Logout";
 import useLayoutStore from "hooks/store/layout-store";
 import FixedModal from "components/ui/modal/fixed-modal";
 import ChnagePasswordForm from "components/auth/chnage-password-form";
-import KeyIcon from "@mui/icons-material/Key";
 import userStore from "hooks/store/user-store";
 import ConfrimProcessModal from "components/ui/modal/confrim-process-modal";
-import logoImg from "assets/images/logos/fava.svg";
-
-import { grey } from "@mui/material/colors";
-import { alpha } from "@mui/system/colorManipulator";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Notifications from "./notifictions";
 import {globalConfig} from "../../config/global-config";
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import PasswordIcon from '@mui/icons-material/Password';
 
 function AdminHeader() {
   const toggleNormalize = useLayoutStore((state) => state.toggleNormalize);
@@ -131,13 +124,13 @@ function AdminHeader() {
                 color="inherit"
                 onClick={handleOpenChangePasswordModal}
               >
-                <KeyIcon />
+                <PasswordIcon />
               </IconButton>
               <IconButton
                 color="inherit"
                 onClick={() => setConfrimSignoutModal(true)}
               >
-                <LogoutIcon />
+                <ExitToAppIcon/>
               </IconButton>
             </Box>
           </Box>
