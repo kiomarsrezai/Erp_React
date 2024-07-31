@@ -31,7 +31,7 @@ export default function CustomCard(props: Props){
                 {props.children}
             </div>
             
-            {footerCard()}
+            {/*{footerCard()}*/}
         </div>
     );
 }

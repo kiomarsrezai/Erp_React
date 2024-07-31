@@ -1,4 +1,7 @@
 export const accessNamesConfig = {
+  // dashboard
+  DASHBOARD_PAGE: "dashboard-page",
+  
   // report
   REPORT__PERCENT_PAGE: "report-percent",
 

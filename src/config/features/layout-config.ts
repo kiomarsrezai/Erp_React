@@ -59,9 +59,17 @@ import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import StorageIcon from '@mui/icons-material/Storage';
 import OutputIcon from '@mui/icons-material/Output';
 import DeviceHubIcon from '@mui/icons-material/DeviceHub';
-
+import DashboardPage from "../../pages/dashboard-page";
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 export const sidenavsLayout: SidenavShape[] = [
+  {
+    title: "داشبورد",
+    path: "/dashboard",
+    icon: DashboardIcon,
+    licenseName: accessNamesConfig.DASHBOARD_PAGE,
+    element: DashboardPage,
+  },
   // report
   {
     title: "گزارشات",
