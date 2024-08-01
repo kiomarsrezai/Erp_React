@@ -340,7 +340,7 @@ function DashboardPage() {
         },
         {
             title: "%تحقق",
-            name: "percentTaminEtebarCurrent",
+            name: "percentTaminEtebarCurrentAction",
             topTitle: "اعتبارات هزینه ای",
             percent: true,
         },
@@ -361,7 +361,7 @@ function DashboardPage() {
         },
         {
             title: "%تحقق",
-            name: "percentTaminEtebarTamalokSarmaye",
+            name: "percentTaminEtebarTamalokSarmayeAction",
             topTitle: "تملک سرمایه ای",
             percent: true,
         },
@@ -375,6 +375,15 @@ function DashboardPage() {
         },
     ];
     
+    
+    const percentTaminEtebarCurrentAction = (value: number) => {
+        return (
+            <div className="relative">
+                <div className="bg-blue-400 h-full top-0 left-0 absolute" style={{width: `${value}%`}}></div>
+                <span className="relative">{value}%</span>
+            </div>
+        );
+    }
     // @ts-ignore
     const formatTableData = (
         unFormatData: BudgetProposalModalRead[]
@@ -383,6 +392,10 @@ function DashboardPage() {
         const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
             ...item,
             number: i + 1,
+            // @ts-ignore
+            percentTaminEtebarCurrentAction: percentTaminEtebarCurrentAction(item.percentTaminEtebarCurrent),
+            // @ts-ignore
+            percentTaminEtebarTamalokSarmayeAction: percentTaminEtebarCurrentAction(item.percentTaminEtebarTamalokSarmaye)
         }));
         
         return formatedData;
@@ -406,10 +419,12 @@ function DashboardPage() {
         "colspan-number": 1,
         mosavabCurrent: sumMosavabCurrent,
         taminEtebarCurrent: sumTaminEtebarCurrent,
-        percentTaminEtebarCurrent: sumPercentTaminEtebarCurrent.toFixed(2) + '%',
+        // @ts-ignore
+        percentTaminEtebarCurrentAction: percentTaminEtebarCurrentAction(sumPercentTaminEtebarCurrent.toFixed(2)  as number),
         mosavabTamalokSaramye: sumMosavabTamalokSaramye,
         taminEtebarAmountTamalokSarmaye: sumTaminEtebarAmountTamalokSarmaye,
-        percentTaminEtebarTamalokSarmaye: sumPercentTaminEtebarTamalokSarmaye.toFixed(2) + '%',
+        // @ts-ignore
+        percentTaminEtebarTamalokSarmayeAction: percentTaminEtebarCurrentAction(sumPercentTaminEtebarTamalokSarmaye.toFixed(2) as number),
         manabe: sumManabe,
     };
     
