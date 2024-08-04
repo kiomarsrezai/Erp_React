@@ -62,6 +62,33 @@ export interface SuggestedEditModalRead {
 }
 
 
+export interface DashboardApiRead {
+    id: number,
+    areaName: string,
+    mosavabDramad: number,
+    expenseMonthDramad: number,
+    percentDramad: number,
+    mosavabCurrent: number,
+    taminEtebarCurrent: number,
+    percentTaminEtebarCurrent: number,
+    expenseMonthCurrent: number,
+    percentCurrent: number,
+    mosavabTamalokSaramye: number,
+    taminEtebarAmountTamalokSarmaye: number,
+    percentTaminEtebarTamalokSarmaye: number,
+    expenseTamalokSarmaye: number,
+    percentExpenseTamalokSarmaye: number,
+    percentTamalokSarmaye: number,
+    mosavabTamalokMali: number,
+    taminEtebarTamalokMali: number,
+    percentTaminEtebarTamalokMali: number,
+    expenseTamalokMali: number,
+    percentExpenseTamalokMali: number,
+    percentTamalokMali: number,
+    manabe: number
+}
+
+
 //   export interface GetSingleDetailProposalItemShape {
 //     code: string;
 //     description: string;

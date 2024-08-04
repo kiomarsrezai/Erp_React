@@ -1,13 +1,21 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
+import {getRangeColor} from "../../../helper/calculate-utils";
 
-const GaugeChart = ({ value }) => {
+interface Props {
+    value: any,
+    color?: string|undefined
+}
+
+const GaugeChart = ({value, color}: Props) => {
     const data = [
-        { name: 'Value', value },
+        //@ts-ignore
+        { name: 'Value', value: value - 0},
+        //@ts-ignore
         { name: 'Rest', value: 100 - value }
     ];
     
-    const COLORS = ['#8884d8', '#e0e0e0'];
+    const COLORS = [color?? '#8884d8', '#e0e0e0'];
     
     return (
         <ResponsiveContainer width="100%" height="100%">
@@ -31,8 +39,9 @@ const GaugeChart = ({ value }) => {
                     textAnchor="middle"
                     dominantBaseline="middle"
                     className="progress-label"
-                    style={{ fontSize: '24px', fontWeight: 'bold' }}
-                >
+                    color="red"
+                    fill="#fff"
+                    style={{ fontSize: '21px', fontWeight: 'bold'}}>
                     {`${value}%`}
                 </text>
             </PieChart>

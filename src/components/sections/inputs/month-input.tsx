@@ -13,6 +13,7 @@ interface TrazKindInputProps {
   permissionForm?: string;
   showError?: boolean;
   yearlyLabel?: boolean;
+  title?: string;
 }
 
 function MonthInput(props: TrazKindInputProps) {
@@ -20,7 +21,7 @@ function MonthInput(props: TrazKindInputProps) {
 
   return (
     <FlotingLabelSelect
-      label="ماه"
+      label={props.title??'ماه'}
       name={generalFieldsConfig.MONTH}
       items={props.yearlyLabel? [...monthItems, ...[{value: 13, label: 'سالانه'}]] : monthItems}
       value={value}

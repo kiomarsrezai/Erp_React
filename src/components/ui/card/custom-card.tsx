@@ -10,7 +10,7 @@ export default function CustomCard(props: Props){
     
     function headerCard(): ReactNode{
         return !props.title? (<></>) :(
-            <div className="flex justify-center items-center text-[13px] font-bold bg-gray-500 text-white py-2.5 rounded-t">{props.title}</div>
+            <div className="flex justify-center items-center text-[13px] font-bold bg-dark3 text-white py-2.5 rounded-t border-b border-gray-200">{props.title}</div>
         );
     }
     
@@ -18,16 +18,16 @@ export default function CustomCard(props: Props){
         return !props.title? (<></>) :(
             <>
                 <div className="h-10"></div>
-                <div className="flex justify-center items-center text-[13px] font-bold bg-gray-200 py-2.5 rounded-b absolute w-full bottom-0">آخرین بروزرسانی 10 ساعت پیش</div>
+                <div className="flex justify-center items-center text-[13px] font-bold bg-dark3 py-2.5 rounded-b absolute w-full bottom-0">آخرین بروزرسانی 10 ساعت پیش</div>
             </>
         );
     }
     
     return (
-        <div className={`bg-white base-shadow rounded relative ${props.className??''}`}>
+        <div className={`base-shadow rounded relative bg-dark2 text-white ${props.className??''}`}>
             {headerCard()}
             
-            <div className="bg-gray-200">
+            <div>
                 {props.children}
             </div>
             

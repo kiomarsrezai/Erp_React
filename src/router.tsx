@@ -1,11 +1,10 @@
-import LoginPage from "pages/auth/login-page";
-
 import PageGuard from "components/auth/page-guard.";
 import WellcomePage from "pages/wellcome-page";
 
 import { createBrowserRouter } from "react-router-dom";
 import { SidenavShape } from "types/layout-type";
 import { sidenavsLayout } from "config/features/layout-config";
+import LoginPage from "./pages/auth/login-page";
 
 let routerItems = [
   {

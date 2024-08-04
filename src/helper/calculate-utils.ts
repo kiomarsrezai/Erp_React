@@ -40,3 +40,45 @@ export const getPercentFloat = (
   const result = ((a / b) * 100).toFixed(count);
   return result;
 };
+
+export function priceFormat(price: any){
+  try {
+    if(!isNaN(price)){
+      return parseInt(price).toLocaleString('en-US');
+    }
+  }catch (e) {}
+  
+  return '';
+}
+
+export function getRangeColor(value: any, month: any){
+  //@ts-ignore
+  month = parseInt(month);
+  const percentage = (month / 12) * 100;
+  
+  const minSuccessPercentage = percentage * 0.9;
+  const maxSuccessPercentage = percentage * 1.1;
+  
+  const minYellowPercentage = percentage * 0.7;
+  const maxYellowPercentage = percentage * 1.3;
+  
+  const successColor = 'green';
+  const yellowColor = 'yellow';
+  const redColor = 'red';
+  
+  console.log('================');
+  console.log(percentage, value)
+  
+  if(minSuccessPercentage <= value && value <= maxSuccessPercentage){
+    return successColor;
+  } else if (minYellowPercentage <= value && value <= maxYellowPercentage){
+    return yellowColor;
+  }
+  
+  return redColor;
+}
+
+export function reFormatAmount(amount: number){
+  //@ts-ignore
+  return parseInt(amount / 1000);
+}

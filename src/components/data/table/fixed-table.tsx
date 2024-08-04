@@ -57,6 +57,9 @@ interface FixedTableProps {
   enableVirtual?: boolean;
   tableLayout?: "fixed" | "auto";
   bgcolor?: string;
+  bgFooterAndHeader?: string;
+  colorFooterAndHeader?: string;
+  padding?: number;
   clickCell?: (whichColumn: string, row: any) => void;
 }
 function FixedTable(props: FixedTableProps) {
@@ -74,6 +77,9 @@ function FixedTable(props: FixedTableProps) {
     moreBottomFooter,
     tableLayout,
     clickCell,
+    padding,
+    bgFooterAndHeader,
+    colorFooterAndHeader,
   } = props;
 
   // @ts-ignore
@@ -187,7 +193,7 @@ function FixedTable(props: FixedTableProps) {
                 sx={{
                   borderColor: grey[borderColor],
                   bgcolor: grey[200],
-                  p: 1,
+                  p: padding??1,
                 }}
                 align="left"
                 colSpan={topHeadGroup.colspan}
@@ -208,11 +214,12 @@ function FixedTable(props: FixedTableProps) {
                 sx={{
                   borderRight: 1,
                   borderColor: grey[borderColor],
-                  bgcolor: grey[200],
+                  bgcolor: bgFooterAndHeader??grey[200],
+                  color: colorFooterAndHeader??'#000000',
                   "&:last-child": {
                     borderRight: 0,
                   },
-                  p: 1,
+                  p: padding??1,
                   position: headGroup.sticky ? "sticky" : "static",
                   left: 0,
                 }}
@@ -237,14 +244,16 @@ function FixedTable(props: FixedTableProps) {
                     borderRight: 1,
                     borderColor: grey[borderColor],
                     width: head.width || null,
-                    bgcolor: grey[200],
-                    //   top: headGroups ? headGroupHright : 0,
+                    bgcolor: bgFooterAndHeader??grey[200],
+                    color: colorFooterAndHeader??'#000000',
+                      
+                      //   top: headGroups ? headGroupHright : 0,
                     whiteSpace: "nowrap",
                     "&:last-child": {
                       borderRight: head.forceHaveBorder ? 1 : 0,
                       borderColor: grey[borderColor],
                     },
-                    p: 1,
+                    p: padding??1,
                     ...(head.canSort && { cursor: "pointer" }),
                   }}
                   align="center"
@@ -293,7 +302,7 @@ function FixedTable(props: FixedTableProps) {
             sx={{
               bgcolor: row[`bgcolor-${name}`] || "inherit",
               color: row[`textcolor-${name}`] || "#000",
-              p: 1,
+              p: padding??1,
               textAlign: row[`textAlign-${name}`] || item.align,
               borderRight: `1px solid ${grey[300]} !important`,
             }}
@@ -317,7 +326,7 @@ function FixedTable(props: FixedTableProps) {
             // width: row[`width-${name}`] || null,
             bgcolor: row[`bgcolor-${name}`] || "inherit",
             color: row[`textcolor-${name}`] || "#000",
-            p: 1,
+            p: padding??1,
             textAlign: row[`textAlign-${name}`] || item.align,
             borderRight: `1px solid ${grey[300]} !important`,
             position: item.sticky ? "sticky" : "static",
@@ -351,11 +360,11 @@ function FixedTable(props: FixedTableProps) {
                 borderRight: 1,
                 borderTop: 1,
                 borderColor: grey[borderColor],
-                bgcolor: grey[200],
+                bgcolor: bgFooterAndHeader??grey[200],
+                color: colorFooterAndHeader??'#000000',
                 fontWeight: 500,
                 whiteSpace: "nowrap",
-                p: 1,
-                color: "#000",
+                p: padding??1,
                 "&:last-child": {
                   borderRight: 0,
                 },
@@ -393,7 +402,7 @@ function FixedTable(props: FixedTableProps) {
                 bgcolor: bottomFooter[`bgcolor-row`] || grey[200],
                 fontWeight: 500,
                 whiteSpace: "nowrap",
-                p: 1,
+                p: padding??1,
                 color: bottomFooter[`textcolor-${name}`] || "#000",
                 "&:last-child": {
                   borderRight: 0,
@@ -437,7 +446,7 @@ function FixedTable(props: FixedTableProps) {
                     grey[200],
                   fontWeight: 500,
                   whiteSpace: "nowrap",
-                  p: 1,
+                  p: padding??1,
                   color: moreBottomFooter[`textcolor-${name}`] || "#000",
                   "&:last-child": {
                     borderRight: 0,
