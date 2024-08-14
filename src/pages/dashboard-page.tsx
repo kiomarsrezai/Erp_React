@@ -258,12 +258,14 @@ function DashboardPage() {
     
     const submitMutation = useMutation(mainRequestApi.getData, {
         onSuccess: (data) => {
-            setRes(data.data);
+            // @ts-ignore
+            setRes(data.data.response);
         },
     });
     const submitMutation2 = useMutation(mainRequestApi.getData2, {
         onSuccess: (data) => {
-            setRes2(data.data);
+            // @ts-ignore
+            setRes2(data.data.response);
         },
     });
     
