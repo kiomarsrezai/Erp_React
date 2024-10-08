@@ -126,7 +126,7 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
     XLSX.writeFile(wb, filename + ".xlsx");
 };
 
-const createData = (data: any, title: string, proccessId: number) => {
+const createData = (data: any, title: string, proccessId: number, yearLabel: string) => {
     const sumMosavab = sumFieldsInSingleItemData(data, "mosavab");
     const sumEdit = sumFieldsInSingleItemData(data, "edit");
     const sumSupply = sumFieldsInSingleItemData(data, "supply",);
@@ -158,31 +158,31 @@ const createData = (data: any, title: string, proccessId: number) => {
                 Name: "projectName",
             },
             {
-                Header: "مصوب 1402",
+                Header: `مصوب ${yearLabel - 1}`,
                 Name: "mosavab",
                 Mony: true,
                 textAlign: "right",
             },
             {
-                Header: "اصلاح 1402",
+                Header: `اصلاح ${yearLabel - 1}`,
                 Name: "edit",
                 Mony: true,
                 textAlign: "right",
             },
             {
-                Header: "ت اعتبار 1402",
+                Header: `ت اعتبار ${yearLabel - 1}`,
                 Name: "supply",
                 Mony: true,
                 textAlign: "right",
             },
             {
-                Header: "هزینه 1402",
+                Header: `هزینه ${yearLabel - 1}`,
                 Name: "expense",
                 Mony: true,
                 textAlign: "right",
             },
             {
-                Header: "مبلغ پیشنهادی 1403",
+                Header: `مبلغ پیشنهادی ${yearLabel}`,
                 Name: "budgetNext",
                 Mony: true,
                 textAlign: "right",
@@ -213,7 +213,8 @@ export const budgetProjectScale = (exportOptions: StimulOptionsShape) => {
             exportOptions.culmnsData[item],
             exportOptions.inputItems.find((budgetItem: any) => String(budgetItem.value) === item)
                 ?.label || "",
-            Number(item)
+            Number(item),
+            exportOptions.year
         )
     );
     // checkExcelFont();

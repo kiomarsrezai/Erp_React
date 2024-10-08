@@ -34,6 +34,11 @@ import BeforeproposalBudgetTableRead
   from "../../components/sections/budget/beforeproposal/beforeproposal-budget-table-read";
 import BeforeproposalBudgetChart from "../../components/sections/budget/beforeproposal/beforeproposal-budget-chart";
 import BarChartIcon from '@mui/icons-material/BarChart';
+import {
+  getGeneralFieldItemCurrentYear,
+  getGeneralFieldItemLastYear,
+  getGeneralFieldItemYear
+} from "../../helper/export-utils";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -60,6 +65,7 @@ function BudgetBeforeProposalPage() {
     [generalFieldsConfig.YEAR]: undefined,
     [generalFieldsConfig.AREA]: undefined,
     [generalFieldsConfig.BUDGET_METHOD]: undefined,
+    [generalFieldsConfig.YEAR_LABEL]: undefined,
   });
 
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
@@ -144,21 +150,21 @@ const [isOpenModal, setIsOpenModal] = useState(false);
       name: "description",
     },
     {
-      title: "مصوب 1402",
+      title: `مصوب ${getGeneralFieldItemLastYear(formData, 1)}`,
       align: "left",
       name: "mosavab",
       split: true,
       width: "160px",
     },
     {
-      title: "اصلاح 1402",
+      title: `اصلاح ${getGeneralFieldItemLastYear(formData, 1)}`,
       align: "left",
       name: "edit",
       split: true,
       width: "160px",
     },
     {
-      title: "پیشنهادی 1403",
+      title: `پیشنهادی ${getGeneralFieldItemCurrentYear(formData, 1)}`,
       align: "left",
       name: "budgetNext",
       split: true,
@@ -172,7 +178,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
       percent: true
     },
     {
-      title: "ت اعتبار 1402",
+      title: `ت اعتبار ${getGeneralFieldItemLastYear(formData, 1)}`,
       name: "creditAmount",
       split: true,
       align: "left",
@@ -180,7 +186,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
       width: "160px",
     },
     {
-      title: "هزینه 1402",
+      title: `هزینه ${getGeneralFieldItemLastYear(formData, 1)}`,
       name: "expense",
       align: "left",
       split: true,

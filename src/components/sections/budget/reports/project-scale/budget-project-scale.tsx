@@ -19,6 +19,7 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import FixedModal from "../../../../ui/modal/fixed-modal";
 import BudgetProjectScaleModal from "./budget-project-scale-modal";
+import {getGeneralFieldItemCurrentYear, getGeneralFieldItemLastYear} from "../../../../../helper/export-utils";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -60,31 +61,31 @@ function BudgetReportProjectScale(props: BudgetReportDeviationProps) {
       align: "left",
     },
     {
-      title: "مصوب 1402",
+      title: `مصوب ${getGeneralFieldItemLastYear(formData ,1)}`,
       name: "mosavab",
       split: true,
       align: "left",
     },
     {
-      title: "اصلاح 1402",
+      title: `اصلاح ${getGeneralFieldItemLastYear(formData ,1)}`,
       name: "edit",
       split: true,
       align: "left",
     },
     {
-      title: "ت اعتبار 1402",
+      title: `ت اعتبار ${getGeneralFieldItemLastYear(formData ,1)}`,
       name: "supply",
       split: true,
       align: "left",
     },
     {
-      title: "هزینه 1402",
+      title: `هزینه ${getGeneralFieldItemLastYear(formData ,1)}`,
       name: "expense",
       split: true,
       align: "left",
     },
     {
-      title: "مبلغ پیشنهادی 1403",
+      title: `مبلغ پیشنهادی ${getGeneralFieldItemCurrentYear(formData ,1)}`,
       name: "budgetNext",
       split: true,
       align: "left",

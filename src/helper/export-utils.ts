@@ -76,6 +76,26 @@ export const getGeneralFieldItemYear = (formData: any, id: number) => {
   return yearLabel;
 };
 
+export const getGeneralFieldItemLastYear = (formData: any, id: number) => {
+  const year =  getGeneralFieldItemYear(formData, id);
+  
+  if(year){
+    return year - 1;
+  }
+  
+  return '';
+};
+
+export const getGeneralFieldItemCurrentYear = (formData: any, id: number) => {
+  const year =  getGeneralFieldItemYear(formData, id);
+  
+  if(year){
+    return year;
+  }
+  
+  return '';
+};
+
 export const getGeneralFieldItemArea = (formData: any, id: number) => {
   const areaLabel =
     (

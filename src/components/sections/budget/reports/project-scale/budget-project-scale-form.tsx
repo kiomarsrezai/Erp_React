@@ -168,6 +168,7 @@ function BudgetReportProjectScaleForm(props: BudgetReportDeviationFormProps) {
       );
     } catch {}
 
+    const yearLabel = getGeneralFieldItemYear(formData, 1);
     const areaLabel = getGeneralFieldItemArea(formData, 3);
   
     budgetProjectScale({
@@ -175,6 +176,7 @@ function BudgetReportProjectScaleForm(props: BudgetReportDeviationFormProps) {
       area: areaLabel,
       inputItems: inputItems,
       setExcelLodaing: setExcelLodaing,
+      year: yearLabel,
     });
   };
 

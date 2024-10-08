@@ -32,6 +32,9 @@ export const accessNamesConfig = {
   BUDGET__SEPRATOR_PAGE_FIX_CODE: "project-fix-code",
   BUDGET__SEPRATOR_PAGE_FIX_MOSAVAB: "project-fix-mosavab",
   BUDGET__SEPRATOR_SET_YEAR: "budget-seprator-set-year",
+  
+  
+  FORMULATION_BUDGET_PAGE: "formulation-budget",
 
   BUDGET__SEPRATOR_CREADITOR_PAGE: "budget-seprator-creditor",
 

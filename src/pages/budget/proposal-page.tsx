@@ -228,22 +228,34 @@ function BudgetProposalPage() {
   ) => (
     <Box display={"flex"} justifyContent={"center"}>
       {/* {formData[proposalConfig.AREA] === 10 && ( */}
-      <IconButton
-        size="small"
-        color="primary"
-        onClick={() => handleOpenInfoModal(row)}
+      <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.BUDGET__PROPOSAL_PAGE,
+          ])}
       >
-        <UnfoldMoreIcon />
-      </IconButton>
+        <IconButton
+          size="small"
+          color="primary"
+          onClick={() => handleOpenInfoModal(row)}
+        >
+          <UnfoldMoreIcon />
+        </IconButton>
+      </SectionGuard>
       {/* )} */}
-
-      <IconButton
-        size="small"
-        color="primary"
-        onClick={() => handleOpenDetailModal(row)}
+      
+      <SectionGuard
+          permission={joinPermissions([
+            accessNamesConfig.BUDGET__PROPOSAL_PAGE,
+          ])}
       >
-        <FormatListBulletedIcon />
-      </IconButton>
+        <IconButton
+          size="small"
+          color="primary"
+          onClick={() => handleOpenDetailModal(row)}
+        >
+          <FormatListBulletedIcon />
+        </IconButton>
+      </SectionGuard>
     </Box>
   );
 

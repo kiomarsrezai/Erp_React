@@ -124,7 +124,7 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
   XLSX.writeFile(wb, filename + ".xlsx");
 };
 
-const createData = (data: any, title: string, proccessId: number) => {
+const createData = (data: any, title: string, proccessId: number, year: string) => {
   const sumMosavab = sumFieldsInSingleItemData(
       data,
       "mosavab",
@@ -170,19 +170,19 @@ const createData = (data: any, title: string, proccessId: number) => {
         wrapText: true,
       },
       {
-        Header: "مصوب 1402",
+        Header: `مصوب ${year - 1}`,
         Name: "mosavab",
         Mony: true,
         textAlign: "right",
       },
       {
-        Header: "اصلاح 1402",
+        Header: `اصلاح ${year - 1}`,
         Name: "edit",
         Mony: true,
         textAlign: "right",
       },
       {
-        Header: "پیشنهادی 1403",
+        Header: `پیشنهادی ${year}`,
         Name: "budgetNext",
         Mony: true,
         textAlign: "right",
@@ -196,7 +196,7 @@ const createData = (data: any, title: string, proccessId: number) => {
       ...(proccessId !== 1
           ? [
             {
-              Header: "ت اعتبار 1402",
+              Header: `ت اعتبار ${year - 1}`,
               Name: "creditAmount",
               Mony: true,
               textAlign: "right",
@@ -204,7 +204,7 @@ const createData = (data: any, title: string, proccessId: number) => {
           ]
           : []),
       {
-        Header: "هزینه 1402",
+        Header: `هزینه ${year - 1}`,
         Name: "expense",
         Mony: true,
         textAlign: "right",
@@ -234,7 +234,8 @@ export const proposalBudgetXlsx = (exportOptions: StimulOptionsShape) => {
           exportOptions.culmnsData[item],
           budgetMethodItems.find((budgetItem) => String(budgetItem.value) === item)
               ?.label || "",
-          Number(item)
+          Number(item),
+          exportOptions.year
       )
   );
   // checkExcelFont();

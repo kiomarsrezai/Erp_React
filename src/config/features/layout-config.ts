@@ -61,6 +61,7 @@ import OutputIcon from '@mui/icons-material/Output';
 import DeviceHubIcon from '@mui/icons-material/DeviceHub';
 import DashboardPage from "../../pages/dashboard-page";
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import FormulationBudget from "../../pages/budget/formulation-budget";
 
 export const sidenavsLayout: SidenavShape[] = [
   {
@@ -154,6 +155,20 @@ export const sidenavsLayout: SidenavShape[] = [
           accessNamesConfig.BUDGET__SEPRATOR_SET_YEAR,
         ],
       },
+      
+      // {
+      //   title: "تدوین بودجه",
+      //   path: "/budget/formulation",
+      //   icon: MoneyIcon,
+      //   licenseName: accessNamesConfig.FORMULATION_BUDGET_PAGE,
+      //   element: FormulationBudget,
+      //   permissionItems: [
+      //     // getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
+      //     // getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 1),
+      //     // accessNamesConfig.FIELD_BUDGET_METHOD,
+      //     // accessNamesConfig.BUDGET__PROPOSAL_ADD_CODE,
+      //   ],
+      // },
       // {
       //   title: "تفکیک اعتبار دهنده",
       //   path: "/budget/seprator-creaditor",

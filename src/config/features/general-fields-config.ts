@@ -13,6 +13,7 @@ export const generalFieldsConfig = {
   TYPE: "type",
   MOTAVALLI: "motavalli",
   MOJRI: "mojri",
+  YEAR_LABEL: "yearLabel",
 };
 
 export const centerItems: FlotingLabelTextfieldItemsShape = [

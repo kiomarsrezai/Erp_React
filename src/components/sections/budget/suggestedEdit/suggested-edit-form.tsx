@@ -341,12 +341,12 @@ function SuggestedEditForm(props: BeforeProposalBudgetFormProps) {
             </Grid>
           </SectionGuard>
           
-          <Grid sm={2}>
-            <ProctorInput setter={setFormData} value={formData[beforeproposalConfig.MOTAVALLI]} name={beforeproposalConfig.MOTAVALLI}/>
-          </Grid>
-          <Grid sm={2}>
-            <ProjectNatureInput setter={setFormData} value={formData[beforeproposalConfig.MOJRI]} name={beforeproposalConfig.MOJRI}/>
-          </Grid>
+          {/*<Grid sm={2}>*/}
+          {/*  <ProctorInput setter={setFormData} value={formData[beforeproposalConfig.MOTAVALLI]} name={beforeproposalConfig.MOTAVALLI}/>*/}
+          {/*</Grid>*/}
+          {/*<Grid sm={2}>*/}
+          {/*  <ProjectNatureInput setter={setFormData} value={formData[beforeproposalConfig.MOJRI]} name={beforeproposalConfig.MOJRI}/>*/}
+          {/*</Grid>*/}
           
           <Grid sm>
             <LoadingButton
