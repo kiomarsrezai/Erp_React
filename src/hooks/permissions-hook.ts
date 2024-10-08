@@ -432,6 +432,23 @@ function usePermissions() {
       label: "مشاهده جدول",
       name: accessNamesConfig.BUDGET__PROPOSAL_DATA_TABLE_CHART,
     },
+    
+    [accessNamesConfig.SUGGESTED__EDIT_DATA_TABLE_READ]: {
+      label: "مشاهده جدول",
+      name: accessNamesConfig.SUGGESTED__EDIT_DATA_TABLE_READ,
+    },
+    [accessNamesConfig.BUDGET__PROPOSAL_ADD_CODE]: {
+      label: "افزودن کد",
+      name: accessNamesConfig.BUDGET__PROPOSAL_ADD_CODE,
+    },
+    [accessNamesConfig.SUGGESTED__EDIT_EDIT_BUTTON]: {
+      label: "دکمه ویرایش",
+      name: accessNamesConfig.SUGGESTED__EDIT_EDIT_BUTTON,
+    },
+    [accessNamesConfig.BUDGET__SEPRATOR_SET_YEAR]: {
+      label: "افزودن به عنوان ریز پروژه",
+      name: accessNamesConfig.BUDGET__SEPRATOR_SET_YEAR,
+    },
 
     // report
 

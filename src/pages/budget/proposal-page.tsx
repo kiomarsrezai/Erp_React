@@ -24,6 +24,9 @@ import { Box } from "@mui/material";
 import ProposalModalInsertCode from "components/sections/budget/proposal/insert-modal/proposal-modal-insert-code";
 import {beforeproposalConfig} from "../../config/features/budget/beforeproposal-config";
 import GetAppIcon from "@mui/icons-material/GetApp";
+import {joinPermissions} from "../../helper/auth-utils";
+import {accessNamesConfig} from "../../config/access-names-config";
+import SectionGuard from "../../components/auth/section-guard";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -276,13 +279,20 @@ function BudgetProposalPage() {
         number: i + 1,
         code: (
           <Box display={"flex"} alignItems={"center"}>
-            <IconButton
-              size="small"
-              color="primary"
-              onClick={() => handleOpenAddCodeModal(item)}
+            <SectionGuard
+                permission={joinPermissions([
+                  accessNamesConfig.BUDGET__PROPOSAL_PAGE,
+                  accessNamesConfig.BUDGET__PROPOSAL_ADD_CODE,
+                ])}
             >
-              <AddIcon />
-            </IconButton>
+              <IconButton
+                size="small"
+                color="primary"
+                onClick={() => handleOpenAddCodeModal(item)}
+              >
+                <AddIcon />
+              </IconButton>
+            </SectionGuard>
             <span>{item.code}</span>
           </Box>
         ),

@@ -36,6 +36,8 @@ import {GetSingleSuggestedEditItemShape} from "../../../../types/beforeproposal-
 import {suggestedEditApi} from "../../../../api/budget/suggested-edit-api";
 import {suggestedEditXlsx} from "../../../../stimul/budget/suggestedEdit/suggested-edit-xlsx";
 import NumbersInput from "../../inputs/numbers-input";
+import ProctorInput from "../../inputs/proctor-input";
+import ProjectNatureInput from "../../inputs/project-nature-input";
 
 
 interface BeforeProposalBudgetFormProps {
@@ -142,7 +144,7 @@ function SuggestedEditForm(props: BeforeProposalBudgetFormProps) {
     queryClient?.setQueryData(reactQueryKeys.budget.proposal.getData, {
       data: [],
     });
-  }, [formData[beforeproposalConfig.YEAR], formData[beforeproposalConfig.AREA], formData[beforeproposalConfig.BUDGET_METHOD], queryClient]);
+  }, [formData[beforeproposalConfig.YEAR], formData[beforeproposalConfig.AREA], formData[beforeproposalConfig.BUDGET_METHOD], formData[beforeproposalConfig.MOJRI], formData[beforeproposalConfig.MOTAVALLI], queryClient]);
 
   // base modal
 //   const [isOpenBaseModal, setIsOpenBaseModal] = useState(false);
@@ -338,6 +340,14 @@ function SuggestedEditForm(props: BeforeProposalBudgetFormProps) {
               />
             </Grid>
           </SectionGuard>
+          
+          <Grid sm={2}>
+            <ProctorInput setter={setFormData} value={formData[beforeproposalConfig.MOTAVALLI]} name={beforeproposalConfig.MOTAVALLI}/>
+          </Grid>
+          <Grid sm={2}>
+            <ProjectNatureInput setter={setFormData} value={formData[beforeproposalConfig.MOJRI]} name={beforeproposalConfig.MOJRI}/>
+          </Grid>
+          
           <Grid sm>
             <LoadingButton
               variant="contained"

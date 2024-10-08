@@ -6,6 +6,8 @@ export const beforeproposalConfig = {
   BUDGET_METHOD: generalFieldsConfig.BUDGET_METHOD,
   // organ: "structureId",
   coding: "codingId",
+  MOTAVALLI: "motavalli",
+  MOJRI: "mojri",
   // code: "code",
   // description: "description",
   // mosavab: "mosavab",

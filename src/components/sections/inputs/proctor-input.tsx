@@ -13,10 +13,11 @@ interface AreaInputProps {
   permissionForm?: string;
   value: number | undefined;
   showError?: boolean;
+  name?: string;
 }
 
 function ProctorInput(props: AreaInputProps) {
-  const { setter, value, permissionForm, showError } = props;
+  const { setter, value, permissionForm, showError, name } = props;
   const userLicenses = userStore((state) => state.permissions);
 
   const areaQuery = useQuery(
@@ -50,7 +51,7 @@ function ProctorInput(props: AreaInputProps) {
   return (
     <FlotingLabelSelect
       label="متولی"
-      name={abstructProctorConfig.PROCTOR}
+      name={name??abstructProctorConfig.PROCTOR}
       items={inputItems}
       value={value}
       setter={setter}

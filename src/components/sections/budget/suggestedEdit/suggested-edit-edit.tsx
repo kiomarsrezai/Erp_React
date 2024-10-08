@@ -57,15 +57,14 @@ function SuggestedEditEdit(props: setEditModalInitialData) {
     });
     
     const onSubmitHandler = (values: any) => {
-        console.log(values)
         if (initialData) {
             const data = {
                 [generalFieldsConfig.YEAR]: formData[generalFieldsConfig.YEAR],
                 [generalFieldsConfig.AREA]: initialData?.areaId??formData[generalFieldsConfig.AREA],
                 [generalFieldsConfig.BUDGET_METHOD]: formData[generalFieldsConfig.BUDGET_METHOD],
                 [proposalConfig.coding]: initialData?.codingId,
-                [proposalConfig.motavalli]: modalFormData[budgetConnectConfig.proctor],
-                [proposalConfig.mojri]: modalFormData[budgetConnectConfig.coding_nature],
+                [proposalConfig.motavalli]: modalFormData[budgetConnectConfig.proctor]??'',
+                [proposalConfig.mojri]: modalFormData[budgetConnectConfig.coding_nature]??'',
                 ...values,
             }
     
@@ -74,7 +73,7 @@ function SuggestedEditEdit(props: setEditModalInitialData) {
     };
     return (
         <Box sx={{ width: "80%", mx: "auto", p: 2 }} component="form" onSubmit={handleSubmit(onSubmitHandler)}>
-            <p style={{color: 'orange', fontSize: 12}}>مبلغ پیشنهادی نباید کمتر از مبلغ تامین اعتبار({initialData?.supply}) باشد</p>
+            <p style={{color: 'orange', fontSize: 12}} className="pb-3">مبلغ پیشنهادی نباید کمتر از مبلغ تامین اعتبار({initialData?.supply}) باشد</p>
             <Stack spacing={2}>
                 <Grid item sm={12}>
                     <TextField
@@ -85,7 +84,7 @@ function SuggestedEditEdit(props: setEditModalInitialData) {
                         {...register(proposalConfig.budgetNext)}
                         error={!!errors[proposalConfig.budgetNext]}
                         helperText={(errors.budgetNext?.message || "") as any}
-                        defaultValue={initialData?.budgetNext || ""}
+                        defaultValue={initialData?.supply}
                         autoComplete="off"
                         fullWidth
                     />
@@ -123,12 +122,10 @@ function SuggestedEditEdit(props: setEditModalInitialData) {
                 <ProctorInput
                     setter={setModalFormData}
                     value={modalFormData[budgetConnectConfig.proctor] as any}
-                    showError={true}
                 />
                 <ProjectNatureInput
                     setter={setModalFormData}
                     value={modalFormData[budgetConnectConfig.coding_nature] as any}
-                    showError={true}
                 />
             </Stack>
     

@@ -12,8 +12,9 @@ export const suggestedEditApi = new (class extends BaseApi {
         const filterData = {
             [beforeproposalConfig.YEAR]: formdata[beforeproposalConfig.YEAR],
             [beforeproposalConfig.AREA]: formdata[beforeproposalConfig.AREA],
-            [beforeproposalConfig.BUDGET_METHOD]:
-                formdata[beforeproposalConfig.BUDGET_METHOD],
+            [beforeproposalConfig.BUDGET_METHOD]: formdata[beforeproposalConfig.BUDGET_METHOD],
+            [beforeproposalConfig.MOJRI]: formdata[beforeproposalConfig.MOJRI],
+            [beforeproposalConfig.MOTAVALLI]: formdata[beforeproposalConfig.MOTAVALLI],
         };
         
         

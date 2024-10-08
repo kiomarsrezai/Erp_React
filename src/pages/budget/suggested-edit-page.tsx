@@ -59,6 +59,8 @@ function SuggestedEditPage() {
     [generalFieldsConfig.YEAR]: undefined,
     [generalFieldsConfig.AREA]: undefined,
     [generalFieldsConfig.BUDGET_METHOD]: undefined,
+    [generalFieldsConfig.MOTAVALLI]: undefined,
+    [generalFieldsConfig.MOJRI]: undefined,
   });
 
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
@@ -386,8 +388,8 @@ const [isOpenModal, setIsOpenModal] = useState(false);
       
       <SectionGuard
           permission={joinPermissions([
-            accessNamesConfig.BUDGET__BeforePROPOSAL_PAGE,
-            accessNamesConfig.BUDGET__PROPOSAL_DATA_TABLE_READ,
+            accessNamesConfig.SUGGESTED__EDIT_PAGE,
+            accessNamesConfig.SUGGESTED__EDIT_DATA_TABLE_READ,
           ])}
       >
         <IconButton
@@ -692,8 +694,8 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     return(
         <SectionGuard
             permission={joinPermissions([
-              accessNamesConfig.BUDGET__BeforePROPOSAL_PAGE,
-              accessNamesConfig.BUDGET__PROPOSAL_EDIT_BUTTON,
+              accessNamesConfig.SUGGESTED__EDIT_PAGE,
+              accessNamesConfig.SUGGESTED__EDIT_EDIT_BUTTON,
             ])}
         >
           <IconButton

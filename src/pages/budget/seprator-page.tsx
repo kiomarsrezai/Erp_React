@@ -26,7 +26,8 @@ import { accessNamesConfig } from "config/access-names-config";
 import SepratorFixCodeModal from "components/sections/budget/seprator/fix/seprator-fix-code-modal";
 import { enqueueSnackbar } from "notistack";
 import { globalConfig } from "config/global-config";
-import SepratorMonthlyModal from "components/sections/budget/seprator/mothly/seprator-monthly-modal";
+import SepratorSetYearModal from "../../components/sections/budget/seprator/fix/seprator-set-year-modal";
+import AddIcon from "@mui/icons-material/Add";
 
 interface TableDataItemShape {
   id: ReactNode;
@@ -228,6 +229,21 @@ document.querySelector('#table-container').scrollTo
     setIsOpenMosavabFixModal(true);
     setBaseInitialItem(item);
   };
+  
+  
+  const [isOpenAddCodeModal, setIsOpenAddCodeModal] = useState(false);
+  const [selectedRow, setSelectedRow] = useState<GetSingleSepratorItemShape>({});
+  
+  const handleOpenAddCodeModal = (row: GetSingleSepratorItemShape) => {
+    setIsOpenAddCodeModal(true);
+    setSelectedRow(row);
+  };
+  
+  const handleCloseAddCodeModal = () => {
+    setIsOpenAddCodeModal(false);
+  };
+  
+  
 
   // actions
   const actionButtons = (row: TableDataItemShape | any) => (
@@ -330,7 +346,28 @@ document.querySelector('#table-container').scrollTo
       (item, i) => ({
         ...item,
         id: i + 1,
-        code: item.code,
+        // code: item.code,
+        code: (
+            <Box display={"flex"} alignItems={"center"}>
+              
+              <SectionGuard
+                  permission={joinPermissions([
+                    accessNamesConfig.BUDGET__SEPRATOR_PAGE,
+                    accessNamesConfig.BUDGET__SEPRATOR_SET_YEAR,
+                  ])}
+              >
+                <IconButton
+                    size="small"
+                    color="primary"
+                    onClick={() => handleOpenAddCodeModal(item)}
+                >
+                  <AddIcon/>
+                </IconButton>
+              </SectionGuard>
+              
+              <span>{item.code}</span>
+            </Box>
+        ),
         description: item.description,
         mosavab: item.mosavab,
         edit: item.edit,
@@ -562,6 +599,17 @@ document.querySelector('#table-container').scrollTo
           formData={formData}
           coding={codingId}
         />
+      </FixedModal>
+      
+      
+      <FixedModal
+          open={isOpenAddCodeModal}
+          handleClose={handleCloseAddCodeModal}
+          title="افزودن به عنوان ریز پروژه"
+          maxWidth="600px"
+          maxHeight="300px"
+      >
+        <SepratorSetYearModal initialData={selectedRow}/>
       </FixedModal>
     </AdminLayout>
   );

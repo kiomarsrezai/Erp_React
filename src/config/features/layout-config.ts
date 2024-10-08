@@ -127,6 +127,7 @@ export const sidenavsLayout: SidenavShape[] = [
           getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
           getPermissionWithLevel(accessNamesConfig.FIELD_AREA, 1),
           accessNamesConfig.FIELD_BUDGET_METHOD,
+          accessNamesConfig.BUDGET__PROPOSAL_ADD_CODE,
         ],
       },
       {
@@ -150,6 +151,7 @@ export const sidenavsLayout: SidenavShape[] = [
           // accessNamesConfig.BUDGET__SEPRATOR_PAGE_EDIT_CODING_BTN,
           accessNamesConfig.BUDGET__SEPRATOR_PAGE_FIX_CODE,
           accessNamesConfig.BUDGET__SEPRATOR_PAGE_FIX_MOSAVAB,
+          accessNamesConfig.BUDGET__SEPRATOR_SET_YEAR,
         ],
       },
       // {

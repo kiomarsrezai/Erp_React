@@ -11,6 +11,8 @@ export const generalFieldsConfig = {
   kind: "kindId",
   MONTH: "monthId",
   TYPE: "type",
+  MOTAVALLI: "motavalli",
+  MOJRI: "mojri",
 };
 
 export const centerItems: FlotingLabelTextfieldItemsShape = [

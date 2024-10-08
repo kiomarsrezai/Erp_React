@@ -7,6 +7,7 @@ const token = localStorage.getItem("token-auth");
 
 const clientAxios = axios.create({
   baseURL: globalConfig.BASE_API_URL,
+  // @ts-ignore
   headers: {
     Authorization: "Bearer " + token,
   },

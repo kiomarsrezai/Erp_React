@@ -16,6 +16,7 @@ export const accessNamesConfig = {
   SUGGESTED__EDIT_EDIT_BUTTON: "edit-button",
   SUGGESTED__EDIT_DATA_TABLE_READ: "budget-proposal-data-table-read",
   
+  BUDGET__PROPOSAL_ADD_CODE: "budget-proposal-add-code",
   
   BUDGET__SEPRATOR_PAGE: "budget-seprator",
   BUDGET__SEPRATOR_PAGE_TAMIN_BTN: "tamin-btn",
@@ -30,6 +31,7 @@ export const accessNamesConfig = {
   BUDGET__SEPRATOR_PAGE_EDIT_CODING_BTN: "coding-edit-btn",
   BUDGET__SEPRATOR_PAGE_FIX_CODE: "project-fix-code",
   BUDGET__SEPRATOR_PAGE_FIX_MOSAVAB: "project-fix-mosavab",
+  BUDGET__SEPRATOR_SET_YEAR: "budget-seprator-set-year",
 
   BUDGET__SEPRATOR_CREADITOR_PAGE: "budget-seprator-creditor",
 
