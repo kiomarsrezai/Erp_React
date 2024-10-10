@@ -18,6 +18,9 @@ export const accessNamesConfig = {
   
   BUDGET__PROPOSAL_ADD_CODE: "budget-proposal-add-code",
   
+  
+  BUDGET_MAXIMUS: "budget-maximus",
+  
   BUDGET__SEPRATOR_PAGE: "budget-seprator",
   BUDGET__SEPRATOR_PAGE_TAMIN_BTN: "tamin-btn",
   BUDGET__SEPRATOR_PAGE_INNER_TAMIN_BTN: "innser-tamin-btn",

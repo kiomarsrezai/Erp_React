@@ -62,6 +62,7 @@ import DeviceHubIcon from '@mui/icons-material/DeviceHub';
 import DashboardPage from "../../pages/dashboard-page";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import FormulationBudget from "../../pages/budget/formulation-budget";
+import BudgetMaximusPage from "../../pages/budget/budget-maximus-page";
 
 export const sidenavsLayout: SidenavShape[] = [
   {
@@ -153,6 +154,16 @@ export const sidenavsLayout: SidenavShape[] = [
           accessNamesConfig.BUDGET__SEPRATOR_PAGE_FIX_CODE,
           accessNamesConfig.BUDGET__SEPRATOR_PAGE_FIX_MOSAVAB,
           accessNamesConfig.BUDGET__SEPRATOR_SET_YEAR,
+        ],
+      },
+      {
+        title: "سهم مناطق",
+        path: "/budget/maximus",
+        icon: MoneyIcon,
+        licenseName: accessNamesConfig.BUDGET_MAXIMUS,
+        element: BudgetMaximusPage,
+        permissionItems: [
+          getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
         ],
       },
       
