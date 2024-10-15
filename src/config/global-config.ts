@@ -1,15 +1,25 @@
 const isDevelopment =
   !process.env.NODE_ENV || process.env.NODE_ENV === "development";
 
+
+function getAppUrl(){
+  let baseUrl = isDevelopment
+      ? "109.201.18.33:80/api/v1/"
+      // ? "192.168.1.136:5000/api/v1/"
+      :
+      "info.ahvaz.ir/api/v1/";
+  
+  if(window.location.protocol === 'http:'){
+    return baseUrl = 'http://' + baseUrl;
+  }else{
+    return baseUrl = 'https://' + baseUrl;
+  }
+}
+
 export const globalConfig = {
   siteTitle: "سامانه برنامه بودجه جدید",
   version: '1.0.0',
-  BASE_API_URL:
-   isDevelopment
-    // ? "http://109.201.18.33:80/api/v1/"
-    ? "http://192.168.1.136:5000/api/v1/"
-    :
-    "https://info.ahvaz.ir/api/v1/", // https://info.ahvaz.ir/ https://localhost:44309/
+  BASE_API_URL: getAppUrl(),
   BASE_MEDIA_URL: "https://info.ahvaz.ir/Resources/", // https://info.ahvaz.ir/ https://localhost:44309/
   SUCCESS_MESSAGE: "عملیات با موفقیت انجام شد",
   ERROR_MESSAGE: "عملیات با خطا مواجه شد",

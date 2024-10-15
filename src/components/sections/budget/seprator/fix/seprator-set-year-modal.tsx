@@ -12,7 +12,7 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 
 interface Props {
-    initialData: GetSingleSepratorItemShape,
+    initialData: any,
 }
 export default function SepratorSetYearModal({initialData}: Props) {
 

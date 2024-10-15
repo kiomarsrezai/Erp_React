@@ -19,7 +19,7 @@ import { enqueueSnackbar } from "notistack";
 import * as XLSX from "xlsx-js-style"
 
 interface StimulOptionsShape {
-  year?: string;
+  year: number;
   numberShow?: string;
   area?: string;
   culmnsData: any;
@@ -124,7 +124,7 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
   XLSX.writeFile(wb, filename + ".xlsx");
 };
 
-const createData = (data: any, title: string, proccessId: number, year: string) => {
+const createData = (data: any, title: string, proccessId: number, year: number) => {
   const sumMosavab = sumFieldsInSingleItemData(
       data,
       "mosavab",
@@ -235,7 +235,7 @@ export const proposalBudgetXlsx = (exportOptions: StimulOptionsShape) => {
           budgetMethodItems.find((budgetItem) => String(budgetItem.value) === item)
               ?.label || "",
           Number(item),
-          exportOptions.year
+          Number(exportOptions.year)
       )
   );
   // checkExcelFont();

@@ -12,9 +12,9 @@ import React from "react";
 export default function BudgetMaximusModal() {
     
     const editFormSchema = yup.object({
-        // [proposalConfig.budgetNext]: yup.number().min(initialData?.supply, "مبلغ پیشنهادی نباید کمتر از مبلغ تامین اعتبار باشد.").required(),
-        // [proposalConfig.description]: yup.string().required(),
-        // [proposalConfig.code]: yup.number().required(),
+        [proposalConfig.budgetNext]: yup.number().required(),
+        [proposalConfig.description]: yup.string().required(),
+        [proposalConfig.code]: yup.number().required(),
     });
     
     const {register, handleSubmit, formState: { errors },} = useForm({
@@ -32,7 +32,7 @@ export default function BudgetMaximusModal() {
                 label="در آمد"
                 variant="outlined"
                 size="small"
-                {...register(proposalConfig.budgetNext)}
+                {...register(proposalConfig.budgetNext) as any}
                 error={!!errors[proposalConfig.budgetNext]}
                 helperText={(errors.budgetNext?.message || "") as any}
                 // defaultValue={initialData?.supply}

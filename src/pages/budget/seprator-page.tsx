@@ -232,7 +232,7 @@ document.querySelector('#table-container').scrollTo
   
   
   const [isOpenAddCodeModal, setIsOpenAddCodeModal] = useState(false);
-  const [selectedRow, setSelectedRow] = useState<GetSingleSepratorItemShape>({});
+  const [selectedRow, setSelectedRow] = useState({});
   
   const handleOpenAddCodeModal = (row: GetSingleSepratorItemShape) => {
     setIsOpenAddCodeModal(true);

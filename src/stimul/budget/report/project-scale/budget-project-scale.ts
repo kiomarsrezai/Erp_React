@@ -20,7 +20,7 @@ import {GetSingleProgramScaleShape} from "../../../../types/data/project/program
 import * as XLSX from "xlsx-js-style"
 
 interface StimulOptionsShape {
-    year?: string;
+    year: number;
     numberShow?: string;
     area?: string;
     culmnsData: any;
@@ -126,7 +126,7 @@ export const ListsToExcel = (Sheets: any, filename: string) => {
     XLSX.writeFile(wb, filename + ".xlsx");
 };
 
-const createData = (data: any, title: string, proccessId: number, yearLabel: string) => {
+const createData = (data: any, title: string, proccessId: number, yearLabel: number) => {
     const sumMosavab = sumFieldsInSingleItemData(data, "mosavab");
     const sumEdit = sumFieldsInSingleItemData(data, "edit");
     const sumSupply = sumFieldsInSingleItemData(data, "supply",);
@@ -214,7 +214,7 @@ export const budgetProjectScale = (exportOptions: StimulOptionsShape) => {
             exportOptions.inputItems.find((budgetItem: any) => String(budgetItem.value) === item)
                 ?.label || "",
             Number(item),
-            exportOptions.year
+            Number(exportOptions.year)
         )
     );
     // checkExcelFont();
