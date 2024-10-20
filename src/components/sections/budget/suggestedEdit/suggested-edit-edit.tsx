@@ -63,8 +63,8 @@ function SuggestedEditEdit(props: setEditModalInitialData) {
                 [generalFieldsConfig.AREA]: initialData?.areaId??formData[generalFieldsConfig.AREA],
                 [generalFieldsConfig.BUDGET_METHOD]: formData[generalFieldsConfig.BUDGET_METHOD],
                 [proposalConfig.coding]: initialData?.codingId,
-                [proposalConfig.motavalli]: modalFormData[budgetConnectConfig.proctor]??'',
-                [proposalConfig.mojri]: modalFormData[budgetConnectConfig.coding_nature]??'',
+                [proposalConfig.proctorId]: modalFormData[budgetConnectConfig.proctor]??'',
+                [proposalConfig.executionId]: modalFormData[budgetConnectConfig.coding_nature]??'',
                 ...values,
             }
     

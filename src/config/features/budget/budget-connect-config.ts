@@ -13,3 +13,8 @@ export const budgetConnectUrls = {
   getNature: "BudgetApi/CodingNatureCom",
   updateItem: "BudgetApi/BudgetConnectUpdate",
 };
+
+export const budgetShareAreaUrls = {
+  getData: "BudgetAreaShareApi/BudgetAreaShareRead",
+  update: "BudgetAreaShareApi/BudgetAreaShareUpdate",
+};

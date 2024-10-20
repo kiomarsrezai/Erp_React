@@ -8,7 +8,7 @@ import {
 import { BaseApiResponseShape } from "types/base-type";
 import {
   TRANSFER_DELETE_CODE_ACC_URL,
-  TRANSFER_DELETE_ROW,
+  TRANSFER_DELETE_ROW, TRANSFER_DELETE_ROWS,
   TRANSFER_INSERT_CODE_ACC_URL,
   TRANSFER_LINK_CODE_ACC_URL,
   TRANSFER_MODAL_URL,
@@ -55,6 +55,14 @@ export const transferApi = new (class extends BaseApi {
     const response = await clientAxios.get<BaseApiResponseShape<boolean>>(url);
     return response.data;
   };
+  
+  deleteRows = async (ids: string) => {
+    const url = TRANSFER_DELETE_ROWS + "?ids=" + ids;
+    
+    const response = await clientAxios.get<BaseApiResponseShape<boolean>>(url);
+    return response.data;
+  };
+  
   // acc
   insertCodeAcc = async (id: number) => {
     const url = TRANSFER_INSERT_CODE_ACC_URL + "?id=" + id;

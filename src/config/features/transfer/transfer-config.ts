@@ -18,3 +18,4 @@ export const TRANSFER_DELETE_CODE_ACC_URL = "VasetApi/DeleteCodeAcc";
 export const TRANSFER_LINK_CODE_ACC_URL = "VasetApi/LinkCodeAcc";
 export const TRANSFER_MODAL_URL = "VasetApi/GetModalVaset";
 export const TRANSFER_DELETE_ROW = "VasetApi/DeleteRow";
+export const TRANSFER_DELETE_ROWS = "VasetApi/DeleteRows";

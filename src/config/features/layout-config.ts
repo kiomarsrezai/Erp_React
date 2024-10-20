@@ -62,7 +62,7 @@ import DeviceHubIcon from '@mui/icons-material/DeviceHub';
 import DashboardPage from "../../pages/dashboard-page";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import FormulationBudget from "../../pages/budget/formulation-budget";
-import BudgetMaximusPage from "../../pages/budget/budget-maximus-page";
+import BudgetAreaSharePage from "../../pages/budget/budget-area-share-page";
 
 export const sidenavsLayout: SidenavShape[] = [
   {
@@ -161,7 +161,7 @@ export const sidenavsLayout: SidenavShape[] = [
         path: "/budget/maximus",
         icon: MoneyIcon,
         licenseName: accessNamesConfig.BUDGET_MAXIMUS,
-        element: BudgetMaximusPage,
+        element: BudgetAreaSharePage,
         permissionItems: [
           getPermissionWithLevel(accessNamesConfig.FIELD_YEAR, 1),
         ],

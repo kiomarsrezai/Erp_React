@@ -2,7 +2,6 @@ import AdminLayout from "components/layout/admin-layout";
 import FixedTable from "components/data/table/fixed-table";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
-import grey from "@mui/material/colors/grey";
 import BalanceIcon from "@mui/icons-material/Balance";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -26,6 +25,10 @@ import { BsEraserFill } from "react-icons/bs";
 import SectionGuard from "components/auth/section-guard";
 import { joinPermissions } from "helper/auth-utils";
 import { accessNamesConfig } from "config/access-names-config";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 
 interface TableDataItemShape {
   number: ReactNode;
@@ -66,7 +69,7 @@ function TransferPage() {
   // table heads
   const tableHeadGroups: TableHeadGroupShape = [
     {
-      title: <TransferForm formData={formData} setFormData={setFormData} />,
+      title: <TransferForm formData={formData} setFormData={setFormData}  deleteGroupUi={deleteGroupUi}/>,
       colspan: 7,
     },
   ];
@@ -291,12 +294,97 @@ function TransferPage() {
     }
     return activeID === item.id ? "#ffb1b1" : prevRowColor;
   };
+  
+  const [deleteIds, setDeleteIds] = useState<number[]>([]);
+  const [isActiveDeleteGroup, setActiveDeleteGroup] = useState<boolean>(false);
+  const [showDeleteGroupModal, setShowDeleteGroupModal] = useState<boolean>(false);
+  const deleteGroup = useMutation(transferApi.deleteRows, {
+    onSuccess: () => {
+      getDataMutation.mutate(formData);
+      enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+        variant: "success",
+      });
+    },
+  });
+  function onDeleteGroup(){
+    setShowDeleteGroupModal(false);
+    if(deleteIds.length !== 0){
+      deleteGroup.mutate(deleteIds.join(','));
+      cancelDeleteGroup();
+    }
+  }
+  function cancelDeleteGroup(){
+    setDeleteIds([]);
+    setActiveDeleteGroup(false);
+  }
+  function deleteGroupUi() {
+    if(transferQuery.data?.data?.length === 0){
+      return (
+          <div></div>
+      );
+    }
+    return(
+      <div className="flex items-center px-2 gap-2">
+        
+        <SectionGuard
+            permission={joinPermissions([
+              accessNamesConfig.FINANCIAL__CODING_PAGE,
+              accessNamesConfig.FINANCIAL__CODING_PAGE_DELETE_ROW,
+            ])}>
+          
+          {!isActiveDeleteGroup ?
+            <Button onClick={() => setActiveDeleteGroup(true)} variant="contained" type="button">حذف گروهی</Button>
+            :(
+              <>
+                <Button onClick={cancelDeleteGroup} variant="contained" type="button">لغو عملیات</Button>
+                <Button onClick={() => setDeleteIds(transferQuery.data?.data.map(item => item.id))} variant="contained" type="button">انتخاب همه</Button>
+              </>
+            )
+          }
+        </SectionGuard>
+        
+        {isActiveDeleteGroup &&
+            <IconButton color="error" size="small">
+              <DeleteIcon onClick={() => setShowDeleteGroupModal(true)}/>
+            </IconButton>
+        }
+      
+      </div>
+    );
+  }
+  function handleChangeDelete(id: number){
+    if (deleteIds.includes(id)) {
+      const newIds = deleteIds.filter(item => item != id)
+      setDeleteIds(newIds);
+    }else{
+      setDeleteIds([...deleteIds, id]);
+    }
+  }
+  
+  function numberTableRow(id, index){
+    if(!isActiveDeleteGroup){
+      return (<div>{ index }</div>);
+    }
+    
+    return (
+        <FormControlLabel
+            control={
+              <Checkbox
+                  checked={deleteIds.includes(id)}
+                  onChange={() => handleChangeDelete(id)}
+              />
+            }
+            label={<Typography variant="body2">{ index }</Typography>}
+        />
+    )
+  }
+  
   const formatTableData = (
     unFormatData: GetSingleTransferItemShape[]
   ): TableDataItemShape[] => {
     const formatedData: TableDataItemShape[] = unFormatData.map((item, i) => ({
       ...item,
-      number: i + 1,
+      number: numberTableRow(item.id, i + 1),
       code: item.code,
       description: item.description,
       mosavab: item.mosavab,
@@ -372,6 +460,13 @@ function TransferPage() {
           insertCodeAccMutation.isLoading ||
           DeleteCodeAccMutation.isLoading
         }
+      />
+      
+      <ConfrimProcessModal
+          open={showDeleteGroupModal}
+          onCancel={() => setShowDeleteGroupModal(false)}
+          onConfrim={onDeleteGroup}
+          text="آیا از حذف گروهی آیتم های انتخاب شده اطمینان دارید؟"
       />
     </AdminLayout>
   );

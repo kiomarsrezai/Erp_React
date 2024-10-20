@@ -10,7 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import BalanceIcon from "@mui/icons-material/Balance";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { FormEvent, useEffect, useState } from "react";
+import {FormEvent, ReactNode, useEffect, useState} from "react";
 import { transferApi } from "api/transfer/transfer-api";
 import { reactQueryKeys } from "config/react-query-keys-config";
 import { accessNamesConfig } from "config/access-names-config";
@@ -25,10 +25,11 @@ import TransferModal1 from "./transfer-modal-1";
 interface TransferFormProps {
   formData: any;
   setFormData: any;
+  deleteGroupUi: () => ReactNode;
 }
 
 function TransferForm(props: TransferFormProps) {
-  const { formData, setFormData } = props;
+  const { formData, setFormData, deleteGroupUi } = props;
 
   const userLicenses = userStore((state) => state.permissions);
 
@@ -187,6 +188,8 @@ function TransferForm(props: TransferFormProps) {
               <BalanceIcon />
             </IconButton>
           </Grid>
+          
+          {deleteGroupUi()}
         </Grid>
       </Box>
 

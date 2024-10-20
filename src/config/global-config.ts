@@ -4,15 +4,15 @@ const isDevelopment =
 
 function getAppUrl(){
   let baseUrl = isDevelopment
-      ? "109.201.18.33:80/api/v1/"
-      // ? "192.168.1.136:5000/api/v1/"
+      // ? "109.201.18.33:80/api/v1/"
+      ? "192.168.1.136:5000/api/v1/"
       :
       "info.ahvaz.ir/api/v1/";
   
   if(window.location.protocol === 'http:'){
-    return baseUrl = 'http://' + baseUrl;
+    return 'http://' + baseUrl;
   }else{
-    return baseUrl = 'https://' + baseUrl;
+    return 'https://' + baseUrl;
   }
 }
 

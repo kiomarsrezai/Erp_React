@@ -7,14 +7,30 @@ import {generalFieldsConfig} from "../../../../config/features/general-fields-co
 import {budgetConnectConfig} from "../../../../config/features/budget/budget-connect-config";
 import {TextField} from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import React from "react";
+import React, {useEffect} from "react";
+import {GetSingleBudgetShareAreaItemShape} from "../../../../types/data/budget/budget-share-area-type";
+import {useMutation} from "@tanstack/react-query";
+import {BaseApiResponseShape} from "../../../../types/base-type";
+import {budgetAreaShare} from "../../../../api/budget/budget-area-share";
 
-export default function BudgetMaximusModal() {
+interface Props {
+    row: GetSingleBudgetShareAreaItemShape,
+    afterUpdate: () => void,
+}
+
+export default function BudgetMaximusModal({row, afterUpdate}: Props) {
     
     const editFormSchema = yup.object({
-        [proposalConfig.budgetNext]: yup.number().required(),
-        [proposalConfig.description]: yup.string().required(),
-        [proposalConfig.code]: yup.number().required(),
+        ['shareProcessId1']: yup.number().required(),
+        ['shareProcessId2']: yup.number().required(),
+        ['shareProcessId3']: yup.number().required(),
+        ['shareProcessId4']: yup.number().required(),
+    });
+    
+    const submitMutation = useMutation(budgetAreaShare.update, {
+        onSuccess: () => {
+            afterUpdate();
+        }
     });
     
     const {register, handleSubmit, formState: { errors },} = useForm({
@@ -22,7 +38,13 @@ export default function BudgetMaximusModal() {
     });
     
     const onSubmitHandler = (values: any) => {
-    
+        submitMutation.mutate({
+            id: row.id,
+            shareProcessId1: values.shareProcessId1,
+            shareProcessId2: values.shareProcessId2,
+            shareProcessId3: values.shareProcessId3,
+            shareProcessId4: values.shareProcessId4,
+        })
     };
     
     return (
@@ -32,10 +54,10 @@ export default function BudgetMaximusModal() {
                 label="در آمد"
                 variant="outlined"
                 size="small"
-                {...register(proposalConfig.budgetNext) as any}
-                error={!!errors[proposalConfig.budgetNext]}
-                helperText={(errors.budgetNext?.message || "") as any}
-                // defaultValue={initialData?.supply}
+                {...register('shareProcessId1') as any}
+                error={!!errors['shareProcessId1']}
+                helperText={(errors['shareProcessId1']?.message || "") as any}
+                defaultValue={row?.shareProcessId1}
                 autoComplete="off"
                 fullWidth
             />
@@ -45,10 +67,10 @@ export default function BudgetMaximusModal() {
                 label="هزینه ای"
                 variant="outlined"
                 size="small"
-                {...register(proposalConfig.budgetNext)}
-                error={!!errors[proposalConfig.budgetNext]}
-                helperText={(errors.budgetNext?.message || "") as any}
-                // defaultValue={initialData?.supply}
+                {...register('shareProcessId2') as any}
+                error={!!errors['shareProcessId2']}
+                helperText={(errors['shareProcessId2']?.message || "") as any}
+                defaultValue={row?.shareProcessId2}
                 autoComplete="off"
                 fullWidth
             />
@@ -58,10 +80,10 @@ export default function BudgetMaximusModal() {
                 label="تملک سرمایه ای"
                 variant="outlined"
                 size="small"
-                {...register(proposalConfig.budgetNext)}
-                error={!!errors[proposalConfig.budgetNext]}
-                helperText={(errors.budgetNext?.message || "") as any}
-                // defaultValue={initialData?.supply}
+                {...register('shareProcessId3') as any}
+                error={!!errors['shareProcessId3']}
+                helperText={(errors['shareProcessId3']?.message || "") as any}
+                defaultValue={row?.shareProcessId3}
                 autoComplete="off"
                 fullWidth
             />
@@ -71,10 +93,10 @@ export default function BudgetMaximusModal() {
                 label="تملک مالی"
                 variant="outlined"
                 size="small"
-                {...register(proposalConfig.budgetNext)}
-                error={!!errors[proposalConfig.budgetNext]}
-                helperText={(errors.budgetNext?.message || "") as any}
-                // defaultValue={initialData?.supply}
+                {...register('shareProcessId4') as any}
+                error={!!errors['shareProcessId4']}
+                helperText={(errors['shareProcessId4']?.message || "") as any}
+                defaultValue={row?.shareProcessId4}
                 autoComplete="off"
                 fullWidth
             />

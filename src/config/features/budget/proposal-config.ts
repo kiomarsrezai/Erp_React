@@ -17,6 +17,8 @@ export const proposalConfig = {
   mosavab: "mosavab",
   budgetNext: "budgetNext",
   motavalli: "motavalli",
+  proctorId: "proctorId",
+  executionId: "executionId",
   mojri: "mojri",
 };
 
@@ -53,7 +55,7 @@ export const propsalBudgetUrls = {
   projectsCodeData: "BudgetApi/BudgetInlineInsertModal",
   
   // update
-  edit: "BudgetPishnahadiApi/BudgetProposalInlineUpdate",
+  edit: "BudgetPishnahadiApi/BudgetProposalEditInlineUpdate",
 
   //sajjad
 
