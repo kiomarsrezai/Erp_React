@@ -68,6 +68,7 @@ export default function BudgetAreaSharePage() {
     function search(e: any){
         e.preventDefault();
         
+        // @ts-ignore
         submitMutation.mutate(formData);
     }
     
@@ -152,6 +153,7 @@ export default function BudgetAreaSharePage() {
     
     
     function afterUpdate(){
+        // @ts-ignore
         submitMutation.mutate(formData);
         setEditModal(false);
     }
@@ -177,7 +179,7 @@ export default function BudgetAreaSharePage() {
                 maxWidth="600px"
                 maxHeight="200px"
             >
-                <BudgetMaximusModal row={row} setEditModal={setEditModal} afterUpdate={afterUpdate}/>
+                <BudgetMaximusModal row={row} afterUpdate={afterUpdate}/>
             </FixedModal>
             
             
