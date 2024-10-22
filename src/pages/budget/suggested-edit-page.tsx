@@ -257,10 +257,15 @@ const [isOpenModal, setIsOpenModal] = useState(false);
   const [onlyShowProject, setOnlyShowProject] = useState(false);
 
   const queryClient = useQueryClient();
+  const [submitedData, setSubmitedData] = useState<any[]>([]);
   const getDataMutation = useMutation(suggestedEditApi.getData, {
     onSuccess: (data) => {
-      data.data = filterData(data.data)
-      queryClient.setQueryData(reactQueryKeys.budget.suggestedEdit.getData, data);
+      
+      console.log('main')
+      console.log(data)
+      let result = filterData(data.data);
+      
+      setSubmitedData(result);
     },
   });
 
@@ -444,6 +449,7 @@ const [isOpenModal, setIsOpenModal] = useState(false);
     setUpdater(updater+1)
     setIsOpenEditModal(false);
     setEditModalInitialData(null);
+    console.log('handleDoneModalEditTask')
     getDataMutation.mutate(formData);
   };
 
@@ -658,6 +664,8 @@ const [isOpenModal, setIsOpenModal] = useState(false);
               setIsHideLevel5Items={setIsHideLevel5Items}
               setOnlyShowProject={setOnlyShowProject}
               formatAndBindData={formatAndBindData}
+              submitedData={submitedData}
+              setSubmitedData={setSubmitedData}
               printData={{
                 data: tableData,
                 footer: tableFooter,

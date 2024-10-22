@@ -50,6 +50,8 @@ interface BeforeProposalBudgetFormProps {
   setIsHideLevel5Items: any,
   setOnlyShowProject: any,
   formatAndBindData: any,
+  submitedData: any,
+  setSubmitedData: any,
 
 
   printData: {
@@ -60,7 +62,7 @@ interface BeforeProposalBudgetFormProps {
 }
 
 function SuggestedEditForm(props: BeforeProposalBudgetFormProps) {
-  const { formData, setFormData, printData, isHideLevel5Items, onlyShowProject, setIsHideLevel5Items, setOnlyShowProject, formatAndBindData} = props;
+  const { formData, setFormData, printData, isHideLevel5Items, onlyShowProject, setIsHideLevel5Items, setOnlyShowProject, formatAndBindData, setSubmitedData, submitedData} = props;
 
   const userLicenses = userStore((state) => state.permissions);
 
@@ -68,9 +70,10 @@ function SuggestedEditForm(props: BeforeProposalBudgetFormProps) {
   const [filterText, setFilterText] = useState("");
 
   const queryClient = useQueryClient();
-  const [submitedData, setSubmitedData] = useState<any[]>([]);
   const submitMutation = useMutation(suggestedEditApi.getData, {
     onSuccess: (data) => {
+      console.log('form')
+      console.log(data)
       let result = filterData(data.data);
 
       setSubmitedData(result);

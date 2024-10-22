@@ -33,7 +33,7 @@ function BeforeproposalBudgetEdit(props: setEditModalInitialData) {
     });
     
     
-    const editCodingMutation = useMutation(proposalBudgetApi.editItem, {
+    const editCodingMutation = useMutation(proposalBudgetApi.editItem2, {
         onSuccess: () => {
             enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
                 variant: "success",
@@ -50,6 +50,8 @@ function BeforeproposalBudgetEdit(props: setEditModalInitialData) {
                 [generalFieldsConfig.AREA]: initialData?.areaId??formData[generalFieldsConfig.AREA],
                 [generalFieldsConfig.BUDGET_METHOD]: formData[generalFieldsConfig.BUDGET_METHOD],
                 [proposalConfig.coding]: initialData?.codingId,
+                [proposalConfig.proctorId]: 0,
+                [proposalConfig.executionId]: 0,
                 ...values,
             }
     
@@ -62,7 +64,7 @@ function BeforeproposalBudgetEdit(props: setEditModalInitialData) {
                 <Grid item sm={12}>
                     <TextField
                         id="budgetNext"
-                        label="مبلغ پیشنهادی 1403"
+                        label="مبلغ پیشنهادی سال جدید"
                         variant="outlined"
                         size="small"
                         {...register(proposalConfig.budgetNext)}

@@ -63,8 +63,8 @@ function SuggestedEditEdit(props: setEditModalInitialData) {
                 [generalFieldsConfig.AREA]: initialData?.areaId??formData[generalFieldsConfig.AREA],
                 [generalFieldsConfig.BUDGET_METHOD]: formData[generalFieldsConfig.BUDGET_METHOD],
                 [proposalConfig.coding]: initialData?.codingId,
-                [proposalConfig.proctorId]: modalFormData[budgetConnectConfig.proctor]??'',
-                [proposalConfig.executionId]: modalFormData[budgetConnectConfig.coding_nature]??'',
+                [proposalConfig.proctorId]: modalFormData[budgetConnectConfig.proctor]??0,
+                [proposalConfig.executionId]: modalFormData[budgetConnectConfig.coding_nature]??0,
                 ...values,
             }
     
@@ -78,7 +78,7 @@ function SuggestedEditEdit(props: setEditModalInitialData) {
                 <Grid item sm={12}>
                     <TextField
                         id="budgetNext"
-                        label="مبلغ پیشنهادی 1403"
+                        label="مبلغ اصلاح پیشنهادی "
                         variant="outlined"
                         size="small"
                         {...register(proposalConfig.budgetNext)}

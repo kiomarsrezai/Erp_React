@@ -230,20 +230,6 @@ document.querySelector('#table-container').scrollTo
     setBaseInitialItem(item);
   };
   
-  
-  const [isOpenAddCodeModal, setIsOpenAddCodeModal] = useState(false);
-  const [selectedRow, setSelectedRow] = useState({});
-  
-  const handleOpenAddCodeModal = (row: GetSingleSepratorItemShape) => {
-    setIsOpenAddCodeModal(true);
-    setSelectedRow(row);
-  };
-  
-  const handleCloseAddCodeModal = () => {
-    setIsOpenAddCodeModal(false);
-  };
-  
-  
 
   // actions
   const actionButtons = (row: TableDataItemShape | any) => (
@@ -347,27 +333,7 @@ document.querySelector('#table-container').scrollTo
         ...item,
         id: i + 1,
         // code: item.code,
-        code: (
-            <Box display={"flex"} alignItems={"center"}>
-              
-              <SectionGuard
-                  permission={joinPermissions([
-                    accessNamesConfig.BUDGET__SEPRATOR_PAGE,
-                    accessNamesConfig.BUDGET__SEPRATOR_SET_YEAR,
-                  ])}
-              >
-                <IconButton
-                    size="small"
-                    color="primary"
-                    onClick={() => handleOpenAddCodeModal(item)}
-                >
-                  <AddIcon/>
-                </IconButton>
-              </SectionGuard>
-              
-              <span>{item.code}</span>
-            </Box>
-        ),
+        code: item.code,
         description: item.description,
         mosavab: item.mosavab,
         edit: item.edit,
@@ -602,15 +568,6 @@ document.querySelector('#table-container').scrollTo
       </FixedModal>
       
       
-      <FixedModal
-          open={isOpenAddCodeModal}
-          handleClose={handleCloseAddCodeModal}
-          title="افزودن به عنوان ریز پروژه"
-          maxWidth="600px"
-          maxHeight="300px"
-      >
-        <SepratorSetYearModal initialData={selectedRow}/>
-      </FixedModal>
     </AdminLayout>
   );
 }

@@ -214,6 +214,15 @@ export const proposalBudgetApi = new (class extends BaseApi {
 
     return response.data;
   };
+  
+  editItem2 = async (formdata: any) => {
+    const response = await clientAxios.post<BaseApiResponseShape<boolean>>(
+        propsalBudgetUrls.pishnahadiEdit,
+        formdata
+    );
+    
+    return response.data;
+  };
 
 
   ////sajjad

@@ -55,6 +55,7 @@ export const propsalBudgetUrls = {
   projectsCodeData: "BudgetApi/BudgetInlineInsertModal",
   
   // update
+  pishnahadiEdit: "BudgetPishnahadiApi/BudgetProposalModalUpdate",
   edit: "BudgetPishnahadiApi/BudgetProposalEditInlineUpdate",
 
   //sajjad

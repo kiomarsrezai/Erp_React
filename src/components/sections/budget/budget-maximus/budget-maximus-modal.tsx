@@ -12,6 +12,8 @@ import {GetSingleBudgetShareAreaItemShape} from "../../../../types/data/budget/b
 import {useMutation} from "@tanstack/react-query";
 import {BaseApiResponseShape} from "../../../../types/base-type";
 import {budgetAreaShare} from "../../../../api/budget/budget-area-share";
+import {enqueueSnackbar} from "notistack";
+import {globalConfig} from "../../../../config/global-config";
 
 interface Props {
     row: GetSingleBudgetShareAreaItemShape,

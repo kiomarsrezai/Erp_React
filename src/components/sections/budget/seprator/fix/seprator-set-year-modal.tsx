@@ -1,49 +1,86 @@
 import Box from "@mui/material/Box";
-import {GetSingleSepratorItemShape} from "../../../../../types/data/budget/seprator-type";
-import {useState} from "react";
-import * as yup from "yup";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
+import React, {useEffect, useState} from "react";
 import YearInput from "../../../inputs/year-input";
-import {beforeproposalConfig} from "../../../../../config/features/budget/beforeproposal-config";
-import {accessNamesConfig} from "../../../../../config/access-names-config";
-import {budgetConnectConfig} from "../../../../../config/features/budget/budget-connect-config";
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
+import {TextField} from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
+import {useMutation} from "@tanstack/react-query";
+import {sepratorBudgetApi} from "../../../../../api/budget/seprator-api";
+import {enqueueSnackbar} from "notistack";
+import {globalConfig} from "../../../../../config/global-config";
 
 interface Props {
     initialData: any,
+    coding: any,
+    yearId: any,
+    areaId: any,
+    afterUpdate: () => void,
 }
-export default function SepratorSetYearModal({initialData}: Props) {
-
-    const editFormSchema = yup.object({
-        year: yup.number().required(),
-    });
-
-    const {register, handleSubmit, formState: { errors },} = useForm({
-        resolver: yupResolver(editFormSchema),
-    });
-
+export default function SepratorSetYearModal({initialData, coding, yearId, areaId, afterUpdate}: Props) {
+    
     const [modalFormData, setModalFormData] = useState({
-        [budgetConnectConfig.YEAR]: '',
+        areaId: '',
+        yearId: '',
+        codingId: '',
+        description: '',
+        mosavab: '',
+        programOperationDetailsId: '',
+        code: '',
     });
-
-    const onSubmitHandler = (values: any) => {
-
+    
+    const submitMutation = useMutation(sepratorBudgetApi.modalUpdate, {
+        onSuccess: () => {
+            enqueueSnackbar(globalConfig.SUCCESS_MESSAGE, {
+                variant: "success",
+            });
+            afterUpdate();
+        }
+    });
+    
+    useEffect(() => {
+        
+        setModalFormData((prevState: any) => ({
+            ...prevState,
+            mosavab: initialData.expense,
+            programOperationDetailsId: parseInt(initialData.programOperationDetailsId),
+            description: initialData.description,
+            codingId: coding,
+            yearId: parseInt(yearId) + 1,
+            areaId: areaId,
+        }));
+    }, []);
+    
+    const onSubmitHandler = () => {
+        submitMutation.mutate(modalFormData);
     };
-
+    
     return (
-        <Box sx={{width: "80%", mx: "auto", p: 2}} component="form" onSubmit={handleSubmit(onSubmitHandler)}>
-            <YearInput
-                setter={setModalFormData}
-                value={modalFormData[budgetConnectConfig.YEAR] as any}
+        <Box sx={{width: "96%", mx: "auto", p: 2}} className="flex flex-col gap-4">
+            <YearInput setter={setModalFormData} value={modalFormData.yearId as any}/>
+            
+            <TextField
+                id="budgetNext"
+                label="هزینه ای"
+                variant="outlined"
+                size="small"
+                defaultValue={initialData?.expense}
+                autoComplete="off"
+                fullWidth
+                onChange={(e) => setModalFormData((prevState:any) => ({
+                    ...prevState,
+                    mosavab: parseInt(e.target.value),
+                }))}
             />
-
-            <br/>
-            <br/>
-            <Grid item lg={8}>
-                <Button variant="contained" type="submit">ثبت</Button>
-            </Grid>
+            
+            <LoadingButton
+                fullWidth
+                onClick={onSubmitHandler}
+                variant="contained"
+                size="large"
+                loading={false}
+            >
+                ثبت
+            </LoadingButton>
+        
         </Box>
     );
 }
